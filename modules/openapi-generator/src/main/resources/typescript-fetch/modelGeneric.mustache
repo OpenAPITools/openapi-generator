@@ -1,13 +1,13 @@
 import { exists, mapValues } from '../runtime';
 {{#hasImports}}
+{{#imports}}
 import {
-    {{#imports}}
     {{{.}}},
     {{.}}FromJSON,
     {{.}}FromJSONTyped,
     {{.}}ToJSON,
-    {{/imports}}
-} from './';
+} from './{{.}}';
+{{/imports}}
 
 {{/hasImports}}
 {{#discriminator}}
@@ -39,7 +39,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     }
 {{/discriminator}}
     return {
-        {{#parent}}...{{{parent}}}FromJSONTyped(json, ignoreDiscriminator),{{/parent}}
+        {{#parent}}...{{{.}}}FromJSONTyped(json, ignoreDiscriminator),{{/parent}}
         {{#additionalPropertiesType}}
             ...json,
         {{/additionalPropertiesType}}
@@ -97,7 +97,7 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
         return null;
     }
     return {
-        {{#parent}}...{{{parent}}}ToJSON(value),{{/parent}}
+        {{#parent}}...{{{.}}}ToJSON(value),{{/parent}}
         {{#additionalPropertiesType}}
             ...value,
         {{/additionalPropertiesType}}
@@ -109,7 +109,7 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
         {{^isPrimitiveType}}
         {{#isArray}}
         {{#uniqueItems}}
-        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}Array.from((value.{{name}} as Set<any>).map({{#items}}{{datatype}}{{/items}}ToJSON))),
+        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}Array.from(value.{{name}} as Set<any>).map({{#items}}{{datatype}}{{/items}}ToJSON)),
         {{/uniqueItems}}
         {{^uniqueItems}}
         '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}(value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON)),
@@ -137,4 +137,3 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     return value;
     {{/hasVars}}
 }
-

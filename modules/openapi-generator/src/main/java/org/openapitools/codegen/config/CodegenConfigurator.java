@@ -301,7 +301,7 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setGitUserId(String gitUserId) {
         if (StringUtils.isNotEmpty(gitUserId)) {
-            addAdditionalProperty(CodegenConstants.GIT_HOST, gitUserId);
+            addAdditionalProperty(CodegenConstants.GIT_USER_ID, gitUserId);
         }
         generatorSettingsBuilder.withGitUserId(gitUserId);
         return this;
@@ -534,9 +534,17 @@ public class CodegenConfigurator {
         if (validationMessages.size() > 0) {
             Set<String> warnings = new HashSet<>();
             if (specification != null) {
-                List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
-                if (unusedModels != null) {
-                    unusedModels.forEach(name -> warnings.add("Unused model: " + name));
+
+                // Wrap the getUnusedSchemas() in try catch block so it catches the NPE
+                // when the input spec file is not correct
+                try{
+                    List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
+                    if (unusedModels != null) {
+                        unusedModels.forEach(name -> warnings.add("Unused model: " + name));
+                    }
+                } catch (Exception e){
+                    System.err.println("[error] There is an error with OpenAPI specification parsed from the input spec file: " + inputSpec);
+                    System.err.println("[error] Please make sure the spec file has correct format and all required fields are populated with valid value.");
                 }
             }
 

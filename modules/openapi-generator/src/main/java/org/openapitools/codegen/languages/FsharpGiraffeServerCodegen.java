@@ -50,7 +50,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
     @SuppressWarnings("hiding")
-    protected Logger LOGGER = LoggerFactory.getLogger(FsharpGiraffeServerCodegen.class);
+    protected final Logger LOGGER = LoggerFactory.getLogger(FsharpGiraffeServerCodegen.class);
 
     private boolean useSwashbuckle = false;
     protected int serverPort = 8080;
@@ -262,12 +262,12 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
             String original = operation.path;
             operation.path = operation.path.replace("?", "/");
             if (!original.equals(operation.path)) {
-                LOGGER.warn("Normalized " + original + " to " + operation.path + ". Please verify generated source.");
+                LOGGER.warn("Normalized {} to {}. Please verify generated source.", original, operation.path);
             }
         }
 
         // Converts, for example, PUT to HttpPut for controller attributes
-        operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+        operation.httpMethod = "Http" + operation.httpMethod.charAt(0) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
     }
 
     @Override
@@ -280,4 +280,17 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
     }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator's contributed by Nick Fisher (https://github.com/nmfisher)    #");
+        System.out.println("# Please support his work directly via https://paypal.me/nickfisher1984 \uD83D\uDE4F     #");
+        System.out.println("################################################################################");
+    }
+
 }

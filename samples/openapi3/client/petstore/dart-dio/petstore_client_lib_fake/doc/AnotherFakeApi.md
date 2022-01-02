@@ -9,7 +9,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**call123testSpecialTags**](AnotherFakeApi.md#call123testspecialtags) | **patch** /another-fake/dummy | To test special tags
+[**call123testSpecialTags**](AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 
 
 # **call123testSpecialTags**
@@ -19,14 +19,14 @@ To test special tags
 
 To test special tags and operation ID starting with number
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 var api_instance = new AnotherFakeApi();
 var modelClient = new ModelClient(); // ModelClient | client model
 
-try { 
+try {
     var result = api_instance.call123testSpecialTags(modelClient);
     print(result);
 } catch (e) {

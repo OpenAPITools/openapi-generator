@@ -211,7 +211,7 @@ public class EnumTest   {
    * Get enumString
    * @return enumString
    **/
-  @JsonProperty("enum_string")
+  @JsonProperty(value = "enum_string")
   @ApiModelProperty(value = "")
   
   public EnumStringEnum getEnumString() {
@@ -231,7 +231,7 @@ public class EnumTest   {
    * Get enumStringRequired
    * @return enumStringRequired
    **/
-  @JsonProperty("enum_string_required")
+  @JsonProperty(value = "enum_string_required")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public EnumStringRequiredEnum getEnumStringRequired() {
@@ -251,7 +251,7 @@ public class EnumTest   {
    * Get enumInteger
    * @return enumInteger
    **/
-  @JsonProperty("enum_integer")
+  @JsonProperty(value = "enum_integer")
   @ApiModelProperty(value = "")
   
   public EnumIntegerEnum getEnumInteger() {
@@ -271,7 +271,7 @@ public class EnumTest   {
    * Get enumNumber
    * @return enumNumber
    **/
-  @JsonProperty("enum_number")
+  @JsonProperty(value = "enum_number")
   @ApiModelProperty(value = "")
   
   public EnumNumberEnum getEnumNumber() {
@@ -291,7 +291,7 @@ public class EnumTest   {
    * Get outerEnum
    * @return outerEnum
    **/
-  @JsonProperty("outerEnum")
+  @JsonProperty(value = "outerEnum")
   @ApiModelProperty(value = "")
   @Valid 
   public OuterEnum getOuterEnum() {
@@ -311,7 +311,7 @@ public class EnumTest   {
    * Get outerEnumInteger
    * @return outerEnumInteger
    **/
-  @JsonProperty("outerEnumInteger")
+  @JsonProperty(value = "outerEnumInteger")
   @ApiModelProperty(value = "")
   @Valid 
   public OuterEnumInteger getOuterEnumInteger() {
@@ -331,7 +331,7 @@ public class EnumTest   {
    * Get outerEnumDefaultValue
    * @return outerEnumDefaultValue
    **/
-  @JsonProperty("outerEnumDefaultValue")
+  @JsonProperty(value = "outerEnumDefaultValue")
   @ApiModelProperty(value = "")
   @Valid 
   public OuterEnumDefaultValue getOuterEnumDefaultValue() {
@@ -351,7 +351,7 @@ public class EnumTest   {
    * Get outerEnumIntegerDefaultValue
    * @return outerEnumIntegerDefaultValue
    **/
-  @JsonProperty("outerEnumIntegerDefaultValue")
+  @JsonProperty(value = "outerEnumIntegerDefaultValue")
   @ApiModelProperty(value = "")
   @Valid 
   public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {

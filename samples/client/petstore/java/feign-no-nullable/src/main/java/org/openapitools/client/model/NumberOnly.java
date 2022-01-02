@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * NumberOnly
@@ -38,6 +39,8 @@ public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
   private BigDecimal justNumber;
 
+  public NumberOnly() { 
+  }
 
   public NumberOnly justNumber(BigDecimal justNumber) {
     

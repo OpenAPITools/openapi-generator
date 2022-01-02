@@ -18,11 +18,13 @@ import {
     NumberEnumFromJSON,
     NumberEnumFromJSONTyped,
     NumberEnumToJSON,
+} from './NumberEnum';
+import {
     StringEnum,
     StringEnumFromJSON,
     StringEnumFromJSONTyped,
     StringEnumToJSON,
-} from './';
+} from './StringEnum';
 
 /**
  * 
@@ -88,5 +90,4 @@ export function EnumPatternObjectToJSON(value?: EnumPatternObject | null): any {
         'nullable-number-enum': NumberEnumToJSON(value.nullableNumberEnum),
     };
 }
-
 

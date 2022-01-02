@@ -50,7 +50,7 @@ public class Model200Response  implements Serializable {
    * Get name
    * @return name
    **/
-  @JsonProperty("name")
+  @JsonProperty(value = "name")
   @ApiModelProperty(value = "")
   
   public Integer getName() {
@@ -70,7 +70,7 @@ public class Model200Response  implements Serializable {
    * Get propertyClass
    * @return propertyClass
    **/
-  @JsonProperty("class")
+  @JsonProperty(value = "class")
   @ApiModelProperty(value = "")
   
   public String getPropertyClass() {

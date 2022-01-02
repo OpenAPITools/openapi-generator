@@ -80,7 +80,7 @@ public class ExampleGenerator {
 
         if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
             ArraySchema as = (ArraySchema) responseSchema;
-            if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // arary of primtive types
+            if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // array of primitive types
                 return generate((Map<String, Object>) responseSchema.getExample(),
                         new ArrayList<String>(producesInfo), as.getItems());
             } else if (as.getItems() != null && !StringUtils.isEmpty(as.getItems().get$ref())) { // array of model
@@ -90,7 +90,7 @@ public class ExampleGenerator {
                 // TODO log warning message as such case is not handled at the moment
                 return null;
             }
-        } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primtiive type (e.g. integer, string)
+        } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primitive type (e.g. integer, string)
             return generate((Map<String, Object>) responseSchema.getExample(),
                     new ArrayList<String>(producesInfo), responseSchema);
         } else { // model
@@ -165,7 +165,7 @@ public class ExampleGenerator {
                     }
                 } else if (modelName != null && mediaType.startsWith(MIME_TYPE_XML)) {
                     final Schema schema = this.examples.get(modelName);
-                    String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.<String>emptySet());
+                    String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.emptySet());
                     if (example != null) {
                         kv.put(EXAMPLE, example);
                         output.add(kv);
@@ -204,7 +204,7 @@ public class ExampleGenerator {
                     output.add(kv);
                 } else if (mediaType.startsWith(MIME_TYPE_XML)) {
                     // TODO
-                    LOGGER.warn("XML example value of (array/primitive) is not handled at the moment: " + example);
+                    LOGGER.warn("XML example value of (array/primitive) is not handled at the moment: {}", example);
                 }
             }
         }
@@ -296,7 +296,7 @@ public class ExampleGenerator {
                 LOGGER.debug("URI or URL format, without default or enum, generating random one.");
                 return "http://example.com/aeiou";
             }
-            LOGGER.debug("No values found, using property name " + propertyName + " as example");
+            LOGGER.debug("No values found, using property name {} as example", propertyName);
             return propertyName;
         } else if (!StringUtils.isEmpty(property.get$ref())) { // model
             String simpleName = ModelUtils.getSimpleRef(property.get$ref());

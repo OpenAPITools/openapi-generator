@@ -4,7 +4,8 @@ import {Configuration} from '../configuration';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
-import {isCodeInRange} from '../util';
+import {canConsumeForm, isCodeInRange} from '../util';
+
 
 import { Order } from '../models/Order';
 
@@ -18,12 +19,12 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    public async deleteOrder(orderId: string, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async deleteOrder(orderId: string, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
-            throw new RequiredError('Required parameter orderId was null or undefined when calling deleteOrder.');
+            throw new RequiredError("StoreApi", "deleteOrder", "orderId");
         }
 
 
@@ -32,19 +33,10 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
 
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
-
-        // Apply auth methods
 
         return requestContext;
     }
@@ -53,28 +45,20 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    public async getInventory(options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async getInventory(_options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // Path Params
         const localVarPath = '/store/inventory';
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["api_key"]
+        authMethod = _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -87,12 +71,12 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
-    public async getOrderById(orderId: number, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async getOrderById(orderId: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
-            throw new RequiredError('Required parameter orderId was null or undefined when calling getOrderById.');
+            throw new RequiredError("StoreApi", "getOrderById", "orderId");
         }
 
 
@@ -101,19 +85,10 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
 
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
-
-        // Apply auth methods
 
         return requestContext;
     }
@@ -122,12 +97,12 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * Place an order for a pet
      * @param order order placed for purchasing the pet
      */
-    public async placeOrder(order: Order, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async placeOrder(order: Order, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'order' is not null or undefined
         if (order === null || order === undefined) {
-            throw new RequiredError('Required parameter order was null or undefined when calling placeOrder.');
+            throw new RequiredError("StoreApi", "placeOrder", "order");
         }
 
 
@@ -135,14 +110,8 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/store/order';
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
-
-        // Query Params
-
-        // Header Params
-
-        // Form Params
 
 
         // Body Params
@@ -156,7 +125,6 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        // Apply auth methods
 
         return requestContext;
     }
@@ -175,10 +143,10 @@ export class StoreApiResponseProcessor {
      public async deleteOrder(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid ID supplied", undefined, response.headers);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Order not found");
+            throw new ApiException<undefined>(response.httpStatusCode, "Order not found", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -186,8 +154,7 @@ export class StoreApiResponseProcessor {
             return;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -216,8 +183,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -237,10 +203,10 @@ export class StoreApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid ID supplied", undefined, response.headers);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Order not found");
+            throw new ApiException<undefined>(response.httpStatusCode, "Order not found", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -252,8 +218,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -273,7 +238,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid Order");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid Order", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -285,8 +250,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
 }

@@ -169,7 +169,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
          * Language Specific Primitives.  These types will not trigger imports by
          * the client generator
          */
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "Bool",
                         "String",
@@ -201,6 +201,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("number", "Double");
         typeMapping.put("BigDecimal", "Double");
         typeMapping.put("any", "Value");
+        typeMapping.put("AnyType", "Value");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "Text");
         typeMapping.put("ByteArray", "Text");
@@ -285,14 +286,14 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         String[] words = title.split(" ");
 
         // The package name is made by appending the lowercased words of the title interspersed with dashes
-        List<String> wordsLower = new ArrayList<String>();
+        List<String> wordsLower = new ArrayList<>();
         for (String word : words) {
             wordsLower.add(word.toLowerCase(Locale.ROOT));
         }
         String cabalName = joinStrings("-", wordsLower);
 
         // The API name is made by appending the capitalized words of the title
-        List<String> wordsCaps = new ArrayList<String>();
+        List<String> wordsCaps = new ArrayList<>();
         for (String word : words) {
             wordsCaps.add(firstLetterToUpper(word));
         }
@@ -388,7 +389,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-        LOGGER.debug("debugging OpenAPI type: " + p.getType() + ", " + p.getFormat() + " => " + schemaType);
+        LOGGER.debug("debugging OpenAPI type: {}, {} => {}", p.getType(), p.getFormat(), schemaType);
         String type = null;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
@@ -411,8 +412,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             Schema additionalProperties2 = getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
-                LOGGER.error("No Type defined for Additional Property " + additionalProperties2 + "\n" //
-                        + "\tIn Property: " + p);
+                LOGGER.error("No Type defined for Additional Property {}\n\tIn Property: {}", additionalProperties2, p);
             }
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
@@ -446,7 +446,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     // IdType is provided by the capture params.
     private List<String> pathToServantRoute(String path, List<CodegenParameter> pathParams) {
         // Map the capture params by their names.
-        HashMap<String, String> captureTypes = new HashMap<String, String>();
+        HashMap<String, String> captureTypes = new HashMap<>();
         for (CodegenParameter param : pathParams) {
             captureTypes.put(param.baseName, param.dataType);
         }
@@ -462,7 +462,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // Convert the path into a list of servant route components.
-        List<String> pathComponents = new ArrayList<String>();
+        List<String> pathComponents = new ArrayList<>();
         for (String piece : path.split("/")) {
             if (piece.startsWith("{") && piece.endsWith("}")) {
                 String name = piece.substring(1, piece.length() - 1);
@@ -479,7 +479,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     // Extract the arguments that are passed in the route path parameters
     private List<String> pathToClientType(String path, List<CodegenParameter> pathParams) {
         // Map the capture params by their names.
-        HashMap<String, String> captureTypes = new HashMap<String, String>();
+        HashMap<String, String> captureTypes = new HashMap<>();
         for (CodegenParameter param : pathParams) {
             captureTypes.put(param.baseName, param.dataType);
         }
@@ -490,7 +490,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // Convert the path into a list of servant route components.
-        List<String> type = new ArrayList<String>();
+        List<String> type = new ArrayList<>();
         for (String piece : path.split("/")) {
             if (piece.startsWith("{") && piece.endsWith("}")) {
                 String name = piece.substring(1, piece.length() - 1);
@@ -564,7 +564,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // Add the HTTP method and return type
         String returnType = op.returnType;
         if (returnType == null || returnType.equals("null")) {
-            returnType = "()";
+            returnType = "NoContent";
         }
         if (returnType.indexOf(" ") >= 0) {
             returnType = "(" + returnType + ")";
@@ -605,8 +605,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         String name = string;
         //Check if it is a reserved word, in which case the underscore is added when property name is generated.
         if (string.startsWith("_")) {
-            if (reservedWords.contains(string.substring(1, string.length()))) {
-                name = string.substring(1, string.length());
+            if (reservedWords.contains(string.substring(1))) {
+                name = string.substring(1);
             } else if (reservedWordsMappings.containsValue(string)) {
                 name = LEADING_UNDERSCORE.matcher(string).replaceFirst("");
             }
@@ -685,14 +685,14 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         // only process files with hs extension
         if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = haskellPostProcessFile + " " + file.toString();
+            String command = haskellPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());

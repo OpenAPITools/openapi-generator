@@ -34,6 +34,10 @@
                         </goals>
                         <configuration>
                             <executable>shards</executable>
+                            <arguments>
+                                <argument>install</argument>
+                                <argument>--ignore-crystal-version</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                     <execution>

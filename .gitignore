@@ -62,14 +62,17 @@ samples/server-generator/node/output/node_modules
 samples/server/petstore/nodejs/node_modules
 samples/server/petstore/nodejs-server/node_modules
 
-# qt5 cpp
-*.pro.user
-samples/client/petstore/qt5cpp/PetStore/moc_*
-samples/client/petstore/qt5cpp/PetStore/*.o
-samples/client/petstore/qt5cpp/build-*
-samples/client/petstore/qt5cpp/PetStore/PetStore
-samples/client/petstore/qt5cpp/PetStore/Makefile
-samples/client/petstore/qt5cpp/PetStore/PetStore.pro.user
+# qt cpp
+samples/client/build
+samples/client/petstore/build
+samples/client/petstore/cpp-qt/PetStore/moc_*
+samples/client/petstore/cpp-qt/PetStore/*.o
+samples/client/petstore/cpp-qt/build-*
+samples/client/petstore/cpp-qt/build-*
+samples/client/petstore/cpp-qt/PetStore/PetStore
+samples/client/petstore/cpp-qt/PetStore/Makefile
+samples/client/petstore/cpp-qt/PetStore/PetStore.pro.user
+samples/client/petstore/cpp-qt/CMakeLists.txt.user
 
 # cpprestsdk
 samples/client/petstore/cpp-restsdk/CMakeCache.txt
@@ -176,13 +179,15 @@ samples/client/petstore/python-tornado/.venv/
 
 # PHP
 samples/client/petstore/php/OpenAPIClient-php/composer.lock
+samples/client/petstore/php-dt/composer.lock
+samples/client/petstore/php-dt-modern/composer.lock
 samples/openapi3/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
-samples/openapi3/server/petstore/php-mezzio-ph/composer.lock
 samples/server/petstore/php-laravel/lib/composer.lock
 samples/server/petstore/php-lumen/lib/composer.lock
 samples/server/petstore/php-slim4/composer.lock
 samples/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
 samples/server/petstore/php-mezzio-ph/composer.lock
+samples/server/petstore/php-mezzio-ph-modern/composer.lock
 
 # ts
 samples/client/petstore/typescript-angular2/npm/npm-debug.log
@@ -213,6 +218,9 @@ cabal.project.local
 samples/client/petstore/haskell-http-client/docs/haddock-bundle.min.js
 samples/client/petstore/haskell-http-client/docs/meta.json
 samples/client/petstore/haskell-http-client/docs/quick-jump.css
+samples/client/petstore/haskell-http-client/stack.yaml.lock
+samples/server/petstore/haskell-servant/stack.yaml.lock
+samples/server/petstore/haskell-yesod/stack.yaml.lock
 
 # R
 .Rproj.user

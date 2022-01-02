@@ -9,8 +9,12 @@ import 'package:built_value/serializer.dart';
 
 part 'mixed_properties_and_additional_properties_class.g.dart';
 
-
-
+/// MixedPropertiesAndAdditionalPropertiesClass
+///
+/// Properties:
+/// * [uuid] 
+/// * [dateTime] 
+/// * [map] 
 abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilder> {
     @BuiltValueField(wireName: r'uuid')
     String? get uuid;
@@ -23,7 +27,8 @@ abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<Mixe
 
     MixedPropertiesAndAdditionalPropertiesClass._();
 
-    static void _initializeBuilder(MixedPropertiesAndAdditionalPropertiesClassBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(MixedPropertiesAndAdditionalPropertiesClassBuilder b) => b;
 
     factory MixedPropertiesAndAdditionalPropertiesClass([void updates(MixedPropertiesAndAdditionalPropertiesClassBuilder b)]) = _$MixedPropertiesAndAdditionalPropertiesClass;
 
@@ -73,18 +78,22 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Structu
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'uuid':
-                    result.uuid = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.uuid = valueDes;
                     break;
                 case r'dateTime':
-                    result.dateTime = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(DateTime)) as DateTime;
+                    result.dateTime = valueDes;
                     break;
                 case r'map':
-                    result.map.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)])) as BuiltMap<String, Animal>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)])) as BuiltMap<String, Animal>;
+                    result.map.replace(valueDes);
                     break;
             }
         }

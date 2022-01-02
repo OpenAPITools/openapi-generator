@@ -20,5 +20,5 @@ composer.phar
 # Application config may contain sensitive data
 /config/**/*.*
 !/config/.htaccess
-!/config/dev/example.inc.php
-!/config/prod/example.inc.php
+!/config/dev/default.inc.php
+!/config/prod/default.inc.php

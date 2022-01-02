@@ -360,12 +360,14 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         // need vendor extensions
         Paths paths = openAPI.getPaths();
         if (paths != null) {
-            for (String pathname : paths.keySet()) {
-                PathItem path = paths.get(pathname);
+            for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+                String pathname = pathsEntry.getKey();
+                PathItem path = pathsEntry.getValue();
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (HttpMethod method : operationMap.keySet()) {
-                        Operation operation = operationMap.get(method);
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                        HttpMethod method = operationMapEntry.getKey();
+                        Operation operation = operationMapEntry.getValue();
                         String tag = "default";
                         if (operation.getTags() != null && operation.getTags().size() > 0) {
                             tag = toApiName(operation.getTags().get(0));
@@ -437,7 +439,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = jsPostProcessFile + " " + file.toString();
+            String command = jsPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
@@ -445,7 +447,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 }
-                LOGGER.info("Successfully executed: " + command);
+                LOGGER.info("Successfully executed: {}", command);
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state

@@ -18,11 +18,13 @@ import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
+} from './Animal';
+import {
     CatAllOf,
     CatAllOfFromJSON,
     CatAllOfFromJSONTyped,
     CatAllOfToJSON,
-} from './';
+} from './CatAllOf';
 
 /**
  * 
@@ -64,5 +66,4 @@ export function CatToJSON(value?: Cat | null): any {
         'declawed': value.declawed,
     };
 }
-
 

@@ -10,7 +10,7 @@ jobs:
     machine:
       image: circleci/classic:latest
     working_directory: ~/OpenAPITools/openapi-generator
-    parallelism: 3
+    parallelism: 4
     shell: /bin/bash --login
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
@@ -42,22 +42,6 @@ jobs:
        command: |-
          printf '127.0.0.1       petstore.swagger.io
          ' | sudo tee -a /etc/hosts
-    # Dependencies
-    # Install latest stable node for angular 6
-    - run:
-        name: Install node@stable (for angular 6)
-        command: |
-          set +e
-          curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-          export NVM_DIR="/opt/circleci/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          nvm install stable
-          nvm alias default stable
-
-          # Each step uses the same `$BASH_ENV`, so need to modify it
-          echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
-          echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
-    - run: node --version
 #    - run: docker pull openapitools/openapi-petstore
 #    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 80:8080 openapitools/openapi-petstore
     - run: docker pull swaggerapi/petstore
@@ -82,7 +66,6 @@ jobs:
         - ~/.bundle
         - ~/.go_workspace
         - ~/.gradle
-        - ~/.pub-cache
         - ~/.cache/bower
         - ".git"
         - ~/.stack

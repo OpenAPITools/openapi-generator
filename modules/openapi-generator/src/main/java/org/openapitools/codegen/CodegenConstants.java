@@ -184,6 +184,9 @@ public class CodegenConstants {
     public static final String OPTIONAL_EMIT_DEFAULT_VALUES = "optionalEmitDefaultValues";
     public static final String OPTIONAL_EMIT_DEFAULT_VALUES_DESC = "Set DataMember's EmitDefaultValue.";
 
+    public static final String OPTIONAL_CONDITIONAL_SERIALIZATION = "conditionalSerialization";
+    public static final String OPTIONAL_CONDITIONAL_SERIALIZATION_DESC = "Serialize only those properties which are initialized by user, accepted values are true or false, default value is false.";
+
     public static final String NETCORE_PROJECT_FILE = "netCoreProjectFile";
     public static final String NETCORE_PROJECT_FILE_DESC = "Use the new format (.NET Core) for .NET project files (.csproj).";
 
@@ -205,11 +208,19 @@ public class CodegenConstants {
     public static final String MODEL_PROPERTY_NAMING = "modelPropertyNaming";
     public static final String MODEL_PROPERTY_NAMING_DESC = "Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name";
 
+    public static final String PARAM_NAMING = "paramNaming";
+    public static final String PARAM_NAMING_DESC = "Naming convention for parameters: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name";
+
     public static final String DOTNET_FRAMEWORK = "targetFramework";
-    public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version.";
+    public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.0`";
+
+    public static final String NULLABLE_REFERENCE_TYPES = "nullableReferenceTypes";
+    public static final String NULLABLE_REFERENCE_TYPES_DESC = "Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.0 or newer.";
 
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
+
+    public static enum PARAM_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
 
     public static enum MODEL_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
 
@@ -309,6 +320,12 @@ public class CodegenConstants {
     public static final String REMOVE_OPERATION_ID_PREFIX = "removeOperationIdPrefix";
     public static final String REMOVE_OPERATION_ID_PREFIX_DESC = "Remove prefix of operationId, e.g. config_getId => getId";
 
+    public static final String REMOVE_OPERATION_ID_PREFIX_DELIMITER = "removeOperationIdPrefixDelimiter";
+    public static final String REMOVE_OPERATION_ID_PREFIX_DELIMITER_DESC = "Character to use as a delimiter for the prefix. Default: '_'";
+
+    public static final String REMOVE_OPERATION_ID_PREFIX_COUNT = "removeOperationIdPrefixCount";
+    public static final String REMOVE_OPERATION_ID_PREFIX_COUNT_DESC = "Count of delimiter for the prefix. Use -1 for last Default: 1";
+
     public static final String SKIP_OPERATION_EXAMPLE = "skipOperationExample";
     public static final String SKIP_OPERATION_EXAMPLE_DESC = "Skip examples defined in operations to avoid out of memory errors.";
 
@@ -369,6 +386,12 @@ public class CodegenConstants {
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
         "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
         "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
+
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE = "enumUnknownDefaultCase";
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE_DESC =
+            "If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response." +
+            "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.";
+
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP = "useOneOfDiscriminatorLookup";
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC = "Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.";
 }

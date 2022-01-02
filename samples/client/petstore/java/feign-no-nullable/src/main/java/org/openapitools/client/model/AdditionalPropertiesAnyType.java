@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * AdditionalPropertiesAnyType
@@ -39,6 +40,8 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+  public AdditionalPropertiesAnyType() { 
+  }
 
   public AdditionalPropertiesAnyType name(String name) {
     

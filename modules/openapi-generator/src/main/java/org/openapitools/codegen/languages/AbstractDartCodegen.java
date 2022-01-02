@@ -1,7 +1,5 @@
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -26,7 +24,10 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractDartCodegen extends DefaultCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDartCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractDartCodegen.class);
+
+    protected static final List<String> DEFAULT_SUPPORTED_CONTENT_TYPES = Arrays.asList(
+            "application/json", "application/x-www-form-urlencoded", "multipart/form-data");
 
     public static final String PUB_LIBRARY = "pubLibrary";
     public static final String PUB_NAME = "pubName";
@@ -51,9 +52,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     protected String apiTestPath = "test" + File.separator;
     protected String modelTestPath = "test" + File.separator;
 
-    // Names that must not be used as model names because they clash with existing
-    // default imports (dart:io, dart:async, package:http etc.) but are not basic dataTypes.
-    protected Set<String> additionalReservedWords;
+    protected Map<String, String> imports = new HashMap<>();
 
     public AbstractDartCodegen() {
         super();
@@ -112,14 +111,13 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         }
         setReservedWordsLowerCase(reservedWordsList);
 
-        languageSpecificPrimitives = Sets.newHashSet(
-                "String",
-                "bool",
-                "int",
-                "num",
-                "double",
-                "dynamic"
-        );
+        // These types return isPrimitive=true in templates
+        languageSpecificPrimitives = new HashSet<>(5);
+        languageSpecificPrimitives.add("String");
+        languageSpecificPrimitives.add("bool");
+        languageSpecificPrimitives.add("int");
+        languageSpecificPrimitives.add("num");
+        languageSpecificPrimitives.add("double");
 
         typeMapping = new HashMap<>();
         typeMapping.put("Array", "List");
@@ -149,29 +147,30 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         typeMapping.put("object", "Object");
         typeMapping.put("AnyType", "Object");
 
-        // DataTypes of the above values which are automatically imported.
-        // They are also not allowed to be model names.
-        defaultIncludes = Sets.newHashSet(
-                "String",
-                "bool",
-                "int",
-                "num",
-                "double",
-                "dynamic",
-                "List",
-                "Set",
-                "Map",
-                "DateTime",
-                "Object",
-                "MultipartFile"
-        );
+        // Data types of the above values which are automatically imported
+        defaultIncludes = new HashSet<>();
+        defaultIncludes.add("String");
+        defaultIncludes.add("bool");
+        defaultIncludes.add("int");
+        defaultIncludes.add("num");
+        defaultIncludes.add("double");
+        defaultIncludes.add("List");
+        defaultIncludes.add("Set");
+        defaultIncludes.add("Map");
+        defaultIncludes.add("DateTime");
+        defaultIncludes.add("Object");
 
-        additionalReservedWords = Sets.newHashSet(
-                "File",
-                "Client",
-                "Future",
-                "Response"
-        );
+        imports.put("String", "dart:core");
+        imports.put("bool", "dart:core");
+        imports.put("int", "dart:core");
+        imports.put("num", "dart:core");
+        imports.put("double", "dart:core");
+        imports.put("List", "dart:core");
+        imports.put("Set", "dart:core");
+        imports.put("Map", "dart:core");
+        imports.put("DateTime", "dart:core");
+        imports.put("Object", "dart:core");
+        imports.put("MultipartFile", "package:http/http.dart");
 
         cliOptions.add(new CliOption(PUB_LIBRARY, "Library name in generated code"));
         cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
@@ -182,7 +181,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         cliOptions.add(new CliOption(PUB_HOMEPAGE, "Homepage in generated pubspec"));
         cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "Source folder for generated code"));
-
     }
 
     @Override
@@ -280,12 +278,16 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
+    protected boolean needToImport(String type) {
+        // Import everything, unless it is from dart:core.
+        return StringUtils.isNotBlank(type) && (!imports.containsKey(type) || !imports.get(type).equals("dart:core"));
+    }
+
+    @Override
     protected boolean isReservedWord(String word) {
         // consider everything as reserved that is either a keyword,
         // a default included type, or a type include through some library
-        return super.isReservedWord(word) ||
-                defaultIncludes().contains(word) ||
-                additionalReservedWords.contains(word);
+        return super.isReservedWord(word) || defaultIncludes().contains(word);
     }
 
     @Override
@@ -338,8 +340,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         // replace all characters that have a mapping but ignore underscores
         // append an underscore to each replacement so that it can be camelized
-        if (name.chars().anyMatch(character -> specialCharReplacements.containsKey("" + ((char) character)))) {
-            name = escape(name, specialCharReplacements, Lists.newArrayList("_"), "_");
+        if (name.chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character)))) {
+            name = escape(name, specialCharReplacements, Collections.singletonList("_"), "_");
         }
         // remove the rest
         name = sanitizeName(name);
@@ -367,20 +369,34 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String toModelName(final String name) {
-        String nameWithPrefixSuffix = sanitizeName(name);
+        String sanitizedName = sanitizeName(name);
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             // add '_' so that model name can be camelized correctly
-            nameWithPrefixSuffix = modelNamePrefix + "_" + nameWithPrefixSuffix;
+            sanitizedName = modelNamePrefix + "_" + sanitizedName;
         }
 
         if (!StringUtils.isEmpty(modelNameSuffix)) {
             // add '_' so that model name can be camelized correctly
-            nameWithPrefixSuffix = nameWithPrefixSuffix + "_" + modelNameSuffix;
+            sanitizedName = sanitizedName + "_" + modelNameSuffix;
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        final String camelizedName = camelize(nameWithPrefixSuffix);
+        final String camelizedName = camelize(sanitizedName);
+
+        // Check if there is a mapping that can be used
+        if (typeMapping().containsKey(camelizedName)) {
+            String typeName = typeMapping().get(camelizedName);
+            if (imports.containsKey(typeName)) {
+                // Anything with an import mapping is likely
+                // generator specific and can not be used as model name.
+                final String modelName = "Model" + camelizedName;
+                LOGGER.warn("{} (existing type) cannot be used as model name. Renamed to {}", camelizedName, modelName);
+                return modelName;
+            }
+            return typeName;
+        }
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
@@ -473,11 +489,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (openAPIType == null) {
             LOGGER.error("No Type defined for Schema {}", p);
         }
-        if (typeMapping.containsKey(openAPIType)) {
-            return typeMapping.get(openAPIType);
-        }
-        if (languageSpecificPrimitives.contains(openAPIType)) {
-            return openAPIType;
+        if (typeMapping().containsKey(openAPIType)) {
+            return typeMapping().get(openAPIType);
         }
         return toModelName(openAPIType);
     }
@@ -492,7 +505,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         super.postProcessModelProperty(model, property);
         if (!model.isEnum && property.isEnum) {
             // These are inner enums, enums which do not exist as models, just as properties.
-            // They are handled via the enum_inline template and and are generated in the
+            // They are handled via the enum_inline template and are generated in the
             // same file as the containing class. To prevent name clashes the inline enum classes
             // are prefix with the classname of the containing class in the template.
             // Here the datatypeWithEnum template variable gets updated to match that scheme.
@@ -516,9 +529,9 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         final CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         for (CodegenResponse r : op.responses) {
-            // By default only set types are automatically added to operation imports, not sure why.
+            // By default, only set types are automatically added to operation imports, not sure why.
             // Add all container type imports here, by default 'dart:core' imports are skipped
-            // but other sub classes may required specific container type imports.
+            // but other sub-classes may require specific container type imports.
             if (r.containerType != null && typeMapping().containsKey(r.containerType)) {
                 final String value = typeMapping().get(r.containerType);
                 if (needToImport(value)) {
@@ -539,6 +552,68 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             }
         }
         return op;
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        super.postProcessOperationsWithModels(objs, allModels);
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if (operations != null) {
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation op : ops) {
+                if (op.hasConsumes) {
+                    if (!op.formParams.isEmpty() || op.isMultipart) {
+                        // DefaultCodegen only sets this if the first consumes mediaType
+                        // is application/x-www-form-urlencoded or multipart.
+                        // Can just use the original
+                        op.prioritizedContentTypes = op.consumes;
+                    } else {
+                        // Prioritize content types by moving application/json to the front
+                        // similar to JavaCodegen
+                        op.prioritizedContentTypes = prioritizeContentTypes(op.consumes);
+                        String mediaType = op.prioritizedContentTypes.get(0).get("mediaType");
+                        if (!DEFAULT_SUPPORTED_CONTENT_TYPES.contains(mediaType)) {
+                            LOGGER.warn("The media-type '{}' for operation '{}' is not support in the Dart generators by default.", mediaType, op.path);
+                        }
+                    }
+                }
+            }
+        }
+        return objs;
+    }
+
+    private List<Map<String, String>> prioritizeContentTypes(List<Map<String, String>> consumes) {
+        if (consumes.size() <= 1) {
+            // no need to change any order
+            return consumes;
+        }
+
+        List<Map<String, String>> prioritizedContentTypes = new ArrayList<>(consumes.size());
+
+        List<Map<String, String>> jsonVendorMimeTypes = new ArrayList<>(consumes.size());
+        List<Map<String, String>> jsonMimeTypes = new ArrayList<>(consumes.size());
+
+        for (Map<String, String> consume : consumes) {
+            String mediaType = consume.get("mediaType");
+            if (isJsonVendorMimeType(mediaType)) {
+                jsonVendorMimeTypes.add(consume);
+            } else if (isJsonMimeType(mediaType)) {
+                jsonMimeTypes.add(consume);
+            } else {
+                prioritizedContentTypes.add(consume);
+            }
+        }
+
+        prioritizedContentTypes.addAll(0, jsonMimeTypes);
+        prioritizedContentTypes.addAll(0, jsonVendorMimeTypes);
+        return prioritizedContentTypes;
+    }
+
+    private static boolean isMultipartType(String mediaType) {
+        if (mediaType != null) {
+            return "multipart/form-data".equals(mediaType);
+        }
+        return false;
     }
 
     @Override
@@ -607,8 +682,9 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize("call_" + operationId), true);
-            operationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, true);
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
+            operationId = newOperationId;
         }
 
         return operationId;
@@ -676,7 +752,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         // process all files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
             // currently supported is "dartfmt -w" and "dart format"
-            String command = dartPostProcessFile + " " + file.toString();
+            String command = dartPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();

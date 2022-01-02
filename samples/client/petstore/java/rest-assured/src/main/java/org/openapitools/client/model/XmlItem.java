@@ -151,6 +151,8 @@ public class XmlItem {
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_WRAPPED_ARRAY)
   private List<Integer> prefixNsWrappedArray = null;
 
+  public XmlItem() { 
+  }
 
   public XmlItem attributeString(String attributeString) {
     

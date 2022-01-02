@@ -39,7 +39,7 @@ public class Category implements Parcelable {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name = "default-name";
 
-  public Category() {
+  public Category() { 
   }
 
   public Category id(Long id) {
@@ -75,6 +75,7 @@ public class Category implements Parcelable {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public String getName() {

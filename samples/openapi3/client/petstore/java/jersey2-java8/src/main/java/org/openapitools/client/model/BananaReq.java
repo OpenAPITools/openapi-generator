@@ -44,6 +44,8 @@ public class BananaReq {
   public static final String JSON_PROPERTY_SWEET = "sweet";
   private Boolean sweet;
 
+  public BananaReq() { 
+  }
 
   public BananaReq lengthCm(BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
@@ -54,6 +56,7 @@ public class BananaReq {
    * Get lengthCm
    * @return lengthCm
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

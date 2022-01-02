@@ -87,7 +87,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
                         "native")
         );
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList("double",
                         "Int",
                         "Long",
@@ -107,7 +107,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
                         "Map")
         );
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("string", "String");
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("integer", "Int");
@@ -158,7 +158,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("endpoint.mustache", sourceFolder, "endpoint.scala"));
         supportingFiles.add(new SupportingFile("errors.mustache", sourceFolder, "errors.scala"));
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "String",
                         "Boolean",
@@ -175,7 +175,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
         importMapping.put("UUID", "java.util.UUID");
         importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");
@@ -453,7 +453,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
                 }
                 p.vendorExtensions.put("x-codegen-normalized-input-type", toInputParameter(p));
             } else {
-                //Path paremeters are handled in generateScalaPath()
+                //Path parameters are handled in generateScalaPath()
                 p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
             }
             if (p.vendorExtensions.get("x-codegen-normalized-path-type") != null) {

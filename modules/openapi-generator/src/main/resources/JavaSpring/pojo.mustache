@@ -1,9 +1,9 @@
 /**
- * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+ * {{description}}{{^description}}{{classname}}{{/description}}
  */{{#description}}
-@ApiModel(description = "{{{description}}}"){{/description}}
+{{#oas3}}@Schema({{#name}}name = "{{name}}",{{/name}}{{/oas3}}{{^oas3}}@ApiModel({{/oas3}}description = "{{{.}}}"){{/description}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}{{>additionalModelTypeAnnotations}}
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}}extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#hateoas}}extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
 
@@ -14,14 +14,14 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
 {{>enumClass}}
     {{/isContainer}}
     {{#isContainer}}
-    {{#mostInnerItems}} 
+    {{#mostInnerItems}}
 {{>enumClass}}
     {{/mostInnerItems}}
     {{/isContainer}}
     {{/isEnum}}
   {{#jackson}}
   @JsonProperty("{{baseName}}"){{#withXml}}
-  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}localName = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"){{/withXml}}
+  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"){{/withXml}}
   {{/jackson}}
   {{#gson}}
   @SerializedName("{{baseName}}")
@@ -96,28 +96,29 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
 
   /**
   {{#description}}
-   * {{{description}}}
+   * {{{.}}}
   {{/description}}
   {{^description}}
    * Get {{name}}
   {{/description}}
   {{#minimum}}
-   * minimum: {{minimum}}
+   * minimum: {{.}}
   {{/minimum}}
   {{#maximum}}
-   * maximum: {{maximum}}
+   * maximum: {{.}}
   {{/maximum}}
    * @return {{name}}
   */
  {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
   {{/vendorExtensions.x-extra-annotation}}
-  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
+  {{#oas3}}@Schema({{#name}}name = "{{{name}}}", {{/name}}{{/oas3}}{{^oas3}}@ApiModelProperty({{/oas3}}{{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}{{#oas3}}defaultValue = {{/oas3}}{{^oas3}}value = {{/oas3}}"{{{description}}}")
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>nullableDataType}} {{getter}}() {
     return {{name}};
   }
 
-  public void {{setter}}({{>nullableDataType}} {{name}}) {
+  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{>nullableDataType}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
@@ -132,16 +133,27 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
       return false;
     }{{#hasVars}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
-    return {{#vars}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+    return {{#vars}}{{#vendorExtensions.x-is-jackson-optional-nullable}}equalsNullable(this.{{name}}, {{classVarName}}.{{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}} &&
         {{/-last}}{{/vars}}{{#parent}} &&
         super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
     return true;{{/hasVars}}
-  }
+  }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }{{/vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
-  }
+    return Objects.hash({{#vars}}{{#vendorExtensions.x-is-jackson-optional-nullable}}hashCodeNullable({{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+  }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
+  }{{/vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   @Override
   public String toString() {

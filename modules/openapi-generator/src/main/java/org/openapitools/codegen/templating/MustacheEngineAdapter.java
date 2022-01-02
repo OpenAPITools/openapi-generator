@@ -43,7 +43,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
         return "mustache";
     }
 
-    private final String[] extensions = new String[]{"mustache"};
+    private final String[] extensions = {"mustache"};
     Mustache.Compiler compiler = Mustache.compiler();
 
     /**
@@ -53,7 +53,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
      * @param bundle       The map of values to pass to the template
      * @param templateFile The name of the template (e.g. model.mustache )
      * @return the processed template result
-     * @throws IOException an error ocurred in the template processing
+     * @throws IOException an error occurred in the template processing
      */
     @Override
     public String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile) throws IOException {
@@ -65,7 +65,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
         return tmpl.execute(bundle);
     }
 
-    @SuppressWarnings({"java:S108"}) // catch-all is expected, and is later thrown
+    @SuppressWarnings("java:S108") // catch-all is expected, and is later thrown
     public Reader findTemplate(TemplatingExecutor generator, String name) {
         for (String extension : extensions) {
             final String templateName = name + "." + extension;

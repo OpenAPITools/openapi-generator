@@ -21,13 +21,14 @@ import akka.http.scaladsl.model.Uri.Query
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers._
 import akka.http.scaladsl.unmarshalling.{ Unmarshal, Unmarshaller }
-import akka.stream.ActorMaterializer
+import akka.stream.Materializer
 import akka.stream.scaladsl.Source
 import akka.util.{ ByteString, Timeout }
 import de.heikoseeberger.akkahttpjson4s.Json4sSupport
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
+import scala.collection.compat._
 
 import scala.collection.immutable
 import scala.concurrent.{ ExecutionContext, ExecutionContextExecutor, Future }
@@ -90,13 +91,13 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
 
   protected val settings: ApiSettings = ApiSettings(system)
 
-  private implicit val materializer: ActorMaterializer = ActorMaterializer()
+  private implicit val materializer: Materializer = Materializer(system)
   private implicit val serialization: Serialization = jackson.Serialization
 
 
   private val http = Http()
 
-  val CompressionFilter: HttpMessage ⇒ Boolean = (msg: HttpMessage) =>
+  val CompressionFilter: HttpMessage => Boolean = (msg: HttpMessage) =>
     Seq(
       { _: HttpMessage => settings.compressionEnabled },
       Encoder.DefaultFilter,
@@ -125,7 +126,7 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
   private def headers(headers: Map[String, Any]): immutable.Seq[HttpHeader] =
     headers.asFormattedParams
       .map { case (name, value) => RawHeader(name, value.toString) }
-      .to[immutable.Seq]
+      .to(immutable.Seq)
 
 
   private def bodyPart(name: String, value: Any): BodyPart = {
@@ -157,9 +158,9 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
           case MediaTypes.`multipart/form-data` =>
             Multipart.FormData(Source(params.toList.map { case (name, value) => bodyPart(name, value) }))
           case MediaTypes.`application/x-www-form-urlencoded` =>
-            FormData(params.mapValues(_.toString))
+            FormData(params.view.mapValues(_.toString).toMap)
           case _: MediaType => // Default : application/x-www-form-urlencoded.
-            FormData(params.mapValues(_.toString))
+            FormData(params.view.mapValues(_.toString).toMap)
         }
       )
   }
@@ -181,7 +182,7 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
           case Some(c: String) =>
             HttpRequest(m, uri, entity = HttpEntity(normalizedContentType(request.contentType), ByteString(c)))
           case _ =>
-            HttpRequest(m, uri, entity = HttpEntity(normalizedContentType(request.contentType), ByteString(" ")))
+            HttpRequest(m, uri, entity = HttpEntity(normalizedContentType(request.contentType), ByteString("")))
         }
       case m: HttpMethod => HttpRequest(m, uri)
     }
@@ -197,7 +198,9 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
         params + (keyName -> key.value)
       case (params, _) => params
     }.asFormattedParams
+      .view
       .mapValues(_.toString)
+      .toMap
       .foldRight[Query](Uri.Query.Empty) {
       case ((name, value), acc) => acc.+:(name, value)
     }
@@ -206,7 +209,9 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
   def makeUri(r: ApiRequest[_]): Uri = {
     val opPath = r.operationPath.replaceAll("\\{format\\}", "json")
     val opPathWithParams = r.pathParams.asFormattedParams
+      .view
       .mapValues(_.toString)
+      .toMap
       .foldLeft(opPath) {
         case (path, (name, value)) => path.replaceAll(s"\\{$name\\}", value)
       }
@@ -223,13 +228,13 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
     http
       .singleRequest(request)
       .map { response =>
-        val decoder: Coder with StreamDecoder = response.encoding match {
-          case HttpEncodings.gzip ⇒
-            Gzip
-          case HttpEncodings.deflate ⇒
-            Deflate
-          case HttpEncodings.identity ⇒
-            NoCoding
+        val decoder: Decoder with Decoder = response.encoding match {
+          case HttpEncodings.gzip =>
+            Coders.Gzip
+          case HttpEncodings.deflate =>
+            Coders.Deflate
+          case HttpEncodings.identity =>
+            Coders.NoCoding
           case HttpEncoding(encoding) =>
             throw new IllegalArgumentException(s"Unsupported encoding: $encoding")
         }
@@ -257,13 +262,13 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
     request
       .responseForCode(response.status.intValue) match {
       case Some((Manifest.Unit, state: ResponseState)) =>
-        Future(responseForState(state, Unit).asInstanceOf[ApiResponse[T]])
+        Future(responseForState(state, ()).asInstanceOf[ApiResponse[T]])
       case Some((manifest, state: ResponseState)) if manifest == mf =>
         implicit val m: Unmarshaller[HttpEntity, T] = unmarshaller[T](mf, serialization, formats)
         Unmarshal(response.entity)
           .to[T]
           .recoverWith {
-            case e ⇒ throw ApiError(response.status.intValue, s"Unable to unmarshall content to [$manifest]", Some(response.entity.toString), e)
+            case e => throw ApiError(response.status.intValue, s"Unable to unmarshall content to [$manifest]", Some(response.entity.toString), e)
           }
           .map(value => responseForState(state, value))
       case None | Some(_) =>

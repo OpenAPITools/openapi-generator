@@ -1,12 +1,15 @@
     /**
     {{#description}}
-     * {{description}}
+     * {{.}}
      *
     {{/description}}
      * @var {{{vendorExtensions.x-comment-type}}}{{^required}}|null{{/required}}
      * @SerializedName("{{baseName}}")
 {{#required}}
      * @Assert\NotNull()
+     {{^isPrimitiveType}}
+     * @Assert\Valid()
+     {{/isPrimitiveType}}
 {{/required}}
 {{#isEnum}}
     {{#isContainer}}
@@ -40,7 +43,7 @@
 {{^isContainer}}
     {{#isDate}}
      * @Assert\Date()
-     * @Type("DateTime")
+     * @Type("DateTime<'Y-m-d'>")
     {{/isDate}}
     {{#isDateTime}}
      * @Assert\DateTime()
@@ -56,12 +59,12 @@
 {{#hasValidation}}
     {{#maxLength}}
      * @Assert\Length(
-     *   max = {{maxLength}}
+     *   max = {{.}}
      * )
     {{/maxLength}}
     {{#minLength}}
      * @Assert\Length(
-     *   min = {{minLength}}
+     *   min = {{.}}
      * )
     {{/minLength}}
     {{#minimum}}
@@ -81,16 +84,16 @@
     {{/exclusiveMaximum}}
     {{/maximum}}
     {{#pattern}}
-     * @Assert\Regex("/{{pattern}}/")
+     * @Assert\Regex("/{{.}}/")
     {{/pattern}}
     {{#maxItems}}
      * @Assert\Count(
-     *   max = {{maxItems}}
+     *   max = {{.}}
      * )
     {{/maxItems}}
     {{#minItems}}
      * @Assert\Count(
-     *   min = {{minItems}}
+     *   min = {{.}}
      * )
     {{/minItems}}
 {{/hasValidation}}

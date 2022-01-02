@@ -254,6 +254,7 @@ use WWW::OpenAPIClient::Object::CatAllOf;
 use WWW::OpenAPIClient::Object::Category;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
+use WWW::OpenAPIClient::Object::DeprecatedObject;
 use WWW::OpenAPIClient::Object::Dog;
 use WWW::OpenAPIClient::Object::DogAllOf;
 use WWW::OpenAPIClient::Object::EnumArrays;
@@ -274,6 +275,7 @@ use WWW::OpenAPIClient::Object::ModelReturn;
 use WWW::OpenAPIClient::Object::Name;
 use WWW::OpenAPIClient::Object::NullableClass;
 use WWW::OpenAPIClient::Object::NumberOnly;
+use WWW::OpenAPIClient::Object::ObjectWithDeprecatedFields;
 use WWW::OpenAPIClient::Object::Order;
 use WWW::OpenAPIClient::Object::OuterComposite;
 use WWW::OpenAPIClient::Object::OuterEnum;
@@ -318,6 +320,7 @@ use WWW::OpenAPIClient::Object::CatAllOf;
 use WWW::OpenAPIClient::Object::Category;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
+use WWW::OpenAPIClient::Object::DeprecatedObject;
 use WWW::OpenAPIClient::Object::Dog;
 use WWW::OpenAPIClient::Object::DogAllOf;
 use WWW::OpenAPIClient::Object::EnumArrays;
@@ -338,6 +341,7 @@ use WWW::OpenAPIClient::Object::ModelReturn;
 use WWW::OpenAPIClient::Object::Name;
 use WWW::OpenAPIClient::Object::NullableClass;
 use WWW::OpenAPIClient::Object::NumberOnly;
+use WWW::OpenAPIClient::Object::ObjectWithDeprecatedFields;
 use WWW::OpenAPIClient::Object::Order;
 use WWW::OpenAPIClient::Object::OuterComposite;
 use WWW::OpenAPIClient::Object::OuterEnum;
@@ -385,6 +389,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fake_property_enum_integer_serialize**](docs/FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**test_body_with_binary**](docs/FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -393,7 +398,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -431,6 +436,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::Category](docs/Category.md)
  - [WWW::OpenAPIClient::Object::ClassModel](docs/ClassModel.md)
  - [WWW::OpenAPIClient::Object::Client](docs/Client.md)
+ - [WWW::OpenAPIClient::Object::DeprecatedObject](docs/DeprecatedObject.md)
  - [WWW::OpenAPIClient::Object::Dog](docs/Dog.md)
  - [WWW::OpenAPIClient::Object::DogAllOf](docs/DogAllOf.md)
  - [WWW::OpenAPIClient::Object::EnumArrays](docs/EnumArrays.md)
@@ -451,6 +457,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::Name](docs/Name.md)
  - [WWW::OpenAPIClient::Object::NullableClass](docs/NullableClass.md)
  - [WWW::OpenAPIClient::Object::NumberOnly](docs/NumberOnly.md)
+ - [WWW::OpenAPIClient::Object::ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [WWW::OpenAPIClient::Object::Order](docs/Order.md)
  - [WWW::OpenAPIClient::Object::OuterComposite](docs/OuterComposite.md)
  - [WWW::OpenAPIClient::Object::OuterEnum](docs/OuterEnum.md)

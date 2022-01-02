@@ -28,6 +28,7 @@ import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.CatAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -52,6 +53,8 @@ public class Cat extends Animal {
   @XmlElement(name = "declawed")
   private Boolean declawed;
 
+  public Cat() { 
+  }
 
   public Cat declawed(Boolean declawed) {
     

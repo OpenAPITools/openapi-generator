@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class CsharpModelEnumTest {
     // TODO there's no parent/child method in ComposeSchema so we will need to revise the code
-    // before we can reeanble the test case below
+    // before we can re-enable the test case below
     @Test(description = "not override identical parent enums", enabled = false)
     public void overrideEnumTest() {
         final StringSchema identicalEnumProperty = new StringSchema();

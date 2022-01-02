@@ -46,5 +46,7 @@ public class TypeScriptAngularClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setStringEnums(Boolean.parseBoolean(TypeScriptAngularClientOptionsProvider.STRING_ENUMS_VALUE));
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
         verify(clientCodegen).setQueryParamObjectFormat(TypeScriptAngularClientOptionsProvider.QUERY_PARAM_OBJECT_FORMAT_VALUE);
+        verify(clientCodegen).setParamNaming(TypeScriptAngularClientOptionsProvider.PARAM_NAMING_VALUE);
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(TypeScriptAngularClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

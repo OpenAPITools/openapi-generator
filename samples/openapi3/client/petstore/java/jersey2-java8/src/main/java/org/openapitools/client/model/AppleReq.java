@@ -43,6 +43,8 @@ public class AppleReq {
   public static final String JSON_PROPERTY_MEALY = "mealy";
   private Boolean mealy;
 
+  public AppleReq() { 
+  }
 
   public AppleReq cultivar(String cultivar) {
     this.cultivar = cultivar;
@@ -53,6 +55,7 @@ public class AppleReq {
    * Get cultivar
    * @return cultivar
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

@@ -45,7 +45,7 @@ class {{controllerName}} extends Controller
      * Operation {{{operationId}}}
 {{#summary}}
      *
-     * {{{summary}}}
+     * {{{.}}}
 {{/summary}}
      *
 {{#description}}
@@ -54,6 +54,9 @@ class {{controllerName}} extends Controller
 {{/description}}
      * @param Request $request The Symfony request to handle.
      * @return Response The Symfony response.
+{{#isDeprecated}}
+     * @deprecated
+{{/isDeprecated}}
      */
     public function {{operationId}}Action(Request $request{{#hasPathParams}}{{#pathParams}}, ${{paramName}}{{/pathParams}}{{/hasPathParams}})
     {
@@ -149,7 +152,7 @@ class {{controllerName}} extends Controller
             ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}{{#items}}array<{{dataType}}>{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', $inputFormat);
             {{/isBodyParam}}
             {{^isBodyParam}}
-            ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}array<{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}{{^collectionFormat}}csv{{/collectionFormat}},{{dataType}}>{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', 'string');
+            ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}array<{{collectionFormat}}{{^collectionFormat}}csv{{/collectionFormat}},{{dataType}}>{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', 'string');
             {{/isBodyParam}}
             {{/isFile}}
             {{/allParams}}
@@ -168,7 +171,7 @@ class {{controllerName}} extends Controller
             // Set authentication method '{{name}}'
             $handler->set{{name}}($security{{name}});
             {{/authMethods}}
-            
+
             // Make the call to the business logic
             $responseCode = {{#returnType}}200{{/returnType}}{{^returnType}}204{{/returnType}};
             $responseHeaders = [];

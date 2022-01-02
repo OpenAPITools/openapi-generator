@@ -78,6 +78,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Float");
         typeMapping.put("number", "Float");
+        typeMapping.put("decimal", "Float");
         typeMapping.put("date", "Date");
         typeMapping.put("DateTime", "Time");
         typeMapping.put("array", "Array");
@@ -85,6 +86,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         typeMapping.put("List", "Array");
         typeMapping.put("map", "Hash");
         typeMapping.put("object", "Object");
+        typeMapping.put("AnyType", "Object");
         typeMapping.put("file", "File");
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
@@ -174,7 +176,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
     @Override
     public String toVarName(final String name) {
         String varName = sanitizeName(name);
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             varName = varName.toLowerCase(Locale.ROOT);
         }
@@ -191,6 +193,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         return varName;
     }
 
+    @Override
     public String toRegularExpression(String pattern) {
         return addRegularExpressionDelimiter(pattern);
     }
@@ -235,18 +238,19 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         }
         // only process files with rb extension
         if ("rb".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = rubyPostProcessFile + " " + file.toString();
+            String command = rubyPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    try(BufferedReader br = new BufferedReader(new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8))) {
+                    try (InputStreamReader inputStreamReader = new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8);
+                         BufferedReader br = new BufferedReader(inputStreamReader)) {
                         StringBuilder sb = new StringBuilder();
                         String line;
                         while ((line = br.readLine()) != null) {
                             sb.append(line);
                         }
-                        LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command, exitValue, sb.toString());
+                        LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command, exitValue, sb);
                     }
                 } else {
                     LOGGER.info("Successfully executed: `{}`", command);

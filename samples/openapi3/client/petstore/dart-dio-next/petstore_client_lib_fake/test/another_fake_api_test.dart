@@ -1,6 +1,7 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
+
 /// tests for AnotherFakeApi
 void main() {
   final instance = Openapi().getAnotherFakeApi();
@@ -14,5 +15,6 @@ void main() {
     test('test call123testSpecialTags', () async {
       // TODO
     });
+
   });
 }

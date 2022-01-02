@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.Maps;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
@@ -27,6 +26,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.CodegenConstants.MODEL_PROPERTY_NAMING_TYPE;
+import org.openapitools.codegen.CodegenConstants.PARAM_NAMING_TYPE;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -64,6 +64,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     protected MODEL_PROPERTY_NAMING_TYPE modelPropertyNaming = MODEL_PROPERTY_NAMING_TYPE.original;
     protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
+    protected PARAM_NAMING_TYPE paramNaming = PARAM_NAMING_TYPE.camelCase;
     protected Boolean supportsES6 = false;
     protected Boolean nullSafeAdditionalProps = false;
     protected HashSet<String> languageGenericTypes;
@@ -175,11 +176,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         cliOptions.add(new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC).defaultValue(this.enumPropertyNaming.name()));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_DESC_WITH_WARNING).defaultValue(this.modelPropertyNaming.name()));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue(String.valueOf(this.getSupportsES6())));
+        cliOptions.add(new CliOption(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_DESC).defaultValue(this.paramNaming.name()));
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
                 " Required to generate a full package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. If not provided, using the version from the OpenAPI specification file.").defaultValue(this.getNpmVersion()));
         this.cliOptions.add(CliOption.newBoolean(SNAPSHOT,
-                "When setting this property to true, the version will be suffixed with -SNAPSHOT." + this.SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
+                "When setting this property to true, the version will be suffixed with -SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
                 false));
         this.cliOptions.add(new CliOption(NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_DESC).defaultValue(String.valueOf(this.getNullSafeAdditionalProps())));
     }
@@ -212,6 +214,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.PARAM_NAMING)) {
+            setParamNaming((String) additionalProperties.get(CodegenConstants.PARAM_NAMING));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ES6)) {
             setSupportsES6(Boolean.valueOf(additionalProperties.get(CodegenConstants.SUPPORTS_ES6).toString()));
             additionalProperties.put("supportsES6", getSupportsES6());
@@ -227,10 +233,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
-    public String toModelImport( String name){
+    public String toModelImport(String name){
         if(isUnionType(name)){
            LOGGER.warn("The import is a union type. Consider using the toModelImportMap method.");
            return toModelImportMap(name).values().stream().collect(Collectors.joining("|"));
+        }
+        if(isIntersectionType(name)){
+           LOGGER.warn("The import is a intersection type. Consider using the toModelImportMap method.");
+           return toModelImportMap(name).values().stream().collect(Collectors.joining("&"));
         }
         return super.toModelImport(name);
     }
@@ -243,26 +253,28 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      * @return Map between the fully qualified model import and the initial given name.
      */
     @Override
-    public Map<String,String> toModelImportMap( String name){
-        if(isUnionType(name)){
-           String[] names = splitUnionType(name);
-           return toImportMap(names);
-        }
-        return toImportMap(name);
+    public Map<String,String> toModelImportMap(String name){
+        return toImportMap(splitComposedType(name));
+    }
+
+    private String[] splitComposedType (String name) {
+       return name.replace(" ","").split("[|&<>]");
     }
 
     private boolean isUnionType(String name){
         return name.contains("|");
     }
 
-    private String[] splitUnionType(String name){
-        return  name.replace(" ","").split("\\|");
+    private boolean isIntersectionType(String name){
+        return name.contains("&");
     }
 
-    private Map<String,String> toImportMap(String... names){
-        Map<String,String> result = Maps.newHashMap();
-        for(String name: names){
-            result.put(toModelImport(name),name);
+    private Map<String,String> toImportMap(String... names) {
+        Map<String,String> result = new HashMap<>();
+        for(final String name : names) {
+            if(needToImport(name)) {
+                result.put(toModelImport(name), name);
+            }
         }
         return result;
     }
@@ -324,7 +336,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             name = "_u";
         }
 
-        name = camelize(name, true);
+        name = getNameUsingParamNaming(name);
         name = toSafeIdentifier(name);
 
         return name;
@@ -381,23 +393,25 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         sanName = camelize(sanName);
 
         // model name cannot use reserved keyword, e.g. return
-        // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowcase
+        // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowercase
         if (isReservedWord(sanName)) {
             String modelName = safePrefix + sanName;
-            LOGGER.warn(sanName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", sanName, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (sanName.matches("^\\d.*")) {
             String modelName = safePrefix + sanName; // e.g. 200Response => Model200Response
-            LOGGER.warn(sanName + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", sanName,
+                    modelName);
             return modelName;
         }
 
         if (languageSpecificPrimitives.contains(sanName)) {
             String modelName = safePrefix + sanName;
-            LOGGER.warn(sanName + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name matches existing language type) cannot be used as a model name. Renamed to {}",
+                    sanName, modelName);
             return modelName;
         }
 
@@ -531,7 +545,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "'" + (String) p.getDefault() + "'";
+                return "'" + escapeText((String) p.getDefault()) + "'";
             }
             return UNDEFINED_VALUE;
         } else {
@@ -589,8 +603,43 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
     }
 
+    public void setParamNaming(String naming) {
+        try {
+            paramNaming = PARAM_NAMING_TYPE.valueOf(naming);
+        } catch (IllegalArgumentException e) {
+            String values = Stream.of(PARAM_NAMING_TYPE.values())
+                    .map(value -> "'" + value.name() + "'")
+                    .collect(Collectors.joining(", "));
+
+            String msg = String.format(Locale.ROOT, "Invalid parameter naming '%s'. Must be one of %s.", naming, values);
+            throw new IllegalArgumentException(msg);
+        }
+    }
+
     public MODEL_PROPERTY_NAMING_TYPE getModelPropertyNaming() {
         return modelPropertyNaming;
+    }
+
+    public PARAM_NAMING_TYPE getParamNaming() {
+        return paramNaming;
+    }
+
+    private String getNameUsingParamNaming(String name) {
+        switch (getParamNaming()) {
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            default:
+                throw new IllegalArgumentException("Invalid param naming '" +
+                        name + "'. Must be 'original', 'camelCase', " +
+                        "'PascalCase' or 'snake_case'");
+        }
+
     }
 
     private String getNameUsingModelPropertyNaming(String name) {
@@ -613,7 +662,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("number".equals(datatype)) {
+        if ("number".equals(datatype) || "boolean".equals(datatype)) {
             return value;
         } else {
             return "\'" + escapeText(value) + "\'";
@@ -707,7 +756,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return;
         }
 
-        String[] parts = type.split("( [|&] )|[<>]");
+        String[] parts = splitComposedType(type);
         for (String s : parts) {
             if (needToImport(s)) {
                 m.imports.add(s);
@@ -847,14 +896,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
         // only process files with ts extension
         if ("ts".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = tsPostProcessFile + " " + file.toString();
+            String command = tsPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());

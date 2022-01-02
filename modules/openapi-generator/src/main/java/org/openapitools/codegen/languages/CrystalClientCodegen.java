@@ -130,9 +130,9 @@ public class CrystalClientCodegen extends DefaultCodegen {
         hideGenerationTimestamp = Boolean.TRUE;
 
         // reserved word. Ref: https://github.com/crystal-lang/crystal/wiki/Crystal-for-Rubyists#available-keywords
-        reservedWords = new HashSet<String>(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
-                        "abstract", "do", "if", "nil?", "select", "union",
+                        "abstract", "annotation", "do", "if", "nil?", "select", "union",
                         "alias", "else", "in", "of", "self", "unless",
                         "as", "elsif", "include", "out", "sizeof", "until",
                         "as?", "end", "instance", "sizeof", "pointerof", "struct", "verbatim",
@@ -153,7 +153,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         languageSpecificPrimitives.add("Time");
         languageSpecificPrimitives.add("Array");
         languageSpecificPrimitives.add("Hash");
-        languageSpecificPrimitives.add("File");
+        languageSpecificPrimitives.add("::File");
         languageSpecificPrimitives.add("Object");
 
         typeMapping.clear();
@@ -174,7 +174,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         typeMapping.put("set", "Set");
         typeMapping.put("map", "Hash");
         typeMapping.put("object", "Object");
-        typeMapping.put("file", "File");
+        typeMapping.put("file", "::File");
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("UUID", "String");
@@ -363,13 +363,14 @@ public class CrystalClientCodegen extends DefaultCodegen {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(modelName)) {
             modelName = camelize("Model" + modelName);
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (modelName.matches("^\\d.*")) {
-            LOGGER.warn(modelName + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + modelName));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", modelName,
+                    camelize("model_" + modelName));
             modelName = "model_" + modelName; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -482,20 +483,20 @@ public class CrystalClientCodegen extends DefaultCodegen {
         // rename to empty_method_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
             operationId = underscore("empty_method_name_" + emptyMethodNameCounter++);
-            LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
+            LOGGER.warn("Empty method name (operationId) found. Renamed to {}", operationId);
             return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = underscore("call_" + operationId);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -556,8 +557,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        HashMap<String, Integer> processedModelMaps = new HashMap<String, Integer>();
+        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
+        HashMap<String, Integer> processedModelMaps = new HashMap<>();
 
         for (Object o : allModels) {
             HashMap<String, Object> h = (HashMap<String, Object>) o;
@@ -801,7 +802,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 } else if (p.getDefault() instanceof java.time.OffsetDateTime) {
                     return "Time.parse(\"" + String.format(Locale.ROOT, ((java.time.OffsetDateTime) p.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\")";
                 } else {
-                    return "'" + escapeText((String) p.getDefault()) + "'";
+                    return "\"" + escapeText((String) p.getDefault()) + "\"";
                 }
             }
         }
@@ -819,7 +820,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         String varName;
         // sanitize name
         varName = sanitizeName(name);
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             varName = varName.toLowerCase(Locale.ROOT);
         }
@@ -836,6 +837,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         return varName;
     }
 
+    @Override
     public String toRegularExpression(String pattern) {
         return addRegularExpressionDelimiter(pattern);
     }
@@ -868,20 +870,22 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
         // only process files with cr extension
         if ("cr".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = crystalPostProcessFile + " " + file.toString();
+            String command = crystalPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line);
+                    try (InputStreamReader inputStreamReader = new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8);
+                         BufferedReader br = new BufferedReader(inputStreamReader)) {
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line);
+                        }
+                        LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command, exitValue, sb);
                     }
-                    LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command, exitValue, sb.toString());
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());

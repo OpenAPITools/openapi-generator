@@ -67,7 +67,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "htmlDocs2";
 
-        defaultIncludes = new HashSet<String>();
+        defaultIncludes = new HashSet<>();
 
         cliOptions.add(new CliOption("appName", "short name of the application"));
         cliOptions.add(new CliOption("appDescription", "description of the application"));
@@ -100,10 +100,10 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.html"));
-        reservedWords = new HashSet<String>();
+        reservedWords = new HashSet<>();
 
-        languageSpecificPrimitives = new HashSet<String>();
-        importMapping = new HashMap<String, String>();
+        languageSpecificPrimitives = new HashSet<>();
+        importMapping = new HashMap<>();
     }
 
     @Override
@@ -179,7 +179,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         additionalProperties.put("jsProjectName", jsProjectName);
         additionalProperties.put("jsModuleName", jsModuleName);
 
-        preparHtmlForGlobalDescription(openAPI);
+        prepareHtmlForGlobalDescription(openAPI);
 
         Map<String, Object> vendorExtensions = openAPI.getExtensions();
         if (vendorExtensions != null) {
@@ -219,7 +219,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
      *
      * @param openAPI The base object containing the global description through "Info" class
      */
-    private void preparHtmlForGlobalDescription(OpenAPI openAPI) {
+    private void prepareHtmlForGlobalDescription(OpenAPI openAPI) {
         if (openAPI.getInfo() == null) {
             return;
         }
@@ -229,7 +229,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
             Markdown markInstance = new Markdown();
             openAPI.getInfo().setDescription(markInstance.toHtml(currentDescription));
         } else {
-            LOGGER.error("OpenAPI object description is empty [" + openAPI.getInfo().getTitle() + "]");
+            LOGGER.error("OpenAPI object description is empty [{}]", openAPI.getInfo().getTitle());
         }
     }
 
@@ -237,7 +237,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
      * Format to HTML the enums contained in every operations
      *
      * @param parameterList The whole parameters contained in one operation
-     * @return String | Html formated enum
+     * @return String | Html formatted enum
      */
     public List<CodegenParameter> postProcessParameterEnum(List<CodegenParameter> parameterList) {
         String enumFormatted = "";

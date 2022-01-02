@@ -9,8 +9,8 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
-import 'package:openapi/model/order.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:openapi/model/order.dart';
 
 class StoreApi {
 
@@ -43,9 +43,7 @@ class StoreApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -91,9 +89,7 @@ class StoreApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -148,9 +144,7 @@ class StoreApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -205,9 +199,7 @@ class StoreApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,

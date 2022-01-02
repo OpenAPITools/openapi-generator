@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 /** Must be named &#x60;File&#x60; for test. */
 internal struct File: Codable, Hashable {
@@ -17,4 +20,15 @@ internal struct File: Codable, Hashable {
         self.sourceURI = sourceURI
     }
 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
+        case sourceURI
+    }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
+    }
 }
+

@@ -114,6 +114,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**FakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**FakePropertyEnumIntegerSerialize**](docs/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**TestBodyWithBinary**](docs/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**TestBodyWithFileSchema**](docs/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**TestBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
@@ -122,7 +123,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestGroupParameters**](docs/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**TestInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**TestJsonFormData**](docs/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**TestClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**DeletePet**](docs/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -160,6 +161,7 @@ Class | Method | HTTP request | Description
  - [Model.CatAllOf](docs/CatAllOf.md)
  - [Model.Category](docs/Category.md)
  - [Model.ClassModel](docs/ClassModel.md)
+ - [Model.DeprecatedObject](docs/DeprecatedObject.md)
  - [Model.Dog](docs/Dog.md)
  - [Model.DogAllOf](docs/DogAllOf.md)
  - [Model.EnumArrays](docs/EnumArrays.md)
@@ -180,6 +182,7 @@ Class | Method | HTTP request | Description
  - [Model.Name](docs/Name.md)
  - [Model.NullableClass](docs/NullableClass.md)
  - [Model.NumberOnly](docs/NumberOnly.md)
+ - [Model.ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [Model.Order](docs/Order.md)
  - [Model.OuterComposite](docs/OuterComposite.md)
  - [Model.OuterEnum](docs/OuterEnum.md)

@@ -4,8 +4,8 @@
  * generated.{{#appDescription}}
  *
  * {{ appDescription }}{{/appDescription}}{{#version}}
- * Version: {{version}}{{/version}}{{#appContact}}
- * Contact: {{appContact}}{{/appContact}}
+ * Version: {{.}}{{/version}}{{#appContact}}
+ * Contact: {{.}}{{/appContact}}
 {{^hideGenerationTimestamp}}
  * Generated at: {{generatedDate}}
 {{/hideGenerationTimestamp}}
@@ -13,7 +13,7 @@
  */{{#licenseInfo}}
 /**
  * @license {{licenseInfo}}{{#licenseUrl}}
- * {{licenseUrl}}{{/licenseUrl}}
+ * {{.}}{{/licenseUrl}}
  */
 {{/licenseInfo}}
 
@@ -60,7 +60,7 @@ goog.require('{{import}}');
  * {{notes}}{{#allParams}}
  * @param {!{{{dataType}}}{{^required}}={{/required}}} {{^required}}opt_{{/required}}{{paramName}} {{description}}{{/allParams}}
  * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
- * @return {!angular.$q.Promise{{#returnType}}<!{{{returnType}}}>{{/returnType}}}
+ * @return {!angular.$q.Promise{{#returnType}}<!{{{.}}}>{{/returnType}}}
  */
 {{package}}.{{classname}}.prototype.{{nickname}} = function({{#allParams}}{{^required}}opt_{{/required}}{{paramName}}, {{/allParams}}opt_extraHttpRequestParams) {
   /** @const {string} */

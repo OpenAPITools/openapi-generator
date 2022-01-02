@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -54,9 +53,9 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
                 "redefine", "rename", "require", "rescue", "Result", "retry", "select", "separate", "then", "True",
                 "TUPLE", "undefine", "until", "variant", "Void", "when", "xor"));
 
-        defaultIncludes = new HashSet<String>(Arrays.asList("map", "array"));
+        defaultIncludes = new HashSet<>(Arrays.asList("map", "array"));
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("BOOLEAN", "INTEGER_8", "INTEGER_16", "INTEGER_32", "INTEGER_64", "NATURAL_8",
                         "NATURAL_16", "NATURAL_32", "NATURAL_64", "REAL_32", "REAL_64"));
 
@@ -134,7 +133,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -192,22 +191,22 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after
             // camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to "
-                    + ("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response
             // (after camelize)
         }
         // model name starts with _
         if (name.startsWith("_")) {
-            LOGGER.warn(name + " (model name starts with _) cannot be used as model name. Renamed to "
-                    + ("model" + name));
+            LOGGER.warn("{} (model name starts with _) cannot be used as model name. Renamed to {}", name,
+                    "model" + name);
             name = "model" + name; // e.g. 200Response => Model200Response
             // (after camelize)
         }
@@ -268,13 +267,13 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        if (!isNullOrEmpty(model.parent)) {
+        if (StringUtils.isNotBlank(model.parent)) {
             parentModels.add(model.parent);
             if (!childrenByParent.containsEntry(model.parent, model)) {
                 childrenByParent.put(model.parent, model);
             }
         }
-        if (!isNullOrEmpty(model.parentSchema)) {
+        if (StringUtils.isNotBlank(model.parentSchema)) {
             model.parentSchema = model.parentSchema.toLowerCase(Locale.ROOT);
         }
     }
@@ -304,32 +303,32 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
-        String scheamType = getSchemaType(p);
-        if (typeMapping.containsKey(scheamType)) {
-            return typeMapping.get(scheamType);
+        String schemaType = getSchemaType(p);
+        if (typeMapping.containsKey(schemaType)) {
+            return typeMapping.get(schemaType);
         }
 
-        if (typeMapping.containsValue(scheamType)) {
-            return scheamType;
+        if (typeMapping.containsValue(schemaType)) {
+            return schemaType;
         }
 
-        if (languageSpecificPrimitives.contains(scheamType)) {
-            return scheamType;
+        if (languageSpecificPrimitives.contains(schemaType)) {
+            return schemaType;
         }
 
-        return toModelName(scheamType);
+        return toModelName(schemaType);
     }
 
     @Override
     public String getSchemaType(Schema p) {
-        String scheamType = super.getSchemaType(p);
+        String schemaType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(scheamType)) {
-            type = typeMapping.get(scheamType);
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type))
                 return (type);
         } else
-            type = scheamType;
+            type = schemaType;
         return type;
     }
 
@@ -344,8 +343,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to "
-                    + camelize("call_" + operationId));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
@@ -519,15 +517,15 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         // Iterate over all of the parent model properties
         boolean removedChildEnum = false;
-        for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
+        for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
             // Look for enums
-            if (parentModelCodegenPropery.isEnum) {
+            if (parentModelCodegenProperty.isEnum) {
                 // Now that we have found an enum in the parent class,
                 // and search the child class for the same enum.
                 Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                 while (iterator.hasNext()) {
                     CodegenProperty codegenProperty = iterator.next();
-                    if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
+                    if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
                         // We found an enum in the child class that is
                         // a duplicate of the one in the parent, so remove it.
                         iterator.remove();
@@ -561,7 +559,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     }
 
     public Map<String, String> createMapping(String key, String value) {
-        Map<String, String> customImport = new HashMap<String, String>();
+        Map<String, String> customImport = new HashMap<>();
         customImport.put(key, value);
 
         return customImport;
@@ -594,7 +592,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     public String toEiffelFeatureStyle(String operationId) {
         if (operationId.startsWith("get_")) {
-            return operationId.substring(4, operationId.length());
+            return operationId.substring(4);
         } else {
             return operationId;
         }
@@ -609,7 +607,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     protected void updatePropertyForArray(CodegenProperty property, CodegenProperty innerProperty) {
         if (innerProperty == null) {
-            LOGGER.warn("skipping invalid array property " + Json.pretty(property));
+            LOGGER.warn("skipping invalid array property {}", Json.pretty(property));
             return;
         }
         property.dataFormat = innerProperty.dataFormat;

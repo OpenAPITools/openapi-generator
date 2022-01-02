@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * ArrayOfArrayOfNumberOnly
@@ -39,6 +40,8 @@ public class ArrayOfArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   private List<List<BigDecimal>> arrayArrayNumber = null;
 
+  public ArrayOfArrayOfNumberOnly() { 
+  }
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     
@@ -48,7 +51,7 @@ public class ArrayOfArrayOfNumberOnly {
 
   public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
     if (this.arrayArrayNumber == null) {
-      this.arrayArrayNumber = new ArrayList<List<BigDecimal>>();
+      this.arrayArrayNumber = new ArrayList<>();
     }
     this.arrayArrayNumber.add(arrayArrayNumberItem);
     return this;

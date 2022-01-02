@@ -116,7 +116,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
          * Reserved words.  Override this with reserved words specific to your language
          * Ref: https://github.com/itsgreggreg/elixir_quick_reference#reserved-words
          */
-        reservedWords = new HashSet<String>(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
                         "nil",
                         "true",
@@ -164,7 +164,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
          * Language Specific Primitives.  These types will not trigger imports by
          * the client generator
          */
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "Integer",
                         "Float",
@@ -182,7 +182,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         );
 
         // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("integer", "Integer");
         typeMapping.put("long", "Integer");
         typeMapping.put("number", "Float");
@@ -449,13 +449,14 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -471,13 +472,13 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             return underscore(sanitizeName("call_" + operationId));
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -602,7 +603,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 return code;
             }
 
-            LOGGER.warn("Unknown HTTP status code: " + this.code);
+            LOGGER.warn("Unknown HTTP status code: {}", this.code);
             return "\"" + code + "\"";
         }
 
@@ -612,7 +613,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 return "%{}";
             }
             // Primitive return type, don't even try to decode
-            if (baseType == null || (simpleType && primitiveType)) {
+            if (baseType == null || (containerType == null && primitiveType)) {
                 return "false";
             } else if (isArray && languageSpecificPrimitives().contains(baseType)) {
                 return "[]";
@@ -726,21 +727,18 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             }
 
             sb.append("keyword()) :: ");
-            HashSet<String> uniqueResponseTypes = new HashSet<String>();
+            HashSet<String> uniqueResponseTypes = new HashSet<>();
             for (CodegenResponse response : this.responses) {
                 ExtendedCodegenResponse exResponse = (ExtendedCodegenResponse) response;
-                StringBuilder returnEntry = new StringBuilder("");
+                StringBuilder returnEntry = new StringBuilder();
                 if (exResponse.baseType == null) {
                     returnEntry.append("nil");
-                } else if (exResponse.simpleType) {
+                } else if (exResponse.containerType == null) { // not container (array, map, set)
                     if (!exResponse.primitiveType) {
                         returnEntry.append(moduleName);
                         returnEntry.append(".Model.");
                     }
                     returnEntry.append(exResponse.baseType);
-                    returnEntry.append(".t");
-                } else if (exResponse.containerType == null) {
-                    returnEntry.append(returnBaseType);
                     returnEntry.append(".t");
                 } else {
                     if (exResponse.containerType.equals("array") ||

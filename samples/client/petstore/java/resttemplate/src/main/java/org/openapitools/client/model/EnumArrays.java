@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * EnumArrays
@@ -112,6 +113,8 @@ public class EnumArrays {
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   private List<ArrayEnumEnum> arrayEnum = null;
 
+  public EnumArrays() { 
+  }
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     
@@ -148,7 +151,7 @@ public class EnumArrays {
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
     if (this.arrayEnum == null) {
-      this.arrayEnum = new ArrayList<ArrayEnumEnum>();
+      this.arrayEnum = new ArrayList<>();
     }
     this.arrayEnum.add(arrayEnumItem);
     return this;

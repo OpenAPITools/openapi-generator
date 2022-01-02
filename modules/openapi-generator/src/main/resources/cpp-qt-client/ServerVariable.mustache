@@ -1,0 +1,52 @@
+{{>licenseInfo}}
+/**
+ * Representing a Server Variable for server URL template substitution.
+ */
+#ifndef {{prefix}}_SERVERVARIABLE_H
+#define {{prefix}}_SERVERVARIABLE_H
+#include <QString>
+#include <QSet>
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+class {{prefix}}ServerVariable {
+public:
+
+    /**
+     * @param description A description for the server variable.
+     * @param defaultValue The default value to use for substitution.
+     * @param enumValues An enumeration of string values to be used if the substitution options are from a limited set.
+     */
+    {{prefix}}ServerVariable(const QString &description, const QString &defaultValue, const QSet<QString> &enumValues)
+    : _defaultValue(defaultValue),
+      _description(description),
+      _enumValues(enumValues){}
+
+    {{prefix}}ServerVariable(){}
+    ~{{prefix}}ServerVariable(){}
+
+    int setDefaultValue(const QString& value){
+      if( _enumValues.contains(value)){
+        _defaultValue = value;
+        return 0;
+      }
+      return -2;
+    }
+
+    QString getDefaultValue(){return _defaultValue;}
+    QSet<QString> getEnumValues(){return _enumValues;}
+
+
+    QString _defaultValue;
+    QString _description;
+    QSet<QString> _enumValues;
+
+};
+
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}
+
+#endif // {{prefix}}_SERVERVARIABLE_H

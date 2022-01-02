@@ -18,11 +18,13 @@ import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
+} from './Animal';
+import {
     DogAllOf,
     DogAllOfFromJSON,
     DogAllOfFromJSONTyped,
     DogAllOfToJSON,
-} from './';
+} from './DogAllOf';
 
 /**
  * 
@@ -64,5 +66,4 @@ export function DogToJSON(value?: Dog | null): any {
         'breed': value.breed,
     };
 }
-
 

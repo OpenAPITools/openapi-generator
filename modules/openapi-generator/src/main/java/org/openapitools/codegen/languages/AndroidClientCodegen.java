@@ -117,7 +117,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                         "native", "super", "while", "null")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "String",
                         "boolean",
@@ -162,7 +162,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
 
         supportedLibraries.put("volley", "HTTP client: Volley 1.0.19 (default)");
-        supportedLibraries.put("httpclient", "HTTP client: Apache HttpClient 4.3.6. JSON processing: Gson 2.3.1. IMPORTANT: Android client using HttpClient is not actively maintained and will be depecreated in the next major release.");
+        supportedLibraries.put("httpclient", "HTTP client: Apache HttpClient 4.3.6. JSON processing: Gson 2.3.1. IMPORTANT: Android client using HttpClient is not actively maintained and will be deprecated in the next major release.");
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
@@ -260,7 +260,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -301,14 +301,15 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = "Model" + name;
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
             String modelName = "Model" + name; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    modelName);
             return modelName;
         }
 
@@ -398,7 +399,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, true);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 

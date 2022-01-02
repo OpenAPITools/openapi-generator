@@ -49,6 +49,8 @@ public class EquilateralTriangle {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
   private String triangleType;
 
+  public EquilateralTriangle() { 
+  }
 
   public EquilateralTriangle shapeType(String shapeType) {
     this.shapeType = shapeType;
@@ -59,6 +61,7 @@ public class EquilateralTriangle {
    * Get shapeType
    * @return shapeType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -84,6 +87,7 @@ public class EquilateralTriangle {
    * Get triangleType
    * @return triangleType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

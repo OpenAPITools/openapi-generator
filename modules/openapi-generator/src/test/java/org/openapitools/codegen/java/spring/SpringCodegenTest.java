@@ -43,6 +43,7 @@ import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
 public class SpringCodegenTest {
 
@@ -224,7 +225,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void interfaceDefaultImplDisableWithReponseWrapper() {
+    public void interfaceDefaultImplDisableWithResponseWrapper() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
         codegen.additionalProperties().put(RESPONSE_WRAPPER, "aWrapper");
@@ -329,7 +330,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void springcloudWithJava8DisabeJdk8() {
+    public void springcloudWithJava8DisableJdk8() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
@@ -541,8 +542,8 @@ public class SpringCodegenTest {
         // Check that the api handles the array and the file
         final File multipartApi = files.get("MultipartApi.java");
         assertFileContains(multipartApi.toPath(),
-                "List<MultipartFile> files",
-                "MultipartFile file");
+               "List<MultipartFile> files",
+               "MultipartFile file");
     }
 
     @Test
@@ -652,5 +653,115 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<Map<String, DummyRequest>>");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApi.java"), "Mono<DummyRequest>");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<DummyRequest>");
+    }
+
+    @Test
+    public void doGeneratePathVariableForSimpleParam() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_6762.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"), "allowableValues = \"0, 1\"");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"), "@PathVariable");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/BearsApi.java"), "allowableValues = \"sleeping, awake\"");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/BearsApi.java"), "@PathVariable");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java"), "allowableValues = \"sleeping, awake\"");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java"), "@PathVariable");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/GirafesApi.java"), "allowableValues = \"0, 1\"");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/GirafesApi.java"), "@PathVariable");
+    }
+
+    @Test
+    public void shouldGenerateDefaultValueForEnumRequestParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/issue_10278.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/GetApi.java"),
+            "@RequestParam(value = \"testParameter1\", required = false, defaultValue = \"BAR\")",
+            "@RequestParam(value = \"TestParameter2\", required = false, defaultValue = \"BAR\")");
+
+    }
+
+    /**define the destinationFilename*/
+    private final static String DESTINATIONFILE = "OpenAPIDocumentationConfig.java";
+    /**define the templateFile*/
+    private final static String TEMPLATEFILE = "openapiDocumentationConfig.mustache";
+
+    /**
+     * test whether OpenAPIDocumentationConfig.java is generated
+     * fix issue #10287
+     */
+    @Test
+    public void testConfigFileGeneration() {
+
+        final SpringCodegen codegen = new SpringCodegen();
+
+        codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, false);
+        codegen.additionalProperties().put(SpringCodegen.SPRING_CLOUD_LIBRARY, "spring-cloud");
+        codegen.additionalProperties().put(SpringCodegen.OPENAPI_DOCKET_CONFIG, true);
+        codegen.additionalProperties().put(SpringCodegen.REACTIVE, false);
+        codegen.additionalProperties().put(SpringCodegen.API_FIRST, false);
+
+        codegen.processOpts();
+        final List<SupportingFile> supList = codegen.supportingFiles();
+        String tmpFile;
+        String desFile;
+        boolean flag = false;
+        for (final SupportingFile s : supList) {
+            tmpFile = s.getTemplateFile();
+            desFile = s.getDestinationFilename();
+
+            if (TEMPLATEFILE.equals(tmpFile)) {
+                flag = true;
+                assertEquals(desFile, DESTINATIONFILE);
+            }
+        }
+        if(!flag){
+            fail("OpenAPIDocumentationConfig.java not generated");
+        }
     }
 }

@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Category
@@ -41,6 +42,8 @@ public class Category {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name = "default-name";
 
+  public Category() { 
+  }
 
   public Category id(Long id) {
     
@@ -79,6 +82,7 @@ public class Category {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

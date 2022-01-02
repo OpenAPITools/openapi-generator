@@ -16,7 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap.Builder;
+import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
@@ -43,7 +43,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         implements BeanValidationFeatures {
 
-    private static Logger LOGGER =
+    private final Logger LOGGER =
             LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
 
     private static final HashSet<String> VARIABLE_RESERVED_WORDS =
@@ -303,7 +303,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setBasePackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
             additionalProperties.put(BASE_PACKAGE, basePackage);
-            LOGGER.info("Set base package to invoker package (" + basePackage + ")");
+            LOGGER.info("Set base package to invoker package ({})", basePackage);
         }
 
         if (additionalProperties.containsKey(BASE_PACKAGE)) {
@@ -379,7 +379,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         } else if (interfaceOnly) {
             apiTemplateFiles.put("apiInterface.mustache", ".kt");
         } else {
-            apiTemplateFiles.put("api.mustache", ".kt");
+            apiTemplateFiles.put("api.mustache", "Controller.kt");
             apiTestTemplateFiles.put("api_test.mustache", ".kt");
         }
 
@@ -437,7 +437,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     @Override
-    protected Builder<String, Lambda> addMustacheLambdas() {
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("escapeDoubleQuote", new EscapeLambda("\"", "\\\""));
     }
@@ -454,7 +454,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 basePath = basePath.substring(0, pos);
             }
 
-            if (basePath.equals("")) {
+            if (basePath.isEmpty()) {
                 basePath = "default";
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
@@ -540,8 +540,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 .filter(cm -> Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null)
                 .forEach(cm -> {
                     cm.imports.add(importMapping.get("JsonValue"));
+                    cm.imports.add(importMapping.get("JsonProperty"));
                     Map<String, String> item = new HashMap<>();
                     item.put("import", importMapping.get("JsonValue"));
+                    item.put("import", importMapping.get("JsonProperty"));
                     imports.add(item);
                 });
 

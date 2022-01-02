@@ -32,9 +32,19 @@ import feign.form.FormEncoder;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
-import {{invokerPackage}}.auth.*;
+import {{invokerPackage}}.auth.HttpBasicAuth;
+import {{invokerPackage}}.auth.HttpBearerAuth;
+import {{invokerPackage}}.auth.ApiKeyAuth;
+import {{invokerPackage}}.ApiResponseDecoder;
+
 {{#hasOAuthMethods}}
+import {{invokerPackage}}.auth.ApiErrorDecoder;
+import {{invokerPackage}}.auth.OAuth;
 import {{invokerPackage}}.auth.OAuth.AccessTokenListener;
+import {{invokerPackage}}.auth.OAuthFlow;
+import {{invokerPackage}}.auth.OauthPasswordGrant;
+import {{invokerPackage}}.auth.OauthClientCredentialsGrant;
+import feign.Retryer;
 {{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
@@ -54,7 +64,11 @@ public class ApiClient {
     feignBuilder = Feign.builder()
                 .client(new OkHttpClient())
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
-                .decoder(new JacksonDecoder(objectMapper))
+                .decoder(new ApiResponseDecoder(objectMapper))
+                {{#hasOAuthMethods}}
+                .errorDecoder(new ApiErrorDecoder())
+                .retryer(new Retryer.Default(0, 0, 2))
+                {{/hasOAuthMethods}}
                 .logger(new Slf4jLogger());
   }
 
@@ -162,6 +176,7 @@ public class ApiClient {
     return objectMapper;
   }
 
+  {{#hasOAuthMethods}}
   private RequestInterceptor buildOauthRequestInterceptor(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
     switch (flow) {
       case password:
@@ -173,6 +188,7 @@ public class ApiClient {
     }
   }
 
+  {{/hasOAuthMethods}}
   public ObjectMapper getObjectMapper(){
     return objectMapper;
   }
@@ -257,7 +273,7 @@ public class ApiClient {
 
   {{#hasOAuthMethods}}
   /**
-   * Helper method to configure the client credentials for Oauth 
+   * Helper method to configure the client credentials for Oauth
    * @param username Username
    * @param password Password
    */
@@ -308,7 +324,7 @@ public class ApiClient {
   {{/hasOAuthMethods}}
   /**
    * Gets request interceptor based on authentication name
-   * @param authName Authentiation name
+   * @param authName Authentication name
    * @return Request Interceptor
    */
   public RequestInterceptor getAuthorization(String authName) {

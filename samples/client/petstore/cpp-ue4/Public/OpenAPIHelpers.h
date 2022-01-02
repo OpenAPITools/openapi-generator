@@ -21,7 +21,7 @@
 
 class IHttpRequest;
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 typedef TSharedRef<TJsonWriter<>> JsonWriter;
@@ -114,6 +114,11 @@ inline FStringFormatArg ToStringFormatArg(const FDateTime& Value)
 	return FStringFormatArg(Value.ToIso8601());
 }
 
+inline FStringFormatArg ToStringFormatArg(const FGuid& Value)
+{
+	return FStringFormatArg(Value.ToString(EGuidFormats::DigitsWithHyphens));
+}
+
 inline FStringFormatArg ToStringFormatArg(const TArray<uint8>& Value)
 {
 	return FStringFormatArg(Base64UrlEncode(Value));
@@ -128,6 +133,16 @@ inline FString ToString(const T& Value)
 inline FString ToString(const FString& Value)
 {
 	return Value;
+}
+
+inline FString ToString(bool Value)
+{
+	return Value ? TEXT("true") : TEXT("false");
+}
+
+inline FStringFormatArg ToStringFormatArg(bool Value)
+{
+	return FStringFormatArg(ToString(Value));
 }
 
 inline FString ToString(const TArray<uint8>& Value)
@@ -206,6 +221,19 @@ inline FString CollectionToUrlString_multi(const TArray<T>& Collection, const TC
 
 //////////////////////////////////////////////////////////////////////////
 
+inline void WriteJsonValue(JsonWriter& Writer, const TSharedPtr<FJsonValue>& Value)
+{
+	if (Value.IsValid())
+	{
+		FJsonSerializer::Serialize(Value.ToSharedRef(), "", Writer, false);
+	}
+	else
+	{
+		Writer->WriteObjectStart();
+		Writer->WriteObjectEnd();
+	}
+}
+
 inline void WriteJsonValue(JsonWriter& Writer, const TSharedPtr<FJsonObject>& Value)
 {
 	if (Value.IsValid())
@@ -227,6 +255,11 @@ inline void WriteJsonValue(JsonWriter& Writer, const TArray<uint8>& Value)
 inline void WriteJsonValue(JsonWriter& Writer, const FDateTime& Value)
 {
 	Writer->WriteValue(Value.ToIso8601());
+}
+
+inline void WriteJsonValue(JsonWriter& Writer, const FGuid& Value)
+{
+	Writer->WriteValue(Value.ToString(EGuidFormats::DigitsWithHyphens));
 }
 
 inline void WriteJsonValue(JsonWriter& Writer, const Model& Value)
@@ -290,6 +323,17 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FDateTime& 
 		return false;
 }
 
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FGuid& Value)
+{
+	FString TmpValue;
+	if (JsonValue->TryGetString(TmpValue))
+	{
+		return FGuid::Parse(TmpValue, Value);
+	}
+	else
+		return false;
+}
+
 inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, bool& Value)
 {
 	bool TmpValue;
@@ -300,6 +344,12 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, bool& Value
 	}
 	else
 		return false;
+}
+
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TSharedPtr<FJsonValue>& JsonObjectValue)
+{
+	JsonObjectValue = JsonValue;
+	return true;
 }
 
 inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TSharedPtr<FJsonObject>& JsonObjectValue)

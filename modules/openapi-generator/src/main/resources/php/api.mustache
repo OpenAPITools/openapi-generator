@@ -1,7 +1,7 @@
 <?php
 /**
  * {{classname}}
- * PHP version 7.2
+ * PHP version 7.3
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -21,6 +21,7 @@ namespace {{apiPackage}};
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
@@ -123,7 +124,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
 {{/-first}}
      * URL: {{{url}}}
 {{#-last}}
@@ -131,14 +132,17 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}} ${{paramName}}{{#description}} {{description}}{{/description}}{{^description}} {{paramName}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     * @param  {{{dataType}}} ${{paramName}}{{#description}} {{.}}{{/description}}{{^description}} {{paramName}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
      *
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return {{#returnType}}{{#responses}}{{#dataType}}{{^-first}}|{{/-first}}{{/dataType}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}void{{/returnType}}
+    {{#isDeprecated}}
+     * @deprecated
+    {{/isDeprecated}}
      */
-    public function {{operationId}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
     {
         {{#returnType}}list($response) = {{/returnType}}$this->{{operationId}}WithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});{{#returnType}}
         return $response;{{/returnType}}
@@ -161,7 +165,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
 {{/-first}}
      * URL: {{{url}}}
 {{#-last}}
@@ -169,14 +173,17 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     * @param  {{{dataType}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
      *
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of {{#returnType}}{{#responses}}{{#dataType}}{{^-first}}|{{/-first}}{{/dataType}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
+    {{#isDeprecated}}
+     * @deprecated
+    {{/isDeprecated}}
      */
-    public function {{operationId}}WithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}WithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
     {
         $request = $this->{{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});
 
@@ -190,6 +197,13 @@ use {{invokerPackage}}\ObjectSerializer;
                     (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
                 );
             }
 
@@ -286,7 +300,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
 {{/-first}}
      * URL: {{{url}}}
 {{#-last}}
@@ -294,13 +308,16 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     * @param  {{{dataType}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
+    {{#isDeprecated}}
+     * @deprecated
+    {{/isDeprecated}}
      */
-    public function {{operationId}}Async({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}Async({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
     {
         return $this->{{operationId}}AsyncWithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
             ->then(
@@ -327,7 +344,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
 {{/-first}}
      * URL: {{{url}}}
 {{#-last}}
@@ -335,13 +352,16 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     * @param  {{{dataType}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
+    {{#isDeprecated}}
+     * @deprecated
+    {{/isDeprecated}}
      */
-    public function {{operationId}}AsyncWithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}AsyncWithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
     {
         $returnType = '{{{returnType}}}';
         $request = $this->{{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});
@@ -393,7 +413,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
 {{/-first}}
      * URL: {{{url}}}
 {{#-last}}
@@ -401,18 +421,21 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     * @param  {{{dataType}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
+    {{#isDeprecated}}
+     * @deprecated
+    {{/isDeprecated}}
      */
-    public function {{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
     {
         {{#vendorExtensions.x-group-parameters}}
         // unbox the parameters from the associative array
         {{#allParams}}
-        ${{paramName}} = array_key_exists('{{paramName}}', $associative_array) ? $associative_array['{{paramName}}'] : {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}};
+        ${{paramName}} = array_key_exists('{{paramName}}', $associative_array) ? $associative_array['{{paramName}}'] : {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}};
         {{/allParams}}
 
         {{/vendorExtensions.x-group-parameters}}
@@ -493,7 +516,7 @@ use {{invokerPackage}}\ObjectSerializer;
         {{/isExplode}}
         {{^isExplode}}
         if (is_array(${{paramName}})) {
-            ${{paramName}} = ObjectSerializer::serializeCollection(${{paramName}}, '{{#style}}{{style}}{{/style}}{{^style}}{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}{{/style}}', true);
+            ${{paramName}} = ObjectSerializer::serializeCollection(${{paramName}}, '{{style}}{{^style}}{{collectionFormat}}{{/style}}', true);
         }
         if (${{paramName}} !== null) {
             $queryParams['{{baseName}}'] = ${{paramName}};
@@ -537,7 +560,7 @@ use {{invokerPackage}}\ObjectSerializer;
             $formParams['{{baseName}}'] = [];
             $paramFiles = is_array(${{paramName}}) ? ${{paramName}} : [${{paramName}}];
             foreach ($paramFiles as $paramFile) {
-                $formParams['{{baseName}}'][] = \GuzzleHttp\Psr7\try_fopen(
+                $formParams['{{baseName}}'][] = \GuzzleHttp\Psr7\Utils::tryFopen(
                     ObjectSerializer::toFormValue($paramFile),
                     'rb'
                 );
@@ -592,7 +615,7 @@ use {{invokerPackage}}\ObjectSerializer;
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
 
@@ -645,7 +668,7 @@ use {{invokerPackage}}\ObjectSerializer;
         $operationHost = $operationHosts[$this->hostIndex];
 
         {{/servers.0}}
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             '{{httpMethod}}',
             {{^servers.0}}$this->config->getHost(){{/servers.0}}{{#servers.0}}$operationHost{{/servers.0}} . $resourcePath . ($query ? "?{$query}" : ''),

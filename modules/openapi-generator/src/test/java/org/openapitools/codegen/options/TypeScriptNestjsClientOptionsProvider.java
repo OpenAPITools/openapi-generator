@@ -33,6 +33,7 @@ public class TypeScriptNestjsClientOptionsProvider implements OptionsProvider {
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String ENUM_PROPERTY_NAMING_VALUE = "PascalCase";
     public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
+    public static final String PARAM_NAMING_VALUE = "camelCase";
     private static final String NMP_NAME = "npmName";
     private static final String NMP_VERSION = "1.1.2";
     private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
@@ -45,6 +46,7 @@ public class TypeScriptNestjsClientOptionsProvider implements OptionsProvider {
     public static String SERVICE_FILE_SUFFIX = ".service";
     public static String MODEL_SUFFIX = "";
     public static String MODEL_FILE_SUFFIX = "";
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -59,6 +61,7 @@ public class TypeScriptNestjsClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
+                .put(CodegenConstants.PARAM_NAMING, PARAM_NAMING_VALUE)
                 .put(CodegenConstants.SUPPORTS_ES6, SUPPORTS_ES6_VALUE)
                 .put(AbstractTypeScriptClientCodegen.NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_VALUE)
                 .put(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX)
@@ -82,6 +85,7 @@ public class TypeScriptNestjsClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(TypeScriptNestjsClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)
+                .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .build();
     }
 

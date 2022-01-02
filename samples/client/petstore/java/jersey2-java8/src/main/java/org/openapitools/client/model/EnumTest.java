@@ -200,6 +200,8 @@ public class EnumTest {
   public static final String JSON_PROPERTY_OUTER_ENUM = "outerEnum";
   private OuterEnum outerEnum;
 
+  public EnumTest() { 
+  }
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -236,6 +238,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

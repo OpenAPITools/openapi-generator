@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 [**fakePropertyEnumIntegerSerialize**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int | 
+[**testBodyWithBinary**](FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary | 
 [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -19,7 +20,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 
 
 
@@ -338,13 +339,57 @@ No authorization required
 - **Accept**: */*
 
 
+## testBodyWithBinary
+
+> testBodyWithBinary(body)
+
+
+
+For this test, the body has to be a binary file.
+
+### Example
+
+```javascript
+import OpenApiPetstore from 'open_api_petstore';
+
+let apiInstance = new OpenApiPetstore.FakeApi();
+let body = "/path/to/file"; // File | image to upload
+apiInstance.testBodyWithBinary(body).then(() => {
+  console.log('API called successfully.');
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **File**| image to upload | 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: image/png
+- **Accept**: Not defined
+
+
 ## testBodyWithFileSchema
 
 > testBodyWithFileSchema(fileSchemaTestClass)
 
 
 
-For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+For this test, the body for this request must reference a schema named &#x60;File&#x60;.
 
 ### Example
 
@@ -568,7 +613,7 @@ let opts = {
   'enumQueryString': "'-efg'", // String | Query parameter enum test (string)
   'enumQueryInteger': 56, // Number | Query parameter enum test (double)
   'enumQueryDouble': 3.4, // Number | Query parameter enum test (double)
-  'enumFormStringArray': "'$'", // [String] | Form parameter enum test (string array)
+  'enumFormStringArray': ["'$'"], // [String] | Form parameter enum test (string array)
   'enumFormString': "'-efg'" // String | Form parameter enum test (string)
 };
 apiInstance.testEnumParameters(opts).then(() => {
@@ -755,7 +800,7 @@ No authorization required
 
 ## testQueryParameterCollectionFormat
 
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, opts)
 
 
 
@@ -772,7 +817,11 @@ let ioutil = ["null"]; // [String] |
 let http = ["null"]; // [String] | 
 let url = ["null"]; // [String] | 
 let context = ["null"]; // [String] | 
-apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context).then(() => {
+let allowEmpty = "allowEmpty_example"; // String | 
+let opts = {
+  'language': {key: "null"} // {String: String} | 
+};
+apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, opts).then(() => {
   console.log('API called successfully.');
 }, (error) => {
   console.error(error);
@@ -790,6 +839,8 @@ Name | Type | Description  | Notes
  **http** | [**[String]**](String.md)|  | 
  **url** | [**[String]**](String.md)|  | 
  **context** | [**[String]**](String.md)|  | 
+ **allowEmpty** | **String**|  | 
+ **language** | [**{String: String}**](String.md)|  | [optional] 
 
 ### Return type
 

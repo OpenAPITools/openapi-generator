@@ -118,12 +118,7 @@ class DeserializationTests(unittest.TestCase):
         )
         assert isinstance(inst, apple.Apple)
 
-        inst = apple.Apple(
-            origin="cHiLe"
-        )
-        assert isinstance(inst, apple.Apple)
-
-        # Test with invalid regex pattern.
+        # Test with invalid regex pattern in cultivar
         err_msg = ("Invalid value for `{}`, must match regular expression `{}`$")
         with self.assertRaisesRegex(
             petstore_api.ApiValueError,
@@ -133,12 +128,14 @@ class DeserializationTests(unittest.TestCase):
                 cultivar="!@#%@$#Akane"
             )
 
+        # Test with invalid regex pattern in origin
         err_msg = ("Invalid value for `{}`, must match regular expression `{}` with flags")
         with self.assertRaisesRegex(
             petstore_api.ApiValueError,
             err_msg.format("origin", "[^`]*")
         ):
             inst = apple.Apple(
+                cultivar="Akane",
                 origin="!@#%@$#Chile"
             )
 

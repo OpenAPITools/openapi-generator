@@ -78,7 +78,7 @@ Base URL of the HTTP endpoints
 .PARAMETER Username
 Username in HTTP basic authentication
 
-.PARAMETER Passowrd
+.PARAMETER Password
 Password in HTTP basic authentication
 
 .PARAMETER ApiKey
@@ -178,7 +178,7 @@ function Set-PSConfiguration {
             $Script:Configuration['DefaultHeaders'] = $DefaultHeaders
         }
 
-        If ($Proxy -ne $null) {
+        If ($null -ne $Proxy) {
             If ($Proxy.GetType().FullName -ne "System.Net.SystemWebProxy" -and $Proxy.GetType().FullName -ne "System.Net.WebRequest+WebProxyWrapperOpaque") {
                 throw "Incorrect Proxy type '$($Proxy.GetType().FullName)'. Must be System.Net.SystemWebProxy or System.Net.WebRequest+WebProxyWrapperOpaque."
             }
@@ -441,7 +441,7 @@ SHOULD be included.
 If no headers are specified then '(created)' sets as default.
 
 .PARAMETER HashAlgorithm
-HashAlgrithm to calculate the hash, Supported values are "sha256" and "sha512"
+HashAlgorithm to calculate the hash, Supported values are "sha256" and "sha512"
 
 .PARAMETER SigningAlgorithm
 SigningAlgorithm specifies the signature algorithm, supported values are "RSASSA-PKCS1-v1_5" and "RSASSA-PSS"

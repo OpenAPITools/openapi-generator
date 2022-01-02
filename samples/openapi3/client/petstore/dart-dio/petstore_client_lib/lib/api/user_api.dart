@@ -9,8 +9,8 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
-import 'package:openapi/model/user.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:openapi/model/user.dart';
 
 class UserApi {
 
@@ -50,9 +50,7 @@ class UserApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -102,9 +100,7 @@ class UserApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -154,9 +150,7 @@ class UserApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -206,9 +200,7 @@ class UserApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -248,9 +240,7 @@ class UserApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -310,9 +300,7 @@ class UserApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -369,9 +357,7 @@ class UserApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -419,9 +405,7 @@ class UserApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,

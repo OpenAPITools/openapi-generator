@@ -28,7 +28,7 @@ export class {{classname}} {
 {{/withInterfaces}}
 
     protected basePath = '{{{basePath}}}';
-    public defaultHeaders = new Map()
+    public defaultHeaders: Record<string,string> = {};
     public configuration = new Configuration();
 
     constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
@@ -70,7 +70,7 @@ export class {{classname}} {
 {{/allParams}}
 
 {{#hasQueryParams}}
-        let queryParameters = {};   
+        let queryParameters = {};
 {{#queryParams}}
         {{#isListContainer}}
         if ({{paramName}}) {
@@ -208,8 +208,8 @@ export class {{classname}} {
 {{/formParams}}
 
 {{/hasFormParams}}
-        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
-            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isMethodPutOrPatchOrPost}}
+            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isMethodPutOrPatchOrPost}}
             {
 {{#hasQueryParams}}
                 params: queryParameters,

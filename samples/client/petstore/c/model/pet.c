@@ -168,6 +168,9 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     pet_t *pet_local_var = NULL;
 
+    // define the local variable for pet->category
+    category_t *category_local_nonprim = NULL;
+
     // pet->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(petJSON, "id");
     if (id) { 
@@ -179,7 +182,6 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->category
     cJSON *category = cJSON_GetObjectItemCaseSensitive(petJSON, "category");
-    category_t *category_local_nonprim = NULL;
     if (category) { 
     category_local_nonprim = category_parseFromJSON(category); //nonprimitive
     }

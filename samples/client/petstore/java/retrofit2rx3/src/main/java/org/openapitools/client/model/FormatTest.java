@@ -90,6 +90,8 @@ public class FormatTest {
   @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
   private BigDecimal bigDecimal;
 
+  public FormatTest() { 
+  }
 
   public FormatTest integer(Integer integer) {
     
@@ -176,6 +178,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public BigDecimal getNumber() {
@@ -271,6 +274,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public byte[] getByte() {
@@ -316,6 +320,7 @@ public class FormatTest {
    * Get date
    * @return date
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public LocalDate getDate() {
@@ -384,6 +389,7 @@ public class FormatTest {
    * Get password
    * @return password
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public String getPassword() {

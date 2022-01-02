@@ -7,6 +7,7 @@ import org.openapitools.api.factories.UserApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
+import java.util.Date;
 import java.util.List;
 import org.openapitools.model.User;
 

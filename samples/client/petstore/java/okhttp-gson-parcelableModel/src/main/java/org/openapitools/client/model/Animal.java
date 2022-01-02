@@ -42,7 +42,7 @@ public class Animal implements Parcelable {
   @SerializedName(SERIALIZED_NAME_COLOR)
   private String color = "red";
 
-  public Animal() {
+  public Animal() { 
     this.className = this.getClass().getSimpleName();
   }
 
@@ -56,6 +56,7 @@ public class Animal implements Parcelable {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public String getClassName() {

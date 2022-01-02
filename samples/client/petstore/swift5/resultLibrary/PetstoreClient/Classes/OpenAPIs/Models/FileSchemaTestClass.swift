@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 public struct FileSchemaTestClass: Codable, Hashable {
 
@@ -17,4 +20,17 @@ public struct FileSchemaTestClass: Codable, Hashable {
         self.files = files
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case file
+        case files
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(file, forKey: .file)
+        try container.encodeIfPresent(files, forKey: .files)
+    }
 }
+

@@ -50,7 +50,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     protected List<Map<String, Object>> orderedModels;
     protected final Map<String, List<String>> modelDepends;
     protected final Map<String, String> nullableTypeMapping;
-    protected final HashMap<String, String> operationsScopes;
+    protected final Map<String, String> operationsScopes;
     protected int scopeIndex = 0;
 
     public AbstractAdaCodegen() {
@@ -155,7 +155,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                         "xor")
         );
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("date", "Swagger.Date");
         typeMapping.put("DateTime", "Swagger.Datetime");
         typeMapping.put("string", "Swagger.UString");
@@ -172,7 +172,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("binary", "Swagger.Binary");
 
         // Mapping to convert an Ada required type to an optional type (nullable).
-        nullableTypeMapping = new HashMap<String, String>();
+        nullableTypeMapping = new HashMap<>();
         nullableTypeMapping.put("Swagger.Date", "Swagger.Nullable_Date");
         nullableTypeMapping.put("Swagger.Datetime", "Swagger.Nullable_Date");
         nullableTypeMapping.put("Swagger.UString", "Swagger.Nullable_UString");
@@ -181,10 +181,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         nullableTypeMapping.put("Boolean", "Swagger.Nullable_Boolean");
         nullableTypeMapping.put("Swagger.Object", "Swagger.Object");
 
-        modelDepends = new HashMap<String, List<String>>();
-        orderedModels = new ArrayList<Map<String, Object>>();
-        operationsScopes = new HashMap<String, String>();
-        super.importMapping = new HashMap<String, String>();
+        modelDepends = new HashMap<>();
+        orderedModels = new ArrayList<>();
+        operationsScopes = new HashMap<>();
+        super.importMapping = new HashMap<>();
 
         // CLI options
         addOption(CodegenConstants.PROJECT_NAME, "GNAT project name",
@@ -193,7 +193,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         modelNameSuffix = "Type";
         embeddedTemplateDir = templateDir = "Ada";
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("integer", "boolean", "number", "long", "float",
                         "double", "object", "string", "date", "DateTime", "binary"));
     }
@@ -220,7 +220,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     protected String toAdaIdentifier(String name, String prefix) {
         // We cannot use reserved keywords for identifiers
         if (isReservedWord(name)) {
-            LOGGER.warn("Identifier '" + name + "' is a reserved word, renamed to " + prefix + name);
+            LOGGER.warn("Identifier '{}' is a reserved word, renamed to {}{}", name, prefix, name);
             name = prefix + name;
         }
         StringBuilder result = new StringBuilder();
@@ -277,6 +277,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
      * @param name the name of the model
      * @return capitalized model name
      */
+    @Override
     public String toModelName(final String name) {
         String result = camelize(sanitizeName(name));
 
@@ -287,20 +288,22 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = "Model_" + result;
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (result.matches("^\\d.*")) {
             String modelName = "Model_" + result; // e.g. 200Response => Model_200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    modelName);
             return modelName;
         }
 
         if (languageSpecificPrimitives.contains(result)) {
             String modelName = "Model_" + result;
-            LOGGER.warn(name + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name matches existing language type) cannot be used as a model name. Renamed to {}",
+                    name, modelName);
             return modelName;
         }
 
@@ -648,7 +651,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             Object v = model.get("model");
             if (v instanceof CodegenModel) {
                 CodegenModel m = (CodegenModel) v;
-                List<String> d = new ArrayList<String>();
+                List<String> d = new ArrayList<>();
                 for (CodegenProperty p : m.vars) {
                     boolean isModel = false;
                     CodegenProperty item = p;
@@ -684,8 +687,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         //     if I find a model that has no dependencies, or all of its dependencies are in revisedOrderedModels, consider it the independentModel
         //   put the independentModel at the end of revisedOrderedModels, and remove it from orderedModels
         //
-        List<Map<String, Object>> revisedOrderedModels = new ArrayList<Map<String, Object>>();
-        List<String> collectedModelNames = new ArrayList<String>();
+        List<Map<String, Object>> revisedOrderedModels = new ArrayList<>();
+        List<String> collectedModelNames = new ArrayList<>();
         int sizeOrderedModels = orderedModels.size();
         for (int i = 0; i < sizeOrderedModels; i++) {
             Map<String, Object> independentModel = null;
@@ -757,7 +760,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
      * @return the authMethods to be used by the operation with its required scopes.
      */
     private List<CodegenSecurity> postProcessAuthMethod(List<CodegenSecurity> authMethods, Map<String, List<String>> scopes) {
-        List<CodegenSecurity> result = (scopes == null) ? null : new ArrayList<CodegenSecurity>();
+        List<CodegenSecurity> result = (scopes == null) ? null : new ArrayList<>();
         if (authMethods != null) {
             for (CodegenSecurity authMethod : authMethods) {
                 if (authMethod.scopes != null) {
@@ -800,7 +803,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                     opSecurity.isKeyInQuery = authMethod.isKeyInQuery;
                     opSecurity.flow = authMethod.flow;
                     opSecurity.tokenUrl = authMethod.tokenUrl;
-                    List<Map<String, Object>> opAuthScopes = new ArrayList<Map<String, Object>>();
+                    List<Map<String, Object>> opAuthScopes = new ArrayList<>();
                     for (String opScopeName : opScopes) {
                         for (Map<String, Object> scope : authMethod.scopes) {
                             String name = (String) scope.get("scope");

@@ -7,8 +7,12 @@
 
 import Foundation
 import RxSwift
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 open class FakeClassnameTags123API {
+
     /**
      To test class name in snake case
      
@@ -18,16 +22,19 @@ open class FakeClassnameTags123API {
      */
     open class func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+            let requestTask = testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body!)
+                    observer.onNext(response.body)
                 case let .failure(error):
                     observer.onError(error)
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                requestTask.cancel()
+            }
         }
     }
 
@@ -42,21 +49,20 @@ open class FakeClassnameTags123API {
      - returns: RequestBuilder<Client> 
      */
     open class func testClassnameWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
-        let path = "/fake_classname_test"
-        let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let localVariablePath = "/fake_classname_test"
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = URLComponents(string: URLString)
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let nillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: Any?] = [
             :
         ]
 
-        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let requestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
-
 }

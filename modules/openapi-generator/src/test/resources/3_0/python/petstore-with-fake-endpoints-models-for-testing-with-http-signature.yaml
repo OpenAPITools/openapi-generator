@@ -692,12 +692,14 @@ paths:
                   type: number
                   format: float
                   maximum: 987.6
+                  exclusiveMaximum: true
                 double:
                   description: None
                   type: number
                   format: double
                   minimum: 67.8
                   maximum: 123.4
+                  exclusiveMaximum: true
                 string:
                   description: None
                   type: string
@@ -1117,7 +1119,7 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake
@@ -1286,11 +1288,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
-  /fake/getInlineAdditionalPropertiesRefPayload:
-    get:
+  /fake/postInlineAdditionalPropertiesRefPayload:
+    post:
       tags:
         - fake
-      operationId: getInlineAdditionalPropertiesRefPayload
+      operationId: postInlineAdditionalPropertiesRefPayload
       responses:
         200:
           description: InlineAdditionalPropertiesRefPayload
@@ -1303,11 +1305,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/InlineAdditionalPropertiesRefPayload'
-  /fake/getInlineAdditionalPropertiesPayload:
-    get:
+  /fake/postInlineAdditionalPropertiesPayload:
+    post:
       tags:
         - fake
-      operationId: getInlineAdditionalPropertiesPayload
+      operationId: postInlineAdditionalPropertiesPayload
       responses:
         200:
           description: InlineAdditionalPropertiesPayload
@@ -1346,6 +1348,23 @@ paths:
                         items:
                           type: string
                           nullable: true
+  /fake/TxRxAnyOfModel:
+    post:
+      tags:
+        - fake
+      operationId: txRxAnyOfModel
+      responses:
+        200:
+          description: TxRxAnyOfModel
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GmFruitNoProperties'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GmFruitNoProperties'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1641,14 +1660,28 @@ components:
           properties:
             breed:
               type: string
+            legs:
+              $ref: '#/components/schemas/Legs'
     Cat:
       allOf:
         - $ref: '#/components/schemas/Animal'
-        - $ref: '#/components/schemas/Address'
         - type: object
           properties:
             declawed:
               type: boolean
+    Legs:
+      type: object
+      required:
+        - legs
+      properties:
+        legs:
+          enum:
+            - '2'
+            - '4'
+          default: '4'
+          x-enum-as-string: true
+        name:
+          type: string
     Address:
       type: object
       additionalProperties:
@@ -1665,6 +1698,10 @@ components:
         color:
           type: string
           default: red
+        tail:
+          type: boolean
+          default: true
+          readOnly: true
     AnimalFarm:
       type: array
       items:
@@ -1778,6 +1815,12 @@ components:
           enum:
             - 1.1
             - -1.2
+        enum_bool:
+          type: boolean
+          enum:
+            - false
+        boolEnum:
+          $ref: '#/components/schemas/BooleanEnum'
         stringEnum:
           $ref: '#/components/schemas/StringEnum'
         IntegerEnum:
@@ -2002,6 +2045,8 @@ components:
       properties:
         my_number:
           $ref: '#/definitions/NumberWithValidations'
+        my_readonly:
+          $ref: '#/definitions/Readonly'
         my_string:
           $ref: '#/definitions/String'
         my_boolean:
@@ -2010,6 +2055,12 @@ components:
       type: number
       minimum: 10
       maximum: 20
+    Readonly:
+      type: object
+      readOnly: true
+      properties:
+         name:
+            type: string
     ComposedOneOfNumberWithValidations:
       description: this is a model that allows payloads of type object or number
       oneOf:
@@ -2097,6 +2148,9 @@ components:
           items:
             type: object
             nullable: true
+        object_nullable:
+          type: object
+          nullable: true
         object_nullable_prop:
           type: object
           nullable: true
@@ -2114,18 +2168,27 @@ components:
             type: object
             nullable: true
       additionalProperties:
-        type: object
         nullable: true
+    ComposedSchemaWithPropsAndNoAddProps:
+      properties:
+        color:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Tag'
+      # Below additionalProperties is set to false to validate the use
+      # case when a composed schema has additionalProperties set to false.
+      # This definition will only allow in object payloads that set color and no other properties because
+      # additionalProperties are evaluated at the schema level and do not include composed schema
+      # properties. Only color is defined here, all others are additional
+      additionalProperties: false
     fruit:
+      description: a schema that tests oneOf and includes a schema level property
       properties:
         color:
           type: string
       oneOf:
         - $ref: '#/components/schemas/apple'
         - $ref: '#/components/schemas/banana'
-      # Below additionalProperties is set to false to validate the use
-      # case when a composed schema has additionalProperties set to false.
-      additionalProperties: false
     apple:
       type: object
       properties:
@@ -2135,12 +2198,16 @@ components:
         origin:
           type: string
           pattern: /^[A-Z\s]*$/i
+      required:
+        - cultivar
       nullable: true
     banana:
       type: object
       properties:
         lengthCm:
           type: number
+      required:
+        - lengthCm
     mammal:
       oneOf:
         - $ref: '#/components/schemas/whale'
@@ -2193,6 +2260,10 @@ components:
           type: string
       required:
         - className
+    GmFruitNoProperties:
+      anyOf:
+        - $ref: '#/components/schemas/apple'
+        - $ref: '#/components/schemas/banana'
     gmFruit:
       properties:
         color:
@@ -2200,13 +2271,13 @@ components:
       anyOf:
         - $ref: '#/components/schemas/apple'
         - $ref: '#/components/schemas/banana'
-      additionalProperties: false
     fruitReq:
+      description: a schema where additionalProperties is on in the composed schema and off in the oneOf object schemas
+        also, this schem accepts null as a value
       oneOf:
         - type: 'null'
         - $ref: '#/components/schemas/appleReq'
         - $ref: '#/components/schemas/bananaReq'
-      additionalProperties: false
     appleReq:
       type: object
       properties:
@@ -2310,7 +2381,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/TriangleInterface'
-      additionalProperties: false
     ScaleneTriangle:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
@@ -2378,6 +2448,11 @@ components:
     SomeObject:
       allOf:
         - $ref: '#/components/schemas/ObjectInterface'
+    SomeObjectWithSelfAttr:
+      type: object
+      properties:
+        self:
+          type: string
     InlineAdditionalPropertiesRefPayload:
       description: this payload is used for verification that some model_to_dict issues are fixed
       type: object
@@ -2393,3 +2468,30 @@ components:
                 items:
                   type: string
                   nullable: true
+    Mole:
+      type: object
+      required:
+        - blind
+        - smell
+        - hearing
+      properties:
+        blind:
+          type: boolean
+          readOnly: true
+        smell:
+          type: string
+          readOnly: false
+        touch:
+          type: boolean
+          readOnly: true
+        taste:
+          type: string
+          readOnly: false
+        hearing:
+          type: boolean
+        seeingGhosts:
+          type: boolean
+    BooleanEnum:
+      type: boolean
+      enum:
+        - true

@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 [**fake_property_enum_integer_serialize**](FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
+[**test_body_with_binary**](FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -19,7 +20,7 @@ Method | HTTP request | Description
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 
 
 # **fake_health_get**
@@ -510,12 +511,72 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **test_body_with_binary**
+> test_body_with_binary(body)
+
+
+
+For this test, the body has to be a binary file.
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    body = '/path/to/file' # file | image to upload
+
+    try:
+        api_instance.test_body_with_binary(body)
+    except ApiException as e:
+        print("Exception when calling FakeApi->test_body_with_binary: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **file**| image to upload | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: image/png
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **test_body_with_file_schema**
 > test_body_with_file_schema(file_schema_test_class)
 
 
 
-For this test, the body for this request much reference a schema named `File`.
+For this test, the body for this request must reference a schema named `File`.
 
 ### Example
 
@@ -1069,7 +1130,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_query_parameter_collection_format**
-> test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+> test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
 
 
 
@@ -1099,9 +1160,11 @@ ioutil = ['ioutil_example'] # list[str] |
 http = ['http_example'] # list[str] | 
 url = ['url_example'] # list[str] | 
 context = ['context_example'] # list[str] | 
+allow_empty = 'allow_empty_example' # str | 
+language = {'key': 'language_example'} # dict(str, str) |  (optional)
 
     try:
-        api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+        api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
     except ApiException as e:
         print("Exception when calling FakeApi->test_query_parameter_collection_format: %s\n" % e)
 ```
@@ -1115,6 +1178,8 @@ Name | Type | Description  | Notes
  **http** | [**list[str]**](str.md)|  | 
  **url** | [**list[str]**](str.md)|  | 
  **context** | [**list[str]**](str.md)|  | 
+ **allow_empty** | **str**|  | 
+ **language** | [**dict(str, str)**](str.md)|  | [optional] 
 
 ### Return type
 

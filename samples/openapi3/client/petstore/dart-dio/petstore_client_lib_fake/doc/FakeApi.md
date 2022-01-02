@@ -9,22 +9,23 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**fakeHealthGet**](FakeApi.md#fakehealthget) | **get** /fake/health | Health check endpoint
-[**fakeHttpSignatureTest**](FakeApi.md#fakehttpsignaturetest) | **get** /fake/http-signature-test | test http signature authentication
-[**fakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **post** /fake/outer/boolean | 
-[**fakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **post** /fake/outer/composite | 
-[**fakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **post** /fake/outer/number | 
-[**fakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **post** /fake/outer/string | 
-[**fakePropertyEnumIntegerSerialize**](FakeApi.md#fakepropertyenumintegerserialize) | **post** /fake/property/enum-int | 
-[**testBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **put** /fake/body-with-file-schema | 
-[**testBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **put** /fake/body-with-query-params | 
-[**testClientModel**](FakeApi.md#testclientmodel) | **patch** /fake | To test \&quot;client\&quot; model
-[**testEndpointParameters**](FakeApi.md#testendpointparameters) | **post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-[**testEnumParameters**](FakeApi.md#testenumparameters) | **get** /fake | To test enum parameters
-[**testGroupParameters**](FakeApi.md#testgroupparameters) | **delete** /fake | Fake endpoint to test group parameters (optional)
-[**testInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
-[**testJsonFormData**](FakeApi.md#testjsonformdata) | **get** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **put** /fake/test-query-paramters | 
+[**fakeHealthGet**](FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
+[**fakeHttpSignatureTest**](FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
+[**fakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
+[**fakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
+[**fakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
+[**fakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+[**fakePropertyEnumIntegerSerialize**](FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+[**testBodyWithBinary**](FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
+[**testBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
+[**testBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
+[**testClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
+[**testEndpointParameters**](FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**testEnumParameters**](FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
+[**testGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
+[**testInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+[**testJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 
 
 # **fakeHealthGet**
@@ -32,13 +33,13 @@ Method | HTTP request | Description
 
 Health check endpoint
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
 
-try { 
+try {
     var result = api_instance.fakeHealthGet();
     print(result);
 } catch (e) {
@@ -69,7 +70,7 @@ No authorization required
 
 test http signature authentication
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure HTTP basic authorization: http_signature_test
@@ -81,7 +82,7 @@ var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 var query1 = query1_example; // String | query parameter
 var header1 = header1_example; // String | header parameter
 
-try { 
+try {
     api_instance.fakeHttpSignatureTest(pet, query1, header1);
 } catch (e) {
     print('Exception when calling FakeApi->fakeHttpSignatureTest: $e\n');
@@ -118,14 +119,14 @@ void (empty response body)
 
 Test serialization of outer boolean types
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
 var body = new bool(); // bool | Input boolean as post body
 
-try { 
+try {
     var result = api_instance.fakeOuterBooleanSerialize(body);
     print(result);
 } catch (e) {
@@ -161,14 +162,14 @@ No authorization required
 
 Test serialization of object with outer number type
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
 var outerComposite = new OuterComposite(); // OuterComposite | Input composite as post body
 
-try { 
+try {
     var result = api_instance.fakeOuterCompositeSerialize(outerComposite);
     print(result);
 } catch (e) {
@@ -204,14 +205,14 @@ No authorization required
 
 Test serialization of outer number types
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
 var body = new num(); // num | Input number as post body
 
-try { 
+try {
     var result = api_instance.fakeOuterNumberSerialize(body);
     print(result);
 } catch (e) {
@@ -247,14 +248,14 @@ No authorization required
 
 Test serialization of outer string types
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
 var body = new String(); // String | Input string as post body
 
-try { 
+try {
     var result = api_instance.fakeOuterStringSerialize(body);
     print(result);
 } catch (e) {
@@ -290,14 +291,14 @@ No authorization required
 
 Test serialization of enum (int) properties with examples
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
 var outerObjectWithEnumProperty = new OuterObjectWithEnumProperty(); // OuterObjectWithEnumProperty | Input enum (int) as post body
 
-try { 
+try {
     var result = api_instance.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty);
     print(result);
 } catch (e) {
@@ -326,21 +327,63 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **testBodyWithBinary**
+> testBodyWithBinary(body)
+
+
+
+For this test, the body has to be a binary file.
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+var api_instance = new FakeApi();
+var body = new Uint8List(); // Uint8List | image to upload
+
+try {
+    api_instance.testBodyWithBinary(body);
+} catch (e) {
+    print('Exception when calling FakeApi->testBodyWithBinary: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **Uint8List**| image to upload | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: image/png
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **testBodyWithFileSchema**
 > testBodyWithFileSchema(fileSchemaTestClass)
 
 
 
-For this test, the body for this request much reference a schema named `File`.
+For this test, the body for this request must reference a schema named `File`.
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
 var fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
 
-try { 
+try {
     api_instance.testBodyWithFileSchema(fileSchemaTestClass);
 } catch (e) {
     print('Exception when calling FakeApi->testBodyWithFileSchema: $e\n');
@@ -373,7 +416,7 @@ No authorization required
 
 
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
@@ -381,7 +424,7 @@ var api_instance = new FakeApi();
 var query = query_example; // String | 
 var user = new User(); // User | 
 
-try { 
+try {
     api_instance.testBodyWithQueryParams(query, user);
 } catch (e) {
     print('Exception when calling FakeApi->testBodyWithQueryParams: $e\n');
@@ -417,14 +460,14 @@ To test \"client\" model
 
 To test \"client\" model
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
 var modelClient = new ModelClient(); // ModelClient | client model
 
-try { 
+try {
     var result = api_instance.testClientModel(modelClient);
     print(result);
 } catch (e) {
@@ -460,7 +503,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure HTTP basic authorization: http_basic_test
@@ -483,7 +526,7 @@ var dateTime = 2013-10-20T19:20:30+01:00; // DateTime | None
 var password = password_example; // String | None
 var callback = callback_example; // String | None
 
-try { 
+try {
     api_instance.testEndpointParameters(number, double_, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, dateTime, password, callback);
 } catch (e) {
     print('Exception when calling FakeApi->testEndpointParameters: $e\n');
@@ -531,7 +574,7 @@ To test enum parameters
 
 To test enum parameters
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
@@ -542,10 +585,10 @@ var enumQueryStringArray = []; // BuiltList<String> | Query parameter enum test 
 var enumQueryString = enumQueryString_example; // String | Query parameter enum test (string)
 var enumQueryInteger = 56; // int | Query parameter enum test (double)
 var enumQueryDouble = 1.2; // double | Query parameter enum test (double)
-var enumFormStringArray = [enumFormStringArray_example]; // BuiltList<String> | Form parameter enum test (string array)
+var enumFormStringArray = []; // BuiltList<String> | Form parameter enum test (string array)
 var enumFormString = enumFormString_example; // String | Form parameter enum test (string)
 
-try { 
+try {
     api_instance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
 } catch (e) {
     print('Exception when calling FakeApi->testEnumParameters: $e\n');
@@ -587,7 +630,7 @@ Fake endpoint to test group parameters (optional)
 
 Fake endpoint to test group parameters (optional)
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure HTTP basic authorization: bearer_test
@@ -602,7 +645,7 @@ var stringGroup = 56; // int | String in group parameters
 var booleanGroup = true; // bool | Boolean in group parameters
 var int64Group = 789; // int | Integer in group parameters
 
-try { 
+try {
     api_instance.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 } catch (e) {
     print('Exception when calling FakeApi->testGroupParameters: $e\n');
@@ -640,14 +683,14 @@ void (empty response body)
 
 test inline additionalProperties
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 var api_instance = new FakeApi();
 var requestBody = new BuiltMap<String, String>(); // BuiltMap<String, String> | request body
 
-try { 
+try {
     api_instance.testInlineAdditionalProperties(requestBody);
 } catch (e) {
     print('Exception when calling FakeApi->testInlineAdditionalProperties: $e\n');
@@ -680,7 +723,7 @@ No authorization required
 
 test json serialization of form data
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
@@ -688,7 +731,7 @@ var api_instance = new FakeApi();
 var param = param_example; // String | field1
 var param2 = param2_example; // String | field2
 
-try { 
+try {
     api_instance.testJsonFormData(param, param2);
 } catch (e) {
     print('Exception when calling FakeApi->testJsonFormData: $e\n');
@@ -718,13 +761,13 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testQueryParameterCollectionFormat**
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language)
 
 
 
 To test the collection format in query parameters
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
@@ -734,9 +777,11 @@ var ioutil = []; // BuiltList<String> |
 var http = []; // BuiltList<String> | 
 var url = []; // BuiltList<String> | 
 var context = []; // BuiltList<String> | 
+var allowEmpty = allowEmpty_example; // String | 
+var language = ; // BuiltMap<String, String> | 
 
-try { 
-    api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+try {
+    api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language);
 } catch (e) {
     print('Exception when calling FakeApi->testQueryParameterCollectionFormat: $e\n');
 }
@@ -751,6 +796,8 @@ Name | Type | Description  | Notes
  **http** | [**BuiltList<String>**](String.md)|  | 
  **url** | [**BuiltList<String>**](String.md)|  | 
  **context** | [**BuiltList<String>**](String.md)|  | 
+ **allowEmpty** | **String**|  | 
+ **language** | [**BuiltMap<String, String>**](String.md)|  | [optional] 
 
 ### Return type
 

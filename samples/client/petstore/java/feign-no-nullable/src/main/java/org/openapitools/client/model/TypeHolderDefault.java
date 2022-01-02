@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * TypeHolderDefault
@@ -56,6 +57,8 @@ public class TypeHolderDefault {
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
+  public TypeHolderDefault() { 
+  }
 
   public TypeHolderDefault stringItem(String stringItem) {
     
@@ -67,6 +70,7 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -93,6 +97,7 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -119,6 +124,7 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -145,6 +151,7 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -176,6 +183,7 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

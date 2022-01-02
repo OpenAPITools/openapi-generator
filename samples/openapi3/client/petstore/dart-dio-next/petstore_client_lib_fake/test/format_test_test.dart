@@ -57,7 +57,7 @@ void main() {
       // TODO
     });
 
-    // DateTime date
+    // Date date
     test('to test the property `date`', () async {
       // TODO
     });
@@ -88,5 +88,6 @@ void main() {
     test('to test the property `patternWithDigitsAndDelimiter`', () async {
       // TODO
     });
+
   });
 }

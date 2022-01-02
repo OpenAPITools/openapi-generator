@@ -1,0 +1,965 @@
+{{>licenseInfo}}
+#include "{{classname}}.h"
+#include "{{prefix}}ServerConfiguration.h"
+#include <QJsonArray>
+#include <QJsonDocument>
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+{{classname}}::{{classname}}(const int timeOut)
+    : _timeOut(timeOut),
+      _manager(nullptr),
+      _isResponseCompressionEnabled(false),
+      _isRequestCompressionEnabled(false) {
+    initializeServerConfigs();
+}
+
+{{classname}}::~{{classname}}() {
+}
+
+void {{classname}}::initializeServerConfigs() {
+    //Default server
+    QList<{{prefix}}ServerConfiguration> defaultConf = QList<{{prefix}}ServerConfiguration>();
+    //varying endpoint server
+    {{#servers}}
+    QList<{{prefix}}ServerConfiguration> serverConf = QList<{{prefix}}ServerConfiguration>();
+    {{/servers}}
+{{#vendorExtensions.x-cpp-global-server-list}}
+    defaultConf.append({{prefix}}ServerConfiguration(
+    QUrl("{{{url}}}"),
+    "{{{description}}}{{^description}}No description provided{{/description}}",
+    {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
+    {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
+    QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })},{{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })},{{/enumValues}}{{#-last}} }));{{/-last}}
+    {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
+{{/vendorExtensions.x-cpp-global-server-list}}
+{{#operations}}
+   {{#operation}}
+   {{^servers}}
+    _serverConfigs.insert("{{nickname}}", defaultConf);
+    _serverIndices.insert("{{nickname}}", 0);
+    {{/servers}}
+    {{#servers}}
+    serverConf.append({{prefix}}ServerConfiguration(
+    QUrl("{{{url}}}"),
+    "{{{description}}}{{^description}}No description provided{{/description}}",
+    {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
+    {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
+    QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })}, {{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })},{{/enumValues}}{{#-last}} }));{{/-last}}
+    {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
+    {{#-last}}_serverConfigs.insert("{{nickname}}", serverConf);
+    _serverIndices.insert("{{nickname}}", 0);{{/-last}}
+{{/servers}}
+{{/operation}}
+{{/operations}}
+}
+
+/**
+* returns 0 on success and -1, -2 or -3 on failure.
+* -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found
+*/
+int {{classname}}::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value) {
+    auto it = _serverConfigs.find(operation);
+    if (it != _serverConfigs.end() && serverIndex < it.value().size()) {
+      return _serverConfigs[operation][serverIndex].setDefaultValue(variable,value);
+    }
+    return -3;
+}
+void {{classname}}::setServerIndex(const QString &operation, int serverIndex) {
+    if (_serverIndices.contains(operation) && serverIndex < _serverConfigs.find(operation).value().size()) {
+        _serverIndices[operation] = serverIndex;
+    }
+}
+
+void {{classname}}::setApiKey(const QString &apiKeyName, const QString &apiKey) {
+    _apiKeys.insert(apiKeyName,apiKey);
+}
+
+void {{classname}}::setBearerToken(const QString &token) {
+    _bearerToken = token;
+}
+
+void {{classname}}::setUsername(const QString &username) {
+    _username = username;
+}
+
+void {{classname}}::setPassword(const QString &password) {
+    _password = password;
+}
+
+
+void {{classname}}::setTimeOut(const int timeOut) {
+    _timeOut = timeOut;
+}
+
+void {{classname}}::setWorkingDirectory(const QString &path) {
+    _workingDirectory = path;
+}
+
+void {{classname}}::setNetworkAccessManager(QNetworkAccessManager* manager) {
+    _manager = manager;
+}
+
+/**
+    * Appends a new ServerConfiguration to the config map for a specific operation.
+    * @param operation The id to the target operation.
+    * @param url A string that contains the URL of the server
+    * @param description A String that describes the server
+    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+    * returns the index of the new server config on success and -1 if the operation is not found
+    */
+int {{classname}}::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables) {
+    if (_serverConfigs.contains(operation)) {
+        _serverConfigs[operation].append({{prefix}}ServerConfiguration(
+                    url,
+                    description,
+                    variables));
+        return _serverConfigs[operation].size()-1;
+    } else {
+        return -1;
+    }
+}
+
+/**
+    * Appends a new ServerConfiguration to the config map for a all operations and sets the index to that server.
+    * @param url A string that contains the URL of the server
+    * @param description A String that describes the server
+    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+    */
+void {{classname}}::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+    for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
+        setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
+    }
+#else
+    for (auto &e : _serverIndices.keys()) {
+        setServerIndex(e, addServerConfiguration(e, url, description, variables));
+    }
+#endif
+}
+
+/**
+    * Appends a new ServerConfiguration to the config map for an operations and sets the index to that server.
+    * @param URL A string that contains the URL of the server
+    * @param description A String that describes the server
+    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+    */
+void {{classname}}::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables) {
+    setServerIndex(operation, addServerConfiguration(operation, url, description, variables));
+}
+
+void {{classname}}::addHeaders(const QString &key, const QString &value) {
+    _defaultHeaders.insert(key, value);
+}
+
+void {{classname}}::enableRequestCompression() {
+    _isRequestCompressionEnabled = true;
+}
+
+void {{classname}}::enableResponseCompression() {
+    _isResponseCompressionEnabled = true;
+}
+
+void {{classname}}::abortRequests() {
+    emit abortRequestsSignal();
+}
+
+QString {{classname}}::getParamStylePrefix(const QString &style) {
+    if (style == "matrix") {
+        return ";";
+    } else if (style == "label") {
+        return ".";
+    } else if (style == "form") {
+        return "&";
+    } else if (style == "simple") {
+        return "";
+    } else if (style == "spaceDelimited") {
+        return "&";
+    } else if (style == "pipeDelimited") {
+        return "&";
+    } else {
+        return "none";
+    }
+}
+
+QString {{classname}}::getParamStyleSuffix(const QString &style) {
+    if (style == "matrix") {
+        return "=";
+    } else if (style == "label") {
+        return "";
+    } else if (style == "form") {
+        return "=";
+    } else if (style == "simple") {
+        return "";
+    } else if (style == "spaceDelimited") {
+        return "=";
+    } else if (style == "pipeDelimited") {
+        return "=";
+    } else {
+        return "none";
+    }
+}
+
+QString {{classname}}::getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode) {
+
+    if (style == "matrix") {
+        return (isExplode) ? ";" + name + "=" : ",";
+
+    } else if (style == "label") {
+        return (isExplode) ? "." : ",";
+
+    } else if (style == "form") {
+        return (isExplode) ? "&" + name + "=" : ",";
+
+    } else if (style == "simple") {
+        return ",";
+    } else if (style == "spaceDelimited") {
+        return (isExplode) ? "&" + name + "=" : " ";
+
+    } else if (style == "pipeDelimited") {
+        return (isExplode) ? "&" + name + "=" : "|";
+
+    } else if (style == "deepObject") {
+        return (isExplode) ? "&" : "none";
+
+    } else {
+        return "none";
+    }
+}
+
+{{#operations}}
+{{#operation}}
+void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const ::{{cppNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+    QString fullPath = QString(_serverConfigs["{{nickname}}"][_serverIndices.value("{{nickname}}")].URL()+"{{{path}}}");
+    {{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
+    if (_apiKeys.contains("{{name}}")) {
+        addHeaders("{{name}}",_apiKeys.find("{{name}}").value());
+    }
+    {{/isKeyInHeader}}{{#isKeyInQuery}}
+    if (_apiKeys.contains("{{name}}")) {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append("&");
+        else
+            fullPath.append("?");
+        fullPath.append("{{{name}}}=").append(_apiKeys.find("{{name}}").value());
+    }
+    {{/isKeyInQuery}}{{/isApiKey}}{{#isBasicBearer}}
+    if (!_bearerToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _bearerToken);
+    {{/isBasicBearer}}{{#isBasicBasic}}
+    if (!_username.isEmpty() && !_password.isEmpty()) {
+        QByteArray b64;
+        b64.append(_username.toUtf8() + ":" + _password.toUtf8());
+        addHeaders("Authorization","Basic " + b64.toBase64());
+    }{{/isBasicBasic}}{{/authMethods}}
+    {{#pathParams}}
+    {{^required}}if ({{paramName}}.hasValue()) {{/required}}
+    {
+        QString {{paramName}}PathParam("{");
+        {{paramName}}PathParam.append("{{baseName}}").append("}");
+        QString pathPrefix, pathSuffix, pathDelimiter;
+        QString pathStyle = "{{style}}";
+        if (pathStyle == "")
+            pathStyle = "simple";
+        pathPrefix = getParamStylePrefix(pathStyle);
+        pathSuffix = getParamStyleSuffix(pathStyle);
+        pathDelimiter = getParamStyleDelimiter(pathStyle, "{{baseName}}", {{isExplode}});
+    {{^collectionFormat}}
+        {{^isPrimitiveType}}
+        QString paramString = (pathStyle == "matrix" && {{isExplode}}) ? pathPrefix : pathPrefix+"{{baseName}}"+pathSuffix;
+        QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
+        qint32 count = 0;
+        foreach(const QString& key, parameter.keys()) {
+            if (count > 0) {
+                pathDelimiter = (pathStyle == "matrix" && {{isExplode}}) ? ";" : getParamStyleDelimiter(pathStyle, key, {{isExplode}});
+                paramString.append(pathDelimiter);
+            }
+            QString assignOperator = ({{isExplode}}) ? "=" : ",";
+            switch(parameter.value(key).type()) {
+                case QJsonValue::String:
+                {
+                    paramString.append(key+assignOperator+parameter.value(key).toString());
+                    break;
+                }
+                case QJsonValue::Double:
+                {
+                    paramString.append(key+assignOperator+QString::number(parameter.value(key).toDouble()));
+                    break;
+                }
+                case QJsonValue::Bool:
+                {
+                    paramString.append(key+assignOperator+QVariant(parameter.value(key).toBool()).toString());
+                    break;
+                }
+                case QJsonValue::Array:
+                {
+                    paramString.append(key+assignOperator+QVariant(parameter.value(key).toArray()).toString());
+                    break;
+                }
+                case QJsonValue::Object:
+                {
+                    paramString.append(key+assignOperator+QVariant(parameter.value(key).toObject()).toString());
+                    break;
+                }
+                case QJsonValue::Null:
+                case QJsonValue::Undefined:
+                    break;
+            }
+            count++;
+        }
+        fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(paramString));
+        {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+        QString paramString = (pathStyle == "matrix") ? pathPrefix+"{{baseName}}"+pathSuffix : pathPrefix;
+        fullPath.replace({{paramName}}PathParam, paramString+QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}})));
+        {{/isPrimitiveType}}
+{{/collectionFormat}}
+{{#collectionFormat}}
+        if ({{{paramName}}}{{^required}}.value(){{/required}}.size() > 0) {
+            QString paramString = (pathStyle == "matrix") ? pathPrefix+"{{baseName}}"+pathSuffix : pathPrefix;
+            qint32 count = 0;
+            foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                if (count > 0) {
+                    fullPath.append(pathDelimiter);
+                }
+                fullPath.append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue(t)));
+                count++;
+            }
+            fullPath.replace({{paramName}}PathParam, paramString);
+        }
+    {{/collectionFormat}}
+    }
+    {{/pathParams}}
+    {{#hasQueryParams}}
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    {{/hasQueryParams}}
+    {{#queryParams}}
+    {{^required}}if ({{paramName}}.hasValue()){{/required}}
+    {
+        queryStyle = "{{style}}";
+        if (queryStyle == "")
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "{{baseName}}", {{isExplode}});
+    {{^collectionFormat}}
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        {{^isPrimitiveType}}
+        QString paramString = (queryStyle == "form" && {{isExplode}}) ? "" : (queryStyle == "form" && !({{isExplode}})) ? "{{baseName}}"+querySuffix : "";
+        QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
+        qint32 count = 0;
+        foreach(const QString& key, parameter.keys()) {
+            if (count > 0) {
+                queryDelimiter =  ((queryStyle == "form" || queryStyle == "deepObject") && {{isExplode}}) ? "&" : getParamStyleDelimiter(queryStyle, key, {{isExplode}});
+                paramString.append(queryDelimiter);
+            }
+            QString assignOperator;
+            if (queryStyle == "form")
+                assignOperator = ({{isExplode}}) ? "=" : ",";
+            else if (queryStyle == "deepObject")
+                assignOperator = ({{isExplode}}) ? "=" : "none";
+            switch(parameter.value(key).type()) {
+                case QJsonValue::String:
+                {
+                    paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+parameter.value(key).toString());
+                    break;
+                }
+                case QJsonValue::Double:
+                {
+                    paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+QString::number(parameter.value(key).toDouble()));
+                    break;
+                }
+                case QJsonValue::Bool:
+                {
+                    paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+QVariant(parameter.value(key).toBool()).toString());
+                    break;
+                }
+                case QJsonValue::Array:
+                {
+                    paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+QVariant(parameter.value(key).toArray()).toString());
+                    break;
+                }
+                case QJsonValue::Object:
+                {
+                    paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+QVariant(parameter.value(key).toObject()).toString());
+                    break;
+                }
+                case QJsonValue::Null:
+                case QJsonValue::Undefined:
+                    break;
+            }
+            count++;
+        }
+        fullPath.append(paramString);
+        {{/isPrimitiveType}}{{#isPrimitiveType}}
+        fullPath.append(QUrl::toPercentEncoding("{{baseName}}")).append(querySuffix).append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}})));
+{{/isPrimitiveType}}
+{{/collectionFormat}}
+{{#collectionFormat}}
+        if ({{{paramName}}}{{^required}}.value(){{/required}}.size() > 0) {
+            if (QString("{{collectionFormat}}").indexOf("multi") == 0) {
+                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                    if (fullPath.indexOf("?") > 0)
+                        fullPath.append(queryPrefix);
+                    else
+                        fullPath.append("?");
+                    fullPath.append("{{{baseName}}}=").append(::{{cppNamespace}}::toStringValue(t));
+                }
+            } else if (QString("{{collectionFormat}}").indexOf("ssv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
+                qint32 count = 0;
+                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                    if (count > 0) {
+                        fullPath.append(({{isExplode}})? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
+                    }
+                    fullPath.append(::{{cppNamespace}}::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("{{collectionFormat}}").indexOf("tsv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
+                qint32 count = 0;
+                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                    if (count > 0) {
+                        fullPath.append("\t");
+                    }
+                    fullPath.append(::{{cppNamespace}}::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("{{collectionFormat}}").indexOf("csv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
+                qint32 count = 0;
+                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::{{cppNamespace}}::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("{{collectionFormat}}").indexOf("pipes") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
+                qint32 count = 0;
+                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::{{cppNamespace}}::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("{{collectionFormat}}").indexOf("deepObject") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
+                qint32 count = 0;
+                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::{{cppNamespace}}::toStringValue(t));
+                    count++;
+                }
+            }
+        }
+    {{/collectionFormat}}
+    }
+{{/queryParams}}
+    {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker(this, _manager);
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    worker->setResponseCompressionEnabled(_isResponseCompressionEnabled);
+    worker->setRequestCompressionEnabled(_isRequestCompressionEnabled);{{/contentCompression}}
+    {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
+
+{{#formParams}}
+    {{#first}}
+    QString formPrefix,formSuffix, formDelimiter;
+    QString formStyle = "{{style}}";
+    if (formStyle == "")
+        formStyle = "form";
+    formPrefix = getParamStylePrefix(formStyle);
+    formSuffix = getParamStyleSuffix(formStyle);
+    formDelimiter = getParamStyleDelimiter(formStyle, "{{baseName}}", {{isExplode}});
+    {{/first}}
+    {{^required}}if ({{paramName}}.hasValue()){{/required}}
+    {
+{{^isFile}}
+        input.add_var("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}));
+{{/isFile}}
+{{#isFile}}
+        input.add_file("{{baseName}}", {{paramName}}{{^required}}.value(){{/required}}.local_filename, {{paramName}}{{^required}}.value(){{/required}}.request_filename, {{paramName}}{{^required}}.value(){{/required}}.mime_type);
+{{/isFile}}
+    }
+{{/formParams}}
+{{#bodyParams}}
+    {{^required}}if ({{paramName}}.hasValue()){{/required}}{
+{{#isContainer}}
+{{#isArray}}
+        QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}}).toArray());{{/isArray}}{{#isMap}}
+        QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}}).toObject());{{/isMap}}
+        QByteArray bytes = doc.toJson();
+        input.request_body.append(bytes);
+{{/isContainer}}{{^isContainer}}{{#isString}}
+        QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.toUtf8();{{/isString}}{{#isByteArray}}QByteArray output({{paramName}}{{^required}}.value(){{/required}});{{/isByteArray}}{{^isString}}{{^isByteArray}}{{^isFile}}
+        QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asJson().toUtf8();{{/isFile}}{{/isByteArray}}{{/isString}}{{#isFile}}{{#hasConsumes}}input.headers.insert("Content-Type", {{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}});{{/hasConsumes}}
+        QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asByteArray();{{/isFile}}
+        input.request_body.append(output);
+{{/isContainer}}
+    }{{/bodyParams}}
+{{#headerParams}}
+    {{^required}}if ({{paramName}}.hasValue()){{/required}}
+    {
+    {{^collectionFormat}}
+    {{^isPrimitiveType}}
+        QString headerString;
+        QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
+        qint32 count = 0;
+        foreach(const QString& key, parameter.keys()) {
+            if (count > 0) {
+                headerString.append(",");
+            }
+            QString assignOperator = ({{isExplode}}) ? "=" : ",";
+            switch(parameter.value(key).type()) {
+                case QJsonValue::String:
+                {
+                    headerString.append(key+assignOperator+parameter.value(key).toString());
+                    break;
+                }
+                case QJsonValue::Double:
+                {
+                    headerString.append(key+assignOperator+QString::number(parameter.value(key).toDouble()));
+                    break;
+                }
+                case QJsonValue::Bool:
+                {
+                    headerString.append(key+assignOperator+QVariant(parameter.value(key).toBool()).toString());
+                    break;
+                }
+                case QJsonValue::Array:
+                {
+                    headerString.append(key+assignOperator+QVariant(parameter.value(key).toArray()).toString());
+                    break;
+                }
+                case QJsonValue::Object:
+                {
+                    headerString.append(key+assignOperator+QVariant(parameter.value(key).toObject()).toString());
+                    break;
+                }
+                case QJsonValue::Null:
+                case QJsonValue::Undefined:
+                    break;
+            }
+            count++;
+        }
+        input.headers.insert("{{baseName}}", headerString);
+    {{/isPrimitiveType}}
+    {{#isPrimitiveType}}
+        if (!::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}).isEmpty()) {
+            input.headers.insert("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}));
+        }
+    {{/isPrimitiveType}}{{/collectionFormat}}{{#collectionFormat}}
+        QString headerString;
+        if ({{{paramName}}}{{^required}}.value(){{/required}}.size() > 0) {
+            qint32 count = 0;
+            foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                if (count > 0) {
+                    headerString.append(",");
+                }
+                headerString.append(::{{cppNamespace}}::toStringValue(t));
+                count++;
+            }
+            input.headers.insert("{{baseName}}", headerString);
+        }
+    {{/collectionFormat}}
+    }
+{{/headerParams}}
+{{#cookieParams}}
+    {{^required}}if ({{paramName}}.hasValue()){{/required}}
+    {
+        if (QString("{{style}}").indexOf("form") == 0) {
+        {{^collectionFormat}}
+        {{^isPrimitiveType}}
+        {{^isExplode}}
+            QString cookieString = "{{baseName}}=";
+            QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
+            qint32 count = 0;
+            foreach(const QString& key, parameter.keys()) {
+                if (count > 0) {
+                    cookieString.append(",");
+                }
+                switch(parameter.value(key).type()) {
+                    case QJsonValue::String:
+                    {
+                        cookieString.append(key+","+parameter.value(key).toString());
+                        break;
+                    }
+                    case QJsonValue::Double:
+                    {
+                        cookieString.append(key+","+QString::number(parameter.value(key).toDouble()));
+                        break;
+                    }
+                    case QJsonValue::Bool:
+                    {
+                        cookieString.append(key+","+QVariant(parameter.value(key).toBool()).toString());
+                        break;
+                    }
+                    case QJsonValue::Array:
+                    {
+                        cookieString.append(key+","+QVariant(parameter.value(key).toArray()).toString());
+                        break;
+                    }
+                    case QJsonValue::Object:
+                    {
+                        cookieString.append(key+","+QVariant(parameter.value(key).toObject()).toString());
+                        break;
+                    }
+                    case QJsonValue::Null:
+                    case QJsonValue::Undefined:
+                        break;
+                }
+                count++;
+            }
+            input.headers.insert("Cookie", cookieString);
+        {{/isExplode}}
+        {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+            if (!::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}).isEmpty()) {
+                input.headers.insert("Cookie", "{{baseName}}="+::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}));
+            }
+        {{/isPrimitiveType}}
+        {{/collectionFormat}}
+        {{#collectionFormat}}
+        {{^isExplode}}
+            QString cookieString = "{{baseName}}=";
+            if ({{{paramName}}}.size() > 0) {
+            qint32 count = 0;
+            foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                if (count > 0) {
+                    cookieString.append(",");
+                }
+                cookieString.append(::{{cppNamespace}}::toStringValue(t));
+                count++;
+            }
+            input.headers.insert("Cookie", cookieString);
+            }
+        {{/isExplode}}{{/collectionFormat}}
+        }
+    }
+{{/cookieParams}}
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
+
+    connect(worker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, worker, &QObject::deleteLater);
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<{{prefix}}HttpRequestWorker*>().count() == 0) {
+            emit allPendingRequestsCompleted();
+        }
+    });{{#authMethods}}{{#isOAuth}}{{#isCode}}
+    _OauthMethod = 2;
+    _implicitFlow.unlink();
+    _credentialFlow.unlink();
+    _passwordFlow.unlink();
+    _authFlow.link();
+    QStringList scope;
+    {{#scopes}}
+    scope.append("{{scope}}");
+    {{/scopes}}
+    auto token = _authFlow.getToken(scope.join(" "));
+    if(token.isValid())
+        input.headers.insert("Authorization", "Bearer " + token.getToken());
+
+    _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+    
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    _latestInput = input;
+    _latestScope = scope;{{/isCode}}
+    {{#isImplicit}}
+    _OauthMethod = 1;
+    _implicitFlow.link();
+    _passwordFlow.unlink();
+    _authFlow.unlink();
+    _credentialFlow.unlink();
+    QStringList scope;
+    {{#scopes}}
+    scope.append("{{scope}}");
+    {{/scopes}}
+    auto token = _implicitFlow.getToken(scope.join(" "));
+    if(token.isValid())
+        input.headers.insert("Authorization", "Bearer " + token.getToken());
+
+    _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+    
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    _latestInput = input;
+    _latestScope = scope;{{/isImplicit}}
+    {{#isApplication}}
+    _OauthMethod = 3;
+    _authFlow.unlink();
+    _implicitFlow.unlink();
+    _passwordFlow.unlink();
+    _credentialFlow.link();
+    QStringList scope;
+    {{#scopes}}
+    scope.append("{{scope}}");
+    {{/scopes}}
+    auto token = _credentialFlow.getToken(scope.join(" "));
+    if(token.isValid())
+        input.headers.insert("Authorization", "Bearer " + token.getToken());
+
+    _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+    
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    _latestInput = input;
+    _latestScope = scope;{{/isApplication}}
+    {{#isPassword}}
+    _OauthMethod = 4;
+    _passwordFlow.link();
+    _authFlow.unlink();
+    _implicitFlow.unlink();
+    _credentialFlow.unlink();
+    QStringList scope;
+    {{#scopes}}
+    scope.append("{{scope}}");
+    {{/scopes}}
+    auto token = _passwordFlow.getToken(scope.join(" "));
+    if(token.isValid())
+        input.headers.insert("Authorization", "Bearer " + token.getToken());
+
+    _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+    
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    _latestInput = input;
+    _latestScope = scope;
+    {{/isPassword}}{{/isOAuth}}{{/authMethods}}
+
+    worker->execute(&input);
+}
+
+void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
+    QString error_str = worker->error_str;
+    QNetworkReply::NetworkError error_type = worker->error_type;
+
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
+    }
+    {{#returnType}}
+    {{#isArray}}
+    {{{returnType}}} output;
+    QString json(worker->response);
+    QByteArray array(json.toStdString().c_str());
+    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonArray jsonArray = doc.array();
+    foreach (QJsonValue obj, jsonArray) {
+        {{{returnBaseType}}} val;
+        ::{{cppNamespace}}::fromJsonValue(val, obj);
+        output.append(val);
+    }
+    {{/isArray}}
+    {{^isArray}}
+    {{^isMap}}
+    {{#returnTypeIsPrimitive}}
+    {{{returnType}}} output;
+    ::{{cppNamespace}}::fromStringValue(QString(worker->response), output);
+    {{/returnTypeIsPrimitive}}
+    {{/isMap}}
+    {{#isMap}}
+    {{{returnType}}} output;
+    QString json(worker->response);
+    QByteArray array(json.toStdString().c_str());
+    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonObject obj = doc.object();
+    foreach (QString key, obj.keys()) {
+        {{returnBaseType}} val;
+        ::{{cppNamespace}}::fromJsonValue(val, obj[key]);
+        output.insert(key, val);
+    }
+    {{/isMap}}
+    {{^isMap}}
+    {{^returnTypeIsPrimitive}}
+    {{{returnType}}} output{{^isResponseFile}}(QString(worker->response)){{/isResponseFile}}{{#isResponseFile}} = worker->getHttpFileElement(){{/isResponseFile}};
+    {{/returnTypeIsPrimitive}}
+    {{/isMap}}
+    {{/isArray}}
+    {{/returnType}}
+    worker->deleteLater();
+
+    if (worker->error_type == QNetworkReply::NoError) {
+        emit {{nickname}}Signal({{#returnType}}output{{/returnType}});
+        emit {{nickname}}SignalFull(worker{{#returnType}}, output{{/returnType}});{{#authMethods}}{{#isOAuth}}{{#isCode}}
+    } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
+        connect(&_authFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        QStringList scope;
+    {{#scopes}}
+        scope.append("{{scope}}");
+    {{/scopes}}
+        QString scopeStr = scope.join(" ");
+        QString authorizationUrl("{{authorizationUrl}}");
+        QString tokenUrl("{{tokenUrl}}");
+        //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        _authFlow.setVariables(authorizationUrl, tokenUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
+        emit _authFlow.authenticationNeeded();{{/isCode}}
+        {{#isImplicit}}
+    } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
+        connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        QStringList scope;
+    {{#scopes}}
+        scope.append("{{scope}}");
+    {{/scopes}}
+        QString scopeStr = scope.join(" ");
+        QString authorizationUrl("{{authorizationUrl}}");
+        //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
+        emit _implicitFlow.authenticationNeeded();{{/isImplicit}}
+        {{#isApplication}}
+    } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
+        connect(&_credentialFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        QStringList scope;
+    {{#scopes}}
+        scope.append("{{scope}}");
+    {{/scopes}}
+        QString scopeStr = scope.join(" ");
+        QString tokenUrl("{{tokenUrl}}");
+        //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        _credentialFlow.setVariables(tokenUrl , scopeStr, "clientId", "clientSecret");
+        emit _credentialFlow.authenticationNeeded();{{/isApplication}}
+        {{#isPassword}}
+    } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
+        connect(&_passwordFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        QStringList scope;
+    {{#scopes}}
+        scope.append("{{scope}}");
+    {{/scopes}}
+        QString scopeStr = scope.join(" ");
+        QString tokenUrl("{{tokenUrl}}");
+        //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        _passwordFlow.setVariables(tokenUrl , scopeStr ,"clientId", "clientSecret", "username", "password");
+        emit _passwordFlow.authenticationNeeded();
+        {{/isPassword}}{{/isOAuth}}{{/authMethods}}
+    } else {
+        emit {{nickname}}SignalE({{#returnType}}output, {{/returnType}}error_type, error_str);
+        emit {{nickname}}SignalEFull(worker, error_type, error_str);
+    }
+}
+
+{{/operation}}
+{{/operations}}
+void {{classname}}::tokenAvailable(){
+  
+    oauthToken token; 
+    switch (_OauthMethod) {
+    case 1: //implicit flow
+        token = _implicitFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _implicitFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 2: //authorization flow
+        token = _authFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _authFlow.removeToken(_latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 3: //client credentials flow
+        token = _credentialFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _credentialFlow.removeToken(_latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 4: //resource owner password flow
+        token = _passwordFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _credentialFlow.removeToken(_latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    default:
+        qDebug() << "No Oauth method set!";
+        break;
+    }
+}
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}

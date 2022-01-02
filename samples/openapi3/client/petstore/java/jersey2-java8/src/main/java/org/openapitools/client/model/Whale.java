@@ -47,6 +47,8 @@ public class Whale {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   private String className;
 
+  public Whale() { 
+  }
 
   public Whale hasBaleen(Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
@@ -109,6 +111,7 @@ public class Whale {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

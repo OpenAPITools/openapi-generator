@@ -337,8 +337,8 @@ public class DartModelTest {
             {"sample name", "SampleName"},
             {"List", "ModelList"},
             {"list", "ModelList"},
-            {"File", "ModelFile"},
-            {"Client", "ModelClient"},
+            {"File", "TestModelFile"},
+            {"Client", "TestModelClient"},
             {"String", "ModelString"},
         };
     }
@@ -349,6 +349,8 @@ public class DartModelTest {
         final Schema model = new Schema();
         final DefaultCodegen codegen = new DartClientCodegen();
         codegen.setOpenAPI(openAPI);
+        codegen.typeMapping().put("File", "TestModelFile");
+        codegen.typeMapping().put("Client", "TestModelClient");
         final CodegenModel cm = codegen.fromModel(name, model);
 
         Assert.assertEquals(cm.name, name);

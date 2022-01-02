@@ -8,15 +8,18 @@ import 'package:built_value/serializer.dart';
 
 part 'inline_response_default.g.dart';
 
-
-
+/// InlineResponseDefault
+///
+/// Properties:
+/// * [string] 
 abstract class InlineResponseDefault implements Built<InlineResponseDefault, InlineResponseDefaultBuilder> {
     @BuiltValueField(wireName: r'string')
     Foo? get string;
 
     InlineResponseDefault._();
 
-    static void _initializeBuilder(InlineResponseDefaultBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(InlineResponseDefaultBuilder b) => b;
 
     factory InlineResponseDefault([void updates(InlineResponseDefaultBuilder b)]) = _$InlineResponseDefault;
 
@@ -54,10 +57,12 @@ class _$InlineResponseDefaultSerializer implements StructuredSerializer<InlineRe
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'string':
-                    result.string.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(Foo)) as Foo);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(Foo)) as Foo;
+                    result.string.replace(valueDes);
                     break;
             }
         }

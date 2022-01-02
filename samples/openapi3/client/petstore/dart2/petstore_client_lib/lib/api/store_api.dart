@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -25,45 +26,35 @@ class StoreApi {
   ///
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
-  Future<Response> deleteOrderWithHttpInfo(String orderId) async {
+  Future<Response> deleteOrderWithHttpInfo(String orderId,) async {
     // Verify required params are set.
     if (orderId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/store/order/{orderId}'
-      .replaceAll('{' + 'orderId' + '}', orderId.toString());
+      .replaceAll('{orderId}', orderId);
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'DELETE',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -76,8 +67,8 @@ class StoreApi {
   ///
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
-  Future<void> deleteOrder(String orderId) async {
-    final response = await deleteOrderWithHttpInfo(orderId);
+  Future<void> deleteOrder(String orderId,) async {
+    final response = await deleteOrderWithHttpInfo(orderId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -89,38 +80,28 @@ class StoreApi {
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> getInventoryWithHttpInfo() async {
+    // ignore: prefer_const_declarations
     final path = r'/store/inventory';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['api_key'];
+    const authNames = <String>['api_key'];
+    const contentTypes = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -138,8 +119,9 @@ class StoreApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return Map<String, int>.from(await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, int>'),);
+
     }
-    return Future<Map<String, int>>.value(null);
+    return Future<Map<String, int>>.value();
   }
 
   /// Find purchase order by ID
@@ -152,45 +134,35 @@ class StoreApi {
   ///
   /// * [int] orderId (required):
   ///   ID of pet that needs to be fetched
-  Future<Response> getOrderByIdWithHttpInfo(int orderId) async {
+  Future<Response> getOrderByIdWithHttpInfo(int orderId,) async {
     // Verify required params are set.
     if (orderId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/store/order/{orderId}'
-      .replaceAll('{' + 'orderId' + '}', orderId.toString());
+      .replaceAll('{orderId}', orderId.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -203,8 +175,8 @@ class StoreApi {
   ///
   /// * [int] orderId (required):
   ///   ID of pet that needs to be fetched
-  Future<Order> getOrderById(int orderId) async {
-    final response = await getOrderByIdWithHttpInfo(orderId);
+  Future<Order> getOrderById(int orderId,) async {
+    final response = await getOrderByIdWithHttpInfo(orderId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -213,8 +185,9 @@ class StoreApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Order',) as Order;
-        }
-    return Future<Order>.value(null);
+    
+    }
+    return Future<Order>.value();
   }
 
   /// Place an order for a pet
@@ -225,44 +198,34 @@ class StoreApi {
   ///
   /// * [Order] order (required):
   ///   order placed for purchasing the pet
-  Future<Response> placeOrderWithHttpInfo(Order order) async {
+  Future<Response> placeOrderWithHttpInfo(Order order,) async {
     // Verify required params are set.
     if (order == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: order');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/store/order';
 
+    // ignore: prefer_final_locals
     Object postBody = order;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -273,8 +236,8 @@ class StoreApi {
   ///
   /// * [Order] order (required):
   ///   order placed for purchasing the pet
-  Future<Order> placeOrder(Order order) async {
-    final response = await placeOrderWithHttpInfo(order);
+  Future<Order> placeOrder(Order order,) async {
+    final response = await placeOrderWithHttpInfo(order,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -283,7 +246,8 @@ class StoreApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Order',) as Order;
-        }
-    return Future<Order>.value(null);
+    
+    }
+    return Future<Order>.value();
   }
 }

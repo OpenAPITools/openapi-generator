@@ -92,7 +92,7 @@ public class FormatTest implements Parcelable {
   @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
   private BigDecimal bigDecimal;
 
-  public FormatTest() {
+  public FormatTest() { 
   }
 
   public FormatTest integer(Integer integer) {
@@ -180,6 +180,7 @@ public class FormatTest implements Parcelable {
    * maximum: 543.2
    * @return number
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public BigDecimal getNumber() {
@@ -275,6 +276,7 @@ public class FormatTest implements Parcelable {
    * Get _byte
    * @return _byte
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public byte[] getByte() {
@@ -320,6 +322,7 @@ public class FormatTest implements Parcelable {
    * Get date
    * @return date
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public LocalDate getDate() {
@@ -388,6 +391,7 @@ public class FormatTest implements Parcelable {
    * Get password
    * @return password
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public String getPassword() {

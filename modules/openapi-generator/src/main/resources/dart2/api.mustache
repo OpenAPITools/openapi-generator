@@ -9,7 +9,7 @@ class {{{classname}}} {
   {{#operation}}
 
   {{#summary}}
-  /// {{{summary}}}
+  /// {{{.}}}
   {{/summary}}
   {{#notes}}
     {{#summary}}
@@ -43,13 +43,13 @@ class {{{classname}}} {
   {{#allParams}}
   /// * [{{{dataType}}}] {{{paramName}}}{{#required}} (required){{/required}}{{#optional}} (optional){{/optional}}:
     {{#description}}
-  ///   {{{description}}}
+  ///   {{{.}}}
     {{/description}}
     {{^-last}}
   ///
     {{/-last}}
   {{/allParams}}
-  Future<Response> {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  Future<Response> {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
   {{#hasParams}}
     // Verify required params are set.
     {{#allParams}}
@@ -61,9 +61,11 @@ class {{{classname}}} {
     {{/allParams}}
 
   {{/hasParams}}
+    // ignore: prefer_const_declarations
     final path = r'{{{path}}}'{{#pathParams}}
-      .replaceAll('{' + '{{{baseName}}}' + '}', {{{paramName}}}.toString()){{/pathParams}};
+      .replaceAll({{=<% %>=}}'{<% baseName %>}'<%={{ }}=%>, {{{paramName}}}{{^isString}}.toString(){{/isString}}){{/pathParams}};
 
+    // ignore: prefer_final_locals
     Object postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
 
     final queryParams = <QueryParam>[];
@@ -95,58 +97,55 @@ class {{{classname}}} {
       {{/headerParams}}
     {{/hasHeaderParams}}
 
-    final contentTypes = <String>[{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[{{#authMethods}}'{{{name}}}'{{^-last}}, {{/-last}}{{/authMethods}}];
+    const authNames = <String>[{{#authMethods}}'{{{name}}}'{{^-last}}, {{/-last}}{{/authMethods}}];
+    const contentTypes = <String>[{{#prioritizedContentTypes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/prioritizedContentTypes}}];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      {{#formParams}}
-      {{^isFile}}
-      if ({{{paramName}}} != null) {
-        hasFields = true;
-        mp.fields[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
-      }
-      {{/isFile}}
-      {{#isFile}}
-      if ({{{paramName}}} != null) {
-        hasFields = true;
-        mp.fields[r'{{{baseName}}}'] = {{{paramName}}}.field;
-        mp.files.add({{{paramName}}});
-      }
-      {{/isFile}}
-      {{/formParams}}
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-      {{#formParams}}
-      {{^isFile}}
-      if ({{{paramName}}} != null) {
-        formParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
-      }
-      {{/isFile}}
-      {{/formParams}}
+    {{#isMultipart}}
+    bool hasFields = false;
+    final mp = MultipartRequest('{{{httpMethod}}}', Uri.parse(path));
+    {{#formParams}}
+    {{^isFile}}
+    if ({{{paramName}}} != null) {
+      hasFields = true;
+      mp.fields[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
     }
+    {{/isFile}}
+    {{#isFile}}
+    if ({{{paramName}}} != null) {
+      hasFields = true;
+      mp.fields[r'{{{baseName}}}'] = {{{paramName}}}.field;
+      mp.files.add({{{paramName}}});
+    }
+    {{/isFile}}
+    {{/formParams}}
+    if (hasFields) {
+      postBody = mp;
+    }
+    {{/isMultipart}}
+    {{^isMultipart}}
+    {{#formParams}}
+    {{^isFile}}
+    if ({{{paramName}}} != null) {
+      formParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
+    }
+    {{/isFile}}
+    {{/formParams}}
+    {{/isMultipart}}
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       '{{{httpMethod}}}',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
 
   {{#summary}}
-  /// {{{summary}}}
+  /// {{{.}}}
   {{/summary}}
   {{#notes}}
   {{#summary}}
@@ -169,14 +168,14 @@ class {{{classname}}} {
   {{#allParams}}
   /// * [{{{dataType}}}] {{{paramName}}}{{#required}} (required){{/required}}{{#optional}} (optional){{/optional}}:
     {{#description}}
-  ///   {{{description}}}
+  ///   {{{.}}}
     {{/description}}
     {{^-last}}
   ///
     {{/-last}}
   {{/allParams}}
-  Future<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
-    final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
+  Future<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+    final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -187,7 +186,8 @@ class {{{classname}}} {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
     {{#native_serialization}}
     {{#isArray}}
-      return (await apiClient.deserializeAsync(await _decodeBodyBytes(response), '{{{returnType}}}') as List)
+      final responseBody = await _decodeBodyBytes(response);
+      return (await apiClient.deserializeAsync(responseBody, '{{{returnType}}}') as List)
         .cast<{{{returnBaseType}}}>()
         .{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(growable: false){{/uniqueItems}};
     {{/isArray}}
@@ -197,35 +197,9 @@ class {{{classname}}} {
     {{/isMap}}
     {{^isMap}}
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), '{{{returnType}}}',) as {{{returnType}}};
-    {{/isMap}}{{/isArray}}{{/native_serialization}}{{#json_serializable}}
-    {{#isArray}}
-      {{#uniqueItems}}
-      return (json.decode(response.body) as List)
-        .map((i) => {{{returnBaseType}}}.fromJson(i))
-        .toSet();
-      {{/uniqueItems}}
-      {{^uniqueItems}}
-      return (json.decode(response.body) as List)
-        .map((i) => {{{returnBaseType}}}.fromJson(i))
-        .toList();
-      {{/uniqueItems}}
-    {{/isArray}}
-    {{^isArray}}
-    {{#isMap}}
-      return {{{returnType}}}.from(json.decode(response.body));
-    {{/isMap}}
-    {{^isMap}}
-    {{#returnTypeIsPrimitive}}
-      return response.body as {{{returnBaseType}}};
-    {{/returnTypeIsPrimitive}}
-    {{^returnTypeIsPrimitive}}
-      return {{{returnType}}}.fromJson(json.decode(response.body));
-    {{/returnTypeIsPrimitive}}
-    {{/isMap}}
-    {{/isArray}}
-    {{/json_serializable}}
+    {{/isMap}}{{/isArray}}{{/native_serialization}}
     }
-    return Future<{{{returnType}}}>.value(null);
+    return Future<{{{returnType}}}>.value();
     {{/returnType}}
   }
   {{/operation}}

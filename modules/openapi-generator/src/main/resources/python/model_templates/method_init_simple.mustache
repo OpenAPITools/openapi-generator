@@ -14,10 +14,10 @@
         Note that value can be passed either in args or in kwargs, but not in both.
 
         Args:
-            args[0] ({{{dataType}}}):{{#description}} {{{description}}}.{{/description}}{{#defaultValue}} if omitted defaults to {{{defaultValue}}}{{/defaultValue}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
+            args[0] ({{{dataType}}}):{{#description}} {{{.}}}.{{/description}}{{#defaultValue}} if omitted defaults to {{{.}}}{{/defaultValue}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
 
         Keyword Args:
-            value ({{{dataType}}}):{{#description}} {{{description}}}.{{/description}}{{#defaultValue}} if omitted defaults to {{{defaultValue}}}{{/defaultValue}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
+            value ({{{dataType}}}):{{#description}} {{{.}}}.{{/description}}{{#defaultValue}} if omitted defaults to {{{.}}}{{/defaultValue}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
 {{> model_templates/docstring_init_required_kwargs }}
         """
         # required up here when default value is not given
@@ -30,7 +30,7 @@
             value = args.pop(0)
 {{#defaultValue}}
         else:
-            value = {{{defaultValue}}}
+            value = {{{.}}}
 {{/defaultValue}}
 {{^defaultValue}}
         else:
@@ -46,15 +46,7 @@
         _configuration = kwargs.pop('_configuration', None)
         _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
 
-        if args:
-            raise ApiTypeError(
-                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
-                    args,
-                    self.__class__.__name__,
-                ),
-                path_to_item=_path_to_item,
-                valid_classes=(self.__class__,),
-            )
+{{> model_templates/invalid_pos_args }}
 
         self._data_store = {}
         self._check_type = _check_type

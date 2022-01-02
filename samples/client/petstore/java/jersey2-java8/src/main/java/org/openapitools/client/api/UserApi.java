@@ -8,6 +8,7 @@ import org.openapitools.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class UserApi {
   }
 
   /**
-   * Get the API cilent
+   * Get the API client
    *
    * @return API client
    */
@@ -37,7 +38,7 @@ public class UserApi {
   }
 
   /**
-   * Set the API cilent
+   * Set the API client
    *
    * @param apiClient an instance of API client
    */

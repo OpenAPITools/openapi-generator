@@ -49,6 +49,8 @@ public class SimpleQuadrilateral {
   public static final String JSON_PROPERTY_QUADRILATERAL_TYPE = "quadrilateralType";
   private String quadrilateralType;
 
+  public SimpleQuadrilateral() { 
+  }
 
   public SimpleQuadrilateral shapeType(String shapeType) {
     this.shapeType = shapeType;
@@ -59,6 +61,7 @@ public class SimpleQuadrilateral {
    * Get shapeType
    * @return shapeType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -84,6 +87,7 @@ public class SimpleQuadrilateral {
    * Get quadrilateralType
    * @return quadrilateralType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

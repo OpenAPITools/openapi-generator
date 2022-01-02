@@ -9,11 +9,11 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
-import 'package:openapi/model/pet.dart';
-import 'package:openapi/model/api_response.dart';
 import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
+import 'package:openapi/model/api_response.dart';
+import 'package:openapi/model/pet.dart';
 
 class PetApi {
 
@@ -51,10 +51,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-        'application/xml',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -104,9 +101,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -154,9 +149,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -219,9 +212,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -283,9 +274,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -345,10 +334,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-        'application/xml',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -398,9 +384,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/x-www-form-urlencoded',
-      ].first,
+      contentType: 'application/x-www-form-urlencoded',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -452,9 +436,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'multipart/form-data',
-      ].first,
+      contentType: 'multipart/form-data',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -521,9 +503,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'multipart/form-data',
-      ].first,
+      contentType: 'multipart/form-data',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,

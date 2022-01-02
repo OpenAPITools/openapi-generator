@@ -104,6 +104,8 @@ public class FormatTest {
   public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER = "pattern_with_digits_and_delimiter";
   private String patternWithDigitsAndDelimiter;
 
+  public FormatTest() { 
+  }
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;
@@ -198,6 +200,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -331,6 +334,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_BYTE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -382,6 +386,7 @@ public class FormatTest {
    * Get date
    * @return date
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "Sun Feb 02 00:00:00 UTC 2020", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -459,6 +464,7 @@ public class FormatTest {
    * Get password
    * @return password
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

@@ -188,7 +188,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, true);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
@@ -328,19 +328,17 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private boolean anyVarMatches(final List<Map<String, Object>> models, final Predicate<CodegenProperty> predicate) {
         return models.stream()
-            .map(obj -> (CodegenModel) obj.get("model"))
-            .flatMap(model -> model.vars.stream())
-            .filter(var -> {
-                CodegenProperty prop = var;
-                while (prop != null) {
-                    if (predicate.test(prop)) {
-                        return true;
+                .map(obj -> (CodegenModel) obj.get("model"))
+                .flatMap(model -> model.vars.stream()).anyMatch(var -> {
+                    CodegenProperty prop = var;
+                    while (prop != null) {
+                        if (predicate.test(prop)) {
+                            return true;
+                        }
+                        prop = prop.items;
                     }
-                    prop = prop.items;
-                }
-                return false;
-            })
-            .count() > 0;
+                    return false;
+                });
     }
 
     @Override

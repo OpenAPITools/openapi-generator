@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -17,9 +18,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("Pet")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Pet  implements Serializable {
   
   private @Valid Long id;
@@ -78,6 +81,7 @@ public enum StatusEnum {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
   }
@@ -98,6 +102,7 @@ public enum StatusEnum {
     return category;
   }
 
+  @JsonProperty("category")
   public void setCategory(Category category) {
     this.category = category;
   }
@@ -119,6 +124,7 @@ public enum StatusEnum {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -140,6 +146,8 @@ public enum StatusEnum {
     return photoUrls;
   }
 
+  @JsonProperty("photoUrls")
+  @JsonDeserialize(as = LinkedHashSet.class)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -160,6 +168,7 @@ public enum StatusEnum {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
@@ -181,6 +190,7 @@ public enum StatusEnum {
     return status;
   }
 
+  @JsonProperty("status")
   public void setStatus(StatusEnum status) {
     this.status = status;
   }

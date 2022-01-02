@@ -17,7 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap.Builder;
+import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
 
 import io.swagger.v3.core.util.Json;
@@ -41,12 +41,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalEmitDefaultValuesFlag = false;
+    protected boolean conditionalSerialization = false;
     protected boolean optionalProjectFileFlag = true;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
     protected boolean useCollection = false;
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
+    protected boolean nullReferenceTypesFlag = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
@@ -79,11 +81,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean supportNullable = Boolean.FALSE;
 
     // nullable type
-    protected Set<String> nullableType = new HashSet<String>();
+    protected Set<String> nullableType = new HashSet<>();
 
-    protected Set<String> valueTypes = new HashSet<String>();
+    protected Set<String> valueTypes = new HashSet<>();
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
+
+    // special property keywords not allowed as these are the function names in the model files
+    protected Set<String> propertySpecialKeywords = new HashSet<>(Arrays.asList("ToString", "ToJson", "GetHashCode", "Equals", "ShouldSerializeToString"));
+
+    // A cache to efficiently lookup schema `toModelName()` based on the schema Key
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractCSharpCodegen() {
         super();
@@ -96,14 +104,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         outputFolder = "generated-code" + File.separator + this.getName();
         embeddedTemplateDir = templateDir = this.getName();
 
-        collectionTypes = new HashSet<String>(
+        collectionTypes = new HashSet<>(
                 Arrays.asList(
                         "IList", "List",
                         "ICollection", "Collection",
                         "IEnumerable")
         );
 
-        mapTypes = new HashSet<String>(
+        mapTypes = new HashSet<>(
                 Arrays.asList("IDictionary")
         );
 
@@ -113,7 +121,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         // set "client" as a reserved word to avoid conflicts with Org.OpenAPITools.Client
                         // this is a workaround and can be removed if c# api client is updated to use
                         // fully qualified name
-                        "Client", "client", "parameter",
+                        "Client", "client", "parameter", "Configuration", "Version",
                         // local variable names in API methods (endpoints)
                         "localVarPath", "localVarPathParams", "localVarQueryParams", "localVarHeaderParams",
                         "localVarFormParams", "localVarFileParams", "localVarStatusCode", "localVarResponse",
@@ -133,7 +141,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         );
 
         // TODO: Either include fully qualified names here or handle in DefaultCodegen via lastIndexOf(".") search
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "String",
                         "string",
@@ -176,7 +184,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
 
         // Nullable types here assume C# 2 support is not part of base
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("string", "string");
         typeMapping.put("binary", "byte[]");
         typeMapping.put("ByteArray", "byte[]");
@@ -199,11 +207,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("AnyType", "Object");
 
         // nullable type
-        nullableType = new HashSet<String>(
+        nullableType = new HashSet<>(
                 Arrays.asList("decimal", "bool", "int", "float", "long", "double", "DateTime", "DateTimeOffset", "Guid")
         );
         // value Types
-        valueTypes = new HashSet<String>(
+        valueTypes = new HashSet<>(
                 Arrays.asList("decimal", "bool", "int", "float", "long", "double")
         );
     }
@@ -356,6 +364,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.NETCORE_PROJECT_FILE, netCoreProjectFileFlag);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES)) {
+            setNullableReferenceTypes(convertPropertyToBooleanAndWriteBack(CodegenConstants.NULLABLE_REFERENCE_TYPES));
+        } else {
+            additionalProperties.put(CodegenConstants.NULLABLE_REFERENCE_TYPES, nullReferenceTypesFlag);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
             String useInterfacePrefix = additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
             if ("false".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
@@ -379,7 +393,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    protected Builder<String, Lambda> addMustacheLambdas() {
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true));
     }
@@ -423,6 +437,22 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return processed;
     }
 
+    @Override
+    protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
+        List<Map<String, Object>> enumVars = super.buildEnumVars(values, dataType);
+
+        // this is needed for enumRefs like OuterEnum marked as nullable and also have string values
+        // keep isString true so that the index will be used as the enum value instead of a string
+        // this is inline with C# enums with string values
+        if ("string?".equals(dataType)){
+            enumVars.forEach((enumVar) -> {
+                enumVar.put("isString", true);
+            }); 
+        }
+
+        return enumVars;
+    }
+
     /**
      * C# differs from other languages in that Enums are not _true_ objects; enums are compiled to integral types.
      * So, in C#, an enum is considers more like a user-defined primitive.
@@ -433,9 +463,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      *
      * @param models processed models to be further processed for enum references
      */
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     private void postProcessEnumRefs(final Map<String, Object> models) {
-        Map<String, CodegenModel> enumRefs = new HashMap<String, CodegenModel>();
+        Map<String, CodegenModel> enumRefs = new HashMap<>();
         for (Map.Entry<String, Object> entry : models.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
             if (model.isEnum) {
@@ -530,7 +560,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         model.vendorExtensions.put("x-enum-string", true);
                     }
 
-                    // Since we iterate enumVars for modelnnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
+                    // Since we iterate enumVars for modelInnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
                     // we can take advantage of Mustache's contextual lookup to add the same "properties" to the model's enumVars scope rather than CodegenProperty's scope.
                     List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>) model.allowableValues.get("enumVars");
                     List<Map<String, Object>> newEnumVars = new ArrayList<Map<String, Object>>();
@@ -789,13 +819,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -807,7 +837,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // sanitize name
         name = sanitizeName(name);
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -821,6 +851,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             name = escapeReservedWord(name);
         }
 
+        if (propertySpecialKeywords.contains(name)) {
+            return camelize("property_" + name);
+        }
+
         return name;
     }
 
@@ -832,7 +866,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_");
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -1020,6 +1054,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -1032,19 +1073,23 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
+        String camelizedName = camelize(name);
+        schemaKeyToModelNameCache.put(origName, camelizedName);
+
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return camelizedName;
     }
 
     @Override
@@ -1109,6 +1154,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public String getInterfacePrefix() {
         return interfacePrefix;
+    }
+
+    public void setNullableReferenceTypes(final Boolean nullReferenceTypesFlag){
+        this.nullReferenceTypesFlag = nullReferenceTypesFlag;
+        if (nullReferenceTypesFlag == true){
+            this.nullableType.add("string");
+        }
     }
 
     public void setInterfacePrefix(final String interfacePrefix) {
@@ -1248,6 +1300,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+
+        // ensure a method's parameters are marked as nullable when nullable or when nullReferences are enabled
+        // this is mostly needed for reference types used as a method's parameters
+        if (!parameter.required && (nullReferenceTypesFlag || nullableType.contains(parameter.dataType))) {
+            parameter.dataType = parameter.dataType.endsWith("?")
+                ? parameter.dataType
+                : parameter.dataType + "?";
+        }
+    }
+
+    @Override
     public void postProcessFile(File file, String fileType) {
         if (file == null) {
             return;
@@ -1260,14 +1325,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // only process files with .cs extension
         if ("cs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = csharpPostProcessFile + " " + file.toString();
+            String command = csharpPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());

@@ -28,9 +28,9 @@ Name | Type | Description | Notes
 {{#optionalVars}}
 **{{name}}** | {{^complexType}}**{{dataType}}**{{/complexType}}{{#complexType}}[**{{dataType}}**]({{complexType}}.md){{/complexType}} | {{description}} | [optional] {{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}} if omitted the server will use the default value of {{{.}}}{{/defaultValue}}
 {{/optionalVars}}
-{{#additionalPropertiesType}}
-**any string name** | **{{additionalPropertiesType}}** | any string name can be used but the value must be the correct type | [optional]
-{{/additionalPropertiesType}}
+{{#additionalProperties}}
+**any string name** | {{^complexType}}**{{dataType}}**{{/complexType}}{{#complexType}}[**{{dataType}}**]({{complexType}}.md){{/complexType}} | any string name can be used but the value must be the correct type | [optional]
+{{/additionalProperties}}
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -39,6 +39,8 @@ public class QuadrilateralInterface {
   public static final String JSON_PROPERTY_QUADRILATERAL_TYPE = "quadrilateralType";
   private String quadrilateralType;
 
+  public QuadrilateralInterface() { 
+  }
 
   public QuadrilateralInterface quadrilateralType(String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
@@ -49,6 +51,7 @@ public class QuadrilateralInterface {
    * Get quadrilateralType
    * @return quadrilateralType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

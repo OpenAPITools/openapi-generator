@@ -27,37 +27,37 @@ export interface Pet {
      * @type {number}
      * @memberof Pet
      */
-    id?: number;
+    'id'?: number;
     /**
      * 
      * @type {Category}
      * @memberof Pet
      */
-    category?: Category;
+    'category'?: Category;
     /**
      * 
      * @type {string}
      * @memberof Pet
      */
-    name: string;
+    'name': string;
     /**
      * 
      * @type {Array<string>}
      * @memberof Pet
      */
-    photoUrls: Array<string>;
+    'photoUrls': Array<string>;
     /**
      * 
      * @type {Array<Tag>}
      * @memberof Pet
      */
-    tags?: Array<Tag>;
+    'tags'?: Array<Tag>;
     /**
      * pet status in the store
      * @type {string}
      * @memberof Pet
      */
-    status?: PetStatusEnum;
+    'status'?: PetStatusEnum;
 }
 
 /**
@@ -69,6 +69,5 @@ export enum PetStatusEnum {
     Pending = 'pending',
     Sold = 'sold'
 }
-
 
 

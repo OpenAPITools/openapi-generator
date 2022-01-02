@@ -8,7 +8,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations)| |null|
-|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations)| |null|
+|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiFirst|Generate the API from the OAI spec at server compile time (API first approach)| |false|
 |apiPackage|package for generated api classes| |org.openapitools.api|
@@ -31,6 +31,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |discriminatorCaseSensitive|Whether the discriminator value lookup should be case-sensitive or not. This option only works for Java API client| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hateoas|Use Spring HATEOAS library to allow adding HATEOAS links| |false|
@@ -45,6 +46,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |modelPackage|package for generated models| |org.openapitools.model|
+|oas3|Use OAS 3 Swagger annotations instead of OAS 2 annotations| |false|
 |openApiNullable|Enable OpenAPI Jackson Nullable library| |true|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
@@ -52,7 +54,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |performBeanValidation|Use Bean Validation Impl. to perform BeanValidation| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |reactive|wrap responses in Mono/Flux Reactor types (spring-boot only)| |false|
-|responseWrapper|wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, HystrixCommand, RxObservable, RxSingle or fully qualified type)| |null|
+|responseWrapper|wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, RxObservable, RxSingle or fully qualified type)| |null|
 |returnSuccessCode|Generated server returns 2xx code| |false|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
@@ -69,6 +71,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useOptional|Use Optional container for optional parameters| |false|
+|useSpringController|Annotate the generated API as a Spring Controller| |false|
 |useTags|use tags for creating interface and controller classnames| |false|
 |virtualService|Generates the virtual service. For more details refer - https://github.com/virtualansoftware/virtualan/wiki| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|

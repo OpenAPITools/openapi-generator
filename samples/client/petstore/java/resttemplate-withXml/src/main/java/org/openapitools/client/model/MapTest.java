@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -111,6 +112,8 @@ public class MapTest {
   @XmlElement(name = "inner")
   private Map<String, Boolean> indirectMap = null;
 
+  public MapTest() { 
+  }
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     
@@ -120,7 +123,7 @@ public class MapTest {
 
   public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
     if (this.mapMapOfString == null) {
-      this.mapMapOfString = new HashMap<String, Map<String, String>>();
+      this.mapMapOfString = new HashMap<>();
     }
     this.mapMapOfString.put(key, mapMapOfStringItem);
     return this;
@@ -155,7 +158,7 @@ public class MapTest {
 
   public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
     if (this.mapOfEnumString == null) {
-      this.mapOfEnumString = new HashMap<String, InnerEnum>();
+      this.mapOfEnumString = new HashMap<>();
     }
     this.mapOfEnumString.put(key, mapOfEnumStringItem);
     return this;
@@ -190,7 +193,7 @@ public class MapTest {
 
   public MapTest putDirectMapItem(String key, Boolean directMapItem) {
     if (this.directMap == null) {
-      this.directMap = new HashMap<String, Boolean>();
+      this.directMap = new HashMap<>();
     }
     this.directMap.put(key, directMapItem);
     return this;
@@ -225,7 +228,7 @@ public class MapTest {
 
   public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
     if (this.indirectMap == null) {
-      this.indirectMap = new HashMap<String, Boolean>();
+      this.indirectMap = new HashMap<>();
     }
     this.indirectMap.put(key, indirectMapItem);
     return this;

@@ -244,7 +244,7 @@ public class EnumTest implements Parcelable {
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
   private OuterEnum outerEnum;
 
-  public EnumTest() {
+  public EnumTest() { 
   }
 
   public EnumTest enumString(EnumStringEnum enumString) {
@@ -280,6 +280,7 @@ public class EnumTest implements Parcelable {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public EnumStringRequiredEnum getEnumStringRequired() {

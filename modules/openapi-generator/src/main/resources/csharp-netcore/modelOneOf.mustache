@@ -1,9 +1,9 @@
     /// <summary>
-    /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+    /// {{description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
     [JsonConverter(typeof({{classname}}JsonConverter))]
     [DataContract(Name = "{{{name}}}")]
-    {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
+    {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
     {
         {{#isNullable}}
         /// <summary>
@@ -59,7 +59,7 @@
         {{#oneOf}}
 
         /// <summary>
-        /// Get the actual instance of `{{{.}}}`. If the actual instanct is not `{{{.}}}`,
+        /// Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of {{{.}}}</returns>
@@ -100,24 +100,32 @@
         {
             {{classname}} new{{classname}} = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return new{{classname}};
             }
             {{#useOneOfDiscriminatorLookup}}
             {{#discriminator}}
 
-            string discriminatorValue = JObject.Parse(jsonString)["{{{propertyBaseName}}}"].ToString();
-            switch (discriminatorValue)
+            try
             {
-                {{#mappedModels}}
-                case "{{{mappingName}}}":
-                    new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, {{classname}}.AdditionalPropertiesSerializerSettings));
-                    return new{{classname}};
-                {{/mappedModels}}
-                default:
-                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
-                    break;
+                var discriminatorObj = JObject.Parse(jsonString)["{{{propertyBaseName}}}"];
+                string discriminatorValue =  discriminatorObj == null ?string.Empty :discriminatorObj.ToString();
+                switch (discriminatorValue)
+                {
+                    {{#mappedModels}}
+                    case "{{{mappingName}}}":
+                        new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, {{classname}}.AdditionalPropertiesSerializerSettings));
+                        return new{{classname}};
+                    {{/mappedModels}}
+                    default:
+                        System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to parse the json data : `{0}` {1}", jsonString, ex.ToString()));
             }
 
             {{/discriminator}}
@@ -143,7 +151,7 @@
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into {{{.}}}: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into {{{.}}}: {1}", jsonString, exception.ToString()));
             }
             {{/oneOf}}
 
@@ -232,7 +240,7 @@
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue((String)(typeof({{classname}}).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((string)(typeof({{classname}}).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>

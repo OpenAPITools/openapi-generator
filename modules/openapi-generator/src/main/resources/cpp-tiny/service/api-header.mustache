@@ -1,0 +1,74 @@
+#ifndef TINY_CPP_CLIENT_{{classname}}_H_
+#define TINY_CPP_CLIENT_{{classname}}_H_
+
+{{{defaultInclude}}}
+#include "Response.h"
+#include "Arduino.h"
+#include "Service.h"
+#include "Helpers.h"
+#include <list>
+
+{{#imports}}
+{{{import}}}
+{{/imports}}
+
+namespace Tiny {
+
+{{#operations}}
+/**
+ *  Class {{basename}}
+ * Generated with openapi::tiny-cpp-client
+ */
+
+class {{classname}} : public Service {
+public:
+    {{! Constructor }}
+    {{classname}}() = default;
+
+    {{! Destructor }}
+    virtual ~{{classname}}() = default;
+
+    {{! Service endpoint }}
+    {{#operation}}
+    /**
+    * {{{summary}}}.
+    *
+    * {{{notes}}}{{#allParams}}
+    * \param {{paramName}} {{{description}}}{{#required}} *Required*{{/required}}{{/allParams}}
+    */
+    Response<
+        {{#returnType}}
+            {{#returnContainer}}
+                {{#isArray}}
+                    {{returnType}}<{{returnBaseType}}>
+                {{/isArray}}
+                {{#isMap}}
+                String
+                {{/isMap}}
+            {{/returnContainer}}
+            {{^returnContainer}}
+                {{returnType}}
+            {{/returnContainer}}
+        {{/returnType}}
+        {{^returnType}}
+            String
+        {{/returnType}}
+        >
+    {{! Method name }}
+    {{nickname}}(
+        {{! Params }}
+        {{#allParams}}
+            {{! Arrays }}
+            {{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}
+            {{! Normal types/objects }}
+            {{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}
+            {{^-last}}, {{/-last}}
+        {{/allParams}}
+    );
+    {{/operation}}
+}; {{! Service endpoint end }}
+{{/operations}}
+
+} {{! namespace end }}
+
+#endif /* TINY_CPP_CLIENT_{{classname}}_H_ */

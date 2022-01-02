@@ -7,8 +7,11 @@ import 'package:built_value/serializer.dart';
 
 part 'has_only_read_only.g.dart';
 
-
-
+/// HasOnlyReadOnly
+///
+/// Properties:
+/// * [bar] 
+/// * [foo] 
 abstract class HasOnlyReadOnly implements Built<HasOnlyReadOnly, HasOnlyReadOnlyBuilder> {
     @BuiltValueField(wireName: r'bar')
     String? get bar;
@@ -18,7 +21,8 @@ abstract class HasOnlyReadOnly implements Built<HasOnlyReadOnly, HasOnlyReadOnly
 
     HasOnlyReadOnly._();
 
-    static void _initializeBuilder(HasOnlyReadOnlyBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(HasOnlyReadOnlyBuilder b) => b;
 
     factory HasOnlyReadOnly([void updates(HasOnlyReadOnlyBuilder b)]) = _$HasOnlyReadOnly;
 
@@ -62,14 +66,17 @@ class _$HasOnlyReadOnlySerializer implements StructuredSerializer<HasOnlyReadOnl
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'bar':
-                    result.bar = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.bar = valueDes;
                     break;
                 case r'foo':
-                    result.foo = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.foo = valueDes;
                     break;
             }
         }

@@ -49,6 +49,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
     protected boolean useLoggingFeatureForTests = false;
 
+    private boolean useJackson = false;
+
     public JavaCXFClientCodegen() {
         super();
 
@@ -62,13 +64,13 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         modelPackage = "org.openapitools.model";
         outputFolder = "generated-code/JavaJaxRS-CXF";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
@@ -108,6 +110,10 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
             this.setUseLoggingFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS));
         }
 
+        if (additionalProperties.containsKey(JACKSON)) {
+            useJackson = convertPropertyToBooleanAndWriteBack(JACKSON);
+        }
+
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
@@ -139,11 +145,21 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         model.imports.remove("JsonSerialize");
         model.imports.remove("ToStringSerializer");
 
-        //Add imports for Jackson when model has inner enum
-        if (additionalProperties.containsKey("jackson")) {
+
+        if (useJackson) {
+            //Add jackson imports when model has inner enum
             if (Boolean.FALSE.equals(model.isEnum) && Boolean.TRUE.equals(model.hasEnums)) {
                 model.imports.add("JsonCreator");
                 model.imports.add("JsonValue");
+            }
+
+            //Add JsonNullable import and mark property nullable for templating if necessary
+            if (openApiNullable) {
+                if (Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
+                    property.getVendorExtensions().put("x-is-jackson-optional-nullable", true);
+                    model.imports.add("JsonNullable");
+                    model.imports.add("JsonIgnore");
+                }
             }
         }
     }
@@ -195,4 +211,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         return useGenericResponse;
     }
 
+    public boolean isUseJackson() {
+        return useJackson;
+    }
 }

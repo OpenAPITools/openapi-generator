@@ -391,7 +391,6 @@ class PetApiTests(unittest.TestCase):
             file.close()
             self.pet_api.upload_file(pet_id=self.pet.id, file=file)
 
-
     def test_delete_pet(self):
         self.pet_api.add_pet(self.pet)
         self.pet_api.delete_pet(pet_id=self.pet.id, api_key="special-key")
@@ -401,6 +400,30 @@ class PetApiTests(unittest.TestCase):
             raise Exception("expected an error")
         except ApiException as e:
             self.assertEqual(404, e.status)
+
+    @patch.object(petstore_api.ApiClient, 'call_api') 
+    @patch.object(petstore_api.ApiClient, 'select_header_content_type')
+    def test_call_select_header_content_type(self, mock_select_ct, mock_call_api):
+        mock_select_ct.return_value = 'application/json'
+        self.pet_api.add_pet(self.pet)
+        # check if all arguments are passed to select_header_content_type
+        mock_select_ct.assert_called_once_with(
+            ['application/json', 'application/xml'],
+            'POST',
+            self.pet)
+        mock_call_api.assert_called_once()
+        self.assertEqual(mock_call_api.mock_calls[0][1][4],
+            {'Content-Type': 'application/json'})
+
+    @patch.object(petstore_api.ApiClient, 'call_api')
+    def test_call_with_forced_content_type(self, mock_call_api):
+        # force content-type
+        self.pet_api.add_pet(self.pet, _content_type='application/xml')
+        mock_call_api.assert_called_once()
+        # check if content-type is used 
+        self.assertEqual(mock_call_api.mock_calls[0][1][4],
+            {'Content-Type': 'application/xml'})
+
 
 if __name__ == '__main__':
     unittest.main()

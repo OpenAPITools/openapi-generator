@@ -43,7 +43,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String DEFAULT_LICENSE = "Proprietary";
     public static final String CORE_DATA = "coreData";
 
-    protected Set<String> foundationClasses = new HashSet<String>();
+    protected Set<String> foundationClasses = new HashSet<>();
     protected String podName = "OpenAPIClient";
     protected String podVersion = "1.0.0";
     protected String classPrefix = "OAI";
@@ -60,7 +60,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean generateCoreData = false;
 
-    protected Set<String> advancedMapingTypes = new HashSet<String>();
+    protected Set<String> advancedMappingTypes = new HashSet<>();
 
     public ObjcClientCodegen() {
         super();
@@ -117,15 +117,15 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         defaultIncludes.add("NSManagedObject");
         defaultIncludes.add("NSData");
 
-        advancedMapingTypes.add("NSDictionary");
-        advancedMapingTypes.add("NSArray");
-        advancedMapingTypes.add("NSMutableArray");
-        advancedMapingTypes.add("NSMutableDictionary");
-        advancedMapingTypes.add("NSObject");
-        advancedMapingTypes.add("NSNumber");
-        advancedMapingTypes.add("NSURL");
-        advancedMapingTypes.add("NSString");
-        advancedMapingTypes.add("NSDate");
+        advancedMappingTypes.add("NSDictionary");
+        advancedMappingTypes.add("NSArray");
+        advancedMappingTypes.add("NSMutableArray");
+        advancedMappingTypes.add("NSMutableDictionary");
+        advancedMappingTypes.add("NSObject");
+        advancedMappingTypes.add("NSNumber");
+        advancedMappingTypes.add("NSURL");
+        advancedMappingTypes.add("NSString");
+        advancedMappingTypes.add("NSDate");
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("NSNumber");
@@ -185,9 +185,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "description", "class"
                 ));
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
 
-        foundationClasses = new HashSet<String>(
+        foundationClasses = new HashSet<>(
                 Arrays.asList(
                         "NSNumber",
                         "NSObject",
@@ -380,7 +380,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             // In this condition, type of Schema p is array of model,
             // return container type combine inner type with pointer, e.g. `NSArray<SWGTag>*'
             else {
-                for (String sd : advancedMapingTypes) {
+                for (String sd : advancedMappingTypes) {
                     if (innerTypeDeclaration.startsWith(sd)) {
                         return getSchemaType(p) + "<" + innerTypeDeclaration + "*>*";
                     }
@@ -398,7 +398,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (languageSpecificPrimitives.contains(innerTypeDeclaration)) {
                 return getSchemaType(p) + "<NSString*, " + innerTypeDeclaration + "*>*";
             } else {
-                for (String s : advancedMapingTypes) {
+                for (String s : advancedMappingTypes) {
                     if (innerTypeDeclaration.startsWith(s)) {
                         return getSchemaType(p) + "<NSString*, " + innerTypeDeclaration + "*>*";
                     }
@@ -435,7 +435,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelName(String type) {
         // model name cannot use reserved keyword
         if (reservedWords.contains(type)) {
-            LOGGER.warn(type + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + type) + " before further processing");
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {} before further processing",
+                    type, "model_" + type);
             type = "model_" + type; // e.g. return => ModelReturn (after camelize)
         }
 
@@ -454,7 +455,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
      * Convert input to proper model name according to ObjC style guide
      * without checking for reserved words
      *
-     * @param type Model anme
+     * @param type Model name
      * @return model Name in ObjC style guide
      */
     public String toModelNameWithoutReservedWordCheck(String type) {
@@ -614,7 +615,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), true));
             operationId = "call_" + operationId;
         }
 
@@ -765,7 +766,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             // e.g. [[SWGPet alloc] init
             example = "[[" + type + " alloc] init]";
         } else {
-            LOGGER.warn("Example value for " + type + " not handled properly in setParameterExampleValue");
+            LOGGER.warn("Example value for {} not handled properly in setParameterExampleValue", type);
         }
 
         if (example == null) {

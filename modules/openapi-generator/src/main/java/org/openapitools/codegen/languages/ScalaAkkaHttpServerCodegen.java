@@ -50,7 +50,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     public static final String GENERATE_AS_MANAGED_SOURCES_DESC = "Resulting files cab be used as managed resources. No build files or default controllers will be generated";
     public static final boolean DEFAULT_GENERATE_AS_MANAGED_SOURCES = false;
 
-    static final Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -245,7 +245,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                 }
 
             } catch (NumberFormatException e) {
-                LOGGER.warn("Unable to parse " + AKKA_HTTP_VERSION + ": " + akkaHttpVersion + ", fallback to " + DEFAULT_AKKA_HTTP_VERSION);
+                LOGGER.warn("Unable to parse {}: {}, fallback to {}", AKKA_HTTP_VERSION, akkaHttpVersion, DEFAULT_AKKA_HTTP_VERSION);
                 akkaHttpVersion = DEFAULT_AKKA_HTTP_VERSION;
                 is10_1_10AndAbove = true;
             }
@@ -264,16 +264,17 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     @Override
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter param = super.fromParameter(parameter, imports);
-        // Removing unhandled types
-        if (!primitiveParamTypes.contains(param.dataType)) {
-            param.dataType = "String";
-        }
-        if (!param.required) {
-            param.vendorExtensions.put("x-has-default-value", param.defaultValue != null);
-            // Escaping default string values
-            if (param.defaultValue != null && "String".equals(param.dataType)) {
-                param.defaultValue = String.format(Locale.ROOT, "\"%s\"", param.defaultValue);
+        if (primitiveParamTypes.contains(param.dataType)) {
+            if (!param.required) {
+                param.vendorExtensions.put("x-has-default-value", param.defaultValue != null);
+                // Escaping default string values
+                if (param.defaultValue != null && "String".equals(param.dataType)) {
+                    param.defaultValue = String.format(Locale.ROOT, "\"%s\"", param.defaultValue);
+                }
             }
+        } else {
+            // Removing unhandled types
+            param.dataType = "String";
         }
         return param;
     }
@@ -305,7 +306,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         .put("String", "Segment")
     .build();
 
-    protected static void addPathMatcher(CodegenOperation codegenOperation) {
+    protected void addPathMatcher(CodegenOperation codegenOperation) {
         LinkedList<String> allPaths = new LinkedList<>(Arrays.asList(codegenOperation.path.split("/")));
         allPaths.removeIf(""::equals);
 
@@ -318,10 +319,9 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                     if (pathParam.baseName.equals(parameterName)) {
                         String matcher = pathTypeToMatcher.get(pathParam.dataType);
                         if (matcher == null) {
-                            LOGGER.warn("The path parameter " + pathParam.baseName +
-                                    " with the datatype " + pathParam.dataType +
-                                    " could not be translated to a corresponding path matcher of akka http" +
-                                    " and therefore has been translated to string.");
+                            LOGGER.warn(
+                                    "The path parameter {} with the datatype {} could not be translated to a corresponding path matcher of akka http and therefore has been translated to string.",
+                                    pathParam.baseName, pathParam.dataType);
                             matcher = pathTypeToMatcher.get("String");
                         }
                         if (pathParam.pattern != null && !pathParam.pattern.isEmpty()) {

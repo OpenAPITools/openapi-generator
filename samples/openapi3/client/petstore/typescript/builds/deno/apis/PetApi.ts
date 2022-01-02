@@ -4,7 +4,8 @@ import {Configuration} from '../configuration.ts';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http.ts';
 import {ObjectSerializer} from '../models/ObjectSerializer.ts';
 import {ApiException} from './exception.ts';
-import {isCodeInRange} from '../util.ts';
+import {canConsumeForm, isCodeInRange} from '../util.ts';
+
 
 import { ApiResponse } from '../models/ApiResponse.ts';
 import { Pet } from '../models/Pet.ts';
@@ -18,12 +19,12 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * Add a new pet to the store
      * @param pet Pet object that needs to be added to the store
      */
-    public async addPet(pet: Pet, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async addPet(pet: Pet, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'pet' is not null or undefined
         if (pet === null || pet === undefined) {
-            throw new RequiredError('Required parameter pet was null or undefined when calling addPet.');
+            throw new RequiredError("PetApi", "addPet", "pet");
         }
 
 
@@ -31,14 +32,8 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pet';
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
-
-        // Query Params
-
-        // Header Params
-
-        // Form Params
 
 
         // Body Params
@@ -56,7 +51,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["petstore_auth"]
+        authMethod = _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -69,12 +64,12 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * @param petId Pet id to delete
      * @param apiKey 
      */
-    public async deletePet(petId: number, apiKey?: string, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async deletePet(petId: number, apiKey?: string, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
-            throw new RequiredError('Required parameter petId was null or undefined when calling deletePet.');
+            throw new RequiredError("PetApi", "deletePet", "petId");
         }
 
 
@@ -84,22 +79,16 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
-
-        // Query Params
 
         // Header Params
         requestContext.setHeaderParam("api_key", ObjectSerializer.serialize(apiKey, "string", ""));
 
-        // Form Params
-
-
-        // Body Params
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["petstore_auth"]
+        authMethod = _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -112,12 +101,12 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public async findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'status' is not null or undefined
         if (status === null || status === undefined) {
-            throw new RequiredError('Required parameter status was null or undefined when calling findPetsByStatus.');
+            throw new RequiredError("PetApi", "findPetsByStatus", "status");
         }
 
 
@@ -125,7 +114,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pet/findByStatus';
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -133,16 +122,10 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             requestContext.setQueryParam("status", ObjectSerializer.serialize(status, "Array<'available' | 'pending' | 'sold'>", ""));
         }
 
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["petstore_auth"]
+        authMethod = _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -155,12 +138,12 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * Finds Pets by tags
      * @param tags Tags to filter by
      */
-    public async findPetsByTags(tags: Array<string>, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async findPetsByTags(tags: Array<string>, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'tags' is not null or undefined
         if (tags === null || tags === undefined) {
-            throw new RequiredError('Required parameter tags was null or undefined when calling findPetsByTags.');
+            throw new RequiredError("PetApi", "findPetsByTags", "tags");
         }
 
 
@@ -168,7 +151,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pet/findByTags';
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -176,16 +159,10 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             requestContext.setQueryParam("tags", ObjectSerializer.serialize(tags, "Array<string>", ""));
         }
 
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["petstore_auth"]
+        authMethod = _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -198,12 +175,12 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * Find pet by ID
      * @param petId ID of pet to return
      */
-    public async getPetById(petId: number, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async getPetById(petId: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
-            throw new RequiredError('Required parameter petId was null or undefined when calling getPetById.');
+            throw new RequiredError("PetApi", "getPetById", "petId");
         }
 
 
@@ -212,21 +189,13 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["api_key"]
+        authMethod = _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -238,12 +207,12 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * Update an existing pet
      * @param pet Pet object that needs to be added to the store
      */
-    public async updatePet(pet: Pet, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async updatePet(pet: Pet, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'pet' is not null or undefined
         if (pet === null || pet === undefined) {
-            throw new RequiredError('Required parameter pet was null or undefined when calling updatePet.');
+            throw new RequiredError("PetApi", "updatePet", "pet");
         }
 
 
@@ -251,14 +220,8 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pet';
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
-
-        // Query Params
-
-        // Header Params
-
-        // Form Params
 
 
         // Body Params
@@ -276,7 +239,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["petstore_auth"]
+        authMethod = _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -290,12 +253,12 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * @param name Updated name of the pet
      * @param status Updated status of the pet
      */
-    public async updatePetWithForm(petId: number, name?: string, status?: string, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async updatePetWithForm(petId: number, name?: string, status?: string, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
-            throw new RequiredError('Required parameter petId was null or undefined when calling updatePetWithForm.');
+            throw new RequiredError("PetApi", "updatePetWithForm", "petId");
         }
 
 
@@ -306,15 +269,20 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
         // Form Params
-        let localVarFormParams = new FormData();
+        const useForm = canConsumeForm([
+            'application/x-www-form-urlencoded',
+        ]);
+
+        let localVarFormParams
+        if (useForm) {
+            localVarFormParams = new FormData();
+        } else {
+            localVarFormParams = new URLSearchParams();
+        }
 
         if (name !== undefined) {
              // TODO: replace .append with .set
@@ -324,13 +292,19 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
              // TODO: replace .append with .set
              localVarFormParams.append('status', status as any);
         }
+
         requestContext.setBody(localVarFormParams);
 
-        // Body Params
+        if(!useForm) {
+            const contentType = ObjectSerializer.getPreferredMediaType([
+                "application/x-www-form-urlencoded"
+            ]);
+            requestContext.setHeaderParam("Content-Type", contentType);
+        }
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["petstore_auth"]
+        authMethod = _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -344,12 +318,12 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    public async uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
-            throw new RequiredError('Required parameter petId was null or undefined when calling uploadFile.');
+            throw new RequiredError("PetApi", "uploadFile", "petId");
         }
 
 
@@ -360,15 +334,20 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
         // Form Params
-        let localVarFormParams = new FormData();
+        const useForm = canConsumeForm([
+            'multipart/form-data',
+        ]);
+
+        let localVarFormParams
+        if (useForm) {
+            localVarFormParams = new FormData();
+        } else {
+            localVarFormParams = new URLSearchParams();
+        }
 
         if (additionalMetadata !== undefined) {
              // TODO: replace .append with .set
@@ -376,15 +355,23 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         }
         if (file !== undefined) {
              // TODO: replace .append with .set
-             localVarFormParams.append('file', file, file.name);
+             if (localVarFormParams instanceof FormData) {
+                 localVarFormParams.append('file', file, file.name);
+             }
         }
+
         requestContext.setBody(localVarFormParams);
 
-        // Body Params
+        if(!useForm) {
+            const contentType = ObjectSerializer.getPreferredMediaType([
+                "multipart/form-data"
+            ]);
+            requestContext.setHeaderParam("Content-Type", contentType);
+        }
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["petstore_auth"]
+        authMethod = _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -413,7 +400,7 @@ export class PetApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("405", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid input");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid input", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -425,8 +412,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -439,7 +425,7 @@ export class PetApiResponseProcessor {
      public async deletePet(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid pet value");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid pet value", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -447,8 +433,7 @@ export class PetApiResponseProcessor {
             return;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -468,7 +453,7 @@ export class PetApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid status value");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid status value", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -480,8 +465,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -501,7 +485,7 @@ export class PetApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid tag value");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid tag value", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -513,8 +497,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -534,10 +517,10 @@ export class PetApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid ID supplied", undefined, response.headers);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Pet not found");
+            throw new ApiException<undefined>(response.httpStatusCode, "Pet not found", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -549,8 +532,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -570,13 +552,13 @@ export class PetApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid ID supplied", undefined, response.headers);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Pet not found");
+            throw new ApiException<undefined>(response.httpStatusCode, "Pet not found", undefined, response.headers);
         }
         if (isCodeInRange("405", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Validation exception");
+            throw new ApiException<undefined>(response.httpStatusCode, "Validation exception", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -588,8 +570,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -602,7 +583,7 @@ export class PetApiResponseProcessor {
      public async updatePetWithForm(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("405", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid input");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid input", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -610,8 +591,7 @@ export class PetApiResponseProcessor {
             return;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -640,8 +620,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
 }

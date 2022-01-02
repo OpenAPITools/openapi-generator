@@ -43,58 +43,63 @@ interface UserApiInterface
 {
 
     /**
+     * Sets authentication method api_key
+     *
+     * @param string $value Value of the api_key authentication method.
+     *
+     * @return void
+     */
+    public function setapi_key($value);
+
+    /**
      * Operation createUser
      *
      * Create user
      *
-     * @param  OpenAPI\Server\Model\User $body  Created user object (required)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \OpenAPI\Server\Model\User $user  Created user object (required)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
-    public function createUser(User $body, &$responseCode, array &$responseHeaders);
+    public function createUser(User $user, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation createUsersWithArrayInput
      *
      * Creates list of users with given input array
      *
-     * @param  OpenAPI\Server\Model\User[] $body  List of user object (required)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \OpenAPI\Server\Model\User[] $user  List of user object (required)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
-    public function createUsersWithArrayInput(array $body, &$responseCode, array &$responseHeaders);
+    public function createUsersWithArrayInput(array $user, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation createUsersWithListInput
      *
      * Creates list of users with given input array
      *
-     * @param  OpenAPI\Server\Model\User[] $body  List of user object (required)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \OpenAPI\Server\Model\User[] $user  List of user object (required)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
-    public function createUsersWithListInput(array $body, &$responseCode, array &$responseHeaders);
+    public function createUsersWithListInput(array $user, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation deleteUser
      *
      * Delete user
      *
-     * @param  string $username  The name that needs to be deleted (required)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \string $username  The name that needs to be deleted (required)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
     public function deleteUser($username, &$responseCode, array &$responseHeaders);
 
@@ -103,12 +108,11 @@ interface UserApiInterface
      *
      * Get user by user name
      *
-     * @param  string $username  The name that needs to be fetched. Use user1 for testing. (required)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \string $username  The name that needs to be fetched. Use user1 for testing. (required)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\User
-     *
+     * @return \OpenAPI\Server\Model\User
      */
     public function getUserByName($username, &$responseCode, array &$responseHeaders);
 
@@ -117,13 +121,12 @@ interface UserApiInterface
      *
      * Logs user into the system
      *
-     * @param  string $username  The user name for login (required)
-     * @param  string $password  The password for login in clear text (required)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \string $username  The user name for login (required)
+     * @param  \string $password  The password for login in clear text (required)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return string
-     *
+     * @return \string
      */
     public function loginUser($username, $password, &$responseCode, array &$responseHeaders);
 
@@ -132,11 +135,10 @@ interface UserApiInterface
      *
      * Logs out current logged in user session
      *
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
     public function logoutUser(&$responseCode, array &$responseHeaders);
 
@@ -145,13 +147,12 @@ interface UserApiInterface
      *
      * Updated user
      *
-     * @param  string $username  name that need to be deleted (required)
-     * @param  OpenAPI\Server\Model\User $body  Updated user object (required)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \string $username  name that need to be deleted (required)
+     * @param  \OpenAPI\Server\Model\User $user  Updated user object (required)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
-    public function updateUser($username, User $body, &$responseCode, array &$responseHeaders);
+    public function updateUser($username, User $user, &$responseCode, array &$responseHeaders);
 }

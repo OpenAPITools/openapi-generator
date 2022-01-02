@@ -37,7 +37,7 @@ public class FakeApi {
   }
 
   /**
-   * Get the API cilent
+   * Get the API client
    *
    * @return API client
    */
@@ -46,7 +46,7 @@ public class FakeApi {
   }
 
   /**
-   * Set the API cilent
+   * Set the API client
    *
    * @param apiClient an instance of API client
    */
@@ -1221,7 +1221,7 @@ if (param2 != null)
     }
     
     // create path and map variables
-    String localVarPath = "/fake/test-query-paramters";
+    String localVarPath = "/fake/test-query-parameters";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();

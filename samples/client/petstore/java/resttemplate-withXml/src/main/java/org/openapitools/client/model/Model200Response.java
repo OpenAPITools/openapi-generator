@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -48,6 +49,8 @@ public class Model200Response {
   @XmlElement(name = "class")
   private String propertyClass;
 
+  public Model200Response() { 
+  }
 
   public Model200Response name(Integer name) {
     

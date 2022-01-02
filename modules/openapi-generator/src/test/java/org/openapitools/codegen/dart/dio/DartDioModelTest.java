@@ -380,10 +380,8 @@ public class DartDioModelTest {
     @DataProvider(name = "modelNames")
     public static Object[][] modelNames() {
         return new Object[][] {
-            {"EnumClass", "ModelEnumClass"},
-            {"JsonObject", "ModelJsonObject"},
-            // OffsetDate is valid without timemachine date library
-            {"OffsetDate", "OffsetDate"},
+            {"EnumClass", "TestModelEnumClass"},
+            {"JsonObject", "TestModelJsonObject"}
         };
     }
 
@@ -393,6 +391,8 @@ public class DartDioModelTest {
         final Schema model = new Schema();
         final DartDioClientCodegen codegen = new DartDioClientCodegen();
         codegen.setOpenAPI(openAPI);
+        codegen.typeMapping().put("EnumClass", "TestModelEnumClass");
+        codegen.typeMapping().put("JsonObject", "TestModelJsonObject");
         final CodegenModel cm = codegen.fromModel(name, model);
 
         Assert.assertEquals(cm.name, name);
@@ -402,10 +402,9 @@ public class DartDioModelTest {
     @DataProvider(name = "modelNamesTimemachine")
     public static Object[][] modelNamesTimemachine() {
         return new Object[][] {
-            {"EnumClass", "ModelEnumClass"},
-            {"JsonObject", "ModelJsonObject"},
-            // OffsetDate is not valid with timemachine date library
-            {"OffsetDate", "ModelOffsetDate"},
+            {"EnumClass", "TestModelEnumClass"},
+            {"JsonObject", "TestModelJsonObject"},
+            {"OffsetDate", "TestModelOffsetDate"},
         };
     }
 
@@ -416,6 +415,9 @@ public class DartDioModelTest {
         final DartDioClientCodegen codegen = new DartDioClientCodegen();
         codegen.setDateLibrary("timemachine");
         codegen.processOpts();
+        codegen.typeMapping().put("EnumClass", "TestModelEnumClass");
+        codegen.typeMapping().put("JsonObject", "TestModelJsonObject");
+        codegen.typeMapping().put("OffsetDate", "TestModelOffsetDate");
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel(name, model);
 

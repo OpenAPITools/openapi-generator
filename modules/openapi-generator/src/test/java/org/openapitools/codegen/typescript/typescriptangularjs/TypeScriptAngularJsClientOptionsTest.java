@@ -42,7 +42,9 @@ public class TypeScriptAngularJsClientOptionsTest extends AbstractOptionsTest {
     protected void verifyOptions() {
         verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptAngularJsClientOptionsProvider.SORT_PARAMS_VALUE));
         verify(clientCodegen).setModelPropertyNaming(TypeScriptAngularJsClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
+        verify(clientCodegen).setParamNaming(TypeScriptAngularJsClientOptionsProvider.PARAM_NAMING_VALUE);
         verify(clientCodegen).setSupportsES6(Boolean.valueOf(TypeScriptAngularJsClientOptionsProvider.SUPPORTS_ES6_VALUE));
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptAngularJsClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(TypeScriptAngularJsClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

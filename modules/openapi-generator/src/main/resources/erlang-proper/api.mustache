@@ -18,20 +18,20 @@
   Method      = {{httpMethod}},
   Host        = application:get_env({{packageName}}, host, "http://localhost:8080"),
   Path        = ["{{{replacedPathName}}}"],
-  {{#isBodyAllowed}}
+  {{#isMethodPutOrPatchOrPost}}
   Body        = {{^formParams.isEmpty}}{form, [{{#formParams}}{{#required}}{{^-first}}, {{/-first}}{<<"{{{baseName}}}">>, {{paramName}}{{/required}}{{/formParams}}]++{{packageName}}_utils:optional_params([{{#formParams}}{{^required}}{{^-first}}, {{/-first}}'{{{baseName}}}'{{/required}}{{/formParams}}], _OptionalParams)}{{/formParams.isEmpty}}{{#formParams.isEmpty}}{{#bodyParams.isEmpty}}[]{{/bodyParams.isEmpty}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/bodyParams.isEmpty}}{{/formParams.isEmpty}},
   ContentType = {{#hasConsumes}}hd([{{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}}]){{/hasConsumes}}{{^hasConsumes}}"text/plain"{{/hasConsumes}},
-  {{/isBodyAllowed}}
+  {{/isMethodPutOrPatchOrPost}}
   {{^queryParams.isEmpty}}
   QueryString = [{{#queryParams}}{{^-first}}, {{/-first}}<<"{{{baseName}}}=">>, {{{paramName}}}, <<"&">>{{/queryParams}}],
   {{/queryParams.isEmpty}}
 
-  {{#isBodyAllowed}}
+  {{#isMethodPutOrPatchOrPost}}
   {{packageName}}_utils:request(Method, [Host, ?BASE_URL, Path{{^queryParams.isEmpty}}, <<"?">>, QueryString{{/queryParams.isEmpty}}], jsx:encode(Body), ContentType).
-  {{/isBodyAllowed}}
-  {{^isBodyAllowed}}
+  {{/isMethodPutOrPatchOrPost}}
+  {{^isMethodPutOrPatchOrPost}}
   {{packageName}}_utils:request(Method, [Host, ?BASE_URL, Path{{^queryParams.isEmpty}}, <<"?">>, QueryString{{/queryParams.isEmpty}}]).
-  {{/isBodyAllowed}}
+  {{/isMethodPutOrPatchOrPost}}
 
 {{/operation}}
 {{/operations}}

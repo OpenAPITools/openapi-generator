@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -67,6 +68,8 @@ public class Capitalization {
   @XmlElement(name = "ATT_NAME")
   private String ATT_NAME;
 
+  public Capitalization() { 
+  }
 
   public Capitalization smallCamel(String smallCamel) {
     

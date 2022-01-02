@@ -9,14 +9,14 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createUser**](UserApi.md#createuser) | **post** /user | Create user
-[**createUsersWithArrayInput**](UserApi.md#createuserswitharrayinput) | **post** /user/createWithArray | Creates list of users with given input array
-[**createUsersWithListInput**](UserApi.md#createuserswithlistinput) | **post** /user/createWithList | Creates list of users with given input array
-[**deleteUser**](UserApi.md#deleteuser) | **delete** /user/{username} | Delete user
-[**getUserByName**](UserApi.md#getuserbyname) | **get** /user/{username} | Get user by user name
-[**loginUser**](UserApi.md#loginuser) | **get** /user/login | Logs user into the system
-[**logoutUser**](UserApi.md#logoutuser) | **get** /user/logout | Logs out current logged in user session
-[**updateUser**](UserApi.md#updateuser) | **put** /user/{username} | Updated user
+[**createUser**](UserApi.md#createuser) | **POST** /user | Create user
+[**createUsersWithArrayInput**](UserApi.md#createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array
+[**createUsersWithListInput**](UserApi.md#createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array
+[**deleteUser**](UserApi.md#deleteuser) | **DELETE** /user/{username} | Delete user
+[**getUserByName**](UserApi.md#getuserbyname) | **GET** /user/{username} | Get user by user name
+[**loginUser**](UserApi.md#loginuser) | **GET** /user/login | Logs user into the system
+[**logoutUser**](UserApi.md#logoutuser) | **GET** /user/logout | Logs out current logged in user session
+[**updateUser**](UserApi.md#updateuser) | **PUT** /user/{username} | Updated user
 
 
 # **createUser**
@@ -26,16 +26,16 @@ Create user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
-var user = new User(); // User | Created user object
+final api = Openapi().getUserApi();
+final User user = ; // User | Created user object
 
-try { 
-    api_instance.createUser(user);
-} catch (e) {
+try {
+    api.createUser(user);
+} catch on DioError (e) {
     print('Exception when calling UserApi->createUser: $e\n');
 }
 ```
@@ -66,16 +66,16 @@ No authorization required
 
 Creates list of users with given input array
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
-var user = [new BuiltList<User>()]; // BuiltList<User> | List of user object
+final api = Openapi().getUserApi();
+final BuiltList<User> user = ; // BuiltList<User> | List of user object
 
-try { 
-    api_instance.createUsersWithArrayInput(user);
-} catch (e) {
+try {
+    api.createUsersWithArrayInput(user);
+} catch on DioError (e) {
     print('Exception when calling UserApi->createUsersWithArrayInput: $e\n');
 }
 ```
@@ -84,7 +84,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**BuiltList<User>**](User.md)| List of user object | 
+ **user** | [**BuiltList&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -106,16 +106,16 @@ No authorization required
 
 Creates list of users with given input array
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
-var user = [new BuiltList<User>()]; // BuiltList<User> | List of user object
+final api = Openapi().getUserApi();
+final BuiltList<User> user = ; // BuiltList<User> | List of user object
 
-try { 
-    api_instance.createUsersWithListInput(user);
-} catch (e) {
+try {
+    api.createUsersWithListInput(user);
+} catch on DioError (e) {
     print('Exception when calling UserApi->createUsersWithListInput: $e\n');
 }
 ```
@@ -124,7 +124,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**BuiltList<User>**](User.md)| List of user object | 
+ **user** | [**BuiltList&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -148,16 +148,16 @@ Delete user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
-var username = username_example; // String | The name that needs to be deleted
+final api = Openapi().getUserApi();
+final String username = username_example; // String | The name that needs to be deleted
 
-try { 
-    api_instance.deleteUser(username);
-} catch (e) {
+try {
+    api.deleteUser(username);
+} catch on DioError (e) {
     print('Exception when calling UserApi->deleteUser: $e\n');
 }
 ```
@@ -188,17 +188,17 @@ No authorization required
 
 Get user by user name
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
-var username = username_example; // String | The name that needs to be fetched. Use user1 for testing.
+final api = Openapi().getUserApi();
+final String username = username_example; // String | The name that needs to be fetched. Use user1 for testing.
 
-try { 
-    var result = api_instance.getUserByName(username);
-    print(result);
-} catch (e) {
+try {
+    final response = api.getUserByName(username);
+    print(response);
+} catch on DioError (e) {
     print('Exception when calling UserApi->getUserByName: $e\n');
 }
 ```
@@ -229,18 +229,18 @@ No authorization required
 
 Logs user into the system
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
-var username = username_example; // String | The user name for login
-var password = password_example; // String | The password for login in clear text
+final api = Openapi().getUserApi();
+final String username = username_example; // String | The user name for login
+final String password = password_example; // String | The password for login in clear text
 
-try { 
-    var result = api_instance.loginUser(username, password);
-    print(result);
-} catch (e) {
+try {
+    final response = api.loginUser(username, password);
+    print(response);
+} catch on DioError (e) {
     print('Exception when calling UserApi->loginUser: $e\n');
 }
 ```
@@ -272,15 +272,15 @@ No authorization required
 
 Logs out current logged in user session
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
+final api = Openapi().getUserApi();
 
-try { 
-    api_instance.logoutUser();
-} catch (e) {
+try {
+    api.logoutUser();
+} catch on DioError (e) {
     print('Exception when calling UserApi->logoutUser: $e\n');
 }
 ```
@@ -310,17 +310,17 @@ Updated user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new UserApi();
-var username = username_example; // String | name that need to be deleted
-var user = new User(); // User | Updated user object
+final api = Openapi().getUserApi();
+final String username = username_example; // String | name that need to be deleted
+final User user = ; // User | Updated user object
 
-try { 
-    api_instance.updateUser(username, user);
-} catch (e) {
+try {
+    api.updateUser(username, user);
+} catch on DioError (e) {
     print('Exception when calling UserApi->updateUser: $e\n');
 }
 ```

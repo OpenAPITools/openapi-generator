@@ -89,6 +89,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -105,7 +106,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -136,7 +138,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "HealthCheckResult",
         }
@@ -223,6 +225,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -242,7 +245,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -278,12 +282,14 @@ class FakeApi(object):
         if 'pet' in local_var_params:
             body_params = local_var_params['pet']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json', 'application/xml'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json', 'application/xml'],
+                'GET', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = ['http_signature_test']  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -362,6 +368,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -379,7 +386,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -411,12 +419,14 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "bool",
         }
@@ -497,6 +507,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -514,7 +525,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -546,12 +558,14 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "OuterComposite",
         }
@@ -632,6 +646,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -649,7 +664,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -681,12 +697,14 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "float",
         }
@@ -767,6 +785,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -784,7 +803,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -816,12 +836,14 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "str",
         }
@@ -902,6 +924,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -919,7 +942,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -955,12 +979,14 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "OuterObjectWithEnumProperty",
         }
@@ -982,10 +1008,143 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
+    def test_body_with_binary(self, body, **kwargs):  # noqa: E501
+        """test_body_with_binary  # noqa: E501
+
+        For this test, the body has to be a binary file.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.test_body_with_binary(body, async_req=True)
+        >>> result = thread.get()
+
+        :param body: image to upload (required)
+        :type body: file
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+        kwargs['_return_http_data_only'] = True
+        return self.test_body_with_binary_with_http_info(body, **kwargs)  # noqa: E501
+
+    def test_body_with_binary_with_http_info(self, body, **kwargs):  # noqa: E501
+        """test_body_with_binary  # noqa: E501
+
+        For this test, the body has to be a binary file.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.test_body_with_binary_with_http_info(body, async_req=True)
+        >>> result = thread.get()
+
+        :param body: image to upload (required)
+        :type body: file
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :type _return_http_data_only: bool, optional
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        local_var_params = locals()
+
+        all_params = [
+            'body'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type'
+            ]
+        )
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_body_with_binary" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['image/png'],
+                'PUT', body_params))  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        response_types_map = {}
+
+        return self.api_client.call_api(
+            '/fake/body-with-binary', 'PUT',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_types_map=response_types_map,
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats,
+            _request_auth=local_var_params.get('_request_auth'))
+
     def test_body_with_file_schema(self, file_schema_test_class, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
-        For this test, the body for this request much reference a schema named `File`.  # noqa: E501
+        For this test, the body for this request must reference a schema named `File`.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -1015,7 +1174,7 @@ class FakeApi(object):
     def test_body_with_file_schema_with_http_info(self, file_schema_test_class, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
-        For this test, the body for this request much reference a schema named `File`.  # noqa: E501
+        For this test, the body for this request must reference a schema named `File`.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -1041,6 +1200,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1058,7 +1218,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -1090,12 +1251,14 @@ class FakeApi(object):
         if 'file_schema_test_class' in local_var_params:
             body_params = local_var_params['file_schema_test_class']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'PUT', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1176,6 +1339,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1194,7 +1358,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -1232,12 +1397,14 @@ class FakeApi(object):
         if 'user' in local_var_params:
             body_params = local_var_params['user']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'PUT', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1316,6 +1483,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1333,7 +1501,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -1369,12 +1538,14 @@ class FakeApi(object):
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'PATCH', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "Client",
         }
@@ -1507,6 +1678,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1537,7 +1709,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -1635,12 +1808,14 @@ class FakeApi(object):
 
         body_params = None
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/x-www-form-urlencoded'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/x-www-form-urlencoded'],
+                'POST', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = ['http_basic_test']  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1747,6 +1922,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1771,7 +1947,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -1816,12 +1993,14 @@ class FakeApi(object):
 
         body_params = None
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/x-www-form-urlencoded'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/x-www-form-urlencoded'],
+                'GET', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1920,6 +2099,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1942,7 +2122,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -1993,7 +2174,7 @@ class FakeApi(object):
         body_params = None
         # Authentication setting
         auth_settings = ['bearer_test']  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -2070,6 +2251,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -2087,7 +2269,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -2119,12 +2302,14 @@ class FakeApi(object):
         if 'request_body' in local_var_params:
             body_params = local_var_params['request_body']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -2205,6 +2390,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -2223,7 +2409,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -2261,12 +2448,14 @@ class FakeApi(object):
 
         body_params = None
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/x-www-form-urlencoded'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/x-www-form-urlencoded'],
+                'GET', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -2286,14 +2475,14 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def test_query_parameter_collection_format(self, pipe, ioutil, http, url, context, **kwargs):  # noqa: E501
+    def test_query_parameter_collection_format(self, pipe, ioutil, http, url, context, allow_empty, **kwargs):  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_query_parameter_collection_format(pipe, ioutil, http, url, context, async_req=True)
+        >>> thread = api.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, async_req=True)
         >>> result = thread.get()
 
         :param pipe: (required)
@@ -2306,6 +2495,10 @@ class FakeApi(object):
         :type url: list[str]
         :param context: (required)
         :type context: list[str]
+        :param allow_empty: (required)
+        :type allow_empty: str
+        :param language:
+        :type language: dict(str, str)
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -2322,16 +2515,16 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
-        return self.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, **kwargs)  # noqa: E501
+        return self.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, **kwargs)  # noqa: E501
 
-    def test_query_parameter_collection_format_with_http_info(self, pipe, ioutil, http, url, context, **kwargs):  # noqa: E501
+    def test_query_parameter_collection_format_with_http_info(self, pipe, ioutil, http, url, context, allow_empty, **kwargs):  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, async_req=True)
+        >>> thread = api.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, async_req=True)
         >>> result = thread.get()
 
         :param pipe: (required)
@@ -2344,6 +2537,10 @@ class FakeApi(object):
         :type url: list[str]
         :param context: (required)
         :type context: list[str]
+        :param allow_empty: (required)
+        :type allow_empty: str
+        :param language:
+        :type language: dict(str, str)
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -2361,6 +2558,7 @@ class FakeApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -2374,7 +2572,9 @@ class FakeApi(object):
             'ioutil',
             'http',
             'url',
-            'context'
+            'context',
+            'allow_empty',
+            'language'
         ]
         all_params.extend(
             [
@@ -2382,7 +2582,8 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -2414,6 +2615,10 @@ class FakeApi(object):
         if self.api_client.client_side_validation and ('context' not in local_var_params or  # noqa: E501
                                                         local_var_params['context'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `context` when calling `test_query_parameter_collection_format`")  # noqa: E501
+        # verify the required parameter 'allow_empty' is set
+        if self.api_client.client_side_validation and ('allow_empty' not in local_var_params or  # noqa: E501
+                                                        local_var_params['allow_empty'] is None):  # noqa: E501
+            raise ApiValueError("Missing the required parameter `allow_empty` when calling `test_query_parameter_collection_format`")  # noqa: E501
 
         collection_formats = {}
 
@@ -2422,7 +2627,7 @@ class FakeApi(object):
         query_params = []
         if 'pipe' in local_var_params and local_var_params['pipe'] is not None:  # noqa: E501
             query_params.append(('pipe', local_var_params['pipe']))  # noqa: E501
-            collection_formats['pipe'] = 'multi'  # noqa: E501
+            collection_formats['pipe'] = 'pipes'  # noqa: E501
         if 'ioutil' in local_var_params and local_var_params['ioutil'] is not None:  # noqa: E501
             query_params.append(('ioutil', local_var_params['ioutil']))  # noqa: E501
             collection_formats['ioutil'] = 'csv'  # noqa: E501
@@ -2435,6 +2640,10 @@ class FakeApi(object):
         if 'context' in local_var_params and local_var_params['context'] is not None:  # noqa: E501
             query_params.append(('context', local_var_params['context']))  # noqa: E501
             collection_formats['context'] = 'multi'  # noqa: E501
+        if 'language' in local_var_params and local_var_params['language'] is not None:  # noqa: E501
+            query_params.append(('language', local_var_params['language']))  # noqa: E501
+        if 'allow_empty' in local_var_params and local_var_params['allow_empty'] is not None:  # noqa: E501
+            query_params.append(('allowEmpty', local_var_params['allow_empty']))  # noqa: E501
 
         header_params = {}
 
@@ -2444,11 +2653,11 @@ class FakeApi(object):
         body_params = None
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
-            '/fake/test-query-paramters', 'PUT',
+            '/fake/test-query-parameters', 'PUT',
             path_params,
             query_params,
             header_params,

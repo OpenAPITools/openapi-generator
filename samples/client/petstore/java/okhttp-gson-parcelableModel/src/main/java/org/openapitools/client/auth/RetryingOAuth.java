@@ -1,5 +1,6 @@
 package org.openapitools.client.auth;
 
+import org.openapitools.client.ApiException;
 import org.openapitools.client.Pair;
 
 import okhttp3.Interceptor;
@@ -18,6 +19,7 @@ import org.apache.oltu.oauth2.common.message.types.GrantType;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.util.Map;
 import java.util.List;
 
@@ -155,14 +157,12 @@ public class RetryingOAuth extends OAuth implements Interceptor {
                         oAuthClient.accessToken(tokenRequestBuilder.buildBodyMessage());
                 if (accessTokenResponse != null && accessTokenResponse.getAccessToken() != null) {
                     setAccessToken(accessTokenResponse.getAccessToken());
-                    return !getAccessToken().equals(requestAccessToken);
                 }
             } catch (OAuthSystemException | OAuthProblemException e) {
                 throw new IOException(e);
             }
         }
-
-        return false;
+        return getAccessToken() == null || !getAccessToken().equals(requestAccessToken);
     }
 
     public TokenRequestBuilder getTokenRequestBuilder() {
@@ -175,7 +175,8 @@ public class RetryingOAuth extends OAuth implements Interceptor {
 
     // Applying authorization to parameters is performed in the retryingIntercept method
     @Override
-    public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
+    public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams,
+                             String payload, String method, URI uri) throws ApiException {
         // No implementation necessary
     }
 }

@@ -14,9 +14,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("XmlItem")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class XmlItem  implements Serializable {
   
   private @Valid String attributeString;
@@ -65,6 +67,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return attributeString;
   }
 
+  @JsonProperty("attribute_string")
   public void setAttributeString(String attributeString) {
     this.attributeString = attributeString;
   }
@@ -85,6 +88,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return attributeNumber;
   }
 
+  @JsonProperty("attribute_number")
   public void setAttributeNumber(BigDecimal attributeNumber) {
     this.attributeNumber = attributeNumber;
   }
@@ -105,6 +109,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return attributeInteger;
   }
 
+  @JsonProperty("attribute_integer")
   public void setAttributeInteger(Integer attributeInteger) {
     this.attributeInteger = attributeInteger;
   }
@@ -125,6 +130,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return attributeBoolean;
   }
 
+  @JsonProperty("attribute_boolean")
   public void setAttributeBoolean(Boolean attributeBoolean) {
     this.attributeBoolean = attributeBoolean;
   }
@@ -145,6 +151,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return wrappedArray;
   }
 
+  @JsonProperty("wrapped_array")
   public void setWrappedArray(List<Integer> wrappedArray) {
     this.wrappedArray = wrappedArray;
   }
@@ -165,6 +172,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return nameString;
   }
 
+  @JsonProperty("name_string")
   public void setNameString(String nameString) {
     this.nameString = nameString;
   }
@@ -185,6 +193,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return nameNumber;
   }
 
+  @JsonProperty("name_number")
   public void setNameNumber(BigDecimal nameNumber) {
     this.nameNumber = nameNumber;
   }
@@ -205,6 +214,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return nameInteger;
   }
 
+  @JsonProperty("name_integer")
   public void setNameInteger(Integer nameInteger) {
     this.nameInteger = nameInteger;
   }
@@ -225,6 +235,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return nameBoolean;
   }
 
+  @JsonProperty("name_boolean")
   public void setNameBoolean(Boolean nameBoolean) {
     this.nameBoolean = nameBoolean;
   }
@@ -245,6 +256,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return nameArray;
   }
 
+  @JsonProperty("name_array")
   public void setNameArray(List<Integer> nameArray) {
     this.nameArray = nameArray;
   }
@@ -265,6 +277,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return nameWrappedArray;
   }
 
+  @JsonProperty("name_wrapped_array")
   public void setNameWrappedArray(List<Integer> nameWrappedArray) {
     this.nameWrappedArray = nameWrappedArray;
   }
@@ -285,6 +298,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return prefixString;
   }
 
+  @JsonProperty("prefix_string")
   public void setPrefixString(String prefixString) {
     this.prefixString = prefixString;
   }
@@ -305,6 +319,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return prefixNumber;
   }
 
+  @JsonProperty("prefix_number")
   public void setPrefixNumber(BigDecimal prefixNumber) {
     this.prefixNumber = prefixNumber;
   }
@@ -325,6 +340,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return prefixInteger;
   }
 
+  @JsonProperty("prefix_integer")
   public void setPrefixInteger(Integer prefixInteger) {
     this.prefixInteger = prefixInteger;
   }
@@ -345,6 +361,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return prefixBoolean;
   }
 
+  @JsonProperty("prefix_boolean")
   public void setPrefixBoolean(Boolean prefixBoolean) {
     this.prefixBoolean = prefixBoolean;
   }
@@ -365,6 +382,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return prefixArray;
   }
 
+  @JsonProperty("prefix_array")
   public void setPrefixArray(List<Integer> prefixArray) {
     this.prefixArray = prefixArray;
   }
@@ -385,6 +403,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return prefixWrappedArray;
   }
 
+  @JsonProperty("prefix_wrapped_array")
   public void setPrefixWrappedArray(List<Integer> prefixWrappedArray) {
     this.prefixWrappedArray = prefixWrappedArray;
   }
@@ -405,6 +424,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return namespaceString;
   }
 
+  @JsonProperty("namespace_string")
   public void setNamespaceString(String namespaceString) {
     this.namespaceString = namespaceString;
   }
@@ -425,6 +445,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return namespaceNumber;
   }
 
+  @JsonProperty("namespace_number")
   public void setNamespaceNumber(BigDecimal namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }
@@ -445,6 +466,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return namespaceInteger;
   }
 
+  @JsonProperty("namespace_integer")
   public void setNamespaceInteger(Integer namespaceInteger) {
     this.namespaceInteger = namespaceInteger;
   }
@@ -465,6 +487,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return namespaceBoolean;
   }
 
+  @JsonProperty("namespace_boolean")
   public void setNamespaceBoolean(Boolean namespaceBoolean) {
     this.namespaceBoolean = namespaceBoolean;
   }
@@ -485,6 +508,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return namespaceArray;
   }
 
+  @JsonProperty("namespace_array")
   public void setNamespaceArray(List<Integer> namespaceArray) {
     this.namespaceArray = namespaceArray;
   }
@@ -505,6 +529,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return namespaceWrappedArray;
   }
 
+  @JsonProperty("namespace_wrapped_array")
   public void setNamespaceWrappedArray(List<Integer> namespaceWrappedArray) {
     this.namespaceWrappedArray = namespaceWrappedArray;
   }
@@ -525,6 +550,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return prefixNsString;
   }
 
+  @JsonProperty("prefix_ns_string")
   public void setPrefixNsString(String prefixNsString) {
     this.prefixNsString = prefixNsString;
   }
@@ -545,6 +571,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return prefixNsNumber;
   }
 
+  @JsonProperty("prefix_ns_number")
   public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }
@@ -565,6 +592,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return prefixNsInteger;
   }
 
+  @JsonProperty("prefix_ns_integer")
   public void setPrefixNsInteger(Integer prefixNsInteger) {
     this.prefixNsInteger = prefixNsInteger;
   }
@@ -585,6 +613,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return prefixNsBoolean;
   }
 
+  @JsonProperty("prefix_ns_boolean")
   public void setPrefixNsBoolean(Boolean prefixNsBoolean) {
     this.prefixNsBoolean = prefixNsBoolean;
   }
@@ -605,6 +634,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return prefixNsArray;
   }
 
+  @JsonProperty("prefix_ns_array")
   public void setPrefixNsArray(List<Integer> prefixNsArray) {
     this.prefixNsArray = prefixNsArray;
   }
@@ -625,6 +655,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return prefixNsWrappedArray;
   }
 
+  @JsonProperty("prefix_ns_wrapped_array")
   public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }

@@ -10,7 +10,6 @@ import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
-import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -273,7 +272,7 @@ public interface FakeApiDelegate {
     }
 
     /**
-     * PUT /fake/test-query-paramters
+     * PUT /fake/test-query-parameters
      * To test the collection format in query parameters
      *
      * @param pipe  (required)

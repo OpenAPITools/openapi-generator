@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
+using FileParameter = Org.OpenAPITools.Client.FileParameter;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
@@ -72,7 +73,6 @@ namespace Org.OpenAPITools.Model
         {
             return false;
         }
-
         /// <summary>
         /// Gets or Sets Property
         /// </summary>
@@ -93,7 +93,6 @@ namespace Org.OpenAPITools.Model
         {
             return false;
         }
-
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
@@ -106,7 +105,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Name {\n");
             sb.Append("  _Name: ").Append(_Name).Append("\n");
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
@@ -155,13 +154,17 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this._Name.GetHashCode();
-                hashCode = hashCode * 59 + this.SnakeCase.GetHashCode();
+                hashCode = (hashCode * 59) + this._Name.GetHashCode();
+                hashCode = (hashCode * 59) + this.SnakeCase.GetHashCode();
                 if (this.Property != null)
-                    hashCode = hashCode * 59 + this.Property.GetHashCode();
-                hashCode = hashCode * 59 + this._123Number.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Property.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this._123Number.GetHashCode();
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }
@@ -171,7 +174,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

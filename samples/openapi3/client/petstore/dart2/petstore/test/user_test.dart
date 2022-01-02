@@ -1,3 +1,4 @@
+@Skip('Needs real petstore')
 import 'package:openapi/api.dart';
 import 'package:test/test.dart';
 
@@ -6,8 +7,7 @@ import 'random_id.dart';
 void main() {
   var userApi = new UserApi();
 
-  User makeUser(
-      {int id, String userName = 'username', String password = 'password'}) {
+  User makeUser({int id, String userName = 'username', String password = 'password'}) {
     return User()
       ..id = id
       ..username = userName
@@ -63,8 +63,7 @@ void main() {
       var username = 'Riddlem325';
       await userApi.createUser(makeUser(id: newId(), userName: username));
       await userApi.deleteUser(username);
-      expect(userApi.getUserByName(username),
-          throwsA(TypeMatcher<ApiException>()));
+      expect(userApi.getUserByName(username), throwsA(TypeMatcher<ApiException>()));
     });
 
     test('logs a user in', () async {
@@ -76,5 +75,5 @@ void main() {
       var result = await userApi.loginUser(username, password);
       expect(result, contains('logged in user session:'));
     });
-  }, skip: 'e2e tests for CI');
+  });
 }

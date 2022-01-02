@@ -81,9 +81,8 @@ open class GenerateTask : DefaultTask() {
     val outputDir = project.objects.property<String>()
 
     @Suppress("unused")
-    @get:Internal
     @set:Option(option = "input", description = "The input specification.")
-    @Input
+    @Internal
     var input: String? = null
         set(value) {
             inputSpec.set(value)
@@ -645,6 +644,8 @@ open class GenerateTask : DefaultTask() {
             engine.ifNotEmpty { value ->
                 if ("handlebars".equals(value, ignoreCase = true)) {
                     configurator.setTemplatingEngineName("handlebars")
+                } else {
+                    configurator.setTemplatingEngineName(value)
                 }
             }
 

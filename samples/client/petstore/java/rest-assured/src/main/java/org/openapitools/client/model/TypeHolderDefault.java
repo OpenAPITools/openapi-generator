@@ -55,6 +55,8 @@ public class TypeHolderDefault {
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
+  public TypeHolderDefault() { 
+  }
 
   public TypeHolderDefault stringItem(String stringItem) {
     
@@ -66,6 +68,7 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(required = true, value = "")
 
@@ -89,6 +92,7 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @Valid
   @ApiModelProperty(required = true, value = "")
@@ -113,6 +117,7 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(required = true, value = "")
 
@@ -136,6 +141,7 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(required = true, value = "")
 
@@ -164,6 +170,7 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(required = true, value = "")
 
