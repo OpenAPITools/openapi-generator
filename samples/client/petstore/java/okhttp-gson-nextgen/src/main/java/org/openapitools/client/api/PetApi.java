@@ -93,7 +93,7 @@ public class PetApi {
             "application/json", "application/xml"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -208,7 +208,7 @@ public class PetApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -325,7 +325,7 @@ public class PetApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -454,7 +454,7 @@ public class PetApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -586,7 +586,7 @@ public class PetApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -713,7 +713,7 @@ public class PetApi {
             "application/json", "application/xml"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -839,7 +839,7 @@ public class PetApi {
             "application/x-www-form-urlencoded"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -965,7 +965,7 @@ public class PetApi {
             "multipart/form-data"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -1101,7 +1101,7 @@ public class PetApi {
             "multipart/form-data"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
