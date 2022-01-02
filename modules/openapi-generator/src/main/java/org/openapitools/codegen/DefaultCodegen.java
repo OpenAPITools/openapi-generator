@@ -4103,7 +4103,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
 
                 // add example
-                if (schemas != null) {
+                if (schemas != null && !isSkipOperationExample()) {
                     op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<>(getConsumesInfo(this.openAPI, operation)), bodyParam.baseType);
                 }
             }
