@@ -1,0 +1,56 @@
+{{>licenseInfo}}
+
+package {{package}};
+
+import {{invokerPackage}}.ApiException;
+{{#imports}}import {{import}};
+{{/imports}}
+import org.junit.Test;
+import org.junit.Ignore;
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{#supportStreaming}}
+import java.io.InputStream;
+{{/supportStreaming}}
+{{/fullJavaUtil}}
+
+/**
+ * API tests for {{classname}}
+ */
+@Ignore
+public class {{classname}}Test {
+
+    private final {{classname}} api = new {{classname}}();
+
+    {{#operations}}{{#operation}}
+    /**
+     * {{summary}}
+     *
+     * {{notes}}
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void {{operationId}}Test() throws ApiException {
+        {{#allParams}}
+        {{{dataType}}} {{paramName}} = null;
+        {{/allParams}}
+        {{#vendorExtensions.x-streaming}}
+                InputStream response = api.{{operationId}}{{^vendorExtensions.x-group-parameters}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}({{#requiredParams}}{{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}){{#optionalParams}}
+                .{{paramName}}({{paramName}}){{/optionalParams}}
+                .execute();{{/vendorExtensions.x-group-parameters}}
+        {{/vendorExtensions.x-streaming}}
+        {{^vendorExtensions.x-streaming}}
+                {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}{{^vendorExtensions.x-group-parameters}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}({{#requiredParams}}{{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}){{#optionalParams}}
+                .{{paramName}}({{paramName}}){{/optionalParams}}
+                .execute();{{/vendorExtensions.x-group-parameters}}
+        {{/vendorExtensions.x-streaming}}
+        // TODO: test validations
+    }
+    {{/operation}}{{/operations}}
+}

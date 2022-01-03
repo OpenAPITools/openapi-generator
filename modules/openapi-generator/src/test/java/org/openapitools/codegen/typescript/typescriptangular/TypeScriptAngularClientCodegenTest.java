@@ -8,13 +8,17 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class TypeScriptAngularClientCodegenTest {
@@ -266,5 +270,45 @@ public class TypeScriptAngularClientCodegenTest {
         final String importName = "@lib/custom/model";
         codegen.importMapping().put(importedModel, importName);
         Assert.assertEquals(codegen.toModelImport(importedModel), importName);
+    }
+
+    @Test
+    public void testTaggedUnionImports() throws Exception {
+        final String specPath = "src/test/resources/3_0/allOf_composition_discriminator_recursive.yaml";
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptAngularClientCodegen.TAGGED_UNIONS, "true");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setAdditionalProperties(properties)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        TestUtils.assertFileContains(
+                Paths.get(output + "/model/expressionToken.ts"),
+                "import { Token } from './token'", // imports the parent schema
+                "import { TokenMetadata } from './tokenMetadata'", // imports a schema referenced in an inherited property
+                "export interface ExpressionToken {" // no inheritance
+        );
+
+        TestUtils.assertFileNotContains(
+                Paths.get(output + "/model/stringToken.ts"),
+                "import { Token } from './token'"
+        );
+
+        TestUtils.assertFileContains(
+                Paths.get(output + "/model/token.ts"),
+                "import { ExpressionToken } from './expressionToken'",
+                "export type Token = ExpressionToken | StringToken"
+        );
     }
 }

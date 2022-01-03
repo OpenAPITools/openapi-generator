@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class EnumArrays {\n");
             sb.Append("  JustSymbol: ").Append(JustSymbol).Append("\n");
             sb.Append("  ArrayEnum: ").Append(ArrayEnum).Append("\n");
@@ -148,8 +148,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.JustSymbol.GetHashCode();
-                hashCode = hashCode * 59 + this.ArrayEnum.GetHashCode();
+                hashCode = (hashCode * 59) + this.JustSymbol.GetHashCode();
+                hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
                 return hashCode;
             }
         }

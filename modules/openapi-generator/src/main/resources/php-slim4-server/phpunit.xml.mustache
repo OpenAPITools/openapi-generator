@@ -8,13 +8,17 @@
     </include>
   </coverage>
   <testsuites>
+    {{#generateApiTests}}
     <testsuite name="Apis">
       <directory>{{apiTestPath}}</directory>
     </testsuite>
+    {{/generateApiTests}}
+    {{#generateModelTests}}
     <testsuite name="Models">
       <file>./{{testBasePath}}/BaseModelTest.php</file>
       <directory>{{modelTestPath}}</directory>
     </testsuite>
+    {{/generateModelTests}}
   </testsuites>
   <php>
     <ini name="error_reporting" value="E_ALL"/>

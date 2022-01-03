@@ -46,6 +46,8 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   @XmlElement(name = "name")
   private String name;
 
+  public AdditionalPropertiesNumber() { 
+  }
 
   public AdditionalPropertiesNumber name(String name) {
     
