@@ -5121,9 +5121,17 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void addImport(CodegenModel m, String type) {
-        if (type != null && needToImport(type)) {
-            m.imports.add(type);
+        addImport(m.imports, type);
+    }
+
+    private void addImport(Set<String> imports, String type) {
+        if (shouldAddImport(type)) {
+            imports.add(type);
         }
+    }
+
+    private boolean shouldAddImport(String type) {
+        return type != null && needToImport(type);
     }
 
     /**
@@ -5262,17 +5270,25 @@ public class DefaultCodegen implements CodegenConfig {
      * @param property The codegen representation of the OAS schema's property.
      */
     protected void addImportsForPropertyType(CodegenModel model, CodegenProperty property) {
-        // TODO revise the logic to include map
         if (property.isContainer) {
-            addImport(model, typeMapping.get("array"));
+            addImport(model.imports, typeMapping.get("array"));
         }
+        model.imports.addAll(getImportsForPropertyType(property, true));
+    }
 
-        addImport(model, property.baseType);
+    private Set<String> getImportsForPropertyType(CodegenProperty property, boolean includeContainerTypes) {
+        Set<String> imports = new HashSet<>();
+        if (includeContainerTypes || !property.isContainer) {
+            addImport(imports, property.baseType);
+        }
         CodegenProperty innerCp = property;
         while (innerCp != null) {
-            addImport(model, innerCp.complexType);
+            if (includeContainerTypes || !property.isContainer) {
+                addImport(imports, innerCp.complexType);
+            }
             innerCp = innerCp.items;
         }
+        return imports;
     }
 
     /**
@@ -6727,6 +6743,8 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty schemaProp = fromProperty(toMediaTypeSchemaName(contentType, mediaTypeSchemaSuffix), mt.getSchema());
             CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap);
             cmtContent.put(contentType, codegenMt);
+            Set<String> importsToAdd = getImportsForPropertyType(schemaProp, false);
+            imports.addAll(importsToAdd);
         }
         return cmtContent;
     }
