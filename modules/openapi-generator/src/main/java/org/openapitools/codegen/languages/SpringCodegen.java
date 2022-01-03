@@ -20,7 +20,6 @@ package org.openapitools.codegen.languages;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-import io.swagger.v3.oas.models.media.Schema;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,6 +32,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -58,12 +63,6 @@ import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.samskivert.mustache.Mustache;
-
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
 
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures {
@@ -387,8 +386,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
 
-        typeMapping.put("file", "org.springframework.core.io.Resource");
-        importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
+        typeMapping.put("file", "Resource");
+        importMapping.put("Resource", "org.springframework.core.io.Resource");
+        importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
+        importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
+        importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
 
         if (useOptional) {
             writePropertyBack(USE_OPTIONAL, useOptional);
@@ -896,6 +898,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
+        if (property.isDate || property.isDateTime) {
+            model.imports.add("DateTimeFormat");
+        }
+
         if ("null".equals(property.example)) {
             property.example = null;
         }
@@ -933,6 +939,22 @@ public class SpringCodegen extends AbstractJavaCodegen
             codegenModel.imports.remove("ApiModel");
         }
         return codegenModel;
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+
+        codegenOperation.allParams.stream().filter(p -> p.isDate || p.isDateTime).findFirst()
+            .ifPresent(p -> codegenOperation.imports.add("DateTimeFormat"));
+
+        if (codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
+            codegenOperation.imports.add("Pageable");
+            if (additionalProperties.containsKey("useSpringfox")) {
+                codegenOperation.imports.add("ApiIgnore");
+            }
+        }
+        return codegenOperation;
     }
 
     @Override
