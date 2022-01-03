@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -20,13 +18,13 @@ import javax.xml.bind.annotation.*;
 import java.util.*;
 
 /**
- * A category for a pet
+ * A tag for a pet
  */
-@Schema(name = "Category",description = "A category for a pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.CamelServerCodegen")@JacksonXmlRootElement(localName = "Category")
-@XmlRootElement(name = "Category")
+@Schema(name = "Tag",description = "A tag for a pet")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")@JacksonXmlRootElement(localName = "Tag")
+@XmlRootElement(name = "Tag")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Category   {
+public class Tag   {
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   private Long id;
@@ -35,7 +33,7 @@ public class Category   {
   @JacksonXmlProperty(localName = "name")
   private String name;
 
-  public Category id(Long id) {
+  public Tag id(Long id) {
     this.id = id;
     return this;
   }
@@ -55,7 +53,7 @@ public class Category   {
     this.id = id;
   }
 
-  public Category name(String name) {
+  public Tag name(String name) {
     this.name = name;
     return this;
   }
@@ -66,7 +64,7 @@ public class Category   {
   */
   @Schema(name = "name", defaultValue = "")
 
-@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
+
   public String getName() {
     return name;
   }
@@ -84,9 +82,9 @@ public class Category   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Category category = (Category) o;
-    return Objects.equals(this.id, category.id) &&
-        Objects.equals(this.name, category.name);
+    Tag tag = (Tag) o;
+    return Objects.equals(this.id, tag.id) &&
+        Objects.equals(this.name, tag.name);
   }
 
   @Override
@@ -97,7 +95,7 @@ public class Category   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Category {\n");
+    sb.append("class Tag {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

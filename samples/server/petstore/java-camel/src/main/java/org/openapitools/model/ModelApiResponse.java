@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -23,7 +21,7 @@ import java.util.*;
  * Describes the result of uploading an image resource
  */
 @Schema(name = "ApiResponse",description = "Describes the result of uploading an image resource")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.CamelServerCodegen")@JacksonXmlRootElement(localName = "ModelApiResponse")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")@JacksonXmlRootElement(localName = "ModelApiResponse")
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ModelApiResponse   {

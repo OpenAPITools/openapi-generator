@@ -5,8 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -25,7 +23,7 @@ import java.util.*;
  * An order for a pets from the pet store
  */
 @Schema(name = "Order",description = "An order for a pets from the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.CamelServerCodegen")@JacksonXmlRootElement(localName = "Order")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")@JacksonXmlRootElement(localName = "Order")
 @XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Order   {

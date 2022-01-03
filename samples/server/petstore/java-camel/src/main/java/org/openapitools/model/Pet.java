@@ -5,8 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.Category;
@@ -28,7 +26,7 @@ import java.util.*;
  * A pet for sale in the pet store
  */
 @Schema(name = "Pet",description = "A pet for sale in the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.CamelServerCodegen")@JacksonXmlRootElement(localName = "Pet")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")@JacksonXmlRootElement(localName = "Pet")
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Pet   {

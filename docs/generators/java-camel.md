@@ -1,6 +1,6 @@
 ---
-title: Config Options for camel
-sidebar_label: camel
+title: Config Options for java-camel
+sidebar_label: java-camel
 ---
 
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.

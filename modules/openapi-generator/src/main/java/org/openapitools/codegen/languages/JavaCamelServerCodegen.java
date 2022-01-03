@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CamelServerCodegen extends SpringCodegen implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures {
+public class JavaCamelServerCodegen extends SpringCodegen implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures {
     private static final String APPLICATION_JSON = "application/json";
     private static final String APPLICATION_XML = "application/xml";
 
@@ -38,23 +38,23 @@ public class CamelServerCodegen extends SpringCodegen implements BeanValidationF
     private boolean camelSecurityDefinitions = true;
     private String camelDataformatProperties = "";
 
-    private final Logger LOGGER = LoggerFactory.getLogger(CamelServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaCamelServerCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
     public String getName() {
-        return "camel";
+        return "java-camel";
     }
 
     public String getHelp() {
         return "Generates a camel server.";
     }
 
-    public CamelServerCodegen() {
+    public JavaCamelServerCodegen() {
         super();
-        templateDir = "camel";
+        templateDir = "java-camel-server";
         addCliOptions();
         artifactId = "openapi-camel";
         super.library = "";
@@ -67,7 +67,7 @@ public class CamelServerCodegen extends SpringCodegen implements BeanValidationF
         }
         super.processOpts();
         super.apiTemplateFiles.remove("apiController.mustache");
-        LOGGER.info("***** Apache Camel Server Generator *****");
+        LOGGER.info("***** Java Apache Camel Server Generator *****");
         supportingFiles.clear();
         manageAdditionalProperties();
 
