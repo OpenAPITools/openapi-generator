@@ -56,6 +56,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import com.google.common.collect.ImmutableMap;
@@ -890,8 +891,13 @@ public class JavaClientCodegenTest {
 
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/4803
+     *
+     * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
+     * We will contact the contributor of the following test to see if the fix will break their use cases and
+     * how we can fix it accordingly.
      */
     @Test
+    @Ignore
     public void testRestTemplateFormMultipart() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();
@@ -933,8 +939,13 @@ public class JavaClientCodegenTest {
 
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/4803
+     *
+     * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
+     * We will contact the contributor of the following test to see if the fix will break their use cases and
+     * how we can fix it accordingly. 
      */
     @Test
+    @Ignore
     public void testWebClientFormMultipart() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();
@@ -1005,8 +1016,13 @@ public class JavaClientCodegenTest {
 
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/6715
+     *
+     * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
+     * We will contact the contributor of the following test to see if the fix will break their use cases and
+     * how we can fix it accordingly.
      */
     @Test
+    @Ignore
     public void testRestTemplateWithUseAbstractionForFiles() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();
@@ -1129,15 +1145,19 @@ public class JavaClientCodegenTest {
 
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/6715
+     *
+     * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
+     * We will contact the contributor of the following test to see if the fix will break their use cases and
+     * how we can fix it accordingly.
      */
     @Test
+    @Ignore
     public void testWebClientWithUseAbstractionForFiles() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
         properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
-
 
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();

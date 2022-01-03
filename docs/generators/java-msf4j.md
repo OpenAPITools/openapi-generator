@@ -128,6 +128,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>else</li>
 <li>enum</li>
 <li>extends</li>
+<li>file</li>
 <li>final</li>
 <li>finally</li>
 <li>float</li>
@@ -139,6 +140,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>instanceof</li>
 <li>int</li>
 <li>interface</li>
+<li>list</li>
 <li>localreturntype</li>
 <li>localvaraccept</li>
 <li>localvaraccepts</li>
