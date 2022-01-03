@@ -22,7 +22,7 @@ type Pet struct {
 	PhotoUrls []string `json:"photoUrls"`
 	Tags []Tag `json:"tags,omitempty"`
 	// pet status in the store
-    // Deprecated
+	// Deprecated
 	Status *string `json:"status,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
