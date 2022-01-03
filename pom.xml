@@ -3,6 +3,7 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>5</version>
+        <relativePath/><!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
@@ -1208,15 +1209,21 @@
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
                 <module>samples/server/petstore/jaxrs-resteasy/default-value</module>
                 <!--<module>samples/server/petstore/kotlin-server/ktor</module>-->
-                <!-- move to other CI as the following fails often in CircleCI
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>-->
                 <module>samples/client/petstore/spring-cloud</module>
+                <module>samples/openapi3/client/petstore/spring-cloud</module>
+                <module>samples/client/petstore/spring-cloud-date-time</module>
+                <module>samples/openapi3/client/petstore/spring-cloud-date-time</module>
                 <module>samples/server/petstore/springboot</module>
+                <module>samples/openapi3/server/petstore/springboot</module>
                 <module>samples/server/petstore/springboot-beanvalidation</module>
                 <module>samples/server/petstore/springboot-useoptional</module>
+                <module>samples/openapi3/server/petstore/springboot-useoptional</module>
                 <module>samples/server/petstore/springboot-reactive</module>
+                <module>samples/openapi3/server/petstore/springboot-reactive</module>
+                <module>samples/server/petstore/springboot-implicitHeaders</module>
+                <module>samples/openapi3/server/petstore/springboot-implicitHeaders</module>
+                <module>samples/server/petstore/springboot-delegate</module>
+                <module>samples/openapi3/server/petstore/springboot-delegate</module>
                 <module>samples/server/petstore/jaxrs-cxf</module>
                 <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
@@ -1228,6 +1235,37 @@
                 <module>samples/server/petstore/scala-akka-http-server</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/scala-finch</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>samples.circleci.spring</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.circleci.spring</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/server/petstore/spring-mvc-default-value</module>
+                <module>samples/server/petstore/spring-mvc-j8-async</module>
+                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
+                <!-- servers -->
+                <module>samples/client/petstore/spring-cloud</module>
+                <module>samples/openapi3/client/petstore/spring-cloud</module>
+                <module>samples/client/petstore/spring-cloud-date-time</module>
+                <module>samples/openapi3/client/petstore/spring-cloud-date-time</module>
+                <module>samples/server/petstore/springboot</module>
+                <module>samples/openapi3/server/petstore/springboot</module>
+                <module>samples/server/petstore/springboot-beanvalidation</module>
+                <module>samples/server/petstore/springboot-useoptional</module>
+                <module>samples/openapi3/server/petstore/springboot-useoptional</module>
+                <module>samples/server/petstore/springboot-reactive</module>
+                <module>samples/openapi3/server/petstore/springboot-reactive</module>
+                <module>samples/server/petstore/springboot-implicitHeaders</module>
+                <module>samples/openapi3/server/petstore/springboot-implicitHeaders</module>
+                <module>samples/server/petstore/springboot-delegate</module>
+                <module>samples/openapi3/server/petstore/springboot-delegate</module>
             </modules>
         </profile>
         <!-- node 3 tests in CircleCI -->

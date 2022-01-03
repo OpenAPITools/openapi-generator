@@ -1041,7 +1041,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             Map<?, ?> respExtensions = (Map<?, ?>) resp.getExtensions().get(X_OPERATION_RESPONSE);
             Entry<?, ?> entry = respExtensions.entrySet().stream().findFirst().orElse(null);
 
-            if (entry.getKey().equals(X_OPERATION_RESPONSE_HIDE)) {
+            if (entry != null && entry.getKey().equals(X_OPERATION_RESPONSE_HIDE)) {
                 return Boolean.parseBoolean(String.valueOf(entry.getValue()));
             }
         }
