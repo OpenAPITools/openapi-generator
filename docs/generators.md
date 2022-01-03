@@ -82,7 +82,6 @@ The following generators are available:
 ## SERVER generators
 * [ada-server](generators/ada-server.md)  
 * [aspnetcore](generators/aspnetcore.md)  
-* [camel](generators/camel.md)  
 * [cpp-pistache-server](generators/cpp-pistache-server.md)  
 * [cpp-qt-qhttpengine-server](generators/cpp-qt-qhttpengine-server.md)  
 * [cpp-restbed-server](generators/cpp-restbed-server.md)  
@@ -97,6 +96,7 @@ The following generators are available:
 * [graphql-nodejs-express-server](generators/graphql-nodejs-express-server.md)  
 * [haskell](generators/haskell.md)  
 * [haskell-yesod (beta)](generators/haskell-yesod.md)  
+* [java-camel](generators/java-camel.md)  
 * [java-inflector](generators/java-inflector.md)  
 * [java-msf4j](generators/java-msf4j.md)  
 * [java-pkmst](generators/java-pkmst.md)  
