@@ -2,7 +2,6 @@ package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
-import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,7 +46,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    ResponseEntity<List<Pet>> findPetsByStatus(List<String> status, final Pageable pageable);
+    ResponseEntity<List<Pet>> findPetsByStatus(List<String> status, final org.springframework.data.domain.Pageable pageable);
 
     /**
      * GET /pet/findByTags : Finds Pets by tags
@@ -59,7 +58,7 @@ public interface PetApiDelegate {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
-    ResponseEntity<List<Pet>> findPetsByTags(List<String> tags, final Pageable pageable);
+    ResponseEntity<List<Pet>> findPetsByTags(List<String> tags, final org.springframework.data.domain.Pageable pageable);
 
     /**
      * GET /pet/{petId} : Find pet by ID
