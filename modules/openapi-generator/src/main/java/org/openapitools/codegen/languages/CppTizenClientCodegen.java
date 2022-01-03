@@ -175,7 +175,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         if (languageSpecificPrimitives.contains(name)) {
             return name;
         } else {
-            return name;
+            return super.getTypeDeclaration(name);
         }
     }
 
