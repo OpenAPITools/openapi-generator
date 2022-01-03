@@ -3,12 +3,17 @@ import { HttpService, HttpModule, HttpModuleOptions } from '@nestjs/axios';
 import { Configuration } from './configuration';
 import { Agent } from "https";
 import * as fs from 'fs';
+import {REQUEST} from "@nestjs/core";
+
 
 {{#apiInfo}}
 {{#apis}}
 import { {{classname}} } from './{{importPath}}';
 {{/apis}}
 {{/apiInfo}}
+
+let cachedOptions: HttpModuleOptions = undefined;
+let cachedOptionsRefresh: Date;
 
 @Global()
 @Module({
@@ -29,12 +34,18 @@ export class ApiModule {
             providers: [ { provide: Configuration, useFactory: configurationFactory } ],
             imports: [
               HttpModule.registerAsync({
-              useFactory: () =>
-                createHttpOptions(
-                  configurationFactory().certPath,
-                  configurationFactory().certKeyPath,
-                  configurationFactory().caPath
-                ),
+              useFactory: (request) => {
+                if(cachedOptions === undefined || cachedOptionsRefresh < new Date()){                  
+                  //Refresh certs every 5 minutes or on next request.  Should work with AutoCert since they renew well before 5 minutes are left on the 60 minute cert
+                  cachedOptionsRefresh = new Date(new Date().getTime() + 5 * 60000);
+                  cachedOptions = createHttpOptions(
+                      configurationFactory().certPath,
+                      configurationFactory().certKeyPath,
+                      configurationFactory().caPath
+                  )}
+                return cachedOptions;
+              },
+              inject: [REQUEST]
             }),
       ],
       exports: [HttpModule]
