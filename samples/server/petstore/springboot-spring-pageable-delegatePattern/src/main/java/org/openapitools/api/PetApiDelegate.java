@@ -173,13 +173,13 @@ public interface PetApiDelegate {
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param _file file to upload (optional)
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
     default ResponseEntity<ModelApiResponse> uploadFile(Long petId,
         String additionalMetadata,
-        MultipartFile file) {
+        MultipartFile _file) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

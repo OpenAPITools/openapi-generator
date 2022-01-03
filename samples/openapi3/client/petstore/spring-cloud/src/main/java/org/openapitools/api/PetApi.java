@@ -247,7 +247,7 @@ public interface PetApi {
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param _file file to upload (optional)
      * @return successful operation (status code 200)
      */
     @Operation(
@@ -269,7 +269,7 @@ public interface PetApi {
     ResponseEntity<ModelApiResponse> uploadFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server", schema = @Schema(description = "")) @RequestParam(value="additionalMetadata", required=false) String additionalMetadata,
-        @Parameter(name = "file", description = "file to upload", schema = @Schema(description = "")) @RequestParam("file") MultipartFile file
+        @Parameter(name = "file", description = "file to upload", schema = @Schema(description = "")) @RequestParam("file") MultipartFile _file
     );
 
 }

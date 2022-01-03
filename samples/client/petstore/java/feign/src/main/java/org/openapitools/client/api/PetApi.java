@@ -327,7 +327,7 @@ public interface PetApi extends ApiClient.Api {
    * 
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
-   * @param file file to upload (optional)
+   * @param _file file to upload (optional)
    * @return ModelApiResponse
    */
   @RequestLine("POST /pet/{petId}/uploadImage")
@@ -335,7 +335,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: multipart/form-data",
     "Accept: application/json",
   })
-  ModelApiResponse uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
+  ModelApiResponse uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("_file") File _file);
 
   /**
    * uploads an image
@@ -343,7 +343,7 @@ public interface PetApi extends ApiClient.Api {
    * 
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
-   * @param file file to upload (optional)
+   * @param _file file to upload (optional)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("POST /pet/{petId}/uploadImage")
@@ -351,7 +351,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: multipart/form-data",
     "Accept: application/json",
   })
-  ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
+  ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("_file") File _file);
 
 
 
