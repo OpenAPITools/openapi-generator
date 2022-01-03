@@ -2,7 +2,6 @@ package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
-import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +60,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    default ResponseEntity<List<Pet>> findPetsByStatus(List<String> status, final Pageable pageable) {
+    default ResponseEntity<List<Pet>> findPetsByStatus(List<String> status, final org.springframework.data.domain.Pageable pageable) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -90,7 +89,7 @@ public interface PetApiDelegate {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
-    default ResponseEntity<List<Pet>> findPetsByTags(List<String> tags, final Pageable pageable) {
+    default ResponseEntity<List<Pet>> findPetsByTags(List<String> tags, final org.springframework.data.domain.Pageable pageable) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

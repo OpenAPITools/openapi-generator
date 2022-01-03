@@ -94,7 +94,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fakeEnumRequestGetInline(requestParameters: FakeEnumRequestGetInlineRequest, initOverrides?: RequestInit): Promise<InlineResponse200> {
+    async fakeEnumRequestGetInline(requestParameters: FakeEnumRequestGetInlineRequest = {}, initOverrides?: RequestInit): Promise<InlineResponse200> {
         const response = await this.fakeEnumRequestGetInlineRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -134,7 +134,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fakeEnumRequestGetRef(requestParameters: FakeEnumRequestGetRefRequest, initOverrides?: RequestInit): Promise<EnumPatternObject> {
+    async fakeEnumRequestGetRef(requestParameters: FakeEnumRequestGetRefRequest = {}, initOverrides?: RequestInit): Promise<EnumPatternObject> {
         const response = await this.fakeEnumRequestGetRefRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -161,7 +161,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fakeEnumRequestPostInline(requestParameters: FakeEnumRequestPostInlineRequest, initOverrides?: RequestInit): Promise<InlineObject> {
+    async fakeEnumRequestPostInline(requestParameters: FakeEnumRequestPostInlineRequest = {}, initOverrides?: RequestInit): Promise<InlineObject> {
         const response = await this.fakeEnumRequestPostInlineRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -188,7 +188,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fakeEnumRequestPostRef(requestParameters: FakeEnumRequestPostRefRequest, initOverrides?: RequestInit): Promise<EnumPatternObject> {
+    async fakeEnumRequestPostRef(requestParameters: FakeEnumRequestPostRefRequest = {}, initOverrides?: RequestInit): Promise<EnumPatternObject> {
         const response = await this.fakeEnumRequestPostRefRaw(requestParameters, initOverrides);
         return await response.value();
     }

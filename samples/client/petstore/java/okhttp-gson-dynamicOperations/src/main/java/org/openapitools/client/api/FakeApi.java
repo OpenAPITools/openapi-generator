@@ -141,7 +141,7 @@ public class FakeApi {
             "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -272,7 +272,7 @@ public class FakeApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -402,7 +402,7 @@ public class FakeApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -532,7 +532,7 @@ public class FakeApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -662,7 +662,7 @@ public class FakeApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -792,7 +792,7 @@ public class FakeApi {
             "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -925,7 +925,7 @@ public class FakeApi {
             "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -1064,7 +1064,7 @@ public class FakeApi {
             "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -1269,7 +1269,7 @@ public class FakeApi {
             "application/x-www-form-urlencoded"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -1479,7 +1479,7 @@ public class FakeApi {
             "application/x-www-form-urlencoded"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -1623,7 +1623,7 @@ public class FakeApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -1844,7 +1844,7 @@ public class FakeApi {
             "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -1984,7 +1984,7 @@ public class FakeApi {
             "application/x-www-form-urlencoded"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -2132,7 +2132,7 @@ public class FakeApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 

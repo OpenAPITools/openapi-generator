@@ -9,30 +9,30 @@
   ],
   "require": {
     "php": "^7.4 || ^8.0",
-    "slim/slim": "^4.5.0",
     "dyorg/slim-token-authentication": "dev-slim4",
-    "ybelenko/openapi-data-mocker": "^1.0",
-    "ybelenko/openapi-data-mocker-server-middleware": "^1.0",
-    {{#isSlimPsr7}}
-    "slim/psr7": "^1.1.0"
-    {{/isSlimPsr7}}
-    {{#isNyholmPsr7}}
-    "nyholm/psr7": "^1.3.0",
-    "nyholm/psr7-server": "^0.4.1"
-    {{/isNyholmPsr7}}
     {{#isGuzzlePsr7}}
     "guzzlehttp/psr7": "^1.6.1",
-    "http-interop/http-factory-guzzle": "^1.0.0"
+    "http-interop/http-factory-guzzle": "^1.0.0",
     {{/isGuzzlePsr7}}
     {{#isZendDiactoros}}
-    "laminas/laminas-diactoros": "^2.3.0"
+    "laminas/laminas-diactoros": "^2.3.0",
     {{/isZendDiactoros}}
+    {{#isNyholmPsr7}}
+    "nyholm/psr7": "^1.3.0",
+    "nyholm/psr7-server": "^0.4.1",
+    {{/isNyholmPsr7}}
+    "php-di/slim-bridge": "^3.2",
+    {{#isSlimPsr7}}
+    "slim/psr7": "^1.1.0",
+    {{/isSlimPsr7}}
+    "ybelenko/openapi-data-mocker": "^1.0",
+    "ybelenko/openapi-data-mocker-server-middleware": "^1.0"
   },
   "require-dev": {
+    "overtrue/phplint": "^2.0.2",
     {{#generateTests}}
     "phpunit/phpunit": "^8.0 || ^9.0",
     {{/generateTests}}
-    "overtrue/phplint": "^2.0.2",
     "squizlabs/php_codesniffer": "^3.5"
   },
   "autoload": {
@@ -58,5 +58,8 @@
     {{/generateTests}}
     "phpcs": "phpcs",
     "phplint": "phplint ./ --exclude=vendor"
+  },
+  "config": {
+    "sort-packages": true
   }
 }
