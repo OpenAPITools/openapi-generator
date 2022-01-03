@@ -39,8 +39,8 @@ public class AnotherFakeApiController implements AnotherFakeApi {
      * @see AnotherFakeApi#call123testSpecialTags
      */
     public ResponseEntity<Client> call123testSpecialTags(
-
-@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body) {
+        @ApiParam(value = "client model", required = true) @Valid @RequestBody Client body
+    ) {
         return delegate.call123testSpecialTags(body);
     }
 

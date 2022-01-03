@@ -199,7 +199,9 @@ Declare the class with extends and implements
         {{^isReadOnly}}
             {{#jackson}}
                 {{^vendorExtensions.x-is-jackson-optional-nullable}}
-{{>model/jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{>model/jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}{{#vendorExtensions.x-setter-extra-annotation}}
+  {{{vendorExtensions.x-setter-extra-annotation}}}
+{{/vendorExtensions.x-setter-extra-annotation}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
             {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
             {{/vendorExtensions.x-is-jackson-optional-nullable}}

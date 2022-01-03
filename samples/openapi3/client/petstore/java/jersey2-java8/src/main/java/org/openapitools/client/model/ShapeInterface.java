@@ -39,6 +39,8 @@ public class ShapeInterface {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;
 
+  public ShapeInterface() { 
+  }
 
   public ShapeInterface shapeType(String shapeType) {
     this.shapeType = shapeType;

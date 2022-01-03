@@ -121,6 +121,8 @@ public class AdditionalPropertiesClass {
   @XmlElement(name = "anytype_3")
   private Object anytype3;
 
+  public AdditionalPropertiesClass() { 
+  }
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     

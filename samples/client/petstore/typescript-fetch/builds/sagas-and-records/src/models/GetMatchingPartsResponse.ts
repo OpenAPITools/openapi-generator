@@ -18,11 +18,13 @@ import {
     MatchingPartsFromJSON,
     MatchingPartsFromJSONTyped,
     MatchingPartsToJSON,
+} from './MatchingParts';
+import {
     ResponseMeta,
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
-} from './';
+} from './ResponseMeta';
 
 /**
  * 

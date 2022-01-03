@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+import io.swagger.v3.oas.models.media.Schema;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -449,7 +450,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("homeController.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "HomeController.java"));
-                if (!reactive && !apiFirst) {
+                if (!reactive && !apiFirst && this.openapiDocketConfig) {
                     supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
                             (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                             "OpenAPIDocumentationConfig.java"));
@@ -575,7 +576,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 basePath = basePath.substring(0, pos);
             }
 
-            if ("".equals(basePath)) {
+            if (basePath.isEmpty()) {
                 basePath = "default";
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
@@ -921,6 +922,17 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (model.getVendorExtensions().containsKey("x-jackson-optional-nullable-helpers")) {
             model.imports.add("Arrays");
         }
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
+        if (oas3) {
+            // remove swagger2 imports
+            codegenModel.imports.remove("ApiModelProperty");
+            codegenModel.imports.remove("ApiModel");
+        }
+        return codegenModel;
     }
 
     @Override

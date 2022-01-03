@@ -691,22 +691,30 @@ components:
       properties:
         id:
           format: int64
+          title: id
           type: integer
         username:
+          title: username
           type: string
         firstName:
+          title: firstName
           type: string
         lastName:
+          title: lastName
           type: string
         email:
+          title: email
           type: string
         password:
+          title: password
           type: string
         phone:
+          title: phone
           type: string
         userStatus:
           description: User Status
           format: int32
+          title: userStatus
           type: integer
       title: a User
       type: object

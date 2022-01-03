@@ -39,6 +39,8 @@ public class DogAllOf {
   public static final String JSON_PROPERTY_BREED = "breed";
   private String breed;
 
+  public DogAllOf() { 
+  }
 
   public DogAllOf breed(String breed) {
     this.breed = breed;

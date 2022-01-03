@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -25,11 +26,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -44,6 +44,10 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     public static final String WRAP_CALLS = "wrapCalls";
     public static final String USE_SWAGGER_UI = "useSwaggerUI";
     public static final String SUPPORT_ASYNC = "supportAsync";
+
+    private static final String X_JWKS_URL = "x-jwksUrl";
+    private static final String X_TOKEN_INTROSPECT_URL = "x-tokenIntrospectUrl";
+
 
     protected String title = "openapi-java-playframework";
     protected String configPackage = "org.openapitools.configuration";
@@ -197,6 +201,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             supportingFiles.add(new SupportingFile("module.mustache", "app", "Module.java"));
         }
         supportingFiles.add(new SupportingFile("openapiUtils.mustache", "app/openapitools", "OpenAPIUtils.java"));
+        supportingFiles.add(new SupportingFile("securityApiUtils.mustache", "app/openapitools", "SecurityAPIUtils.java"));
         if (this.handleExceptions) {
             supportingFiles.add(new SupportingFile("errorHandler.mustache", "app/openapitools", "ErrorHandler.java"));
         }
@@ -375,5 +380,99 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateJSONSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
+    }
+
+    @Override
+    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
+        List<? extends CodegenSecurity> securities = super.fromSecurity(securitySchemeMap);
+        List<CodegenSecurity> extendedSecurities = new ArrayList<>();
+
+        for (CodegenSecurity codegenSecurity : securities) {
+            ExtendedCodegenSecurity extendedCodegenSecurity = new ExtendedCodegenSecurity(codegenSecurity);
+            Object jwksUrl = extendedCodegenSecurity.vendorExtensions.get(X_JWKS_URL);
+
+            if (jwksUrl instanceof String) {
+                extendedCodegenSecurity.jwksUrl = (String) jwksUrl;
+            }
+
+            Object tokenIntrospectUrl = extendedCodegenSecurity.vendorExtensions.get(X_TOKEN_INTROSPECT_URL);
+
+            if (tokenIntrospectUrl instanceof String) {
+                extendedCodegenSecurity.tokenIntrospectUrl = (String) tokenIntrospectUrl;
+            }
+            extendedSecurities.add(extendedCodegenSecurity);
+        }
+
+        return extendedSecurities;
+    }
+
+
+    class ExtendedCodegenSecurity extends CodegenSecurity {
+        public String jwksUrl;
+        public String tokenIntrospectUrl;
+
+        public ExtendedCodegenSecurity(CodegenSecurity cm) {
+            super();
+
+            this.name = cm.name;
+            this.type = cm.type;
+            this.scheme = cm.scheme;
+            this.isBasic = cm.isBasic;
+            this.isOAuth = cm.isOAuth;
+            this.isApiKey = cm.isApiKey;
+            this.isBasicBasic = cm.isBasicBasic;
+            this.isBasicBearer = cm.isBasicBearer;
+            this.isHttpSignature = cm.isHttpSignature;
+            this.bearerFormat = cm.bearerFormat;
+            this.vendorExtensions = new HashMap<String, Object>(cm.vendorExtensions);
+            this.keyParamName = cm.keyParamName;
+            this.isKeyInQuery = cm.isKeyInQuery;
+            this.isKeyInHeader = cm.isKeyInHeader;
+            this.isKeyInCookie = cm.isKeyInCookie;
+            this.flow = cm.flow;
+            this.authorizationUrl = cm.authorizationUrl;
+            this.tokenUrl = cm.tokenUrl;
+            this.refreshUrl = cm.refreshUrl;
+            this.scopes = cm.scopes;
+            this.isCode = cm.isCode;
+            this.isPassword = cm.isPassword;
+            this.isApplication = cm.isApplication;
+            this.isImplicit = cm.isImplicit;
+        }
+
+        @Override
+        public CodegenSecurity filterByScopeNames(List<String> filterScopes) {
+            CodegenSecurity codegenSecurity = super.filterByScopeNames(filterScopes);
+            ExtendedCodegenSecurity extendedCodegenSecurity =  new ExtendedCodegenSecurity(codegenSecurity);
+            extendedCodegenSecurity.jwksUrl = this.jwksUrl;
+            extendedCodegenSecurity.tokenIntrospectUrl = this.tokenIntrospectUrl;
+            return extendedCodegenSecurity;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            boolean result = super.equals(o);
+            JavaPlayFrameworkCodegen.ExtendedCodegenSecurity that = (JavaPlayFrameworkCodegen.ExtendedCodegenSecurity) o;
+            return result &&
+                    Objects.equals(jwksUrl, that.jwksUrl) &&
+                    Objects.equals(tokenIntrospectUrl, that.tokenIntrospectUrl);
+
+        }
+
+        @Override
+        public int hashCode() {
+            int superHash = super.hashCode();
+            return Objects.hash(superHash, tokenIntrospectUrl, jwksUrl);
+        }
+
+        @Override
+        public String toString() {
+            String superString = super.toString();
+            final StringBuilder sb = new StringBuilder(superString);
+            sb.append(", jwksUrl='").append(jwksUrl).append('\'');
+            sb.append(", tokenIntrospectUrl='").append(tokenIntrospectUrl).append('\'');
+            return sb.toString();
+        }
+
     }
 }

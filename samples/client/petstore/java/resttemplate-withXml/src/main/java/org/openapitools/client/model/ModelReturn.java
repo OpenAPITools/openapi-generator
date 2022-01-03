@@ -44,6 +44,8 @@ public class ModelReturn {
   @XmlElement(name = "return")
   private Integer _return;
 
+  public ModelReturn() { 
+  }
 
   public ModelReturn _return(Integer _return) {
     
