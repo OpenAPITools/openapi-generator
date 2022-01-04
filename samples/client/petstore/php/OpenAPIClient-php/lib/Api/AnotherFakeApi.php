@@ -375,7 +375,7 @@ class AnotherFakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
         return new Request(
             'PATCH',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
