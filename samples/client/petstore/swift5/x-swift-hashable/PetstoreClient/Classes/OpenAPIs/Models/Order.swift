@@ -12,7 +12,7 @@ import AnyCodable
 
 public struct Order: Codable, JSONEncodable{
 
-    public enum Status: String, Codable, CaseIterable {
+    public enum Status: String, Codable, JSONEncodable, CaseIterable {
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"

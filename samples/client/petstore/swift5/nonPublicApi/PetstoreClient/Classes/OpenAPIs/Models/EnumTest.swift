@@ -12,21 +12,21 @@ import AnyCodable
 
 internal struct EnumTest: Codable, JSONEncodable, Hashable{
 
-    internal enum EnumString: String, Codable, CaseIterable {
+    internal enum EnumString: String, Codable, JSONEncodable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
     }
-    internal enum EnumStringRequired: String, Codable, CaseIterable {
+    internal enum EnumStringRequired: String, Codable, JSONEncodable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
     }
-    internal enum EnumInteger: Int, Codable, CaseIterable {
+    internal enum EnumInteger: Int, Codable, JSONEncodable, CaseIterable {
         case _1 = 1
         case number1 = -1
     }
-    internal enum EnumNumber: Double, Codable, CaseIterable {
+    internal enum EnumNumber: Double, Codable, JSONEncodable, CaseIterable {
         case _11 = 1.1
         case number12 = -1.2
     }

@@ -17,7 +17,7 @@ extension PetstoreClientAPI {
 
 public final class Pet: Codable, JSONEncodable, Hashable{
 
-    public enum Status: String, Codable, CaseIterable {
+    public enum Status: String, Codable, JSONEncodable, CaseIterable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"

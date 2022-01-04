@@ -15,7 +15,7 @@ public typealias OuterEnum = PetstoreClientAPI.OuterEnum
 
 extension PetstoreClientAPI {
 
-public enum OuterEnum: String, Codable, CaseIterable {
+public enum OuterEnum: String, Codable, JSONEncodable, CaseIterable {
     case placed = "placed"
     case approved = "approved"
     case delivered = "delivered"

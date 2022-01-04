@@ -12,7 +12,7 @@ import AnyCodable
 
 internal struct MapTest: Codable, JSONEncodable, Hashable{
 
-    internal enum MapOfEnumString: String, Codable, CaseIterable {
+    internal enum MapOfEnumString: String, Codable, JSONEncodable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
     }

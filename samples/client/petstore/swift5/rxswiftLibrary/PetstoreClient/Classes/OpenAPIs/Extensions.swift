@@ -65,12 +65,6 @@ extension Date: JSONEncodable {
     }
 }
 
-extension HTTPURLResponse {
-    var isStatusCodeSuccessful: Bool {
-        return (200 ..< 300).contains(statusCode)
-    }
-}
-
 extension JSONEncodable where Self: Encodable {
     func encodeToJSON() -> Any {
         let encoder = CodableHelper.jsonEncoder
@@ -78,5 +72,12 @@ extension JSONEncodable where Self: Encodable {
             fatalError("Could not encode to json: \(self)")
         }
         return data.encodeToJSON()
+    }
+}
+
+
+extension HTTPURLResponse {
+    var isStatusCodeSuccessful: Bool {
+        return (200 ..< 300).contains(statusCode)
     }
 }

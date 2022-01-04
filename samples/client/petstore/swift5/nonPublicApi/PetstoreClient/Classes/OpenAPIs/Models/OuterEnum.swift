@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-internal enum OuterEnum: String, Codable, CaseIterable {
+internal enum OuterEnum: String, Codable, JSONEncodable, CaseIterable {
     case placed = "placed"
     case approved = "approved"
     case delivered = "delivered"
