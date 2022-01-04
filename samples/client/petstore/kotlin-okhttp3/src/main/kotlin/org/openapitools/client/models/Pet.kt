@@ -62,13 +62,12 @@ data class Pet (
     /**
      * pet status in the store
      *
-     * Values: available,pending,sold,unknownDefaultOpenApi
+     * Values: available,pending,sold
      */
     enum class Status(val value: kotlin.String) {
         @Json(name = "available") available("available"),
         @Json(name = "pending") pending("pending"),
-        @Json(name = "sold") sold("sold"),
-        @Json(name = "unknown_default_open_api") unknownDefaultOpenApi("unknown_default_open_api");
+        @Json(name = "sold") sold("sold");
     }
 }
 

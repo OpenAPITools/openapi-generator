@@ -30,7 +30,6 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import java.io.IOException;
 
 
-import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import java.lang.reflect.Type;

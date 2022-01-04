@@ -14,7 +14,6 @@
 package org.openapitools.client.api;
 
 import com.google.gson.reflect.TypeToken;
-import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;

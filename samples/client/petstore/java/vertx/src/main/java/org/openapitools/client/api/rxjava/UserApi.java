@@ -1,6 +1,5 @@
 package org.openapitools.client.api.rxjava;
 
-import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 import org.openapitools.client.ApiClient;
 

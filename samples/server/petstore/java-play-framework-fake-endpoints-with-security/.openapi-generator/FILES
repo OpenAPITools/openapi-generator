@@ -14,7 +14,6 @@ app/controllers/PetApiControllerImpInterface.java
 app/openapitools/ApiCall.java
 app/openapitools/ErrorHandler.java
 app/openapitools/OpenAPIUtils.java
-app/openapitools/SecurityAPIUtils.java
 build.sbt
 conf/application.conf
 conf/logback.xml

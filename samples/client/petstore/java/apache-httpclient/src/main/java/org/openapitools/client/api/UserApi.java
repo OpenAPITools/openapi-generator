@@ -20,7 +20,6 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.model.*;
 import org.openapitools.client.Pair;
 
-import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 

@@ -8,7 +8,6 @@ import org.openapitools.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
-import java.time.LocalDateTime;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;
