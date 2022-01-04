@@ -65,7 +65,18 @@ extension Date: JSONEncodable {
     func encodeToJSON() -> Any {
         return CodableHelper.dateFormatter.string(from: self)
     }
-}{{/useVapor}}{{#generateModelAdditionalProperties}}
+}
+
+extension JSONEncodable where Self: Encodable {
+    func encodeToJSON() -> Any {
+        let encoder = CodableHelper.jsonEncoder
+        guard let data = try? encoder.encode(self) else {
+            fatalError("Could not encode to json: \(self)")
+        }
+        return data.encodeToJSON()
+    }
+}
+{{/useVapor}}{{#generateModelAdditionalProperties}}
 
 extension String: CodingKey {
 
@@ -206,13 +217,3 @@ extension Set: RequestDecodable where Element: Content {
 extension Set: Content where Element: Content { }
 
 extension AnyCodable: Content {}{{/useVapor}}
-
-extension JSONEncodable where Self: Encodable {
-    func encodeToJSON() -> Any {
-        let encoder = CodableHelper.jsonEncoder
-        guard let data = try? encoder.encode(self) else {
-            fatalError("Could not encode to json: \(self)")
-        }
-        return data.encodeToJSON()
-    }
-}
