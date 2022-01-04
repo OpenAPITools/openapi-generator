@@ -47,7 +47,7 @@ func NewUserApiController(s UserApiServicer, opts ...UserApiOption) Router {
 	return controller
 }
 
-// Routes returns all of the api route for the UserApiController
+// Routes returns all the api routes for the UserApiController
 func (c *UserApiController) Routes() Routes {
 	return Routes{ 
 		{
