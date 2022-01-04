@@ -34,15 +34,20 @@ open class ApiClient(
         KotlinxSerializer(json).ignoreOutgoingContent()
     }
 
-    private val defaultHttpClientConfig: (HttpClientConfig<*>) -> Unit by lazy {
-        val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = this@ApiClient.serializer }
-        { it.install(JsonFeature, jsonConfig) }
+    private val clientConfig: (HttpClientConfig<*>) -> Unit by lazy {
+        {
+            // Hold a reference to the serializer to avoid freezing the entire ApiClient instance
+            // when the JsonFeature is configured.
+            val serializerReference = serializer
+            it.install(JsonFeature) { serializer = serializerReference }
+            httpClientConfig?.invoke(it)
+        }
     }
 
     private val client: HttpClient by lazy {
-        val clientConfig: (HttpClientConfig<*>) -> Unit = httpClientConfig ?: defaultHttpClientConfig
         httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
     }
+
     private val authentications: kotlin.collections.Map<String, Authentication> by lazy {
         mapOf(
                 "api_key" to ApiKeyAuth("header", "api_key"), 

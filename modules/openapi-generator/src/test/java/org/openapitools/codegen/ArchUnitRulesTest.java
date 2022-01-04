@@ -4,6 +4,7 @@ import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.domain.JavaModifier;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchRule;
+import com.tngtech.archunit.library.GeneralCodingRules;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -17,6 +18,14 @@ public class ArchUnitRulesTest {
                 .importPackages("org.openapitools.codegen.languages");
 
         ArchUnitRulesTest.LOGGERS_SHOULD_BE_NOT_PUBLIC_NOT_STATIC_AND_FINAL.check(importedClasses);
+    }
+
+    @Test
+    public void classesNotAllowedToUseStandardStreams() {
+        final JavaClasses importedClasses = new ClassFileImporter()
+                .importPackages("org.openapitools.codegen.languages");
+
+        GeneralCodingRules.NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS.check(importedClasses);
     }
 
     @Test

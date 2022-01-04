@@ -187,4 +187,14 @@ public class TestUtils {
         for (String line : lines)
             assertFalse(file.contains(linearize(line)));
     }
+
+    public static void assertFileNotExists(Path path) {
+        try {
+            new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            fail("File exists when it should not: " + path);
+        } catch (IOException e) {
+            // File exists, pass.
+            assertTrue(true);
+        }
+    }
 }

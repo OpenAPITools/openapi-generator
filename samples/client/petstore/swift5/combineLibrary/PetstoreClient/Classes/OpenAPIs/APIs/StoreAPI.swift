@@ -25,9 +25,9 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return Future<Void, Error> { promise in
-            task = deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
+            requestTask = deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -37,7 +37,7 @@ open class StoreAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            task?.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -80,9 +80,9 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[String: Int], Error> {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return Future<[String: Int], Error> { promise in
-            task = getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
+            requestTask = getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -92,7 +92,7 @@ open class StoreAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            task?.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -135,9 +135,9 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Order, Error> {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return Future<Order, Error> { promise in
-            task = getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
+            requestTask = getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -147,7 +147,7 @@ open class StoreAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            task?.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -191,9 +191,9 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Order, Error> {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return Future<Order, Error> { promise in
-            task = placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            requestTask = placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -203,7 +203,7 @@ open class StoreAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            task?.cancel()
+            requestTask?.cancel()
         })
         .eraseToAnyPublisher()
     }

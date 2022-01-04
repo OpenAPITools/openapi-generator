@@ -23,9 +23,9 @@ public struct Pet: Codable, JSONEncodable, Hashable{
     public private(set) var photoUrls: [String]
     public private(set) var tags: [Tag]?
     /** pet status in the store */
-    public private(set) var status: Status?
+    public private(set) var status: NullEncodable<Status>
 
-    public init(id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: Status? = nil) {
+    public init(id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: NullEncodable<Status> = .encodeNull) {
         self.id = id
         self.category = category
         self.name = name
@@ -52,7 +52,10 @@ public struct Pet: Codable, JSONEncodable, Hashable{
         try container.encode(name, forKey: .name)
         try container.encode(photoUrls, forKey: .photoUrls)
         try container.encodeIfPresent(tags, forKey: .tags)
-        try container.encodeIfPresent(status, forKey: .status)
+        switch status {
+        case .encodeNothing: break
+        case .encodeNull, .encodeValue: try container.encode(status, forKey: .status)
+        }
     }
 }
 

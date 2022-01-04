@@ -18,7 +18,7 @@ open class DefaultAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func rootGet(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Fruit?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func rootGet(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Fruit?, _ error: Error?) -> Void)) -> RequestTask {
         return rootGetWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
