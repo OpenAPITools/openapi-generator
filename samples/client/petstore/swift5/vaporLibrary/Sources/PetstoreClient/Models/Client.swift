@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class Client: Content, Hashable, JSONEncodable {
+public final class Client: Content, Hashable{
 
     public var client: String?
 

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class TypeHolderDefault: Content, Hashable, JSONEncodable {
+public final class TypeHolderDefault: Content, Hashable{
 
     public var stringItem: String = "what"
     public var numberItem: Double

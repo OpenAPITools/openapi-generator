@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class Category: Content, Hashable, JSONEncodable {
+public final class Category: Content, Hashable{
 
     public var id: Int64?
     public var name: String = "default-name"

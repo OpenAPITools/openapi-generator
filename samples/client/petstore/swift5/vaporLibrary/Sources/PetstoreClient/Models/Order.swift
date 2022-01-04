@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class Order: Content, Hashable, JSONEncodable {
+public final class Order: Content, Hashable{
 
     public enum Status: String, Content, Hashable, CaseIterable {
         case placed = "placed"

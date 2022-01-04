@@ -12,7 +12,7 @@ import AnyCodable
 import Vapor
 
 /** Model for testing model name starting with number */
-public final class Model200Response: Content, Hashable, JSONEncodable {
+public final class Model200Response: Content, Hashable{
 
     public var name: Int?
     public var `class`: String?

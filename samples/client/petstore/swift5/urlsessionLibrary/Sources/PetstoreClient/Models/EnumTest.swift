@@ -15,7 +15,7 @@ public typealias EnumTest = PetstoreClientAPI.EnumTest
 
 extension PetstoreClientAPI {
 
-public final class EnumTest: Codable, Hashable, JSONEncodable {
+public final class EnumTest: Codable, JSONEncodable, Hashable{
 
     public enum EnumString: String, Codable, CaseIterable {
         case upper = "UPPER"

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-internal struct HasOnlyReadOnly: Codable, Hashable, JSONEncodable {
+internal struct HasOnlyReadOnly: Codable, JSONEncodable, Hashable{
 
     internal var bar: String?
     internal var foo: String?

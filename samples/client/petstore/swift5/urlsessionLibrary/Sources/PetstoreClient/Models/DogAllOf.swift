@@ -15,7 +15,7 @@ public typealias DogAllOf = PetstoreClientAPI.DogAllOf
 
 extension PetstoreClientAPI {
 
-public final class DogAllOf: Codable, Hashable, JSONEncodable {
+public final class DogAllOf: Codable, JSONEncodable, Hashable{
 
     public var breed: String?
 

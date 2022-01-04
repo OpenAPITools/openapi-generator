@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class EnumArrays: Content, Hashable, JSONEncodable {
+public final class EnumArrays: Content, Hashable{
 
     public enum JustSymbol: String, Content, Hashable, CaseIterable {
         case greaterThanOrEqualTo = ">="

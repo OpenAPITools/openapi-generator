@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct TypeHolderExample: Codable, Hashable, JSONEncodable {
+public struct TypeHolderExample: Codable, JSONEncodable, Hashable{
 
     public private(set) var stringItem: String
     public private(set) var numberItem: Double

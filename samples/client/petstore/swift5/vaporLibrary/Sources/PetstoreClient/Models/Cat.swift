@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class Cat: Content, Hashable, JSONEncodable {
+public final class Cat: Content, Hashable{
 
     public var className: String
     public var color: String? = "red"
