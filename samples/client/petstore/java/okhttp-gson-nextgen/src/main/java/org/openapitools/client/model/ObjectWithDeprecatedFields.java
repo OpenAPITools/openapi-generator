@@ -30,6 +30,7 @@ import org.openapitools.client.model.DeprecatedObject;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -43,6 +44,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import org.openapitools.client.JSON;
 
 /**
  * ObjectWithDeprecatedFields
@@ -217,6 +220,7 @@ public class ObjectWithDeprecatedFields {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public static HashSet<String> openapiFields;
   public static HashSet<String> openapiRequiredFields;
 
@@ -230,6 +234,33 @@ public class ObjectWithDeprecatedFields {
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to ObjectWithDeprecatedFields
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (ObjectWithDeprecatedFields.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in ObjectWithDeprecatedFields is not found in the empty JSON string", ObjectWithDeprecatedFields.openapiRequiredFields.toString()));
+        }
+      }
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!ObjectWithDeprecatedFields.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ObjectWithDeprecatedFields` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
+      // validate the optional field `deprecatedRef`
+      if (jsonObj.getAsJsonObject("deprecatedRef") != null) {
+        DeprecatedObject.validateJsonObject(jsonObj.getAsJsonObject("deprecatedRef"));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -252,19 +283,33 @@ public class ObjectWithDeprecatedFields {
 
            @Override
            public ObjectWithDeprecatedFields read(JsonReader in) throws IOException {
-             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
-             Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-             // check to see if the JSON string contains additional fields
-             for (Entry<String, JsonElement> entry: entries) {
-               if (!ObjectWithDeprecatedFields.openapiFields.contains(entry.getKey())) {
-                throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `ObjectWithDeprecatedFields` properties");
-               }
-             }
-
-             return thisAdapter.fromJsonTree(obj);
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
            }
 
        }.nullSafe();
     }
   }
+
+ /**
+  * Create an instance of ObjectWithDeprecatedFields given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of ObjectWithDeprecatedFields
+  * @throws IOException if the JSON string is invalid with respect to ObjectWithDeprecatedFields
+  */
+  public static ObjectWithDeprecatedFields fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, ObjectWithDeprecatedFields.class);
+  }
+
+ /**
+  * Convert an instance of ObjectWithDeprecatedFields to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
+

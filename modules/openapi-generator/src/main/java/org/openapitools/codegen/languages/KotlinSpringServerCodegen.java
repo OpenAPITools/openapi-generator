@@ -541,10 +541,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 .forEach(cm -> {
                     cm.imports.add(importMapping.get("JsonValue"));
                     cm.imports.add(importMapping.get("JsonProperty"));
-                    Map<String, String> item = new HashMap<>();
-                    item.put("import", importMapping.get("JsonValue"));
-                    item.put("import", importMapping.get("JsonProperty"));
-                    imports.add(item);
+                    Map<String, String> itemJsonValue = new HashMap<>();
+                    itemJsonValue.put("import", importMapping.get("JsonValue"));
+                    imports.add(itemJsonValue);
+                    Map<String, String> itemJsonProperty = new HashMap<>();
+                    itemJsonProperty.put("import", importMapping.get("JsonProperty"));
+                    imports.add(itemJsonProperty);
                 });
 
         return objs;

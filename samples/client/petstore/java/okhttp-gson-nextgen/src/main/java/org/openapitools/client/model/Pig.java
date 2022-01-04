@@ -105,10 +105,13 @@ public class Pig extends AbstractOpenApiSchema {
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
                     int match = 0;
+                    TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize BasquePig
                     try {
-                        deserialized = adapterBasquePig.fromJsonTree(jsonObject);
+                        // validate the JSON object to see if any excpetion is thrown
+                        BasquePig.validateJsonObject(jsonObject);
+                        actualAdapter = adapterBasquePig;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'BasquePig'");
                     } catch (Exception e) {
@@ -118,7 +121,9 @@ public class Pig extends AbstractOpenApiSchema {
 
                     // deserialize DanishPig
                     try {
-                        deserialized = adapterDanishPig.fromJsonTree(jsonObject);
+                        // validate the JSON object to see if any excpetion is thrown
+                        DanishPig.validateJsonObject(jsonObject);
+                        actualAdapter = adapterDanishPig;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'DanishPig'");
                     } catch (Exception e) {
@@ -128,7 +133,7 @@ public class Pig extends AbstractOpenApiSchema {
 
                     if (match == 1) {
                         Pig ret = new Pig();
-                        ret.setActualInstance(deserialized);
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject));
                         return ret;
                     }
 
@@ -223,5 +228,53 @@ public class Pig extends AbstractOpenApiSchema {
         return (DanishPig)super.getActualInstance();
     }
 
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to Pig
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+    // validate oneOf schemas one by one
+    int validCount = 0;
+    // validate the json string with BasquePig
+    try {
+      BasquePig.validateJsonObject(jsonObj);
+      validCount++;
+    } catch (Exception e) {
+      // continue to the next one
+    }
+    // validate the json string with DanishPig
+    try {
+      DanishPig.validateJsonObject(jsonObj);
+      validCount++;
+    } catch (Exception e) {
+      // continue to the next one
+    }
+    if (validCount != 1) {
+      throw new IOException(String.format("The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
+    }
+  }
+
+ /**
+  * Create an instance of Pig given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Pig
+  * @throws IOException if the JSON string is invalid with respect to Pig
+  */
+  public static Pig fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Pig.class);
+  }
+
+ /**
+  * Convert an instance of Pig to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

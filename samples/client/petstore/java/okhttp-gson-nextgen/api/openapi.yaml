@@ -1107,24 +1107,6 @@ paths:
       - $another-fake?
       x-contentType: application/json
       x-accepts: application/json
-  /fake/body-with-file-schema:
-    put:
-      description: For this test, the body for this request much reference a schema
-        named `File`.
-      operationId: testBodyWithFileSchema
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FileSchemaTestClass'
-        required: true
-      responses:
-        "200":
-          description: Success
-      tags:
-      - fake
-      x-contentType: application/json
-      x-accepts: application/json
   /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
@@ -1934,25 +1916,8 @@ components:
       additionalProperties:
         type: boolean
       type: object
-    FileSchemaTestClass:
-      example:
-        file:
-          sourceURI: sourceURI
-        files:
-        - sourceURI: sourceURI
-        - sourceURI: sourceURI
-      properties:
-        file:
-          $ref: '#/components/schemas/File'
-        files:
-          items:
-            $ref: '#/components/schemas/File'
-          type: array
-      type: object
     File:
       description: Must be named `File` for test.
-      example:
-        sourceURI: sourceURI
       properties:
         sourceURI:
           description: Test capitalization
@@ -2279,6 +2244,45 @@ components:
             $ref: '#/components/schemas/Bar'
           type: array
       type: object
+    PetWithRequiredTags:
+      properties:
+        id:
+          format: int64
+          type: integer
+          x-is-unique: true
+        category:
+          $ref: '#/components/schemas/Category'
+        name:
+          example: doggie
+          type: string
+        photoUrls:
+          items:
+            type: string
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      - tags
+      type: object
+      xml:
+        name: Pet
     inline_response_default:
       example:
         string:
