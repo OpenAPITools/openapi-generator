@@ -77,19 +77,26 @@ public class Shape extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<Shape>() {
                 @Override
                 public void write(JsonWriter out, Shape value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `Quadrilateral`
                     if (value.getActualInstance() instanceof Quadrilateral) {
                         JsonObject obj = adapterQuadrilateral.toJsonTree((Quadrilateral)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `Triangle`
                     if (value.getActualInstance() instanceof Triangle) {
                         JsonObject obj = adapterTriangle.toJsonTree((Triangle)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
-                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: Quadrilateral, Triangle");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: Quadrilateral, Triangle");
                 }
 
                 @Override
@@ -98,10 +105,13 @@ public class Shape extends AbstractOpenApiSchema {
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
                     int match = 0;
+                    TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize Quadrilateral
                     try {
-                        deserialized = adapterQuadrilateral.fromJsonTree(jsonObject);
+                        // validate the JSON object to see if any excpetion is thrown
+                        Quadrilateral.validateJsonObject(jsonObject);
+                        actualAdapter = adapterQuadrilateral;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Quadrilateral'");
                     } catch (Exception e) {
@@ -111,7 +121,9 @@ public class Shape extends AbstractOpenApiSchema {
 
                     // deserialize Triangle
                     try {
-                        deserialized = adapterTriangle.fromJsonTree(jsonObject);
+                        // validate the JSON object to see if any excpetion is thrown
+                        Triangle.validateJsonObject(jsonObject);
+                        actualAdapter = adapterTriangle;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Triangle'");
                     } catch (Exception e) {
@@ -121,11 +133,11 @@ public class Shape extends AbstractOpenApiSchema {
 
                     if (match == 1) {
                         Shape ret = new Shape();
-                        ret.setActualInstance(deserialized);
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject));
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for Shape: %d classes match result, expected 1", match));
+                    throw new IOException(String.format("Failed deserialization for Shape: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
                 }
             }.nullSafe();
         }
@@ -216,5 +228,53 @@ public class Shape extends AbstractOpenApiSchema {
         return (Triangle)super.getActualInstance();
     }
 
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to Shape
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+    // validate oneOf schemas one by one
+    int validCount = 0;
+    // validate the json string with Quadrilateral
+    try {
+      Quadrilateral.validateJsonObject(jsonObj);
+      validCount++;
+    } catch (Exception e) {
+      // continue to the next one
+    }
+    // validate the json string with Triangle
+    try {
+      Triangle.validateJsonObject(jsonObj);
+      validCount++;
+    } catch (Exception e) {
+      // continue to the next one
+    }
+    if (validCount != 1) {
+      throw new IOException(String.format("The JSON string is invalid for Shape with oneOf schemas: Quadrilateral, Triangle. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
+    }
+  }
+
+ /**
+  * Create an instance of Shape given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Shape
+  * @throws IOException if the JSON string is invalid with respect to Shape
+  */
+  public static Shape fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Shape.class);
+  }
+
+ /**
+  * Convert an instance of Shape to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

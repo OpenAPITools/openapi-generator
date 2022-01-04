@@ -613,7 +613,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 return "%{}";
             }
             // Primitive return type, don't even try to decode
-            if (baseType == null || (simpleType && primitiveType)) {
+            if (baseType == null || (containerType == null && primitiveType)) {
                 return "false";
             } else if (isArray && languageSpecificPrimitives().contains(baseType)) {
                 return "[]";
@@ -733,15 +733,12 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 StringBuilder returnEntry = new StringBuilder();
                 if (exResponse.baseType == null) {
                     returnEntry.append("nil");
-                } else if (exResponse.simpleType) {
+                } else if (exResponse.containerType == null) { // not container (array, map, set)
                     if (!exResponse.primitiveType) {
                         returnEntry.append(moduleName);
                         returnEntry.append(".Model.");
                     }
                     returnEntry.append(exResponse.baseType);
-                    returnEntry.append(".t");
-                } else if (exResponse.containerType == null) {
-                    returnEntry.append(returnBaseType);
                     returnEntry.append(".t");
                 } else {
                     if (exResponse.containerType.equals("array") ||
