@@ -5276,17 +5276,22 @@ public class DefaultCodegen implements CodegenConfig {
         model.imports.addAll(getImportsForPropertyType(property, true));
     }
 
-    private Set<String> getImportsForPropertyType(CodegenProperty property, boolean includeContainerTypes) {
+    private Set<String> getImportsForPropertyType(Importable importable, boolean includeContainerTypes) {
         Set<String> imports = new HashSet<>();
-        if (includeContainerTypes || !property.isContainer) {
-            addImport(imports, property.baseType);
-        }
-        CodegenProperty innerCp = property;
-        while (innerCp != null) {
-            if (includeContainerTypes || !property.isContainer) {
-                addImport(imports, innerCp.complexType);
+        if (importable != null) {
+            if (includeContainerTypes || !importable.isContainer()) {
+                if (importable.getComposedSchemas() != null) {
+                    CodegenComposedSchemas composed = (CodegenComposedSchemas) importable.getComposedSchemas();
+                    List<CodegenProperty> allOfs =  composed.getAllOf() == null ? Collections.emptyList() : composed.getAllOf();
+                    List<CodegenProperty> oneOfs =  composed.getOneOf() == null ? Collections.emptyList() : composed.getOneOf();
+                    Stream<CodegenProperty> innerTypes = Stream.concat(allOfs.stream(), oneOfs.stream());
+                    innerTypes.flatMap(cp -> getImportsForPropertyType(cp, includeContainerTypes).stream()).forEach(s -> addImport(imports, s));
+                } else {
+                    addImport(imports, importable.getComplexType());
+                    addImport(imports, importable.getBaseType());
+                }
             }
-            innerCp = innerCp.items;
+            imports.addAll(getImportsForPropertyType(importable.getInner(), includeContainerTypes));
         }
         return imports;
     }
@@ -6380,11 +6385,7 @@ public class DefaultCodegen implements CodegenConfig {
             // default to csv:
             codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
 
-            // recursively add import
-            while (arrayInnerProperty != null) {
-                imports.add(arrayInnerProperty.baseType);
-                arrayInnerProperty = arrayInnerProperty.items;
-            }
+            imports.addAll(getImportsForPropertyType(arrayInnerProperty, true));
         } else {
             // referenced schemas
             ;
@@ -6411,10 +6412,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.enumName = codegenProperty.enumName;
         }
 
-        // import
-        if (codegenProperty.complexType != null) {
-            imports.add(codegenProperty.complexType);
-        }
+        imports.addAll(getImportsForPropertyType(codegenProperty, true));
 
         setParameterExampleValue(codegenParameter);
         // set nullable

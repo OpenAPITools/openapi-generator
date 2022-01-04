@@ -24,7 +24,7 @@ import java.util.*;
  * A unique parameter is defined by a combination of a name and location.
  * Parameters may be located in a path, query, header or cookie.
  */
-public class CodegenParameter implements IJsonSchemaValidationProperties {
+public class CodegenParameter implements IJsonSchemaValidationProperties, Importable {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, isContainer,
             isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, isDeepObject, isAllowEmptyValue;
@@ -740,6 +740,11 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public Importable getInner() {
+        return null;
+    }
+
+    @Override
     public boolean getHasMultipleTypes() {return hasMultipleTypes; }
 
     @Override
@@ -755,6 +760,21 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     public void setContent(LinkedHashMap<String, CodegenMediaType> content) {
         this.content = content;
+    }
+
+    @Override
+    public String getBaseType() {
+        return baseType;
+    }
+
+    @Override
+    public String getComplexType() {
+        return baseType;
+    }
+
+    @Override
+    public boolean isContainer() {
+        return isContainer;
     }
 }
 
