@@ -12,12 +12,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * FileSchemaTestClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FileSchemaTestClass   {
+
   @JsonProperty("file")
   private java.io.File file;
 
@@ -34,10 +37,8 @@ public class FileSchemaTestClass   {
    * Get file
    * @return file
   */
-  @Schema(name = "file", defaultValue = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "file", required = false)
   public java.io.File getFile() {
     return file;
   }
@@ -63,10 +64,8 @@ public class FileSchemaTestClass   {
    * Get files
    * @return files
   */
-  @Schema(name = "files", defaultValue = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "files", required = false)
   public List<java.io.File> getFiles() {
     return files;
   }
@@ -74,7 +73,6 @@ public class FileSchemaTestClass   {
   public void setFiles(List<java.io.File> files) {
     this.files = files;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -98,7 +96,6 @@ public class FileSchemaTestClass   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
-    
     sb.append("    file: ").append(toIndentedString(file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");

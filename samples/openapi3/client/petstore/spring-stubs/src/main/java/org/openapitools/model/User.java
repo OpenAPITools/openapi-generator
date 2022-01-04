@@ -46,16 +46,17 @@ public class User   {
   @JsonProperty("userStatus")
   private Integer userStatus;
 
-    public User id(Long id) {
+  public User id(Long id) {
     this.id = id;
     return this;
   }
+
   /**
    * Get id
    * @return id
   */
   
-  @Schema(name = "id", defaultValue = "")
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -63,16 +64,18 @@ public class User   {
   public void setId(Long id) {
     this.id = id;
   }
-    public User username(String username) {
+
+  public User username(String username) {
     this.username = username;
     return this;
   }
+
   /**
    * Get username
    * @return username
   */
   
-  @Schema(name = "username", defaultValue = "")
+  @Schema(name = "username", required = false)
   public String getUsername() {
     return username;
   }
@@ -80,16 +83,18 @@ public class User   {
   public void setUsername(String username) {
     this.username = username;
   }
-    public User firstName(String firstName) {
+
+  public User firstName(String firstName) {
     this.firstName = firstName;
     return this;
   }
+
   /**
    * Get firstName
    * @return firstName
   */
   
-  @Schema(name = "firstName", defaultValue = "")
+  @Schema(name = "firstName", required = false)
   public String getFirstName() {
     return firstName;
   }
@@ -97,16 +102,18 @@ public class User   {
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
-    public User lastName(String lastName) {
+
+  public User lastName(String lastName) {
     this.lastName = lastName;
     return this;
   }
+
   /**
    * Get lastName
    * @return lastName
   */
   
-  @Schema(name = "lastName", defaultValue = "")
+  @Schema(name = "lastName", required = false)
   public String getLastName() {
     return lastName;
   }
@@ -114,16 +121,18 @@ public class User   {
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
-    public User email(String email) {
+
+  public User email(String email) {
     this.email = email;
     return this;
   }
+
   /**
    * Get email
    * @return email
   */
   
-  @Schema(name = "email", defaultValue = "")
+  @Schema(name = "email", required = false)
   public String getEmail() {
     return email;
   }
@@ -131,16 +140,18 @@ public class User   {
   public void setEmail(String email) {
     this.email = email;
   }
-    public User password(String password) {
+
+  public User password(String password) {
     this.password = password;
     return this;
   }
+
   /**
    * Get password
    * @return password
   */
   
-  @Schema(name = "password", defaultValue = "")
+  @Schema(name = "password", required = false)
   public String getPassword() {
     return password;
   }
@@ -148,16 +159,18 @@ public class User   {
   public void setPassword(String password) {
     this.password = password;
   }
-    public User phone(String phone) {
+
+  public User phone(String phone) {
     this.phone = phone;
     return this;
   }
+
   /**
    * Get phone
    * @return phone
   */
   
-  @Schema(name = "phone", defaultValue = "")
+  @Schema(name = "phone", required = false)
   public String getPhone() {
     return phone;
   }
@@ -165,16 +178,18 @@ public class User   {
   public void setPhone(String phone) {
     this.phone = phone;
   }
-    public User userStatus(Integer userStatus) {
+
+  public User userStatus(Integer userStatus) {
     this.userStatus = userStatus;
     return this;
   }
+
   /**
    * User Status
    * @return userStatus
   */
   
-  @Schema(name = "userStatus", defaultValue = "User Status")
+  @Schema(name = "userStatus", description = "User Status", required = false)
   public Integer getUserStatus() {
     return userStatus;
   }
@@ -211,7 +226,6 @@ public class User   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");

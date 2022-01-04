@@ -48,6 +48,7 @@ public interface StoreApi {
      *         or Order not found (status code 404)
      */
     @Operation(
+        operationId = "deleteOrder",
         summary = "Delete purchase order by ID",
         tags = { "store" },
         responses = {
@@ -74,6 +75,7 @@ public interface StoreApi {
      * @return successful operation (status code 200)
      */
     @Operation(
+        operationId = "getInventory",
         summary = "Returns pet inventories by status",
         tags = { "store" },
         responses = {
@@ -106,6 +108,7 @@ public interface StoreApi {
      *         or Order not found (status code 404)
      */
     @Operation(
+        operationId = "getOrderById",
         summary = "Find purchase order by ID",
         tags = { "store" },
         responses = {
@@ -149,6 +152,7 @@ public interface StoreApi {
      *         or Invalid Order (status code 400)
      */
     @Operation(
+        operationId = "placeOrder",
         summary = "Place an order for a pet",
         tags = { "store" },
         responses = {

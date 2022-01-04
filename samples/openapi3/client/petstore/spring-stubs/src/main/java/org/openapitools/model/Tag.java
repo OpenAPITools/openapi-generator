@@ -28,16 +28,17 @@ public class Tag   {
   @JsonProperty("name")
   private String name;
 
-    public Tag id(Long id) {
+  public Tag id(Long id) {
     this.id = id;
     return this;
   }
+
   /**
    * Get id
    * @return id
   */
   
-  @Schema(name = "id", defaultValue = "")
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -45,16 +46,18 @@ public class Tag   {
   public void setId(Long id) {
     this.id = id;
   }
-    public Tag name(String name) {
+
+  public Tag name(String name) {
     this.name = name;
     return this;
   }
+
   /**
    * Get name
    * @return name
   */
   
-  @Schema(name = "name", defaultValue = "")
+  @Schema(name = "name", required = false)
   public String getName() {
     return name;
   }
@@ -85,7 +88,6 @@ public class Tag   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Tag {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");

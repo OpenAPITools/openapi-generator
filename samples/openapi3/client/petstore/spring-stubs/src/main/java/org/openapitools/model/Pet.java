@@ -84,16 +84,17 @@ public class Pet   {
   @JsonProperty("status")
   private StatusEnum status;
 
-    public Pet id(Long id) {
+  public Pet id(Long id) {
     this.id = id;
     return this;
   }
+
   /**
    * Get id
    * @return id
   */
   
-  @Schema(name = "id", defaultValue = "")
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -101,17 +102,18 @@ public class Pet   {
   public void setId(Long id) {
     this.id = id;
   }
-    public Pet category(Category category) {
+
+  public Pet category(Category category) {
     this.category = category;
     return this;
   }
+
   /**
    * Get category
    * @return category
   */
-  @Valid
-
-  @Schema(name = "category", defaultValue = "")
+  @Valid 
+  @Schema(name = "category", required = false)
   public Category getCategory() {
     return category;
   }
@@ -119,17 +121,18 @@ public class Pet   {
   public void setCategory(Category category) {
     this.category = category;
   }
-    public Pet name(String name) {
+
+  public Pet name(String name) {
     this.name = name;
     return this;
   }
+
   /**
    * Get name
    * @return name
   */
-  @NotNull
-
-  @Schema(name = "name", example = "doggie", required = true, defaultValue = "")
+  @NotNull 
+  @Schema(name = "name", example = "doggie", required = true)
   public String getName() {
     return name;
   }
@@ -137,7 +140,8 @@ public class Pet   {
   public void setName(String name) {
     this.name = name;
   }
-    public Pet photoUrls(List<String> photoUrls) {
+
+  public Pet photoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -146,13 +150,13 @@ public class Pet   {
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
+
   /**
    * Get photoUrls
    * @return photoUrls
   */
-  @NotNull
-
-  @Schema(name = "photoUrls", required = true, defaultValue = "")
+  @NotNull 
+  @Schema(name = "photoUrls", required = true)
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -160,7 +164,8 @@ public class Pet   {
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
-    public Pet tags(List<Tag> tags) {
+
+  public Pet tags(List<Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -172,13 +177,13 @@ public class Pet   {
     this.tags.add(tagsItem);
     return this;
   }
+
   /**
    * Get tags
    * @return tags
   */
-  @Valid
-
-  @Schema(name = "tags", defaultValue = "")
+  @Valid 
+  @Schema(name = "tags", required = false)
   public List<Tag> getTags() {
     return tags;
   }
@@ -186,16 +191,18 @@ public class Pet   {
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
-    public Pet status(StatusEnum status) {
+
+  public Pet status(StatusEnum status) {
     this.status = status;
     return this;
   }
+
   /**
    * pet status in the store
    * @return status
   */
   
-  @Schema(name = "status", defaultValue = "pet status in the store")
+  @Schema(name = "status", description = "pet status in the store", required = false)
   public StatusEnum getStatus() {
     return status;
   }
@@ -230,7 +237,6 @@ public class Pet   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pet {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

@@ -28,16 +28,17 @@ public class Category   {
   @JsonProperty("name")
   private String name;
 
-    public Category id(Long id) {
+  public Category id(Long id) {
     this.id = id;
     return this;
   }
+
   /**
    * Get id
    * @return id
   */
   
-  @Schema(name = "id", defaultValue = "")
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -45,16 +46,18 @@ public class Category   {
   public void setId(Long id) {
     this.id = id;
   }
-    public Category name(String name) {
+
+  public Category name(String name) {
     this.name = name;
     return this;
   }
+
   /**
    * Get name
    * @return name
   */
   
-  @Schema(name = "name", defaultValue = "")
+  @Schema(name = "name", required = false)
   public String getName() {
     return name;
   }
@@ -85,7 +88,6 @@ public class Category   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Category {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");

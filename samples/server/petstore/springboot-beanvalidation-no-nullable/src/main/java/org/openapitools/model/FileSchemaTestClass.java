@@ -13,12 +13,15 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * FileSchemaTestClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FileSchemaTestClass   {
+
   @JsonProperty("file")
   private java.io.File file;
 
@@ -35,10 +38,8 @@ public class FileSchemaTestClass   {
    * Get file
    * @return file
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public java.io.File getFile() {
     return file;
   }
@@ -64,10 +65,8 @@ public class FileSchemaTestClass   {
    * Get files
    * @return files
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public List<java.io.File> getFiles() {
     return files;
   }
@@ -75,7 +74,6 @@ public class FileSchemaTestClass   {
   public void setFiles(List<java.io.File> files) {
     this.files = files;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -99,7 +97,6 @@ public class FileSchemaTestClass   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
-    
     sb.append("    file: ").append(toIndentedString(file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");

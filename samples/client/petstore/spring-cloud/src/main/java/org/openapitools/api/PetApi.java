@@ -7,6 +7,7 @@ package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import org.springframework.core.io.Resource;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,7 +22,9 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "Pet", description = "the Pet API")
 public interface PetApi {

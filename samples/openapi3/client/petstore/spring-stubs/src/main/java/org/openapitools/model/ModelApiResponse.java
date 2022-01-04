@@ -31,16 +31,17 @@ public class ModelApiResponse   {
   @JsonProperty("message")
   private String message;
 
-    public ModelApiResponse code(Integer code) {
+  public ModelApiResponse code(Integer code) {
     this.code = code;
     return this;
   }
+
   /**
    * Get code
    * @return code
   */
   
-  @Schema(name = "code", defaultValue = "")
+  @Schema(name = "code", required = false)
   public Integer getCode() {
     return code;
   }
@@ -48,16 +49,18 @@ public class ModelApiResponse   {
   public void setCode(Integer code) {
     this.code = code;
   }
-    public ModelApiResponse type(String type) {
+
+  public ModelApiResponse type(String type) {
     this.type = type;
     return this;
   }
+
   /**
    * Get type
    * @return type
   */
   
-  @Schema(name = "type", defaultValue = "")
+  @Schema(name = "type", required = false)
   public String getType() {
     return type;
   }
@@ -65,16 +68,18 @@ public class ModelApiResponse   {
   public void setType(String type) {
     this.type = type;
   }
-    public ModelApiResponse message(String message) {
+
+  public ModelApiResponse message(String message) {
     this.message = message;
     return this;
   }
+
   /**
    * Get message
    * @return message
   */
   
-  @Schema(name = "message", defaultValue = "")
+  @Schema(name = "message", required = false)
   public String getMessage() {
     return message;
   }
@@ -106,7 +111,6 @@ public class ModelApiResponse   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModelApiResponse {\n");
-    
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
