@@ -1051,6 +1051,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.emptyVars = emptyVars;
     }
 
+    public boolean getHasItems() {
+        return this.items != null;
+    }
     /**
      * Remove duplicated properties in all variable list
      */
