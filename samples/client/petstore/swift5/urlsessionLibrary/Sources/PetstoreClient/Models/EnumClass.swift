@@ -15,7 +15,7 @@ public typealias EnumClass = PetstoreClientAPI.EnumClass
 
 extension PetstoreClientAPI {
 
-public enum EnumClass: String, Codable, JSONEncodable, CaseIterable {
+public enum EnumClass: String, Codable, CaseIterable {
     case abc = "_abc"
     case efg = "-efg"
     case xyz = "(xyz)"

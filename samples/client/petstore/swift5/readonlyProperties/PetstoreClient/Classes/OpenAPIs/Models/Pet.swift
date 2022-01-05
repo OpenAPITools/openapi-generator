@@ -12,7 +12,7 @@ import AnyCodable
 
 public struct Pet: Codable, JSONEncodable, Hashable{
 
-    public enum Status: String, Codable, JSONEncodable, CaseIterable {
+    public enum Status: String, Codable, CaseIterable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"

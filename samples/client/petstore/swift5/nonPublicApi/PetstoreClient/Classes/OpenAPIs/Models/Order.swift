@@ -12,7 +12,7 @@ import AnyCodable
 
 internal struct Order: Codable, JSONEncodable, Hashable{
 
-    internal enum Status: String, Codable, JSONEncodable, CaseIterable {
+    internal enum Status: String, Codable, CaseIterable {
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"

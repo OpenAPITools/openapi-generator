@@ -12,7 +12,7 @@ import AnyCodable
 
 public struct BigCat: Codable, JSONEncodable, Hashable{
 
-    public enum Kind: String, Codable, JSONEncodable, CaseIterable {
+    public enum Kind: String, Codable, CaseIterable {
         case lions = "lions"
         case tigers = "tigers"
         case leopards = "leopards"

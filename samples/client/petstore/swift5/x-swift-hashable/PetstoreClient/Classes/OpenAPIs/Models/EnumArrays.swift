@@ -12,11 +12,11 @@ import AnyCodable
 
 public struct EnumArrays: Codable, JSONEncodable{
 
-    public enum JustSymbol: String, Codable, JSONEncodable, CaseIterable {
+    public enum JustSymbol: String, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
     }
-    public enum ArrayEnum: String, Codable, JSONEncodable, CaseIterable {
+    public enum ArrayEnum: String, Codable, CaseIterable {
         case fish = "fish"
         case crab = "crab"
     }

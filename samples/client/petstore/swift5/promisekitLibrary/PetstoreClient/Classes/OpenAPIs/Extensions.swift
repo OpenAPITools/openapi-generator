@@ -76,7 +76,6 @@ extension JSONEncodable where Self: Encodable {
     }
 }
 
-
 extension String: CodingKey {
 
     public var stringValue: String {
