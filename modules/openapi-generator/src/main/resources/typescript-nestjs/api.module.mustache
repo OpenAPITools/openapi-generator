@@ -13,7 +13,7 @@ import { {{classname}} } from './{{importPath}}';
 {{/apiInfo}}
 
 let cachedOptions: HttpModuleOptions = undefined;
-let cachedOptionsRefresh: Date;
+let nextOptionsRefresh: number = undefined;
 
 @Global()
 @Module({
@@ -35,9 +35,9 @@ export class ApiModule {
             imports: [
               HttpModule.registerAsync({
               useFactory: (request) => {
-                if(cachedOptions === undefined || cachedOptionsRefresh < new Date()){                  
+                if(cachedOptions === undefined || nextOptionsRefresh < new Date().getTime()){                  
                   //Refresh certs once per hour or on next request.  Should work with AutoCert since they renew 8 hours before the 24 hour cert expires
-                  cachedOptionsRefresh = new Date(new Date().getTime() + 60 * 60000);
+                  nextOptionsRefresh = new Date(new Date().getTime() + 60 * 60000).getTime();
                   cachedOptions = createHttpOptions(
                       configurationFactory().certPath,
                       configurationFactory().certKeyPath,
