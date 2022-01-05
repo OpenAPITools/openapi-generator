@@ -22,9 +22,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.client.model.ModelFile;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -40,50 +40,50 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
-  private ModelFile _file;
+  private File file;
 
   public static final String JSON_PROPERTY_FILES = "files";
-  private List<ModelFile> files = null;
+  private List<File> files = null;
 
   public FileSchemaTestClass() { 
   }
 
-  public FileSchemaTestClass _file(ModelFile _file) {
+  public FileSchemaTestClass file(File file) {
     
-    this._file = _file;
+    this.file = file;
     return this;
   }
 
    /**
-   * Get _file
-   * @return _file
+   * Get file
+   * @return file
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public ModelFile getFile() {
-    return _file;
+  public File getFile() {
+    return file;
   }
 
 
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFile(ModelFile _file) {
-    this._file = _file;
+  public void setFile(File file) {
+    this.file = file;
   }
 
 
-  public FileSchemaTestClass files(List<ModelFile> files) {
+  public FileSchemaTestClass files(List<File> files) {
     
     this.files = files;
     return this;
   }
 
-  public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
+  public FileSchemaTestClass addFilesItem(File filesItem) {
     if (this.files == null) {
-      this.files = new ArrayList<ModelFile>();
+      this.files = new ArrayList<File>();
     }
     this.files.add(filesItem);
     return this;
@@ -98,14 +98,14 @@ public class FileSchemaTestClass {
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<ModelFile> getFiles() {
+  public List<File> getFiles() {
     return files;
   }
 
 
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFiles(List<ModelFile> files) {
+  public void setFiles(List<File> files) {
     this.files = files;
   }
 
@@ -119,20 +119,20 @@ public class FileSchemaTestClass {
       return false;
     }
     FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(this._file, fileSchemaTestClass._file) &&
+    return Objects.equals(this.file, fileSchemaTestClass.file) &&
         Objects.equals(this.files, fileSchemaTestClass.files);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_file, files);
+    return Objects.hash(file, files);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
-    sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
+    sb.append("    file: ").append(toIndentedString(file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");
     return sb.toString();

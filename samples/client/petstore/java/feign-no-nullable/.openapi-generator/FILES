@@ -63,6 +63,7 @@ src/main/java/org/openapitools/client/model/DogAllOf.java
 src/main/java/org/openapitools/client/model/EnumArrays.java
 src/main/java/org/openapitools/client/model/EnumClass.java
 src/main/java/org/openapitools/client/model/EnumTest.java
+src/main/java/org/openapitools/client/model/File.java
 src/main/java/org/openapitools/client/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/client/model/FormatTest.java
 src/main/java/org/openapitools/client/model/HasOnlyReadOnly.java
@@ -70,7 +71,6 @@ src/main/java/org/openapitools/client/model/MapTest.java
 src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Model200Response.java
 src/main/java/org/openapitools/client/model/ModelApiResponse.java
-src/main/java/org/openapitools/client/model/ModelFile.java
 src/main/java/org/openapitools/client/model/ModelList.java
 src/main/java/org/openapitools/client/model/ModelReturn.java
 src/main/java/org/openapitools/client/model/Name.java
@@ -86,3 +86,4 @@ src/main/java/org/openapitools/client/model/TypeHolderDefault.java
 src/main/java/org/openapitools/client/model/TypeHolderExample.java
 src/main/java/org/openapitools/client/model/User.java
 src/main/java/org/openapitools/client/model/XmlItem.java
+src/test/java/org/openapitools/client/model/FileTest.java
