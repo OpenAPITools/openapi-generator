@@ -36,8 +36,8 @@ export class ApiModule {
               HttpModule.registerAsync({
               useFactory: (request) => {
                 if(cachedOptions === undefined || cachedOptionsRefresh < new Date()){                  
-                  //Refresh certs every 5 minutes or on next request.  Should work with AutoCert since they renew well before 5 minutes are left on the 60 minute cert
-                  cachedOptionsRefresh = new Date(new Date().getTime() + 5 * 60000);
+                  //Refresh certs once per hour or on next request.  Should work with AutoCert since they renew 8 hours before the 24 hour cert expires
+                  cachedOptionsRefresh = new Date(new Date().getTime() + 60 * 60000);
                   cachedOptions = createHttpOptions(
                       configurationFactory().certPath,
                       configurationFactory().certKeyPath,
@@ -45,7 +45,9 @@ export class ApiModule {
                   )}
                 return cachedOptions;
               },
-              inject: [REQUEST]
+              //abusing inject a bit here, we only use it to be able to reload the cert using the factory above.
+              //in case of unit tests, we don't do this, as it breaks them
+               inject: process.env.NODE_ENV !== "production" ? [] : [REQUEST]
             }),
       ],
       exports: [HttpModule]
