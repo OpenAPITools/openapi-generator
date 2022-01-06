@@ -81,6 +81,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useRuntimeException|Use RuntimeException instead of Exception| |false|
 |useRxJava2|Whether to use the RxJava2 adapter with the retrofit2 library. IMPORTANT: This option has been deprecated.| |false|
 |useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library. IMPORTANT: This option has been deprecated.| |false|
+|useTags|Use tags for creating interface and controller classnames| |true|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 
 ## IMPORT MAPPING

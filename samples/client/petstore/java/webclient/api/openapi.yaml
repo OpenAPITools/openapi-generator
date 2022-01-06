@@ -70,6 +70,8 @@ paths:
       - pet
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: pet
     put:
       operationId: updatePet
       requestBody:
@@ -92,6 +94,8 @@ paths:
       - pet
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: pet
     servers:
     - url: http://petstore.swagger.io/v2
     - url: http://path-server-test.petstore.local/v2
@@ -140,6 +144,8 @@ paths:
       tags:
       - pet
       x-accepts: application/json
+      x-tags:
+      - tag: pet
   /pet/findByTags:
     get:
       deprecated: true
@@ -184,6 +190,8 @@ paths:
       tags:
       - pet
       x-accepts: application/json
+      x-tags:
+      - tag: pet
   /pet/{petId}:
     delete:
       operationId: deletePet
@@ -217,6 +225,8 @@ paths:
       tags:
       - pet
       x-accepts: application/json
+      x-tags:
+      - tag: pet
     get:
       description: Returns a single pet
       operationId: getPetById
@@ -250,6 +260,8 @@ paths:
       tags:
       - pet
       x-accepts: application/json
+      x-tags:
+      - tag: pet
     post:
       operationId: updatePetWithForm
       parameters:
@@ -289,6 +301,8 @@ paths:
       - pet
       x-contentType: application/x-www-form-urlencoded
       x-accepts: application/json
+      x-tags:
+      - tag: pet
   /pet/{petId}/uploadImage:
     post:
       operationId: uploadFile
@@ -332,6 +346,8 @@ paths:
       - pet
       x-contentType: multipart/form-data
       x-accepts: application/json
+      x-tags:
+      - tag: pet
   /store/inventory:
     get:
       description: Returns a map of status codes to quantities
@@ -352,6 +368,8 @@ paths:
       tags:
       - store
       x-accepts: application/json
+      x-tags:
+      - tag: store
   /store/order:
     post:
       operationId: placeOrder
@@ -379,6 +397,8 @@ paths:
       - store
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: store
   /store/order/{order_id}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -402,6 +422,8 @@ paths:
       tags:
       - store
       x-accepts: application/json
+      x-tags:
+      - tag: store
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
         values will generated exceptions
@@ -436,6 +458,8 @@ paths:
       tags:
       - store
       x-accepts: application/json
+      x-tags:
+      - tag: store
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -455,6 +479,8 @@ paths:
       - user
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: user
   /user/createWithArray:
     post:
       operationId: createUsersWithArrayInput
@@ -468,6 +494,8 @@ paths:
       - user
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: user
   /user/createWithList:
     post:
       operationId: createUsersWithListInput
@@ -481,6 +509,8 @@ paths:
       - user
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: user
   /user/login:
     get:
       operationId: loginUser
@@ -532,6 +562,8 @@ paths:
       tags:
       - user
       x-accepts: application/json
+      x-tags:
+      - tag: user
   /user/logout:
     get:
       operationId: logoutUser
@@ -542,6 +574,8 @@ paths:
       tags:
       - user
       x-accepts: application/json
+      x-tags:
+      - tag: user
   /user/{username}:
     delete:
       description: This can only be done by the logged in user.
@@ -564,6 +598,8 @@ paths:
       tags:
       - user
       x-accepts: application/json
+      x-tags:
+      - tag: user
     get:
       operationId: getUserByName
       parameters:
@@ -593,6 +629,8 @@ paths:
       tags:
       - user
       x-accepts: application/json
+      x-tags:
+      - tag: user
     put:
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -622,6 +660,8 @@ paths:
       - user
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: user
   /fake_classname_test:
     patch:
       description: To test class name in snake case
@@ -642,6 +682,8 @@ paths:
       - fake_classname_tags 123#$%^
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: fake_classname_tags 123#$%^
   /fake:
     delete:
       description: Fake endpoint to test group parameters (optional)
@@ -707,6 +749,8 @@ paths:
       - fake
       x-group-parameters: true
       x-accepts: application/json
+      x-tags:
+      - tag: fake
     get:
       description: To test enum parameters
       operationId: testEnumParameters
@@ -823,6 +867,8 @@ paths:
       - fake
       x-contentType: application/x-www-form-urlencoded
       x-accepts: application/json
+      x-tags:
+      - tag: fake
     patch:
       description: To test "client" model
       operationId: testClientModel
@@ -840,6 +886,8 @@ paths:
       - fake
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: fake
     post:
       description: |
         Fake endpoint for testing various parameters
@@ -939,6 +987,8 @@ paths:
       - fake
       x-contentType: application/x-www-form-urlencoded
       x-accepts: application/json
+      x-tags:
+      - tag: fake
   /fake/outer/number:
     post:
       description: Test serialization of outer number types
@@ -960,6 +1010,8 @@ paths:
       - fake
       x-contentType: application/json
       x-accepts: '*/*'
+      x-tags:
+      - tag: fake
   /fake/property/enum-int:
     post:
       description: Test serialization of enum (int) properties with examples
@@ -982,6 +1034,8 @@ paths:
       - fake
       x-contentType: application/json
       x-accepts: '*/*'
+      x-tags:
+      - tag: fake
   /fake/outer/string:
     post:
       description: Test serialization of outer string types
@@ -1003,6 +1057,8 @@ paths:
       - fake
       x-contentType: application/json
       x-accepts: '*/*'
+      x-tags:
+      - tag: fake
   /fake/outer/boolean:
     post:
       description: Test serialization of outer boolean types
@@ -1024,6 +1080,8 @@ paths:
       - fake
       x-contentType: application/json
       x-accepts: '*/*'
+      x-tags:
+      - tag: fake
   /fake/outer/composite:
     post:
       description: Test serialization of object with outer number type
@@ -1045,6 +1103,8 @@ paths:
       - fake
       x-contentType: application/json
       x-accepts: '*/*'
+      x-tags:
+      - tag: fake
   /fake/jsonFormData:
     get:
       operationId: testJsonFormData
@@ -1072,6 +1132,8 @@ paths:
       - fake
       x-contentType: application/x-www-form-urlencoded
       x-accepts: application/json
+      x-tags:
+      - tag: fake
   /fake/inline-additionalProperties:
     post:
       operationId: testInlineAdditionalProperties
@@ -1092,6 +1154,8 @@ paths:
       - fake
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: fake
   /fake/body-with-query-params:
     put:
       operationId: testBodyWithQueryParams
@@ -1116,6 +1180,8 @@ paths:
       - fake
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: fake
   /another-fake/dummy:
     patch:
       description: To test special tags and operation ID starting with number
@@ -1134,6 +1200,8 @@ paths:
       - $another-fake?
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: $another-fake?
   /fake/body-with-file-schema:
     put:
       description: "For this test, the body for this request must reference a schema\
@@ -1152,6 +1220,8 @@ paths:
       - fake
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: fake
   /fake/body-with-binary:
     put:
       description: "For this test, the body has to be a binary file."
@@ -1172,6 +1242,8 @@ paths:
       - fake
       x-contentType: image/png
       x-accepts: application/json
+      x-tags:
+      - tag: fake
   /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
@@ -1246,6 +1318,8 @@ paths:
       tags:
       - fake
       x-accepts: application/json
+      x-tags:
+      - tag: fake
   /fake/{petId}/uploadImageWithRequiredFile:
     post:
       operationId: uploadFileWithRequiredFile
@@ -1291,6 +1365,8 @@ paths:
       - pet
       x-contentType: multipart/form-data
       x-accepts: application/json
+      x-tags:
+      - tag: pet
   /fake/health:
     get:
       responses:
@@ -1304,6 +1380,8 @@ paths:
       tags:
       - fake
       x-accepts: application/json
+      x-tags:
+      - tag: fake
   /fake/http-signature-test:
     get:
       operationId: fake-http-signature-test
@@ -1336,6 +1414,8 @@ paths:
       - fake
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: fake
 components:
   requestBodies:
     UserArray:

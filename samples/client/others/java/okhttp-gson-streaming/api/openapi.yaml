@@ -25,6 +25,8 @@ paths:
       x-streaming: true
       x-contentType: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: ping
 components:
   schemas:
     SomeObj:
