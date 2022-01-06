@@ -37,11 +37,25 @@ class RequestTest extends TestCase
 
     public function testDeepObjectParametersInQueryString()
     {
-        $user = new User([]);
-        $queryparam = $this->api->testDeepObjectQueryParams(['search' => ['like' => 'test']], $user);
-
+        $queryparam = $this->api->testDeepObjectQueryParams(['search' => ['like' => 'test']]);
         $this->assertSame('filter%5Bsearch%5D%5Blike%5D=test', $queryparam);
         // for better readability
         $this->assertSame('filter[search][like]=test', urldecode($queryparam));
+
+        // if nothing is provided
+        $this->assertSame('', $this->api->testDeepObjectQueryParams(null));
+
+        // if nothing is provided
+        $this->assertSame('filter=bar', $this->api->testDeepObjectQueryParams('bar'));
+        $this->assertSame('filter=bar', urldecode($this->api->testDeepObjectQueryParams('bar')));
+
+        // do the same tests with the old behavior: testDeepObjectQueryParamsOldBehavior
+
+        // if nothing is provided
+        $this->assertSame('', $this->api->testDeepObjectQueryParamsOldBehavior(null));
+
+        // if nothing is provided
+        $this->assertSame('filter=bar', $this->api->testDeepObjectQueryParamsOldBehavior('bar'));
+        $this->assertSame('filter=bar', urldecode($this->api->testDeepObjectQueryParamsOldBehavior('bar')));
     }
 }

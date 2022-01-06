@@ -2463,6 +2463,7 @@ class FakeApi
      */
     public function testDeepObjectQueryParams($filter)
     {
+        $queryParams = [];
         // query params filter
         if ($filter !== null) {
             if('form' === 'deepObject' && is_array($filter)) {
@@ -2476,6 +2477,26 @@ class FakeApi
         }
 
         $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+
+        return $query;
+    }
+
+    public function testDeepObjectQueryParamsOldBehavior($filter)
+    {
+        $queryParams = [];
+        // query params filter
+        if ($filter !== null) {
+            if('form' === 'deepObject' && is_array($filter)) {
+                foreach($filter as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['filter'] = $filter;
+            }
+        }
+
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
 
         return $query;
     }
