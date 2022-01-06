@@ -91,11 +91,18 @@ public class CodegenConfigurator {
             WorkflowSettings workflowSettings = settings.getWorkflowSettings();
             List<TemplateDefinition> userDefinedTemplateSettings = settings.getFiles();
 
+            CodegenConfig config = CodegenConfigLoader.forName(generatorSettings.getGeneratorName());
+            String templatingEngineName = workflowSettings.getTemplatingEngineName();
+            if (isEmpty(templatingEngineName)) {
+                // if templatingEngineName is empty check the config for a default
+                templatingEngineName = config.defaultTemplatingEngine();
+            }
+
             // We copy "cached" properties into configurator so it is appropriately configured with all settings in external files.
             // FIXME: target is to eventually move away from CodegenConfigurator properties except gen/workflow settings.
             configurator.generatorName = generatorSettings.getGeneratorName();
             configurator.inputSpec = workflowSettings.getInputSpec();
-            configurator.templatingEngineName = workflowSettings.getTemplatingEngineName();
+            configurator.templatingEngineName = templatingEngineName;
             if (workflowSettings.getGlobalProperties() != null) {
                 configurator.globalProperties.putAll(workflowSettings.getGlobalProperties());
             }
