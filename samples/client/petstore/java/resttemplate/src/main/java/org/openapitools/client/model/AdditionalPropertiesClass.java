@@ -46,28 +46,28 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
-  private Map<String, String> mapString;
+  private Map<String, String> mapString = null;
 
   public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
-  private Map<String, BigDecimal> mapNumber;
+  private Map<String, BigDecimal> mapNumber = null;
 
   public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
-  private Map<String, Integer> mapInteger;
+  private Map<String, Integer> mapInteger = null;
 
   public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
-  private Map<String, Boolean> mapBoolean;
+  private Map<String, Boolean> mapBoolean = null;
 
   public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
-  private Map<String, List<Integer>> mapArrayInteger;
+  private Map<String, List<Integer>> mapArrayInteger = null;
 
   public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
-  private Map<String, List<Object>> mapArrayAnytype;
+  private Map<String, List<Object>> mapArrayAnytype = null;
 
   public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
-  private Map<String, Map<String, String>> mapMapString;
+  private Map<String, Map<String, String>> mapMapString = null;
 
   public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
-  private Map<String, Map<String, Object>> mapMapAnytype;
+  private Map<String, Map<String, Object>> mapMapAnytype = null;
 
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
   private Object anytype1;
@@ -88,6 +88,9 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass putMapStringItem(String key, String mapStringItem) {
+    if (this.mapString == null) {
+      this.mapString = null;
+    }
     this.mapString.put(key, mapStringItem);
     return this;
   }
@@ -119,6 +122,9 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass putMapNumberItem(String key, BigDecimal mapNumberItem) {
+    if (this.mapNumber == null) {
+      this.mapNumber = null;
+    }
     this.mapNumber.put(key, mapNumberItem);
     return this;
   }
@@ -150,6 +156,9 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass putMapIntegerItem(String key, Integer mapIntegerItem) {
+    if (this.mapInteger == null) {
+      this.mapInteger = null;
+    }
     this.mapInteger.put(key, mapIntegerItem);
     return this;
   }
@@ -181,6 +190,9 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass putMapBooleanItem(String key, Boolean mapBooleanItem) {
+    if (this.mapBoolean == null) {
+      this.mapBoolean = null;
+    }
     this.mapBoolean.put(key, mapBooleanItem);
     return this;
   }
@@ -212,6 +224,9 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass putMapArrayIntegerItem(String key, List<Integer> mapArrayIntegerItem) {
+    if (this.mapArrayInteger == null) {
+      this.mapArrayInteger = null;
+    }
     this.mapArrayInteger.put(key, mapArrayIntegerItem);
     return this;
   }
@@ -243,6 +258,9 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<Object> mapArrayAnytypeItem) {
+    if (this.mapArrayAnytype == null) {
+      this.mapArrayAnytype = null;
+    }
     this.mapArrayAnytype.put(key, mapArrayAnytypeItem);
     return this;
   }
@@ -274,6 +292,9 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass putMapMapStringItem(String key, Map<String, String> mapMapStringItem) {
+    if (this.mapMapString == null) {
+      this.mapMapString = null;
+    }
     this.mapMapString.put(key, mapMapStringItem);
     return this;
   }
@@ -305,6 +326,9 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass putMapMapAnytypeItem(String key, Map<String, Object> mapMapAnytypeItem) {
+    if (this.mapMapAnytype == null) {
+      this.mapMapAnytype = null;
+    }
     this.mapMapAnytype.put(key, mapMapAnytypeItem);
     return this;
   }

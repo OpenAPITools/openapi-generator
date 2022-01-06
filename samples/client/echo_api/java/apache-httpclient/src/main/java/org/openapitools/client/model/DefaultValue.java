@@ -48,7 +48,7 @@ import java.util.StringJoiner;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DefaultValue {
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
-  private List<StringEnumRef> arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
+  private List<StringEnumRef> arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(success, failure));
 
   /**
    * Gets or Sets arrayStringEnumDefault
@@ -116,7 +116,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayStringEnumRefDefaultItem(StringEnumRef arrayStringEnumRefDefaultItem) {
     if (this.arrayStringEnumRefDefault == null) {
-      this.arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
+      this.arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(success, failure));
     }
     this.arrayStringEnumRefDefault.add(arrayStringEnumRefDefaultItem);
     return this;
@@ -286,7 +286,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayStringNullableItem(String arrayStringNullableItem) {
     if (this.arrayStringNullable == null || !this.arrayStringNullable.isPresent()) {
-      this.arrayStringNullable = JsonNullable.<List<String>>of(new ArrayList<>());
+      this.arrayStringNullable = JsonNullable.<List<String>>of(null);
     }
     try {
       this.arrayStringNullable.get().add(arrayStringNullableItem);

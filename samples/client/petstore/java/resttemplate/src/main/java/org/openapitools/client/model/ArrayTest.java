@@ -37,13 +37,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
-  private List<String> arrayOfString;
+  private List<String> arrayOfString = null;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
-  private List<List<Long>> arrayArrayOfInteger;
+  private List<List<Long>> arrayArrayOfInteger = null;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
   public ArrayTest() {
   }
@@ -55,6 +55,9 @@ public class ArrayTest {
   }
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
+    if (this.arrayOfString == null) {
+      this.arrayOfString = null;
+    }
     this.arrayOfString.add(arrayOfStringItem);
     return this;
   }
@@ -86,6 +89,9 @@ public class ArrayTest {
   }
 
   public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
+    if (this.arrayArrayOfInteger == null) {
+      this.arrayArrayOfInteger = null;
+    }
     this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
     return this;
   }
@@ -117,6 +123,9 @@ public class ArrayTest {
   }
 
   public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+    if (this.arrayArrayOfModel == null) {
+      this.arrayArrayOfModel = null;
+    }
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
   }

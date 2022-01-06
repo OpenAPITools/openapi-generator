@@ -108,7 +108,7 @@ public class EnumArrays {
   }
 
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
-  private List<ArrayEnumEnum> arrayEnum;
+  private List<ArrayEnumEnum> arrayEnum = null;
 
   public EnumArrays() {
   }
@@ -146,6 +146,9 @@ public class EnumArrays {
   }
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
+    if (this.arrayEnum == null) {
+      this.arrayEnum = null;
+    }
     this.arrayEnum.add(arrayEnumItem);
     return this;
   }

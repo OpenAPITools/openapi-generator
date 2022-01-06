@@ -47,6 +47,8 @@ paths:
       - pet
       x-content-type: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: pet
     put:
       description: ""
       operationId: updatePet
@@ -77,6 +79,8 @@ paths:
       - pet
       x-content-type: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: pet
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
@@ -121,6 +125,8 @@ paths:
       tags:
       - pet
       x-accepts: application/json
+      x-tags:
+      - tag: pet
   /pet/findByTags:
     get:
       deprecated: true
@@ -161,6 +167,8 @@ paths:
       tags:
       - pet
       x-accepts: application/json
+      x-tags:
+      - tag: pet
   /pet/{petId}:
     delete:
       description: ""
@@ -193,6 +201,8 @@ paths:
       tags:
       - pet
       x-accepts: application/json
+      x-tags:
+      - tag: pet
     get:
       description: Returns a single pet
       operationId: getPetById
@@ -226,6 +236,8 @@ paths:
       tags:
       - pet
       x-accepts: application/json
+      x-tags:
+      - tag: pet
     post:
       description: ""
       operationId: updatePetWithForm
@@ -257,6 +269,8 @@ paths:
       x-group-parameters: false
       x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
+      x-tags:
+      - tag: pet
   /pet/{petId}/uploadImage:
     post:
       description: ""
@@ -292,6 +306,8 @@ paths:
       - pet
       x-content-type: multipart/form-data
       x-accepts: application/json
+      x-tags:
+      - tag: pet
 components:
   requestBodies:
     UserArray:

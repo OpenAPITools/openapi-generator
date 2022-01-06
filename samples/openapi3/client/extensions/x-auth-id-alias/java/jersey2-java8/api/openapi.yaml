@@ -52,6 +52,8 @@ paths:
       tags:
       - usage
       x-accepts: application/json
+      x-tags:
+      - tag: usage
   /any:
     get:
       description: Use any API key
@@ -70,6 +72,8 @@ paths:
       tags:
       - usage
       x-accepts: application/json
+      x-tags:
+      - tag: usage
   /query:
     get:
       description: Use API key in query
@@ -87,6 +91,8 @@ paths:
       tags:
       - usage
       x-accepts: application/json
+      x-tags:
+      - tag: usage
   /header:
     get:
       description: Use API key in header
@@ -104,6 +110,8 @@ paths:
       tags:
       - usage
       x-accepts: application/json
+      x-tags:
+      - tag: usage
 components:
   schemas: {}
   securitySchemes:

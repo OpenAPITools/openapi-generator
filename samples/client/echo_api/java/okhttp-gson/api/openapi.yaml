@@ -41,6 +41,8 @@ paths:
       tags:
       - path
       x-accepts: text/plain
+      x-tags:
+      - tag: path
   /form/integer/boolean/string:
     post:
       description: Test form parameter(s)
@@ -62,6 +64,8 @@ paths:
       - form
       x-content-type: application/x-www-form-urlencoded
       x-accepts: text/plain
+      x-tags:
+      - tag: form
   /header/integer/boolean/string:
     get:
       description: Test header parameter(s)
@@ -99,6 +103,8 @@ paths:
       tags:
       - header
       x-accepts: text/plain
+      x-tags:
+      - tag: header
   /query/datetime/date/string:
     get:
       description: Test query parameter(s)
@@ -138,6 +144,8 @@ paths:
       tags:
       - query
       x-accepts: text/plain
+      x-tags:
+      - tag: query
   /query/integer/boolean/string:
     get:
       description: Test query parameter(s)
@@ -175,6 +183,8 @@ paths:
       tags:
       - query
       x-accepts: text/plain
+      x-tags:
+      - tag: query
   /query/style_form/explode_true/array_string:
     get:
       description: Test query parameter(s)
@@ -198,6 +208,8 @@ paths:
       tags:
       - query
       x-accepts: text/plain
+      x-tags:
+      - tag: query
   /query/style_form/explode_true/object:
     get:
       description: Test query parameter(s)
@@ -221,6 +233,8 @@ paths:
       tags:
       - query
       x-accepts: text/plain
+      x-tags:
+      - tag: query
   /query/style_form/explode_true/object/allOf:
     get:
       description: Test query parameter(s)
@@ -244,6 +258,8 @@ paths:
       tags:
       - query
       x-accepts: text/plain
+      x-tags:
+      - tag: query
   /query/style_deepObject/explode_true/object:
     get:
       description: Test query parameter(s)
@@ -267,6 +283,8 @@ paths:
       tags:
       - query
       x-accepts: text/plain
+      x-tags:
+      - tag: query
   /query/style_deepObject/explode_true/object/allOf:
     get:
       description: Test query parameter(s)
@@ -290,6 +308,8 @@ paths:
       tags:
       - query
       x-accepts: text/plain
+      x-tags:
+      - tag: query
   /echo/body/Pet:
     post:
       description: Test body parameter(s)
@@ -308,6 +328,8 @@ paths:
       - body
       x-content-type: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: body
   /echo/body/Pet/response_string:
     post:
       description: Test empty response body
@@ -326,6 +348,8 @@ paths:
       - body
       x-content-type: application/json
       x-accepts: text/plain
+      x-tags:
+      - tag: body
 components:
   requestBodies:
     Pet:

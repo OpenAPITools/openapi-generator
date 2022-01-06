@@ -53,10 +53,10 @@ public class Pet {
   private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-  private Set<String> photoUrls;
+  private Set<String> photoUrls = null;
 
   public static final String JSON_PROPERTY_TAGS = "tags";
-  private List<Tag> tags;
+  private List<Tag> tags = null;
 
   /**
    * pet status in the store
@@ -218,6 +218,9 @@ public class Pet {
   }
 
   public Pet addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = null;
+    }
     this.tags.add(tagsItem);
     return this;
   }

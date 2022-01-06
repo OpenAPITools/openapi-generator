@@ -47,6 +47,8 @@ paths:
       - pet
       x-content-type: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: pet
     put:
       description: ""
       externalDocs:
@@ -80,6 +82,8 @@ paths:
       - pet
       x-content-type: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: pet
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
@@ -124,6 +128,8 @@ paths:
       tags:
       - pet
       x-accepts: application/json
+      x-tags:
+      - tag: pet
   /pet/findByTags:
     get:
       deprecated: true
@@ -164,6 +170,8 @@ paths:
       tags:
       - pet
       x-accepts: application/json
+      x-tags:
+      - tag: pet
   /pet/{petId}:
     delete:
       description: ""
@@ -196,6 +204,8 @@ paths:
       tags:
       - pet
       x-accepts: application/json
+      x-tags:
+      - tag: pet
     get:
       description: Returns a single pet
       operationId: getPetById
@@ -229,6 +239,8 @@ paths:
       tags:
       - pet
       x-accepts: application/json
+      x-tags:
+      - tag: pet
     post:
       description: ""
       operationId: updatePetWithForm
@@ -259,6 +271,8 @@ paths:
       - pet
       x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
+      x-tags:
+      - tag: pet
   /pet/{petId}/uploadImage:
     post:
       description: ""
@@ -294,6 +308,8 @@ paths:
       - pet
       x-content-type: multipart/form-data
       x-accepts: application/json
+      x-tags:
+      - tag: pet
   /store/inventory:
     get:
       description: Returns a map of status codes to quantities
@@ -314,6 +330,8 @@ paths:
       tags:
       - store
       x-accepts: application/json
+      x-tags:
+      - tag: store
   /store/order:
     post:
       description: ""
@@ -342,6 +360,8 @@ paths:
       - store
       x-content-type: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: store
   /store/order/{orderId}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -365,6 +385,8 @@ paths:
       tags:
       - store
       x-accepts: application/json
+      x-tags:
+      - tag: store
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
         values will generate exceptions
@@ -399,6 +421,8 @@ paths:
       tags:
       - store
       x-accepts: application/json
+      x-tags:
+      - tag: store
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -420,6 +444,8 @@ paths:
       - user
       x-content-type: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: user
   /user/createWithArray:
     post:
       description: ""
@@ -436,6 +462,8 @@ paths:
       - user
       x-content-type: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: user
   /user/createWithList:
     post:
       description: ""
@@ -452,6 +480,8 @@ paths:
       - user
       x-content-type: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: user
   /user/login:
     get:
       description: ""
@@ -513,6 +543,8 @@ paths:
       tags:
       - user
       x-accepts: application/json
+      x-tags:
+      - tag: user
   /user/logout:
     get:
       description: ""
@@ -526,6 +558,8 @@ paths:
       tags:
       - user
       x-accepts: application/json
+      x-tags:
+      - tag: user
   /user/{username}:
     delete:
       description: This can only be done by the logged in user.
@@ -550,6 +584,8 @@ paths:
       tags:
       - user
       x-accepts: application/json
+      x-tags:
+      - tag: user
     get:
       description: ""
       operationId: getUserByName
@@ -580,6 +616,8 @@ paths:
       tags:
       - user
       x-accepts: application/json
+      x-tags:
+      - tag: user
     put:
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -611,6 +649,8 @@ paths:
       - user
       x-content-type: application/json
       x-accepts: application/json
+      x-tags:
+      - tag: user
 components:
   requestBodies:
     UserArray:

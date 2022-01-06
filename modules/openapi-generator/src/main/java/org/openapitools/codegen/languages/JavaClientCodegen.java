@@ -17,7 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -99,6 +101,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
     public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
 
+    public static final String USE_TAGS = "useTags";
+
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean useRxJava = false;
     protected boolean useRxJava2 = false;
@@ -127,6 +131,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected String errorObjectType;
     protected String authFolder;
     protected String serializationLibrary = null;
+    protected boolean useTags = true;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected String rootJavaEEPackage;
     protected Map<String, MpRestClientVersion> mpRestClientVersions = new HashMap<>();
@@ -209,6 +214,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(GRADLE_PROPERTIES, "Append additional Gradle properties to the gradle.properties file"));
         cliOptions.add(CliOption.newString(ERROR_OBJECT_TYPE, "Error Object type. (This option is for okhttp-gson-next-gen only)"));
         cliOptions.add(CliOption.newString(CONFIG_KEY, "Config key in @RegisterRestClient. Default to none. Only `microprofile` supports this option."));
+        cliOptions.add(CliOption.newBoolean(USE_TAGS, "Use tags for creating interface and controller classnames", useTags));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC + " Only jersey2, jersey3, native, okhttp-gson support this option."));
         cliOptions.add(CliOption.newString(MICROPROFILE_REST_CLIENT_VERSION, "Version of MicroProfile Rest Client API."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson support this option."));
@@ -276,9 +282,56 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        super.addOperationToGroup(tag, resourcePath, operation, co, operations);
-        if (MICROPROFILE.equals(getLibrary())) {
-            co.subresourceOperation = !co.path.isEmpty();
+        if (!useTags) {
+            String basePath = resourcePath;
+            if (basePath.startsWith("/")) {
+                basePath = basePath.substring(1);
+            }
+            final int pos = basePath.indexOf("/");
+            if (pos > 0) {
+                basePath = basePath.substring(0, pos);
+            }
+            LOGGER.warn("basePath: " + basePath);
+            if (basePath.isEmpty()) {
+                basePath = "default";
+            } else {
+                co.subresourceOperation = !co.path.isEmpty();
+            }
+            final List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
+            opList.add(co);
+            co.baseName = basePath;
+        } else {
+            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+            if (MICROPROFILE.equals(getLibrary())) {
+                co.subresourceOperation = !co.path.isEmpty();
+            }
+        }
+    }
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+        if (openAPI.getPaths() != null) {
+            for (final Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
+                final PathItem path = openAPIGetPathsEntry.getValue();
+                if (path.readOperations() != null) {
+                    for (final Operation operation : path.readOperations()) {
+                        if (operation.getTags() != null) {
+                            final List<Map<String, String>> tags = new ArrayList<>();
+                            for (final String tag : operation.getTags()) {
+                                final Map<String, String> value = new HashMap<>();
+                                value.put("tag", tag);
+                                tags.add(value);
+                            }
+                            if (operation.getTags().size() > 0) {
+                                final String tag = operation.getTags().get(0);
+                                operation.setTags(Collections.singletonList(tag));
+                            }
+                            operation.addExtension("x-tags", tags);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -426,6 +479,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setGradleProperties(additionalProperties.get(GRADLE_PROPERTIES).toString());
         }
         additionalProperties.put(GRADLE_PROPERTIES, gradleProperties);
+
+        if (additionalProperties.containsKey(USE_TAGS)) {
+            this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
+        }
+        additionalProperties.put(USE_TAGS, useTags);
 
         if (additionalProperties.containsKey(ERROR_OBJECT_TYPE)) {
             this.setErrorObjectType(additionalProperties.get(ERROR_OBJECT_TYPE).toString());
@@ -1191,9 +1249,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.gradleProperties = gradleProperties;
     }
 
+    public void setUseTags(boolean useTags) {
+        this.useTags = useTags;
+    }
+
     public void setErrorObjectType(final String errorObjectType) {
         this.errorObjectType = errorObjectType;
     }
+
+
 
     /**
      * Serialization library.
