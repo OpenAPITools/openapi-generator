@@ -12,7 +12,7 @@ import AnyCodable
 import Vapor
 
 /** Must be named &#x60;File&#x60; for test. */
-public final class File: Content, Hashable{
+public final class File: Content, Hashable {
 
     /** Test capitalization */
     public var sourceURI: String?

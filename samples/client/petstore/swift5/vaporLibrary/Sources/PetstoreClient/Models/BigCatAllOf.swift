@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class BigCatAllOf: Content, Hashable{
+public final class BigCatAllOf: Content, Hashable {
 
     public enum Kind: String, Content, Hashable, CaseIterable {
         case lions = "lions"

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class StringBooleanMap: Content, Hashable{
+public final class StringBooleanMap: Content, Hashable {
 
 
     public enum CodingKeys: CodingKey, CaseIterable {

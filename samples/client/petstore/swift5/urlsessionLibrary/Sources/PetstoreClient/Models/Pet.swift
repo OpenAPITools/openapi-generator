@@ -15,7 +15,7 @@ public typealias Pet = PetstoreClientAPI.Pet
 
 extension PetstoreClientAPI {
 
-public final class Pet: Codable, JSONEncodable, Hashable{
+public final class Pet: Codable, JSONEncodable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
         case available = "available"

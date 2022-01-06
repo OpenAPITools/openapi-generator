@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class XmlItem: Content, Hashable{
+public final class XmlItem: Content, Hashable {
 
     public var attributeString: String?
     public var attributeNumber: Double?

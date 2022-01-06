@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class User: Content, Hashable{
+public final class User: Content, Hashable {
 
     public var id: Int64?
     public var username: String?

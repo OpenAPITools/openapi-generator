@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Model for testing model name same as property name */
-internal struct Name: Codable, JSONEncodable, Hashable{
+internal struct Name: Codable, JSONEncodable, Hashable {
 
     internal var name: Int
     internal var snakeCase: NullEncodable<Int> = .encodeValue(11033)
