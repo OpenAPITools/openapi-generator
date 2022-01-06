@@ -1720,6 +1720,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -1750,6 +1754,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -1787,6 +1794,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -1817,6 +1828,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -1853,6 +1867,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -1883,6 +1901,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -1920,6 +1941,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -1950,6 +1975,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -1987,6 +2015,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2017,6 +2049,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -2055,6 +2090,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2085,6 +2124,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -2123,6 +2165,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2153,6 +2199,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -2188,6 +2237,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2218,6 +2271,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -2257,6 +2313,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2287,6 +2347,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -2326,6 +2389,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2356,6 +2423,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -2393,6 +2463,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2423,6 +2497,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -2459,6 +2536,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2489,6 +2570,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -2525,6 +2609,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2555,6 +2643,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -2592,6 +2683,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2622,6 +2717,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -2659,6 +2757,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2689,6 +2791,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -2728,6 +2833,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2758,6 +2867,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -2800,6 +2912,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2830,6 +2946,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -2873,6 +2992,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2903,6 +3026,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -2960,6 +3086,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -2990,6 +3120,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -3042,6 +3175,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -3072,6 +3209,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -3118,6 +3258,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -3148,6 +3292,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -3192,6 +3339,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -3222,6 +3373,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -3264,6 +3418,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -3294,6 +3452,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -3345,6 +3506,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -3375,6 +3540,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -3421,6 +3589,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -3451,6 +3623,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -3489,6 +3664,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -3519,6 +3698,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -3560,6 +3742,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -3590,6 +3776,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
@@ -3628,6 +3817,10 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _spec_property_naming (bool): True if the variable names in the input data
+                are serialized names, as specified in the OpenAPI document.
+                False if the variable names in the input data
+                are pythonic names, e.g. snake case (default)
             _content_type (str/None): force body content-type.
                 Default is None and content-type will be predicted by allowed
                 content-types and body.
@@ -3658,6 +3851,9 @@ class FakeApi(object):
         )
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
+        )
+        kwargs['_spec_property_naming'] = kwargs.get(
+            '_spec_property_naming', False
         )
         kwargs['_content_type'] = kwargs.get(
             '_content_type')

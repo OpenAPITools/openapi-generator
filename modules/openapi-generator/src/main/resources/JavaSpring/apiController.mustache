@@ -3,7 +3,18 @@ package {{package}};
 {{^jdk8}}
 {{#imports}}import {{import}};
 {{/imports}}
+{{#oas3}}
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+{{/oas3}}
+{{^oas3}}
 import io.swagger.annotations.*;
+{{/oas3}}
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -118,7 +129,11 @@ public class {{classname}}Controller implements {{classname}} {
     {{/externalDocs}}
      * @see {{classname}}#{{operationId}}
      */
-    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},{{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}, @springfox.documentation.annotations.ApiIgnore final Pageable pageable{{/vendorExtensions.x-spring-paginated}}) {
+    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}(
+        {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},
+        {{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
+        {{/hasParams}}{{#useSpringfox}}@springfox.documentation.annotations.ApiIgnore {{/useSpringfox}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}
+    ) {
     {{^isDelegate}}
         {{^async}}
         {{>methodBody}}

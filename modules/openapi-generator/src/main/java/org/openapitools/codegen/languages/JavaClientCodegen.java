@@ -174,7 +174,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 10.x. JSON processing: Jackson 2.9.x.");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
-        supportedLibraries.put(OKHTTP_GSON_NEXTGEN, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x.'. Better support for oneOf/anyOf with breaking changes. Will replace `okhttp-gson` in the 6.0.0 release.");
+        supportedLibraries.put(OKHTTP_GSON_NEXTGEN, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x.'. Better support for oneOf/anyOf with breaking changes. Will replace `okhttp-gson` in the 6.0.0 release. IMPORTANT: this may subject to breaking changes without further notice.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
         supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(WEBCLIENT, "HTTP client: Spring WebClient 5.x. JSON processing: Jackson 2.9.x");

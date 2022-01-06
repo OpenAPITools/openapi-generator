@@ -3,7 +3,6 @@ package org.openapitools.api;
 import java.util.List;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.model.User;
-import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 

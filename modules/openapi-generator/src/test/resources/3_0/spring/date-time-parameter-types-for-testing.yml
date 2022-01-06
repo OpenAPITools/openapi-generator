@@ -1,0 +1,70 @@
+openapi: 3.0.3
+info:
+  title: Api Documentation
+  description: 'Demo Spring Mvc @DateTimeFormat across the different openapi parameter types'
+  version: '1.0'
+paths:
+  /thingy/{date}:
+    post:
+      description: 'update with form data'
+      operationId: updatePetWithForm
+      parameters:
+        - name: date
+          in: path
+          description: 'A date path parameter'
+          required: true
+          schema:
+            type: string
+            format: date
+            example: '2021-01-01'
+      responses:
+        '405':
+          description: Invalid input
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                visitDate:
+                  description: Updated last vist timestamp
+                  type: string
+                  format: date-time
+    get:
+      operationId: get
+      parameters:
+        - name: date
+          in: path
+          description: 'A date path parameter'
+          required: true
+          schema:
+            type: string
+            format: date
+            example: '2021-01-01'
+        - name: dateTime
+          description: 'A date-time query parameter'
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+            example: '1996-12-19T16:39:57-08:00'
+        - name: X-Order-Date
+          in: header
+          description: 'A date header parameter'
+          required: true
+          schema:
+            type: string
+            format: date
+            example: '2021-01-01'
+        - name: loginDate
+          in: cookie
+          description: 'A date cookie parameter'
+          required: false
+          schema:
+            type: string
+            format: date
+            example: '2021-01-01'
+      responses:
+        '200':
+          description: OK
