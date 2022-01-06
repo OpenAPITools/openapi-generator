@@ -13,7 +13,7 @@ import { {{classname}} } from './{{importPath}}';
 {{/apiInfo}}
 
 let cachedOptions: HttpModuleOptions = undefined;
-let nextOptionsRefresh: number = undefined;
+let nextOptionsRefresh: number = 0;
 
 @Global()
 @Module({
