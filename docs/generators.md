@@ -54,6 +54,7 @@ The following generators are available:
 * [php-dt (beta)](generators/php-dt.md)  
 * [powershell (beta)](generators/powershell.md)  
 * [python (experimental)](generators/python.md)  
+* [python-experimental (experimental)](generators/python-experimental.md)  
 * [python-legacy](generators/python-legacy.md)  
 * [r](generators/r.md)  
 * [ruby](generators/ruby.md)  
