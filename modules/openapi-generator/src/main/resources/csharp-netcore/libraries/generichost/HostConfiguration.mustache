@@ -38,7 +38,9 @@ namespace {{packageName}}.Client
             Action<HttpClient>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} client = null, Action<IHttpClientBuilder>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} builder = null){{#apis}}
             where T{{classname}} : class, {{interfacePrefix}}{{classname}}{{/apis}}
         {
-            client ??= c => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
+            if (client == null)
+                client = c => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
+
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
             
             {{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{classname}}, T{{classname}}>(client));
