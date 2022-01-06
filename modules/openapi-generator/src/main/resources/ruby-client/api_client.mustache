@@ -93,6 +93,12 @@ module {{moduleName}}
 
       return nil if body.nil? || body.empty?
 
+      # return byte stream for Binary return type
+      if return_type == 'Binary'
+        encoding = body.encoding
+        return @stream.join.force_encoding(encoding)
+      end
+
       # return response body directly for String return type
       return body if return_type == 'String'
 

@@ -90,7 +90,7 @@
       request.options = OpenStruct.new(req_opts)
       request.url url
       request.params = query_params
-      download_file(request) if opts[:return_type] == 'File'
+      download_file(request) if opts[:return_type] == 'File' || 'Binary'
       request
     end
 
