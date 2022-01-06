@@ -2459,6 +2459,28 @@ class FakeApi
     }
 
     /**
+     * @see https://github.com/OpenAPITools/openapi-generator/pull/11225
+     */
+    public function testDeepObjectQueryParams($filter)
+    {
+        // query params filter
+        if ($filter !== null) {
+            if('form' === 'deepObject' && is_array($filter)) {
+                foreach($filter as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['filter'] = $filter;
+            }
+        }
+
+        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+
+        return $query;
+    }
+
+    /**
      * Create request for operation 'testBodyWithQueryParams'
      *
      * @param  string $query (required)
