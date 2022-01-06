@@ -3,12 +3,17 @@ import { HttpService, HttpModule, HttpModuleOptions } from '@nestjs/axios';
 import { Configuration } from './configuration';
 import { Agent } from "https";
 import * as fs from 'fs';
+import {REQUEST} from "@nestjs/core";
+
 
 {{#apiInfo}}
 {{#apis}}
 import { {{classname}} } from './{{importPath}}';
 {{/apis}}
 {{/apiInfo}}
+
+let cachedOptions: HttpModuleOptions | undefined = undefined;
+let nextOptionsRefresh: number = 0;
 
 @Global()
 @Module({
@@ -29,12 +34,20 @@ export class ApiModule {
             providers: [ { provide: Configuration, useFactory: configurationFactory } ],
             imports: [
               HttpModule.registerAsync({
-              useFactory: () =>
-                createHttpOptions(
-                  configurationFactory().certPath,
-                  configurationFactory().certKeyPath,
-                  configurationFactory().caPath
-                ),
+              useFactory: (request) => {
+                if(cachedOptions === undefined || nextOptionsRefresh < new Date().getTime()){                  
+                  //Refresh certs once per hour or on next request.  Should work with AutoCert since they renew 8 hours before the 24 hour cert expires
+                  nextOptionsRefresh = new Date(new Date().getTime() + 60 * 60000).getTime();
+                  cachedOptions = createHttpOptions(
+                      configurationFactory().certPath,
+                      configurationFactory().certKeyPath,
+                      configurationFactory().caPath
+                  )}
+                return cachedOptions;
+              },
+              //abusing inject a bit here, we only use it to be able to reload the cert using the factory above.
+              //in case of unit tests, we don't do this, as it breaks them
+               inject: process.env.NODE_ENV !== "production" ? [] : [REQUEST]
             }),
       ],
       exports: [HttpModule]
