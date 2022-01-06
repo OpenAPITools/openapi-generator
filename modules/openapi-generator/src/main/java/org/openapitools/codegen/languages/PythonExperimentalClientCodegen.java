@@ -2075,4 +2075,9 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         }
         return co;
     }
+
+    @Override
+    public String defaultTemplatingEngine() {
+        return "handlebars";
+    }
 }

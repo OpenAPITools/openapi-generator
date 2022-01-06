@@ -7356,4 +7356,9 @@ public class DefaultCodegen implements CodegenConfig {
         }
         return xOf;
     }
+
+    @Override
+    public String defaultTemplatingEngine() {
+        return "mustache";
+    }
 }
