@@ -12,11 +12,11 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.foo2 import Foo2
+from petstore_api.model.foo_object import FooObject
 
 
-class TestFoo2(unittest.TestCase):
-    """Foo2 unit test stubs"""
+class TestFooObject(unittest.TestCase):
+    """FooObject unit test stubs"""
 
     def setUp(self):
         pass
@@ -24,10 +24,10 @@ class TestFoo2(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testFoo2(self):
-        """Test Foo2"""
+    def testFooObject(self):
+        """Test FooObject"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = Foo2()  # noqa: E501
+        # model = FooObject()  # noqa: E501
         pass
 
 
