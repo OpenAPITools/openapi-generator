@@ -1657,7 +1657,7 @@ def model_to_dict(model_instance, serialize=True):
             attribute_map
     """
     result = {}
-    extract_item =  lambda item: (item[0],model_to_dict(item[1], serialize=serialize)) if hasattr(item[1], '_data_store') else item
+    extract_item = lambda item: (item[0], model_to_dict(item[1], serialize=serialize)) if hasattr(item[1], '_data_store') else item
 
     model_instances = [model_instance]
     if model_instance._composed_schemas:
