@@ -1,38 +1,40 @@
 import IHttpClient from './IHttpClient';
 
+{{^usePromise}}
 {{^useRxJS6}}
 import { Observable } from 'rxjs/Observable';
 {{/useRxJS6}}
 {{#useRxJS6}}
 import { Observable, from } from 'rxjs';
 {{/useRxJS6}}
+{{/usePromise}}
 
+import {injectable} from 'inversify';
 import 'whatwg-fetch';
 import HttpResponse from './HttpResponse';
-import {injectable} from 'inversify';
 import { Headers } from './Headers';
 
 @injectable()
 class HttpClient implements IHttpClient {
 
-    get(url:string, headers?: Headers):Observable<HttpResponse> {
+    get(url:string, headers?: Headers): {{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<HttpResponse> {
         return this.performNetworkCall(url, 'GET', undefined, headers);
     }
 
-    post(url: string, body?: {}|FormData, headers?: Headers): Observable<HttpResponse> {
+    post(url: string, body?: {}|FormData, headers?: Headers): {{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<HttpResponse> {
         return this.performNetworkCall(url, 'POST', this.getJsonBody(body), this.addJsonHeaders(headers));
     }
 
-    put(url: string, body?: {}, headers?: Headers): Observable<HttpResponse> {
+    put(url: string, body?: {}, headers?: Headers): {{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<HttpResponse> {
         return this.performNetworkCall(url, 'PUT', this.getJsonBody(body), this.addJsonHeaders(headers));
     }
 
-    patch(url: string, body?: {}, headers?: Headers): Observable<HttpResponse> {
+    patch(url: string, body?: {}, headers?: Headers): {{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<HttpResponse> {
         return this.performNetworkCall(url, 'PATCH', this.getJsonBody(body), this.addJsonHeaders(headers));
     }
 
 
-    delete(url: string, headers?: Headers): Observable<HttpResponse> {
+    delete(url: string, headers?: Headers): {{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<HttpResponse> {
         return this.performNetworkCall(url, 'DELETE', undefined, headers);
     }
 
@@ -50,7 +52,7 @@ class HttpClient implements IHttpClient {
         }, headers);
     };
 
-    private performNetworkCall(url: string, method: string, body?: any, headers?: Headers): Observable<HttpResponse> {
+    private performNetworkCall(url: string, method: string, body?: any, headers?: Headers): {{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<HttpResponse> {
 
         // when using fetch & a multipart upload, the requests content-type is handled by the browser, so should be left unset otherwise the multipart boundary is not added
         if(headers && headers['Content-Type'] === 'multipart/form-data') {
@@ -77,12 +79,17 @@ class HttpClient implements IHttpClient {
             });
         });
 
+{{#usePromise}}
+        return promise;
+{{/usePromise}}
+{{^usePromise}}
         {{^useRxJS6}}
             return Observable.fromPromise(promise);
         {{/useRxJS6}}
         {{#useRxJS6}}
             return from(promise);
         {{/useRxJS6}}
+{{/usePromise}}
     }
 }
 
