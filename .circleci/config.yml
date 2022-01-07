@@ -118,4 +118,9 @@ jobs:
     steps:
       - command_build_and_test:
           nodeNo: "1"
-
+jobs:
+  version: 2
+  build:
+    jobs:
+      - node0
+      - node1
