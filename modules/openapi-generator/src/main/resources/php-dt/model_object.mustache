@@ -16,7 +16,7 @@ class {{classname}}
 }}{{^internal.fromParameters}}{{>model_normal_var}}{{/internal.fromParameters
 }}{{/vendorExtensions
 }}{{^vendorExtensions}}{{>model_normal_var}}{{/vendorExtensions
-}}     * @var {{dataType}}|null
+}}     * @var {{dataType}}{{^required}}|null{{/required}}
      */
     public ${{name}};
 
