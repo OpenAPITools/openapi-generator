@@ -86,8 +86,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   java -version
   export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
   echo $JAVA_HOME
-  whoami
-  sudo iptables -t nat -A OUTPUT -o lo -p tcp --dport 80 -j REDIRECT --to-port 8080
+  sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
