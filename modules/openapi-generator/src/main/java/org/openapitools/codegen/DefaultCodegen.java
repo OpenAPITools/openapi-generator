@@ -2490,7 +2490,13 @@ public class DefaultCodegen implements CodegenConfig {
                 if (StringUtils.isBlank(interfaceSchema.get$ref())) {
                     // primitive type
                     String languageType = getTypeDeclaration(interfaceSchema);
-                    addImports(m.imports, fromProperty(languageType, interfaceSchema));
+                    CodegenProperty interfaceProperty = fromProperty(languageType, interfaceSchema);
+                    if (ModelUtils.isArraySchema(interfaceSchema) || ModelUtils.isMapSchema(interfaceSchema)) {
+                        while (interfaceProperty != null) {
+                            addImport(m, interfaceProperty.complexType);
+                            interfaceProperty = interfaceProperty.items;
+                        }
+                    }
 
                     if (composed.getAnyOf() != null) {
                         if (m.anyOf.contains(languageType)) {
@@ -6371,7 +6377,11 @@ public class DefaultCodegen implements CodegenConfig {
             // default to csv:
             codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
 
-            addImports(imports, arrayInnerProperty);
+            // recursively add import
+            while (arrayInnerProperty != null) {
+                imports.add(arrayInnerProperty.baseType);
+                arrayInnerProperty = arrayInnerProperty.items;
+            }
         } else {
             // referenced schemas
             ;
@@ -6398,7 +6408,10 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.enumName = codegenProperty.enumName;
         }
 
-        addImports(imports, codegenProperty);
+        // import
+        if (codegenProperty.complexType != null) {
+            imports.add(codegenProperty.complexType);
+        }
 
         setParameterExampleValue(codegenParameter);
         // set nullable
