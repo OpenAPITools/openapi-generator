@@ -171,6 +171,7 @@ namespace {{packageName}}.Client
                 {{#apis}}
                 {{#operations}}
                 {{#operation}}
+                {{#servers.0}}
                 {
                     "{{{classname}}}.{{{nickname}}}", new List<IReadOnlyDictionary<string, object>>
                     {
@@ -185,6 +186,7 @@ namespace {{packageName}}.Client
                         {{/servers}}
                     }
                 },
+                {{/servers.0}}
                 {{/operation}}
                 {{/operations}}
                 {{/apis}}
