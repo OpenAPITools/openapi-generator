@@ -34,7 +34,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
-class PetApi(
+open class PetApi(
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
@@ -47,7 +47,7 @@ class PetApi(
      * @param body Pet object that needs to be added to the store 
      * @return void
      */
-    suspend fun addPet(body: Pet): HttpResponse<Unit> {
+    open suspend fun addPet(body: Pet): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -80,7 +80,7 @@ class PetApi(
      * @param apiKey  (optional)
      * @return void
      */
-    suspend fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?): HttpResponse<Unit> {
+    open suspend fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -114,7 +114,7 @@ class PetApi(
      * @return kotlin.collections.List<Pet>
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): HttpResponse<kotlin.collections.List<Pet>> {
+    open suspend fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): HttpResponse<kotlin.collections.List<Pet>> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -158,7 +158,7 @@ class PetApi(
      * @return kotlin.collections.List<Pet>
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): HttpResponse<kotlin.collections.List<Pet>> {
+    open suspend fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): HttpResponse<kotlin.collections.List<Pet>> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -202,7 +202,7 @@ class PetApi(
      * @return Pet
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun getPetById(petId: kotlin.Long): HttpResponse<Pet> {
+    open suspend fun getPetById(petId: kotlin.Long): HttpResponse<Pet> {
 
         val localVariableAuthNames = listOf<String>("api_key")
 
@@ -234,7 +234,7 @@ class PetApi(
      * @param body Pet object that needs to be added to the store 
      * @return void
      */
-    suspend fun updatePet(body: Pet): HttpResponse<Unit> {
+    open suspend fun updatePet(body: Pet): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -268,7 +268,7 @@ class PetApi(
      * @param status Updated status of the pet (optional)
      * @return void
      */
-    suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?): HttpResponse<Unit> {
+    open suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -306,7 +306,7 @@ class PetApi(
      * @return ModelApiResponse
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.InputProvider?): HttpResponse<ModelApiResponse> {
+    open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.InputProvider?): HttpResponse<ModelApiResponse> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 

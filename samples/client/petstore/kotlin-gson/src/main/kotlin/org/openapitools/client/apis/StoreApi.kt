@@ -24,6 +24,8 @@ import java.io.IOException
 
 import org.openapitools.client.models.Order
 
+import com.google.gson.annotations.SerializedName
+
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException

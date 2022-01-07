@@ -34,7 +34,6 @@ docs/EnumTest.md
 docs/EquilateralTriangle.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
-docs/FileSchemaTestClass.md
 docs/Foo.md
 docs/FormatTest.md
 docs/Fruit.md
@@ -65,6 +64,7 @@ docs/OuterEnumIntegerDefaultValue.md
 docs/ParentPet.md
 docs/Pet.md
 docs/PetApi.md
+docs/PetWithRequiredTags.md
 docs/Pig.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
@@ -147,7 +147,6 @@ src/main/java/org/openapitools/client/model/EnumArrays.java
 src/main/java/org/openapitools/client/model/EnumClass.java
 src/main/java/org/openapitools/client/model/EnumTest.java
 src/main/java/org/openapitools/client/model/EquilateralTriangle.java
-src/main/java/org/openapitools/client/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/client/model/Foo.java
 src/main/java/org/openapitools/client/model/FormatTest.java
 src/main/java/org/openapitools/client/model/Fruit.java
@@ -177,6 +176,7 @@ src/main/java/org/openapitools/client/model/OuterEnumInteger.java
 src/main/java/org/openapitools/client/model/OuterEnumIntegerDefaultValue.java
 src/main/java/org/openapitools/client/model/ParentPet.java
 src/main/java/org/openapitools/client/model/Pet.java
+src/main/java/org/openapitools/client/model/PetWithRequiredTags.java
 src/main/java/org/openapitools/client/model/Pig.java
 src/main/java/org/openapitools/client/model/Quadrilateral.java
 src/main/java/org/openapitools/client/model/QuadrilateralInterface.java
