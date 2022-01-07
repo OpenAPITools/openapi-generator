@@ -36,7 +36,7 @@ public interface ComplexType {
     /**
      * Recursively collect all necessary imports to include so that the type may be resolved.
      *
-     * @param includeContainerTypes
+     * @param includeContainerTypes whether or not to include the container types in the returned imports.
      * @return all of the imports
      */
     default Set<String> getImports(boolean includeContainerTypes) {
