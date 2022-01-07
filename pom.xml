@@ -1164,11 +1164,11 @@
         </profile>
         <!-- test with JDK8 in CircleCI -->
         <profile>
-            <id>samples.circleci</id>
+            <id>samples.circleci.node1</id>
             <activation>
                 <property>
                     <name>env</name>
-                    <value>samples.circleci</value>
+                    <value>samples.circleci.node1</value>
                 </property>
             </activation>
             <modules>
@@ -1312,13 +1312,13 @@
                 <module>samples/client/petstore/javascript-promise-es6</module>
             </modules>
         </profile>
-        <!-- other tests in CircleCI -->
+        <!-- node0 tests in CircleCI -->
         <profile>
-            <id>samples.circleci.others</id>
+            <id>samples.circleci.node0</id>
             <activation>
                 <property>
                     <name>env</name>
-                    <value>samples.circleci.others</value>
+                    <value>samples.circleci.node0</value>
                 </property>
             </activation>
             <modules>
@@ -1408,11 +1408,11 @@
         </profile>
         <!-- test with Haskell -->
         <profile>
-            <id>samples.misc</id>
+            <id>samples.circleci.node2</id>
             <activation>
                 <property>
                     <name>env</name>
-                    <value>samples.misc</value>
+                    <value>samples.circleci.node2</value>
                 </property>
             </activation>
             <modules>

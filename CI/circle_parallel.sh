@@ -16,11 +16,18 @@ function cleanup {
 
 trap cleanup EXIT
 
-if [ "$NODE_INDEX" = "1" ]; then
+if [ "$NODE_INDEX" = "0" ]; then
+  echo "Running node $NODE_INDEX to test 'samples.circleci.node0' defined in pom.xml ..."
+  #sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
+  java -version
+
+  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node0 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  mvn --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci.node1 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+elif [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
   java -version
 
-  mvn --no-snapshot-updates --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node1 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test haskell"
@@ -48,7 +55,7 @@ elif [ "$NODE_INDEX" = "2" ]; then
   go version
 
   # run integration tests
-  mvn --no-snapshot-updates --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node2 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 elif [ "$NODE_INDEX" = "3" ]; then
 
   echo "Running node $NODE_INDEX to test 'samples.circleci.node3' defined in pom.xml ..."
@@ -80,14 +87,6 @@ elif [ "$NODE_INDEX" = "3" ]; then
   echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-
-else
-  echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
-  #sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
-  java -version
-
-  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  mvn --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
 
 
