@@ -84,6 +84,8 @@ elif [ "$NODE_INDEX" = "3" ]; then
   # echo which java
   apt-get update && apt-get install -y default-jdk maven
   java -version
+  export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
+  echo $JAVA_HOME
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
