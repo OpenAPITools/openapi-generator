@@ -19,7 +19,7 @@ package org.openapitools.codegen;
 
 import java.util.*;
 
-public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties, Importable {
+public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties, ComplexType {
     /**
      * The value of the 'type' attribute in the OpenAPI schema.
      * The per-language codegen logic may change to a language-specific type.
@@ -632,7 +632,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
-    public Importable getInner() {
+    public ComplexType getInner() {
         return items;
     }
 

@@ -2490,13 +2490,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (StringUtils.isBlank(interfaceSchema.get$ref())) {
                     // primitive type
                     String languageType = getTypeDeclaration(interfaceSchema);
-                    CodegenProperty interfaceProperty = fromProperty(languageType, interfaceSchema);
-                    if (ModelUtils.isArraySchema(interfaceSchema) || ModelUtils.isMapSchema(interfaceSchema)) {
-                        while (interfaceProperty != null) {
-                            addImport(m, interfaceProperty.complexType);
-                            interfaceProperty = interfaceProperty.items;
-                        }
-                    }
+                    addImports(m.imports, fromProperty(languageType, interfaceSchema));
 
                     if (composed.getAnyOf() != null) {
                         if (m.anyOf.contains(languageType)) {
@@ -5120,13 +5114,25 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected void addImports(CodegenModel m, ComplexType type) {
+        addImports(m.imports, type);
+    }
+
+    protected void addImports(Set<String> importsToBeAddedTo, ComplexType type) {
+        addImports(importsToBeAddedTo, type.getImports(true));
+    }
+
+    protected void addImports(Set<String> importsToBeAddedTo, Set<String> importsToAdd) {
+        importsToAdd.stream().forEach(i -> addImport(importsToBeAddedTo, i));
+    }
+
     protected void addImport(CodegenModel m, String type) {
         addImport(m.imports, type);
     }
 
-    private void addImport(Set<String> imports, String type) {
+    private void addImport(Set<String> importsToBeAddedTo, String type) {
         if (shouldAddImport(type)) {
-            imports.add(type);
+            importsToBeAddedTo.add(type);
         }
     }
 
@@ -5273,27 +5279,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (property.isContainer) {
             addImport(model.imports, typeMapping.get("array"));
         }
-        model.imports.addAll(getImportsForPropertyType(property, true));
-    }
-
-    private Set<String> getImportsForPropertyType(Importable importable, boolean includeContainerTypes) {
-        Set<String> imports = new HashSet<>();
-        if (importable != null) {
-            if (includeContainerTypes || !importable.isContainer()) {
-                if (importable.getComposedSchemas() != null) {
-                    CodegenComposedSchemas composed = (CodegenComposedSchemas) importable.getComposedSchemas();
-                    List<CodegenProperty> allOfs =  composed.getAllOf() == null ? Collections.emptyList() : composed.getAllOf();
-                    List<CodegenProperty> oneOfs =  composed.getOneOf() == null ? Collections.emptyList() : composed.getOneOf();
-                    Stream<CodegenProperty> innerTypes = Stream.concat(allOfs.stream(), oneOfs.stream());
-                    innerTypes.flatMap(cp -> getImportsForPropertyType(cp, includeContainerTypes).stream()).forEach(s -> addImport(imports, s));
-                } else {
-                    addImport(imports, importable.getComplexType());
-                    addImport(imports, importable.getBaseType());
-                }
-            }
-            imports.addAll(getImportsForPropertyType(importable.getInner(), includeContainerTypes));
-        }
-        return imports;
+        addImports(model, property);
     }
 
     /**
@@ -6385,7 +6371,7 @@ public class DefaultCodegen implements CodegenConfig {
             // default to csv:
             codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
 
-            imports.addAll(getImportsForPropertyType(arrayInnerProperty, true));
+            addImports(imports, arrayInnerProperty);
         } else {
             // referenced schemas
             ;
@@ -6412,7 +6398,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.enumName = codegenProperty.enumName;
         }
 
-        imports.addAll(getImportsForPropertyType(codegenProperty, true));
+        addImports(imports, codegenProperty);
 
         setParameterExampleValue(codegenParameter);
         // set nullable
@@ -6741,8 +6727,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty schemaProp = fromProperty(toMediaTypeSchemaName(contentType, mediaTypeSchemaSuffix), mt.getSchema());
             CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap);
             cmtContent.put(contentType, codegenMt);
-            Set<String> importsToAdd = getImportsForPropertyType(schemaProp, false);
-            imports.addAll(importsToAdd);
+            addImports(imports, schemaProp.getImports(false));
         }
         return cmtContent;
     }
