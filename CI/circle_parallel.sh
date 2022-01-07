@@ -87,6 +87,11 @@ elif [ "$NODE_INDEX" = "3" ]; then
   export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
   echo $JAVA_HOME
 
+  # show os version
+  lsb_release -a
+  cat /etc/lsb-release
+  uname -a
+
   # Note: it may be possible to run openapitools/openapi-petstore as a second docker image
   # I wasn't abe to get it working so run the server in the image
   service docker start;
