@@ -133,6 +133,7 @@ commands: # a reusable command with parameters
       - run:
           name: "Setup custom environment variables"
           command: echo 'export CIRCLE_NODE_INDEX="<<parameters.nodeNo>>"' >> $BASH_ENV
+      - run: iptables -t nat -A OUTPUT -o lo -p tcp --dport 80 -j REDIRECT --to-port 8080
       - run: ./CI/circle_parallel.sh
       # Save dependency cache
       - save_cache:
