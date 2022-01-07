@@ -82,7 +82,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #  echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
   #  echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
   # echo which java
-  apt-get update && apt-get install -y default-jdk maven docker.io
+  apt-get update && apt-get install -y default-jdk maven docker-ce
   java -version
   export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
   echo $JAVA_HOME
