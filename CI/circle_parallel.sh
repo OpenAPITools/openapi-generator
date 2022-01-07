@@ -82,12 +82,11 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #  echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
   #  echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
   # echo which java
-  apt-get update && apt-get install -y default-jdk maven sudo
+  apt-get update && apt-get install -y default-jdk maven sudo iptables
   java -version
   export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
   echo $JAVA_HOME
   whoami
-  sudo whoami
   sudo iptables -t nat -A OUTPUT -o lo -p tcp --dport 80 -j REDIRECT --to-port 8080
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
