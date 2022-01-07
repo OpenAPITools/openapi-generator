@@ -82,8 +82,8 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #  echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
   #  echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
   # echo which java
+  apt-get update && apt-get install -y maven default-jre
   java -version
-  apt-get update && apt-get install -y maven
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
