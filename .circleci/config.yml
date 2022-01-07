@@ -142,6 +142,7 @@ jobs:
       DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
       DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
     steps:
+      - checkout
       - command_build_and_test:
           nodeNo: "3"
 workflows:
