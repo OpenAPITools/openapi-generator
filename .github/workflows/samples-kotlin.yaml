@@ -29,6 +29,7 @@ jobs:
           # needs Android configured
           #- samples/client/petstore/kotlin-json-request-string
           - samples/client/petstore/kotlin-jvm-okhttp4-coroutines
+          - samples/client/petstore/kotlin-jvm-volley
           - samples/client/petstore/kotlin-moshi-codegen
           - samples/client/petstore/kotlin-multiplatform
           - samples/client/petstore/kotlin-nonpublic

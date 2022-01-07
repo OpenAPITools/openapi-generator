@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import Alamofire
 
 protocol JSONEncodable {
     func encodeToJSON() -> Any
@@ -32,6 +33,36 @@ extension CaseIterableDefaultsLast {
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "CaseIterableDefaultsLast")
             )
+        }
+    }
+}
+
+/// A flexible type that can be encoded (`.encodeNull` or `.encodeValue`)
+/// or not encoded (`.encodeNothing`). Intended for request payloads.
+public enum NullEncodable<Wrapped: Hashable>: Hashable {
+    case encodeNothing
+    case encodeNull
+    case encodeValue(Wrapped)
+}
+
+extension NullEncodable: Codable where Wrapped: Codable {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(Wrapped.self) {
+            self = .encodeValue(value)
+        } else if container.decodeNil() {
+            self = .encodeNull
+        } else {
+            self = .encodeNothing
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .encodeNothing: return
+        case .encodeNull: try container.encodeNil()
+        case .encodeValue(let wrapped): try container.encode(wrapped)
         }
     }
 }
@@ -76,5 +107,18 @@ open class Response<T> {
             }
         }
         self.init(statusCode: response.statusCode, header: header, body: body)
+    }
+}
+
+public final class RequestTask {
+    private var request: Request?
+
+    internal func set(request: Request) {
+        self.request = request
+    }
+
+    public func cancel() {
+        request?.cancel()
+        request = nil
     }
 }

@@ -20,10 +20,14 @@
 
 package org.openapitools.client.apis
 
+import java.io.IOException
+
 import org.openapitools.client.models.ModelWithEnumPropertyHavingDefault
 
+import com.squareup.moshi.Json
+
 import org.openapitools.client.infrastructure.ApiClient
-import org.openapitools.client.infrastructure.ApiInfrastructureResponse
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -47,12 +51,14 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     * 
     * 
     * @return ModelWithEnumPropertyHavingDefault
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun operation() : ModelWithEnumPropertyHavingDefault {
         val localVarResponse = operationWithHttpInfo()
 
@@ -74,14 +80,13 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * 
     * 
-    * @return ApiInfrastructureResponse<ModelWithEnumPropertyHavingDefault?>
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
+    * @return ApiResponse<ModelWithEnumPropertyHavingDefault?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun operationWithHttpInfo() : ApiInfrastructureResponse<ModelWithEnumPropertyHavingDefault?> {
+    @Throws(IllegalStateException::class, IOException::class)
+    fun operationWithHttpInfo() : ApiResponse<ModelWithEnumPropertyHavingDefault?> {
         val localVariableConfig = operationRequestConfig()
 
         return request<Unit, ModelWithEnumPropertyHavingDefault>(
@@ -98,6 +103,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,

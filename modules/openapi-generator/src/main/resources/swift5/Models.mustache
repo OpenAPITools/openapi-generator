@@ -4,7 +4,8 @@
 // https://openapi-generator.tech
 //
 
-import Foundation
+import Foundation{{#useAlamofire}}
+import Alamofire{{/useAlamofire}}
 
 protocol JSONEncodable {
     func encodeToJSON() -> Any
@@ -32,6 +33,36 @@ extension CaseIterableDefaultsLast {
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "CaseIterableDefaultsLast")
             )
+        }
+    }
+}
+
+/// A flexible type that can be encoded (`.encodeNull` or `.encodeValue`)
+/// or not encoded (`.encodeNothing`). Intended for request payloads.
+public enum NullEncodable<Wrapped: Hashable>: Hashable {
+    case encodeNothing
+    case encodeNull
+    case encodeValue(Wrapped)
+}
+
+extension NullEncodable: Codable where Wrapped: Codable {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(Wrapped.self) {
+            self = .encodeValue(value)
+        } else if container.decodeNil() {
+            self = .encodeNull
+        } else {
+            self = .encodeNothing
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .encodeNothing: return
+        case .encodeNull: try container.encodeNil()
+        case .encodeValue(let wrapped): try container.encode(wrapped)
         }
     }
 }
@@ -77,4 +108,31 @@ extension CaseIterableDefaultsLast {
         }
         self.init(statusCode: response.statusCode, header: header, body: body)
     }
+}
+
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} final class RequestTask {
+{{#useAlamofire}}
+    private var request: Request?
+
+    internal func set(request: Request) {
+        self.request = request
+    }
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func cancel() {
+        request?.cancel()
+        request = nil
+    }
+{{/useAlamofire}}
+{{^useAlamofire}}
+    private var task: URLSessionTask?
+
+    internal func set(task: URLSessionTask) {
+        self.task = task
+    }
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func cancel() {
+        task?.cancel()
+        task = nil
+    }
+{{/useAlamofire}}
 }

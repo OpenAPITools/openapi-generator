@@ -95,6 +95,16 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(swiftCodegen.toEnumVarName("123EntryName123", null), "_123entryName123");
     }
 
+    @Test(enabled = true)
+    public void testSpecialCharacters() throws Exception {
+        Assert.assertEquals(swiftCodegen.toEnumVarName("1:1", null), "_1Colon1");
+        Assert.assertEquals(swiftCodegen.toEnumVarName("1:One", null), "_1ColonOne");
+        Assert.assertEquals(swiftCodegen.toEnumVarName("Apple&Swift", null), "appleAmpersandSwift");
+        Assert.assertEquals(swiftCodegen.toEnumVarName("$", null), "dollar");
+        Assert.assertEquals(swiftCodegen.toEnumVarName("+1", null), "plus1");
+        Assert.assertEquals(swiftCodegen.toEnumVarName(">=", null), "greaterThanOrEqualTo");
+    }
+
     @Test(description = "returns Data when response format is binary", enabled = true)
     public void binaryDataTest() {
         // TODO update json file
