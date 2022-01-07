@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 commands: # a reusable command with parameters
   command_build_and_test:
     parameters:
