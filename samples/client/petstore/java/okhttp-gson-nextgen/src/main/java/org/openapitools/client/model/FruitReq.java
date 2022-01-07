@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.openapitools.client.model.AppleReq;
 import org.openapitools.client.model.BananaReq;
+import org.openapitools.client.model.ModelNull;
 
 import javax.ws.rs.core.GenericType;
 
