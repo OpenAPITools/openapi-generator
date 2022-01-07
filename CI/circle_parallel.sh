@@ -11,7 +11,9 @@ export NODE_ENV=test
 
 function cleanup {
   # Show logs of 'petstore.swagger' container to troubleshoot Unit Test failures, if any.
-  docker logs petstore.swagger # container name specified in circle.yml
+  if [ "$NODE_INDEX" != "3" ]; then
+    docker logs petstore.swagger # container name specified in circle.yml
+  fi
 }
 
 trap cleanup EXIT
