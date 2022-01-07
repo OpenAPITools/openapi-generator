@@ -232,7 +232,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of outer boolean types
      */
-    async fakeOuterBooleanSerialize(requestParameters: FakeOuterBooleanSerializeRequest, initOverrides?: RequestInit): Promise<boolean> {
+    async fakeOuterBooleanSerialize(requestParameters: FakeOuterBooleanSerializeRequest = {}, initOverrides?: RequestInit): Promise<boolean> {
         const response = await this.fakeOuterBooleanSerializeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -261,7 +261,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of object with outer number type
      */
-    async fakeOuterCompositeSerialize(requestParameters: FakeOuterCompositeSerializeRequest, initOverrides?: RequestInit): Promise<OuterComposite> {
+    async fakeOuterCompositeSerialize(requestParameters: FakeOuterCompositeSerializeRequest = {}, initOverrides?: RequestInit): Promise<OuterComposite> {
         const response = await this.fakeOuterCompositeSerializeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -290,7 +290,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of outer number types
      */
-    async fakeOuterNumberSerialize(requestParameters: FakeOuterNumberSerializeRequest, initOverrides?: RequestInit): Promise<number> {
+    async fakeOuterNumberSerialize(requestParameters: FakeOuterNumberSerializeRequest = {}, initOverrides?: RequestInit): Promise<number> {
         const response = await this.fakeOuterNumberSerializeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -319,7 +319,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of outer string types
      */
-    async fakeOuterStringSerialize(requestParameters: FakeOuterStringSerializeRequest, initOverrides?: RequestInit): Promise<string> {
+    async fakeOuterStringSerialize(requestParameters: FakeOuterStringSerializeRequest = {}, initOverrides?: RequestInit): Promise<string> {
         const response = await this.fakeOuterStringSerializeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -683,7 +683,7 @@ export class FakeApi extends runtime.BaseAPI {
      * To test enum parameters
      * To test enum parameters
      */
-    async testEnumParameters(requestParameters: TestEnumParametersRequest, initOverrides?: RequestInit): Promise<void> {
+    async testEnumParameters(requestParameters: TestEnumParametersRequest = {}, initOverrides?: RequestInit): Promise<void> {
         await this.testEnumParametersRaw(requestParameters, initOverrides);
     }
 

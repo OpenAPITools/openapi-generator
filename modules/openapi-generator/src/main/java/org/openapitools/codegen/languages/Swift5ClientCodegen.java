@@ -972,25 +972,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             return "empty";
         }
 
-        Pattern startWithNumberPattern = Pattern.compile("^\\d+");
-        Matcher startWithNumberMatcher = startWithNumberPattern.matcher(name);
-        if (startWithNumberMatcher.find()) {
-            String startingNumbers = startWithNumberMatcher.group(0);
-            String nameWithoutStartingNumbers = name.substring(startingNumbers.length());
-
-            return "_" + startingNumbers + camelize(nameWithoutStartingNumbers, true);
-        }
-
-        // for symbol, e.g. $, #
-        if (getSymbolName(name) != null) {
-            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
-        }
-
-        // Camelize only when we have a structure defined below
-        Boolean camelized = false;
-        if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
-            name = camelize(name, true);
-            camelized = true;
+        if (enumUnknownDefaultCase) {
+            if (name.equals(enumUnknownDefaultCaseName)) {
+                return camelize(name, true);
+            }
         }
 
         // Reserved Name
@@ -999,26 +984,82 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             return escapeReservedWord(nameLowercase);
         }
 
+        // Prefix with underscore if name starts with number
+        if (name.matches("\\d.*")) {
+            return "_" + replaceSpecialCharacters(camelize(name, true));
+        }
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
+        }
+        
+        // Camelize only when we have a structure defined below
+        Boolean camelized = false;
+        if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
+            name = camelize(name, true);
+            camelized = true;
+        }
+
         // Check for numerical conversions
         if ("Int".equals(datatype) || "Int32".equals(datatype) || "Int64".equals(datatype)
                 || "Float".equals(datatype) || "Double".equals(datatype)) {
             String varName = "number" + camelize(name);
-            varName = varName.replaceAll("-", "minus");
-            varName = varName.replaceAll("\\+", "plus");
-            varName = varName.replaceAll("\\.", "dot");
-            return varName;
+            return replaceSpecialCharacters(varName);
         }
 
         // If we have already camelized the word, don't progress
         // any further
         if (camelized) {
-            return name;
+            return replaceSpecialCharacters(name);
         }
 
         char[] separators = {'-', '_', ' ', ':', '(', ')'};
-        return camelize(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
-                        .replaceAll("[-_ :\\(\\)]", ""),
+        return camelize(replaceSpecialCharacters(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
+                        .replaceAll("[-_ :\\(\\)]", "")),
                 true);
+    }
+
+    private String replaceSpecialCharacters(String name) {
+        for (Map.Entry<String, String> specialCharacters : specialCharReplacements.entrySet()) {
+            String specialChar = specialCharacters.getKey();
+            String replacement = specialCharacters.getValue();
+            // Underscore is the only special character we'll allow
+            if (!specialChar.equals("_") && name.contains(specialChar)) {
+                name = replaceCharacters(name, specialChar, replacement);
+            }
+        }
+
+        // Fallback, replace unknowns with underscore.
+        name = name.replaceAll("\\W+", "_");
+
+        return name;
+    }
+
+    private String replaceCharacters(String word, String oldValue, String newValue) {
+        if (!word.contains(oldValue)) {
+            return word;
+        }
+        if (word.equals(oldValue)) {
+            return newValue;
+        }
+        int i = word.indexOf(oldValue);
+        String start = word.substring(0, i);
+        String end = recurseOnEndOfWord(word, oldValue, newValue, i);
+        return start + newValue + end;
+    }
+
+    private String recurseOnEndOfWord(String word, String oldValue, String newValue, int lastReplacedValue) {
+        String end = word.substring(lastReplacedValue + 1);
+        if (!end.isEmpty()) {
+            end = titleCase(end);
+            end = replaceCharacters(end, oldValue, newValue);
+        }
+        return end;
+    }
+
+    private String titleCase(final String input) {
+        return input.substring(0, 1).toUpperCase(Locale.ROOT) + input.substring(1);
     }
 
     @Override
@@ -1068,6 +1109,16 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 if (!prop.name.equals(prop.baseName)) {
                     prop.vendorExtensions.put("x-codegen-escaped-property-name", true);
                     modelHasPropertyWithEscapedName = true;
+                }
+
+                if (prop.vendorExtensions.containsKey("x-null-encodable")) {
+                    if (prop.vendorExtensions.get("x-null-encodable").toString().equals("true")) {
+                        if (prop.defaultValue == null || prop.defaultValue.equals("null")) {
+                            prop.vendorExtensions.put("x-null-encodable-default-value", ".encodeNull");
+                        } else {
+                            prop.vendorExtensions.put("x-null-encodable-default-value", ".encodeValue(" + prop.defaultValue + ")");
+                        }
+                    }
                 }
             }
             if (modelHasPropertyWithEscapedName) {

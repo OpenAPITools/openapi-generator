@@ -555,6 +555,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
             if (modelMaps.containsKey(dataType)) {
                 prefix = "map[string][]" + goImportAlias + "." + dataType;
             }
+            if (codegenProperty.items == null) {
+                return prefix + "{ ... }";
+            }
             return prefix + "{\"key\": " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isString) {

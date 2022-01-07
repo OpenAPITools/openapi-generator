@@ -15,7 +15,9 @@ import play.mvc.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import openapitools.OpenAPIUtils;
+import openapitools.SecurityAPIUtils;
 import static play.mvc.Results.ok;
+import static play.mvc.Results.unauthorized;
 import play.libs.Files.TemporaryFile;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.CompletionStage;
@@ -26,12 +28,17 @@ import javax.validation.constraints.*;
 @SuppressWarnings("RedundantThrows")
 public abstract class PetApiControllerImpInterface {
     @Inject private Config configuration;
+    @Inject private SecurityAPIUtils securityAPIUtils;
     private ObjectMapper mapper = new ObjectMapper();
 
     public CompletionStage<Result> addPetHttp(Http.Request request, Pet body) throws Exception {
+        if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
+            return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
+        }
+
         CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
         try {
-    addPet(request, body);
+            addPet(request, body);
         } catch (Exception e) {
             throw new CompletionException(e);
         }
@@ -44,9 +51,13 @@ public abstract class PetApiControllerImpInterface {
     public abstract void addPet(Http.Request request, Pet body) throws Exception;
 
     public CompletionStage<Result> deletePetHttp(Http.Request request, Long petId, String apiKey) throws Exception {
+        if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
+            return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
+        }
+
         CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
         try {
-    deletePet(request, petId, apiKey);
+            deletePet(request, petId, apiKey);
         } catch (Exception e) {
             throw new CompletionException(e);
         }
@@ -59,36 +70,50 @@ public abstract class PetApiControllerImpInterface {
     public abstract void deletePet(Http.Request request, Long petId, String apiKey) throws Exception;
 
     public CompletionStage<Result> findPetsByStatusHttp(Http.Request request, @NotNull List<String> status) throws Exception {
-        CompletionStage<List<Pet>> stage = findPetsByStatus(request, status).thenApply(obj -> { 
-    if (configuration.getBoolean("useOutputBeanValidation")) {
-        for (Pet curItem : obj) {
-            OpenAPIUtils.validate(curItem);
+        if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
+            return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
         }
-    }
-    return obj;
-});
+
+        CompletionStage<List<Pet>> stage = findPetsByStatus(request, status).thenApply(obj -> { 
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            for (Pet curItem : obj) {
+                OpenAPIUtils.validate(curItem);
+            }
+        }
+
+        return obj;
+    });
 return stage.thenApply(obj -> {
-    JsonNode result = mapper.valueToTree(obj);
-    return ok(result);
-});
+            JsonNode result = mapper.valueToTree(obj);
+
+            return ok(result);
+    });
 
     }
 
     public abstract CompletionStage<List<Pet>> findPetsByStatus(Http.Request request, @NotNull List<String> status) throws Exception;
 
     public CompletionStage<Result> findPetsByTagsHttp(Http.Request request, @NotNull List<String> tags) throws Exception {
-        CompletionStage<List<Pet>> stage = findPetsByTags(request, tags).thenApply(obj -> { 
-    if (configuration.getBoolean("useOutputBeanValidation")) {
-        for (Pet curItem : obj) {
-            OpenAPIUtils.validate(curItem);
+        if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
+            return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
         }
-    }
-    return obj;
-});
+
+        CompletionStage<List<Pet>> stage = findPetsByTags(request, tags).thenApply(obj -> { 
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            for (Pet curItem : obj) {
+                OpenAPIUtils.validate(curItem);
+            }
+        }
+
+        return obj;
+    });
 return stage.thenApply(obj -> {
-    JsonNode result = mapper.valueToTree(obj);
-    return ok(result);
-});
+            JsonNode result = mapper.valueToTree(obj);
+
+            return ok(result);
+    });
 
     }
 
@@ -96,24 +121,31 @@ return stage.thenApply(obj -> {
 
     public CompletionStage<Result> getPetByIdHttp(Http.Request request, Long petId) throws Exception {
         CompletionStage<Pet> stage = getPetById(request, petId).thenApply(obj -> { 
-    if (configuration.getBoolean("useOutputBeanValidation")) {
-        OpenAPIUtils.validate(obj);
-    }
-    return obj;
-});
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            OpenAPIUtils.validate(obj);
+        }
+
+        return obj;
+    });
 return stage.thenApply(obj -> {
-    JsonNode result = mapper.valueToTree(obj);
-    return ok(result);
-});
+            JsonNode result = mapper.valueToTree(obj);
+
+            return ok(result);
+    });
 
     }
 
     public abstract CompletionStage<Pet> getPetById(Http.Request request, Long petId) throws Exception;
 
     public CompletionStage<Result> updatePetHttp(Http.Request request, Pet body) throws Exception {
+        if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
+            return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
+        }
+
         CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
         try {
-    updatePet(request, body);
+            updatePet(request, body);
         } catch (Exception e) {
             throw new CompletionException(e);
         }
@@ -126,9 +158,13 @@ return stage.thenApply(obj -> {
     public abstract void updatePet(Http.Request request, Pet body) throws Exception;
 
     public CompletionStage<Result> updatePetWithFormHttp(Http.Request request, Long petId, String name, String status) throws Exception {
+        if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
+            return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
+        }
+
         CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
         try {
-    updatePetWithForm(request, petId, name, status);
+            updatePetWithForm(request, petId, name, status);
         } catch (Exception e) {
             throw new CompletionException(e);
         }
@@ -141,16 +177,23 @@ return stage.thenApply(obj -> {
     public abstract void updatePetWithForm(Http.Request request, Long petId, String name, String status) throws Exception;
 
     public CompletionStage<Result> uploadFileHttp(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception {
+        if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
+            return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
+        }
+
         CompletionStage<ModelApiResponse> stage = uploadFile(request, petId, additionalMetadata, file).thenApply(obj -> { 
-    if (configuration.getBoolean("useOutputBeanValidation")) {
-        OpenAPIUtils.validate(obj);
-    }
-    return obj;
-});
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            OpenAPIUtils.validate(obj);
+        }
+
+        return obj;
+    });
 return stage.thenApply(obj -> {
-    JsonNode result = mapper.valueToTree(obj);
-    return ok(result);
-});
+            JsonNode result = mapper.valueToTree(obj);
+
+            return ok(result);
+    });
 
     }
 

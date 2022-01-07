@@ -1064,6 +1064,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         @Override
         public boolean equals(Object o) {
+            if (o == null)
+                return false;
+
+            if (this.getClass() != o.getClass())
+                return false;
+
             boolean result = super.equals(o);
             ExtendedCodegenParameter that = (ExtendedCodegenParameter) o;
             return result &&
@@ -1109,7 +1115,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public ExtendedCodegenProperty(CodegenProperty cp) {
             super();
 
-            this.openApiType = openApiType;
+            this.openApiType = cp.openApiType;
             this.baseName = cp.baseName;
             this.complexType = cp.complexType;
             this.getter = cp.getter;
@@ -1200,6 +1206,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         @Override
         public boolean equals(Object o) {
+            if (o == null)
+                return false;
+
+            if (this.getClass() != o.getClass())
+                return false;
+
             boolean result = super.equals(o);
             ExtendedCodegenProperty that = (ExtendedCodegenProperty) o;
             return result &&
@@ -1306,6 +1318,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         @Override
         public boolean equals(Object o) {
+            if (o == null)
+                return false;
+
+            if (this.getClass() != o.getClass())
+                return false;
+
             boolean result = super.equals(o);
             ExtendedCodegenOperation that = (ExtendedCodegenOperation) o;
             return result &&
@@ -1440,6 +1458,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         @Override
         public boolean equals(Object o) {
+            if (o == null)
+                return false;
+
+            if (this.getClass() != o.getClass())
+                return false;
+
             boolean result = super.equals(o);
             ExtendedCodegenModel that = (ExtendedCodegenModel) o;
             return result &&

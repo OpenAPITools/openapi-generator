@@ -86,6 +86,11 @@ typedef struct {{classname}}_t {
     struct {{datatype}}_t *{{name}}; //model
     {{/isEnum}}
     {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    {{datatype}}_t *{{name}}; // custom
+    {{/isFreeFormObject}}
+    {{/isModel}}
     {{#isUuid}}
     {{datatype}} *{{name}}; // uuid
     {{/isUuid}}
@@ -155,6 +160,11 @@ typedef struct {{classname}}_t {
     {{^isEnum}}
     {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
+    {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isFreeFormObject}}
     {{/isModel}}
     {{#isUuid}}
     {{datatype}} *{{name}}{{^-last}},{{/-last}}

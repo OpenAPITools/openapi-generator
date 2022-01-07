@@ -29,6 +29,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -42,6 +43,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import org.openapitools.client.JSON;
 
 /**
  * ArrayOfArrayOfNumberOnly
@@ -123,6 +126,7 @@ public class ArrayOfArrayOfNumberOnly {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public static HashSet<String> openapiFields;
   public static HashSet<String> openapiRequiredFields;
 
@@ -133,6 +137,29 @@ public class ArrayOfArrayOfNumberOnly {
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to ArrayOfArrayOfNumberOnly
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (ArrayOfArrayOfNumberOnly.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfArrayOfNumberOnly is not found in the empty JSON string", ArrayOfArrayOfNumberOnly.openapiRequiredFields.toString()));
+        }
+      }
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!ArrayOfArrayOfNumberOnly.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ArrayOfArrayOfNumberOnly` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -155,19 +182,33 @@ public class ArrayOfArrayOfNumberOnly {
 
            @Override
            public ArrayOfArrayOfNumberOnly read(JsonReader in) throws IOException {
-             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
-             Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-             // check to see if the JSON string contains additional fields
-             for (Entry<String, JsonElement> entry: entries) {
-               if (!ArrayOfArrayOfNumberOnly.openapiFields.contains(entry.getKey())) {
-                throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `ArrayOfArrayOfNumberOnly` properties");
-               }
-             }
-
-             return thisAdapter.fromJsonTree(obj);
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
            }
 
        }.nullSafe();
     }
   }
+
+ /**
+  * Create an instance of ArrayOfArrayOfNumberOnly given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of ArrayOfArrayOfNumberOnly
+  * @throws IOException if the JSON string is invalid with respect to ArrayOfArrayOfNumberOnly
+  */
+  public static ArrayOfArrayOfNumberOnly fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, ArrayOfArrayOfNumberOnly.class);
+  }
+
+ /**
+  * Convert an instance of ArrayOfArrayOfNumberOnly to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
+

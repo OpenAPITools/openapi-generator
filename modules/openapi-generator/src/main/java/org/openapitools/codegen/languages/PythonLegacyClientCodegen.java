@@ -215,6 +215,9 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
             }
         }
 
+        String modelPath = packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
+        String apiPath = packagePath() + File.separatorChar + apiPackage.replace('.', File.separatorChar);
+
         String readmePath = "README.md";
         String readmeTemplate = "README.mustache";
         if (generateSourceCodeOnly) {
@@ -237,8 +240,8 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
         }
         supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
         supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + modelPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + apiPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__model.mustache", modelPath, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__api.mustache", apiPath, "__init__.py"));
 
         // If the package name consists of dots(openapi.client), then we need to create the directory structure like openapi/client with __init__ files.
         String[] packageNameSplits = packageName.split("\\.");

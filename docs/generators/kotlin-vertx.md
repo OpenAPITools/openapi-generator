@@ -68,6 +68,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>ApiResponse</li>
 <li>abstract</li>
 <li>actual</li>
 <li>annotation</li>

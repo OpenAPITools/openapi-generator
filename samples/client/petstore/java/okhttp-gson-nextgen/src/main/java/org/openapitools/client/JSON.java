@@ -47,13 +47,13 @@ import java.util.HashMap;
  *       backward-compatibility
  */
 public class JSON {
-    private Gson gson;
-    private boolean isLenientOnJson = false;
-    private DateTypeAdapter dateTypeAdapter = new DateTypeAdapter();
-    private SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
-    private OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
-    private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
-    private ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
+    private static Gson gson;
+    private static boolean isLenientOnJson = false;
+    private static DateTypeAdapter dateTypeAdapter = new DateTypeAdapter();
+    private static SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
+    private static OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
+    private static LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
+    private static ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
 
     @SuppressWarnings("unchecked")
     public static GsonBuilder createGson() {
@@ -213,7 +213,7 @@ public class JSON {
         return clazz;
     }
 
-    public JSON() {
+    {
         gson = createGson()
             .registerTypeAdapter(Date.class, dateTypeAdapter)
             .registerTypeAdapter(java.sql.Date.class, sqlDateTypeAdapter)
@@ -221,7 +221,6 @@ public class JSON {
             .registerTypeAdapter(LocalDate.class, localDateTypeAdapter)
             .registerTypeAdapter(byte[].class, byteArrayAdapter)
             .registerTypeAdapterFactory(new org.openapitools.client.model.AdditionalPropertiesClass.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new org.openapitools.client.model.Animal.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.Apple.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.AppleReq.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfArrayOfNumberOnly.CustomTypeAdapterFactory())
@@ -245,13 +244,11 @@ public class JSON {
             .registerTypeAdapterFactory(new org.openapitools.client.model.EnumArrays.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.EnumTest.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.EquilateralTriangle.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new org.openapitools.client.model.FileSchemaTestClass.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.Foo.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.FormatTest.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.Fruit.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.FruitReq.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.GmFruit.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new org.openapitools.client.model.GrandparentAnimal.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.HasOnlyReadOnly.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.HealthCheckResult.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.InlineResponseDefault.CustomTypeAdapterFactory())
@@ -271,6 +268,7 @@ public class JSON {
             .registerTypeAdapterFactory(new org.openapitools.client.model.OuterComposite.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.ParentPet.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.Pet.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.PetWithRequiredTags.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.Pig.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.Quadrilateral.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.QuadrilateralInterface.CustomTypeAdapterFactory())
@@ -295,7 +293,7 @@ public class JSON {
      *
      * @return Gson
      */
-    public Gson getGson() {
+    public static Gson getGson() {
         return gson;
     }
 
@@ -304,11 +302,11 @@ public class JSON {
      *
      * @param gson Gson
      */
-    public void setGson(Gson gson) {
-        this.gson = gson;
+    public static void setGson(Gson gson) {
+        JSON.gson = gson;
     }
 
-    public void setLenientOnJson(boolean lenientOnJson) {
+    public static void setLenientOnJson(boolean lenientOnJson) {
         isLenientOnJson = lenientOnJson;
     }
 
@@ -318,7 +316,7 @@ public class JSON {
      * @param obj Object
      * @return String representation of the JSON
      */
-    public String serialize(Object obj) {
+    public static String serialize(Object obj) {
         return gson.toJson(obj);
     }
 
@@ -331,7 +329,7 @@ public class JSON {
      * @return The deserialized Java object
      */
     @SuppressWarnings("unchecked")
-    public <T> T deserialize(String body, Type returnType) {
+    public static <T> T deserialize(String body, Type returnType) {
         try {
             if (isLenientOnJson) {
                 JsonReader jsonReader = new JsonReader(new StringReader(body));
@@ -355,7 +353,7 @@ public class JSON {
     /**
      * Gson TypeAdapter for Byte Array type
      */
-    public class ByteArrayAdapter extends TypeAdapter<byte[]> {
+    public static class ByteArrayAdapter extends TypeAdapter<byte[]> {
 
         @Override
         public void write(JsonWriter out, byte[] value) throws IOException {
@@ -383,7 +381,7 @@ public class JSON {
     /**
      * Gson TypeAdapter for JSR310 OffsetDateTime type
      */
-    public class OffsetDateTimeTypeAdapter extends TypeAdapter<OffsetDateTime> {
+    public static class OffsetDateTimeTypeAdapter extends TypeAdapter<OffsetDateTime> {
 
         private DateTimeFormatter formatter;
 
@@ -427,7 +425,7 @@ public class JSON {
     /**
      * Gson TypeAdapter for JSR310 LocalDate type
      */
-    public class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
+    public static class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
 
         private DateTimeFormatter formatter;
 
@@ -465,11 +463,11 @@ public class JSON {
         }
     }
 
-    public void setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
+    public static void setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
         offsetDateTimeTypeAdapter.setFormat(dateFormat);
     }
 
-    public void setLocalDateFormat(DateTimeFormatter dateFormat) {
+    public static void setLocalDateFormat(DateTimeFormatter dateFormat) {
         localDateTypeAdapter.setFormat(dateFormat);
     }
 
@@ -478,7 +476,7 @@ public class JSON {
      * If the dateFormat is null, a simple "yyyy-MM-dd" format will be used
      * (more efficient than SimpleDateFormat).
      */
-    public class SqlDateTypeAdapter extends TypeAdapter<java.sql.Date> {
+    public static class SqlDateTypeAdapter extends TypeAdapter<java.sql.Date> {
 
         private DateFormat dateFormat;
 
@@ -531,7 +529,7 @@ public class JSON {
      * Gson TypeAdapter for java.util.Date type
      * If the dateFormat is null, ISO8601Utils will be used.
      */
-    public class DateTypeAdapter extends TypeAdapter<Date> {
+    public static class DateTypeAdapter extends TypeAdapter<Date> {
 
         private DateFormat dateFormat;
 
@@ -584,11 +582,11 @@ public class JSON {
         }
     }
 
-    public void setDateFormat(DateFormat dateFormat) {
+    public static void setDateFormat(DateFormat dateFormat) {
         dateTypeAdapter.setFormat(dateFormat);
     }
 
-    public void setSqlDateFormat(DateFormat dateFormat) {
+    public static void setSqlDateFormat(DateFormat dateFormat) {
         sqlDateTypeAdapter.setFormat(dateFormat);
     }
 }
