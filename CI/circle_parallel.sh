@@ -79,7 +79,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   # Each step uses the same `$BASH_ENV`, so need to modify it
 #  echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
 #  echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
-apt install maven
+  apt install maven
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
