@@ -39,6 +39,9 @@ commands: # a reusable command with parameters
       - run: cat /etc/hosts
       # Test
       - run: mvn --no-snapshot-updates --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+      - run:
+          name: "Setup custom environment variables"
+          command: echo 'export CIRCLE_NODE_INDEX="<<parameters.nodeNo>>"' >> $BASH_ENV
       - run: ./CI/circle_parallel.sh
       # Save dependency cache
       - save_cache:
@@ -89,17 +92,10 @@ commands: # a reusable command with parameters
       - store_artifacts:
           path: /tmp/circleci-test-results
 jobs:
-  build:
-    #    docker:
-    #      #- image: openapitools/openapi-generator
-    #      - image: swaggerapi/petstore
-    #        environment:
-    #          SWAGGER_HOST=http://petstore.swagger.io
-    #          SWAGGER_BASE_PATH=/v2
+  node0:
     machine:
       image: circleci/classic:latest
     working_directory: ~/OpenAPITools/openapi-generator
-    parallelism: 4
     shell: /bin/bash --login
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
@@ -109,3 +105,17 @@ jobs:
     steps:
       - command_build_and_test:
           nodeNo: "0"
+  node1:
+    machine:
+      image: circleci/classic:latest
+    working_directory: ~/OpenAPITools/openapi-generator
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
+      DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
+    steps:
+      - command_build_and_test:
+          nodeNo: "1"
+
