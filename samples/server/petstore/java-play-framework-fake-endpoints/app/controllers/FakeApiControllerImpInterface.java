@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import apimodels.Client;
 import apimodels.FileSchemaTestClass;
 import java.io.InputStream;
-import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;

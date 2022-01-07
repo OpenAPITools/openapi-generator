@@ -8,7 +8,6 @@ package org.openapitools.api;
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import org.openapitools.model.FileSchemaTestClass;
-import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;

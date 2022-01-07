@@ -27,7 +27,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import org.openapitools.client.model.AppleReq;
 import org.openapitools.client.model.BananaReq;
-import org.openapitools.client.model.ModelNull;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 

@@ -8,7 +8,6 @@ package org.openapitools.virtualan.api;
 import java.math.BigDecimal;
 import org.openapitools.virtualan.model.Client;
 import org.openapitools.virtualan.model.FileSchemaTestClass;
-import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.virtualan.model.ModelApiResponse;

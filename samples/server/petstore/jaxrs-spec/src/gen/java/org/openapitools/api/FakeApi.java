@@ -5,7 +5,6 @@ import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
-import java.util.List;
 import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
