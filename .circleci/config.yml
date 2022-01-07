@@ -123,7 +123,6 @@ commands: # a reusable command with parameters
       - run: cat /etc/hosts
       # Test
 #      - run: mvn --no-snapshot-updates --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-      - run: sudo iptables -t nat -A OUTPUT -o lo -p tcp --dport 80 -j REDIRECT --to-port 8080
       - run: ./CI/circle_parallel.sh
       # Teardown
       #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
