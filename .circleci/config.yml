@@ -97,13 +97,6 @@ commands: # a reusable command with parameters
         default: "0"
         type: string
     steps:
-      # Restore the dependency cache
-      - restore_cache:
-          keys:
-            # Default branch if not
-            - source-v2-{{ .Branch }}-{{ .Revision }}
-            - source-v2-{{ .Branch }}-
-            - source-v2-
       # Machine Setup
       #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
       # The following `checkout` command checks out your code to your working directory. In 1.0 we did this implicitly. In 2.0 you can choose where in the course of a job your code should be checked out.
@@ -132,44 +125,6 @@ commands: # a reusable command with parameters
 #      - run: mvn --no-snapshot-updates --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
       - run: sudo iptables -t nat -A OUTPUT -o lo -p tcp --dport 80 -j REDIRECT --to-port 8080
       - run: ./CI/circle_parallel.sh
-      # Save dependency cache
-      - save_cache:
-          key: source-v2-{{ .Branch }}-{{ .Revision }}
-          paths:
-            # This is a broad list of cache paths to include many possible development environments
-            # You can probably delete some of these entries
-            - vendor/bundle
-            - ~/virtualenvs
-            - ~/.m2
-            - ~/.ivy2
-            - ~/.sbt
-            - ~/.bundle
-            - ~/.go_workspace
-            - ~/.gradle
-            - ~/.cache/bower
-            - ".git"
-            - ~/.stack
-            - /home/circleci/OpenAPITools/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work
-            - ~/R
-      # save "default" cache using the key "source-v2-"
-      - save_cache:
-          key: source-v2-
-          paths:
-            # This is a broad list of cache paths to include many possible development environments
-            # You can probably delete some of these entries
-            - vendor/bundle
-            - ~/virtualenvs
-            - ~/.m2
-            - ~/.ivy2
-            - ~/.sbt
-            - ~/.bundle
-            - ~/.go_workspace
-            - ~/.gradle
-            - ~/.cache/bower
-            - ".git"
-            - ~/.stack
-            - /home/circleci/OpenAPITools/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work
-            - ~/R
       # Teardown
       #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
       # Save test results
