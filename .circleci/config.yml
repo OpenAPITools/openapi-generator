@@ -1,6 +1,6 @@
 version: 2
 commands: # a reusable command with parameters
-  command-build-and-test:
+  command_build_and_test:
     parameters:
       nodeNo:
         default: "0"
@@ -107,5 +107,5 @@ jobs:
       DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
       DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
     steps:
-      - command-build-and-test:
+      - command_build_and_test:
           nodeNo: "0"
