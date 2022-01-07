@@ -91,7 +91,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
 
   # docker installation
   sudo apt-get update
-  sudo apt-get install \
+  sudo apt-get install -y \
     ca-certificates \
     curl \
     gnupg \
