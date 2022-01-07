@@ -107,6 +107,7 @@ class TestFakeApi(unittest.TestCase):
 
     def test_test_endpoint_enums_length_one(self):
         """Test case for test_endpoint_enums_length_one
+
         """
         # when we omit the required enums of length one, they are still set
         endpoint = self.api.test_endpoint_enums_length_one_endpoint
