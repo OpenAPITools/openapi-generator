@@ -88,8 +88,6 @@ elif [ "$NODE_INDEX" = "3" ]; then
   echo $JAVA_HOME
 
   # show os version
-  lsb_release -a
-  cat /etc/lsb-release
   uname -a
 
   # Note: it may be possible to run openapitools/openapi-petstore as a second docker image
