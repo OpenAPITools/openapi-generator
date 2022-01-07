@@ -118,7 +118,7 @@ jobs:
     steps:
       - command_build_and_test:
           nodeNo: "1"
-jobs:
+workflows:
   version: 2
   build:
     jobs:
