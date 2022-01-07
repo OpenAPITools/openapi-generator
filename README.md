@@ -626,6 +626,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Lumeris](https://www.lumeris.com)
 - [LVM Versicherungen](https://www.lvm.de)
 - [MailSlurp](https://www.mailslurp.com)
+- [Manticore Search](https://manticoresearch.com)
 - [Médiavision](https://www.mediavision.fr/)
 - [Metaswitch](https://www.metaswitch.com/)
 - [MoonVision](https://www.moonvision.io/)
@@ -852,9 +853,11 @@ OpenAPI Generator core team members are contributors who have been making signif
 * [@ackintosh](https://github.com/ackintosh) (2018/02) [:heart:](https://www.patreon.com/ackintosh/overview)
 * [@jmini](https://github.com/jmini) (2018/04)  [:heart:](https://www.patreon.com/jmini)
 * [@etherealjoy](https://github.com/etherealjoy) (2019/06)
-* [@spacether](https://github.com/spacether) (2020/05)
+* [@spacether](https://github.com/spacether) (2020/05) [:heart:][spacether sponsorship]
 
 :heart: = Link to support the contributor directly
+
+[spacether sponsorship]: https://github.com/sponsors/spacether/
 
 #### Template Creator
 
@@ -918,7 +921,8 @@ Here is a list of template creators:
    * PHP (with Data Transfer): @Articus
    * PowerShell: @beatcracker
    * PowerShell (refactored in 5.0.0): @wing328
-   * Python: @spacether
+   * Python: @spacether [:heart:][spacether sponsorship]
+   * Python-Experimental: @spacether [:heart:][spacether sponsorship]
    * R: @ramnov
    * Ruby (Faraday): @meganemura @dkliban
    * Rust: @farcaller
@@ -1067,7 +1071,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Perl              | @wing328 (2017/07) [:heart:](https://www.patreon.com/wing328) @yue9944882 (2019/06)                                                                                                                                               |
 | PHP               | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), @ackintosh (2017/09) [:heart:](https://www.patreon.com/ackintosh/overview), @ybelenko (2018/07), @renepardon (2018/12)                     |
 | PowerShell        | @wing328 (2020/05)                                                                                                                                                                                                                                  |
-| Python            | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) @Jyhess (2019/01) @arun-nalla (2019/11) @spacether (2019/11)                                                |
+| Python            | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) @Jyhess (2019/01) @arun-nalla (2019/11) @spacether (2019/11) [:heart:][spacether sponsorship]               |
 | R                 | @Ramanth (2019/07) @saigiridhar21 (2019/07)                                                                                                                                                                                       |
 | Ruby              | @cliffano (2017/07) @zlx (2017/09) @autopp (2019/02)                                                                                                                                                                             |
 | Rust              | @frol (2017/07) @farcaller (2017/08) @richardwhiuk (2019/07) @paladinzh (2020/05)                                                                                                                               |

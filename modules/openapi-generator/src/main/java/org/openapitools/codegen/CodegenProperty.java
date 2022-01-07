@@ -778,6 +778,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.hasDiscriminatorWithNonEmptyMapping = hasDiscriminatorWithNonEmptyMapping;
     }
 
+    public boolean getHasItems() {
+        return this.items != null;
+    }
+
     @Override
     public boolean getIsString() { return isString; }
 

@@ -102,6 +102,7 @@ org.openapitools.codegen.languages.ProtobufSchemaCodegen
 org.openapitools.codegen.languages.PythonLegacyClientCodegen
 org.openapitools.codegen.languages.PythonClientCodegen
 org.openapitools.codegen.languages.PythonFastAPIServerCodegen
+org.openapitools.codegen.languages.PythonExperimentalClientCodegen
 org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen
 org.openapitools.codegen.languages.PythonAiohttpConnexionServerCodegen
 org.openapitools.codegen.languages.PythonBluePlanetServerCodegen
