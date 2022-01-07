@@ -6740,7 +6740,9 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty schemaProp = fromProperty(toMediaTypeSchemaName(contentType, mediaTypeSchemaSuffix), mt.getSchema());
             CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap);
             cmtContent.put(contentType, codegenMt);
-            addImports(imports, schemaProp.getImports(false));
+            if (schemaProp != null) {
+                addImports(imports, schemaProp.getImports(false));
+            }
         }
         return cmtContent;
     }
