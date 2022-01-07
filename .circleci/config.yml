@@ -109,18 +109,6 @@ commands: # a reusable command with parameters
 #      - run:
 #          command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
 #      - run:
-#          command: 'docker info >/dev/null 2>&1 || service docker start; '
-#      - run:
-#          command: |-
-#            printf '127.0.0.1       petstore.swagger.io
-#            ' | tee -a /etc/hosts
-#      #    - run: docker pull openapitools/openapi-petstore
-#      #    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 80:8080 openapitools/openapi-petstore
-#      - run: docker pull swaggerapi/petstore
-#      - run: docker run --name petstore.swagger -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
-#      - run: docker ps -a
-#      - run: sleep 30
-      - run: cat /etc/hosts
       # Test
 #      - run: mvn --no-snapshot-updates --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
       - run:

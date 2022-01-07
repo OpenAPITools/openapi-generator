@@ -82,11 +82,22 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #  echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
   #  echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
   # echo which java
-  apt-get update && apt-get install -y default-jdk maven sudo iptables
+  apt-get update && apt-get install -y default-jdk maven docker.io
   java -version
   export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
   echo $JAVA_HOME
-  sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
+
+  # Note: it may be possible to run openapitools/openapi-petstore as a second docker image
+  # I wasn't abe to get it working so run the server in the image
+  docker info >/dev/null 2>&1 || service docker start;
+  |- printf '127.0.0.1       petstore.swagger.io' | tee -a /etc/hosts
+  docker pull openapitools/openapi-petstore
+  docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 80:8080 openapitools/openapi-petstore
+  docker pull swaggerapi/petstore
+  docker run --name petstore.swagger -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+  docker ps -a
+  run: sleep 30
+  cat /etc/hosts
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
