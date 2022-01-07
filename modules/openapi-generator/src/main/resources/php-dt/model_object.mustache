@@ -21,4 +21,11 @@ class {{classname}}
     public ${{name}};
 
 {{/vars
-}}}
+}}
+{{#isEnum}}
+{{#allowableValues}}
+{{#enumVars}}
+    const {{name}} = {{{value}}};
+{{/enumVars}}
+{{/allowableValues}}
+{{/isEnum}}}
