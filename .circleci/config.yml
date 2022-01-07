@@ -118,9 +118,37 @@ jobs:
     steps:
       - command_build_and_test:
           nodeNo: "1"
+  node2:
+    machine:
+      image: circleci/classic:latest
+    working_directory: ~/OpenAPITools/openapi-generator
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
+      DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
+    steps:
+      - command_build_and_test:
+          nodeNo: "2"
+  node3:
+    docker:
+      - image: fkrull/multi-python
+    working_directory: ~/OpenAPITools/openapi-generator
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
+      DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
+    steps:
+      - command_build_and_test:
+          nodeNo: "3"
 workflows:
   version: 2
   build:
     jobs:
       - node0
       - node1
+      - node2
+      - node3
