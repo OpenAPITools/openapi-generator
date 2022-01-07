@@ -187,96 +187,6 @@ namespace Org.OpenAPITools.Client
             OperationServers = new Dictionary<string, List<IReadOnlyDictionary<string, object>>>()
             {
                 {
-                    "AnotherFakeApi.Call123TestSpecialTags", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "DefaultApi.FooGet", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.FakeHealthGet", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.FakeOuterBooleanSerialize", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.FakeOuterCompositeSerialize", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.FakeOuterNumberSerialize", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.FakeOuterStringSerialize", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.GetArrayOfEnums", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.TestBodyWithFileSchema", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.TestBodyWithQueryParams", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.TestClientModel", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.TestEndpointParameters", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.TestEnumParameters", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.TestGroupParameters", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.TestInlineAdditionalProperties", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.TestJsonFormData", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeApi.TestQueryParameterCollectionFormat", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "FakeClassnameTags123Api.TestClassname", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
                     "PetApi.AddPet", new List<IReadOnlyDictionary<string, object>>
                     {
                         {
@@ -296,26 +206,6 @@ namespace Org.OpenAPITools.Client
                     }
                 },
                 {
-                    "PetApi.DeletePet", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "PetApi.FindPetsByStatus", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "PetApi.FindPetsByTags", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "PetApi.GetPetById", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
                     "PetApi.UpdatePet", new List<IReadOnlyDictionary<string, object>>
                     {
                         {
@@ -332,81 +222,6 @@ namespace Org.OpenAPITools.Client
                                 {"description", "No description provided"}
                             }
                         },
-                    }
-                },
-                {
-                    "PetApi.UpdatePetWithForm", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "PetApi.UploadFile", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "PetApi.UploadFileWithRequiredFile", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "StoreApi.DeleteOrder", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "StoreApi.GetInventory", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "StoreApi.GetOrderById", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "StoreApi.PlaceOrder", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "UserApi.CreateUser", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "UserApi.CreateUsersWithArrayInput", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "UserApi.CreateUsersWithListInput", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "UserApi.DeleteUser", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "UserApi.GetUserByName", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "UserApi.LoginUser", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "UserApi.LogoutUser", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "UserApi.UpdateUser", new List<IReadOnlyDictionary<string, object>>
-                    {
                     }
                 },
             };

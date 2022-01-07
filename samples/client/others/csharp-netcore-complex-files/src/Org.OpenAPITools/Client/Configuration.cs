@@ -124,21 +124,6 @@ namespace Org.OpenAPITools.Client
             };
             OperationServers = new Dictionary<string, List<IReadOnlyDictionary<string, object>>>()
             {
-                {
-                    "MultipartApi.MultipartArray", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "MultipartApi.MultipartMixed", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
-                {
-                    "MultipartApi.MultipartSingle", new List<IReadOnlyDictionary<string, object>>
-                    {
-                    }
-                },
             };
 
             // Setting Timeout has side effects (forces ApiClient creation).
