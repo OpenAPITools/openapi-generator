@@ -123,6 +123,9 @@ commands: # a reusable command with parameters
       - run: cat /etc/hosts
       # Test
 #      - run: mvn --no-snapshot-updates --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+      - run:
+          name: "Setup custom environment variables"
+          command: echo 'export CIRCLE_NODE_INDEX="<<parameters.nodeNo>>"' >> $BASH_ENV
       - run: ./CI/circle_parallel.sh
       # Teardown
       #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
