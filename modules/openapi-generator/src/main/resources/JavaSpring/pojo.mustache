@@ -25,7 +25,6 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{/jackson}}
   {{#gson}}
   @SerializedName("{{baseName}}")
-  @SerializedName("{{baseName}}")
   {{/gson}}
   {{#isContainer}}
   {{#useBeanValidation}}@Valid{{/useBeanValidation}}
