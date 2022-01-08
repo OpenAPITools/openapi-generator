@@ -7,7 +7,7 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-{{#oas3}}
+{{#swagger2AnnotationLibrary}}
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -16,10 +16,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-{{/oas3}}
-{{^oas3}}
+{{/swagger2AnnotationLibrary}}
+{{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.*;
-{{/oas3}}
+{{/swagger1AnnotationLibrary}}
 {{#jdk8-no-delegate}}
 {{#virtualService}}
 import io.virtualan.annotation.ApiVirtual;
@@ -73,7 +73,7 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
 {{#useSpringController}}
 @Controller
 {{/useSpringController}}
-{{#oas3}}@Tag(name = "{{{baseName}}}", description = "the {{{baseName}}} API"){{/oas3}}{{^oas3}}@Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API"){{/oas3}}
+{{#swagger2AnnotationLibrary}}@Tag(name = "{{{baseName}}}", description = "the {{{baseName}}} API"){{/swagger2AnnotationLibrary}}{{#swagger1AnnotationLibrary}}@Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API"){{/swagger1AnnotationLibrary}}
 {{#operations}}
 {{#virtualService}}
 @VirtualService
@@ -119,7 +119,7 @@ public interface {{classname}} {
     {{#virtualService}}
     @ApiVirtual
     {{/virtualService}}
-    {{#oas3}}
+    {{#swagger2AnnotationLibrary}}
     @Operation(
         summary = "{{{summary}}}",
         tags = { {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
@@ -134,8 +134,8 @@ public interface {{classname}} {
             {{/authMethods}}
         }{{/hasAuthMethods}}
     )
-    {{/oas3}}
-    {{^oas3}}
+    {{/swagger2AnnotationLibrary}}
+    {{#swagger1AnnotationLibrary}}
     @ApiOperation(
         tags = { {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
         value = "{{{summary}}}",
@@ -162,20 +162,20 @@ public interface {{classname}} {
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{.}}}.class{{/baseType}}{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}
         {{/responses}}
     })
-    {{/oas3}}
+    {{/swagger1AnnotationLibrary}}
     {{#implicitHeaders}}
-    {{#oas3}}
+    {{#swagger2AnnotationLibrary}}
     @Parameters({
         {{#headerParams}}
         {{>paramDoc}}{{^-last}},{{/-last}}
         {{/headerParams}}
-    {{/oas3}}
-    {{^oas3}}
+    {{/swagger2AnnotationLibrary}}
+    {{#swagger1AnnotationLibrary}}
     @ApiImplicitParams({
         {{#headerParams}}
         {{>implicitHeader}}{{^-last}},{{/-last}}
         {{/headerParams}}
-    {{/oas3}}
+    {{/swagger1AnnotationLibrary}}
     })
     {{/implicitHeaders}}
     @RequestMapping(
@@ -189,15 +189,15 @@ public interface {{classname}} {
     {{#jdk8-default-interface}}default {{/jdk8-default-interface}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{#delegate-method}}_{{/delegate-method}}{{operationId}}(
         {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},
         {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}},
-        {{/hasParams}}{{#oas3}}@Parameter(hidden = true){{/oas3}}{{#useSpringfox}}@springfox.documentation.annotations.ApiIgnore{{/useSpringfox}} final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
-        {{/hasParams}}{{#useSpringfox}}@springfox.documentation.annotations.ApiIgnore {{/useSpringfox}}final org.springframework.data.domain.Pageable pageable{{/vendorExtensions.x-spring-paginated}}
+        {{/hasParams}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true){{/swagger2AnnotationLibrary}}{{#springFoxDocumentationProvider}}@springfox.documentation.annotations.ApiIgnore{{/springFoxDocumentationProvider}} final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
+        {{/hasParams}}{{#springFoxDocumentationProvider}}@springfox.documentation.annotations.ApiIgnore {{/springFoxDocumentationProvider}}{{#springDocDocumentationProvider}}@ParameterObject{{/springDocDocumentationProvider}}final org.springframework.data.domain.Pageable pageable{{/vendorExtensions.x-spring-paginated}}
     ){{^jdk8-default-interface}};{{/jdk8-default-interface}}{{#jdk8-default-interface}}{{#unhandledException}} throws Exception{{/unhandledException}} {
         {{#delegate-method}}
         return {{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}, pageable{{/vendorExtensions.x-spring-paginated}});
     }
 
     // Override this method
-    {{#jdk8-default-interface}}default {{/jdk8-default-interface}} {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{^isFile}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{{dataType}}}{{/reactive}}{{#reactive}}{{^isArray}}Mono<{{{dataType}}}>{{/isArray}}{{#isArray}}Flux<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{/isFile}}{{#isFile}}{{#reactive}}Flux<Part>{{/reactive}}{{^reactive}}MultipartFile{{/reactive}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}{{#useSpringfox}}@springfox.documentation.annotations.ApiIgnore{{/useSpringfox}} final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}, {{#useSpringfox}}@springfox.documentation.annotations.ApiIgnore{{/useSpringfox}} final org.springframework.data.domain.Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{#unhandledException}} throws Exception{{/unhandledException}} {
+    {{#jdk8-default-interface}}default {{/jdk8-default-interface}} {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{^isFile}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{{dataType}}}{{/reactive}}{{#reactive}}{{^isArray}}Mono<{{{dataType}}}>{{/isArray}}{{#isArray}}Flux<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{/isFile}}{{#isFile}}{{#reactive}}Flux<Part>{{/reactive}}{{^reactive}}MultipartFile{{/reactive}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}{{#springFoxDocumentationProvider}}@springfox.documentation.annotations.ApiIgnore{{/springFoxDocumentationProvider}} final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}, {{#springFoxDocumentationProvider}}@springfox.documentation.annotations.ApiIgnore{{/springFoxDocumentationProvider}} final org.springframework.data.domain.Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{#unhandledException}} throws Exception{{/unhandledException}} {
         {{/delegate-method}}
         {{^isDelegate}}
         {{>methodBody}}

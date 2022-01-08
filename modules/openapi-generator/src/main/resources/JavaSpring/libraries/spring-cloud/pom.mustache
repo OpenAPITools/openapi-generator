@@ -10,9 +10,9 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <swagger-core-version>{{#oas3}}2.1.11{{/oas3}}{{^oas3}}1.6.3{{/oas3}}</swagger-core-version>
-        {{#useSpringfox}}
+        {{#springFoxDocumentationProvider}}
         <springfox.version>2.9.2</springfox.version>
-        {{/useSpringfox}}
+        {{/springFoxDocumentationProvider}}
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -47,15 +47,15 @@
 
 {{/parentOverridden}}
     <dependencies>
-        {{#useSpringfox}}
+        {{#springFoxDocumentationProvider}}
         <!--SpringFox dependencies -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>${springfox.version}</version>
         </dependency>
-        {{/useSpringfox}}
-        {{^useSpringfox}}
+        {{/springFoxDocumentationProvider}}
+        {{^springFoxDocumentationProvider}}
         {{#oas3}}
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
@@ -70,7 +70,7 @@
             <version>${swagger-core-version}</version>
         </dependency>
         {{/oas3}}
-        {{/useSpringfox}}
+        {{/springFoxDocumentationProvider}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
