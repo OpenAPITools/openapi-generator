@@ -59,22 +59,22 @@ public interface DocumentationProviderFeatures {
   void setAnnotationLibrary(AnnotationLibrary annotationLibrary);
 
   enum DocumentationProvider {
-      NONE("withoutDocumentationProvider", "Do not publish an OpenAPI specification",
+      NONE("withoutDocumentationProvider", "Do not publish an OpenAPI specification.",
           AnnotationLibrary.NONE, AnnotationLibrary.values()),
 
-      SOURCE("sourceDocumentationProvider", "Publish the original input OpenAPI specification",
+      SOURCE("sourceDocumentationProvider", "Publish the original input OpenAPI specification.",
           AnnotationLibrary.NONE, AnnotationLibrary.values()),
 
-      SWAGGER1("swagger1DocumentationProvider", "Generate a Swagger 2 specification using Swagger-Core 1.x",
+      SWAGGER1("swagger1DocumentationProvider", "Generate a Swagger 2 specification using Swagger-Core 1.x.",
           AnnotationLibrary.SWAGGER1, AnnotationLibrary.SWAGGER1),
 
-      SWAGGER2("swagger2DocumentationProvider", "Generate an OpenAPI 3 specification using Swagger-Core 2.x",
+      SWAGGER2("swagger2DocumentationProvider", "Generate an OpenAPI 3 specification using Swagger-Core 2.x.",
           AnnotationLibrary.SWAGGER2, AnnotationLibrary.SWAGGER2),
 
-      SPRINGFOX("springFoxDocumentationProvider", "Generate a Swagger 2 specification using SpringFox 2.x",
+      SPRINGFOX("springFoxDocumentationProvider", "Generate a Swagger 2 specification using SpringFox 2.x.",
           AnnotationLibrary.SWAGGER1, AnnotationLibrary.SWAGGER1),
 
-      SPRINGDOC("springDocDocumentationProvider", "Generate an OpenAPI 3 specification using SpringDoc",
+      SPRINGDOC("springDocDocumentationProvider", "Generate an OpenAPI 3 specification using SpringDoc.",
           AnnotationLibrary.SWAGGER2, AnnotationLibrary.SWAGGER2);
 
       private final String propertyName;
@@ -132,13 +132,13 @@ public interface DocumentationProviderFeatures {
   enum AnnotationLibrary {
       AUTO("autoAnnotationLibrary", "Use the preferred annotation library of the selected documentation provider."),
 
-      NONE("withoutAnnotationLibrary", "Do not annotate model and apis with complementary annotations."),
+      NONE("withoutAnnotationLibrary", "Do not annotate Model and Api with complementary annotations."),
 
-      SWAGGER1("swagger1AnnotationLibrary", "Annotate Model and Apis using the Swagger Annotations 1.x library."),
+      SWAGGER1("swagger1AnnotationLibrary", "Annotate Model and Api using the Swagger Annotations 1.x library."),
 
-      SWAGGER2("swagger2AnnotationLibrary", "Annotate Model and Apis using the Swagger Annotations 2.x library."),
+      SWAGGER2("swagger2AnnotationLibrary", "Annotate Model and Api using the Swagger Annotations 2.x library."),
 
-      MICROPROFILE("microprofileAnnotationLibrary", "Annotate Model and Apis using the microprofile annotations.");
+      MICROPROFILE("microprofileAnnotationLibrary", "Annotate Model and Api using the Microprofile annotations.");
 
       private final String propertyName;
 
