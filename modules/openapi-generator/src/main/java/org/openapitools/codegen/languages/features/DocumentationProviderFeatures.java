@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -95,7 +96,7 @@ public interface DocumentationProviderFeatures {
       }
 
       public static DocumentationProvider ofCliOption(String optVal) {
-          optVal = Objects.requireNonNull(optVal).toUpperCase();
+          optVal = Objects.requireNonNull(optVal).toUpperCase(Locale.ROOT);
           return valueOf(optVal);
       }
 
@@ -125,7 +126,7 @@ public interface DocumentationProviderFeatures {
       }
 
       public String toCliOptValue() {
-          return name().toLowerCase();
+          return name().toLowerCase(Locale.ROOT);
       }
   }
 
@@ -145,7 +146,7 @@ public interface DocumentationProviderFeatures {
       private final String description;
 
       public static AnnotationLibrary ofCliOption(String optVal) {
-          optVal = Objects.requireNonNull(optVal).toUpperCase();
+          optVal = Objects.requireNonNull(optVal).toUpperCase(Locale.ROOT);
           return valueOf(optVal);
       }
 
@@ -168,7 +169,7 @@ public interface DocumentationProviderFeatures {
       }
 
       public String toCliOptValue() {
-          return name().toLowerCase();
+          return name().toLowerCase(Locale.ROOT);
       }
   }
 }
