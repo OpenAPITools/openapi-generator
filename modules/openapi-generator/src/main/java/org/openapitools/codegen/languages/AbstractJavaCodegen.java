@@ -288,7 +288,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         );
 
         if (! supportedDocumentationProvider().contains(documentationProvider)) {
-            String msg = String.format("The Documentation Provider %s is not supported by this generator",
+            String msg = String.format(Locale.ROOT,
+                "The Documentation Provider %s is not supported by this generator",
                 documentationProvider.toCliOptValue());
             throw new IllegalArgumentException(msg);
         }
@@ -303,13 +304,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (! supportedAnnotationLibraries().contains(annotationLibrary)) {
-            String msg = String.format("The Annotation Library %s is not supported by this generator",
+            String msg = String.format(Locale.ROOT, "The Annotation Library %s is not supported by this generator",
                 annotationLibrary.toCliOptValue());
             throw new IllegalArgumentException(msg);
         }
 
         if (! documentationProvider.supportedAnnotationLibraries().contains(annotationLibrary)) {
-            String msg = String.format(
+            String msg = String.format(Locale.ROOT,
                 "The documentation provider %s does not support %s as complementary annotation library",
                 documentationProvider.toCliOptValue(), annotationLibrary.toCliOptValue());
             throw new IllegalArgumentException(msg);
