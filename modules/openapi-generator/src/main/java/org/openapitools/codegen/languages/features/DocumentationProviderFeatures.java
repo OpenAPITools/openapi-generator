@@ -3,7 +3,6 @@ package org.openapitools.codegen.languages.features;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -91,7 +90,7 @@ public interface DocumentationProviderFeatures {
       }
 
       public static DocumentationProvider ofCliOption(String optVal) {
-          optVal = Objects.requireNonNull(optVal).toUpperCase(Locale.ROOT);
+          optVal = Objects.requireNonNull(optVal).toUpperCase();
           return valueOf(optVal);
       }
 
@@ -121,7 +120,7 @@ public interface DocumentationProviderFeatures {
       }
 
       public String toCliOptValue() {
-          return name().toLowerCase(Locale.ROOT);
+          return name().toLowerCase();
       }
   }
 
@@ -141,7 +140,7 @@ public interface DocumentationProviderFeatures {
       private final String description;
 
       public static AnnotationLibrary ofCliOption(String optVal) {
-          optVal = Objects.requireNonNull(optVal).toUpperCase(Locale.ROOT);
+          optVal = Objects.requireNonNull(optVal).toUpperCase();
           return valueOf(optVal);
       }
 
@@ -164,7 +163,7 @@ public interface DocumentationProviderFeatures {
       }
 
       public String toCliOptValue() {
-          return name().toLowerCase(Locale.ROOT);
+          return name().toLowerCase();
       }
   }
 }
