@@ -664,15 +664,9 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-
-        boolean isSwiftScalarType = property.isInteger || property.isLong || property.isFloat
-                || property.isDouble || property.isBoolean;
-        if ((!property.required || property.isNullable) && isSwiftScalarType) {
-            // Optional scalar types like Int?, Int64?, Float?, Double?, and Bool?
-            // do not translate to Objective-C. So we want to flag those
-            // properties in case we want to put special code in the templates
-            // which provide Objective-C compatibility.
-            property.vendorExtensions.put("x-swift-optional-scalar", true);
+        if (notCodableTypes.contains(property.dataType) || notCodableTypes.contains(property.baseType)) {
+            property.vendorExtensions.put("x-swift-is-not-codable", true);
+            model.vendorExtensions.put("x-swift-contains-not-codable", true);
         }
     }
 
@@ -764,7 +758,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
         System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift alternative generator v0.2.0                                           #");
+        System.out.println("# swift alternative generator v0.3.0                                           #");
         System.out.println("################################################################################");
     }
 }

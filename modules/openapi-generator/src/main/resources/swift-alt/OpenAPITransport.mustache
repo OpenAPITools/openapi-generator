@@ -16,7 +16,7 @@ public enum SecurityScheme {
 
 /// Policy to define whether response is successful or requires authentication
 public protocol URLResponsePolicy {
-    func defineState(for response: URLResponse) -> URLResponseState
+    func defineState(for request: URLRequest, output: URLSession.DataTaskPublisher.Output) -> AnyPublisher<URLResponseState, Never>
 }
 
 public enum URLResponseState {
@@ -29,13 +29,13 @@ public enum URLResponseState {
 }
 
 final class DefaultURLResponsePolicy: URLResponsePolicy {
-    func defineState(for response: URLResponse) -> URLResponseState {
-        switch (response as? HTTPURLResponse)?.statusCode {
-        case .some(200...299):
-            return .success
-        default:
-            return .failure
+    func defineState(for request: URLRequest, output: URLSession.DataTaskPublisher.Output) -> AnyPublisher<URLResponseState, Never> {
+        let state: URLResponseState
+        switch (output.response as? HTTPURLResponse)?.statusCode {
+        case .some(200...299): state = .success
+        default: state = .failure
         }
+        return Just(state).eraseToAnyPublisher()
     }
 }
 
@@ -191,7 +191,7 @@ public protocol URLSessionOpenAPITransportDelegate: AnyObject {
 
 open class URLSessionOpenAPITransport: OpenAPITransport {
     private var cancellable = Set<AnyCancellable>()
-    private let config: Config
+    public var config: Config
     public var baseURL: URL? { config.baseURL }
 
     public init(config: Config = .init()) {
@@ -217,17 +217,21 @@ open class URLSessionOpenAPITransport: OpenAPITransport {
                     .flatMap { output -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError> in
                         let response = output.response as? HTTPURLResponse
                         self.config.delegate?.didFinish(request: request, response: response, data: output.data)
-                        switch self.config.policy.defineState(for: output.response) {
-                        case .success:
-                            let OpenAPITransportResponse = OpenAPITransportResponse(data: output.data, statusCode: 200)
-                            return Result.success(OpenAPITransportResponse).publisher.eraseToAnyPublisher()
-                        case .retry:
-                            return self.send(request: request, securitySchemes: securitySchemes)
-                        case .failure:
-                            let code = response?.statusCode ?? OpenAPITransportError.noResponseCode
-                            let error = OpenAPITransportError(statusCode: code, data: output.data)
-                            return Fail(error: error).eraseToAnyPublisher()
-                        }
+                        return self.config.policy.defineState(for: request, output: output)
+                            .setFailureType(to: OpenAPITransportError.self)
+                            .flatMap { state -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError> in
+                                switch state {
+                                case .success:
+                                    let transportResponse = OpenAPITransportResponse(data: output.data, statusCode: 200)
+                                    return Result.success(transportResponse).publisher.eraseToAnyPublisher()
+                                case .retry:
+                                    return self.send(request: request, securitySchemes: securitySchemes)
+                                case .failure:
+                                    let code = response?.statusCode ?? OpenAPITransportError.noResponseCode
+                                    let transportError = OpenAPITransportError(statusCode: code, data: output.data)
+                                    return Fail(error: transportError).eraseToAnyPublisher()
+                                }
+                            }.eraseToAnyPublisher()
                     }
                     .eraseToAnyPublisher()
             }

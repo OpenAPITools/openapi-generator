@@ -22,25 +22,4 @@ public struct {{{classname}}}: Codable, Hashable {
         {{/allVars}}
     }
 {{/hasVars}}
-
-    public enum CodingKeys: {{#hasVars}}String, {{/hasVars}}CodingKey, CaseIterable {
-        {{#allVars}}
-        case {{{name}}}{{#vendorExtensions.x-codegen-escaped-property-name}} = "{{{baseName}}}"{{/vendorExtensions.x-codegen-escaped-property-name}}
-        {{/allVars}}
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        {{#allVars}}
-        try container.encode{{^required}}IfPresent{{/required}}({{{name}}}, forKey: .{{{name}}})
-        {{/allVars}}
-        {{#generateModelAdditionalProperties}}
-        {{#additionalPropertiesType}}
-        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
-        try additionalPropertiesContainer.encodeMap(additionalProperties)
-        {{/additionalPropertiesType}}
-        {{/generateModelAdditionalProperties}}
-    }
 }
