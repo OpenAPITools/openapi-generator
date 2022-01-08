@@ -12,10 +12,10 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Observable } from 'rxjs/Observable';
-
 import { map } from 'rxjs/operators';
-import IHttpClient from '../IHttpClient';
+
 import { inject, injectable } from 'inversify';
+import IHttpClient from '../IHttpClient';
 import { IAPIConfiguration } from '../IAPIConfiguration';
 import { Headers } from '../Headers';
 import HttpResponse from '../HttpResponse';
@@ -40,7 +40,7 @@ export class UserService {
      * Create user
      * This can only be done by the logged in user.
      * @param body Created user object
-     
+     * 
      */
     public createUser(body: User, observe?: 'body', headers?: Headers): Observable<any>;
     public createUser(body: User, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
@@ -56,9 +56,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -66,7 +66,7 @@ export class UserService {
      * Creates list of users with given input array
      * 
      * @param body List of user object
-     
+     * 
      */
     public createUsersWithArrayInput(body: Array<User>, observe?: 'body', headers?: Headers): Observable<any>;
     public createUsersWithArrayInput(body: Array<User>, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
@@ -82,9 +82,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -92,7 +92,7 @@ export class UserService {
      * Creates list of users with given input array
      * 
      * @param body List of user object
-     
+     * 
      */
     public createUsersWithListInput(body: Array<User>, observe?: 'body', headers?: Headers): Observable<any>;
     public createUsersWithListInput(body: Array<User>, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
@@ -108,9 +108,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -118,7 +118,7 @@ export class UserService {
      * Delete user
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
-     
+     * 
      */
     public deleteUser(username: string, observe?: 'body', headers?: Headers): Observable<any>;
     public deleteUser(username: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
@@ -133,9 +133,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -143,7 +143,7 @@ export class UserService {
      * Get user by user name
      * 
      * @param username The name that needs to be fetched. Use user1 for testing.
-     
+     * 
      */
     public getUserByName(username: string, observe?: 'body', headers?: Headers): Observable<User>;
     public getUserByName(username: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<User>>;
@@ -158,9 +158,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <User>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -169,7 +169,7 @@ export class UserService {
      * 
      * @param username The user name for login
      * @param password The password for login in clear text
-     
+     * 
      */
     public loginUser(username: string, password: string, observe?: 'body', headers?: Headers): Observable<string>;
     public loginUser(username: string, password: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<string>>;
@@ -196,16 +196,16 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <string>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
     /**
      * Logs out current logged in user session
      * 
-     
+     * 
      */
     public logoutUser(observe?: 'body', headers?: Headers): Observable<any>;
     public logoutUser(observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
@@ -216,9 +216,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -227,7 +227,7 @@ export class UserService {
      * This can only be done by the logged in user.
      * @param username name that need to be deleted
      * @param body Updated user object
-     
+     * 
      */
     public updateUser(username: string, body: User, observe?: 'body', headers?: Headers): Observable<any>;
     public updateUser(username: string, body: User, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
@@ -247,9 +247,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 }

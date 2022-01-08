@@ -12,10 +12,10 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Observable } from 'rxjs/Observable';
-
 import { map } from 'rxjs/operators';
-import IHttpClient from '../IHttpClient';
+
 import { inject, injectable } from 'inversify';
+import IHttpClient from '../IHttpClient';
 import { IAPIConfiguration } from '../IAPIConfiguration';
 import { Headers } from '../Headers';
 import HttpResponse from '../HttpResponse';
@@ -41,7 +41,7 @@ export class PetService {
      * Add a new pet to the store
      * 
      * @param body Pet object that needs to be added to the store
-     
+     * 
      */
     public addPet(body: Pet, observe?: 'body', headers?: Headers): Observable<any>;
     public addPet(body: Pet, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
@@ -64,9 +64,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -75,7 +75,7 @@ export class PetService {
      * 
      * @param petId Pet id to delete
      * @param apiKey 
-     
+     * 
      */
     public deletePet(petId: number, apiKey?: string, observe?: 'body', headers?: Headers): Observable<any>;
     public deletePet(petId: number, apiKey?: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
@@ -101,9 +101,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -111,7 +111,7 @@ export class PetService {
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
-     
+     * 
      */
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, observe?: 'body', headers?: Headers): Observable<Array<Pet>>;
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, observe?: 'response', headers?: Headers): Observable<HttpResponse<Array<Pet>>>;
@@ -138,9 +138,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <Array<Pet>>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -148,7 +148,7 @@ export class PetService {
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
-     
+     * 
      */
     public findPetsByTags(tags: Array<string>, observe?: 'body', headers?: Headers): Observable<Array<Pet>>;
     public findPetsByTags(tags: Array<string>, observe?: 'response', headers?: Headers): Observable<HttpResponse<Array<Pet>>>;
@@ -175,9 +175,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <Array<Pet>>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -185,7 +185,7 @@ export class PetService {
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
-     
+     * 
      */
     public getPetById(petId: number, observe?: 'body', headers?: Headers): Observable<Pet>;
     public getPetById(petId: number, observe?: 'response', headers?: Headers): Observable<HttpResponse<Pet>>;
@@ -204,9 +204,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <Pet>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -214,7 +214,7 @@ export class PetService {
      * Update an existing pet
      * 
      * @param body Pet object that needs to be added to the store
-     
+     * 
      */
     public updatePet(body: Pet, observe?: 'body', headers?: Headers): Observable<any>;
     public updatePet(body: Pet, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
@@ -237,9 +237,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -249,7 +249,7 @@ export class PetService {
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
-     
+     * 
      */
     public updatePetWithForm(petId: number, name?: string, status?: string, observe?: 'body', headers?: Headers): Observable<any>;
     public updatePetWithForm(petId: number, name?: string, status?: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
@@ -280,9 +280,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -292,7 +292,7 @@ export class PetService {
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
-     
+     * 
      */
     public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, observe?: 'body', headers?: Headers): Observable<ApiResponse>;
     public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, observe?: 'response', headers?: Headers): Observable<HttpResponse<ApiResponse>>;
@@ -323,9 +323,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <ApiResponse>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 }

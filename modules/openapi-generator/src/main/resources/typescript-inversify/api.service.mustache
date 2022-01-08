@@ -1,16 +1,18 @@
 {{>licenseInfo}}
 /* tslint:disable:no-unused-variable member-ordering */
 
+{{^usePromise}}
 {{^useRxJS6}}
 import { Observable } from 'rxjs/Observable';
 {{/useRxJS6}}
 {{#useRxJS6}}
 import { Observable } from 'rxjs';
 {{/useRxJS6}}
-
 import { map } from 'rxjs/operators';
-import IHttpClient from '../IHttpClient';
+{{/usePromise}}
+
 import { inject, injectable } from 'inversify';
+import IHttpClient from '../IHttpClient';
 import { IAPIConfiguration } from '../IAPIConfiguration';
 import { Headers } from '../Headers';
 import HttpResponse from '../HttpResponse';
@@ -52,7 +54,7 @@ export class {{classname}} {
      * {{summary}}
      * {{notes}}
      {{#allParams}}* @param {{paramName}} {{description}}
-     {{/allParams}}{{#useHttpClient}}* @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     {{/allParams}}* {{#useHttpClient}}@param observe set whether or not to return the data as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.{{/useHttpClient}}
      */
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe?: 'body', headers?: Headers): {{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>;
@@ -179,13 +181,13 @@ export class {{classname}} {
 {{/formParams}}
 
 {{/hasFormParams}}
-        const response: Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>> = this.httpClient.{{httpMethod}}(`${this.basePath}{{{path}}}{{#hasQueryParams}}?${queryParameters.join('&')}{{/hasQueryParams}}`{{#bodyParam}}, {{paramName}} {{/bodyParam}}{{#hasFormParams}}, formData{{/hasFormParams}}, headers);
+        const response: {{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>> = this.httpClient.{{httpMethod}}(`${this.basePath}{{{path}}}{{#hasQueryParams}}?${queryParameters.join('&')}{{/hasQueryParams}}`{{#bodyParam}}, {{paramName}} {{/bodyParam}}{{#hasFormParams}}, formData{{/hasFormParams}}, headers);
         if (observe === 'body') {
-               return response.pipe(
-                   map((httpResponse: HttpResponse) => <{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>(httpResponse.response))
-               ){{#usePromise}}.toPromise(){{/usePromise}};
+               return response.{{#usePromise}}then{{/usePromise}}{{^usePromise}}pipe{{/usePromise}}(
+                   {{^usePromise}}map({{/usePromise}}(httpResponse: HttpResponse) => <{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>(httpResponse.response){{^usePromise}}){{/usePromise}}
+               ){{^usePromise}}.toPromise(){{/usePromise}};
         }
-        return response{{#usePromise}}.toPromise(){{/usePromise}};
+        return response{{^usePromise}}.toPromise(){{/usePromise}};
     }
 
 {{/operation}}}

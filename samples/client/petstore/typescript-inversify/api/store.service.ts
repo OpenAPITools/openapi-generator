@@ -12,10 +12,10 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Observable } from 'rxjs/Observable';
-
 import { map } from 'rxjs/operators';
-import IHttpClient from '../IHttpClient';
+
 import { inject, injectable } from 'inversify';
+import IHttpClient from '../IHttpClient';
 import { IAPIConfiguration } from '../IAPIConfiguration';
 import { Headers } from '../Headers';
 import HttpResponse from '../HttpResponse';
@@ -40,7 +40,7 @@ export class StoreService {
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
-     
+     * 
      */
     public deleteOrder(orderId: string, observe?: 'body', headers?: Headers): Observable<any>;
     public deleteOrder(orderId: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
@@ -55,16 +55,16 @@ export class StoreService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     
+     * 
      */
     public getInventory(observe?: 'body', headers?: Headers): Observable<{ [key: string]: number; }>;
     public getInventory(observe?: 'response', headers?: Headers): Observable<HttpResponse<{ [key: string]: number; }>>;
@@ -79,9 +79,9 @@ export class StoreService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <{ [key: string]: number; }>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -89,7 +89,7 @@ export class StoreService {
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
-     
+     * 
      */
     public getOrderById(orderId: number, observe?: 'body', headers?: Headers): Observable<Order>;
     public getOrderById(orderId: number, observe?: 'response', headers?: Headers): Observable<HttpResponse<Order>>;
@@ -104,9 +104,9 @@ export class StoreService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <Order>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 
@@ -114,7 +114,7 @@ export class StoreService {
      * Place an order for a pet
      * 
      * @param body order placed for purchasing the pet
-     
+     * 
      */
     public placeOrder(body: Order, observe?: 'body', headers?: Headers): Observable<Order>;
     public placeOrder(body: Order, observe?: 'response', headers?: Headers): Observable<HttpResponse<Order>>;
@@ -130,9 +130,9 @@ export class StoreService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <Order>(httpResponse.response))
-               );
+               ).toPromise();
         }
-        return response;
+        return response.toPromise();
     }
 
 }
