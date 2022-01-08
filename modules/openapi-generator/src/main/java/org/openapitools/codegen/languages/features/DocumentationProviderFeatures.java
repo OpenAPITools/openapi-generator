@@ -1,5 +1,6 @@
 package org.openapitools.codegen.languages.features;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +34,9 @@ public interface DocumentationProviderFeatures {
    * @return the list of supported documentation provider
    */
   default List<DocumentationProvider> supportedDocumentationProvider() {
-    return Collections.emptyList();
+    List<DocumentationProvider> supportedProviders = new ArrayList<>();
+    supportedProviders.add(DocumentationProvider.NONE);
+    return supportedProviders;
   }
 
   /**
@@ -42,7 +45,9 @@ public interface DocumentationProviderFeatures {
    * @return the list of supported annotation libraries
    */
   default List<AnnotationLibrary> supportedAnnotationLibraries() {
-    return Collections.emptyList();
+    List<AnnotationLibrary> supportedLibraries = new ArrayList<>();
+    supportedLibraries.add(AnnotationLibrary.NONE);
+    return supportedLibraries;
   }
 
   DocumentationProvider getDocumentationProvider();
