@@ -341,9 +341,10 @@ namespace {{packageName}}.{{apiPackage}}
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    {{/-first}}{{/produces}}
-                    request.Method = HttpMethod.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}};
-                    
+                    {{/-first}}{{/produces}}{{^netStandard}}
+                    request.Method = HttpMethod.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}};{{/netStandard}}{{#netStandard}}
+                    request.Method = new HttpMethod("{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}");{{/netStandard}} {{! early standard versions do not have HttpMethod.Patch }}
+
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
                         DateTime requestedAt = DateTime.UtcNow;

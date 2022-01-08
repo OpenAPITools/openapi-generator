@@ -1,5 +1,6 @@
 {{>partial_header}}
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,10 +37,8 @@ namespace {{packageName}}.Test.Api
             {{#allParams}}
             {{{dataType}}} {{paramName}} = default;
             {{/allParams}}
-            {{#returnType}}var response = await {{/returnType}}_instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-            {{#returnType}}
-            Assert.IsType<{{{.}}}>(response);
-            {{/returnType}}
+            {{#returnType}}var response = {{/returnType}}await _instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
+            Assert.IsType<{{{.}}}>(response);{{/returnType}}
         }
         {{/operation}}
         {{/operations}}
