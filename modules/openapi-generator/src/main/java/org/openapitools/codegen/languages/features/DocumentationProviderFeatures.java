@@ -134,9 +134,9 @@ public interface DocumentationProviderFeatures {
 
       NONE("withoutAnnotationLibrary", "Do not annotate model and apis with complementary annotations."),
 
-      SWAGGER1("swagger1AnnotationLibrary", "Annotate Model and Apis using the swagger-annotations 1.x library."),
+      SWAGGER1("swagger1AnnotationLibrary", "Annotate Model and Apis using the Swagger Annotations 1.x library."),
 
-      SWAGGER2("swagger2AnnotationLibrary", "Annotate Model and Apis using the swagger-annotations 2.x library."),
+      SWAGGER2("swagger2AnnotationLibrary", "Annotate Model and Apis using the Swagger Annotations 2.x library."),
 
       MICROPROFILE("microprofileAnnotationLibrary", "Annotate Model and Apis using the microprofile annotations.");
 

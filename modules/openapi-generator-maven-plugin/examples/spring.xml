@@ -40,6 +40,7 @@
 
 							<!-- pass any necessary config options -->
 							<configOptions>
+								<documentationProvider>springfox</documentationProvider>
 								<serializableModel>true</serializableModel>
 								<snapshotVersion>true</snapshotVersion>
 							</configOptions>
