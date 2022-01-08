@@ -106,6 +106,7 @@ namespace Org.OpenAPITools.Client
             DefaultHeaders = new ConcurrentDictionary<string, string>();
             ApiKey = new ConcurrentDictionary<string, string>();
             ApiKeyPrefix = new ConcurrentDictionary<string, string>();
+            GetAccessToken = () => AccessToken;
             Servers = new List<IReadOnlyDictionary<string, object>>()
             {
                 {
@@ -250,6 +251,16 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <value>The access token.</value>
         public virtual string AccessToken { get; set; }
+
+
+        /// <summary>
+        /// Gets the Access Token
+        ///
+        /// This helper function allows for customization of the Access Token retrieval.
+        /// For example, automatic JWT token refreshes.
+        /// </summary>
+        /// <value>The access token.</value>
+        public virtual Func<string> GetAccessToken { get; set; }
 
         /// <summary>
         /// Gets or sets the temporary folder path to store the files downloaded from the server.
@@ -506,7 +517,8 @@ namespace Org.OpenAPITools.Client
                 Password = second.Password ?? first.Password,
                 AccessToken = second.AccessToken ?? first.AccessToken,
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
-                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat
+                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
+                GetAccessToken = second.GetAccessToken ?? first.GetAccessToken
             };
             return config;
         }

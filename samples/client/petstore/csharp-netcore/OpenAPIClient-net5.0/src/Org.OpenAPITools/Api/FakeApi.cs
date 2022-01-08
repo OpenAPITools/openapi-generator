@@ -30,8 +30,9 @@ namespace Org.OpenAPITools.Api
         /// Health check endpoint
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>HealthCheckResult</returns>
-        HealthCheckResult FakeHealthGet();
+        HealthCheckResult FakeHealthGet(Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// Health check endpoint
@@ -40,8 +41,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of HealthCheckResult</returns>
-        ApiResponse<HealthCheckResult> FakeHealthGetWithHttpInfo();
+        ApiResponse<HealthCheckResult> FakeHealthGetWithHttpInfo(Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// 
         /// </summary>
@@ -50,8 +52,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>bool</returns>
-        bool FakeOuterBooleanSerialize(bool? body = default(bool?));
+        bool FakeOuterBooleanSerialize(bool? body = default(bool?), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// 
@@ -61,8 +64,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of bool</returns>
-        ApiResponse<bool> FakeOuterBooleanSerializeWithHttpInfo(bool? body = default(bool?));
+        ApiResponse<bool> FakeOuterBooleanSerializeWithHttpInfo(bool? body = default(bool?), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// 
         /// </summary>
@@ -71,8 +75,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>OuterComposite</returns>
-        OuterComposite FakeOuterCompositeSerialize(OuterComposite outerComposite = default(OuterComposite));
+        OuterComposite FakeOuterCompositeSerialize(OuterComposite outerComposite = default(OuterComposite), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// 
@@ -82,8 +87,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of OuterComposite</returns>
-        ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite = default(OuterComposite));
+        ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite = default(OuterComposite), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// 
         /// </summary>
@@ -92,8 +98,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>decimal</returns>
-        decimal FakeOuterNumberSerialize(decimal? body = default(decimal?));
+        decimal FakeOuterNumberSerialize(decimal? body = default(decimal?), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// 
@@ -103,8 +110,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of decimal</returns>
-        ApiResponse<decimal> FakeOuterNumberSerializeWithHttpInfo(decimal? body = default(decimal?));
+        ApiResponse<decimal> FakeOuterNumberSerializeWithHttpInfo(decimal? body = default(decimal?), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// 
         /// </summary>
@@ -113,8 +121,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>string</returns>
-        string FakeOuterStringSerialize(string body = default(string));
+        string FakeOuterStringSerialize(string body = default(string), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// 
@@ -124,14 +133,16 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> FakeOuterStringSerializeWithHttpInfo(string body = default(string));
+        ApiResponse<string> FakeOuterStringSerializeWithHttpInfo(string body = default(string), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// Array of Enums
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>List&lt;OuterEnum&gt;</returns>
-        List<OuterEnum> GetArrayOfEnums();
+        List<OuterEnum> GetArrayOfEnums(Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// Array of Enums
@@ -140,8 +151,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of List&lt;OuterEnum&gt;</returns>
-        ApiResponse<List<OuterEnum>> GetArrayOfEnumsWithHttpInfo();
+        ApiResponse<List<OuterEnum>> GetArrayOfEnumsWithHttpInfo(Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// 
         /// </summary>
@@ -150,8 +162,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        void TestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass);
+        void TestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// 
@@ -161,16 +174,18 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass);
+        ApiResponse<Object> TestBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="query"></param>
         /// <param name="user"></param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        void TestBodyWithQueryParams(string query, User user);
+        void TestBodyWithQueryParams(string query, User user, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// 
@@ -181,8 +196,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="query"></param>
         /// <param name="user"></param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo(string query, User user);
+        ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo(string query, User user, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// To test \&quot;client\&quot; model
         /// </summary>
@@ -191,8 +207,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ModelClient</returns>
-        ModelClient TestClientModel(ModelClient modelClient);
+        ModelClient TestClientModel(ModelClient modelClient, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// To test \&quot;client\&quot; model
@@ -202,8 +219,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> TestClientModelWithHttpInfo(ModelClient modelClient);
+        ApiResponse<ModelClient> TestClientModelWithHttpInfo(ModelClient modelClient, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
@@ -225,8 +243,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        void TestEndpointParameters(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
+        void TestEndpointParameters(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -249,8 +268,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
+        ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -266,8 +286,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        void TestEnumParameters(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string));
+        void TestEnumParameters(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// To test enum parameters
@@ -284,8 +305,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEnumParametersWithHttpInfo(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string));
+        ApiResponse<Object> TestEnumParametersWithHttpInfo(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
         /// </summary>
@@ -299,8 +321,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        void TestGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?));
+        void TestGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -315,15 +338,17 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?));
+        ApiResponse<Object> TestGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// test inline additionalProperties
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requestBody">request body</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        void TestInlineAdditionalProperties(Dictionary<string, string> requestBody);
+        void TestInlineAdditionalProperties(Dictionary<string, string> requestBody, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// test inline additionalProperties
@@ -333,16 +358,18 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requestBody">request body</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestInlineAdditionalPropertiesWithHttpInfo(Dictionary<string, string> requestBody);
+        ApiResponse<Object> TestInlineAdditionalPropertiesWithHttpInfo(Dictionary<string, string> requestBody, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// test json serialization of form data
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="param">field1</param>
         /// <param name="param2">field2</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        void TestJsonFormData(string param, string param2);
+        void TestJsonFormData(string param, string param2, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// test json serialization of form data
@@ -353,8 +380,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="param">field1</param>
         /// <param name="param2">field2</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestJsonFormDataWithHttpInfo(string param, string param2);
+        ApiResponse<Object> TestJsonFormDataWithHttpInfo(string param, string param2, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// 
         /// </summary>
@@ -367,8 +395,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        void TestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
+        void TestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// 
@@ -382,8 +411,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
+        ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         #endregion Synchronous Operations
     }
 
@@ -401,8 +431,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of HealthCheckResult</returns>
-        System.Threading.Tasks.Task<HealthCheckResult> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<HealthCheckResult> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// Health check endpoint
@@ -412,8 +443,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (HealthCheckResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// 
         /// </summary>
@@ -423,8 +455,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of bool</returns>
-        System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync(bool? body = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync(bool? body = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// 
@@ -435,8 +468,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (bool)</returns>
-        System.Threading.Tasks.Task<ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync(bool? body = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync(bool? body = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// 
         /// </summary>
@@ -446,8 +480,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of OuterComposite</returns>
-        System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// 
@@ -458,8 +493,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (OuterComposite)</returns>
-        System.Threading.Tasks.Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// 
         /// </summary>
@@ -469,8 +505,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of decimal</returns>
-        System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync(decimal? body = default(decimal?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync(decimal? body = default(decimal?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// 
@@ -481,8 +518,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (decimal)</returns>
-        System.Threading.Tasks.Task<ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync(decimal? body = default(decimal?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync(decimal? body = default(decimal?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// 
         /// </summary>
@@ -492,8 +530,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync(string body = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync(string body = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// 
@@ -504,8 +543,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(string body = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(string body = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// Array of Enums
         /// </summary>
@@ -514,8 +554,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of List&lt;OuterEnum&gt;</returns>
-        System.Threading.Tasks.Task<List<OuterEnum>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<List<OuterEnum>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// Array of Enums
@@ -525,8 +566,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (List&lt;OuterEnum&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// 
         /// </summary>
@@ -536,8 +578,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// 
@@ -548,8 +591,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithFileSchemaWithHttpInfoAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithFileSchemaWithHttpInfoAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// 
         /// </summary>
@@ -560,8 +604,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="query"></param>
         /// <param name="user"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestBodyWithQueryParamsAsync(string query, User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestBodyWithQueryParamsAsync(string query, User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// 
@@ -573,8 +618,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="query"></param>
         /// <param name="user"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithQueryParamsWithHttpInfoAsync(string query, User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithQueryParamsWithHttpInfoAsync(string query, User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// To test \&quot;client\&quot; model
         /// </summary>
@@ -584,8 +630,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ModelClient</returns>
-        System.Threading.Tasks.Task<ModelClient> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ModelClient> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// To test \&quot;client\&quot; model
@@ -596,8 +643,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClientModelWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClientModelWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
@@ -620,8 +668,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -645,8 +694,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -663,8 +713,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEnumParametersAsync(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestEnumParametersAsync(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// To test enum parameters
@@ -682,8 +733,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
         /// </summary>
@@ -698,8 +750,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestGroupParametersAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestGroupParametersAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -715,8 +768,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// test inline additionalProperties
         /// </summary>
@@ -726,8 +780,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestInlineAdditionalPropertiesAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestInlineAdditionalPropertiesAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// test inline additionalProperties
@@ -738,8 +793,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestInlineAdditionalPropertiesWithHttpInfoAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestInlineAdditionalPropertiesWithHttpInfoAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// test json serialization of form data
         /// </summary>
@@ -750,8 +806,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="param">field1</param>
         /// <param name="param2">field2</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestJsonFormDataAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestJsonFormDataAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// test json serialization of form data
@@ -763,8 +820,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="param">field1</param>
         /// <param name="param2">field2</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestJsonFormDataWithHttpInfoAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestJsonFormDataWithHttpInfoAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         /// <summary>
         /// 
         /// </summary>
@@ -778,8 +836,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="url"></param>
         /// <param name="context"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// 
@@ -794,8 +853,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="url"></param>
         /// <param name="context"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         #endregion Asynchronous Operations
     }
 
@@ -920,10 +980,11 @@ namespace Org.OpenAPITools.Api
         /// Health check endpoint 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>HealthCheckResult</returns>
-        public HealthCheckResult FakeHealthGet()
+        public HealthCheckResult FakeHealthGet(Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> localVarResponse = FakeHealthGetWithHttpInfo();
+            Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> localVarResponse = FakeHealthGetWithHttpInfo(localVarRequestOptions);
             return localVarResponse.Data;
         }
 
@@ -931,10 +992,16 @@ namespace Org.OpenAPITools.Api
         /// Health check endpoint 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of HealthCheckResult</returns>
-        public Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> FakeHealthGetWithHttpInfo()
+        public Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> FakeHealthGetWithHttpInfo(Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
             };
@@ -977,10 +1044,11 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of HealthCheckResult</returns>
-        public async System.Threading.Tasks.Task<HealthCheckResult> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<HealthCheckResult> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> localVarResponse = await FakeHealthGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> localVarResponse = await FakeHealthGetWithHttpInfoAsync(cancellationToken, localVarRequestOptions).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -989,11 +1057,15 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (HealthCheckResult)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
             };
@@ -1037,10 +1109,11 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>bool</returns>
-        public bool FakeOuterBooleanSerialize(bool? body = default(bool?))
+        public bool FakeOuterBooleanSerialize(bool? body = default(bool?), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<bool> localVarResponse = FakeOuterBooleanSerializeWithHttpInfo(body);
+            Org.OpenAPITools.Client.ApiResponse<bool> localVarResponse = FakeOuterBooleanSerializeWithHttpInfo(body, localVarRequestOptions);
             return localVarResponse.Data;
         }
 
@@ -1049,10 +1122,16 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of bool</returns>
-        public Org.OpenAPITools.Client.ApiResponse<bool> FakeOuterBooleanSerializeWithHttpInfo(bool? body = default(bool?))
+        public Org.OpenAPITools.Client.ApiResponse<bool> FakeOuterBooleanSerializeWithHttpInfo(bool? body = default(bool?), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -1098,10 +1177,11 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of bool</returns>
-        public async System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync(bool? body = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync(bool? body = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<bool> localVarResponse = await FakeOuterBooleanSerializeWithHttpInfoAsync(body, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<bool> localVarResponse = await FakeOuterBooleanSerializeWithHttpInfoAsync(body, cancellationToken, localVarRequestOptions).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1111,11 +1191,15 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (bool)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync(bool? body = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync(bool? body = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -1161,10 +1245,11 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>OuterComposite</returns>
-        public OuterComposite FakeOuterCompositeSerialize(OuterComposite outerComposite = default(OuterComposite))
+        public OuterComposite FakeOuterCompositeSerialize(OuterComposite outerComposite = default(OuterComposite), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = FakeOuterCompositeSerializeWithHttpInfo(outerComposite);
+            Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = FakeOuterCompositeSerializeWithHttpInfo(outerComposite, localVarRequestOptions);
             return localVarResponse.Data;
         }
 
@@ -1173,10 +1258,16 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of OuterComposite</returns>
-        public Org.OpenAPITools.Client.ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite = default(OuterComposite))
+        public Org.OpenAPITools.Client.ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite = default(OuterComposite), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -1222,10 +1313,11 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of OuterComposite</returns>
-        public async System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = await FakeOuterCompositeSerializeWithHttpInfoAsync(outerComposite, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = await FakeOuterCompositeSerializeWithHttpInfoAsync(outerComposite, cancellationToken, localVarRequestOptions).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1235,11 +1327,15 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (OuterComposite)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -1285,10 +1381,11 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>decimal</returns>
-        public decimal FakeOuterNumberSerialize(decimal? body = default(decimal?))
+        public decimal FakeOuterNumberSerialize(decimal? body = default(decimal?), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<decimal> localVarResponse = FakeOuterNumberSerializeWithHttpInfo(body);
+            Org.OpenAPITools.Client.ApiResponse<decimal> localVarResponse = FakeOuterNumberSerializeWithHttpInfo(body, localVarRequestOptions);
             return localVarResponse.Data;
         }
 
@@ -1297,10 +1394,16 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of decimal</returns>
-        public Org.OpenAPITools.Client.ApiResponse<decimal> FakeOuterNumberSerializeWithHttpInfo(decimal? body = default(decimal?))
+        public Org.OpenAPITools.Client.ApiResponse<decimal> FakeOuterNumberSerializeWithHttpInfo(decimal? body = default(decimal?), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -1346,10 +1449,11 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of decimal</returns>
-        public async System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync(decimal? body = default(decimal?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync(decimal? body = default(decimal?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<decimal> localVarResponse = await FakeOuterNumberSerializeWithHttpInfoAsync(body, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<decimal> localVarResponse = await FakeOuterNumberSerializeWithHttpInfoAsync(body, cancellationToken, localVarRequestOptions).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1359,11 +1463,15 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (decimal)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync(decimal? body = default(decimal?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync(decimal? body = default(decimal?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -1409,10 +1517,11 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>string</returns>
-        public string FakeOuterStringSerialize(string body = default(string))
+        public string FakeOuterStringSerialize(string body = default(string), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = FakeOuterStringSerializeWithHttpInfo(body);
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = FakeOuterStringSerializeWithHttpInfo(body, localVarRequestOptions);
             return localVarResponse.Data;
         }
 
@@ -1421,10 +1530,16 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> FakeOuterStringSerializeWithHttpInfo(string body = default(string))
+        public Org.OpenAPITools.Client.ApiResponse<string> FakeOuterStringSerializeWithHttpInfo(string body = default(string), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -1470,10 +1585,11 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync(string body = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync(string body = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await FakeOuterStringSerializeWithHttpInfoAsync(body, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await FakeOuterStringSerializeWithHttpInfoAsync(body, cancellationToken, localVarRequestOptions).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1483,11 +1599,15 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(string body = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(string body = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -1532,10 +1652,11 @@ namespace Org.OpenAPITools.Api
         /// Array of Enums 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>List&lt;OuterEnum&gt;</returns>
-        public List<OuterEnum> GetArrayOfEnums()
+        public List<OuterEnum> GetArrayOfEnums(Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>> localVarResponse = GetArrayOfEnumsWithHttpInfo();
+            Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>> localVarResponse = GetArrayOfEnumsWithHttpInfo(localVarRequestOptions);
             return localVarResponse.Data;
         }
 
@@ -1543,10 +1664,16 @@ namespace Org.OpenAPITools.Api
         /// Array of Enums 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of List&lt;OuterEnum&gt;</returns>
-        public Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>> GetArrayOfEnumsWithHttpInfo()
+        public Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>> GetArrayOfEnumsWithHttpInfo(Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
             };
@@ -1589,10 +1716,11 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of List&lt;OuterEnum&gt;</returns>
-        public async System.Threading.Tasks.Task<List<OuterEnum>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<List<OuterEnum>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>> localVarResponse = await GetArrayOfEnumsWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>> localVarResponse = await GetArrayOfEnumsWithHttpInfoAsync(cancellationToken, localVarRequestOptions).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1601,11 +1729,15 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (List&lt;OuterEnum&gt;)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>>> GetArrayOfEnumsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>>> GetArrayOfEnumsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
             };
@@ -1649,10 +1781,11 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        public void TestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass)
+        public void TestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            TestBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass);
+            TestBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass, localVarRequestOptions);
         }
 
         /// <summary>
@@ -1660,8 +1793,9 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'fileSchemaTestClass' is set
             if (fileSchemaTestClass == null)
@@ -1669,7 +1803,12 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'fileSchemaTestClass' when calling FakeApi->TestBodyWithFileSchema");
             }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -1714,10 +1853,11 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            await TestBodyWithFileSchemaWithHttpInfoAsync(fileSchemaTestClass, cancellationToken).ConfigureAwait(false);
+            await TestBodyWithFileSchemaWithHttpInfoAsync(fileSchemaTestClass, cancellationToken, localVarRequestOptions).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1726,8 +1866,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestBodyWithFileSchemaWithHttpInfoAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestBodyWithFileSchemaWithHttpInfoAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'fileSchemaTestClass' is set
             if (fileSchemaTestClass == null)
@@ -1736,7 +1877,10 @@ namespace Org.OpenAPITools.Api
             }
 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -1782,10 +1926,11 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="query"></param>
         /// <param name="user"></param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        public void TestBodyWithQueryParams(string query, User user)
+        public void TestBodyWithQueryParams(string query, User user, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            TestBodyWithQueryParamsWithHttpInfo(query, user);
+            TestBodyWithQueryParamsWithHttpInfo(query, user, localVarRequestOptions);
         }
 
         /// <summary>
@@ -1794,8 +1939,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="query"></param>
         /// <param name="user"></param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo(string query, User user)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo(string query, User user, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'query' is set
             if (query == null)
@@ -1809,7 +1955,12 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling FakeApi->TestBodyWithQueryParams");
             }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -1856,10 +2007,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="query"></param>
         /// <param name="user"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestBodyWithQueryParamsAsync(string query, User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestBodyWithQueryParamsAsync(string query, User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            await TestBodyWithQueryParamsWithHttpInfoAsync(query, user, cancellationToken).ConfigureAwait(false);
+            await TestBodyWithQueryParamsWithHttpInfoAsync(query, user, cancellationToken, localVarRequestOptions).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1869,8 +2021,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="query"></param>
         /// <param name="user"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestBodyWithQueryParamsWithHttpInfoAsync(string query, User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestBodyWithQueryParamsWithHttpInfoAsync(string query, User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'query' is set
             if (query == null)
@@ -1885,7 +2038,10 @@ namespace Org.OpenAPITools.Api
             }
 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -1931,10 +2087,11 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ModelClient</returns>
-        public ModelClient TestClientModel(ModelClient modelClient)
+        public ModelClient TestClientModel(ModelClient modelClient, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = TestClientModelWithHttpInfo(modelClient);
+            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = TestClientModelWithHttpInfo(modelClient, localVarRequestOptions);
             return localVarResponse.Data;
         }
 
@@ -1943,8 +2100,9 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of ModelClient</returns>
-        public Org.OpenAPITools.Client.ApiResponse<ModelClient> TestClientModelWithHttpInfo(ModelClient modelClient)
+        public Org.OpenAPITools.Client.ApiResponse<ModelClient> TestClientModelWithHttpInfo(ModelClient modelClient, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
@@ -1952,7 +2110,12 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'modelClient' when calling FakeApi->TestClientModel");
             }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -1998,10 +2161,11 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ModelClient</returns>
-        public async System.Threading.Tasks.Task<ModelClient> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<ModelClient> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClientModelWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClientModelWithHttpInfoAsync(modelClient, cancellationToken, localVarRequestOptions).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -2011,8 +2175,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClientModelWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClientModelWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
@@ -2021,7 +2186,10 @@ namespace Org.OpenAPITools.Api
             }
 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -2080,10 +2248,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        public void TestEndpointParameters(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
+        public void TestEndpointParameters(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            TestEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
+            TestEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback, localVarRequestOptions);
         }
 
         /// <summary>
@@ -2104,8 +2273,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)
@@ -2119,7 +2289,12 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter '_byte' when calling FakeApi->TestEndpointParameters");
             }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
                 "application/x-www-form-urlencoded"
@@ -2226,10 +2401,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            await TestEndpointParametersWithHttpInfoAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback, cancellationToken).ConfigureAwait(false);
+            await TestEndpointParametersWithHttpInfoAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback, cancellationToken, localVarRequestOptions).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2251,8 +2427,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)
@@ -2267,7 +2444,10 @@ namespace Org.OpenAPITools.Api
             }
 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
                 "application/x-www-form-urlencoded"
@@ -2368,10 +2548,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        public void TestEnumParameters(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string))
+        public void TestEnumParameters(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            TestEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+            TestEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, localVarRequestOptions);
         }
 
         /// <summary>
@@ -2386,10 +2567,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestEnumParametersWithHttpInfo(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string))
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestEnumParametersWithHttpInfo(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
                 "application/x-www-form-urlencoded"
@@ -2472,10 +2659,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEnumParametersAsync(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestEnumParametersAsync(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, cancellationToken).ConfigureAwait(false);
+            await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, cancellationToken, localVarRequestOptions).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2491,11 +2679,15 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
                 "application/x-www-form-urlencoded"
@@ -2576,10 +2768,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        public void TestGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?))
+        public void TestGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            TestGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+            TestGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, localVarRequestOptions);
         }
 
         /// <summary>
@@ -2592,10 +2785,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?))
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
             };
@@ -2634,9 +2833,19 @@ namespace Org.OpenAPITools.Api
 
             // authentication (bearer_test) required
             // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (this.Configuration.GetAccessToken != null)
+            {
+                var accessToken = this.Configuration.GetAccessToken();
+
+                if (!string.IsNullOrEmpty(accessToken))
+                {
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + accessToken);
+                }
+            }
+            else if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+
             }
 
             // make the HTTP request
@@ -2664,10 +2873,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestGroupParametersAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestGroupParametersAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            await TestGroupParametersWithHttpInfoAsync(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, cancellationToken).ConfigureAwait(false);
+            await TestGroupParametersWithHttpInfoAsync(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, cancellationToken, localVarRequestOptions).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2681,11 +2891,15 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
             };
@@ -2724,9 +2938,19 @@ namespace Org.OpenAPITools.Api
 
             // authentication (bearer_test) required
             // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (this.Configuration.GetAccessToken != null)
+            {
+                var accessToken = this.Configuration.GetAccessToken();
+
+                if (!string.IsNullOrEmpty(accessToken))
+                {
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + accessToken);
+                }
+            }
+            else if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+
             }
 
             // make the HTTP request
@@ -2749,10 +2973,11 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requestBody">request body</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        public void TestInlineAdditionalProperties(Dictionary<string, string> requestBody)
+        public void TestInlineAdditionalProperties(Dictionary<string, string> requestBody, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            TestInlineAdditionalPropertiesWithHttpInfo(requestBody);
+            TestInlineAdditionalPropertiesWithHttpInfo(requestBody, localVarRequestOptions);
         }
 
         /// <summary>
@@ -2760,8 +2985,9 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requestBody">request body</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestInlineAdditionalPropertiesWithHttpInfo(Dictionary<string, string> requestBody)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestInlineAdditionalPropertiesWithHttpInfo(Dictionary<string, string> requestBody, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'requestBody' is set
             if (requestBody == null)
@@ -2769,7 +2995,12 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requestBody' when calling FakeApi->TestInlineAdditionalProperties");
             }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -2814,10 +3045,11 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestInlineAdditionalPropertiesAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestInlineAdditionalPropertiesAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            await TestInlineAdditionalPropertiesWithHttpInfoAsync(requestBody, cancellationToken).ConfigureAwait(false);
+            await TestInlineAdditionalPropertiesWithHttpInfoAsync(requestBody, cancellationToken, localVarRequestOptions).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2826,8 +3058,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestInlineAdditionalPropertiesWithHttpInfoAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestInlineAdditionalPropertiesWithHttpInfoAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'requestBody' is set
             if (requestBody == null)
@@ -2836,7 +3069,10 @@ namespace Org.OpenAPITools.Api
             }
 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -2882,10 +3118,11 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="param">field1</param>
         /// <param name="param2">field2</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        public void TestJsonFormData(string param, string param2)
+        public void TestJsonFormData(string param, string param2, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            TestJsonFormDataWithHttpInfo(param, param2);
+            TestJsonFormDataWithHttpInfo(param, param2, localVarRequestOptions);
         }
 
         /// <summary>
@@ -2894,8 +3131,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="param">field1</param>
         /// <param name="param2">field2</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestJsonFormDataWithHttpInfo(string param, string param2)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestJsonFormDataWithHttpInfo(string param, string param2, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'param' is set
             if (param == null)
@@ -2909,7 +3147,12 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param2' when calling FakeApi->TestJsonFormData");
             }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
                 "application/x-www-form-urlencoded"
@@ -2956,10 +3199,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="param">field1</param>
         /// <param name="param2">field2</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestJsonFormDataAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestJsonFormDataAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            await TestJsonFormDataWithHttpInfoAsync(param, param2, cancellationToken).ConfigureAwait(false);
+            await TestJsonFormDataWithHttpInfoAsync(param, param2, cancellationToken, localVarRequestOptions).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2969,8 +3213,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="param">field1</param>
         /// <param name="param2">field2</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestJsonFormDataWithHttpInfoAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestJsonFormDataWithHttpInfoAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'param' is set
             if (param == null)
@@ -2985,7 +3230,10 @@ namespace Org.OpenAPITools.Api
             }
 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
                 "application/x-www-form-urlencoded"
@@ -3035,10 +3283,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns></returns>
-        public void TestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        public void TestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            TestQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
+            TestQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, localVarRequestOptions);
         }
 
         /// <summary>
@@ -3050,8 +3299,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'pipe' is set
             if (pipe == null)
@@ -3083,7 +3333,12 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
             }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
             };
@@ -3135,10 +3390,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="url"></param>
         /// <param name="context"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            await TestQueryParameterCollectionFormatWithHttpInfoAsync(pipe, ioutil, http, url, context, cancellationToken).ConfigureAwait(false);
+            await TestQueryParameterCollectionFormatWithHttpInfoAsync(pipe, ioutil, http, url, context, cancellationToken, localVarRequestOptions).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -3151,8 +3407,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="url"></param>
         /// <param name="context"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'pipe' is set
             if (pipe == null)
@@ -3185,7 +3442,10 @@ namespace Org.OpenAPITools.Api
             }
 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
             };
