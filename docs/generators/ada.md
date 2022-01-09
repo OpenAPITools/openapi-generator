@@ -1,6 +1,14 @@
 ---
-title: Documentation for the adaGenerator
+title: Documentation for the ada Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | ada | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates an Ada client implementation (beta). | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -16,14 +24,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |projectName|GNAT project name| |defaultProject|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | ada | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates an Ada client implementation (beta). | |
-
 
 ## IMPORT MAPPING
 

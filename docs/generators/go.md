@@ -1,6 +1,14 @@
 ---
-title: Documentation for the goGenerator
+title: Documentation for the go Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | go | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Go client library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -19,14 +27,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | go | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Go client library. | |
-
 
 ## IMPORT MAPPING
 

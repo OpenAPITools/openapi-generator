@@ -1,6 +1,14 @@
 ---
-title: Documentation for the nodejs-express-serverGenerator
+title: Documentation for the nodejs-express-server Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | nodejs-express-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a NodeJS Express server (alpha). IMPORTANT: this generator may subject to breaking changes without further notice). | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -16,14 +24,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |serverPort|TCP port to listen on.| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | nodejs-express-server | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a NodeJS Express server (alpha). IMPORTANT: this generator may subject to breaking changes without further notice). | |
-
 
 ## IMPORT MAPPING
 

@@ -1,6 +1,14 @@
 ---
-title: Documentation for the perlGenerator
+title: Documentation for the perl Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | perl | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Perl client library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -13,14 +21,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |moduleVersion|Perl module version.| |1.0.0|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | perl | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Perl client library. | |
-
 
 ## IMPORT MAPPING
 

@@ -1,6 +1,14 @@
 ---
-title: Documentation for the cpp-pistache-serverGenerator
+title: Documentation for the cpp-pistache-server Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cpp-pistache-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a C++ API server (based on Pistache) | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -12,14 +20,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
 |useStructModel|Use struct-based model template instead of get/set-based model template| |false|
 |variableNameFirstCharacterUppercase|Make first character of variable name uppercase (eg. value -&gt; Value)| |true|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | cpp-pistache-server | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a C++ API server (based on Pistache) | |
-
 
 ## IMPORT MAPPING
 

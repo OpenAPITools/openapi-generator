@@ -1,6 +1,14 @@
 ---
-title: Documentation for the javascript-closure-angularGenerator
+title: Documentation for the javascript-closure-angular Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | javascript-closure-angular | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Javascript AngularJS client library (beta) annotated with Google Closure Compiler annotations(https://developers.google.com/closure/compiler/docs/js-for-compiler?hl=en) | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -17,14 +25,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |useEs6|use ES6 templates| |false|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | javascript-closure-angular | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Javascript AngularJS client library (beta) annotated with Google Closure Compiler annotations(https://developers.google.com/closure/compiler/docs/js-for-compiler?hl=en) | |
-
 
 ## IMPORT MAPPING
 

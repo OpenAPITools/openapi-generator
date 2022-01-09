@@ -1,6 +1,14 @@
 ---
-title: Documentation for the apache2Generator
+title: Documentation for the apache2 Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | apache2 | pass this to the generate command after -g |
+| generator type | CONFIG | |
+| helpTxt | Generates an Apache2 Config file with the permissions | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -16,14 +24,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |userInfoPath|Path to the user and group files| |null|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | apache2 | pass this to the generate command after -g |
-| generator type | CONFIG | |
-| helpTxt | Generates an Apache2 Config file with the permissions | |
-
 
 ## IMPORT MAPPING
 

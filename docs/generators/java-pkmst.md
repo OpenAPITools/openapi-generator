@@ -1,6 +1,14 @@
 ---
-title: Documentation for the java-pkmstGenerator
+title: Documentation for the java-pkmst Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | java-pkmst | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a PKMST SpringBoot Server application using the SpringFox integration. Also enables EurekaServerClient / Zipkin / Spring-Boot admin | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -58,14 +66,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |title|server title name or client service name| |null|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 |zipkinUri|Zipkin URI| |null|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | java-pkmst | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a PKMST SpringBoot Server application using the SpringFox integration. Also enables EurekaServerClient / Zipkin / Spring-Boot admin | |
-
 
 ## IMPORT MAPPING
 

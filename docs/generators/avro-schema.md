@@ -1,6 +1,14 @@
 ---
-title: Documentation for the avro-schemaGenerator
+title: Documentation for the avro-schema Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | avro-schema | pass this to the generate command after -g |
+| generator type | SCHEMA | |
+| helpTxt | Generates a Avro model (beta). | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -16,14 +24,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | avro-schema | pass this to the generate command after -g |
-| generator type | SCHEMA | |
-| helpTxt | Generates a Avro model (beta). | |
-
 
 ## IMPORT MAPPING
 

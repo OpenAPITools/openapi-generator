@@ -1,6 +1,14 @@
 ---
-title: Documentation for the scala-lagom-serverGenerator
+title: Documentation for the scala-lagom-server Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | scala-lagom-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Lagom API server (Beta) in scala | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -20,14 +28,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |null|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | scala-lagom-server | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a Lagom API server (Beta) in scala | |
-
 
 ## IMPORT MAPPING
 

@@ -1,6 +1,14 @@
 ---
-title: Documentation for the php-laravelGenerator
+title: Documentation for the php-laravel Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | php-laravel | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a PHP laravel server library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -22,14 +30,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |srcBasePath|The directory to serve as source root.| |null|
 |variableNamingConvention|naming convention of variable name, e.g. camelCase.| |snake_case|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | php-laravel | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a PHP laravel server library. | |
-
 
 ## IMPORT MAPPING
 

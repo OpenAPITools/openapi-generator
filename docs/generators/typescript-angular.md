@@ -1,6 +1,14 @@
 ---
-title: Documentation for the typescript-angularGenerator
+title: Documentation for the typescript-angular Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-angular | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a TypeScript Angular (6.x - 13.x) client library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -40,14 +48,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |taggedUnions|Use discriminators to create tagged unions instead of extending interfaces.| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | typescript-angular | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a TypeScript Angular (6.x - 13.x) client library. | |
-
 
 ## IMPORT MAPPING
 

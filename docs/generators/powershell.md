@@ -1,6 +1,14 @@
 ---
-title: Documentation for the powershellGenerator
+title: Documentation for the powershell Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | powershell | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a PowerShell API client (beta) | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -24,14 +32,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |tags|Tags applied to the generated PowerShell module. These help with module discovery in online galleries| |null|
 |useClassNameInModelsExamples|Use classname instead of name when generating the Models cmdlets in the examples.| |true|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |null|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | powershell | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a PowerShell API client (beta) | |
-
 
 ## IMPORT MAPPING
 

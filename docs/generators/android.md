@@ -1,6 +1,14 @@
 ---
-title: Documentation for the androidGenerator
+title: Documentation for the android Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | android | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates an Android client library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -28,14 +36,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |null|
 |useAndroidMavenGradlePlugin|A flag to toggle android-maven gradle plugin.| |true|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | android | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates an Android client library. | |
-
 
 ## IMPORT MAPPING
 

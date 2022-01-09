@@ -1,6 +1,14 @@
 ---
-title: Documentation for the graphql-schemaGenerator
+title: Documentation for the graphql-schema Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | graphql-schema | pass this to the generate command after -g |
+| generator type | SCHEMA | |
+| helpTxt | Generates GraphQL schema files (beta) | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -10,14 +18,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |packageName|GraphQL package name (convention: lowercase).| |openapi2graphql|
 |packageVersion|GraphQL package version.| |1.0.0|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | graphql-schema | pass this to the generate command after -g |
-| generator type | SCHEMA | |
-| helpTxt | Generates GraphQL schema files (beta) | |
-
 
 ## IMPORT MAPPING
 

@@ -1,6 +1,14 @@
 ---
-title: Documentation for the csharp-netcoreGenerator
+title: Documentation for the csharp-netcore Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | csharp-netcore | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a C# client library (.NET Standard, .NET Core). | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -36,14 +44,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
 |validatable|Generates self-validatable models.| |true|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | csharp-netcore | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a C# client library (.NET Standard, .NET Core). | |
-
 
 ## IMPORT MAPPING
 

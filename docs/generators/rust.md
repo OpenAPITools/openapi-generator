@@ -1,6 +1,14 @@
 ---
-title: Documentation for the rustGenerator
+title: Documentation for the rust Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | rust | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Rust client library (beta). | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -15,14 +23,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |supportAsync|If set, generate async function call instead. This option is for 'reqwest' library only| |true|
 |supportMultipleResponses|If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | rust | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Rust client library (beta). | |
-
 
 ## IMPORT MAPPING
 

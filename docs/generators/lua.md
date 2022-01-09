@@ -1,6 +1,14 @@
 ---
-title: Documentation for the luaGenerator
+title: Documentation for the lua Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | lua | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Lua client library (beta). | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -10,14 +18,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |packageName|Lua package name (convention: single word).| |openapiclient|
 |packageVersion|Lua package version.| |1.0.0-1|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | lua | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Lua client library (beta). | |
-
 
 ## IMPORT MAPPING
 

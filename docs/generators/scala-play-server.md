@@ -1,6 +1,14 @@
 ---
-title: Documentation for the scala-play-serverGenerator
+title: Documentation for the scala-play-server Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | scala-play-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Scala server application (beta) with Play Framework. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -25,14 +33,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sourceFolder|source folder for generated code| |null|
 |supportAsync|If set, wraps API return types with Futures and generates async actions.| |false|
 |useSwaggerUI|Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies| |true|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | scala-play-server | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a Scala server application (beta) with Play Framework. | |
-
 
 ## IMPORT MAPPING
 

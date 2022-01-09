@@ -1,6 +1,14 @@
 ---
-title: Documentation for the eiffelGenerator
+title: Documentation for the eiffel Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | eiffel | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Eiffel client library (beta). | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -10,14 +18,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |packageName|Eiffel Cluster name (convention: lowercase).| |openapi|
 |packageVersion|Eiffel package version.| |1.0.0|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | eiffel | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Eiffel client library (beta). | |
-
 
 ## IMPORT MAPPING
 

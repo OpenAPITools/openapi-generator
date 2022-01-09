@@ -1,6 +1,14 @@
 ---
-title: Documentation for the ktorm-schemaGenerator
+title: Documentation for the ktorm-schema Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | ktorm-schema | pass this to the generate command after -g |
+| generator type | SCHEMA | |
+| helpTxt | Generates a kotlin-ktorm schema (beta) | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -21,14 +29,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | ktorm-schema | pass this to the generate command after -g |
-| generator type | SCHEMA | |
-| helpTxt | Generates a kotlin-ktorm schema (beta) | |
-
 
 ## IMPORT MAPPING
 

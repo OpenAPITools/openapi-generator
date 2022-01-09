@@ -1,6 +1,14 @@
 ---
-title: Documentation for the php-silex-deprecatedGenerator
+title: Documentation for the php-silex-deprecated Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | php-silex-deprecated | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a PHP Silex server library. IMPORTANT NOTE: this generator is no longer actively maintained. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -15,14 +23,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | php-silex-deprecated | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a PHP Silex server library. IMPORTANT NOTE: this generator is no longer actively maintained. | |
-
 
 ## IMPORT MAPPING
 

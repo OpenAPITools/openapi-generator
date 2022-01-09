@@ -1,6 +1,14 @@
 ---
-title: Documentation for the cpp-tinyGenerator
+title: Documentation for the cpp-tiny Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cpp-tiny | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a C++ Arduino REST API client. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -18,14 +26,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |variableNameFirstCharacterUppercase|Make first character of variable name uppercase (eg. value -&gt; Value)| |true|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | cpp-tiny | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a C++ Arduino REST API client. | |
-
 
 ## IMPORT MAPPING
 

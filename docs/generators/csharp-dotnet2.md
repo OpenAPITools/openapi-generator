@@ -1,6 +1,14 @@
 ---
-title: Documentation for the csharp-dotnet2Generator
+title: Documentation for the csharp-dotnet2 Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | csharp-dotnet2 | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a C# .Net 2.0 client library (beta). | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -10,14 +18,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |clientPackage|C# client package name (convention: Camel.Case).| |Org.OpenAPITools.Client|
 |packageName|C# package name (convention: Camel.Case).| |Org.OpenAPITools|
 |packageVersion|C# package version.| |1.0.0|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | csharp-dotnet2 | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a C# .Net 2.0 client library (beta). | |
-
 
 ## IMPORT MAPPING
 

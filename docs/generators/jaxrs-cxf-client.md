@@ -1,6 +1,14 @@
 ---
-title: Documentation for the jaxrs-cxf-clientGenerator
+title: Documentation for the jaxrs-cxf-client Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | jaxrs-cxf-client | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Java JAXRS Client based on Apache CXF framework. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -55,14 +63,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useGzipFeatureForTests|Use Gzip Feature for tests| |false|
 |useLoggingFeatureForTests|Use Logging Feature for tests| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | jaxrs-cxf-client | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Java JAXRS Client based on Apache CXF framework. | |
-
 
 ## IMPORT MAPPING
 

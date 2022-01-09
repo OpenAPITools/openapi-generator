@@ -1,6 +1,14 @@
 ---
-title: Documentation for the php-slim4Generator
+title: Documentation for the php-slim4 Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | php-slim4 | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a PHP Slim 4 Framework server library(with Mock server). | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -23,14 +31,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |srcBasePath|The directory to serve as source root.| |null|
 |variableNamingConvention|naming convention of variable name, e.g. camelCase.| |camelCase|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | php-slim4 | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a PHP Slim 4 Framework server library(with Mock server). | |
-
 
 ## IMPORT MAPPING
 

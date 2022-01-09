@@ -1,6 +1,14 @@
 ---
-title: Documentation for the typescript-rxjsGenerator
+title: Documentation for the typescript-rxjs Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-rxjs | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a TypeScript client library using Rxjs API. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -26,14 +34,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportsES6|Generate code that conforms to ES6.| |false|
 |withProgressSubscriber|Setting this property to true will generate API controller methods with support for subscribing to request progress.| |false|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | typescript-rxjs | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a TypeScript client library using Rxjs API. | |
-
 
 ## IMPORT MAPPING
 

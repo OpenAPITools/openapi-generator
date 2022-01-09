@@ -1,6 +1,14 @@
 ---
-title: Documentation for the go-gin-serverGenerator
+title: Documentation for the go-gin-server Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | go-gin-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Go server library with the gin framework using OpenAPI-Generator.By default, it will also generate service classes. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -13,14 +21,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|Go package name (convention: lowercase).| |openapi|
 |packageVersion|Go package version.| |1.0.0|
 |serverPort|The network port the generated server binds to| |8080|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | go-gin-server | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a Go server library with the gin framework using OpenAPI-Generator.By default, it will also generate service classes. | |
-
 
 ## IMPORT MAPPING
 

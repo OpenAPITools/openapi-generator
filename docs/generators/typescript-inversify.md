@@ -1,6 +1,14 @@
 ---
-title: Documentation for the typescript-inversifyGenerator
+title: Documentation for the typescript-inversify Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-inversify | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates Typescript services using Inversify IOC | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -29,14 +37,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |usePromise|Setting this property to use promise instead of observable inside every service.| |false|
 |useRxJS6|Setting this property to use rxjs 6 instead of rxjs 5.| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | typescript-inversify | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates Typescript services using Inversify IOC | |
-
 
 ## IMPORT MAPPING
 

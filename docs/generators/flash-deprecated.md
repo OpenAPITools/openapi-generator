@@ -1,6 +1,14 @@
 ---
-title: Documentation for the flash-deprecatedGenerator
+title: Documentation for the flash-deprecated Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | flash-deprecated | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Flash (ActionScript) client library (beta). IMPORTANT: this generator has been deprecated in v5.x | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -11,14 +19,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|flash package name (convention: package.name)| |org.openapitools|
 |packageVersion|flash package version| |1.0.0|
 |sourceFolder|source folder for generated code. e.g. flash| |null|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | flash-deprecated | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Flash (ActionScript) client library (beta). IMPORTANT: this generator has been deprecated in v5.x | |
-
 
 ## IMPORT MAPPING
 

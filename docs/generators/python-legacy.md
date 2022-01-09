@@ -1,6 +1,14 @@
 ---
-title: Documentation for the python-legacyGenerator
+title: Documentation for the python-legacy Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | python-legacy | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Python client library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -17,14 +25,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |useNose|use the nose test framework| |false|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | python-legacy | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Python client library. | |
-
 
 ## IMPORT MAPPING
 

@@ -1,14 +1,7 @@
 ---
-title: Documentation for the rust-serverGenerator
+title: Documentation for the rust-server Generator
 ---
 
-## CONFIG OPTIONS
-These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
-
-| Option | Description | Values | Default |
-| ------ | ----------- | ------ | ------- |
-|packageName|Rust crate name (convention: snake_case).| |openapi_client|
-|packageVersion|Rust crate version.| |null|
 ## METADATA
 
 | Property | Value | Notes |
@@ -17,6 +10,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | generator type | SERVER | |
 | helpTxt | Generates a Rust client/server library (beta) using the openapi-generator project. | |
 
+## CONFIG OPTIONS
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|packageName|Rust crate name (convention: snake_case).| |openapi_client|
+|packageVersion|Rust crate version.| |null|
 
 ## IMPORT MAPPING
 

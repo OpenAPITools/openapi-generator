@@ -1,6 +1,14 @@
 ---
-title: Documentation for the graphql-nodejs-express-serverGenerator
+title: Documentation for the graphql-nodejs-express-server Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | graphql-nodejs-express-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a GraphQL Node.js Express server (beta) including it's types, queries, mutations, (resolvers) | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -10,14 +18,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |packageName|GraphQL Node.js Express server package name (convention: lowercase).| |openapi3graphql-server|
 |packageVersion|GraphQL Node.js Express server package version.| |1.0.0|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | graphql-nodejs-express-server | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a GraphQL Node.js Express server (beta) including it's types, queries, mutations, (resolvers) | |
-
 
 ## IMPORT MAPPING
 

@@ -1,6 +1,14 @@
 ---
-title: Documentation for the typescript-axiosGenerator
+title: Documentation for the typescript-axios Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-axios | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a TypeScript client library using axios. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -29,14 +37,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |withNodeImports|Setting this property to true adds imports for NodeJS| |false|
 |withSeparateModelsAndApi|Put the model and api in separate folders and in separate classes| |false|
 |withoutPrefixEnums|Don't prefix enum names with class names| |false|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | typescript-axios | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a TypeScript client library using axios. | |
-
 
 ## IMPORT MAPPING
 

@@ -1,6 +1,14 @@
 ---
-title: Documentation for the python-flaskGenerator
+title: Documentation for the python-flask Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | python-flask | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Python server library using the Connexion project. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -26,14 +34,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |testsUsePythonSrcRoot|generates test under the pythonSrcRoot folder.| |false|
 |useNose|use the nose test framework| |false|
 |usePythonSrcRootInImports|include pythonSrcRoot in import namespaces.| |false|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | python-flask | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a Python server library using the Connexion project. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | |
-
 
 ## IMPORT MAPPING
 

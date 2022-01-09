@@ -1,6 +1,14 @@
 ---
-title: Documentation for the javascript-apolloGenerator
+title: Documentation for the javascript-apollo Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | javascript-apollo | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a JavaScript client library (beta) using Apollo RESTDatasource. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -29,14 +37,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
 |useInheritance|use JavaScript prototype chains &amp; delegation for inheritance| |true|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | javascript-apollo | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a JavaScript client library (beta) using Apollo RESTDatasource. | |
-
 
 ## IMPORT MAPPING
 

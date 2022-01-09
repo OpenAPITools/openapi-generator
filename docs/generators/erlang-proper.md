@@ -1,14 +1,7 @@
 ---
-title: Documentation for the erlang-properGenerator
+title: Documentation for the erlang-proper Generator
 ---
 
-## CONFIG OPTIONS
-These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
-
-| Option | Description | Values | Default |
-| ------ | ----------- | ------ | ------- |
-|packageName|Erlang application name (convention: lowercase).| |openapi|
-|packageVersion|Erlang application version| |1.0.0|
 ## METADATA
 
 | Property | Value | Notes |
@@ -17,6 +10,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | generator type | CLIENT | |
 | helpTxt | Generates an Erlang library with PropEr generators (beta). | |
 
+## CONFIG OPTIONS
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|packageName|Erlang application name (convention: lowercase).| |openapi|
+|packageVersion|Erlang application version| |1.0.0|
 
 ## IMPORT MAPPING
 

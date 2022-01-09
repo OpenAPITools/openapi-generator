@@ -312,17 +312,17 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     private void generateMarkdownHelp(StringBuilder sb, CodegenConfig config) {
         if (Boolean.TRUE.equals(markdownHeader)) {
             sb.append("---").append(newline);
-            sb.append("title: Documentation for the " + generatorName + "Generator").append(newline);
+            sb.append("title: Documentation for the " + generatorName + " Generator").append(newline);
             sb.append("---").append(newline);
             sb.append(newline);
         }
 
-        generateMdConfigOptionsHeader(sb, config);
-        generateMdConfigOptions(sb, config);
-
         if (Boolean.TRUE.equals(metadata)) {
             generateMdMetadata(sb, config);
         }
+
+        generateMdConfigOptionsHeader(sb, config);
+        generateMdConfigOptions(sb, config);
 
         if (Boolean.TRUE.equals(importMappings)) {
             generateMdImportMappings(sb, config);

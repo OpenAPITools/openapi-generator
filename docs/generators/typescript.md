@@ -1,6 +1,14 @@
 ---
-title: Documentation for the typescriptGenerator
+title: Documentation for the typescript Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a TypeScript client library using Fetch API (beta). | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -27,14 +35,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useInversify|Enable this to generate decorators and service identifiers for the InversifyJS inversion of control container. If you set 'deno' as 'platform', the generator will process this value as 'disable'.| |false|
 |useObjectParameters|Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.| |false|
 |useRxJS|Enable this to internally use rxjs observables. If disabled, a stub is used instead. This is required for the 'angular' framework.| |false|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | typescript | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a TypeScript client library using Fetch API (beta). | |
-
 
 ## IMPORT MAPPING
 

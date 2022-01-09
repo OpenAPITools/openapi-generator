@@ -1,6 +1,14 @@
 ---
-title: Documentation for the cpp-restsdkGenerator
+title: Documentation for the cpp-restsdk Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cpp-restsdk | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a C++ API client with C++ REST SDK (https://github.com/Microsoft/cpprestsdk). | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -16,14 +24,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageVersion|C++ package version.| |1.0.0|
 |reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
 |variableNameFirstCharacterUppercase|Make first character of variable name uppercase (eg. value -&gt; Value)| |true|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | cpp-restsdk | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a C++ API client with C++ REST SDK (https://github.com/Microsoft/cpprestsdk). | |
-
 
 ## IMPORT MAPPING
 

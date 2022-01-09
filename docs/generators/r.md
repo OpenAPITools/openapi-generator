@@ -1,6 +1,14 @@
 ---
-title: Documentation for the rGenerator
+title: Documentation for the r Generator
 ---
+
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | r | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a R client library (beta). | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -12,14 +20,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|R package name (convention: lowercase).| |openapi|
 |packageVersion|R package version.| |1.0.0|
 |returnExceptionOnFailure|Throw an exception on non success response codes| |false|
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | r | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a R client library (beta). | |
-
 
 ## IMPORT MAPPING
 
