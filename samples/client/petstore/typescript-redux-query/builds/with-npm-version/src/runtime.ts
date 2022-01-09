@@ -35,7 +35,7 @@ export interface TypedQueryConfig<TState, TBody> {
 }
 
 export class RequiredError extends Error {
-    name: "RequiredError" = "RequiredError";
+    override name: "RequiredError" = "RequiredError";
     constructor(public field: string, msg?: string) {
         super(msg);
     }
