@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | haskell | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a Haskell server and client library. | |
-
 ---
-title: Config Options for haskell
-sidebar_label: haskell
+title: Documentation for the haskellGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -26,6 +18,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |serveStatic|serve will serve files from the directory 'static'.| |true|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | haskell | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Haskell server and client library. | |
+
 
 ## IMPORT MAPPING
 

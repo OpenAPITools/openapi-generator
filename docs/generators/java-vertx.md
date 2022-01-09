@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | java-vertx | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a java-Vert.X Server library. | |
-
 ---
-title: Config Options for java-vertx
-sidebar_label: java-vertx
+title: Documentation for the java-vertxGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -62,6 +54,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sourceFolder|source folder for generated code| |src/main/java|
 |vertxSwaggerRouterVersion|Specify the version of the swagger router library| |null|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | java-vertx | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a java-Vert.X Server library. | |
+
 
 ## IMPORT MAPPING
 

@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | fsharp-functions | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a fsharp-functions server (beta). | |
-
 ---
-title: Config Options for fsharp-functions
-sidebar_label: fsharp-functions
+title: Documentation for the fsharp-functionsGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -32,6 +24,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |OpenAPI/src|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | fsharp-functions | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a fsharp-functions server (beta). | |
+
 
 ## IMPORT MAPPING
 

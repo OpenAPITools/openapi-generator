@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | typescript-fetch | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a TypeScript client library using Fetch API (beta). | |
-
 ---
-title: Config Options for typescript-fetch
-sidebar_label: typescript-fetch
+title: Documentation for the typescript-fetchGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -39,6 +31,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |true|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 |withoutRuntimeChecks|Setting this property to true will remove any runtime checks on the request and response payloads. Payloads will be casted to their expected types.| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-fetch | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a TypeScript client library using Fetch API (beta). | |
+
 
 ## IMPORT MAPPING
 

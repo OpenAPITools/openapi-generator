@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | aspnetcore | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates an ASP.NET Core Web API server. | |
-
 ---
-title: Config Options for aspnetcore
-sidebar_label: aspnetcore
+title: Documentation for the aspnetcoreGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -48,6 +40,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useFrameworkReference|Use frameworkReference for ASP.NET Core 3.0+ and PackageReference ASP.NET Core 2.2 or earlier.| |false|
 |useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | aspnetcore | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates an ASP.NET Core Web API server. | |
+
 
 ## IMPORT MAPPING
 

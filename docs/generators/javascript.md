@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | javascript | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a JavaScript client library. | |
-
 ---
-title: Config Options for javascript
-sidebar_label: javascript
+title: Documentation for the javascriptGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -40,6 +32,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useES6|use JavaScript ES6 (ECMAScript 6). Default is ES6. (This option has been deprecated and will be removed in the 5.x release as ES5 is no longer supported)| |true|
 |useInheritance|use JavaScript prototype chains &amp; delegation for inheritance| |true|
 |usePromises|use Promises as return values from the client API, instead of superagent callbacks| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | javascript | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a JavaScript client library. | |
+
 
 ## IMPORT MAPPING
 

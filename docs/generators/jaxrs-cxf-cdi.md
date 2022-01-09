@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | jaxrs-cxf-cdi | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a Java JAXRS Server according to JAXRS 2.0 specification, assuming an Apache CXF runtime and a Java EE runtime with CDI enabled. | |
-
 ---
-title: Config Options for jaxrs-cxf-cdi
-sidebar_label: jaxrs-cxf-cdi
+title: Documentation for the jaxrs-cxf-cdiGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -72,6 +64,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSwaggerAnnotations|Whether to generate Swagger annotations.| |true|
 |useTags|use tags for creating interface and controller classnames| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | jaxrs-cxf-cdi | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Java JAXRS Server according to JAXRS 2.0 specification, assuming an Apache CXF runtime and a Java EE runtime with CDI enabled. | |
+
 
 ## IMPORT MAPPING
 

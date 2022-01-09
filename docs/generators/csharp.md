@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | csharp | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a CSharp client library. | |
-
 ---
-title: Config Options for csharp
-sidebar_label: csharp
+title: Documentation for the csharpGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -38,6 +30,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useCompareNetObjects|Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |validatable|Generates self-validatable models.| |true|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | csharp | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a CSharp client library. | |
+
 
 ## IMPORT MAPPING
 

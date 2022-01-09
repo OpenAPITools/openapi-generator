@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | mysql-schema | pass this to the generate command after -g |
-| generator type | SCHEMA | |
-| helpTxt | Generates a MySQL schema based on the model or schema defined in the OpenAPI specification (v2, v3). | |
-
 ---
-title: Config Options for mysql-schema
-sidebar_label: mysql-schema
+title: Documentation for the mysql-schemaGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -19,6 +11,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |identifierNamingConvention|Naming convention of MySQL identifiers(table names and column names). This is not related to database name which is defined by defaultDatabaseName option|<dl><dt>**original**</dt><dd>Do not transform original names</dd><dt>**snake_case**</dt><dd>Use snake_case names</dd></dl>|original|
 |jsonDataTypeEnabled|Use special JSON MySQL data type for complex model properties. Requires MySQL version 5.7.8. Generates TEXT data type when disabled| |true|
 |namedParametersEnabled|Generates model prepared SQLs with named parameters, eg. :petName. Question mark placeholder used when option disabled.| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | mysql-schema | pass this to the generate command after -g |
+| generator type | SCHEMA | |
+| helpTxt | Generates a MySQL schema based on the model or schema defined in the OpenAPI specification (v2, v3). | |
+
 
 ## IMPORT MAPPING
 

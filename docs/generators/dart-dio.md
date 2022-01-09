@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | dart-dio | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Dart Dio client library. | |
-
 ---
-title: Config Options for dart-dio
-sidebar_label: dart-dio
+title: Documentation for the dart-dioGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -34,6 +26,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|Source folder for generated code| |null|
 |useEnumExtension|Allow the 'x-enum-values' extension for enums| |null|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | dart-dio | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Dart Dio client library. | |
+
 
 ## IMPORT MAPPING
 

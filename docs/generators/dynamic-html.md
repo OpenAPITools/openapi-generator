@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | dynamic-html | pass this to the generate command after -g |
-| generator type | DOCUMENTATION | |
-| helpTxt | Generates a dynamic HTML site. | |
-
 ---
-title: Config Options for dynamic-html
-sidebar_label: dynamic-html
+title: Documentation for the dynamic-htmlGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -27,6 +19,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | dynamic-html | pass this to the generate command after -g |
+| generator type | DOCUMENTATION | |
+| helpTxt | Generates a dynamic HTML site. | |
+
 
 ## IMPORT MAPPING
 

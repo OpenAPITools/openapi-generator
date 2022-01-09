@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | haskell-http-client | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Haskell http-client library. | |
-
 ---
-title: Config Options for haskell-http-client
-sidebar_label: haskell-http-client
+title: Documentation for the haskell-http-clientGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -45,6 +37,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |strictFields|Add strictness annotations to all model fields| |true|
 |useKatip|Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger| |true|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | haskell-http-client | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Haskell http-client library. | |
+
 
 ## IMPORT MAPPING
 

@@ -1,3 +1,14 @@
+---
+title: Documentation for the protobuf-schemaGenerator
+---
+
+## CONFIG OPTIONS
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|numberedFieldNumberList|Field numbers in order.| |false|
+|startEnumsWithUnknown|Introduces &quot;UNKNOWN&quot; as the first element of enumerations.| |false|
 ## METADATA
 
 | Property | Value | Notes |
@@ -6,17 +17,6 @@
 | generator type | SCHEMA | |
 | helpTxt | Generates gRPC and protocol buffer schema files (beta) | |
 
----
-title: Config Options for protobuf-schema
-sidebar_label: protobuf-schema
----
-
-These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
-
-| Option | Description | Values | Default |
-| ------ | ----------- | ------ | ------- |
-|numberedFieldNumberList|Field numbers in order.| |false|
-|startEnumsWithUnknown|Introduces &quot;UNKNOWN&quot; as the first element of enumerations.| |false|
 
 ## IMPORT MAPPING
 

@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | swift4-deprecated | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Swift 4.x client library (Deprecated and will be removed in 5.x releases. Please use `swift5` instead.) | |
-
 ---
-title: Config Options for swift4-deprecated
-sidebar_label: swift4-deprecated
+title: Documentation for the swift4-deprecatedGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -42,6 +34,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |swiftUseApiNamespace|Flag to make all the API classes inner-class of {{projectName}}API| |null|
 |unwrapRequired|Treat 'required' properties in response as non-optional (which would crash the app if api returns null as opposed to required option specified in json schema| |null|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | swift4-deprecated | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Swift 4.x client library (Deprecated and will be removed in 5.x releases. Please use `swift5` instead.) | |
+
 
 ## IMPORT MAPPING
 

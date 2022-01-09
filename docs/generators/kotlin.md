@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | kotlin | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Kotlin client. | |
-
 ---
-title: Config Options for kotlin
-sidebar_label: kotlin
+title: Documentation for the kotlinGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -40,6 +32,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useRxJava|Whether to use the RxJava adapter with the retrofit2 library. IMPORTANT: this option has been deprecated. Please use `useRxJava3` instead.| |false|
 |useRxJava2|Whether to use the RxJava2 adapter with the retrofit2 library. IMPORTANT: this option has been deprecated. Please use `useRxJava3` instead.| |false|
 |useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library.| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | kotlin | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Kotlin client. | |
+
 
 ## IMPORT MAPPING
 

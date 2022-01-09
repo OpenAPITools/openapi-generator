@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | asciidoc | pass this to the generate command after -g |
-| generator type | DOCUMENTATION | |
-| helpTxt | Generates asciidoc markup based documentation. | |
-
 ---
-title: Config Options for asciidoc
-sidebar_label: asciidoc
+title: Documentation for the asciidocGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -40,6 +32,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useIntroduction|use introduction section, rather than an initial abstract (default: false)| |false|
 |useMethodAndPath|Use HTTP method and path as operation heading, instead of operation id (default: false)| |false|
 |useTableTitles|Use titles for tables, rather than wrapping tables instead their own section (default: false)| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | asciidoc | pass this to the generate command after -g |
+| generator type | DOCUMENTATION | |
+| helpTxt | Generates asciidoc markup based documentation. | |
+
 
 ## IMPORT MAPPING
 

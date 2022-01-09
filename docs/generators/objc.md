@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | objc | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates an Objective-C client library. | |
-
 ---
-title: Config Options for objc
-sidebar_label: objc
+title: Documentation for the objcGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -23,6 +15,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |podName|cocoapods package name (convention: CameCase).| |OpenAPIClient|
 |podVersion|cocoapods package version.| |1.0.0|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | objc | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates an Objective-C client library. | |
+
 
 ## IMPORT MAPPING
 

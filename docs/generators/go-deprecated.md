@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | go-deprecated | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Go client library (beta). NOTE: this generator has been deprecated. Please use `go` client generator instead. | |
-
 ---
-title: Config Options for go-deprecated
-sidebar_label: go-deprecated
+title: Documentation for the go-deprecatedGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -26,6 +18,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |withAWSV4Signature|whether to include AWS v4 signature support| |false|
 |withGoCodegenComment|whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | go-deprecated | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Go client library (beta). NOTE: this generator has been deprecated. Please use `go` client generator instead. | |
+
 
 ## IMPORT MAPPING
 

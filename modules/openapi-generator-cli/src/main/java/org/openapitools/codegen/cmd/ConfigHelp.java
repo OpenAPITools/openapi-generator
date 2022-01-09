@@ -284,11 +284,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
 
     private void generateMdConfigOptionsHeader(StringBuilder sb, CodegenConfig config) {
         if (Boolean.TRUE.equals(markdownHeader)) {
-            sb.append("---").append(newline);
-            sb.append("title: Config Options for ").append(generatorName).append(newline);
-            sb.append("sidebar_label: ").append(generatorName).append(newline);
-            sb.append("---").append(newline);
-            sb.append(newline);
+            sb.append("## CONFIG OPTIONS").append(newline);
             sb.append("These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.");
             sb.append(newline);
         } else {
@@ -314,12 +310,19 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     }
 
     private void generateMarkdownHelp(StringBuilder sb, CodegenConfig config) {
-        if (Boolean.TRUE.equals(metadata)) {
-            generateMdMetadata(sb, config);
+        if (Boolean.TRUE.equals(markdownHeader)) {
+            sb.append("---").append(newline);
+            sb.append("title: Documentation for the " + generatorName + "Generator").append(newline);
+            sb.append("---").append(newline);
+            sb.append(newline);
         }
 
         generateMdConfigOptionsHeader(sb, config);
         generateMdConfigOptions(sb, config);
+
+        if (Boolean.TRUE.equals(metadata)) {
+            generateMdMetadata(sb, config);
+        }
 
         if (Boolean.TRUE.equals(importMappings)) {
             generateMdImportMappings(sb, config);

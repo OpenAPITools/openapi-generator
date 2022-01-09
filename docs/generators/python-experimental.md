@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | python-experimental | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Python client library<br><br>Features in this generator:<br>- type hints on endpoints and model creation<br>- model parameter names use the spec defined keys and cases<br>- robust composition (oneOf/anyOf/allOf) where paload data is stored in one instance only<br>- endpoint parameter names use the spec defined keys and cases<br>- inline schemas are supported at any location including composition<br>- multiple content types supported in request body and response bodies<br>- run time type checking<br>- quicker load time for python modules (a single endpoint can be imported and used without loading others)<br>- all instances of schemas dynamically inherit from all matching schemas so one can use isinstance to check if validation passed<br>- composed schemas with type constraints supported (type:object + oneOf/anyOf/allOf)<br>- schemas are not coerced/cast. For example string + date are both stored as string, and there is a date accessor<br>    - Exceptions: int/float is stored as Decimal, When receiving data from headers it will start as str and may need to be cast for example to int | |
-
 ---
-title: Config Options for python-experimental
-sidebar_label: python-experimental
+title: Documentation for the python-experimentalGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -24,6 +16,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
 |recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
 |useNose|use the nose test framework| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | python-experimental | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Python client library<br><br>Features in this generator:<br>- type hints on endpoints and model creation<br>- model parameter names use the spec defined keys and cases<br>- robust composition (oneOf/anyOf/allOf) where paload data is stored in one instance only<br>- endpoint parameter names use the spec defined keys and cases<br>- inline schemas are supported at any location including composition<br>- multiple content types supported in request body and response bodies<br>- run time type checking<br>- quicker load time for python modules (a single endpoint can be imported and used without loading others)<br>- all instances of schemas dynamically inherit from all matching schemas so one can use isinstance to check if validation passed<br>- composed schemas with type constraints supported (type:object + oneOf/anyOf/allOf)<br>- schemas are not coerced/cast. For example string + date are both stored as string, and there is a date accessor<br>    - Exceptions: int/float is stored as Decimal, When receiving data from headers it will start as str and may need to be cast for example to int | |
+
 
 ## IMPORT MAPPING
 

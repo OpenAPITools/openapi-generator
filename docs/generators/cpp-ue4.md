@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | cpp-ue4 | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Unreal Engine 4 C++ Module (beta). | |
-
 ---
-title: Config Options for cpp-ue4
-sidebar_label: cpp-ue4
+title: Documentation for the cpp-ue4Generator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -28,6 +20,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |unrealModuleName|Name of the generated unreal module (optional)| |OpenAPI|
 |variableNameFirstCharacterUppercase|Make first character of variable name uppercase (eg. value -&gt; Value)| |true|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cpp-ue4 | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Unreal Engine 4 C++ Module (beta). | |
+
 
 ## IMPORT MAPPING
 

@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | bash | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Bash client script based on cURL. | |
-
 ---
-title: Config Options for bash
-sidebar_label: bash
+title: Documentation for the bashGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -31,6 +23,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |scriptName|The name of the script that will be generated (e.g. petstore-cli)| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | bash | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Bash client script based on cURL. | |
+
 
 ## IMPORT MAPPING
 

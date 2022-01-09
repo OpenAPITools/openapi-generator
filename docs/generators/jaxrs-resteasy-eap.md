@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | jaxrs-resteasy-eap | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a Java JAXRS-Resteasy Server application. | |
-
 ---
-title: Config Options for jaxrs-resteasy-eap
-sidebar_label: jaxrs-resteasy-eap
+title: Documentation for the jaxrs-resteasy-eapGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -66,6 +58,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSwaggerFeature|Use dynamic Swagger generator| |false|
 |useTags|use tags for creating interface and controller classnames| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | jaxrs-resteasy-eap | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Java JAXRS-Resteasy Server application. | |
+
 
 ## IMPORT MAPPING
 

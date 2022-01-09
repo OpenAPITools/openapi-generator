@@ -1,3 +1,15 @@
+---
+title: Documentation for the graphql-nodejs-express-serverGenerator
+---
+
+## CONFIG OPTIONS
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|packageName|GraphQL Node.js Express server package name (convention: lowercase).| |openapi3graphql-server|
+|packageVersion|GraphQL Node.js Express server package version.| |1.0.0|
 ## METADATA
 
 | Property | Value | Notes |
@@ -6,18 +18,6 @@
 | generator type | SERVER | |
 | helpTxt | Generates a GraphQL Node.js Express server (beta) including it's types, queries, mutations, (resolvers) | |
 
----
-title: Config Options for graphql-nodejs-express-server
-sidebar_label: graphql-nodejs-express-server
----
-
-These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
-
-| Option | Description | Values | Default |
-| ------ | ----------- | ------ | ------- |
-|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|packageName|GraphQL Node.js Express server package name (convention: lowercase).| |openapi3graphql-server|
-|packageVersion|GraphQL Node.js Express server package version.| |1.0.0|
 
 ## IMPORT MAPPING
 

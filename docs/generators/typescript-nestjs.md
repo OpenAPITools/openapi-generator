@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | typescript-nestjs | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a TypeScript Nestjs 6.x client library. | |
-
 ---
-title: Config Options for typescript-nestjs
-sidebar_label: typescript-nestjs
+title: Documentation for the typescript-nestjsGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -42,6 +34,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |supportsES6|Generate code that conforms to ES6.| |false|
 |taggedUnions|Use discriminators to create tagged unions instead of extending interfaces.| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-nestjs | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a TypeScript Nestjs 6.x client library. | |
+
 
 ## IMPORT MAPPING
 

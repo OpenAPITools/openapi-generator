@@ -1,3 +1,15 @@
+---
+title: Documentation for the eiffelGenerator
+---
+
+## CONFIG OPTIONS
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|packageName|Eiffel Cluster name (convention: lowercase).| |openapi|
+|packageVersion|Eiffel package version.| |1.0.0|
 ## METADATA
 
 | Property | Value | Notes |
@@ -6,18 +18,6 @@
 | generator type | CLIENT | |
 | helpTxt | Generates a Eiffel client library (beta). | |
 
----
-title: Config Options for eiffel
-sidebar_label: eiffel
----
-
-These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
-
-| Option | Description | Values | Default |
-| ------ | ----------- | ------ | ------- |
-|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|packageName|Eiffel Cluster name (convention: lowercase).| |openapi|
-|packageVersion|Eiffel package version.| |1.0.0|
 
 ## IMPORT MAPPING
 

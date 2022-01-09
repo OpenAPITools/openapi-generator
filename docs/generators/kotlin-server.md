@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | kotlin-server | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a Kotlin server. | |
-
 ---
-title: Config Options for kotlin-server
-sidebar_label: kotlin-server
+title: Documentation for the kotlin-serverGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -36,6 +28,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | kotlin-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Kotlin server. | |
+
 
 ## IMPORT MAPPING
 

@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | go-server | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a Go server library using OpenAPI-Generator. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | |
-
 ---
-title: Config Options for go-server
-sidebar_label: go-server
+title: Documentation for the go-serverGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -24,6 +16,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |router|Specify the router which should be used.|<dl><dt>**mux**</dt><dd>mux</dd><dt>**chi**</dt><dd>chi</dd></dl>|mux|
 |serverPort|The network port the generated server binds to| |8080|
 |sourceFolder|source folder for generated code| |go|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | go-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Go server library using OpenAPI-Generator. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | |
+
 
 ## IMPORT MAPPING
 

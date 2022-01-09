@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | csharp-nancyfx | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a C# NancyFX Web API server. | |
-
 ---
-title: Config Options for csharp-nancyfx
-sidebar_label: csharp-nancyfx
+title: Documentation for the csharp-nancyfxGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -29,6 +21,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |writeModulePath|Enabled by default. If disabled, module paths will not mirror api base path| |true|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | csharp-nancyfx | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a C# NancyFX Web API server. | |
+
 
 ## IMPORT MAPPING
 

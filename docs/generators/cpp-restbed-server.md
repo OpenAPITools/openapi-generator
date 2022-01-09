@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | cpp-restbed-server | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a C++ API Server with Restbed (https://github.com/Corvusoft/restbed). | |
-
 ---
-title: Config Options for cpp-restbed-server
-sidebar_label: cpp-restbed-server
+title: Documentation for the cpp-restbed-serverGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -21,6 +13,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.server.model|
 |packageVersion|C++ package version.| |1.0.0|
 |reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cpp-restbed-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a C++ API Server with Restbed (https://github.com/Corvusoft/restbed). | |
+
 
 ## IMPORT MAPPING
 

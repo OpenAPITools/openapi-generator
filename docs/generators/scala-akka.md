@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | scala-akka | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Scala client library (beta) base on Akka/Spray. | |
-
 ---
-title: Config Options for scala-akka
-sidebar_label: scala-akka
+title: Documentation for the scala-akkaGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -29,6 +21,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |null|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | scala-akka | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Scala client library (beta) base on Akka/Spray. | |
+
 
 ## IMPORT MAPPING
 

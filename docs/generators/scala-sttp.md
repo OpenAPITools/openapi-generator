@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | scala-sttp | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Scala client library (beta) based on Sttp. | |
-
 ---
-title: Config Options for scala-sttp
-sidebar_label: scala-sttp
+title: Documentation for the scala-sttpGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -35,6 +27,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |null|
 |sttpClientVersion|The version of sttp client| |2.2.9|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | scala-sttp | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Scala client library (beta) based on Sttp. | |
+
 
 ## IMPORT MAPPING
 

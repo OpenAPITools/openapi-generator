@@ -1,3 +1,12 @@
+---
+title: Documentation for the elmGenerator
+---
+
+## CONFIG OPTIONS
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
 ## METADATA
 
 | Property | Value | Notes |
@@ -6,15 +15,6 @@
 | generator type | CLIENT | |
 | helpTxt | Generates an Elm client library. | |
 
----
-title: Config Options for elm
-sidebar_label: elm
----
-
-These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
-
-| Option | Description | Values | Default |
-| ------ | ----------- | ------ | ------- |
 
 ## IMPORT MAPPING
 

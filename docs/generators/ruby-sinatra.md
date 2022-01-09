@@ -1,3 +1,12 @@
+---
+title: Documentation for the ruby-sinatraGenerator
+---
+
+## CONFIG OPTIONS
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
 ## METADATA
 
 | Property | Value | Notes |
@@ -6,15 +15,6 @@
 | generator type | SERVER | |
 | helpTxt | Generates a Ruby Sinatra server library. | |
 
----
-title: Config Options for ruby-sinatra
-sidebar_label: ruby-sinatra
----
-
-These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
-
-| Option | Description | Values | Default |
-| ------ | ----------- | ------ | ------- |
 
 ## IMPORT MAPPING
 

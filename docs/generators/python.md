@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | python | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Python client library. | |
-
 ---
-title: Config Options for python
-sidebar_label: python
+title: Documentation for the pythonGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -26,6 +18,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |pythonAttrNoneIfUnset|when accessing unset attribute, return `None` instead of raising `ApiAttributeError`| |false|
 |recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
 |useNose|use the nose test framework| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | python | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Python client library. | |
+
 
 ## IMPORT MAPPING
 

@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | java-micronaut-client | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Java Micronaut Client. | |
-
 ---
-title: Config Options for java-micronaut-client
-sidebar_label: java-micronaut-client
+title: Documentation for the java-micronaut-clientGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -64,6 +56,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |title|Client service name| |OpenAPI Micronaut Client|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | java-micronaut-client | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Java Micronaut Client. | |
+
 
 ## IMPORT MAPPING
 

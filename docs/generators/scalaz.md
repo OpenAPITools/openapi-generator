@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | scalaz | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Scalaz client library (beta) that uses http4s | |
-
 ---
-title: Config Options for scalaz
-sidebar_label: scalaz
+title: Documentation for the scalazGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -28,6 +20,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |null|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | scalaz | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Scalaz client library (beta) that uses http4s | |
+
 
 ## IMPORT MAPPING
 

@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | crystal | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a Crystal client library (beta). | |
-
 ---
-title: Config Options for crystal
-sidebar_label: crystal
+title: Documentation for the crystalGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -31,6 +23,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |shardVersion|shard version.| |1.0.0|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | crystal | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Crystal client library (beta). | |
+
 
 ## IMPORT MAPPING
 

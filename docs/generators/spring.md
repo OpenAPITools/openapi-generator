@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | spring | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a Java SpringBoot Server application using the SpringFox integration. | |
-
 ---
-title: Config Options for spring
-sidebar_label: spring
+title: Documentation for the springGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -83,6 +75,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useTags|use tags for creating interface and controller classnames| |false|
 |virtualService|Generates the virtual service. For more details refer - https://github.com/virtualansoftware/virtualan/wiki| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | spring | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Java SpringBoot Server application using the SpringFox integration. | |
+
 
 ## IMPORT MAPPING
 

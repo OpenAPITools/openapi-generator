@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | php | pass this to the generate command after -g |
-| generator type | CLIENT | |
-| helpTxt | Generates a PHP client library. | |
-
 ---
-title: Config Options for php
-sidebar_label: php
+title: Documentation for the phpGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -31,6 +23,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |srcBasePath|The directory to serve as source root.| |null|
 |variableNamingConvention|naming convention of variable name, e.g. camelCase.| |snake_case|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | php | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a PHP client library. | |
+
 
 ## IMPORT MAPPING
 

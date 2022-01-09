@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | fsharp-giraffe-server | pass this to the generate command after -g |
-| generator type | SERVER | |
-| helpTxt | Generates a F# Giraffe server (beta). | |
-
 ---
-title: Config Options for fsharp-giraffe-server
-sidebar_label: fsharp-giraffe-server
+title: Documentation for the fsharp-giraffe-serverGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -31,6 +23,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |false|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | fsharp-giraffe-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a F# Giraffe server (beta). | |
+
 
 ## IMPORT MAPPING
 

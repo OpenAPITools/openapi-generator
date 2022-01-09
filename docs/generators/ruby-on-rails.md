@@ -1,3 +1,13 @@
+---
+title: Documentation for the ruby-on-railsGenerator
+---
+
+## CONFIG OPTIONS
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|databaseAdapter|The adapter for database (e.g. mysql, sqlite). Default: sqlite| |sqlite|
 ## METADATA
 
 | Property | Value | Notes |
@@ -6,16 +16,6 @@
 | generator type | SERVER | |
 | helpTxt | Generates a Ruby on Rails (v5) server library. | |
 
----
-title: Config Options for ruby-on-rails
-sidebar_label: ruby-on-rails
----
-
-These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
-
-| Option | Description | Values | Default |
-| ------ | ----------- | ------ | ------- |
-|databaseAdapter|The adapter for database (e.g. mysql, sqlite). Default: sqlite| |sqlite|
 
 ## IMPORT MAPPING
 

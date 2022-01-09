@@ -1,3 +1,15 @@
+---
+title: Documentation for the scala-finchGenerator
+---
+
+## CONFIG OPTIONS
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|apiPackage|package for generated api classes| |null|
+|modelPackage|package for generated models| |null|
+|packageName|Finch package name (e.g. org.openapitools).| |org.openapitools|
 ## METADATA
 
 | Property | Value | Notes |
@@ -6,18 +18,6 @@
 | generator type | SERVER | |
 | helpTxt | Generates a Scala server application with Finch. | |
 
----
-title: Config Options for scala-finch
-sidebar_label: scala-finch
----
-
-These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
-
-| Option | Description | Values | Default |
-| ------ | ----------- | ------ | ------- |
-|apiPackage|package for generated api classes| |null|
-|modelPackage|package for generated models| |null|
-|packageName|Finch package name (e.g. org.openapitools).| |org.openapitools|
 
 ## IMPORT MAPPING
 

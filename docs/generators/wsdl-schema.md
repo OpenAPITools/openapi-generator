@@ -1,16 +1,8 @@
-## METADATA
-
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | wsdl-schema | pass this to the generate command after -g |
-| generator type | SCHEMA | |
-| helpTxt | Generates WSDL files. | |
-
 ---
-title: Config Options for wsdl-schema
-sidebar_label: wsdl-schema
+title: Documentation for the wsdl-schemaGenerator
 ---
 
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -26,6 +18,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |soapPath|basepath of the soap services| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | wsdl-schema | pass this to the generate command after -g |
+| generator type | SCHEMA | |
+| helpTxt | Generates WSDL files. | |
+
 
 ## IMPORT MAPPING
 
