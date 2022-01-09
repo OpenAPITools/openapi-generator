@@ -55,9 +55,9 @@ export class StoreService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -79,9 +79,9 @@ export class StoreService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <{ [key: string]: number; }>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -104,9 +104,9 @@ export class StoreService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <Order>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -130,9 +130,9 @@ export class StoreService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <Order>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 }

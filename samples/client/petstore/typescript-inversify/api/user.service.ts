@@ -56,9 +56,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -82,9 +82,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -108,9 +108,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -133,9 +133,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -158,9 +158,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <User>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -196,9 +196,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <string>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -216,9 +216,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -247,9 +247,9 @@ export class UserService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 }

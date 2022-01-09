@@ -64,9 +64,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -101,9 +101,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -138,9 +138,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <Array<Pet>>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -175,9 +175,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <Array<Pet>>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -204,9 +204,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <Pet>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -237,9 +237,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -280,9 +280,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <any>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 
@@ -323,9 +323,9 @@ export class PetService {
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <ApiResponse>(httpResponse.response))
-               ).toPromise();
+               );
         }
-        return response.toPromise();
+        return response;
     }
 
 }

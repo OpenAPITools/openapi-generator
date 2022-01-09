@@ -185,9 +185,9 @@ export class {{classname}} {
         if (observe === 'body') {
                return response.{{#usePromise}}then{{/usePromise}}{{^usePromise}}pipe{{/usePromise}}(
                    {{^usePromise}}map({{/usePromise}}(httpResponse: HttpResponse) => <{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>(httpResponse.response){{^usePromise}}){{/usePromise}}
-               ){{^usePromise}}.toPromise(){{/usePromise}};
+               );
         }
-        return response{{^usePromise}}.toPromise(){{/usePromise}};
+        return response;
     }
 
 {{/operation}}}
