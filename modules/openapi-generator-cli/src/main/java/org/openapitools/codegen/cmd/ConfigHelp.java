@@ -304,10 +304,11 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     private void generateMdMetadata(StringBuilder sb, CodegenConfig config) {
         sb.append("## METADATA").append(newline).append(newline);
 
-        sb.append("| Property | Value | Notes").append(newline);
-        sb.append("| generator name | "+config.getName()+" | pass this to the generate command after -g").append(newline);
-        sb.append("| generator type | "+config.getTag()+" | ").append(newline);
-        sb.append("| helpTxt | "+config.getHelp()+" | ").append(newline);
+        sb.append("| Property | Value | Notes |").append(newline);
+        sb.append("| -------- | ----- | ----- |").append(newline);
+        sb.append("| generator name | "+config.getName()+" | pass this to the generate command after -g |").append(newline);
+        sb.append("| generator type | "+config.getTag()+" | |").append(newline);
+        sb.append("| helpTxt | "+config.getHelp()+" | |").append(newline);
 
         sb.append(newline);
     }
