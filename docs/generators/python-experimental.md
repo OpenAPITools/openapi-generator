@@ -1,3 +1,24 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | python-experimental | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Python client library
+
+Features in this generator:
+- type hints on endpoints and model creation
+- model parameter names use the spec defined keys and cases
+- robust composition (oneOf/anyOf/allOf) where paload data is stored in one instance only
+- endpoint parameter names use the spec defined keys and cases
+- inline schemas are supported at any location including composition
+- multiple content types supported in request body and response bodies
+- run time type checking
+- quicker load time for python modules (a single endpoint can be imported and used without loading others)
+- all instances of schemas dynamically inherit from all matching schemas so one can use isinstance to check if validation passed
+- composed schemas with type constraints supported (type:object + oneOf/anyOf/allOf)
+- schemas are not coerced/cast. For example string + date are both stored as string, and there is a date accessor
+    - Exceptions: int/float is stored as Decimal, When receiving data from headers it will start as str and may need to be cast for example to int | 
+
 ---
 title: Config Options for python-experimental
 sidebar_label: python-experimental

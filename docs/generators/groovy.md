@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | groovy | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Groovy API client. | 
+
 ---
 title: Config Options for groovy
 sidebar_label: groovy

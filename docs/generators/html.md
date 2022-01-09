@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | html | pass this to the generate command after -g
+| generator type | DOCUMENTATION | 
+| helpTxt | Generates a static HTML file. | 
+
 ---
 title: Config Options for html
 sidebar_label: html

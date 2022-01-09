@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | java-msf4j | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a Java Micro Service based on WSO2 Microservices Framework for Java (MSF4J) | 
+
 ---
 title: Config Options for java-msf4j
 sidebar_label: java-msf4j

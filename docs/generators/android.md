@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | android | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates an Android client library. | 
+
 ---
 title: Config Options for android
 sidebar_label: android

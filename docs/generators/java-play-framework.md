@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | java-play-framework | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a Java Play Framework Server application. | 
+
 ---
 title: Config Options for java-play-framework
 sidebar_label: java-play-framework

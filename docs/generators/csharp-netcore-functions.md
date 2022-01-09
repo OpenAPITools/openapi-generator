@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | csharp-netcore-functions | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a csharp server. | 
+
 ---
 title: Config Options for csharp-netcore-functions
 sidebar_label: csharp-netcore-functions

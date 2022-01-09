@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | plantuml | pass this to the generate command after -g
+| generator type | DOCUMENTATION | 
+| helpTxt | Generates a plantuml documentation. | 
+
 ---
 title: Config Options for plantuml
 sidebar_label: plantuml

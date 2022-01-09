@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | java-vertx-web | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a Java Vert.x-Web Server (beta). | 
+
 ---
 title: Config Options for java-vertx-web
 sidebar_label: java-vertx-web

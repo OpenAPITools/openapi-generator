@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | fsharp-giraffe-server | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a F# Giraffe server (beta). | 
+
 ---
 title: Config Options for fsharp-giraffe-server
 sidebar_label: fsharp-giraffe-server

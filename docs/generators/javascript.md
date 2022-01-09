@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | javascript | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a JavaScript client library. | 
+
 ---
 title: Config Options for javascript
 sidebar_label: javascript

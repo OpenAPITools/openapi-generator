@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | scalaz | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Scalaz client library (beta) that uses http4s | 
+
 ---
 title: Config Options for scalaz
 sidebar_label: scalaz

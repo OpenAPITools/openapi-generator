@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | haskell | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a Haskell server and client library. | 
+
 ---
 title: Config Options for haskell
 sidebar_label: haskell

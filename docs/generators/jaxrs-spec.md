@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | jaxrs-spec | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a Java JAXRS Server according to JAXRS 2.0 specification. | 
+
 ---
 title: Config Options for jaxrs-spec
 sidebar_label: jaxrs-spec

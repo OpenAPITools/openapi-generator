@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | cpp-pistache-server | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a C++ API server (based on Pistache) | 
+
 ---
 title: Config Options for cpp-pistache-server
 sidebar_label: cpp-pistache-server

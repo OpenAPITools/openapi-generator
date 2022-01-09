@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | python | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Python client library. | 
+
 ---
 title: Config Options for python
 sidebar_label: python

@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | ada | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates an Ada client implementation (beta). | 
+
 ---
 title: Config Options for ada
 sidebar_label: ada

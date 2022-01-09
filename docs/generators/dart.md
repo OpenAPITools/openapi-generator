@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | dart | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Dart 2.x client library. | 
+
 ---
 title: Config Options for dart
 sidebar_label: dart

@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | crystal | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Crystal client library (beta). | 
+
 ---
 title: Config Options for crystal
 sidebar_label: crystal

@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | php-mezzio-ph | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates PHP server stub using Mezzio ( https://docs.mezzio.dev/mezzio/ ) and Path Handler ( https://github.com/Articus/PathHandler ). | 
+
 ---
 title: Config Options for php-mezzio-ph
 sidebar_label: php-mezzio-ph

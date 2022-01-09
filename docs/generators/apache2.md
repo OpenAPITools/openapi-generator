@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | apache2 | pass this to the generate command after -g
+| generator type | CONFIG | 
+| helpTxt | Generates an Apache2 Config file with the permissions | 
+
 ---
 title: Config Options for apache2
 sidebar_label: apache2

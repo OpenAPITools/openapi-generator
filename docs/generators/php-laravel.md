@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | php-laravel | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a PHP laravel server library. | 
+
 ---
 title: Config Options for php-laravel
 sidebar_label: php-laravel

@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | jaxrs-resteasy-eap | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a Java JAXRS-Resteasy Server application. | 
+
 ---
 title: Config Options for jaxrs-resteasy-eap
 sidebar_label: jaxrs-resteasy-eap

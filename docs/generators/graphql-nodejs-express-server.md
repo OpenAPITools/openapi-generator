@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | graphql-nodejs-express-server | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a GraphQL Node.js Express server (beta) including it's types, queries, mutations, (resolvers) | 
+
 ---
 title: Config Options for graphql-nodejs-express-server
 sidebar_label: graphql-nodejs-express-server

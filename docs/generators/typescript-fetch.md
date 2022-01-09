@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | typescript-fetch | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a TypeScript client library using Fetch API (beta). | 
+
 ---
 title: Config Options for typescript-fetch
 sidebar_label: typescript-fetch

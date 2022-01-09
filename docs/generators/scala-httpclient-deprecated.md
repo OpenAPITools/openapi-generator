@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | scala-httpclient-deprecated | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Scala client library (beta). IMPORTANT: This generator is no longer actively maintained and will be deprecated. PLease use 'scala-akka' generator instead. | 
+
 ---
 title: Config Options for scala-httpclient-deprecated
 sidebar_label: scala-httpclient-deprecated

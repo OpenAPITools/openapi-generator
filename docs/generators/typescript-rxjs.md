@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | typescript-rxjs | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a TypeScript client library using Rxjs API. | 
+
 ---
 title: Config Options for typescript-rxjs
 sidebar_label: typescript-rxjs

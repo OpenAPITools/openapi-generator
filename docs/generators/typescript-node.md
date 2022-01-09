@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | typescript-node | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a TypeScript NodeJS client library. | 
+
 ---
 title: Config Options for typescript-node
 sidebar_label: typescript-node

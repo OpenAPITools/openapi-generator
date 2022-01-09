@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | php | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a PHP client library. | 
+
 ---
 title: Config Options for php
 sidebar_label: php

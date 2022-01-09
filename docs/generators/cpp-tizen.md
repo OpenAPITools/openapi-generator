@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | cpp-tizen | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Samsung Tizen C++ client library. | 
+
 ---
 title: Config Options for cpp-tizen
 sidebar_label: cpp-tizen

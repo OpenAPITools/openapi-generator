@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | scala-play-server | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a Scala server application (beta) with Play Framework. | 
+
 ---
 title: Config Options for scala-play-server
 sidebar_label: scala-play-server

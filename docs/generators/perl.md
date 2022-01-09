@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | perl | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Perl client library. | 
+
 ---
 title: Config Options for perl
 sidebar_label: perl

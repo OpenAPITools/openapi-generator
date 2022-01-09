@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | javascript-flowtyped | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Javascript client library (beta) using Flow types and Fetch API. | 
+
 ---
 title: Config Options for javascript-flowtyped
 sidebar_label: javascript-flowtyped

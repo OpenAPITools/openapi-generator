@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | protobuf-schema | pass this to the generate command after -g
+| generator type | SCHEMA | 
+| helpTxt | Generates gRPC and protocol buffer schema files (beta) | 
+
 ---
 title: Config Options for protobuf-schema
 sidebar_label: protobuf-schema

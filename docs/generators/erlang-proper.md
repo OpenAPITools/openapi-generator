@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | erlang-proper | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates an Erlang library with PropEr generators (beta). | 
+
 ---
 title: Config Options for erlang-proper
 sidebar_label: erlang-proper

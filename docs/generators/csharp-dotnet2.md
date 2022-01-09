@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | csharp-dotnet2 | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a C# .Net 2.0 client library (beta). | 
+
 ---
 title: Config Options for csharp-dotnet2
 sidebar_label: csharp-dotnet2

@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | bash | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Bash client script based on cURL. | 
+
 ---
 title: Config Options for bash
 sidebar_label: bash

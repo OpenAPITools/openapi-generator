@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | wsdl-schema | pass this to the generate command after -g
+| generator type | SCHEMA | 
+| helpTxt | Generates WSDL files. | 
+
 ---
 title: Config Options for wsdl-schema
 sidebar_label: wsdl-schema

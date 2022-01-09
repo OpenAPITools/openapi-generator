@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | csharp-netcore | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a C# client library (.NET Standard, .NET Core). | 
+
 ---
 title: Config Options for csharp-netcore
 sidebar_label: csharp-netcore

@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | spring | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a Java SpringBoot Server application using the SpringFox integration. | 
+
 ---
 title: Config Options for spring
 sidebar_label: spring

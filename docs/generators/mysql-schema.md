@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | mysql-schema | pass this to the generate command after -g
+| generator type | SCHEMA | 
+| helpTxt | Generates a MySQL schema based on the model or schema defined in the OpenAPI specification (v2, v3). | 
+
 ---
 title: Config Options for mysql-schema
 sidebar_label: mysql-schema

@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | dynamic-html | pass this to the generate command after -g
+| generator type | DOCUMENTATION | 
+| helpTxt | Generates a dynamic HTML site. | 
+
 ---
 title: Config Options for dynamic-html
 sidebar_label: dynamic-html

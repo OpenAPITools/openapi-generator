@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | java | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Java client library (HTTP lib: Jersey (1.x, 2.x), Retrofit (2.x), OpenFeign (10.x) and more. | 
+
 ---
 title: Config Options for java
 sidebar_label: java

@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | r | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a R client library (beta). | 
+
 ---
 title: Config Options for r
 sidebar_label: r

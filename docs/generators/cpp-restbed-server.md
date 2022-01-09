@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | cpp-restbed-server | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a C++ API Server with Restbed (https://github.com/Corvusoft/restbed). | 
+
 ---
 title: Config Options for cpp-restbed-server
 sidebar_label: cpp-restbed-server

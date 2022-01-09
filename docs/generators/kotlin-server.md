@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | kotlin-server | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a Kotlin server. | 
+
 ---
 title: Config Options for kotlin-server
 sidebar_label: kotlin-server

@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | jmeter | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a JMeter .jmx file. | 
+
 ---
 title: Config Options for jmeter
 sidebar_label: jmeter

@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | graphql-schema | pass this to the generate command after -g
+| generator type | SCHEMA | 
+| helpTxt | Generates GraphQL schema files (beta) | 
+
 ---
 title: Config Options for graphql-schema
 sidebar_label: graphql-schema

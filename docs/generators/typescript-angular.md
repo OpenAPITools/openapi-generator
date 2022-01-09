@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | typescript-angular | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a TypeScript Angular (6.x - 13.x) client library. | 
+
 ---
 title: Config Options for typescript-angular
 sidebar_label: typescript-angular

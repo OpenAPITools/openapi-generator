@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | ocaml | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates an OCaml client library (beta). | 
+
 ---
 title: Config Options for ocaml
 sidebar_label: ocaml

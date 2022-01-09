@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | cpp-restsdk | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a C++ API client with C++ REST SDK (https://github.com/Microsoft/cpprestsdk). | 
+
 ---
 title: Config Options for cpp-restsdk
 sidebar_label: cpp-restsdk

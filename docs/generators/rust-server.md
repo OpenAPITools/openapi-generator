@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | rust-server | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a Rust client/server library (beta) using the openapi-generator project. | 
+
 ---
 title: Config Options for rust-server
 sidebar_label: rust-server

@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | objc | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates an Objective-C client library. | 
+
 ---
 title: Config Options for objc
 sidebar_label: objc

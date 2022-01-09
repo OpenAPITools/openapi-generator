@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | scala-finch | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a Scala server application with Finch. | 
+
 ---
 title: Config Options for scala-finch
 sidebar_label: scala-finch

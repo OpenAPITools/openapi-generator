@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | java-undertow-server | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a Java Undertow Server application (beta). | 
+
 ---
 title: Config Options for java-undertow-server
 sidebar_label: java-undertow-server

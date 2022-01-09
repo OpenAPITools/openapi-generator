@@ -72,7 +72,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
 
     @Option(name = {"--metadata"}, title = "metadata", description = "displays the generator metadata like the help txt for the generator and generator type etc")
     private Boolean metadata;
-    
+
     @Option(name = {"--language-specific-primitive"}, title = "language specific primitives", description = "displays the language specific primitives (types which require no additional imports, or which may conflict with user defined model names)")
     private Boolean languageSpecificPrimitives;
 

@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | go-echo-server | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a go-echo server. (Beta) | 
+
 ---
 title: Config Options for go-echo-server
 sidebar_label: go-echo-server

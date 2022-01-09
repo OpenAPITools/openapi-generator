@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | kotlin | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Kotlin client. | 
+
 ---
 title: Config Options for kotlin
 sidebar_label: kotlin

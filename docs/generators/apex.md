@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | apex | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates an Apex API client library. | 
+
 ---
 title: Config Options for apex
 sidebar_label: apex

@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | dart-jaguar | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Dart Jaguar client library. | 
+
 ---
 title: Config Options for dart-jaguar
 sidebar_label: dart-jaguar

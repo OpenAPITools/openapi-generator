@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | go | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a Go client library. | 
+
 ---
 title: Config Options for go
 sidebar_label: go

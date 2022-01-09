@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | ruby-on-rails | pass this to the generate command after -g
+| generator type | SERVER | 
+| helpTxt | Generates a Ruby on Rails (v5) server library. | 
+
 ---
 title: Config Options for ruby-on-rails
 sidebar_label: ruby-on-rails

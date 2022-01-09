@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | scala-gatling | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a gatling simulation library (beta). | 
+
 ---
 title: Config Options for scala-gatling
 sidebar_label: scala-gatling

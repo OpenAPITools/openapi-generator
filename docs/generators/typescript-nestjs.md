@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | typescript-nestjs | pass this to the generate command after -g
+| generator type | CLIENT | 
+| helpTxt | Generates a TypeScript Nestjs 6.x client library. | 
+
 ---
 title: Config Options for typescript-nestjs
 sidebar_label: typescript-nestjs

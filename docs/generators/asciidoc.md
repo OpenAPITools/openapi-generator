@@ -1,3 +1,10 @@
+## METADATA
+
+| Property | Value | Notes
+| generator name | asciidoc | pass this to the generate command after -g
+| generator type | DOCUMENTATION | 
+| helpTxt | Generates asciidoc markup based documentation. | 
+
 ---
 title: Config Options for asciidoc
 sidebar_label: asciidoc
