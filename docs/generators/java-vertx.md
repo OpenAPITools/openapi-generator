@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | java-vertx | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a java-Vert.X Server library. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | java-vertx | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a java-Vert.X Server library. | |
 
 ---
 title: Config Options for java-vertx

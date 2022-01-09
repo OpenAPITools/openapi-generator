@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | lua | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Lua client library (beta). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | lua | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Lua client library (beta). | |
 
 ---
 title: Config Options for lua

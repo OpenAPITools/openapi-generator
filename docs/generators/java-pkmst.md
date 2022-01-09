@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | java-pkmst | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a PKMST SpringBoot Server application using the SpringFox integration. Also enables EurekaServerClient / Zipkin / Spring-Boot admin | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | java-pkmst | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a PKMST SpringBoot Server application using the SpringFox integration. Also enables EurekaServerClient / Zipkin / Spring-Boot admin | |
 
 ---
 title: Config Options for java-pkmst

@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | scala-sttp | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Scala client library (beta) based on Sttp. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | scala-sttp | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Scala client library (beta) based on Sttp. | |
 
 ---
 title: Config Options for scala-sttp

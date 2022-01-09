@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | dart-dio-next | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Dart Dio client library with null-safety. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | dart-dio-next | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Dart Dio client library with null-safety. | |
 
 ---
 title: Config Options for dart-dio-next

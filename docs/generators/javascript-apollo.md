@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | javascript-apollo | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a JavaScript client library (beta) using Apollo RESTDatasource. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | javascript-apollo | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a JavaScript client library (beta) using Apollo RESTDatasource. | |
 
 ---
 title: Config Options for javascript-apollo

@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | haskell-http-client | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Haskell http-client library. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | haskell-http-client | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Haskell http-client library. | |
 
 ---
 title: Config Options for haskell-http-client

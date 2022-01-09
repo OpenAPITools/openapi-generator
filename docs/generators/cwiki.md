@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | cwiki | pass this to the generate command after -g
-| generator type | DOCUMENTATION | 
-| helpTxt | Generates confluence wiki markup. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cwiki | pass this to the generate command after -g |
+| generator type | DOCUMENTATION | |
+| helpTxt | Generates confluence wiki markup. | |
 
 ---
 title: Config Options for cwiki

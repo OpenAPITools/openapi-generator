@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | nodejs-express-server | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a NodeJS Express server (alpha). IMPORTANT: this generator may subject to breaking changes without further notice). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | nodejs-express-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a NodeJS Express server (alpha). IMPORTANT: this generator may subject to breaking changes without further notice). | |
 
 ---
 title: Config Options for nodejs-express-server

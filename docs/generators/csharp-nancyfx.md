@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | csharp-nancyfx | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a C# NancyFX Web API server. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | csharp-nancyfx | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a C# NancyFX Web API server. | |
 
 ---
 title: Config Options for csharp-nancyfx

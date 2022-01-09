@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | csharp | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a CSharp client library. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | csharp | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a CSharp client library. | |
 
 ---
 title: Config Options for csharp

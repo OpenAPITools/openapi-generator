@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | python-legacy | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Python client library. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | python-legacy | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Python client library. | |
 
 ---
 title: Config Options for python-legacy

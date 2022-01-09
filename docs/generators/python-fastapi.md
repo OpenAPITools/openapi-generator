@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | python-fastapi | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a Python FastAPI server (beta). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | python-fastapi | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Python FastAPI server (beta). | |
 
 ---
 title: Config Options for python-fastapi

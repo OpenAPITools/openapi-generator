@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | c | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a C (libcurl) client library (beta). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | c | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a C (libcurl) client library (beta). | |
 
 ---
 title: Config Options for c

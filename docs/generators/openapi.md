@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | openapi | pass this to the generate command after -g
-| generator type | DOCUMENTATION | 
-| helpTxt | Creates a static openapi.json file (OpenAPI spec v3.0). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | openapi | pass this to the generate command after -g |
+| generator type | DOCUMENTATION | |
+| helpTxt | Creates a static openapi.json file (OpenAPI spec v3.0). | |
 
 ---
 title: Config Options for openapi

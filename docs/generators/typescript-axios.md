@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | typescript-axios | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a TypeScript client library using axios. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-axios | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a TypeScript client library using axios. | |
 
 ---
 title: Config Options for typescript-axios

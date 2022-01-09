@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | go-gin-server | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a Go server library with the gin framework using OpenAPI-Generator.By default, it will also generate service classes. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | go-gin-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Go server library with the gin framework using OpenAPI-Generator.By default, it will also generate service classes. | |
 
 ---
 title: Config Options for go-gin-server

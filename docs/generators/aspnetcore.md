@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | aspnetcore | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates an ASP.NET Core Web API server. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | aspnetcore | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates an ASP.NET Core Web API server. | |
 
 ---
 title: Config Options for aspnetcore

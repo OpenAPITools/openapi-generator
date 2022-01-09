@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | ktorm-schema | pass this to the generate command after -g
-| generator type | SCHEMA | 
-| helpTxt | Generates a kotlin-ktorm schema (beta) | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | ktorm-schema | pass this to the generate command after -g |
+| generator type | SCHEMA | |
+| helpTxt | Generates a kotlin-ktorm schema (beta) | |
 
 ---
 title: Config Options for ktorm-schema

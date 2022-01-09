@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | cpp-qt-qhttpengine-server | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a Qt C++ Server using the QHTTPEngine HTTP Library. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cpp-qt-qhttpengine-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Qt C++ Server using the QHTTPEngine HTTP Library. | |
 
 ---
 title: Config Options for cpp-qt-qhttpengine-server

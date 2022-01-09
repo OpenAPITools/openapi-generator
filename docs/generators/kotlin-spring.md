@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | kotlin-spring | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a Kotlin Spring application. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | kotlin-spring | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Kotlin Spring application. | |
 
 ---
 title: Config Options for kotlin-spring

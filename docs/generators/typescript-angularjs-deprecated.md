@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | typescript-angularjs-deprecated | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a TypeScript AngularJS client library. This generator has been deprecated and will be removed in the future release. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-angularjs-deprecated | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a TypeScript AngularJS client library. This generator has been deprecated and will be removed in the future release. | |
 
 ---
 title: Config Options for typescript-angularjs-deprecated

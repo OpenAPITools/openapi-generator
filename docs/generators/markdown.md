@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | markdown | pass this to the generate command after -g
-| generator type | DOCUMENTATION | 
-| helpTxt | Generates a markdown documentation. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | markdown | pass this to the generate command after -g |
+| generator type | DOCUMENTATION | |
+| helpTxt | Generates a markdown documentation. | |
 
 ---
 title: Config Options for markdown

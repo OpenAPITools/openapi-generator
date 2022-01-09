@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | haskell-yesod | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a haskell-yesod server. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | haskell-yesod | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a haskell-yesod server. | |
 
 ---
 title: Config Options for haskell-yesod

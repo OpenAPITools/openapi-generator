@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | scala-akka-http-server | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a scala-akka-http server (beta). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | scala-akka-http-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a scala-akka-http server (beta). | |
 
 ---
 title: Config Options for scala-akka-http-server

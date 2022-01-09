@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | avro-schema | pass this to the generate command after -g
-| generator type | SCHEMA | 
-| helpTxt | Generates a Avro model (beta). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | avro-schema | pass this to the generate command after -g |
+| generator type | SCHEMA | |
+| helpTxt | Generates a Avro model (beta). | |
 
 ---
 title: Config Options for avro-schema

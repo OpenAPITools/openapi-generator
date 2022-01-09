@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | elm | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates an Elm client library. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | elm | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates an Elm client library. | |
 
 ---
 title: Config Options for elm

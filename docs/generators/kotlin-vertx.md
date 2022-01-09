@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | kotlin-vertx | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a kotlin-vertx server. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | kotlin-vertx | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a kotlin-vertx server. | |
 
 ---
 title: Config Options for kotlin-vertx

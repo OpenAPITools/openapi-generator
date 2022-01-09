@@ -1,8 +1,9 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | python-experimental | pass this to the generate command after -g
-| generator type | CLIENT | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | python-experimental | pass this to the generate command after -g |
+| generator type | CLIENT | |
 | helpTxt | Generates a Python client library
 
 Features in this generator:
@@ -17,7 +18,7 @@ Features in this generator:
 - all instances of schemas dynamically inherit from all matching schemas so one can use isinstance to check if validation passed
 - composed schemas with type constraints supported (type:object + oneOf/anyOf/allOf)
 - schemas are not coerced/cast. For example string + date are both stored as string, and there is a date accessor
-    - Exceptions: int/float is stored as Decimal, When receiving data from headers it will start as str and may need to be cast for example to int | 
+    - Exceptions: int/float is stored as Decimal, When receiving data from headers it will start as str and may need to be cast for example to int | |
 
 ---
 title: Config Options for python-experimental

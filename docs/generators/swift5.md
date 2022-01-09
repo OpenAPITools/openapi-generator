@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | swift5 | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Swift 5.x client library. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | swift5 | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Swift 5.x client library. | |
 
 ---
 title: Config Options for swift5

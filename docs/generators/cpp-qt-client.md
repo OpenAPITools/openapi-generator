@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | cpp-qt-client | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Qt C++ client library. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cpp-qt-client | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Qt C++ client library. | |
 
 ---
 title: Config Options for cpp-qt-client

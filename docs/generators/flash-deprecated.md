@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | flash-deprecated | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Flash (ActionScript) client library (beta). IMPORTANT: this generator has been deprecated in v5.x | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | flash-deprecated | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Flash (ActionScript) client library (beta). IMPORTANT: this generator has been deprecated in v5.x | |
 
 ---
 title: Config Options for flash-deprecated

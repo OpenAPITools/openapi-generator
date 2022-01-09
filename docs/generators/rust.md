@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | rust | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Rust client library (beta). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | rust | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Rust client library (beta). | |
 
 ---
 title: Config Options for rust

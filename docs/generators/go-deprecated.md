@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | go-deprecated | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Go client library (beta). NOTE: this generator has been deprecated. Please use `go` client generator instead. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | go-deprecated | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Go client library (beta). NOTE: this generator has been deprecated. Please use `go` client generator instead. | |
 
 ---
 title: Config Options for go-deprecated

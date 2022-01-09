@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | ruby | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Ruby client library. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | ruby | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Ruby client library. | |
 
 ---
 title: Config Options for ruby

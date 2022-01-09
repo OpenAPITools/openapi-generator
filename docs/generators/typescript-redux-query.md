@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | typescript-redux-query | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a TypeScript client library using redux-query API (beta). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-redux-query | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a TypeScript client library using redux-query API (beta). | |
 
 ---
 title: Config Options for typescript-redux-query

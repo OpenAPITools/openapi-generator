@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | elixir | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates an elixir client library (alpha). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | elixir | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates an elixir client library (alpha). | |
 
 ---
 title: Config Options for elixir

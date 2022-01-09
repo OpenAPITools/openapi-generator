@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | php-slim-deprecated | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a PHP Slim Framework server library. IMPORTANT NOTE: this generator (Slim 3.x)  is no longer actively maintained so please use 'php-slim4' generator instead. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | php-slim-deprecated | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a PHP Slim Framework server library. IMPORTANT NOTE: this generator (Slim 3.x)  is no longer actively maintained so please use 'php-slim4' generator instead. | |
 
 ---
 title: Config Options for php-slim-deprecated

@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | jaxrs-cxf-cdi | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a Java JAXRS Server according to JAXRS 2.0 specification, assuming an Apache CXF runtime and a Java EE runtime with CDI enabled. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | jaxrs-cxf-cdi | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Java JAXRS Server according to JAXRS 2.0 specification, assuming an Apache CXF runtime and a Java EE runtime with CDI enabled. | |
 
 ---
 title: Config Options for jaxrs-cxf-cdi

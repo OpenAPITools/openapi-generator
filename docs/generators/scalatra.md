@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | scalatra | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a Scala server application with Scalatra. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | scalatra | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Scala server application with Scalatra. | |
 
 ---
 title: Config Options for scalatra

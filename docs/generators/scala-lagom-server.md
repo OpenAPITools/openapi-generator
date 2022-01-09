@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | scala-lagom-server | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a Lagom API server (Beta) in scala | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | scala-lagom-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Lagom API server (Beta) in scala | |
 
 ---
 title: Config Options for scala-lagom-server

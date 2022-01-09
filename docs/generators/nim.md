@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | nim | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a nim client (beta). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | nim | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a nim client (beta). | |
 
 ---
 title: Config Options for nim

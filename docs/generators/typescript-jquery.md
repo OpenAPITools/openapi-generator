@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | typescript-jquery | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a TypeScript jquery client library. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-jquery | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a TypeScript jquery client library. | |
 
 ---
 title: Config Options for typescript-jquery

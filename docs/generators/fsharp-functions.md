@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | fsharp-functions | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a fsharp-functions server (beta). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | fsharp-functions | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a fsharp-functions server (beta). | |
 
 ---
 title: Config Options for fsharp-functions

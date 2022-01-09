@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | scala-akka | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Scala client library (beta) base on Akka/Spray. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | scala-akka | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Scala client library (beta) base on Akka/Spray. | |
 
 ---
 title: Config Options for scala-akka

@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | cpp-ue4 | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Unreal Engine 4 C++ Module (beta). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cpp-ue4 | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Unreal Engine 4 C++ Module (beta). | |
 
 ---
 title: Config Options for cpp-ue4

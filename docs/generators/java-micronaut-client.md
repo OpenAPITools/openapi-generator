@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | java-micronaut-client | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Java Micronaut Client. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | java-micronaut-client | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Java Micronaut Client. | |
 
 ---
 title: Config Options for java-micronaut-client

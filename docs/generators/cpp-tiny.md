@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | cpp-tiny | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a C++ Arduino REST API client. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cpp-tiny | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a C++ Arduino REST API client. | |
 
 ---
 title: Config Options for cpp-tiny

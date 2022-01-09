@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | php-silex-deprecated | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a PHP Silex server library. IMPORTANT NOTE: this generator is no longer actively maintained. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | php-silex-deprecated | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a PHP Silex server library. IMPORTANT NOTE: this generator is no longer actively maintained. | |
 
 ---
 title: Config Options for php-silex-deprecated

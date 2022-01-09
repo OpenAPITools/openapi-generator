@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | php-slim4 | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a PHP Slim 4 Framework server library(with Mock server). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | php-slim4 | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a PHP Slim 4 Framework server library(with Mock server). | |
 
 ---
 title: Config Options for php-slim4

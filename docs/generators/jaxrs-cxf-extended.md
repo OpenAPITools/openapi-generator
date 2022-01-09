@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | jaxrs-cxf-extended | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Extends jaxrs-cxf with options to generate a functional mock server. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | jaxrs-cxf-extended | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Extends jaxrs-cxf with options to generate a functional mock server. | |
 
 ---
 title: Config Options for jaxrs-cxf-extended

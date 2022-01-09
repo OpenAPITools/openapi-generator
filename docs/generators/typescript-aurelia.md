@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | typescript-aurelia | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a TypeScript client library for the Aurelia framework (beta). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-aurelia | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a TypeScript client library for the Aurelia framework (beta). | |
 
 ---
 title: Config Options for typescript-aurelia

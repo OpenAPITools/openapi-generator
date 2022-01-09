@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | erlang-client | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates an Erlang client library (beta). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | erlang-client | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates an Erlang client library (beta). | |
 
 ---
 title: Config Options for erlang-client

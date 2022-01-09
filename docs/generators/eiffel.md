@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | eiffel | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Eiffel client library (beta). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | eiffel | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Eiffel client library (beta). | |
 
 ---
 title: Config Options for eiffel

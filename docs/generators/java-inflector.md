@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | java-inflector | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a Java Inflector Server application. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | java-inflector | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Java Inflector Server application. | |
 
 ---
 title: Config Options for java-inflector

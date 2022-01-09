@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | powershell | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a PowerShell API client (beta) | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | powershell | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a PowerShell API client (beta) | |
 
 ---
 title: Config Options for powershell

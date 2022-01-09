@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | go-server | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a Go server library using OpenAPI-Generator. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | go-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Go server library using OpenAPI-Generator. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | |
 
 ---
 title: Config Options for go-server

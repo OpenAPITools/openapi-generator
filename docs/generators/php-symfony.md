@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | php-symfony | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a PHP Symfony server bundle. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | php-symfony | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a PHP Symfony server bundle. | |
 
 ---
 title: Config Options for php-symfony

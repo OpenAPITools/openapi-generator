@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | jaxrs-cxf | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates a Java JAXRS Server application based on Apache CXF framework. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | jaxrs-cxf | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Java JAXRS Server application based on Apache CXF framework. | |
 
 ---
 title: Config Options for jaxrs-cxf

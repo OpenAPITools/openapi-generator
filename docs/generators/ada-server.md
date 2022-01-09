@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | ada-server | pass this to the generate command after -g
-| generator type | SERVER | 
-| helpTxt | Generates an Ada server implementation (beta). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | ada-server | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates an Ada server implementation (beta). | |
 
 ---
 title: Config Options for ada-server

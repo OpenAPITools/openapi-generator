@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | dart-dio | pass this to the generate command after -g
-| generator type | CLIENT | 
-| helpTxt | Generates a Dart Dio client library. | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | dart-dio | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Dart Dio client library. | |
 
 ---
 title: Config Options for dart-dio

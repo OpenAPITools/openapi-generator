@@ -1,9 +1,10 @@
 ## METADATA
 
-| Property | Value | Notes
-| generator name | openapi-yaml | pass this to the generate command after -g
-| generator type | DOCUMENTATION | 
-| helpTxt | Creates a static openapi.yaml file (OpenAPI spec v3). | 
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | openapi-yaml | pass this to the generate command after -g |
+| generator type | DOCUMENTATION | |
+| helpTxt | Creates a static openapi.yaml file (OpenAPI spec v3). | |
 
 ---
 title: Config Options for openapi-yaml
