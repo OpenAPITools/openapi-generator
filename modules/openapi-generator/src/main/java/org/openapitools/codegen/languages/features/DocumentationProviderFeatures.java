@@ -130,8 +130,6 @@ public interface DocumentationProviderFeatures {
   }
 
   enum AnnotationLibrary {
-      AUTO("autoAnnotationLibrary", "Use the preferred annotation library of the selected documentation provider."),
-
       NONE("withoutAnnotationLibrary", "Do not annotate Model and Api with complementary annotations."),
 
       SWAGGER1("swagger1AnnotationLibrary", "Annotate Model and Api using the Swagger Annotations 1.x library."),

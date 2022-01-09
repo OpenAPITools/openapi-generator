@@ -272,7 +272,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         CliOption annotationLibraryCliOption = new CliOption(ANNOTATION_LIBRARY,
             "Select the complementary documentation annotation library.")
-            .defaultValue(AnnotationLibrary.AUTO.toCliOptValue());
+            .defaultValue(defaultDocumentationProvider().getPreferredAnnotationLibrary().toCliOptValue());
         supportedAnnotationLibraries().forEach(al ->
             annotationLibraryCliOption.addEnum(al.toCliOptValue(), al.getDescription()));
         cliOptions.add(annotationLibraryCliOption);
@@ -289,29 +289,25 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (! supportedDocumentationProvider().contains(documentationProvider)) {
             String msg = String.format(Locale.ROOT,
-                "The Documentation Provider %s is not supported by this generator",
+                "The [%s] Documentation Provider is not supported by this generator",
                 documentationProvider.toCliOptValue());
             throw new IllegalArgumentException(msg);
         }
 
         annotationLibrary = AnnotationLibrary.ofCliOption(
             (String) additionalProperties.getOrDefault(ANNOTATION_LIBRARY,
-                AnnotationLibrary.AUTO.toCliOptValue())
+                documentationProvider.getPreferredAnnotationLibrary().toCliOptValue())
         );
 
-        if (annotationLibrary == AnnotationLibrary.AUTO) {
-            annotationLibrary = documentationProvider.getPreferredAnnotationLibrary();
-        }
-
         if (! supportedAnnotationLibraries().contains(annotationLibrary)) {
-            String msg = String.format(Locale.ROOT, "The Annotation Library %s is not supported by this generator",
+            String msg = String.format(Locale.ROOT, "The Annotation Library [%s] is not supported by this generator",
                 annotationLibrary.toCliOptValue());
             throw new IllegalArgumentException(msg);
         }
 
         if (! documentationProvider.supportedAnnotationLibraries().contains(annotationLibrary)) {
             String msg = String.format(Locale.ROOT,
-                "The documentation provider %s does not support %s as complementary annotation library",
+                "The [%s] documentation provider does not support [%s] as complementary annotation library",
                 documentationProvider.toCliOptValue(), annotationLibrary.toCliOptValue());
             throw new IllegalArgumentException(msg);
         }
