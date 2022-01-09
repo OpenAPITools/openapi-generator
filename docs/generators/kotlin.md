@@ -1,8 +1,16 @@
 ---
-title: Config Options for kotlin
-sidebar_label: kotlin
+title: Documentation for the kotlin Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | kotlin | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Kotlin client. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

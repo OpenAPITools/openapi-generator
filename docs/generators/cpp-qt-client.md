@@ -1,8 +1,16 @@
 ---
-title: Config Options for cpp-qt-client
-sidebar_label: cpp-qt-client
+title: Documentation for the cpp-qt-client Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cpp-qt-client | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Qt C++ client library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

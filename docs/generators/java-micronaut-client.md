@@ -1,8 +1,16 @@
 ---
-title: Config Options for java-micronaut-client
-sidebar_label: java-micronaut-client
+title: Documentation for the java-micronaut-client Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | java-micronaut-client | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Java Micronaut Client. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

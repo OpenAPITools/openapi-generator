@@ -1,8 +1,16 @@
 ---
-title: Config Options for ada
-sidebar_label: ada
+title: Documentation for the ada Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | ada | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates an Ada client implementation (beta). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

@@ -1,8 +1,16 @@
 ---
-title: Config Options for swift5
-sidebar_label: swift5
+title: Documentation for the swift5 Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | swift5 | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Swift 5.x client library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

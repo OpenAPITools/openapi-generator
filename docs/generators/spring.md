@@ -1,8 +1,16 @@
 ---
-title: Config Options for spring
-sidebar_label: spring
+title: Documentation for the spring Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | spring | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Java SpringBoot Server application using the SpringFox integration. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

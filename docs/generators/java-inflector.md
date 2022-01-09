@@ -1,8 +1,16 @@
 ---
-title: Config Options for java-inflector
-sidebar_label: java-inflector
+title: Documentation for the java-inflector Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | java-inflector | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Java Inflector Server application. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

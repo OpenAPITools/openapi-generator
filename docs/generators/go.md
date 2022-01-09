@@ -1,8 +1,16 @@
 ---
-title: Config Options for go
-sidebar_label: go
+title: Documentation for the go Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | go | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Go client library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

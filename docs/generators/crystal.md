@@ -1,8 +1,16 @@
 ---
-title: Config Options for crystal
-sidebar_label: crystal
+title: Documentation for the crystal Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | crystal | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Crystal client library (beta). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

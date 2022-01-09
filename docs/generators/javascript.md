@@ -1,8 +1,16 @@
 ---
-title: Config Options for javascript
-sidebar_label: javascript
+title: Documentation for the javascript Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | javascript | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a JavaScript client library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

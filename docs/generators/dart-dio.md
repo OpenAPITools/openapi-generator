@@ -1,8 +1,16 @@
 ---
-title: Config Options for dart-dio
-sidebar_label: dart-dio
+title: Documentation for the dart-dio Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | dart-dio | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Dart Dio client library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

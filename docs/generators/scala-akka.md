@@ -1,8 +1,16 @@
 ---
-title: Config Options for scala-akka
-sidebar_label: scala-akka
+title: Documentation for the scala-akka Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | scala-akka | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Scala client library (beta) base on Akka/Spray. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
