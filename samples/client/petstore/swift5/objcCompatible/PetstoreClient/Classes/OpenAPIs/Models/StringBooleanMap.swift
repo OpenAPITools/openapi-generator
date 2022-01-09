@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc public class StringBooleanMap: NSObject, Codable {
+@objc public class StringBooleanMap: NSObject, Codable, JSONEncodable {
 
 
     public enum CodingKeys: CodingKey, CaseIterable {

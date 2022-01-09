@@ -15,7 +15,7 @@ public typealias Tag = PetstoreClientAPI.Tag
 
 extension PetstoreClientAPI {
 
-public final class Tag: Codable, Hashable {
+public final class Tag: Codable, JSONEncodable, Hashable {
 
     public var id: Int64?
     public var name: String?

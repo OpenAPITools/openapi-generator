@@ -15,7 +15,7 @@ public typealias HasOnlyReadOnly = PetstoreClientAPI.HasOnlyReadOnly
 
 extension PetstoreClientAPI {
 
-public final class HasOnlyReadOnly: Codable, Hashable {
+public final class HasOnlyReadOnly: Codable, JSONEncodable, Hashable {
 
     public var bar: String?
     public var foo: String?
