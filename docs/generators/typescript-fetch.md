@@ -7,6 +7,7 @@ title: Documentation for the typescript-fetch Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | typescript-fetch | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Typescript | |
 | helpTxt | Generates a TypeScript client library using Fetch API (beta). | |

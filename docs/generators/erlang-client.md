@@ -7,6 +7,7 @@ title: Documentation for the erlang-client Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | erlang-client | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Erlang | |
 | helpTxt | Generates an Erlang client library (beta). | |

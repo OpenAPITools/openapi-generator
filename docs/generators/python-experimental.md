@@ -7,6 +7,7 @@ title: Documentation for the python-experimental Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | python-experimental | pass this to the generate command after -g |
+| generator stability | EXPERIMENTAL | |
 | generator type | CLIENT | |
 | generator language | Python | |
 | generator language version | >=3.9 | |

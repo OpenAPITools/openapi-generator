@@ -7,6 +7,7 @@ title: Documentation for the clojure Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | clojure | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Clojure | |
 | helpTxt | Generates a Clojure client library. | |

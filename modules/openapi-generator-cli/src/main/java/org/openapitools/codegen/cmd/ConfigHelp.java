@@ -303,6 +303,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         sb.append("| Property | Value | Notes |").append(newline);
         sb.append("| -------- | ----- | ----- |").append(newline);
         sb.append("| generator name | "+config.getName()+" | pass this to the generate command after -g |").append(newline);
+        sb.append("| generator stability | "+config.getGeneratorMetadata().getStability()+" | |").append(newline);
         sb.append("| generator type | "+config.getTag()+" | |").append(newline);
         if (config.generatorLanguage() != null) {
             sb.append("| generator language | "+config.generatorLanguage().toString()+" | |").append(newline);

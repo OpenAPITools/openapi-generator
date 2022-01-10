@@ -7,6 +7,7 @@ title: Documentation for the csharp-dotnet2 Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | csharp-dotnet2 | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
 | generator type | CLIENT | |
 | generator language | C# | |
 | helpTxt | Generates a C# .Net 2.0 client library (beta). | |

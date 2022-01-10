@@ -7,6 +7,7 @@ title: Documentation for the groovy Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | groovy | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Groovy | |
 | helpTxt | Generates a Groovy API client. | |

@@ -7,6 +7,7 @@ title: Documentation for the python-fastapi Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | python-fastapi | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | SERVER | |
 | generator language | Python | |
 | generator language version | 3.7 | |

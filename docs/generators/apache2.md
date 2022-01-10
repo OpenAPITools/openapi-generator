@@ -7,6 +7,7 @@ title: Documentation for the apache2 Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | apache2 | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CONFIG | |
 | generator language | Java | |
 | helpTxt | Generates an Apache2 Config file with the permissions | |

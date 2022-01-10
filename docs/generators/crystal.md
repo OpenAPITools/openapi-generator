@@ -7,6 +7,7 @@ title: Documentation for the crystal Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | crystal | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | Crystal | |
 | helpTxt | Generates a Crystal client library (beta). | |

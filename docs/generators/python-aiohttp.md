@@ -7,6 +7,7 @@ title: Documentation for the python-aiohttp Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | python-aiohttp | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Python | |
 | generator language version | 3.5.2+ | |

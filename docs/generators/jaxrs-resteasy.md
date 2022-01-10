@@ -7,6 +7,7 @@ title: Documentation for the jaxrs-resteasy Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | jaxrs-resteasy | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Java | |
 | helpTxt | Generates a Java JAXRS-Resteasy Server application. | |

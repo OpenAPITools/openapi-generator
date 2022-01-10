@@ -7,6 +7,7 @@ title: Documentation for the cpp-tiny Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | cpp-tiny | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | C++ | |
 | helpTxt | Generates a C++ Arduino REST API client. | |

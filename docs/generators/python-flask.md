@@ -7,6 +7,7 @@ title: Documentation for the python-flask Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | python-flask | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Python | |
 | generator language version | 2.7 and 3.5.2+ | |

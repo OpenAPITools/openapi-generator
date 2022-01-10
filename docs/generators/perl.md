@@ -7,6 +7,7 @@ title: Documentation for the perl Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | perl | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Perl | |
 | helpTxt | Generates a Perl client library. | |
