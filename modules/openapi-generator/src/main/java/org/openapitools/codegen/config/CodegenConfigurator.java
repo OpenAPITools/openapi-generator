@@ -91,11 +91,18 @@ public class CodegenConfigurator {
             WorkflowSettings workflowSettings = settings.getWorkflowSettings();
             List<TemplateDefinition> userDefinedTemplateSettings = settings.getFiles();
 
+            CodegenConfig config = CodegenConfigLoader.forName(generatorSettings.getGeneratorName());
+            String templatingEngineName = workflowSettings.getTemplatingEngineName();
+            if (isEmpty(templatingEngineName)) {
+                // if templatingEngineName is empty check the config for a default
+                templatingEngineName = config.defaultTemplatingEngine();
+            }
+
             // We copy "cached" properties into configurator so it is appropriately configured with all settings in external files.
             // FIXME: target is to eventually move away from CodegenConfigurator properties except gen/workflow settings.
             configurator.generatorName = generatorSettings.getGeneratorName();
             configurator.inputSpec = workflowSettings.getInputSpec();
-            configurator.templatingEngineName = workflowSettings.getTemplatingEngineName();
+            configurator.templatingEngineName = templatingEngineName;
             if (workflowSettings.getGlobalProperties() != null) {
                 configurator.globalProperties.putAll(workflowSettings.getGlobalProperties());
             }
@@ -482,15 +489,17 @@ public class CodegenConfigurator {
         Validate.notEmpty(generatorName, "generator name must be specified");
         Validate.notEmpty(inputSpec, "input spec must be specified");
 
+        GeneratorSettings generatorSettings = generatorSettingsBuilder.build();
+        CodegenConfig config = CodegenConfigLoader.forName(generatorSettings.getGeneratorName());
         if (isEmpty(templatingEngineName)) {
-            // Built-in templates are mustache, but allow users to use a simplified handlebars engine for their custom templates.
-            workflowSettingsBuilder.withTemplatingEngineName("mustache");
+            // if templatingEngineName is empty check the config for a default
+            String defaultTemplatingEngine = config.defaultTemplatingEngine();
+            workflowSettingsBuilder.withTemplatingEngineName(defaultTemplatingEngine);
         } else {
             workflowSettingsBuilder.withTemplatingEngineName(templatingEngineName);
         }
 
         // at this point, all "additionalProperties" are set, and are now immutable per GeneratorSettings instance.
-        GeneratorSettings generatorSettings = generatorSettingsBuilder.build();
         WorkflowSettings workflowSettings = workflowSettingsBuilder.build();
 
         if (workflowSettings.isVerbose()) {
