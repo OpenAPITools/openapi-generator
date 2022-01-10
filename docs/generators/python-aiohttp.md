@@ -9,6 +9,7 @@ title: Documentation for the python-aiohttp Generator
 | generator name | python-aiohttp | pass this to the generate command after -g |
 | generator type | SERVER | |
 | generator language | Python | |
+| generator language version | 3.5.2+ | |
 | helpTxt | Generates a Python server library using the Connexion project. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | |
 
 ## CONFIG OPTIONS

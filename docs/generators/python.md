@@ -9,6 +9,7 @@ title: Documentation for the python Generator
 | generator name | python | pass this to the generate command after -g |
 | generator type | CLIENT | |
 | generator language | Python | |
+| generator language version | >=3.6 | |
 | helpTxt | Generates a Python client library. | |
 
 ## CONFIG OPTIONS
