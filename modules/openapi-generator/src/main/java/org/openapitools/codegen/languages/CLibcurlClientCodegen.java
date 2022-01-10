@@ -920,4 +920,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("# > Niklas Werner - https://paypal.me/wernerdevelopment                        #");
         System.out.println("################################################################################");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.C; }
 }

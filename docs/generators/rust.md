@@ -8,6 +8,7 @@ title: Documentation for the rust Generator
 | -------- | ----- | ----- |
 | generator name | rust | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Rust | |
 | helpTxt | Generates a Rust client library (beta). | |
 
 ## CONFIG OPTIONS

@@ -8,6 +8,7 @@ title: Documentation for the php-lumen Generator
 | -------- | ----- | ----- |
 | generator name | php-lumen | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | PHP | |
 | helpTxt | Generates a PHP Lumen server library. | |
 
 ## CONFIG OPTIONS

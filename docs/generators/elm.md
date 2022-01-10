@@ -8,6 +8,7 @@ title: Documentation for the elm Generator
 | -------- | ----- | ----- |
 | generator name | elm | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Elm | |
 | helpTxt | Generates an Elm client library. | |
 
 ## CONFIG OPTIONS

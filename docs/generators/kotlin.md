@@ -8,6 +8,7 @@ title: Documentation for the kotlin Generator
 | -------- | ----- | ----- |
 | generator name | kotlin | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Kotlin | |
 | helpTxt | Generates a Kotlin client. | |
 
 ## CONFIG OPTIONS

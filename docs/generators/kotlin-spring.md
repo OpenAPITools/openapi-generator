@@ -8,6 +8,7 @@ title: Documentation for the kotlin-spring Generator
 | -------- | ----- | ----- |
 | generator name | kotlin-spring | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Kotlin | |
 | helpTxt | Generates a Kotlin Spring application. | |
 
 ## CONFIG OPTIONS

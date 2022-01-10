@@ -8,6 +8,7 @@ title: Documentation for the javascript-flowtyped Generator
 | -------- | ----- | ----- |
 | generator name | javascript-flowtyped | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Javascript | |
 | helpTxt | Generates a Javascript client library (beta) using Flow types and Fetch API. | |
 
 ## CONFIG OPTIONS

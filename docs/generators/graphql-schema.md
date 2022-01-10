@@ -8,6 +8,7 @@ title: Documentation for the graphql-schema Generator
 | -------- | ----- | ----- |
 | generator name | graphql-schema | pass this to the generate command after -g |
 | generator type | SCHEMA | |
+| generator language | GraphQL | |
 | helpTxt | Generates GraphQL schema files (beta) | |
 
 ## CONFIG OPTIONS

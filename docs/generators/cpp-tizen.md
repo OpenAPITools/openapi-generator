@@ -8,6 +8,7 @@ title: Documentation for the cpp-tizen Generator
 | -------- | ----- | ----- |
 | generator name | cpp-tizen | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | C++ | |
 | helpTxt | Generates a Samsung Tizen C++ client library. | |
 
 ## CONFIG OPTIONS

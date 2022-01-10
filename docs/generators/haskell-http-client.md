@@ -8,6 +8,7 @@ title: Documentation for the haskell-http-client Generator
 | -------- | ----- | ----- |
 | generator name | haskell-http-client | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Haskell | |
 | helpTxt | Generates a Haskell http-client library. | |
 
 ## CONFIG OPTIONS

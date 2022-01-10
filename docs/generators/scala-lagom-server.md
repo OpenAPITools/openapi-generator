@@ -8,6 +8,7 @@ title: Documentation for the scala-lagom-server Generator
 | -------- | ----- | ----- |
 | generator name | scala-lagom-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Scala | |
 | helpTxt | Generates a Lagom API server (Beta) in scala | |
 
 ## CONFIG OPTIONS

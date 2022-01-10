@@ -8,6 +8,7 @@ title: Documentation for the scalaz Generator
 | -------- | ----- | ----- |
 | generator name | scalaz | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Scala | |
 | helpTxt | Generates a Scalaz client library (beta) that uses http4s | |
 
 ## CONFIG OPTIONS

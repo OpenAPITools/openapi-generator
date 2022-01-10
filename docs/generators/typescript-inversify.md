@@ -8,6 +8,7 @@ title: Documentation for the typescript-inversify Generator
 | -------- | ----- | ----- |
 | generator name | typescript-inversify | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Typescript | |
 | helpTxt | Generates Typescript services using Inversify IOC | |
 
 ## CONFIG OPTIONS

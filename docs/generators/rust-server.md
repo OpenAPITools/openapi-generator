@@ -8,6 +8,7 @@ title: Documentation for the rust-server Generator
 | -------- | ----- | ----- |
 | generator name | rust-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Rust | |
 | helpTxt | Generates a Rust client/server library (beta) using the openapi-generator project. | |
 
 ## CONFIG OPTIONS

@@ -8,6 +8,7 @@ title: Documentation for the php-mezzio-ph Generator
 | -------- | ----- | ----- |
 | generator name | php-mezzio-ph | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | PHP | |
 | helpTxt | Generates PHP server stub using Mezzio ( https://docs.mezzio.dev/mezzio/ ) and Path Handler ( https://github.com/Articus/PathHandler ). | |
 
 ## CONFIG OPTIONS

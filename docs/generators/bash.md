@@ -8,6 +8,7 @@ title: Documentation for the bash Generator
 | -------- | ----- | ----- |
 | generator name | bash | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Bash | |
 | helpTxt | Generates a Bash client script based on cURL. | |
 
 ## CONFIG OPTIONS

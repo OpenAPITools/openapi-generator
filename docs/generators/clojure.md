@@ -8,6 +8,7 @@ title: Documentation for the clojure Generator
 | -------- | ----- | ----- |
 | generator name | clojure | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Clojure | |
 | helpTxt | Generates a Clojure client library. | |
 
 ## CONFIG OPTIONS

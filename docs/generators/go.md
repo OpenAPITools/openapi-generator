@@ -8,6 +8,7 @@ title: Documentation for the go Generator
 | -------- | ----- | ----- |
 | generator name | go | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Go | |
 | helpTxt | Generates a Go client library. | |
 
 ## CONFIG OPTIONS

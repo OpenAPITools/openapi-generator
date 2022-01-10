@@ -8,6 +8,7 @@ title: Documentation for the scalatra Generator
 | -------- | ----- | ----- |
 | generator name | scalatra | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Scala | |
 | helpTxt | Generates a Scala server application with Scalatra. | |
 
 ## CONFIG OPTIONS

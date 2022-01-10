@@ -8,6 +8,7 @@ title: Documentation for the go-gin-server Generator
 | -------- | ----- | ----- |
 | generator name | go-gin-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Go | |
 | helpTxt | Generates a Go server library with the gin framework using OpenAPI-Generator.By default, it will also generate service classes. | |
 
 ## CONFIG OPTIONS

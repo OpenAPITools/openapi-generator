@@ -8,6 +8,7 @@ title: Documentation for the cpp-qt-qhttpengine-server Generator
 | -------- | ----- | ----- |
 | generator name | cpp-qt-qhttpengine-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | C++ | |
 | helpTxt | Generates a Qt C++ Server using the QHTTPEngine HTTP Library. | |
 
 ## CONFIG OPTIONS

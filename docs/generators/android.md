@@ -8,6 +8,7 @@ title: Documentation for the android Generator
 | -------- | ----- | ----- |
 | generator name | android | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Java | |
 | helpTxt | Generates an Android client library. | |
 
 ## CONFIG OPTIONS

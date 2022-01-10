@@ -8,6 +8,7 @@ title: Documentation for the kotlin-vertx Generator
 | -------- | ----- | ----- |
 | generator name | kotlin-vertx | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Kotlin | |
 | helpTxt | Generates a kotlin-vertx server. | |
 
 ## CONFIG OPTIONS

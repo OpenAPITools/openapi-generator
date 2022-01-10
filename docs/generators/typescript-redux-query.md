@@ -8,6 +8,7 @@ title: Documentation for the typescript-redux-query Generator
 | -------- | ----- | ----- |
 | generator name | typescript-redux-query | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Typescript | |
 | helpTxt | Generates a TypeScript client library using redux-query API (beta). | |
 
 ## CONFIG OPTIONS

@@ -8,6 +8,7 @@ title: Documentation for the protobuf-schema Generator
 | -------- | ----- | ----- |
 | generator name | protobuf-schema | pass this to the generate command after -g |
 | generator type | SCHEMA | |
+| generator language | Protocol Buffers (Protobuf) | |
 | helpTxt | Generates gRPC and protocol buffer schema files (beta) | |
 
 ## CONFIG OPTIONS

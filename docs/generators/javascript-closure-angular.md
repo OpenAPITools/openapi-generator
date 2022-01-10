@@ -8,6 +8,7 @@ title: Documentation for the javascript-closure-angular Generator
 | -------- | ----- | ----- |
 | generator name | javascript-closure-angular | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Javascript | |
 | helpTxt | Generates a Javascript AngularJS client library (beta) annotated with Google Closure Compiler annotations(https://developers.google.com/closure/compiler/docs/js-for-compiler?hl=en) | |
 
 ## CONFIG OPTIONS

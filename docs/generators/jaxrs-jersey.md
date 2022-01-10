@@ -8,6 +8,7 @@ title: Documentation for the jaxrs-jersey Generator
 | -------- | ----- | ----- |
 | generator name | jaxrs-jersey | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Java | |
 | helpTxt | Generates a Java JAXRS Server application based on Jersey framework. | |
 
 ## CONFIG OPTIONS

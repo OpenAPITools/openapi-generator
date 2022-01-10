@@ -8,6 +8,7 @@ title: Documentation for the groovy Generator
 | -------- | ----- | ----- |
 | generator name | groovy | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Groovy | |
 | helpTxt | Generates a Groovy API client. | |
 
 ## CONFIG OPTIONS

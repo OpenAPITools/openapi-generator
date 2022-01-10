@@ -8,6 +8,7 @@ title: Documentation for the php-slim4 Generator
 | -------- | ----- | ----- |
 | generator name | php-slim4 | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | PHP | |
 | helpTxt | Generates a PHP Slim 4 Framework server library(with Mock server). | |
 
 ## CONFIG OPTIONS

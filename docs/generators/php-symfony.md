@@ -8,6 +8,7 @@ title: Documentation for the php-symfony Generator
 | -------- | ----- | ----- |
 | generator name | php-symfony | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | PHP | |
 | helpTxt | Generates a PHP Symfony server bundle. | |
 
 ## CONFIG OPTIONS

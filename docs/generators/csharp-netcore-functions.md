@@ -8,6 +8,7 @@ title: Documentation for the csharp-netcore-functions Generator
 | -------- | ----- | ----- |
 | generator name | csharp-netcore-functions | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | C# | |
 | helpTxt | Generates a csharp server. | |
 
 ## CONFIG OPTIONS

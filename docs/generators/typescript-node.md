@@ -8,6 +8,7 @@ title: Documentation for the typescript-node Generator
 | -------- | ----- | ----- |
 | generator name | typescript-node | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Typescript | |
 | helpTxt | Generates a TypeScript NodeJS client library. | |
 
 ## CONFIG OPTIONS

@@ -8,6 +8,7 @@ title: Documentation for the fsharp-giraffe-server Generator
 | -------- | ----- | ----- |
 | generator name | fsharp-giraffe-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | F# | |
 | helpTxt | Generates a F# Giraffe server (beta). | |
 
 ## CONFIG OPTIONS

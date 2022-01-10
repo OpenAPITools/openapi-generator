@@ -8,6 +8,7 @@ title: Documentation for the scala-finch Generator
 | -------- | ----- | ----- |
 | generator name | scala-finch | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Scala | |
 | helpTxt | Generates a Scala server application with Finch. | |
 
 ## CONFIG OPTIONS

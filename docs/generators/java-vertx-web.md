@@ -8,6 +8,7 @@ title: Documentation for the java-vertx-web Generator
 | -------- | ----- | ----- |
 | generator name | java-vertx-web | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Java | |
 | helpTxt | Generates a Java Vert.x-Web Server (beta). | |
 
 ## CONFIG OPTIONS

@@ -8,6 +8,7 @@ title: Documentation for the swift4-deprecated Generator
 | -------- | ----- | ----- |
 | generator name | swift4-deprecated | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Swift | |
 | helpTxt | Generates a Swift 4.x client library (Deprecated and will be removed in 5.x releases. Please use `swift5` instead.) | |
 
 ## CONFIG OPTIONS

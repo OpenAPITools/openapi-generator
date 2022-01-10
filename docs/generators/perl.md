@@ -8,6 +8,7 @@ title: Documentation for the perl Generator
 | -------- | ----- | ----- |
 | generator name | perl | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Perl | |
 | helpTxt | Generates a Perl client library. | |
 
 ## CONFIG OPTIONS

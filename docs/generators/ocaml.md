@@ -8,6 +8,7 @@ title: Documentation for the ocaml Generator
 | -------- | ----- | ----- |
 | generator name | ocaml | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | OCaml | |
 | helpTxt | Generates an OCaml client library (beta). | |
 
 ## CONFIG OPTIONS

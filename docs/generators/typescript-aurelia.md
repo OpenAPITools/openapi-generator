@@ -8,6 +8,7 @@ title: Documentation for the typescript-aurelia Generator
 | -------- | ----- | ----- |
 | generator name | typescript-aurelia | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Typescript | |
 | helpTxt | Generates a TypeScript client library for the Aurelia framework (beta). | |
 
 ## CONFIG OPTIONS

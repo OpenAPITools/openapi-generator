@@ -8,6 +8,7 @@ title: Documentation for the python-legacy Generator
 | -------- | ----- | ----- |
 | generator name | python-legacy | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Python | |
 | helpTxt | Generates a Python client library. | |
 
 ## CONFIG OPTIONS

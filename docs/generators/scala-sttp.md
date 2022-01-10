@@ -8,6 +8,7 @@ title: Documentation for the scala-sttp Generator
 | -------- | ----- | ----- |
 | generator name | scala-sttp | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Scala | |
 | helpTxt | Generates a Scala client library (beta) based on Sttp. | |
 
 ## CONFIG OPTIONS

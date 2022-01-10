@@ -8,6 +8,7 @@ title: Documentation for the cpp-pistache-server Generator
 | -------- | ----- | ----- |
 | generator name | cpp-pistache-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | C++ | |
 | helpTxt | Generates a C++ API server (based on Pistache) | |
 
 ## CONFIG OPTIONS

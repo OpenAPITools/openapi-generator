@@ -8,6 +8,7 @@ title: Documentation for the go-server Generator
 | -------- | ----- | ----- |
 | generator name | go-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Go | |
 | helpTxt | Generates a Go server library using OpenAPI-Generator. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | |
 
 ## CONFIG OPTIONS

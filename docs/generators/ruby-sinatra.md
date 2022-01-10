@@ -8,6 +8,7 @@ title: Documentation for the ruby-sinatra Generator
 | -------- | ----- | ----- |
 | generator name | ruby-sinatra | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Ruby | |
 | helpTxt | Generates a Ruby Sinatra server library. | |
 
 ## CONFIG OPTIONS

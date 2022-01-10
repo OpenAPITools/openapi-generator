@@ -8,6 +8,7 @@ title: Documentation for the c Generator
 | -------- | ----- | ----- |
 | generator name | c | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | C | |
 | helpTxt | Generates a C (libcurl) client library (beta). | |
 
 ## CONFIG OPTIONS

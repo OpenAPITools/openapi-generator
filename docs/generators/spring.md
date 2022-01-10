@@ -8,6 +8,7 @@ title: Documentation for the spring Generator
 | -------- | ----- | ----- |
 | generator name | spring | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Java | |
 | helpTxt | Generates a Java SpringBoot Server application using the SpringFox integration. | |
 
 ## CONFIG OPTIONS

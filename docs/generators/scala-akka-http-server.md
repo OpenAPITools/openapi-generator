@@ -8,6 +8,7 @@ title: Documentation for the scala-akka-http-server Generator
 | -------- | ----- | ----- |
 | generator name | scala-akka-http-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Scala | |
 | helpTxt | Generates a scala-akka-http server (beta). | |
 
 ## CONFIG OPTIONS

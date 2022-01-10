@@ -8,6 +8,7 @@ title: Documentation for the csharp-netcore Generator
 | -------- | ----- | ----- |
 | generator name | csharp-netcore | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | C# | |
 | helpTxt | Generates a C# client library (.NET Standard, .NET Core). | |
 
 ## CONFIG OPTIONS

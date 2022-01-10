@@ -8,6 +8,7 @@ title: Documentation for the haskell Generator
 | -------- | ----- | ----- |
 | generator name | haskell | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Haskell | |
 | helpTxt | Generates a Haskell server and client library. | |
 
 ## CONFIG OPTIONS

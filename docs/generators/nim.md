@@ -8,6 +8,7 @@ title: Documentation for the nim Generator
 | -------- | ----- | ----- |
 | generator name | nim | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Nim | |
 | helpTxt | Generates a nim client (beta). | |
 
 ## CONFIG OPTIONS
