@@ -1,8 +1,16 @@
 ---
-title: Config Options for python-legacy
-sidebar_label: python-legacy
+title: Documentation for the python-legacy Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | python-legacy | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a Python client library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

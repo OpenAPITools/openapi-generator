@@ -1,8 +1,16 @@
 ---
-title: Config Options for kotlin-spring
-sidebar_label: kotlin-spring
+title: Documentation for the kotlin-spring Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | kotlin-spring | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a Kotlin Spring application. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

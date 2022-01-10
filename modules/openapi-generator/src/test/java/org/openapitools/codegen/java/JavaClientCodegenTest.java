@@ -1170,7 +1170,7 @@ public class JavaClientCodegenTest {
                 "formParams.add(\"file\", file);"
         );
     }
-    
+
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/8352
      */
@@ -1227,5 +1227,35 @@ public class JavaClientCodegenTest {
 
         final Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
         TestUtils.assertFileContains(defaultApi, "value instanceof Map");
+    }
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/11242
+     */
+    @Test
+    public void testNativeClientWhiteSpacePathParamEncoding() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue11242.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 34);
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java"),
+                "public static String urlEncode(String s) { return URLEncoder.encode(s, UTF_8).replaceAll(\"\\\\+\", \"%20\"); }");
     }
 }

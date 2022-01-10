@@ -1,8 +1,16 @@
 ---
-title: Config Options for csharp-netcore-functions
-sidebar_label: csharp-netcore-functions
+title: Documentation for the csharp-netcore-functions Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | csharp-netcore-functions | pass this to the generate command after -g |
+| generator type | SERVER | |
+| helpTxt | Generates a csharp server. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

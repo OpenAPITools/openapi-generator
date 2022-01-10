@@ -26,6 +26,7 @@ import java.io.IOException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -39,6 +40,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import org.openapitools.client.JSON;
 
 /**
  * ReadOnlyFirst
@@ -140,6 +143,7 @@ public class ReadOnlyFirst {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public static HashSet<String> openapiFields;
   public static HashSet<String> openapiRequiredFields;
 
@@ -151,6 +155,29 @@ public class ReadOnlyFirst {
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to ReadOnlyFirst
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (ReadOnlyFirst.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in ReadOnlyFirst is not found in the empty JSON string", ReadOnlyFirst.openapiRequiredFields.toString()));
+        }
+      }
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!ReadOnlyFirst.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ReadOnlyFirst` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -173,19 +200,33 @@ public class ReadOnlyFirst {
 
            @Override
            public ReadOnlyFirst read(JsonReader in) throws IOException {
-             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
-             Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-             // check to see if the JSON string contains additional fields
-             for (Entry<String, JsonElement> entry: entries) {
-               if (!ReadOnlyFirst.openapiFields.contains(entry.getKey())) {
-                throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `ReadOnlyFirst` properties");
-               }
-             }
-
-             return thisAdapter.fromJsonTree(obj);
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
            }
 
        }.nullSafe();
     }
   }
+
+ /**
+  * Create an instance of ReadOnlyFirst given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of ReadOnlyFirst
+  * @throws IOException if the JSON string is invalid with respect to ReadOnlyFirst
+  */
+  public static ReadOnlyFirst fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, ReadOnlyFirst.class);
+  }
+
+ /**
+  * Convert an instance of ReadOnlyFirst to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
+

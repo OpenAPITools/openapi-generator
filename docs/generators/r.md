@@ -1,8 +1,16 @@
 ---
-title: Config Options for r
-sidebar_label: r
+title: Documentation for the r Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | r | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a R client library (beta). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

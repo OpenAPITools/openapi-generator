@@ -1,8 +1,16 @@
 ---
-title: Config Options for csharp-netcore
-sidebar_label: csharp-netcore
+title: Documentation for the csharp-netcore Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | csharp-netcore | pass this to the generate command after -g |
+| generator type | CLIENT | |
+| helpTxt | Generates a C# client library (.NET Standard, .NET Core). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
