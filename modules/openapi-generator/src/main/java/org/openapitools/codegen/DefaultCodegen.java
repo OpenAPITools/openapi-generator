@@ -7364,4 +7364,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVA; }
+
+    @Override
+    public String generatorLanguageVersion() { return null; };
 }

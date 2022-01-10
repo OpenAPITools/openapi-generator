@@ -307,6 +307,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         if (config.generatorLanguage() != null) {
             sb.append("| generator language | "+config.generatorLanguage().toString()+" | |").append(newline);
         }
+        if (config.generatorLanguageVersion() != null) {
+            sb.append("| generator language version | "+config.generatorLanguageVersion()+" | |").append(newline);
+        }
         sb.append("| helpTxt | "+config.getHelp()+" | |").append(newline);
 
         sb.append(newline);

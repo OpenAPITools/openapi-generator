@@ -308,4 +308,10 @@ public interface CodegenConfig {
     public String defaultTemplatingEngine();
 
     public GeneratorLanguage generatorLanguage();
+
+    /*
+    the version of the language that the generator implements
+    For python 3.9.0, generatorLanguageVersion would be "3.9.0"
+    */
+    public String generatorLanguageVersion();
 }
