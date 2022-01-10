@@ -8,6 +8,7 @@ title: Documentation for the cpp-restbed-server Generator
 | -------- | ----- | ----- |
 | generator name | cpp-restbed-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | C++ | |
 | helpTxt | Generates a C++ API Server with Restbed (https://github.com/Corvusoft/restbed). | |
 
 ## CONFIG OPTIONS

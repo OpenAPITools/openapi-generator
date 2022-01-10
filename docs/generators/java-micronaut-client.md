@@ -8,6 +8,7 @@ title: Documentation for the java-micronaut-client Generator
 | -------- | ----- | ----- |
 | generator name | java-micronaut-client | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Java | |
 | helpTxt | Generates a Java Micronaut Client. | |
 
 ## CONFIG OPTIONS

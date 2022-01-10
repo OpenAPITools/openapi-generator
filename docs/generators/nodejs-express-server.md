@@ -8,6 +8,7 @@ title: Documentation for the nodejs-express-server Generator
 | -------- | ----- | ----- |
 | generator name | nodejs-express-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Javascript | |
 | helpTxt | Generates a NodeJS Express server (alpha). IMPORTANT: this generator may subject to breaking changes without further notice). | |
 
 ## CONFIG OPTIONS

@@ -8,6 +8,7 @@ title: Documentation for the java-msf4j Generator
 | -------- | ----- | ----- |
 | generator name | java-msf4j | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Java | |
 | helpTxt | Generates a Java Micro Service based on WSO2 Microservices Framework for Java (MSF4J) | |
 
 ## CONFIG OPTIONS

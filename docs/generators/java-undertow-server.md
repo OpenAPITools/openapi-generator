@@ -8,6 +8,7 @@ title: Documentation for the java-undertow-server Generator
 | -------- | ----- | ----- |
 | generator name | java-undertow-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Java | |
 | helpTxt | Generates a Java Undertow Server application (beta). | |
 
 ## CONFIG OPTIONS

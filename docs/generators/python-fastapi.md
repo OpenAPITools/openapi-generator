@@ -8,6 +8,7 @@ title: Documentation for the python-fastapi Generator
 | -------- | ----- | ----- |
 | generator name | python-fastapi | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Python | |
 | helpTxt | Generates a Python FastAPI server (beta). | |
 
 ## CONFIG OPTIONS

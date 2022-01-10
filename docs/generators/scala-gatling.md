@@ -8,6 +8,7 @@ title: Documentation for the scala-gatling Generator
 | -------- | ----- | ----- |
 | generator name | scala-gatling | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Scala | |
 | helpTxt | Generates a gatling simulation library (beta). | |
 
 ## CONFIG OPTIONS

@@ -8,6 +8,7 @@ title: Documentation for the csharp Generator
 | -------- | ----- | ----- |
 | generator name | csharp | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | C# | |
 | helpTxt | Generates a CSharp client library. | |
 
 ## CONFIG OPTIONS

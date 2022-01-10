@@ -8,6 +8,7 @@ title: Documentation for the cpp-qt-client Generator
 | -------- | ----- | ----- |
 | generator name | cpp-qt-client | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | C++ | |
 | helpTxt | Generates a Qt C++ client library. | |
 
 ## CONFIG OPTIONS

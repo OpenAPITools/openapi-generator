@@ -8,6 +8,7 @@ title: Documentation for the dart-dio-next Generator
 | -------- | ----- | ----- |
 | generator name | dart-dio-next | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Dart | |
 | helpTxt | Generates a Dart Dio client library with null-safety. | |
 
 ## CONFIG OPTIONS

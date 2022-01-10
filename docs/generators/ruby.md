@@ -8,6 +8,7 @@ title: Documentation for the ruby Generator
 | -------- | ----- | ----- |
 | generator name | ruby | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Ruby | |
 | helpTxt | Generates a Ruby client library. | |
 
 ## CONFIG OPTIONS

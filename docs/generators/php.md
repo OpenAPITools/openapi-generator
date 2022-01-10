@@ -8,6 +8,7 @@ title: Documentation for the php Generator
 | -------- | ----- | ----- |
 | generator name | php | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | PHP | |
 | helpTxt | Generates a PHP client library. | |
 
 ## CONFIG OPTIONS

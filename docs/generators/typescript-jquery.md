@@ -8,6 +8,7 @@ title: Documentation for the typescript-jquery Generator
 | -------- | ----- | ----- |
 | generator name | typescript-jquery | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Typescript | |
 | helpTxt | Generates a TypeScript jquery client library. | |
 
 ## CONFIG OPTIONS

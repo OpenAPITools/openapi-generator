@@ -8,6 +8,7 @@ title: Documentation for the swift5 Generator
 | -------- | ----- | ----- |
 | generator name | swift5 | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Swift | |
 | helpTxt | Generates a Swift 5.x client library. | |
 
 ## CONFIG OPTIONS

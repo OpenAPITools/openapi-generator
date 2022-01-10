@@ -8,6 +8,7 @@ title: Documentation for the cpp-ue4 Generator
 | -------- | ----- | ----- |
 | generator name | cpp-ue4 | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | C++ | |
 | helpTxt | Generates a Unreal Engine 4 C++ Module (beta). | |
 
 ## CONFIG OPTIONS

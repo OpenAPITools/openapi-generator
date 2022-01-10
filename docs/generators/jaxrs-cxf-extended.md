@@ -8,6 +8,7 @@ title: Documentation for the jaxrs-cxf-extended Generator
 | -------- | ----- | ----- |
 | generator name | jaxrs-cxf-extended | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Java | |
 | helpTxt | Extends jaxrs-cxf with options to generate a functional mock server. | |
 
 ## CONFIG OPTIONS

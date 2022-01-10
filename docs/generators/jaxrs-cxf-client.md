@@ -8,6 +8,7 @@ title: Documentation for the jaxrs-cxf-client Generator
 | -------- | ----- | ----- |
 | generator name | jaxrs-cxf-client | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Java | |
 | helpTxt | Generates a Java JAXRS Client based on Apache CXF framework. | |
 
 ## CONFIG OPTIONS

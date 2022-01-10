@@ -8,6 +8,7 @@ title: Documentation for the go-echo-server Generator
 | -------- | ----- | ----- |
 | generator name | go-echo-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Go | |
 | helpTxt | Generates a go-echo server. (Beta) | |
 
 ## CONFIG OPTIONS

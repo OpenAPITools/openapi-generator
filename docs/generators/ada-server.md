@@ -8,6 +8,7 @@ title: Documentation for the ada-server Generator
 | -------- | ----- | ----- |
 | generator name | ada-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Ada | |
 | helpTxt | Generates an Ada server implementation (beta). | |
 
 ## CONFIG OPTIONS

@@ -8,6 +8,7 @@ title: Documentation for the kotlin-server Generator
 | -------- | ----- | ----- |
 | generator name | kotlin-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Kotlin | |
 | helpTxt | Generates a Kotlin server. | |
 
 ## CONFIG OPTIONS

@@ -8,6 +8,7 @@ title: Documentation for the elixir Generator
 | -------- | ----- | ----- |
 | generator name | elixir | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Elixir | |
 | helpTxt | Generates an elixir client library (alpha). | |
 
 ## CONFIG OPTIONS

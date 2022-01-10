@@ -8,6 +8,7 @@ title: Documentation for the erlang-proper Generator
 | -------- | ----- | ----- |
 | generator name | erlang-proper | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Erlang | |
 | helpTxt | Generates an Erlang library with PropEr generators (beta). | |
 
 ## CONFIG OPTIONS

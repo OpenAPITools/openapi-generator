@@ -8,6 +8,7 @@ title: Documentation for the php-laravel Generator
 | -------- | ----- | ----- |
 | generator name | php-laravel | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | PHP | |
 | helpTxt | Generates a PHP laravel server library. | |
 
 ## CONFIG OPTIONS

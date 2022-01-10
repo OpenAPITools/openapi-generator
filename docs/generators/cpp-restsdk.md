@@ -8,6 +8,7 @@ title: Documentation for the cpp-restsdk Generator
 | -------- | ----- | ----- |
 | generator name | cpp-restsdk | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | C++ | |
 | helpTxt | Generates a C++ API client with C++ REST SDK (https://github.com/Microsoft/cpprestsdk). | |
 
 ## CONFIG OPTIONS

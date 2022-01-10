@@ -8,6 +8,7 @@ title: Documentation for the erlang-server Generator
 | -------- | ----- | ----- |
 | generator name | erlang-server | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Erlang | |
 | helpTxt | Generates an Erlang server library (beta) using OpenAPI Generator (https://openapi-generator.tech). By default, it will also generate service classes, which can be disabled with the `-Dnoservice` environment variable. | |
 
 ## CONFIG OPTIONS

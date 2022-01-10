@@ -8,6 +8,7 @@ title: Documentation for the haskell-yesod Generator
 | -------- | ----- | ----- |
 | generator name | haskell-yesod | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Haskell | |
 | helpTxt | Generates a haskell-yesod server. | |
 
 ## CONFIG OPTIONS

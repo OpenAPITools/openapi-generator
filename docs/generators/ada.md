@@ -8,6 +8,7 @@ title: Documentation for the ada Generator
 | -------- | ----- | ----- |
 | generator name | ada | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Ada | |
 | helpTxt | Generates an Ada client implementation (beta). | |
 
 ## CONFIG OPTIONS

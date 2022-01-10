@@ -8,6 +8,7 @@ title: Documentation for the objc Generator
 | -------- | ----- | ----- |
 | generator name | objc | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Objective-C | |
 | helpTxt | Generates an Objective-C client library. | |
 
 ## CONFIG OPTIONS

@@ -8,6 +8,7 @@ title: Documentation for the python-flask Generator
 | -------- | ----- | ----- |
 | generator name | python-flask | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Python | |
 | helpTxt | Generates a Python server library using the Connexion project. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | |
 
 ## CONFIG OPTIONS

@@ -8,6 +8,7 @@ title: Documentation for the apex Generator
 | -------- | ----- | ----- |
 | generator name | apex | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Apex | |
 | helpTxt | Generates an Apex API client library. | |
 
 ## CONFIG OPTIONS

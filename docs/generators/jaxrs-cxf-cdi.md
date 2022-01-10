@@ -8,6 +8,7 @@ title: Documentation for the jaxrs-cxf-cdi Generator
 | -------- | ----- | ----- |
 | generator name | jaxrs-cxf-cdi | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Java | |
 | helpTxt | Generates a Java JAXRS Server according to JAXRS 2.0 specification, assuming an Apache CXF runtime and a Java EE runtime with CDI enabled. | |
 
 ## CONFIG OPTIONS

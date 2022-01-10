@@ -8,6 +8,7 @@ title: Documentation for the jmeter Generator
 | -------- | ----- | ----- |
 | generator name | jmeter | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Java | |
 | helpTxt | Generates a JMeter .jmx file. | |
 
 ## CONFIG OPTIONS

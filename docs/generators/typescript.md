@@ -8,6 +8,7 @@ title: Documentation for the typescript Generator
 | -------- | ----- | ----- |
 | generator name | typescript | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Typescript | |
 | helpTxt | Generates a TypeScript client library using Fetch API (beta). | |
 
 ## CONFIG OPTIONS

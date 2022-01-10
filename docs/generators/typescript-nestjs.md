@@ -8,6 +8,7 @@ title: Documentation for the typescript-nestjs Generator
 | -------- | ----- | ----- |
 | generator name | typescript-nestjs | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Typescript | |
 | helpTxt | Generates a TypeScript Nestjs 6.x client library. | |
 
 ## CONFIG OPTIONS

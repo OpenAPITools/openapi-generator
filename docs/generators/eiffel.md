@@ -8,6 +8,7 @@ title: Documentation for the eiffel Generator
 | -------- | ----- | ----- |
 | generator name | eiffel | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Eiffel | |
 | helpTxt | Generates a Eiffel client library (beta). | |
 
 ## CONFIG OPTIONS

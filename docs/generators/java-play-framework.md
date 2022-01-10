@@ -8,6 +8,7 @@ title: Documentation for the java-play-framework Generator
 | -------- | ----- | ----- |
 | generator name | java-play-framework | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Java | |
 | helpTxt | Generates a Java Play Framework Server application. | |
 
 ## CONFIG OPTIONS

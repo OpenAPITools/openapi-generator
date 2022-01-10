@@ -8,6 +8,7 @@ title: Documentation for the go-deprecated Generator
 | -------- | ----- | ----- |
 | generator name | go-deprecated | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Go | |
 | helpTxt | Generates a Go client library (beta). NOTE: this generator has been deprecated. Please use `go` client generator instead. | |
 
 ## CONFIG OPTIONS

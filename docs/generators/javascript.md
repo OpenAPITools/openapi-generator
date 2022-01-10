@@ -8,6 +8,7 @@ title: Documentation for the javascript Generator
 | -------- | ----- | ----- |
 | generator name | javascript | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Javascript | |
 | helpTxt | Generates a JavaScript client library. | |
 
 ## CONFIG OPTIONS

@@ -8,6 +8,7 @@ title: Documentation for the java-inflector Generator
 | -------- | ----- | ----- |
 | generator name | java-inflector | pass this to the generate command after -g |
 | generator type | SERVER | |
+| generator language | Java | |
 | helpTxt | Generates a Java Inflector Server application. | |
 
 ## CONFIG OPTIONS

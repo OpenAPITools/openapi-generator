@@ -8,6 +8,7 @@ title: Documentation for the scala-akka Generator
 | -------- | ----- | ----- |
 | generator name | scala-akka | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Scala | |
 | helpTxt | Generates a Scala client library (beta) base on Akka/Spray. | |
 
 ## CONFIG OPTIONS

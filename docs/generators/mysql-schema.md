@@ -8,6 +8,7 @@ title: Documentation for the mysql-schema Generator
 | -------- | ----- | ----- |
 | generator name | mysql-schema | pass this to the generate command after -g |
 | generator type | SCHEMA | |
+| generator language | Mysql | |
 | helpTxt | Generates a MySQL schema based on the model or schema defined in the OpenAPI specification (v2, v3). | |
 
 ## CONFIG OPTIONS

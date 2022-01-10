@@ -8,6 +8,7 @@ title: Documentation for the wsdl-schema Generator
 | -------- | ----- | ----- |
 | generator name | wsdl-schema | pass this to the generate command after -g |
 | generator type | SCHEMA | |
+| generator language | Web Services Description Language (WSDL) | |
 | helpTxt | Generates WSDL files. | |
 
 ## CONFIG OPTIONS

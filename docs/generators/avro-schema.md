@@ -8,6 +8,7 @@ title: Documentation for the avro-schema Generator
 | -------- | ----- | ----- |
 | generator name | avro-schema | pass this to the generate command after -g |
 | generator type | SCHEMA | |
+| generator language | Java | |
 | helpTxt | Generates a Avro model (beta). | |
 
 ## CONFIG OPTIONS

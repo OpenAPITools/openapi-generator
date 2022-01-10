@@ -8,6 +8,7 @@ title: Documentation for the powershell Generator
 | -------- | ----- | ----- |
 | generator name | powershell | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | PowerShell | |
 | helpTxt | Generates a PowerShell API client (beta) | |
 
 ## CONFIG OPTIONS

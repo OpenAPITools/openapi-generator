@@ -8,6 +8,7 @@ title: Documentation for the dart Generator
 | -------- | ----- | ----- |
 | generator name | dart | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Dart | |
 | helpTxt | Generates a Dart 2.x client library. | |
 
 ## CONFIG OPTIONS

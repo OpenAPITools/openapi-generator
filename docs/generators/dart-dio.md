@@ -8,6 +8,7 @@ title: Documentation for the dart-dio Generator
 | -------- | ----- | ----- |
 | generator name | dart-dio | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Dart | |
 | helpTxt | Generates a Dart Dio client library. | |
 
 ## CONFIG OPTIONS

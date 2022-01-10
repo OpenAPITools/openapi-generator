@@ -8,6 +8,7 @@ title: Documentation for the typescript-rxjs Generator
 | -------- | ----- | ----- |
 | generator name | typescript-rxjs | pass this to the generate command after -g |
 | generator type | CLIENT | |
+| generator language | Typescript | |
 | helpTxt | Generates a TypeScript client library using Rxjs API. | |
 
 ## CONFIG OPTIONS
