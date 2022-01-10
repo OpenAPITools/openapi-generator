@@ -1817,8 +1817,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public void setDocumentationProvider(
-        DocumentationProvider documentationProvider) {
+    public void setDocumentationProvider(DocumentationProvider documentationProvider) {
         this.documentationProvider = documentationProvider;
     }
 
