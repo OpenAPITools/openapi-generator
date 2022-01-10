@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +24,16 @@ public enum GeneratorLanguage {
     Note: all documentation generators have generatorLanguage set to null
      */
     JAVA("Java"), ADA("Ada"), APEX("Apex"), BASH("Bash"), C("C"),
-    CLOJURE("Clojure"), C_PLUS_PLUS("C++"), CRYSTAL("Crystal"),
-    C_SHARP("C#"), DART("Dart"), EIFFEL("Eiffel"), ELIXIR("Elixir"),
-    ELM("Elm"), ERLANG("Erlang"), FLASH("Flash");
+    CLOJURE("Clojure"), C_PLUS_PLUS("C++"), CRYSTAL("Crystal"), C_SHARP("C#"),
+    DART("Dart"), EIFFEL("Eiffel"), ELIXIR("Elixir"), ELM("Elm"),
+    ERLANG("Erlang"), FLASH("Flash"), F_SHARP("F#"), GO("Go"),
+    JAVASCRIPT("Javascript"), GRAPH_QL("GraphQL"), GROOVY("Groovy"),
+    HASKELL("Haskell"), TYPESCRIPT("Typescript"), K_SIX("k6"), KOTLIN("Kotlin"),
+    KTORM("Ktorm"), LUA("Lua"), MYSQL("Mysql"), NIM("Nim"),
+    OBJECTIVE_C("Objective-C"), OCAML("OCaml"), PERL("Perl"), PHP("PHP"),
+    POWERSHELL("PowerShell"), PROTOBUF("Protocol Buffers (Protobuf)"), PYTHON("Python"),
+    R("R"), RUBY("Ruby"), RUST("Rust"), SCALA("Scala"), SWIFT("Swift"),
+    WSDL("Web Services Description Language (WSDL)");
 
     private final String label;
 

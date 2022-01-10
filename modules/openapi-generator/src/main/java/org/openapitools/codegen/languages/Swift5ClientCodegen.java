@@ -1320,4 +1320,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         System.out.println("# Please support his work directly via https://paypal.com/paypalme/4brunu \uD83D\uDE4F   #");
         System.out.println("################################################################################");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SWIFT; }
 }

@@ -791,4 +791,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.OBJECTIVE_C; }
 }

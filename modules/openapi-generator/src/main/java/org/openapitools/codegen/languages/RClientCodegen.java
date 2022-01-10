@@ -796,4 +796,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         System.out.println("################################################################################");
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.R; }
 }
