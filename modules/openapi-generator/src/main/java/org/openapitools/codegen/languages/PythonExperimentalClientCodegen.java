@@ -499,7 +499,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     @Override
     public String getHelp() {
         String newLine = System.getProperty("line.separator");
-        return String.join("<br>",
+        return String.join("<br />",
                 "Generates a Python client library",
                 "",
                 "Features in this generator:",
