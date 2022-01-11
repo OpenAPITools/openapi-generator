@@ -11,6 +11,7 @@
 
 
 import unittest
+from decimal import Decimal
 
 import petstore_api
 from petstore_api.schemas import (
@@ -26,7 +27,6 @@ from petstore_api.schemas import (
     DateTimeSchema,
     ComposedSchema,
     frozendict,
-    Decimal,
     NoneClass,
     BoolClass
 )
