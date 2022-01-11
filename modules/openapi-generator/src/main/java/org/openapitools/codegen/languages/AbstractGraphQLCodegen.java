@@ -55,13 +55,13 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "null",
                         "ID",
@@ -153,7 +153,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$"))
             return name;
 
@@ -344,7 +344,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     }
 
     public Map<String, String> createMapping(String key, String value) {
-        Map<String, String> customImport = new HashMap<String, String>();
+        Map<String, String> customImport = new HashMap<>();
         customImport.put(key, value);
 
         return customImport;

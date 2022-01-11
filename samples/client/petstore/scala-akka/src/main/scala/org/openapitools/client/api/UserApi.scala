@@ -11,6 +11,7 @@
  */
 package org.openapitools.client.api
 
+import java.time.OffsetDateTime
 import org.openapitools.client.model.User
 import org.openapitools.client.core._
 import org.openapitools.client.core.CollectionFormats._
@@ -115,7 +116,7 @@ class UserApi(baseUrl: String) {
    *              Headers :
    *                Set-Cookie - Cookie authentication key for use with the `auth_cookie` apiKey authentication.
    *                X-Rate-Limit - calls per hour allowed by the user
-   *                X-Expires-After - date in UTC when toekn expires
+   *                X-Expires-After - date in UTC when token expires
    *   code 400 :  (Invalid username/password supplied)
    * 
    * @param username The user name for login

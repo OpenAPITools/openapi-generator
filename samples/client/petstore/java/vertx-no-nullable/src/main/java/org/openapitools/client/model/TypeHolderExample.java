@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * TypeHolderExample
@@ -59,6 +60,8 @@ public class TypeHolderExample {
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   private List<Integer> arrayItem = new ArrayList<>();
 
+  public TypeHolderExample() { 
+  }
 
   public TypeHolderExample stringItem(String stringItem) {
     

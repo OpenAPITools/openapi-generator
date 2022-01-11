@@ -117,13 +117,13 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "array"
                 )
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "int",
                         "int8",
@@ -311,7 +311,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "`" + name + "`";
         }
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z0-9_]*$")) {
             return name;
         }
@@ -368,4 +368,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             return name;
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.NIM; }
 }

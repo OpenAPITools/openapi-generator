@@ -39,7 +39,17 @@ public class HasOnlyReadOnly implements Parcelable {
   @SerializedName(SERIALIZED_NAME_FOO)
   private String foo;
 
-  public HasOnlyReadOnly() {
+  public HasOnlyReadOnly() { 
+  }
+
+  
+  public HasOnlyReadOnly(
+     String bar, 
+     String foo
+  ) {
+    this();
+    this.bar = bar;
+    this.foo = foo;
   }
 
    /**

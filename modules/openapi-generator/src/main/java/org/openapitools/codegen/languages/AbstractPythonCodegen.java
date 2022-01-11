@@ -188,7 +188,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         // remove dollar sign
         name = name.replaceAll("$", "");
 
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase(Locale.ROOT);
         }
@@ -270,7 +270,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         // only process files with py extension
         if ("py".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = pythonPostProcessFile + " " + file.toString();
+            String command = pythonPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -700,4 +700,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     protected static String dropDots(String str) {
         return str.replaceAll("\\.", "_");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PYTHON; }
 }

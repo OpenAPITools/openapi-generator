@@ -10,7 +10,6 @@ import org.threeten.bp.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
-import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -208,7 +207,7 @@ public interface FakeApiDelegate {
         String param2);
 
     /**
-     * PUT /fake/test-query-paramters
+     * PUT /fake/test-query-parameters
      * To test the collection format in query parameters
      *
      * @param pipe  (required)

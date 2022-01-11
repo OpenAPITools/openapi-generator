@@ -157,7 +157,7 @@ namespace Org.OpenAPITools.Client
         }
     }
     /// <summary>
-    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementatios),
+    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementations),
     /// encapsulating general REST accessor use cases.
     /// </summary>
     public partial class ApiClient : ISynchronousClient, IAsynchronousClient
@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Client
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
-        /// These settings can be adjusted to accomodate custom serialization rules.
+        /// These settings can be adjusted to accommodate custom serialization rules.
         /// </summary>
         public JsonSerializerSettings SerializerSettings { get; set; } = new JsonSerializerSettings
         {
@@ -370,12 +370,15 @@ namespace Org.OpenAPITools.Client
             {
                 foreach (var fileParam in options.FileParameters)
                 {
-                    var bytes = ClientUtils.ReadAsBytes(fileParam.Value);
-                    var fileStream = fileParam.Value as FileStream;
-                    if (fileStream != null)
-                        request.Files.Add(FileParameter.Create(fileParam.Key, bytes, System.IO.Path.GetFileName(fileStream.Name)));
-                    else
-                        request.Files.Add(FileParameter.Create(fileParam.Key, bytes, "no_file_name_provided"));
+                    foreach (var file in fileParam.Value)
+                    {
+                        var bytes = ClientUtils.ReadAsBytes(file);
+                        var fileStream = file as FileStream;
+                        if (fileStream != null)
+                            request.Files.Add(FileParameter.Create(fileParam.Key, bytes, System.IO.Path.GetFileName(fileStream.Name)));
+                        else
+                            request.Files.Add(FileParameter.Create(fileParam.Key, bytes, "no_file_name_provided"));
+                    }
                 }
             }
 

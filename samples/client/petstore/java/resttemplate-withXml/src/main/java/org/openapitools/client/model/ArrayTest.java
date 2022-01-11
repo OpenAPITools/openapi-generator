@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -64,6 +65,8 @@ public class ArrayTest {
   @XmlElement(name = "arrayArrayOfModel")
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
+  public ArrayTest() { 
+  }
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     

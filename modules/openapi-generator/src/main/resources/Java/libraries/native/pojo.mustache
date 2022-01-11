@@ -81,27 +81,22 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{/vars}}
-  {{#parcelableModel}}
-  public {{classname}}() {
-  {{#parent}}
-    super();
-  {{/parent}}
-  {{#gson}}
-  {{#discriminator}}
-    this.{{{discriminatorName}}} = this.getClass().getSimpleName();
-  {{/discriminator}}
-  {{/gson}}
-  }
-  {{/parcelableModel}}
-  {{^parcelableModel}}
-  {{#gson}}
-  {{#discriminator}}
-  public {{classname}}() {
-    this.{{{discriminatorName}}} = this.getClass().getSimpleName();
-  }
-  {{/discriminator}}
-  {{/gson}}
-  {{/parcelableModel}}
+  public {{classname}}() { {{#parent}}{{#parcelableModel}}
+    super();{{/parcelableModel}}{{/parent}}{{#gson}}{{#discriminator}}
+    this.{{{discriminatorName}}} = this.getClass().getSimpleName();{{/discriminator}}{{/gson}}
+  }{{#vendorExtensions.x-has-readonly-properties}}{{^withXml}}
+
+  {{#jackson}}@JsonCreator{{/jackson}}
+  public {{classname}}(
+  {{#readOnlyVars}}
+    @JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}}) {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
+  {{/readOnlyVars}}
+  ) {
+  this();
+  {{#readOnlyVars}}
+    this.{{name}} = {{name}};
+  {{/readOnlyVars}}
+  }{{/withXml}}{{/vendorExtensions.x-has-readonly-properties}}
   {{#vars}}
 
   {{^isReadOnly}}
@@ -247,7 +242,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{^isReadOnly}}
-{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{> jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
+{{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{> jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     {{#vendorExtensions.x-enum-as-string}}
     if (!{{{nameInSnakeCase}}}_VALUES.contains({{name}})) {
       throw new IllegalArgumentException({{name}} + " is invalid. Possible values for {{name}}: " + String.join(", ", {{{nameInSnakeCase}}}_VALUES));
@@ -290,7 +286,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && a.get().getClass().isArray() ? Arrays.equals((T[])a.get(), (T[])b.get()) : Objects.equals(a.get(), b.get()));
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }{{/vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   @Override
@@ -307,9 +303,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     if (a == null) {
       return 1;
     }
-    return a.isPresent()
-      ? (a.get().getClass().isArray() ? Arrays.hashCode((T[])a.get()) : Objects.hashCode(a.get()))
-      : 31;
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }{{/vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   @Override

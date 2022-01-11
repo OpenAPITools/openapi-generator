@@ -1,8 +1,18 @@
 ---
-title: Config Options for cpp-restsdk
-sidebar_label: cpp-restsdk
+title: Documentation for the cpp-restsdk Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cpp-restsdk | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | C++ | |
+| helpTxt | Generates a C++ API client with C++ REST SDK (https://github.com/Microsoft/cpprestsdk). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -12,6 +22,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |defaultInclude|The default include statement that should be placed in all headers for including things like the declspec (convention: #include &quot;Commons.h&quot; | ||
 |generateGMocksForApis|Generate Google Mock classes for APIs.| |null|
 |modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.client.model|
+|packageName|C++ package (library) name.| |CppRestOpenAPIClient|
 |packageVersion|C++ package version.| |1.0.0|
 |reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
 |variableNameFirstCharacterUppercase|Make first character of variable name uppercase (eg. value -&gt; Value)| |true|

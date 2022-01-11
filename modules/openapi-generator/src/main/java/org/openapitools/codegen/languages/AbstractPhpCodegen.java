@@ -79,7 +79,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         );
 
         // ref: http://php.net/manual/en/language.types.intro.php
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "bool",
                         "boolean",
@@ -90,7 +90,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                         "string",
                         "object",
                         "array",
-                        "DateTime",
+                        "\\DateTime",
+                        "\\SplFileObject",
                         "mixed",
                         "number",
                         "void",
@@ -106,11 +107,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         additionalProperties.put("primitives", primitives);
 
         // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
         typeMapping.put("number", "float");
         typeMapping.put("float", "float");
+        typeMapping.put("decimal", "float");
         typeMapping.put("double", "double");
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
@@ -195,7 +197,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         if (additionalProperties.containsKey(CodegenConstants.GIT_USER_ID)) {
             this.setGitUserId((String) additionalProperties.get(CodegenConstants.GIT_USER_ID));
         }
-        
+
         if (additionalProperties.containsKey(CodegenConstants.GIT_REPO_ID)) {
             this.setGitRepoId((String) additionalProperties.get(CodegenConstants.GIT_REPO_ID));
         }
@@ -341,6 +343,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type = null;
+
+        if (openAPIType == null) {
+            LOGGER.error("OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.", p.getName());
+            openAPIType = "UNKNOWN_OPENAPI_TYPE";
+        }
+
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
@@ -348,12 +356,18 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             } else if (instantiationTypes.containsKey(type)) {
                 return type;
             }
+            /*
+            // comment out the following as php-dt, php-mezzio still need to treat DateTime, SplFileObject as objects
+            } else {
+                throw new RuntimeException("OpenAPI type `" + openAPIType + "` defined but can't mapped to language type." +
+                        " Please report the issue via OpenAPI Generator github repo." +
+                        " (if you're not using custom format with proper type mappings provided to openapi-generator)");
+            }
+            */
         } else {
             type = openAPIType;
         }
-        if (type == null) {
-            return null;
-        }
+
         return toModelName(type);
     }
 
@@ -441,7 +455,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String toModelName(String name) {
         name = toGenericName(name);
 
-        // add prefix and/or suffic only if name does not start wth \ (e.g. \DateTime)
+        // add prefix and/or suffix only if name does not start wth \ (e.g. \DateTime)
         if (!name.matches("^\\\\.*")) {
             if (!StringUtils.isEmpty(modelNamePrefix)) {
                 name = modelNamePrefix + "_" + name;
@@ -631,7 +645,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toEnumDefaultValue(String value, String datatype) {
-        return datatype + "_" + value;
+        return "self::" + datatype + "_" + value;
     }
 
     @Override
@@ -755,7 +769,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
         // only process files with php extension
         if ("php".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = phpPostProcessFile + " " + file.toString();
+            String command = phpPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
@@ -790,4 +804,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         return packageName;
     }
+
+    @Override
+    public boolean isDataTypeString(String dataType) {
+        return "string".equals(dataType);
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PHP; }
 }

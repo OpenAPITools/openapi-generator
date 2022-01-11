@@ -356,7 +356,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
      * Returns the number of required parameters plus 1.
      *
      * @param os List of Codegen Parameters
-     * @return the string representation of the number of required paramters plus 1
+     * @return the string representation of the number of required parameters plus 1
      */
     String length(Object os) {
         int l = 1;
@@ -371,7 +371,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
      * Returns the number of required parameters or body parameters.
      *
      * @param os List of Codegen Parameters
-     * @return the number of required paramters or body parameters
+     * @return the number of required parameters or body parameters
      */
     int lengthRequired(List<CodegenParameter> allParams) {
         int l = 0;
@@ -479,4 +479,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     public String addRegularExpressionDelimiter(String pattern) {
         return pattern;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
 }

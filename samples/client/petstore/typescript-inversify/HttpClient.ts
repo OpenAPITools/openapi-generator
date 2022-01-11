@@ -47,7 +47,7 @@ class HttpClient implements IHttpClient {
 
     private performNetworkCall(url: string, method: string, body?: any, headers?: Headers): Observable<HttpResponse> {
 
-        // when using fetch & a multipart upload, the requests content-type is handled by the browser, so should be left unset otherwise the multipart boundry is not added
+        // when using fetch & a multipart upload, the requests content-type is handled by the browser, so should be left unset otherwise the multipart boundary is not added
         if(headers && headers['Content-Type'] === 'multipart/form-data') {
             delete headers['Content-Type'];
         }

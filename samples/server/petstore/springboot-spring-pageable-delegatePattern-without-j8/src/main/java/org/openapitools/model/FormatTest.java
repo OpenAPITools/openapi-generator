@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -13,6 +14,9 @@ import org.threeten.bp.OffsetDateTime;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
 
 /**
  * FormatTest
@@ -206,7 +210,7 @@ public class FormatTest   {
   */
   @ApiModelProperty(value = "")
 
-@Pattern(regexp="/[a-z]/i") 
+@Pattern(regexp = "/[a-z]/i") 
   public String getString() {
     return string;
   }
@@ -333,7 +337,7 @@ public class FormatTest   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-@Size(min=10,max=64) 
+@Size(min = 10, max = 64) 
   public String getPassword() {
     return password;
   }

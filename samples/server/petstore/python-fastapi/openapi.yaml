@@ -483,7 +483,7 @@ paths:
                 type: integer
               style: simple
             X-Expires-After:
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
               explode: false
               schema:
                 format: date-time
@@ -691,22 +691,30 @@ components:
       properties:
         id:
           format: int64
+          title: id
           type: integer
         username:
+          title: username
           type: string
         firstName:
+          title: firstName
           type: string
         lastName:
+          title: lastName
           type: string
         email:
+          title: email
           type: string
         password:
+          title: password
           type: string
         phone:
+          title: phone
           type: string
         userStatus:
           description: User Status
           format: int32
+          title: userStatus
           type: integer
       title: a User
       type: object

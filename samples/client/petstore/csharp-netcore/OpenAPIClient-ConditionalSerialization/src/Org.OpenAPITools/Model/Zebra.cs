@@ -100,7 +100,10 @@ namespace Org.OpenAPITools.Model
         public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string)) : base()
         {
             // to ensure "className" is required (not null)
-            this._ClassName = className ?? throw new ArgumentNullException("className is a required property for Zebra and cannot be null");
+            if (className == null) {
+                throw new ArgumentNullException("className is a required property for Zebra and cannot be null");
+            }
+            this._ClassName = className;
             this._Type = type;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -141,7 +144,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Zebra {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
@@ -189,11 +192,15 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                hashCode = hashCode * 59 + this.Type.GetHashCode();
+                hashCode = (hashCode * 59) + this.Type.GetHashCode();
                 if (this.ClassName != null)
-                    hashCode = hashCode * 59 + this.ClassName.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }
@@ -203,7 +210,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

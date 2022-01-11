@@ -29,6 +29,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import java.io.File;
 import java.math.BigDecimal;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -360,7 +361,7 @@ public class PythonClientTest {
         final PythonClientCodegen codegen = new PythonClientCodegen();
 
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        final Schema noDefault = new ArraySchema()
+        final Schema noDefault = new Schema()
                 .type("number")
                 .minimum(new BigDecimal("10"));
         final Schema hasDefault = new Schema()
@@ -462,6 +463,28 @@ public class PythonClientTest {
 
         Assert.assertEquals(exampleValue.trim(), expectedValue.trim());
 
+    }
+
+    @Test(description = "tests NoProxyPyClient")
+    public void testNoProxyPyClient() throws Exception {
+
+        final String gen = "python";
+        final String spec = "src/test/resources/3_0/petstore.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(gen)
+                .setInputSpec(spec)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        for (String f : new String[] { "openapi_client/configuration.py", "openapi_client/rest.py" } ) {
+            TestUtils.ensureContainsFile(files, output, f);
+            Path p = output.toPath().resolve(f);
+            TestUtils.assertFileContains(p, "no_proxy");
+        }
     }
 
 }

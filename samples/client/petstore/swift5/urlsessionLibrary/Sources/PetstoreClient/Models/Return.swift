@@ -10,13 +10,13 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.Return")
-public typealias Return = PetstoreClient.Return
+@available(*, deprecated, renamed: "PetstoreClientAPI.Return")
+public typealias Return = PetstoreClientAPI.Return
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 /** Model for testing reserved words */
-public final class Return: Codable, Hashable {
+public final class Return: Codable, JSONEncodable, Hashable {
 
     public var _return: Int?
 

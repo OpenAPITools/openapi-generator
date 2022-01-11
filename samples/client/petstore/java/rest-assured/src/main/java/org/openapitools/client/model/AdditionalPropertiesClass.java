@@ -80,6 +80,8 @@ public class AdditionalPropertiesClass {
   @SerializedName(SERIALIZED_NAME_ANYTYPE3)
   private Object anytype3;
 
+  public AdditionalPropertiesClass() { 
+  }
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     

@@ -229,7 +229,7 @@ interface FakeApi {
      * @param context  
      * @return [Call]<[Unit]>
      */
-    @PUT("fake/test-query-paramters")
+    @PUT("fake/test-query-parameters")
     fun testQueryParameterCollectionFormat(@Query("pipe") pipe: kotlin.collections.List<kotlin.String>, @Query("ioutil") ioutil: CSVParams, @Query("http") http: SSVParams, @Query("url") url: CSVParams, @Query("context") context: kotlin.collections.List<kotlin.String>): Observable<Unit>
 
 }

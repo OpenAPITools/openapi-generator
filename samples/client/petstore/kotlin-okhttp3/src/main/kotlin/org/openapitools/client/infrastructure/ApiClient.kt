@@ -9,16 +9,20 @@ import okhttp3.ResponseBody
 import okhttp3.Request
 import okhttp3.Headers
 import okhttp3.MultipartBody
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import okhttp3.internal.Util.EMPTY_REQUEST
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
+import java.io.IOException
 import java.net.URLConnection
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
-import java.util.Date
 import java.util.Locale
 import com.squareup.moshi.adapter
 
@@ -37,6 +41,7 @@ open class ApiClient(val baseUrl: String) {
         var username: String? = null
         var password: String? = null
         var accessToken: String? = null
+        const val baseUrlKey = "org.openapitools.client.baseUrl"
 
         @JvmStatic
         val client: OkHttpClient by lazy {
@@ -97,9 +102,14 @@ open class ApiClient(val baseUrl: String) {
                     }
                 }.build()
             }
-            mediaType == JsonMediaType -> RequestBody.create(
-                MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
-            )
+            mediaType.startsWith("application/") && mediaType.endsWith("json") ->
+                if (content == null) {
+                    EMPTY_REQUEST
+                } else {
+                    RequestBody.create(
+                        MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
+                    )
+                }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
@@ -123,8 +133,9 @@ open class ApiClient(val baseUrl: String) {
             out.close()
             return f as T
         }
-        return when(mediaType) {
-            JsonMediaType -> Serializer.moshi.adapter<T>().fromJson(bodyContent)
+        return when {
+        mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
+                Serializer.moshi.adapter<T>().fromJson(bodyContent)
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -146,7 +157,7 @@ open class ApiClient(val baseUrl: String) {
         }
     }
 
-    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
+    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiResponse<T?> {
         val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
 
         // take authMethod from operation
@@ -171,11 +182,11 @@ open class ApiClient(val baseUrl: String) {
         }
         val headers = requestConfig.headers
 
-        if(headers[ContentType] ?: "" == "") {
+        if(headers[ContentType].isNullOrEmpty()) {
             throw kotlin.IllegalStateException("Missing Content-Type header. This is required.")
         }
 
-        if(headers[Accept] ?: "" == "") {
+        if(headers[Accept].isNullOrEmpty()) {
             throw kotlin.IllegalStateException("Missing Accept header. This is required.")
         }
 
@@ -195,6 +206,7 @@ open class ApiClient(val baseUrl: String) {
         }.build()
 
         val response = client.newCall(request).execute()
+
         val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
@@ -232,7 +244,7 @@ open class ApiClient(val baseUrl: String) {
         null -> ""
         is Array<*> -> toMultiValue(value, "csv").toString()
         is Iterable<*> -> toMultiValue(value, "csv").toString()
-        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime, is Date ->
+        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime ->
             parseDateToQueryString(value)
         else -> value.toString()
     }

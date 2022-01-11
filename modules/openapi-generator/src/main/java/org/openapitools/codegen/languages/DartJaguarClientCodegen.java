@@ -17,6 +17,8 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
@@ -87,6 +89,10 @@ public class DartJaguarClientCodegen extends AbstractDartCodegen {
                         ClientModificationFeature.BasePath
                 )
         );
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
 
         outputFolder = "generated-code/dart-jaguar";
         embeddedTemplateDir = templateDir = "dart-jaguar";

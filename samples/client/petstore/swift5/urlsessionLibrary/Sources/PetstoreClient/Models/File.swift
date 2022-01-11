@@ -10,13 +10,13 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.File")
-public typealias File = PetstoreClient.File
+@available(*, deprecated, renamed: "PetstoreClientAPI.File")
+public typealias File = PetstoreClientAPI.File
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 /** Must be named &#x60;File&#x60; for test. */
-public final class File: Codable, Hashable {
+public final class File: Codable, JSONEncodable, Hashable {
 
     /** Test capitalization */
     public var sourceURI: String?

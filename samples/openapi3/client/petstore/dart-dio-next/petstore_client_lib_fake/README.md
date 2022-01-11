@@ -82,7 +82,7 @@ Class | Method | HTTP request | Description
 [*FakeApi*](doc/FakeApi.md) | [**testGroupParameters**](doc/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [*FakeApi*](doc/FakeApi.md) | [**testInlineAdditionalProperties**](doc/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [*FakeApi*](doc/FakeApi.md) | [**testJsonFormData**](doc/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-[*FakeApi*](doc/FakeApi.md) | [**testQueryParameterCollectionFormat**](doc/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
+[*FakeApi*](doc/FakeApi.md) | [**testQueryParameterCollectionFormat**](doc/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 [*FakeClassnameTags123Api*](doc/FakeClassnameTags123Api.md) | [**testClassname**](doc/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 [*PetApi*](doc/PetApi.md) | [**addPet**](doc/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 [*PetApi*](doc/PetApi.md) | [**deletePet**](doc/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet

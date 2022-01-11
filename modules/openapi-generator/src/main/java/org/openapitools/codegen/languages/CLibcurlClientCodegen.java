@@ -245,7 +245,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                         "final",
                         "override",
                         "transaction_safe",
-                        "transaction_safe_dynamic")
+                        "transaction_safe_dynamic",
+
+                        // VC++ reserved keywords
+                        "stdin",
+                        "stdout",
+                        "stderr")
         );
 
         instantiationTypes.clear();
@@ -318,6 +323,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         // root folder
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", "", "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("Packing.cmake.mustache", "", "Packing.cmake"));
         supportingFiles.add(new SupportingFile("libcurl.licence.mustache", "", "libcurl.licence"));
         supportingFiles.add(new SupportingFile("uncrustify-rules.cfg.mustache", "", "uncrustify-rules.cfg"));
         supportingFiles.add(new SupportingFile("README.md.mustache", "", "README.md"));
@@ -553,7 +559,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public String toVarName(String name) {
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase(Locale.ROOT);
         }
@@ -868,8 +874,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             return; // skip if C_POST_PROCESS_FILE env variable is not defined
         }
 
-        // only procees the following type (or we can simply rely on the file extension to check if it's a .c or .h file)
-        Set<String> supportedFileType = new HashSet<String>(
+        // only process the following type (or we can simply rely on the file extension to check if it's a .c or .h file)
+        Set<String> supportedFileType = new HashSet<>(
                 Arrays.asList(
                         "supporting-mustache",
                         "model-test",
@@ -883,7 +889,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // only process files with .c or .h extension
         if ("c".equals(FilenameUtils.getExtension(file.toString())) ||
                 "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = cPostProcessFile + " " + file.toString();
+            String command = cPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -914,4 +920,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("# > Niklas Werner - https://paypal.me/wernerdevelopment                        #");
         System.out.println("################################################################################");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.C; }
 }

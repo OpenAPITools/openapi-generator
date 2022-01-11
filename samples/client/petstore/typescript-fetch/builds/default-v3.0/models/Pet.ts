@@ -18,11 +18,13 @@ import {
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
+} from './Category';
+import {
     Tag,
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
-} from './';
+} from './Tag';
 
 /**
  * 

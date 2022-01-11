@@ -245,6 +245,7 @@ public interface FakeApi {
         @NotNull String param, 
         @NotNull String param2
   );
+<<<<<<< HEAD
     /**
      * To test the collection format in query parameters
      *
@@ -257,6 +258,21 @@ public interface FakeApi {
     @Put(uri="/fake/test-query-paramters")
     @Consumes(value={"application/json"})
     Mono<Object> testQueryParameterCollectionFormat(
+=======
+
+  /**
+   * To test the collection format in query parameters
+   *
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   */
+  @Put(uri="/fake/test-query-parameters")
+  @Consumes(value={"application/json"})
+  Mono<Object> testQueryParameterCollectionFormat(
+>>>>>>> ce04e9b6a2db14d152f24870de28637ae41bc0fb
         @QueryParam(name="pipe", format=QueryParam.Format.CSV) @NotNull List<String> pipe, 
         @QueryParam(name="ioutil", format=QueryParam.Format.CSV) @NotNull List<String> ioutil, 
         @QueryParam(name="http", format=QueryParam.Format.SSV) @NotNull List<String> http, 

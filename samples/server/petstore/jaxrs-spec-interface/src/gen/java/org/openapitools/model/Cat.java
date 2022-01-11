@@ -13,9 +13,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("Cat")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Cat extends Animal implements Serializable {
   
   private @Valid Boolean declawed;
@@ -36,6 +38,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return declawed;
   }
 
+  @JsonProperty("declawed")
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }

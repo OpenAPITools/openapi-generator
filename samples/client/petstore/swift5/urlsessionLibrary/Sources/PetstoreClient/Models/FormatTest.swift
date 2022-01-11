@@ -10,12 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.FormatTest")
-public typealias FormatTest = PetstoreClient.FormatTest
+@available(*, deprecated, renamed: "PetstoreClientAPI.FormatTest")
+public typealias FormatTest = PetstoreClientAPI.FormatTest
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
-public final class FormatTest: Codable, Hashable {
+public final class FormatTest: Codable, JSONEncodable, Hashable {
 
     public var integer: Int?
     public var int32: Int?

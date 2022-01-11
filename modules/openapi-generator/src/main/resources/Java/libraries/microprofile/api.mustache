@@ -30,7 +30,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 {{/appName}}
 
-@RegisterRestClient
+@RegisterRestClient{{#configKey}}(configKey="{{configKey}}"){{/configKey}}
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("{{#useAnnotatedBasePath}}{{contextPath}}{{/useAnnotatedBasePath}}{{commonPath}}")
 public interface {{classname}}  {

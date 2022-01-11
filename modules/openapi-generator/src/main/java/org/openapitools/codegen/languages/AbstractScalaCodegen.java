@@ -46,7 +46,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     protected String dateLibrary = DateLibraries.java8.name();
 
     protected enum DateLibraries {
-        java8("Java 8 native JSR310 (prefered for JDK 1.8+)"),
+        java8("Java 8 native JSR310 (preferred for JDK 1.8+)"),
         joda( "Joda (for legacy app)"),
         legacy( "Backport to http-client (deprecated)");
 
@@ -73,13 +73,15 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 "List",
                 "Seq",
                 "Map",
-                "Array"));
+                "Array",
+                "Byte"));
 
         reservedWords.addAll(Arrays.asList(
                 "abstract",
                 "case",
                 "catch",
                 "class",
+                "clone",
                 "def",
                 "do",
                 "else",
@@ -116,6 +118,10 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 "with",
                 "yield"
         ));
+
+        // Scala specific openApi types mapping
+        typeMapping.put("ByteArray", "Array[Byte]");
+
 
         importMapping = new HashMap<String, String>();
         importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
@@ -244,7 +250,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             varName = "_u";
         }
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (!varName.matches("^[A-Z_0-9]*$")) {
             varName = getNameUsingModelPropertyNaming(varName);
         }
@@ -343,17 +349,11 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (ModelUtils.isSet(p)) {
             openAPIType = "set";
         }
-
-        String type;
+        // don't apply renaming on types from the typeMapping
         if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return toModelName(type);
-            }
-        } else {
-            type = openAPIType;
+            return typeMapping.get(openAPIType);
         }
-        return toModelName(type);
+        return toModelName(openAPIType);
     }
 
     @Override
@@ -529,7 +529,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
         // only process files with scala extension
         if ("scala".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = scalaPostProcessFile + " " + file.toString();
+            String command = scalaPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -575,4 +575,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         this.invokerPackage = invokerPackage;
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SCALA; }
 }

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-internal struct List: Codable, Hashable {
+internal struct List: Codable, JSONEncodable, Hashable {
 
     internal var _123list: String?
 

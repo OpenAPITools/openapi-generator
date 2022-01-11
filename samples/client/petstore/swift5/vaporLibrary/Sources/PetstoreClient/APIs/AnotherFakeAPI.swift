@@ -20,9 +20,9 @@ open class AnotherFakeAPI {
      - parameter body: (body) client model 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func call123testSpecialTagsRaw(body: Client, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func call123testSpecialTagsRaw(body: Client, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/another-fake/dummy"
-        let localVariableURLString = PetstoreClient.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
 
         guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
@@ -50,7 +50,7 @@ open class AnotherFakeAPI {
      - parameter body: (body) client model 
      - returns: `EventLoopFuture` of `Call123testSpecialTags` 
      */
-    open class func call123testSpecialTags(body: Client, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<Call123testSpecialTags> {
+    open class func call123testSpecialTags(body: Client, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<Call123testSpecialTags> {
         return call123testSpecialTagsRaw(body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> Call123testSpecialTags in
             switch response.status.code {
             case 200:
@@ -60,5 +60,4 @@ open class AnotherFakeAPI {
             }
         }
     }
-
 }

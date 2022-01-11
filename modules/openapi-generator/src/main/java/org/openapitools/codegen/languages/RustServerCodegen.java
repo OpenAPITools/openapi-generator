@@ -53,7 +53,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
 
-    private HashMap<String, String> modelXmlNames = new HashMap<String, String>();
+    private Map<String, String> modelXmlNames = new HashMap<String, String>();
 
     private static final String NO_FORMAT = "%%NO_FORMAT";
 
@@ -160,13 +160,13 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "bool",
                         "char",
@@ -341,7 +341,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("serverHost", url.getHost());
         additionalProperties.put("serverPort", URLPathUtils.getPort(url, serverPort));
 
-        if (packageVersion == null || "".equals(packageVersion)) {
+        if (packageVersion == null || packageVersion.isEmpty()) {
             List<String> versionComponents = new ArrayList<>(Arrays.asList(info.getVersion().split("[.]")));
             if (versionComponents.size() < 1) {
                 versionComponents.add("1");
@@ -395,8 +395,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
-            camelizedName = "Model" + camelizedName;
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, camelizedName);
+            final String modelName = "Model" + camelizedName;
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
+            return modelName;
         }
 
         // model name starts with number
@@ -419,6 +420,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
+        // translate @ for properties (like @type) to at_. 
+        // Otherwise an additional "type" property will leed to duplcates
+        name = name.replaceAll("^@", "at_");
+
         String sanitizedName = super.sanitizeName(name);
         // for reserved word, append _
         if (isReservedWord(sanitizedName)) {
@@ -1082,7 +1087,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && dataType.equals(typeMapping.get("File").toString());
+        return dataType != null && dataType.equals(typeMapping.get("File"));
     }
 
     /**
@@ -1171,7 +1176,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
             return datatype;
         } else if (p instanceof FileSchema) {
-            return typeMapping.get("File").toString();
+            return typeMapping.get("File");
         }
 
         return super.getTypeDeclaration(p);
@@ -1309,7 +1314,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         // If we have callbacks, add the callbacks module, otherwise remove it
         boolean hasCallbacks = haveCallbacks(bundle);
         bundle.put("hasCallbacks", hasCallbacks);
-        SupportingFile[] callbackFiles = new SupportingFile[]{
+        SupportingFile[] callbackFiles = {
                 new SupportingFile("client-callbacks.mustache", "src/client", "callbacks.rs"),
                 new SupportingFile("server-callbacks.mustache", "src/server", "callbacks.rs"),
                 new SupportingFile("example-client-server.mustache", "examples/client", "server.rs")
@@ -1669,15 +1674,75 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 Process p = Runtime.getRuntime().exec(new String[]{commandPrefix, file.toString()});
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({} {}). Exit code: {}", commandPrefix, file.toString(), exitValue);
+                    LOGGER.error("Error running the command ({} {}). Exit code: {}", commandPrefix, file, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: {} {}", commandPrefix, file.toString());
+                    LOGGER.info("Successfully executed: {} {}", commandPrefix, file);
                 }
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({} ()). Exception: {}", commandPrefix, file.toString(), e.getMessage());
+                LOGGER.error("Error running the command ({} ()). Exception: {}", commandPrefix, file, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
         }
     }
+
+    @Override
+    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema){
+        /**
+         * we have a custom version of this function to set isString to false for uuid
+         */
+        if (ModelUtils.isEmailSchema(parameterSchema)) {
+            codegenParameter.isEmail = true;
+        } else if (ModelUtils.isUUIDSchema(parameterSchema)) {
+            codegenParameter.setIsString(false);
+            codegenParameter.isUuid = true;
+        } else if (ModelUtils.isByteArraySchema(parameterSchema)) {
+            codegenParameter.setIsString(false);
+            codegenParameter.isByteArray = true;
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isBinarySchema(parameterSchema)) {
+            codegenParameter.isBinary = true;
+            codegenParameter.isFile = true; // file = binary in OAS3
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isDateSchema(parameterSchema)) {
+            codegenParameter.setIsString(false); // for backward compatibility with 2.x
+            codegenParameter.isDate = true;
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isDateTimeSchema(parameterSchema)) {
+            codegenParameter.setIsString(false); // for backward compatibility with 2.x
+            codegenParameter.isDateTime = true;
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isDecimalSchema(parameterSchema)) { // type: string, format: number
+            codegenParameter.setIsString(false);
+            codegenParameter.isDecimal = true;
+            codegenParameter.isPrimitiveType = true;
+        }
+        if (Boolean.TRUE.equals(codegenParameter.isString)) {
+            codegenParameter.isPrimitiveType = true;
+        }
+    }
+
+    @Override
+    protected void updatePropertyForAnyType(CodegenProperty property, Schema p) {
+        /**
+         * we have a custom version of this function to not set isNullable to true
+         */
+        // The 'null' value is allowed when the OAS schema is 'any type'.
+        // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+        if (Boolean.FALSE.equals(p.getNullable())) {
+            LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
+        }
+        if (languageSpecificPrimitives.contains(property.dataType)) {
+            property.isPrimitiveType = true;
+        }
+        if (ModelUtils.isMapSchema(p)) {
+            // an object or anyType composed schema that has additionalProperties set
+            // some of our code assumes that any type schema with properties defined will be a map
+            // even though it should allow in any type and have map constraints for properties
+            updatePropertyForMap(property, p);
+        }
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUST; }
 }

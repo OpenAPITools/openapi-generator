@@ -111,13 +111,13 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "nil",
                         "string",
@@ -150,7 +150,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("ByteArray", "string");
         typeMapping.put("object", "TODO_OBJECT_MAPPING");
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
         importMapping.put("time.Time", "time");
         importMapping.put("*os.File", "os");
         importMapping.put("os", "io/ioutil");
@@ -238,7 +238,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$"))
             return name;
 
@@ -508,7 +508,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public Map<String, String> createMapping(String key, String value) {
-        Map<String, String> customImport = new HashMap<String, String>();
+        Map<String, String> customImport = new HashMap<>();
         customImport.put(key, value);
 
         return customImport;
@@ -594,4 +594,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         System.out.println("# Pls support his work directly via https://github.com/sponsors/daurnimator \uD83D\uDE4F #");
         System.out.println("################################################################################");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.LUA; }
 }

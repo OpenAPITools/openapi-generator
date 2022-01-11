@@ -131,7 +131,7 @@ public class JavaClientCodegenTest {
         CodegenParameter pathParam2 = createPathParam("pathParam2");
 
         codegenOperation.allParams = Arrays.asList(queryParamRequired, pathParam1, pathParam2, queryParamOptional);
-        Map<String, Object> operations = ImmutableMap.<String, Object>of("operation", Arrays.asList(codegenOperation));
+        Map<String, Object> operations = ImmutableMap.of("operation", Arrays.asList(codegenOperation));
 
         Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<Map<String, String>>());
 
@@ -820,6 +820,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp3.isAnyType);
 
         // map
+        // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp4 = cm2.vars.get(3);
         Assert.assertEquals(cp4.baseName, "map_any_value");
         Assert.assertEquals(cp4.dataType, "Map<String, Object>");
@@ -830,6 +831,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp4.isFreeFormObject);
         Assert.assertFalse(cp4.isAnyType);
 
+        // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp5 = cm2.vars.get(4);
         Assert.assertEquals(cp5.baseName, "map_any_value_with_desc");
         Assert.assertEquals(cp5.dataType, "Map<String, Object>");
@@ -840,6 +842,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp5.isFreeFormObject);
         Assert.assertFalse(cp5.isAnyType);
 
+        // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp6 = cm2.vars.get(5);
         Assert.assertEquals(cp6.baseName, "map_any_value_nullable");
         Assert.assertEquals(cp6.dataType, "Map<String, Object>");
@@ -851,6 +854,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp6.isAnyType);
 
         // array
+        // Should allow in any type including array, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp7 = cm2.vars.get(6);
         Assert.assertEquals(cp7.baseName, "array_any_value");
         Assert.assertEquals(cp7.dataType, "List<Object>");
@@ -861,6 +865,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp7.isFreeFormObject);
         Assert.assertFalse(cp7.isAnyType);
 
+        // Should allow in any type including array, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp8 = cm2.vars.get(7);
         Assert.assertEquals(cp8.baseName, "array_any_value_with_desc");
         Assert.assertEquals(cp8.dataType, "List<Object>");
@@ -871,6 +876,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp8.isFreeFormObject);
         Assert.assertFalse(cp8.isAnyType);
 
+        // Should allow in any type including array, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp9 = cm2.vars.get(8);
         Assert.assertEquals(cp9.baseName, "array_any_value_nullable");
         Assert.assertEquals(cp9.dataType, "List<Object>");
@@ -1163,5 +1169,93 @@ public class JavaClientCodegenTest {
                 "multipartSingle(org.springframework.core.io.AbstractResource file)",
                 "formParams.add(\"file\", file);"
         );
+    }
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/8352
+     */
+    @Test
+    public void testRestTemplateWithFreeFormInQueryParameters() throws IOException {
+        final Map<String, Object> properties = new HashMap<>();
+        properties.put(AbstractJavaCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        final File output = Files.createTempDirectory("test")
+                .toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue8352.yaml")
+                .setOutputDir(output.getAbsolutePath()
+                        .replace("\\", "/"));
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(configurator.toClientOptInput())
+                .generate();
+        files.forEach(File::deleteOnExit);
+
+        final Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
+        TestUtils.assertFileContains(defaultApi, "value instanceof Map");
+    }
+    
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/8352
+     */
+    @Test
+    public void testWebClientWithFreeFormInQueryParameters() throws IOException {
+        final Map<String, Object> properties = new HashMap<>();
+        properties.put(AbstractJavaCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        final File output = Files.createTempDirectory("test")
+                .toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue8352.yaml")
+                .setOutputDir(output.getAbsolutePath()
+                        .replace("\\", "/"));
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(configurator.toClientOptInput())
+                .generate();
+        files.forEach(File::deleteOnExit);
+
+        final Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
+        TestUtils.assertFileContains(defaultApi, "value instanceof Map");
+    }
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/11242
+     */
+    @Test
+    public void testNativeClientWhiteSpacePathParamEncoding() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue11242.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 34);
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java"),
+                "public static String urlEncode(String s) { return URLEncoder.encode(s, UTF_8).replaceAll(\"\\\\+\", \"%20\"); }");
     }
 }

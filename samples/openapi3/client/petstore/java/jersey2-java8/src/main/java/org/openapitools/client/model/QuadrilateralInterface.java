@@ -39,6 +39,8 @@ public class QuadrilateralInterface {
   public static final String JSON_PROPERTY_QUADRILATERAL_TYPE = "quadrilateralType";
   private String quadrilateralType;
 
+  public QuadrilateralInterface() { 
+  }
 
   public QuadrilateralInterface quadrilateralType(String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;

@@ -1,8 +1,18 @@
 ---
-title: Config Options for csharp-dotnet2
-sidebar_label: csharp-dotnet2
+title: Documentation for the csharp-dotnet2 Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | csharp-dotnet2 | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
+| generator type | CLIENT | |
+| generator language | C# | |
+| helpTxt | Generates a C# .Net 2.0 client library (beta). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

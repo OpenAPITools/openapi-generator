@@ -16,7 +16,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
@@ -176,7 +175,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
         typeMapping.put("set", "`Set");
-        typeMapping.put("passsword", "string");
+        typeMapping.put("password", "string");
         typeMapping.put("DateTime", "string");
 
 //        supportedLibraries.put(CO_HTTP, "HTTP client: CoHttp.");
@@ -300,8 +299,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @SuppressWarnings("unchecked")
     private void collectEnumSchemas(String parentName, Map<String, Schema> schemas) {
-        for (String sName : schemas.keySet()) {
-            Schema schema = schemas.get(sName);
+        for (Map.Entry<String, Schema> schemasEntry : schemas.entrySet()) {
+            String sName = schemasEntry.getKey();
+            Schema schema = schemasEntry.getValue();
 
             collectEnumSchemas(parentName, sName, schema);
 
@@ -339,8 +339,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 }
             }
             if (operation.getResponses() != null) {
-                for (String s : operation.getResponses().keySet()) {
-                    ApiResponse apiResponse = operation.getResponses().get(s);
+                for (Map.Entry<String, ApiResponse> operationGetResponsesEntry : operation.getResponses().entrySet()) {
+                    String s = operationGetResponsesEntry.getKey();
+                    ApiResponse apiResponse = operationGetResponsesEntry.getValue();
                     if (apiResponse.getContent() != null) {
                         Content content = apiResponse.getContent();
                         for (String p : content.keySet()) {
@@ -349,8 +350,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                     }
                     if (apiResponse.getHeaders() != null) {
                         Map<String, Header> headers = apiResponse.getHeaders();
-                        for (String h : headers.keySet()) {
-                            Header header = headers.get(h);
+                        for (Map.Entry<String, Header> headersEntry : headers.entrySet()) {
+                            String h = headersEntry.getKey();
+                            Header header = headersEntry.getValue();
                             collectEnumSchemas(h, header.getSchema());
                         }
                     }
@@ -404,8 +406,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         Paths paths = openAPI.getPaths();
         if (paths != null && !paths.isEmpty()) {
-            for (String path : paths.keySet()) {
-                PathItem item = paths.get(path);
+            for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+                String path = pathsEntry.getKey();
+                PathItem item = pathsEntry.getValue();
                 collectEnumSchemas(item.getGet());
                 collectEnumSchemas(item.getPost());
                 collectEnumSchemas(item.getPut());
@@ -518,11 +521,11 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String toModelFilename(String name) {
 
-        if (!Strings.isNullOrEmpty(modelNamePrefix)) {
+        if (!StringUtils.isBlank(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
 
-        if (!Strings.isNullOrEmpty(modelNameSuffix)) {
+        if (!StringUtils.isBlank(modelNameSuffix)) {
             name = name + "_" + modelNameSuffix;
         }
 
@@ -669,7 +672,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public String toEnumValueName(String name) {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
             return escape(name, specialCharReplacements, Collections.singletonList("_"), null);
         } else {
             return name;
@@ -809,7 +812,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
         // only process files with ml or mli extension
         if ("ml".equals(FilenameUtils.getExtension(file.toString())) || "mli".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = ocamlPostProcessFile + " " + file.toString();
+            String command = ocamlPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -825,4 +828,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.OCAML; }
 }

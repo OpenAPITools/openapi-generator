@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.OuterEnumInteger;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * OuterObjectWithEnumProperty
@@ -37,6 +38,8 @@ public class OuterObjectWithEnumProperty {
   public static final String JSON_PROPERTY_VALUE = "value";
   private OuterEnumInteger value;
 
+  public OuterObjectWithEnumProperty() { 
+  }
 
   public OuterObjectWithEnumProperty value(OuterEnumInteger value) {
     

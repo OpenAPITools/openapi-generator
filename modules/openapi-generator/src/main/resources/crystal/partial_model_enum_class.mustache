@@ -1,7 +1,6 @@
   class {{classname}}{{#allowableValues}}{{#enumVars}}
-    {{{name}}} = {{{value}}}.freeze{{/enumVars}}
-
-{{/allowableValues}}
+    {{{name}}} = {{{value}}}
+  {{/enumVars}} {{/allowableValues}}
     # Builds the enum from string
     # @param [String] The enum value in the form of the string
     # @return [String] The enum value
@@ -13,8 +12,11 @@
     # @param [String] The enum value in the form of the string
     # @return [String] The enum value
     def build_from_hash(value)
-      constantValues = {{classname}}.constants.select { |c| {{classname}}::const_get(c) == value }
-      raise "Invalid ENUM value #{value} for class #{{{classname}}}" if constantValues.empty?
-      value
+      case value{{#allowableValues}}{{#enumVars}}
+      when {{{value}}}
+        {{{name}}}{{/enumVars}}{{/allowableValues}}
+      else
+        raise "Invalid ENUM value #{value} for class #{{{classname}}}"
+      end
     end
   end

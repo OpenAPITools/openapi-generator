@@ -43,7 +43,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String DEFAULT_LICENSE = "Proprietary";
     public static final String CORE_DATA = "coreData";
 
-    protected Set<String> foundationClasses = new HashSet<String>();
+    protected Set<String> foundationClasses = new HashSet<>();
     protected String podName = "OpenAPIClient";
     protected String podVersion = "1.0.0";
     protected String classPrefix = "OAI";
@@ -60,7 +60,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean generateCoreData = false;
 
-    protected Set<String> advancedMapingTypes = new HashSet<String>();
+    protected Set<String> advancedMappingTypes = new HashSet<>();
 
     public ObjcClientCodegen() {
         super();
@@ -117,15 +117,15 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         defaultIncludes.add("NSManagedObject");
         defaultIncludes.add("NSData");
 
-        advancedMapingTypes.add("NSDictionary");
-        advancedMapingTypes.add("NSArray");
-        advancedMapingTypes.add("NSMutableArray");
-        advancedMapingTypes.add("NSMutableDictionary");
-        advancedMapingTypes.add("NSObject");
-        advancedMapingTypes.add("NSNumber");
-        advancedMapingTypes.add("NSURL");
-        advancedMapingTypes.add("NSString");
-        advancedMapingTypes.add("NSDate");
+        advancedMappingTypes.add("NSDictionary");
+        advancedMappingTypes.add("NSArray");
+        advancedMappingTypes.add("NSMutableArray");
+        advancedMappingTypes.add("NSMutableDictionary");
+        advancedMappingTypes.add("NSObject");
+        advancedMappingTypes.add("NSNumber");
+        advancedMappingTypes.add("NSURL");
+        advancedMappingTypes.add("NSString");
+        advancedMappingTypes.add("NSDate");
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("NSNumber");
@@ -185,9 +185,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "description", "class"
                 ));
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
 
-        foundationClasses = new HashSet<String>(
+        foundationClasses = new HashSet<>(
                 Arrays.asList(
                         "NSNumber",
                         "NSObject",
@@ -380,7 +380,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             // In this condition, type of Schema p is array of model,
             // return container type combine inner type with pointer, e.g. `NSArray<SWGTag>*'
             else {
-                for (String sd : advancedMapingTypes) {
+                for (String sd : advancedMappingTypes) {
                     if (innerTypeDeclaration.startsWith(sd)) {
                         return getSchemaType(p) + "<" + innerTypeDeclaration + "*>*";
                     }
@@ -398,7 +398,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (languageSpecificPrimitives.contains(innerTypeDeclaration)) {
                 return getSchemaType(p) + "<NSString*, " + innerTypeDeclaration + "*>*";
             } else {
-                for (String s : advancedMapingTypes) {
+                for (String s : advancedMappingTypes) {
                     if (innerTypeDeclaration.startsWith(s)) {
                         return getSchemaType(p) + "<NSString*, " + innerTypeDeclaration + "*>*";
                     }
@@ -455,7 +455,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
      * Convert input to proper model name according to ObjC style guide
      * without checking for reserved words
      *
-     * @param type Model anme
+     * @param type Model name
      * @return model Name in ObjC style guide
      */
     public String toModelNameWithoutReservedWordCheck(String type) {
@@ -791,4 +791,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.OBJECTIVE_C; }
 }

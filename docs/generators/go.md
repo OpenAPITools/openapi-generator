@@ -1,8 +1,18 @@
 ---
-title: Config Options for go
-sidebar_label: go
+title: Documentation for the go Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | go | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Go | |
+| helpTxt | Generates a Go client library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -15,7 +25,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|Go package name (convention: lowercase).| |openapi|
 |packageVersion|Go package version.| |1.0.0|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|skipReadonlyPropertiesInInit|Skip default values to the readOnly properties in the model init function| |true|
 |structPrefix|whether to prefix struct with the class name. e.g. DeletePetOpts =&gt; PetApiDeletePetOpts| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support| |false|

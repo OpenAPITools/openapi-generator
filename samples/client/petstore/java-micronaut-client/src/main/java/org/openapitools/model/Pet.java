@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -220,11 +221,126 @@ public class Pet {
        public List<Tag> getTags() {
         return tags;
     }
+<<<<<<< HEAD
 
     @JsonProperty(JSON_PROPERTY_TAGS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
      public void setTags(List<Tag> tags) {
         this.tags = tags;
+=======
+  }
+  public static final String JSON_PROPERTY_STATUS = "status";
+  private StatusEnum status;
+
+  public Pet id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+   **/
+  @Nullable
+  @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Long getId() {
+    return id;
+  }
+
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Pet category(Category category) {
+    this.category = category;
+    return this;
+  }
+
+  /**
+   * Get category
+   * @return category
+   **/
+  @Valid
+  @Nullable
+  @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public Category getCategory() {
+    return category;
+  }
+
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCategory(Category category) {
+    this.category = category;
+  }
+
+  public Pet name(String name) {
+    this.name = name;
+    return this;
+  }
+
+  /**
+   * Get name
+   * @return name
+   **/
+  @NotNull
+  @ApiModelProperty(example = "doggie", required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public String getName() {
+    return name;
+  }
+
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Pet photoUrls(Set<String> photoUrls) {
+    this.photoUrls = photoUrls;
+    return this;
+  }
+
+  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    this.photoUrls.add(photoUrlsItem);
+    return this;
+  }
+
+  /**
+   * Get photoUrls
+   * @return photoUrls
+   **/
+  @NotNull
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public Set<String> getPhotoUrls() {
+    return photoUrls;
+  }
+
+  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  @JsonDeserialize(as = LinkedHashSet.class)
+  public void setPhotoUrls(Set<String> photoUrls) {
+    this.photoUrls = photoUrls;
+  }
+
+  public Pet tags(List<Tag> tags) {
+    this.tags = tags;
+    return this;
+  }
+
+  public Pet addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<Tag>();
+>>>>>>> ce04e9b6a2db14d152f24870de28637ae41bc0fb
     }
 
     public Pet status(StatusEnum status) {

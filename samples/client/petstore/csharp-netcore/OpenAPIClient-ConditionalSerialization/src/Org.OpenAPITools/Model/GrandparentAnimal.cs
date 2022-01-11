@@ -51,7 +51,10 @@ namespace Org.OpenAPITools.Model
         public GrandparentAnimal(string petType = default(string))
         {
             // to ensure "petType" is required (not null)
-            this._PetType = petType ?? throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
+            if (petType == null) {
+                throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
+            }
+            this._PetType = petType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -91,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class GrandparentAnimal {\n");
             sb.Append("  PetType: ").Append(PetType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -138,9 +141,13 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.PetType != null)
-                    hashCode = hashCode * 59 + this.PetType.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.PetType.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }
@@ -150,7 +157,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
