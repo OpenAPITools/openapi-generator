@@ -65,19 +65,6 @@ class EnumTest(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    enum_string (str,): 
-    enum_string_required (str,): 
-    enum_integer (int,): 
-    enum_number (float,): 
-    stringEnum (): 
-    IntegerEnum (): 
-    StringEnumWithDefaultValue (): 
-    IntegerEnumWithDefaultValue (): 
-    IntegerEnumOneValue (): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     _required_property_names = set((
         'enum_string_required',

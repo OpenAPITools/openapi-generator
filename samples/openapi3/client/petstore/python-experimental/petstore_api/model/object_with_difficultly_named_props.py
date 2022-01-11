@@ -67,13 +67,6 @@ class ObjectWithDifficultlyNamedProps(
     Do not edit the class manually.
 
     model with properties that have invalid names for python
-
-    Attributes:
-    $special[property.name] (int,): 
-    123-list (str,): 
-    123Number (int,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     _required_property_names = set((
         '123-list',

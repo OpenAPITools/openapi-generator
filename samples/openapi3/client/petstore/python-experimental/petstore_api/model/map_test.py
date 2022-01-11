@@ -65,14 +65,6 @@ class MapTest(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    map_map_of_string (dict,): 
-    map_of_enum_string (dict,): 
-    direct_map (dict,): 
-    indirect_map (): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     
     

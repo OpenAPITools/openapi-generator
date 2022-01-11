@@ -65,16 +65,6 @@ class Order(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    id (int,): 
-    petId (int,): 
-    quantity (int,): 
-    shipDate (datetime,): 
-    status (str,): Order Status
-    complete (bool,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     id = Int64Schema
     petId = Int64Schema

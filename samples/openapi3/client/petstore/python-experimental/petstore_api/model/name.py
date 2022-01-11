@@ -67,13 +67,6 @@ class Name(
     Do not edit the class manually.
 
     Model for testing model name same as property name
-
-    Attributes:
-    name (int,): 
-    snake_case (int,): 
-    property (str,): this is a reserved python keyword
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     _required_property_names = set((
         'name',

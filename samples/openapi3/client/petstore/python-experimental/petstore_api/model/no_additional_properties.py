@@ -65,10 +65,6 @@ class NoAdditionalProperties(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    id (int,): 
-    petId (int,): 
     """
     _required_property_names = set((
         'id',

@@ -65,14 +65,6 @@ class Drawing(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    mainShape (): 
-    shapeOrNull (): 
-    nullableShape (): 
-    shapes (tuple,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
 
     @classmethod

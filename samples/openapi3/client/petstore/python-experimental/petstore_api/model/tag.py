@@ -65,12 +65,6 @@ class Tag(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    id (int,): 
-    name (str,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     id = Int64Schema
     name = StrSchema

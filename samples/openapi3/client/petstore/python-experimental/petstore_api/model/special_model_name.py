@@ -67,11 +67,6 @@ class SpecialModelName(
     Do not edit the class manually.
 
     model with an invalid class name for python
-
-    Attributes:
-    a (str,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     a = StrSchema
 

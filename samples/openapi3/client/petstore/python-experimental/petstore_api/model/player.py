@@ -67,12 +67,6 @@ class Player(
     Do not edit the class manually.
 
     a model that includes a self reference this forces properties and additionalProperties to be lazy loaded in python models because the Player class has not fully loaded when defining properties
-
-    Attributes:
-    name (str,): 
-    enemyPlayer (): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     name = StrSchema
 

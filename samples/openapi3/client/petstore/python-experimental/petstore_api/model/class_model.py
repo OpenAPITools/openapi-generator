@@ -67,11 +67,6 @@ class ClassModel(
     Do not edit the class manually.
 
     Model for testing model with "_class" property
-
-    Attributes:
-    _class (str,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     _class = StrSchema
 

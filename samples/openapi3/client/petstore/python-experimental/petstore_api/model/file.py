@@ -67,11 +67,6 @@ class File(
     Do not edit the class manually.
 
     Must be named `File` for test.
-
-    Attributes:
-    sourceURI (str,): Test capitalization
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     sourceURI = StrSchema
 

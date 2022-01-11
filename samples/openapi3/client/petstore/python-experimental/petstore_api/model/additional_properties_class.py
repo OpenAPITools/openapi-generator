@@ -65,18 +65,6 @@ class AdditionalPropertiesClass(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    map_property (dict,): 
-    map_of_map_property (dict,): 
-    anytype_1 (): 
-    map_with_undeclared_properties_anytype_1 (dict,): 
-    map_with_undeclared_properties_anytype_2 (dict,): 
-    map_with_undeclared_properties_anytype_3 (dict,): 
-    empty_map (dict,): an object with no declared properties and no undeclared properties, hence it&#x27;s an empty map.
-    map_with_undeclared_properties_string (dict,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     
     

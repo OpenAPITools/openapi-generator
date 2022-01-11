@@ -68,13 +68,6 @@ class ArrayWithValidationsInItems(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    _items (Schema): the schema definition of the array items
-    _validations (dict): the validations which apply to the current Schema
-         The value is a dict that stores validations for max_length, min_length, max_items,
-         min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
-         inclusive_minimum, and regex.
     """
     
     

@@ -65,13 +65,6 @@ class GrandparentAnimal(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    pet_type (str,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
-    _discriminator(cls) -> dict: the key is the required discriminator propertyName
-        the value is a dict mapping from a string name to the corresponding Schema class
     """
     _required_property_names = set((
         'pet_type',

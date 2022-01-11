@@ -65,10 +65,6 @@ class AppleReq(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    cultivar (str,): 
-    mealy (bool,): 
     """
     _required_property_names = set((
         'cultivar',

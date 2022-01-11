@@ -67,12 +67,6 @@ class NullableShape(
     Do not edit the class manually.
 
     The value may be a shape or the 'null' value. The 'nullable' attribute was introduced in OAS schema >= 3.0 and has been deprecated in OAS schema >= 3.1. For a nullable composed schema to work, one of its chosen oneOf schemas must be type null
-
-    Attributes:
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
-    _discriminator(cls) -> dict: the key is the required discriminator propertyName
-        the value is a dict mapping from a string name to the corresponding Schema class
     """
 
     @classmethod

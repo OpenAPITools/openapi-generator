@@ -67,11 +67,6 @@ class HealthCheckResult(
     Do not edit the class manually.
 
     Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
-
-    Attributes:
-    NullableMessage (str, none_type,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     
     

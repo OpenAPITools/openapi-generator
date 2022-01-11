@@ -67,16 +67,6 @@ class Pet(
     Do not edit the class manually.
 
     Pet object that needs to be added to the store
-
-    Attributes:
-    id (int,): 
-    category (): 
-    name (str,): 
-    photoUrls (tuple,): 
-    tags (tuple,): 
-    status (str,): pet status in the store
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     _required_property_names = set((
         'name',
