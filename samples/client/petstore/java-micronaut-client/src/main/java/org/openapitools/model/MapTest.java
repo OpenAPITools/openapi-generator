@@ -113,7 +113,7 @@ public class MapTest {
 
     @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+       public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
         this.mapMapOfString = mapMapOfString;
     }
 
@@ -144,7 +144,7 @@ public class MapTest {
 
     @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+       public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
         this.mapOfEnumString = mapOfEnumString;
     }
 
@@ -175,7 +175,7 @@ public class MapTest {
 
     @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setDirectMap(Map<String, Boolean> directMap) {
+       public void setDirectMap(Map<String, Boolean> directMap) {
         this.directMap = directMap;
     }
 
@@ -206,7 +206,7 @@ public class MapTest {
 
     @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setIndirectMap(Map<String, Boolean> indirectMap) {
+       public void setIndirectMap(Map<String, Boolean> indirectMap) {
         this.indirectMap = indirectMap;
     }
 

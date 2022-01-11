@@ -118,7 +118,7 @@ public class FormatTest {
 
     @JsonProperty(JSON_PROPERTY_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setInteger(Integer integer) {
+       public void setInteger(Integer integer) {
         this.integer = integer;
     }
 
@@ -145,7 +145,7 @@ public class FormatTest {
 
     @JsonProperty(JSON_PROPERTY_INT32)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setInt32(Integer int32) {
+       public void setInt32(Integer int32) {
         this.int32 = int32;
     }
 
@@ -168,7 +168,7 @@ public class FormatTest {
 
     @JsonProperty(JSON_PROPERTY_INT64)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setInt64(Long int64) {
+       public void setInt64(Long int64) {
         this.int64 = int64;
     }
 
@@ -195,7 +195,7 @@ public class FormatTest {
 
     @JsonProperty(JSON_PROPERTY_NUMBER)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-     public void setNumber(BigDecimal number) {
+       public void setNumber(BigDecimal number) {
         this.number = number;
     }
 
@@ -222,7 +222,7 @@ public class FormatTest {
 
     @JsonProperty(JSON_PROPERTY_FLOAT)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setFloat(Float _float) {
+       public void setFloat(Float _float) {
         this._float = _float;
     }
 
@@ -249,7 +249,7 @@ public class FormatTest {
 
     @JsonProperty(JSON_PROPERTY_DOUBLE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setDouble(Double _double) {
+       public void setDouble(Double _double) {
         this._double = _double;
     }
 
@@ -273,7 +273,7 @@ public class FormatTest {
 
     @JsonProperty(JSON_PROPERTY_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setString(String string) {
+       public void setString(String string) {
         this.string = string;
     }
 
@@ -296,7 +296,7 @@ public class FormatTest {
 
     @JsonProperty(JSON_PROPERTY_BYTE)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-     public void setByte(byte[] _byte) {
+       public void setByte(byte[] _byte) {
         this._byte = _byte;
     }
 
@@ -319,7 +319,7 @@ public class FormatTest {
 
     @JsonProperty(JSON_PROPERTY_BINARY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setBinary(File binary) {
+       public void setBinary(File binary) {
         this.binary = binary;
     }
 
@@ -344,7 +344,7 @@ public class FormatTest {
     @JsonProperty(JSON_PROPERTY_DATE)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-     public void setDate(LocalDate date) {
+       public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -369,7 +369,7 @@ public class FormatTest {
     @JsonProperty(JSON_PROPERTY_DATE_TIME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
-     public void setDateTime(LocalDateTime dateTime) {
+       public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
 
@@ -392,7 +392,7 @@ public class FormatTest {
 
     @JsonProperty(JSON_PROPERTY_UUID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setUuid(UUID uuid) {
+       public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
 
@@ -416,7 +416,7 @@ public class FormatTest {
 
     @JsonProperty(JSON_PROPERTY_PASSWORD)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-     public void setPassword(String password) {
+       public void setPassword(String password) {
         this.password = password;
     }
 
@@ -439,7 +439,7 @@ public class FormatTest {
 
     @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setBigDecimal(BigDecimal bigDecimal) {
+       public void setBigDecimal(BigDecimal bigDecimal) {
         this.bigDecimal = bigDecimal;
     }
 

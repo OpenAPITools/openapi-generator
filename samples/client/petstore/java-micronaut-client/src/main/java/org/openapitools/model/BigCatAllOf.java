@@ -92,7 +92,7 @@ public class BigCatAllOf {
 
     @JsonProperty(JSON_PROPERTY_KIND)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setKind(KindEnum kind) {
+       public void setKind(KindEnum kind) {
         this.kind = kind;
     }
 

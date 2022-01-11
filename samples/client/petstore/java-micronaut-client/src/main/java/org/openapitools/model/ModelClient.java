@@ -57,7 +57,7 @@ public class ModelClient {
 
     @JsonProperty(JSON_PROPERTY_CLIENT)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setClient(String _client) {
+       public void setClient(String _client) {
         this._client = _client;
     }
 

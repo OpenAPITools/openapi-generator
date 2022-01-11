@@ -60,7 +60,7 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
 
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setName(String name) {
+       public void setName(String name) {
         this.name = name;
     }
 

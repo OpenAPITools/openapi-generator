@@ -70,7 +70,7 @@ public class Animal {
 
     @JsonProperty(JSON_PROPERTY_CLASS_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-     public void setClassName(String className) {
+       public void setClassName(String className) {
         this.className = className;
     }
 
@@ -93,7 +93,7 @@ public class Animal {
 
     @JsonProperty(JSON_PROPERTY_COLOR)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setColor(String color) {
+       public void setColor(String color) {
         this.color = color;
     }
 

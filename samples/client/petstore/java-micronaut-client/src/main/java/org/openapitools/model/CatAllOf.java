@@ -57,7 +57,7 @@ public class CatAllOf {
 
     @JsonProperty(JSON_PROPERTY_DECLAWED)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-     public void setDeclawed(Boolean declawed) {
+       public void setDeclawed(Boolean declawed) {
         this.declawed = declawed;
     }
 
