@@ -49,10 +49,12 @@ from petstore_api.model.composed_number import ComposedNumber
 from petstore_api.model.composed_object import ComposedObject
 from petstore_api.model.composed_one_of_different_types import ComposedOneOfDifferentTypes
 from petstore_api.model.composed_string import ComposedString
+from petstore_api.model.currency import Currency
 from petstore_api.model.danish_pig import DanishPig
 from petstore_api.model.date_time_test import DateTimeTest
 from petstore_api.model.date_time_with_validations import DateTimeWithValidations
 from petstore_api.model.date_with_validations import DateWithValidations
+from petstore_api.model.decimal_payload import DecimalPayload
 from petstore_api.model.dog import Dog
 from petstore_api.model.dog_all_of import DogAllOf
 from petstore_api.model.drawing import Drawing
@@ -85,6 +87,7 @@ from petstore_api.model.map_test import MapTest
 from petstore_api.model.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from petstore_api.model.model200_response import Model200Response
 from petstore_api.model.model_return import ModelReturn
+from petstore_api.model.money import Money
 from petstore_api.model.name import Name
 from petstore_api.model.no_additional_properties import NoAdditionalProperties
 from petstore_api.model.nullable_class import NullableClass
@@ -95,6 +98,7 @@ from petstore_api.model.number_only import NumberOnly
 from petstore_api.model.number_with_validations import NumberWithValidations
 from petstore_api.model.object_interface import ObjectInterface
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
+from petstore_api.model.object_with_decimal_properties import ObjectWithDecimalProperties
 from petstore_api.model.object_with_difficultly_named_props import ObjectWithDifficultlyNamedProps
 from petstore_api.model.object_with_validations import ObjectWithValidations
 from petstore_api.model.order import Order

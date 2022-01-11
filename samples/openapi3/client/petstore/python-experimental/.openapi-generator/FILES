@@ -41,10 +41,12 @@ docs/ComposedNumber.md
 docs/ComposedObject.md
 docs/ComposedOneOfDifferentTypes.md
 docs/ComposedString.md
+docs/Currency.md
 docs/DanishPig.md
 docs/DateTimeTest.md
 docs/DateTimeWithValidations.md
 docs/DateWithValidations.md
+docs/DecimalPayload.md
 docs/DefaultApi.md
 docs/Dog.md
 docs/DogAllOf.md
@@ -80,6 +82,7 @@ docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/ModelReturn.md
+docs/Money.md
 docs/Name.md
 docs/NoAdditionalProperties.md
 docs/NullableClass.md
@@ -90,6 +93,7 @@ docs/NumberOnly.md
 docs/NumberWithValidations.md
 docs/ObjectInterface.md
 docs/ObjectModelWithRefProps.md
+docs/ObjectWithDecimalProperties.md
 docs/ObjectWithDifficultlyNamedProps.md
 docs/ObjectWithValidations.md
 docs/Order.md
@@ -175,10 +179,12 @@ petstore_api/model/composed_number.py
 petstore_api/model/composed_object.py
 petstore_api/model/composed_one_of_different_types.py
 petstore_api/model/composed_string.py
+petstore_api/model/currency.py
 petstore_api/model/danish_pig.py
 petstore_api/model/date_time_test.py
 petstore_api/model/date_time_with_validations.py
 petstore_api/model/date_with_validations.py
+petstore_api/model/decimal_payload.py
 petstore_api/model/dog.py
 petstore_api/model/dog_all_of.py
 petstore_api/model/drawing.py
@@ -211,6 +217,7 @@ petstore_api/model/map_test.py
 petstore_api/model/mixed_properties_and_additional_properties_class.py
 petstore_api/model/model200_response.py
 petstore_api/model/model_return.py
+petstore_api/model/money.py
 petstore_api/model/name.py
 petstore_api/model/no_additional_properties.py
 petstore_api/model/nullable_class.py
@@ -221,6 +228,7 @@ petstore_api/model/number_only.py
 petstore_api/model/number_with_validations.py
 petstore_api/model/object_interface.py
 petstore_api/model/object_model_with_ref_props.py
+petstore_api/model/object_with_decimal_properties.py
 petstore_api/model/object_with_difficultly_named_props.py
 petstore_api/model/object_with_validations.py
 petstore_api/model/order.py
@@ -259,4 +267,8 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_currency.py
+test/test_decimal_payload.py
+test/test_money.py
+test/test_object_with_decimal_properties.py
 tox.ini

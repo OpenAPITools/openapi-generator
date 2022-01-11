@@ -2653,3 +2653,32 @@ components:
       type: 'null'
       allOf:
         - {}
+    Currency:
+      type: string
+      enum:
+        - eur
+        - usd
+    Money:
+      type: object
+      properties:
+        amount:
+          type: string
+          format: number
+        currency:
+          $ref: '#/components/schemas/Currency'
+      required:
+        - amount
+        - currency
+    DecimalPayload:
+      type: string
+      format: number
+    ObjectWithDecimalProperties:
+      type: object
+      properties:
+        length:
+          $ref: '#/components/schemas/DecimalPayload'
+        width:
+          type: string
+          format: number
+        cost:
+          $ref: '#/components/schemas/Money'

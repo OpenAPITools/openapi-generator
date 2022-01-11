@@ -32,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
