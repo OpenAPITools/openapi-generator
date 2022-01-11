@@ -15,15 +15,6 @@ class {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}
 
     {{{unescapedDescription}}}
 {{/if}}
-
-    Attributes:
-    _items (Schema): the schema definition of the array items
-{{#if hasValidation}}
-    _validations (dict): the validations which apply to the current Schema
-         The value is a dict that stores validations for max_length, min_length, max_items,
-         min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
-         inclusive_minimum, and regex.
-{{/if}}
     """
 {{/if}}
 {{#with items}}

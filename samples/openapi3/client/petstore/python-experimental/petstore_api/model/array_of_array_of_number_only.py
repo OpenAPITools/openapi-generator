@@ -65,11 +65,6 @@ class ArrayOfArrayOfNumberOnly(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    ArrayArrayNumber (tuple,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     
     

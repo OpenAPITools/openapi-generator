@@ -72,8 +72,6 @@ class StringEnumWithDefaultValue(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
     """
     
     @classmethod

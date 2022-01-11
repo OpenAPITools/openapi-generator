@@ -65,16 +65,6 @@ class Capitalization(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    smallCamel (str,): 
-    CapitalCamel (str,): 
-    small_Snake (str,): 
-    Capital_Snake (str,): 
-    SCA_ETH_Flow_Points (str,): 
-    ATT_NAME (str,): Name of the pet 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     smallCamel = StrSchema
     CapitalCamel = StrSchema

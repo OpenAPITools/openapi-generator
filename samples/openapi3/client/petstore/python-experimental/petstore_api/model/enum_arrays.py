@@ -65,12 +65,6 @@ class EnumArrays(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    just_symbol (str,): 
-    array_enum (tuple,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     
     

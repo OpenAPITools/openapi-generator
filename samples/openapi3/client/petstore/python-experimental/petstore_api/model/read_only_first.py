@@ -65,12 +65,6 @@ class ReadOnlyFirst(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    bar (str,): 
-    baz (str,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     bar = StrSchema
     baz = StrSchema

@@ -65,13 +65,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    uuid (str,): 
-    dateTime (datetime,): 
-    map (dict,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     uuid = StrSchema
     dateTime = DateTimeSchema

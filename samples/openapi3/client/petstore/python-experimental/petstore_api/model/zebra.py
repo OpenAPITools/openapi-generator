@@ -65,12 +65,6 @@ class Zebra(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    type (str,): 
-    className (str,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     _required_property_names = set((
         'className',

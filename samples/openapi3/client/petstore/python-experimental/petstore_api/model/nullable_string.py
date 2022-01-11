@@ -68,8 +68,6 @@ class NullableString(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
     """
 
     def __new__(

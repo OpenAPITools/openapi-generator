@@ -67,12 +67,6 @@ class Model200Response(
     Do not edit the class manually.
 
     model with an invalid class name for python, starts with a number
-
-    Attributes:
-    name (int,): 
-    class (str,): this is a reserved python keyword
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     name = Int32Schema
     _class = StrSchema

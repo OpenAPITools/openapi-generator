@@ -65,13 +65,6 @@ class ApiResponse(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    code (int,): 
-    type (str,): 
-    message (str,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     code = Int32Schema
     type = StrSchema

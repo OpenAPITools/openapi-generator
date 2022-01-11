@@ -65,13 +65,6 @@ class ArrayTest(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    array_of_string (tuple,): 
-    array_array_of_integer (tuple,): 
-    array_array_of_model (tuple,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     
     

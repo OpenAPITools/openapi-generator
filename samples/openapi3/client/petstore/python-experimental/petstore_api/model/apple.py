@@ -68,12 +68,6 @@ class Apple(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    cultivar (str,): 
-    origin (str,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     _required_property_names = set((
         'cultivar',

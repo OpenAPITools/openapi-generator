@@ -65,10 +65,6 @@ class BananaReq(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    lengthCm (int, float,): 
-    sweet (bool,): 
     """
     _required_property_names = set((
         'lengthCm',

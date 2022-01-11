@@ -65,8 +65,5 @@ class ArrayHoldingAnyType(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    _items (Schema): the schema definition of the array items
     """
     _items = AnyTypeSchema

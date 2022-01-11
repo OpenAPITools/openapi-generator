@@ -65,22 +65,6 @@ class NullableClass(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    integer_prop (int, none_type,): 
-    number_prop (int, float, none_type,): 
-    boolean_prop (bool, none_type,): 
-    string_prop (str, none_type,): 
-    date_prop (date, none_type,): 
-    datetime_prop (datetime, none_type,): 
-    array_nullable_prop (tuple, none_type,): 
-    array_and_items_nullable_prop (tuple, none_type,): 
-    array_items_nullable (tuple,): 
-    object_nullable_prop (dict, none_type,): 
-    object_and_items_nullable_prop (dict, none_type,): 
-    object_items_nullable (dict,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     
     

@@ -65,10 +65,6 @@ class Address(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     _additional_properties = IntSchema
 

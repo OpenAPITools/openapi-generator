@@ -67,10 +67,6 @@ class ComposedOneOfDifferentTypes(
     Do not edit the class manually.
 
     this is a model that allows payloads of type object or number
-
-    Attributes:
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
 
     @classmethod

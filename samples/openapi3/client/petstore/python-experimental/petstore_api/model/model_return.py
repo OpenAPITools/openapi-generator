@@ -67,11 +67,6 @@ class ModelReturn(
     Do not edit the class manually.
 
     Model for testing reserved words
-
-    Attributes:
-    return (int,): this is a reserved python keyword
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     _return = Int32Schema
     locals()['return'] = _return
