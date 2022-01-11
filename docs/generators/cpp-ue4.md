@@ -7,6 +7,7 @@ title: Documentation for the cpp-ue4 Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | cpp-ue4 | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | C++ | |
 | helpTxt | Generates a Unreal Engine 4 C++ Module (beta). | |

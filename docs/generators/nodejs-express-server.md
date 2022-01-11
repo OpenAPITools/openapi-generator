@@ -7,6 +7,7 @@ title: Documentation for the nodejs-express-server Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | nodejs-express-server | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | SERVER | |
 | generator language | Javascript | |
 | helpTxt | Generates a NodeJS Express server (alpha). IMPORTANT: this generator may subject to breaking changes without further notice). | |

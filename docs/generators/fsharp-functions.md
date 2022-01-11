@@ -7,6 +7,7 @@ title: Documentation for the fsharp-functions Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | fsharp-functions | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | SERVER | |
 | generator language | F# | |
 | helpTxt | Generates a fsharp-functions server (beta). | |

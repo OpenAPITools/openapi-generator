@@ -7,6 +7,7 @@ title: Documentation for the dart-dio Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | dart-dio | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Dart | |
 | helpTxt | Generates a Dart Dio client library. | |

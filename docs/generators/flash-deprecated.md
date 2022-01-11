@@ -7,6 +7,7 @@ title: Documentation for the flash-deprecated Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | flash-deprecated | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
 | generator type | CLIENT | |
 | generator language | Flash | |
 | helpTxt | Generates a Flash (ActionScript) client library (beta). IMPORTANT: this generator has been deprecated in v5.x | |

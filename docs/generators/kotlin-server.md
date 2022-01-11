@@ -7,6 +7,7 @@ title: Documentation for the kotlin-server Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | kotlin-server | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Kotlin | |
 | helpTxt | Generates a Kotlin server. | |

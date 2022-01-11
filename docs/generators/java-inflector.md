@@ -7,6 +7,7 @@ title: Documentation for the java-inflector Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | java-inflector | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Java | |
 | helpTxt | Generates a Java Inflector Server application. | |

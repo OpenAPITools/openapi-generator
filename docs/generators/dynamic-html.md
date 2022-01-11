@@ -7,6 +7,7 @@ title: Documentation for the dynamic-html Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | dynamic-html | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | DOCUMENTATION | |
 | helpTxt | Generates a dynamic HTML site. | |
 

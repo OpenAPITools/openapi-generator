@@ -7,6 +7,7 @@ title: Documentation for the openapi Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | openapi | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | DOCUMENTATION | |
 | helpTxt | Creates a static openapi.json file (OpenAPI spec v3.0). | |
 

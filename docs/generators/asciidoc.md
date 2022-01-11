@@ -7,6 +7,7 @@ title: Documentation for the asciidoc Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | asciidoc | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | DOCUMENTATION | |
 | generator language | Java | |
 | helpTxt | Generates asciidoc markup based documentation. | |

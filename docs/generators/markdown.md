@@ -7,6 +7,7 @@ title: Documentation for the markdown Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | markdown | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | DOCUMENTATION | |
 | helpTxt | Generates a markdown documentation. | |
 

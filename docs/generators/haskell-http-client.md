@@ -7,6 +7,7 @@ title: Documentation for the haskell-http-client Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | haskell-http-client | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Haskell | |
 | helpTxt | Generates a Haskell http-client library. | |

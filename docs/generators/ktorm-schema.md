@@ -7,6 +7,7 @@ title: Documentation for the ktorm-schema Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | ktorm-schema | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | SCHEMA | |
 | generator language | Ktorm | |
 | helpTxt | Generates a kotlin-ktorm schema (beta) | |

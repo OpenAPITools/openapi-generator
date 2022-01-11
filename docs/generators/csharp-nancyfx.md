@@ -7,6 +7,7 @@ title: Documentation for the csharp-nancyfx Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | csharp-nancyfx | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | C# | |
 | helpTxt | Generates a C# NancyFX Web API server. | |
