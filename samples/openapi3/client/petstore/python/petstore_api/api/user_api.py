@@ -470,6 +470,10 @@ class UserApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -501,6 +505,7 @@ class UserApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['user'] = \
             user
         return self.create_user_endpoint.call_with_http_info(**kwargs)
@@ -547,6 +552,10 @@ class UserApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -578,6 +587,7 @@ class UserApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['user'] = \
             user
         return self.create_users_with_array_input_endpoint.call_with_http_info(**kwargs)
@@ -624,6 +634,10 @@ class UserApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -655,6 +669,7 @@ class UserApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['user'] = \
             user
         return self.create_users_with_list_input_endpoint.call_with_http_info(**kwargs)
@@ -702,6 +717,10 @@ class UserApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -733,6 +752,7 @@ class UserApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['username'] = \
             username
         return self.delete_user_endpoint.call_with_http_info(**kwargs)
@@ -779,6 +799,10 @@ class UserApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -810,6 +834,7 @@ class UserApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['username'] = \
             username
         return self.get_user_by_name_endpoint.call_with_http_info(**kwargs)
@@ -858,6 +883,10 @@ class UserApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -889,6 +918,7 @@ class UserApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['username'] = \
             username
         kwargs['password'] = \
@@ -934,6 +964,10 @@ class UserApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -965,6 +999,7 @@ class UserApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.logout_user_endpoint.call_with_http_info(**kwargs)
 
     def update_user(
@@ -1012,6 +1047,10 @@ class UserApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -1043,6 +1082,7 @@ class UserApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['username'] = \
             username
         kwargs['user'] = \

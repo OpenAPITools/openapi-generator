@@ -132,7 +132,8 @@ class ApiClient(object):
         _request_timeout: typing.Optional[typing.Union[int, float, typing.Tuple]] = None,
         _host: typing.Optional[str] = None,
         _check_type: typing.Optional[bool] = None,
-        _content_type: typing.Optional[str] = None
+        _content_type: typing.Optional[str] = None,
+        _request_auth: typing.Optional[typing.Dict[str, typing.Any]] = None
     ):
 
         config = self.configuration
@@ -182,7 +183,8 @@ class ApiClient(object):
 
         # auth setting
         self.update_params_for_auth(header_params, query_params,
-                                    auth_settings, resource_path, method, body)
+                                    auth_settings, resource_path, method, body,
+                                    request_auth=_request_auth)
 
         # request url
         if _host is None:
@@ -350,7 +352,8 @@ class ApiClient(object):
         _preload_content: bool = True,
         _request_timeout: typing.Optional[typing.Union[int, float, typing.Tuple]] = None,
         _host: typing.Optional[str] = None,
-        _check_type: typing.Optional[bool] = None
+        _check_type: typing.Optional[bool] = None,
+        _request_auth: typing.Optional[typing.Dict[str, typing.Any]] = None
     ):
         """Makes the HTTP request (synchronous) and returns deserialized data.
 
@@ -398,6 +401,10 @@ class ApiClient(object):
         :param _check_type: boolean describing if the data back from the server
             should have its type checked.
         :type _check_type: bool, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return:
             If async_req parameter is True,
             the request will be called asynchronously.
@@ -412,7 +419,7 @@ class ApiClient(object):
                                    response_type, auth_settings,
                                    _return_http_data_only, collection_formats,
                                    _preload_content, _request_timeout, _host,
-                                   _check_type)
+                                   _check_type, _request_auth)
 
         return self.pool.apply_async(self.__call_api, (resource_path,
                                                        method, path_params,
@@ -425,7 +432,7 @@ class ApiClient(object):
                                                        collection_formats,
                                                        _preload_content,
                                                        _request_timeout,
-                                                       _host, _check_type))
+                                                       _host, _check_type, _request_auth))
 
     def request(self, method, url, query_params=None, headers=None,
                 post_params=None, body=None, _preload_content=True,
@@ -597,7 +604,7 @@ class ApiClient(object):
             return content_types[0]
 
     def update_params_for_auth(self, headers, queries, auth_settings,
-                               resource_path, method, body):
+                               resource_path, method, body, request_auth=None):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
@@ -607,25 +614,33 @@ class ApiClient(object):
         :param method: A string representation of the HTTP request method.
         :param body: A object representing the body of the HTTP request.
             The object type is the return value of _encoder.default().
+        :param request_auth: if set, the provided settings will
+            override the token in the configuration.
         """
         if not auth_settings:
+            return
+
+        if request_auth:
+            self._apply_auth_params(headers, queries, request_auth)
             return
 
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
-                if auth_setting['in'] == 'cookie':
-                    headers['Cookie'] = auth_setting['value']
-                elif auth_setting['in'] == 'header':
-                    if auth_setting['type'] != 'http-signature':
-                        headers[auth_setting['key']] = auth_setting['value']
-                elif auth_setting['in'] == 'query':
-                    queries.append((auth_setting['key'], auth_setting['value']))
-                else:
-                    raise ApiValueError(
-                        'Authentication token must be in `query` or `header`'
-                    )
+                self._apply_auth_params(headers, queries, auth_setting)
 
+    def _apply_auth_params(self, headers, queries, auth_setting):
+        if auth_setting['in'] == 'cookie':
+            headers['Cookie'] = auth_setting['value']
+        elif auth_setting['in'] == 'header':
+            if auth_setting['type'] != 'http-signature':
+                headers[auth_setting['key']] = auth_setting['value']
+        elif auth_setting['in'] == 'query':
+            queries.append((auth_setting['key'], auth_setting['value']))
+        else:
+            raise ApiValueError(
+                'Authentication token must be in `query` or `header`'
+            )
 
 class Endpoint(object):
     def __init__(self, settings=None, params_map=None, root_map=None,
@@ -674,7 +689,8 @@ class Endpoint(object):
             '_check_input_type',
             '_check_return_type',
             '_content_type',
-            '_spec_property_naming'
+            '_spec_property_naming',
+            '_request_auth'
         ])
         self.params_map['nullable'].extend(['_request_timeout'])
         self.validations = root_map['validations']
@@ -689,7 +705,8 @@ class Endpoint(object):
             '_check_input_type': (bool,),
             '_check_return_type': (bool,),
             '_spec_property_naming': (bool,),
-            '_content_type': (none_type, str)
+            '_content_type': (none_type, str),
+            '_request_auth': (none_type, dict)
         }
         self.openapi_types.update(extra_types)
         self.attribute_map = root_map['attribute_map']
@@ -863,4 +880,5 @@ class Endpoint(object):
             _preload_content=kwargs['_preload_content'],
             _request_timeout=kwargs['_request_timeout'],
             _host=_host,
+            _request_auth=kwargs['_request_auth'],
             collection_formats=params['collection_format'])

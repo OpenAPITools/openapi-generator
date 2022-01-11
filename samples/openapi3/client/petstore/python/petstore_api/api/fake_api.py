@@ -1730,6 +1730,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -1761,6 +1765,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.additional_properties_with_array_of_enums_endpoint.call_with_http_info(**kwargs)
 
     def array_model(
@@ -1804,6 +1809,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -1835,6 +1844,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.array_model_endpoint.call_with_http_info(**kwargs)
 
     def array_of_enums(
@@ -1877,6 +1887,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -1908,6 +1922,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.array_of_enums_endpoint.call_with_http_info(**kwargs)
 
     def boolean(
@@ -1951,6 +1966,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -1982,6 +2001,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.boolean_endpoint.call_with_http_info(**kwargs)
 
     def composed_one_of_number_with_validations(
@@ -2025,6 +2045,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -2056,6 +2080,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.composed_one_of_number_with_validations_endpoint.call_with_http_info(**kwargs)
 
     def download_attachment(
@@ -2100,6 +2125,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -2131,6 +2160,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['file_name'] = \
             file_name
         return self.download_attachment_endpoint.call_with_http_info(**kwargs)
@@ -2175,6 +2205,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -2206,6 +2240,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.enum_test_endpoint.call_with_http_info(**kwargs)
 
     def fake_health_get(
@@ -2247,6 +2282,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -2278,6 +2317,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.fake_health_get_endpoint.call_with_http_info(**kwargs)
 
     def mammal(
@@ -2323,6 +2363,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -2354,6 +2398,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['mammal'] = \
             mammal
         return self.mammal_endpoint.call_with_http_info(**kwargs)
@@ -2399,6 +2444,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -2430,6 +2479,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.number_with_validations_endpoint.call_with_http_info(**kwargs)
 
     def object_model_with_ref_props(
@@ -2473,6 +2523,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -2504,6 +2558,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.object_model_with_ref_props_endpoint.call_with_http_info(**kwargs)
 
     def post_inline_additional_properties_payload(
@@ -2546,6 +2601,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -2577,6 +2636,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.post_inline_additional_properties_payload_endpoint.call_with_http_info(**kwargs)
 
     def post_inline_additional_properties_ref_payload(
@@ -2619,6 +2679,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -2650,6 +2714,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.post_inline_additional_properties_ref_payload_endpoint.call_with_http_info(**kwargs)
 
     def string(
@@ -2693,6 +2758,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -2724,6 +2793,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.string_endpoint.call_with_http_info(**kwargs)
 
     def string_enum(
@@ -2767,6 +2837,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -2798,6 +2872,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.string_enum_endpoint.call_with_http_info(**kwargs)
 
     def test_body_with_file_schema(
@@ -2843,6 +2918,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -2874,6 +2953,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['file_schema_test_class'] = \
             file_schema_test_class
         return self.test_body_with_file_schema_endpoint.call_with_http_info(**kwargs)
@@ -2922,6 +3002,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -2953,6 +3037,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['query'] = \
             query
         kwargs['user'] = \
@@ -3002,6 +3087,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -3033,6 +3122,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['client'] = \
             client
         return self.test_client_model_endpoint.call_with_http_info(**kwargs)
@@ -3096,6 +3186,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -3127,6 +3221,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['number'] = \
             number
         kwargs['double'] = \
@@ -3185,6 +3280,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -3216,6 +3315,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.test_enum_parameters_endpoint.call_with_http_info(**kwargs)
 
     def test_group_parameters(
@@ -3268,6 +3368,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -3299,6 +3403,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['required_string_group'] = \
             required_string_group
         kwargs['required_boolean_group'] = \
@@ -3349,6 +3454,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -3380,6 +3489,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['request_body'] = \
             request_body
         return self.test_inline_additional_properties_endpoint.call_with_http_info(**kwargs)
@@ -3428,6 +3538,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -3459,6 +3573,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['param'] = \
             param
         kwargs['param2'] = \
@@ -3516,6 +3631,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -3547,6 +3666,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['pipe'] = \
             pipe
         kwargs['ioutil'] = \
@@ -3599,6 +3719,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -3630,6 +3754,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.tx_rx_any_of_model_endpoint.call_with_http_info(**kwargs)
 
     def upload_download_file(
@@ -3674,6 +3799,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -3705,6 +3834,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['body'] = \
             body
         return self.upload_download_file_endpoint.call_with_http_info(**kwargs)
@@ -3752,6 +3882,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -3783,6 +3917,7 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         kwargs['file'] = \
             file
         return self.upload_file_endpoint.call_with_http_info(**kwargs)
@@ -3827,6 +3962,10 @@ class FakeApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
+            _request_auth (dict): set to override the auth_settings for an a single
+                request; this effectively ignores the authentication
+                in the spec for a single request.
+                Default is None
             async_req (bool): execute request asynchronously
 
         Returns:
@@ -3858,5 +3997,6 @@ class FakeApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
+        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
         return self.upload_files_endpoint.call_with_http_info(**kwargs)
 
