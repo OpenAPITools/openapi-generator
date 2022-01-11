@@ -34,6 +34,9 @@ Date{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{#if isDateTime}}
 DateTime{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}
+{{#if isDecimal}}
+Decimal{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
 {{#if isBoolean}}
 Bool{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
 {{/if}}

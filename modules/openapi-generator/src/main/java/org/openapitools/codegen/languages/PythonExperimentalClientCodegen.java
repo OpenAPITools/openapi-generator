@@ -1053,6 +1053,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     @Override
     public CodegenModel fromModel(String name, Schema sc) {
         CodegenModel cm = super.fromModel(name, sc);
+        Schema unaliasedSchema = unaliasSchema(sc, importMapping);
+        if (unaliasedSchema != null) {
+            if (ModelUtils.isDecimalSchema(unaliasedSchema)) { // type: string, format: number
+                cm.isString = false;
+                cm.isDecimal = true;
+            }
+        }
+
         if (cm.isNullable) {
             cm.setIsNull(true);
             cm.isNullable = false;

@@ -13,7 +13,7 @@ import typing
 import urllib3
 
 from petstore_api import api_client, exceptions
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 

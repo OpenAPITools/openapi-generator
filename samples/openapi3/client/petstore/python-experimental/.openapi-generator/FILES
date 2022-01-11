@@ -267,8 +267,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_currency.py
-test/test_decimal_payload.py
-test/test_money.py
-test/test_object_with_decimal_properties.py
 tox.ini

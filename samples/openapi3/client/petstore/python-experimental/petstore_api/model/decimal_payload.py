@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -57,4 +57,4 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaTypeChecker,
     _SchemaEnumMaker
 )
-DecimalPayload = StrSchema
+DecimalPayload = DecimalSchema
