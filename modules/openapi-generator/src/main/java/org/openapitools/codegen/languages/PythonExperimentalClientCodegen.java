@@ -198,6 +198,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
         languageSpecificPrimitives.add("file_type");
         languageSpecificPrimitives.add("none_type");
+        typeMapping.put("decimal", "str");
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.EXPERIMENTAL)

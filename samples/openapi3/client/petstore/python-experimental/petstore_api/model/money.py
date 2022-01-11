@@ -71,11 +71,7 @@ class Money(
         'amount',
         'currency',
     ))
-
-    @classmethod
-    @property
-    def amount(cls) -> typing.Type['Decimal']:
-        return Decimal
+    amount = DecimalSchema
 
     @classmethod
     @property
@@ -101,4 +97,3 @@ class Money(
         )
 
 from petstore_api.model.currency import Currency
-from petstore_api.model.decimal import Decimal

@@ -67,16 +67,8 @@ class ObjectWithDecimalProperties(
 
     Do not edit the class manually.
     """
-
-    @classmethod
-    @property
-    def length(cls) -> typing.Type['Decimal']:
-        return Decimal
-
-    @classmethod
-    @property
-    def width(cls) -> typing.Type['Decimal']:
-        return Decimal
+    length = DecimalSchema
+    width = DecimalSchema
 
     @classmethod
     @property
@@ -87,8 +79,8 @@ class ObjectWithDecimalProperties(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        length: typing.Union['Decimal', Unset] = unset,
-        width: typing.Union['Decimal', Unset] = unset,
+        length: typing.Union[length, Unset] = unset,
+        width: typing.Union[width, Unset] = unset,
         cost: typing.Union['Money', Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
@@ -103,5 +95,4 @@ class ObjectWithDecimalProperties(
             **kwargs,
         )
 
-from petstore_api.model.decimal import Decimal
 from petstore_api.model.money import Money
