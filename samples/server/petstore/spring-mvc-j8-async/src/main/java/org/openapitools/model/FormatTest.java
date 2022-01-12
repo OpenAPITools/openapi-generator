@@ -144,7 +144,9 @@ public class FormatTest   {
    * @return number
   */
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull         
+    
+    
 
   @Valid
 @DecimalMin("32.1") @DecimalMax("543.2") 
@@ -230,7 +232,9 @@ public class FormatTest   {
    * @return _byte
   */
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull         
+    
+    
 
 
   public byte[] getByte() {
@@ -272,7 +276,9 @@ public class FormatTest   {
    * @return date
   */
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull         
+    
+    
 
   @Valid
 
@@ -336,7 +342,9 @@ public class FormatTest   {
    * @return password
   */
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull         
+    
+    
 
 @Size(min = 10, max = 64) 
   public String getPassword() {

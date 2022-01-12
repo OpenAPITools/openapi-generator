@@ -40,7 +40,9 @@ public class Name   {
    * @return name
   */
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull         
+    
+    
 
 
   public Integer getName() {

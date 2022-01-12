@@ -132,7 +132,9 @@ public class Pet   {
    * @return name
   */
   @ApiModelProperty(example = "doggie", required = true, value = "")
-  @NotNull
+      @NotNull         
+    
+    
 
 
   public String getName() {
@@ -158,7 +160,9 @@ public class Pet   {
    * @return photoUrls
   */
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull         
+    
+    
 
 
   public List<String> getPhotoUrls() {
