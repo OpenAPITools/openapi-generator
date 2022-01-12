@@ -811,12 +811,13 @@ class PetApi
         $multipart = false;
 
         // query params
-        if (is_array($status)) {
-            $status = ObjectSerializer::serializeCollection($status, 'form', true);
-        }
-        if ($status !== null) {
-            $queryParams['status'] = $status;
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $status,
+            'status', // param base name
+            'array', // openApiType
+            'form', // style
+            false // explode
+        ) ?? []);
 
 
 
@@ -1091,12 +1092,13 @@ class PetApi
         $multipart = false;
 
         // query params
-        if (is_array($tags)) {
-            $tags = ObjectSerializer::serializeCollection($tags, 'form', true);
-        }
-        if ($tags !== null) {
-            $queryParams['tags'] = $tags;
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $tags,
+            'tags', // param base name
+            'array', // openApiType
+            'form', // style
+            false // explode
+        ) ?? []);
 
 
 

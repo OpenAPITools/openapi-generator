@@ -157,22 +157,74 @@ class ObjectSerializer
     }
 
     /**
-     * Take value and turn it into a string suitable for inclusion in
-     * the query, by imploding comma-separated if it's an object.
-     * If it's a string, pass through unchanged. It will be url-encoded
-     * later.
+     * Take query parameter properties and turn it into an array suitable for
+     * native http_build_query or GuzzleHttp\Psr7\Query::build.
      *
-     * @param string[]|string|\DateTime $object an object to be serialized to a string
+     * @param mixed  $value       Parameter value
+     * @param string $paramName   Parameter name
+     * @param string $openApiType OpenAPIType eg. array or object
+     * @param string $style       Parameter serialization style
+     * @param bool   $explode     Parameter explode option
      *
-     * @return string the serialized object
+     * @return array
      */
-    public static function toQueryValue($object)
-    {
-        if (is_array($object)) {
-            return implode(',', $object);
-        } else {
-            return self::toString($object);
+    public static function toQueryValue(
+        $value,
+        string $paramName,
+        string $openApiType = 'string',
+        string $style = 'form',
+        bool $explode = true
+    ): array {
+        // return empty string
+        if (empty($value)) return ["$paramName" => ''];
+
+        $query = [];
+        $value = (in_array($openApiType, ['object', 'array'], true)) ? (array)$value : $value;
+
+        if ($openApiType === 'object' && ($style === 'deepObject' || $explode)) {
+            // recursive function
+            // nested arrays doesn't work, but it might help in future
+            $toDeepObject = function ($val, $styleVal, $name) use (&$toDeepObject) {
+                $result = [];
+                foreach ($val as $key => $value) {
+                    $prop = ($styleVal === 'deepObject') ? "${name}[${key}]" : $key;
+                    $result[$prop] = (is_array($value)) ? $toDeepObject($value, $styleVal, $name) : $value;
+                }
+                return $result;
+            };
+
+            return $toDeepObject($value, $style, $paramName);
         }
+
+        if ($openApiType === 'object' && is_array($value)) {
+            // need recursive function again
+            // nested array might not work however
+            $flattenArray = function ($arr) use (&$flattenArray) {
+                $result = [];
+                foreach (array_keys($arr) as $key) {
+                    $val = $arr[$key];
+                    $result[] = $key;
+                    if (is_array($val)) {
+                        $result = array_merge($result, $flattenArray($val));
+                    } else {
+                        $result[] = $val;
+                    }
+                }
+                return $result;
+            };
+
+            $value = $flattenArray($value);
+        }
+
+        if (in_array($style, ['spaceDelimited', 'pipeDelimited'], true) && $openApiType === 'array') {
+            $query[$paramName] = ($explode) ? $value : self::serializeCollection($value, $style);
+            return $query;
+        }
+
+        // consider style is form
+        $query[$paramName] = ($explode) ? $value : self::serializeCollection((array)$value, $style);
+
+        return $query;
     }
 
     /**

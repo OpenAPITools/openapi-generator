@@ -1498,27 +1498,21 @@ class UserApi
         $multipart = false;
 
         // query params
-        if ($username !== null) {
-            if('form' === 'form' && is_array($username)) {
-                foreach($username as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['username'] = $username;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $username,
+            'username', // param base name
+            'string', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
         // query params
-        if ($password !== null) {
-            if('form' === 'form' && is_array($password)) {
-                foreach($password as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['password'] = $password;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $password,
+            'password', // param base name
+            'string', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
 
 
 
