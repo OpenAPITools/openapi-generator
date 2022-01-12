@@ -114,7 +114,8 @@ class AnotherFakeApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+		        'headers'
             ]
         )
 
@@ -137,7 +138,7 @@ class AnotherFakeApi(object):
 
         query_params = []
 
-        header_params = {}
+	    header_params = dict(local_var_params.get('headers', {}))
 
         form_params = []
         local_var_files = {}
