@@ -123,7 +123,7 @@ class EnumArrays(
         array_enum: typing.Union[array_enum, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'EnumArrays':
         return super().__new__(
             cls,
             *args,

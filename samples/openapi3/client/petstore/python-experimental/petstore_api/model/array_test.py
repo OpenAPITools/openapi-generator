@@ -109,7 +109,7 @@ class ArrayTest(
         array_array_of_model: typing.Union[array_array_of_model, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'ArrayTest':
         return super().__new__(
             cls,
             *args,

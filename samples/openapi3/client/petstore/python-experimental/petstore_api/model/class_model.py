@@ -77,7 +77,7 @@ class ClassModel(
         _class: typing.Union[_class, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'ClassModel':
         return super().__new__(
             cls,
             *args,

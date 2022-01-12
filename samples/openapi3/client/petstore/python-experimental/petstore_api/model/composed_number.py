@@ -94,7 +94,7 @@ class ComposedNumber(
         cls,
         *args: typing.Union[float, ],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-    ):
+    ) -> 'ComposedNumber':
         return super().__new__(
             cls,
             *args,

@@ -93,7 +93,7 @@ class DanishPig(
         className: className,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'DanishPig':
         return super().__new__(
             cls,
             *args,

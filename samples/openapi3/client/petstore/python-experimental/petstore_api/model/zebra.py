@@ -121,7 +121,7 @@ class Zebra(
         type: typing.Union[type, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Zebra':
         return super().__new__(
             cls,
             *args,

@@ -76,7 +76,7 @@ class ChildCatAllOf(
         name: typing.Union[name, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'ChildCatAllOf':
         return super().__new__(
             cls,
             *args,

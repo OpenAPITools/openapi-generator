@@ -81,7 +81,7 @@ class BananaReq(
         lengthCm: lengthCm,
         sweet: typing.Union[sweet, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-    ):
+    ) -> 'BananaReq':
         return super().__new__(
             cls,
             *args,

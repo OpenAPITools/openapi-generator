@@ -82,7 +82,7 @@ class HealthCheckResult(
             cls,
             *args: typing.Union[str, None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-        ):
+        ) -> 'NullableMessage':
             return super().__new__(
                 cls,
                 *args,
@@ -96,7 +96,7 @@ class HealthCheckResult(
         NullableMessage: typing.Union[NullableMessage, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'HealthCheckResult':
         return super().__new__(
             cls,
             *args,

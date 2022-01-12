@@ -95,7 +95,7 @@ class TriangleInterface(
         triangleType: triangleType,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'TriangleInterface':
         return super().__new__(
             cls,
             *args,

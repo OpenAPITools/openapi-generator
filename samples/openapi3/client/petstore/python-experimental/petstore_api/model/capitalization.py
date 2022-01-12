@@ -86,7 +86,7 @@ class Capitalization(
         ATT_NAME: typing.Union[ATT_NAME, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Capitalization':
         return super().__new__(
             cls,
             *args,

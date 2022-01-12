@@ -97,7 +97,7 @@ class Whale(
         hasTeeth: typing.Union[hasTeeth, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Whale':
         return super().__new__(
             cls,
             *args,

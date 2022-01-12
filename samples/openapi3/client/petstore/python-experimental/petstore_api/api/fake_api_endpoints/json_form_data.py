@@ -74,7 +74,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         *args: typing.Union[dict, frozendict, ],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
             *args,

@@ -79,7 +79,7 @@ class SchemaForRequestBodyMultipartFormData(
         files: typing.Union[files, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
             *args,

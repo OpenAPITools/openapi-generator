@@ -91,7 +91,7 @@ class FileSchemaTestClass(
         files: typing.Union[files, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'FileSchemaTestClass':
         return super().__new__(
             cls,
             *args,

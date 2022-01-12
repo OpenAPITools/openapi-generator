@@ -85,7 +85,7 @@ class Name(
         snake_case: typing.Union[snake_case, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Name':
         return super().__new__(
             cls,
             *args,

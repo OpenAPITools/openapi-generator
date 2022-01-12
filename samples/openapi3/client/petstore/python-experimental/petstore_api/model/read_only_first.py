@@ -78,7 +78,7 @@ class ReadOnlyFirst(
         baz: typing.Union[baz, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'ReadOnlyFirst':
         return super().__new__(
             cls,
             *args,

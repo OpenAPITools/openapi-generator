@@ -76,7 +76,7 @@ class Client(
         client: typing.Union[client, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Client':
         return super().__new__(
             cls,
             *args,

@@ -127,7 +127,7 @@ lines''')
         cls,
         *args: typing.Union[str, None, ],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-    ):
+    ) -> 'StringEnum':
         return super().__new__(
             cls,
             *args,

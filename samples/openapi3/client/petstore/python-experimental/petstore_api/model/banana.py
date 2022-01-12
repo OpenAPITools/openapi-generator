@@ -79,7 +79,7 @@ class Banana(
         lengthCm: lengthCm,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Banana':
         return super().__new__(
             cls,
             *args,

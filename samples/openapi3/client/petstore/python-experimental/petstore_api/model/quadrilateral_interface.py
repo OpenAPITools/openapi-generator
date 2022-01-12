@@ -95,7 +95,7 @@ class QuadrilateralInterface(
         quadrilateralType: quadrilateralType,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'QuadrilateralInterface':
         return super().__new__(
             cls,
             *args,

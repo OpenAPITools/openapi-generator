@@ -84,7 +84,7 @@ class ObjectWithDecimalProperties(
         cost: typing.Union['Money', Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'ObjectWithDecimalProperties':
         return super().__new__(
             cls,
             *args,

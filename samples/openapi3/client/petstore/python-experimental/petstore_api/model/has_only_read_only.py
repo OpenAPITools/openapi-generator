@@ -78,7 +78,7 @@ class HasOnlyReadOnly(
         foo: typing.Union[foo, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'HasOnlyReadOnly':
         return super().__new__(
             cls,
             *args,

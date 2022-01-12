@@ -91,7 +91,7 @@ class Animal(
         color: typing.Union[color, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Animal':
         return super().__new__(
             cls,
             *args,

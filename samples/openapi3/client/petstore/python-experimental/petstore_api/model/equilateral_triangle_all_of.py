@@ -90,7 +90,7 @@ class EquilateralTriangleAllOf(
         triangleType: typing.Union[triangleType, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'EquilateralTriangleAllOf':
         return super().__new__(
             cls,
             *args,

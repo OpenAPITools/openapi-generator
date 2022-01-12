@@ -76,7 +76,7 @@ class Foo(
         bar: typing.Union[bar, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Foo':
         return super().__new__(
             cls,
             *args,

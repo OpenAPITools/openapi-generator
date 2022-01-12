@@ -86,7 +86,7 @@ class ObjectModelWithRefProps(
         myBoolean: typing.Union[myBoolean, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'ObjectModelWithRefProps':
         return super().__new__(
             cls,
             *args,

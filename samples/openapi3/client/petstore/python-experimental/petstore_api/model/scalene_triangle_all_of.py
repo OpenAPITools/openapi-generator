@@ -90,7 +90,7 @@ class ScaleneTriangleAllOf(
         triangleType: typing.Union[triangleType, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'ScaleneTriangleAllOf':
         return super().__new__(
             cls,
             *args,

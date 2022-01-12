@@ -207,7 +207,7 @@ class EnumTest(
         IntegerEnumOneValue: typing.Union['IntegerEnumOneValue', Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'EnumTest':
         return super().__new__(
             cls,
             *args,

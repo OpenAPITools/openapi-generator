@@ -76,7 +76,7 @@ class DogAllOf(
         breed: typing.Union[breed, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'DogAllOf':
         return super().__new__(
             cls,
             *args,

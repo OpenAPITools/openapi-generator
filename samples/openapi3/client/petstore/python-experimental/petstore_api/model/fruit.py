@@ -96,7 +96,7 @@ class Fruit(
         color: typing.Union[color, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Fruit':
         return super().__new__(
             cls,
             *args,

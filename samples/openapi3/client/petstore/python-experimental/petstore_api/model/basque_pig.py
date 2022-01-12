@@ -93,7 +93,7 @@ class BasquePig(
         className: className,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'BasquePig':
         return super().__new__(
             cls,
             *args,

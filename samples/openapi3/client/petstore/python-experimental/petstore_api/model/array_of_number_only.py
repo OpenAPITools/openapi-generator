@@ -81,7 +81,7 @@ class ArrayOfNumberOnly(
         ArrayNumber: typing.Union[ArrayNumber, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'ArrayOfNumberOnly':
         return super().__new__(
             cls,
             *args,

@@ -78,7 +78,7 @@ class File(
         sourceURI: typing.Union[sourceURI, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'File':
         return super().__new__(
             cls,
             *args,

@@ -81,7 +81,7 @@ class NoAdditionalProperties(
         id: id,
         petId: typing.Union[petId, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-    ):
+    ) -> 'NoAdditionalProperties':
         return super().__new__(
             cls,
             *args,

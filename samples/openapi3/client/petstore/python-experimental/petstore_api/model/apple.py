@@ -105,7 +105,7 @@ class Apple(
         origin: typing.Union[origin, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Apple':
         return super().__new__(
             cls,
             *args,

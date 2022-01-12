@@ -80,7 +80,7 @@ class InlineResponseDefault(
         string: typing.Union['Foo', Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'InlineResponseDefault':
         return super().__new__(
             cls,
             *args,

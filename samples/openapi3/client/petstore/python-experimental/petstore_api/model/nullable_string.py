@@ -75,7 +75,7 @@ class NullableString(
         cls,
         *args: typing.Union[str, None, ],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-    ):
+    ) -> 'NullableString':
         return super().__new__(
             cls,
             *args,

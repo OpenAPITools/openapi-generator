@@ -76,7 +76,7 @@ class NumberOnly(
         JustNumber: typing.Union[JustNumber, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'NumberOnly':
         return super().__new__(
             cls,
             *args,

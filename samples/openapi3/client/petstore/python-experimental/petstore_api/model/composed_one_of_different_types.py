@@ -98,7 +98,7 @@ class ComposedOneOfDifferentTypes(
                 *args: typing.Union[dict, frozendict, ],
                 _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
                 **kwargs: typing.Type[Schema],
-            ):
+            ) -> 'oneOf_4':
                 return super().__new__(
                     cls,
                     *args,
@@ -147,7 +147,7 @@ class ComposedOneOfDifferentTypes(
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'ComposedOneOfDifferentTypes':
         return super().__new__(
             cls,
             *args,

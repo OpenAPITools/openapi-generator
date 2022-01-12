@@ -90,7 +90,7 @@ class User(
             *args: typing.Union[dict, frozendict, None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'objectWithNoDeclaredPropsNullable':
             return super().__new__(
                 cls,
                 *args,
@@ -118,7 +118,7 @@ class User(
         anyTypePropNullable: typing.Union[anyTypePropNullable, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'User':
         return super().__new__(
             cls,
             *args,

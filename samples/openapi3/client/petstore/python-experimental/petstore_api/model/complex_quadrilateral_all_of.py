@@ -90,7 +90,7 @@ class ComplexQuadrilateralAllOf(
         quadrilateralType: typing.Union[quadrilateralType, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'ComplexQuadrilateralAllOf':
         return super().__new__(
             cls,
             *args,

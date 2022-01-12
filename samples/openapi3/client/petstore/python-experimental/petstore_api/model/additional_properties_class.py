@@ -80,7 +80,7 @@ class AdditionalPropertiesClass(
             *args: typing.Union[dict, frozendict, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'map_property':
             return super().__new__(
                 cls,
                 *args,
@@ -105,7 +105,7 @@ class AdditionalPropertiesClass(
                 *args: typing.Union[dict, frozendict, ],
                 _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
                 **kwargs: typing.Type[Schema],
-            ):
+            ) -> '_additional_properties':
                 return super().__new__(
                     cls,
                     *args,
@@ -119,7 +119,7 @@ class AdditionalPropertiesClass(
             *args: typing.Union[dict, frozendict, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'map_of_map_property':
             return super().__new__(
                 cls,
                 *args,
@@ -142,7 +142,7 @@ class AdditionalPropertiesClass(
             cls,
             *args: typing.Union[dict, frozendict, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-        ):
+        ) -> 'empty_map':
             return super().__new__(
                 cls,
                 *args,
@@ -161,7 +161,7 @@ class AdditionalPropertiesClass(
             *args: typing.Union[dict, frozendict, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'map_with_undeclared_properties_string':
             return super().__new__(
                 cls,
                 *args,
@@ -183,7 +183,7 @@ class AdditionalPropertiesClass(
         map_with_undeclared_properties_string: typing.Union[map_with_undeclared_properties_string, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'AdditionalPropertiesClass':
         return super().__new__(
             cls,
             *args,

@@ -95,7 +95,7 @@ class ComposedObject(
         *args: typing.Union[dict, frozendict, ],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'ComposedObject':
         return super().__new__(
             cls,
             *args,

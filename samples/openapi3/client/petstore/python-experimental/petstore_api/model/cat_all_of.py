@@ -76,7 +76,7 @@ class CatAllOf(
         declawed: typing.Union[declawed, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'CatAllOf':
         return super().__new__(
             cls,
             *args,

@@ -94,7 +94,7 @@ class ComposedString(
         cls,
         *args: typing.Union[str, ],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-    ):
+    ) -> 'ComposedString':
         return super().__new__(
             cls,
             *args,

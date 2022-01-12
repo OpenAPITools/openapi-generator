@@ -90,7 +90,7 @@ class IsoscelesTriangleAllOf(
         triangleType: typing.Union[triangleType, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'IsoscelesTriangleAllOf':
         return super().__new__(
             cls,
             *args,

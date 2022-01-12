@@ -81,7 +81,7 @@ class Category(
         id: typing.Union[id, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Category':
         return super().__new__(
             cls,
             *args,

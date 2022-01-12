@@ -80,7 +80,7 @@ class Model200Response(
         name: typing.Union[name, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Model200Response':
         return super().__new__(
             cls,
             *args,

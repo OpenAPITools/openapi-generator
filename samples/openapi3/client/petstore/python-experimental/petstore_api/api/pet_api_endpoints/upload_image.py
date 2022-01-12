@@ -101,7 +101,7 @@ class SchemaForRequestBodyMultipartFormData(
         additionalMetadata: typing.Union[additionalMetadata, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
             *args,

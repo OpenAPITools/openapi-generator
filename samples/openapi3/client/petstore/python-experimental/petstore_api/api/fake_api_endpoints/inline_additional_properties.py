@@ -71,7 +71,7 @@ class SchemaForRequestBodyApplicationJson(
         *args: typing.Union[dict, frozendict, ],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,
             *args,

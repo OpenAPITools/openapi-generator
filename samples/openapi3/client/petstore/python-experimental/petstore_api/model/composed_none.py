@@ -94,7 +94,7 @@ class ComposedNone(
         cls,
         *args: typing.Union[None, ],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-    ):
+    ) -> 'ComposedNone':
         return super().__new__(
             cls,
             *args,

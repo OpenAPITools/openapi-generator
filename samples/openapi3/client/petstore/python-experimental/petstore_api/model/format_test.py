@@ -223,7 +223,7 @@ class FormatTest(
         noneProp: typing.Union[noneProp, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'FormatTest':
         return super().__new__(
             cls,
             *args,

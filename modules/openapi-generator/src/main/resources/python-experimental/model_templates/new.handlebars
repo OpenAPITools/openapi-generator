@@ -26,7 +26,7 @@ def __new__(
 {{#with additionalProperties}}
     **kwargs: typing.Type[Schema],
 {{/with}}
-):
+) -> '{{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}':
     return super().__new__(
         cls,
         *args,

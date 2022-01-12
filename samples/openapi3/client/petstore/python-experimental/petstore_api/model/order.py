@@ -112,7 +112,7 @@ class Order(
         complete: typing.Union[complete, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Order':
         return super().__new__(
             cls,
             *args,

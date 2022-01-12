@@ -94,7 +94,7 @@ class ComposedBool(
         cls,
         *args: typing.Union[bool, ],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-    ):
+    ) -> 'ComposedBool':
         return super().__new__(
             cls,
             *args,

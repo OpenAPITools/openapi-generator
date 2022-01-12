@@ -84,7 +84,7 @@ class Player(
         enemyPlayer: typing.Union['Player', Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Player':
         return super().__new__(
             cls,
             *args,

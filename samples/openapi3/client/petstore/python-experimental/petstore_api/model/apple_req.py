@@ -81,7 +81,7 @@ class AppleReq(
         cultivar: cultivar,
         mealy: typing.Union[mealy, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-    ):
+    ) -> 'AppleReq':
         return super().__new__(
             cls,
             *args,

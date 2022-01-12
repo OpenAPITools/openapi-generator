@@ -80,7 +80,7 @@ class ApiResponse(
         message: typing.Union[message, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'ApiResponse':
         return super().__new__(
             cls,
             *args,

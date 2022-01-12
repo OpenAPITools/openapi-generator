@@ -86,7 +86,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
             *args: typing.Union[dict, frozendict, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'map':
             return super().__new__(
                 cls,
                 *args,
@@ -103,7 +103,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(
         map: typing.Union[map, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'MixedPropertiesAndAdditionalPropertiesClass':
         return super().__new__(
             cls,
             *args,

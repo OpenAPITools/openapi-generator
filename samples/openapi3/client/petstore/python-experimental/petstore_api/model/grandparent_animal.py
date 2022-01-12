@@ -89,7 +89,7 @@ class GrandparentAnimal(
         pet_type: pet_type,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'GrandparentAnimal':
         return super().__new__(
             cls,
             *args,

@@ -349,7 +349,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         enum_form_string: typing.Union[enum_form_string, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
             cls,
             *args,

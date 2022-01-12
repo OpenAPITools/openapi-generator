@@ -78,7 +78,7 @@ class Tag(
         name: typing.Union[name, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Tag':
         return super().__new__(
             cls,
             *args,
