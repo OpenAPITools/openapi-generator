@@ -113,7 +113,7 @@ class PetApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -136,7 +136,7 @@ class PetApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -254,7 +254,7 @@ class PetApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -279,7 +279,7 @@ class PetApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
         if 'api_key' in local_var_params:
             header_params['api_key'] = local_var_params['api_key']  # noqa: E501
 
@@ -388,7 +388,7 @@ class PetApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -414,7 +414,7 @@ class PetApi(object):
             query_params.append(('status', local_var_params['status']))  # noqa: E501
             collection_formats['status'] = 'csv'  # noqa: E501
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -528,7 +528,7 @@ class PetApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -554,7 +554,7 @@ class PetApi(object):
             query_params.append(('tags', local_var_params['tags']))  # noqa: E501
             collection_formats['tags'] = 'csv'  # noqa: E501
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -668,7 +668,7 @@ class PetApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -693,7 +693,7 @@ class PetApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -806,7 +806,7 @@ class PetApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -829,7 +829,7 @@ class PetApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -952,7 +952,7 @@ class PetApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -977,7 +977,7 @@ class PetApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1102,7 +1102,7 @@ class PetApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -1127,7 +1127,7 @@ class PetApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1258,7 +1258,7 @@ class PetApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -1287,7 +1287,7 @@ class PetApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}

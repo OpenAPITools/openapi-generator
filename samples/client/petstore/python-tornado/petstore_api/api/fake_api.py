@@ -115,7 +115,7 @@ class FakeApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -138,7 +138,7 @@ class FakeApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -253,7 +253,7 @@ class FakeApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -272,7 +272,7 @@ class FakeApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -387,7 +387,7 @@ class FakeApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -406,7 +406,7 @@ class FakeApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -521,7 +521,7 @@ class FakeApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -540,7 +540,7 @@ class FakeApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -655,7 +655,7 @@ class FakeApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -674,7 +674,7 @@ class FakeApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -789,7 +789,7 @@ class FakeApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -812,7 +812,7 @@ class FakeApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -930,7 +930,7 @@ class FakeApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -959,7 +959,7 @@ class FakeApi(object):
         if 'query' in local_var_params and local_var_params['query'] is not None:  # noqa: E501
             query_params.append(('query', local_var_params['query']))  # noqa: E501
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1074,7 +1074,7 @@ class FakeApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -1097,7 +1097,7 @@ class FakeApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1283,7 +1283,7 @@ class FakeApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -1346,7 +1346,7 @@ class FakeApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1522,7 +1522,7 @@ class FakeApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -1550,7 +1550,7 @@ class FakeApi(object):
         if 'enum_query_double' in local_var_params and local_var_params['enum_query_double'] is not None:  # noqa: E501
             query_params.append(('enum_query_double', local_var_params['enum_query_double']))  # noqa: E501
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
         if 'enum_header_string_array' in local_var_params:
             header_params['enum_header_string_array'] = local_var_params['enum_header_string_array']  # noqa: E501
             collection_formats['enum_header_string_array'] = 'csv'  # noqa: E501
@@ -1698,7 +1698,7 @@ class FakeApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -1737,7 +1737,7 @@ class FakeApi(object):
         if 'int64_group' in local_var_params and local_var_params['int64_group'] is not None:  # noqa: E501
             query_params.append(('int64_group', local_var_params['int64_group']))  # noqa: E501
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
         if 'required_boolean_group' in local_var_params:
             header_params['required_boolean_group'] = local_var_params['required_boolean_group']  # noqa: E501
         if 'boolean_group' in local_var_params:
@@ -1846,7 +1846,7 @@ class FakeApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -1869,7 +1869,7 @@ class FakeApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1987,7 +1987,7 @@ class FakeApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -2014,7 +2014,7 @@ class FakeApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -2151,7 +2151,7 @@ class FakeApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -2205,7 +2205,7 @@ class FakeApi(object):
             query_params.append(('context', local_var_params['context']))  # noqa: E501
             collection_formats['context'] = 'multi'  # noqa: E501
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}

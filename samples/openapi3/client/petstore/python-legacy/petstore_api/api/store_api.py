@@ -115,7 +115,7 @@ class StoreApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -140,7 +140,7 @@ class StoreApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -242,7 +242,7 @@ class StoreApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -261,7 +261,7 @@ class StoreApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -374,7 +374,7 @@ class StoreApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -403,7 +403,7 @@ class StoreApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -516,7 +516,7 @@ class StoreApi(object):
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
-		        'headers'
+                '_headers'
             ]
         )
 
@@ -539,7 +539,7 @@ class StoreApi(object):
 
         query_params = []
 
-	    header_params = dict(local_var_params.get('headers', {}))
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
