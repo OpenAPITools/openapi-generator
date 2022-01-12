@@ -41,6 +41,7 @@ jobs:
           - samples/client/petstore/kotlin-string
           - samples/client/petstore/kotlin-threetenbp
           - samples/client/petstore/kotlin-uppercase-enum
+          - samples/client/petstore/kotlin-array-simple-string
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v2
