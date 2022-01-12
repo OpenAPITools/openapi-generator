@@ -1,0 +1,6 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-array-simple-string
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_7199_array_simple_string.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-array-simple-string
