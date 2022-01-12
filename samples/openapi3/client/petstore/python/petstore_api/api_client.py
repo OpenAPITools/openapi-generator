@@ -649,6 +649,7 @@ class ApiClient(object):
                 'Authentication token must be in `query` or `header`'
             )
 
+
 class Endpoint(object):
     def __init__(self, settings=None, params_map=None, root_map=None,
                  headers_map=None, api_client=None, callable=None):
