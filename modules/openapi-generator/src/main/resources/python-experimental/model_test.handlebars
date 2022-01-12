@@ -2,13 +2,12 @@
 
 {{>partial_header}}
 
-import sys
 import unittest
 
 import {{packageName}}
 {{#each models}}
 {{#with model}}
-from {{modelPackage}}.{{classFilename}} import {{classname}}
+from {{packageName}}.{{modelPackage}}.{{classFilename}} import {{classname}}
 
 
 class Test{{classname}}(unittest.TestCase):

@@ -198,6 +198,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
         languageSpecificPrimitives.add("file_type");
         languageSpecificPrimitives.add("none_type");
+        typeMapping.put("decimal", "str");
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.EXPERIMENTAL)
@@ -510,6 +511,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 "- inline schemas are supported at any location including composition",
                 "- multiple content types supported in request body and response bodies",
                 "- run time type checking",
+                "- Sending/receiving decimals as strings supported with type:string format: number -> DecimalSchema",
                 "- quicker load time for python modules (a single endpoint can be imported and used without loading others)",
                 "- all instances of schemas dynamically inherit from all matching schemas so one can use isinstance to check if validation passed",
                 "- composed schemas with type constraints supported (type:object + oneOf/anyOf/allOf)",
@@ -1053,6 +1055,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     @Override
     public CodegenModel fromModel(String name, Schema sc) {
         CodegenModel cm = super.fromModel(name, sc);
+        Schema unaliasedSchema = unaliasSchema(sc, importMapping);
+        if (unaliasedSchema != null) {
+            if (ModelUtils.isDecimalSchema(unaliasedSchema)) { // type: string, format: number
+                cm.isString = false;
+                cm.isDecimal = true;
+            }
+        }
+
         if (cm.isNullable) {
             cm.setIsNull(true);
             cm.isNullable = false;
