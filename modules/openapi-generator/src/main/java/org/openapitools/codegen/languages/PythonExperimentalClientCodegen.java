@@ -511,6 +511,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 "- inline schemas are supported at any location including composition",
                 "- multiple content types supported in request body and response bodies",
                 "- run time type checking",
+                "- Sending/receiving decimals as strings supported with type:string format: number -> DecimalSchema",
                 "- quicker load time for python modules (a single endpoint can be imported and used without loading others)",
                 "- all instances of schemas dynamically inherit from all matching schemas so one can use isinstance to check if validation passed",
                 "- composed schemas with type constraints supported (type:object + oneOf/anyOf/allOf)",
