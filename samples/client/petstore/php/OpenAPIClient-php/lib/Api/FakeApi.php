@@ -358,7 +358,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -607,7 +607,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -862,7 +862,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1117,7 +1117,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1372,7 +1372,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1627,7 +1627,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1888,7 +1888,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2104,7 +2104,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2320,7 +2320,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2459,49 +2459,6 @@ class FakeApi
     }
 
     /**
-     * @see https://github.com/OpenAPITools/openapi-generator/pull/11225
-     */
-    public function testDeepObjectQueryParams($filter)
-    {
-        $queryParams = [];
-        // query params filter
-        if ($filter !== null) {
-            if('form' === 'deepObject' && is_array($filter)) {
-                foreach($filter as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['filter'] = $filter;
-            }
-        }
-
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
-
-        return $query;
-    }
-
-    public function testDeepObjectQueryParamsOldBehavior($filter)
-    {
-        $queryParams = [];
-        // query params filter
-        if ($filter !== null) {
-            if('form' === 'deepObject' && is_array($filter)) {
-                foreach($filter as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['filter'] = $filter;
-            }
-        }
-
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-
-        return $query;
-    }
-
-    /**
      * Create request for operation 'testBodyWithQueryParams'
      *
      * @param  string $query (required)
@@ -2601,7 +2558,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2870,7 +2827,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'PATCH',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -3286,7 +3243,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -3596,7 +3553,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -3925,7 +3882,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -4149,7 +4106,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -4386,7 +4343,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -4717,7 +4674,7 @@ class FakeApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),

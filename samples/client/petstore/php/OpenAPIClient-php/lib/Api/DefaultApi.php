@@ -350,7 +350,7 @@ class DefaultApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),

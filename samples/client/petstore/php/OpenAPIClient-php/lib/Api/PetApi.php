@@ -360,7 +360,7 @@ class PetApi
         }
         $operationHost = $operationHosts[$this->hostIndex];
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -599,7 +599,7 @@ class PetApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -873,7 +873,7 @@ class PetApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1153,7 +1153,7 @@ class PetApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1429,7 +1429,7 @@ class PetApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1683,7 +1683,7 @@ class PetApi
         }
         $operationHost = $operationHosts[$this->hostIndex];
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'PUT',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1931,7 +1931,7 @@ class PetApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2232,7 +2232,7 @@ class PetApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2539,7 +2539,7 @@ class PetApi
             $headers
         );
 
-        $query = http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
