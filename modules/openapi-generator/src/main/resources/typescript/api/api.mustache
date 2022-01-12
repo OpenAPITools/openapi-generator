@@ -9,6 +9,7 @@ import { URLSearchParams } from 'url';
 {{/node}}
 {{/platforms}}
 import {ObjectSerializer} from '../models/ObjectSerializer{{extensionForDeno}}';
+import { SecurityAuthentication } from '../auth/auth';
 import {ApiException} from './exception{{extensionForDeno}}';
 import {canConsumeForm, isCodeInRange} from '../util{{extensionForDeno}}';
 
@@ -28,6 +29,11 @@ import { {{classname}} } from '..{{filename}}{{extensionForDeno}}';
 @injectable()
 {{/useInversify}}
 export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
+    let defaultSecurityAuthentication: SecurityAuthentication | undefined;
+
+    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
+        this.defaultSecurityAuthentication = auth;
+    }
 
     {{#operation}}
     /**
@@ -155,7 +161,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{/hasAuthMethods}}
         {{#authMethods}}
         // Apply auth methods
-        authMethod = _config.authMethods["{{name}}"]
+        authMethod = defaultSecurityAuthentication || _config.authMethods["{{name}}"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
