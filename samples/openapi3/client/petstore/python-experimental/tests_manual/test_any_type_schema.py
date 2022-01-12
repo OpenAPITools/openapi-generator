@@ -294,18 +294,6 @@ class TestAnyTypeSchema(unittest.TestCase):
         assert m == '12.34'
         assert m.as_decimal == Decimal('12.34')
 
-        m = Model('12')
-        assert isinstance(m, Model)
-        assert isinstance(m, AnyTypeSchema)
-        assert isinstance(m, DecimalSchema)
-        assert isinstance(m, str)
-        assert m == '12'
-        assert m.as_decimal == Decimal('12')
-
-        # passing in a Decimal does not work
-        with self.assertRaises(petstore_api.ApiTypeError):
-            Model(Decimal('12.34'))
-
 
 if __name__ == '__main__':
     unittest.main()

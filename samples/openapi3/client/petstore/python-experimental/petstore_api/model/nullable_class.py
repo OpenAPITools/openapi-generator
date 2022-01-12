@@ -70,7 +70,7 @@ class NullableClass(
     
     
     class integer_prop(
-        _SchemaTypeChecker(typing.Union[none_type, Decimal, ]),
+        _SchemaTypeChecker(typing.Union[none_type, decimal.Decimal, ]),
         IntBase,
         NoneBase,
         Schema
