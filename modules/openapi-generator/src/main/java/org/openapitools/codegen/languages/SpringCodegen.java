@@ -941,13 +941,20 @@ public class SpringCodegen extends AbstractJavaCodegen
         return codegenModel;
     }
 
+    /*
+     * Add dynamic imports based on the parameters and vendor extensions of an operation.
+     * The imports are expanded by the mustache {{import}} tag available to model and api
+     * templates.
+     */
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
 
+        // add org.springframework.format.annotation.DateTimeFormat when needed
         codegenOperation.allParams.stream().filter(p -> p.isDate || p.isDateTime).findFirst()
             .ifPresent(p -> codegenOperation.imports.add("DateTimeFormat"));
 
+        // add org.springframework.data.domain.Pageable import whgen needed
         if (codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
             codegenOperation.imports.add("Pageable");
             if (additionalProperties.containsKey("useSpringfox")) {
