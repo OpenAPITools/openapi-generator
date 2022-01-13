@@ -828,4 +828,6 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         return camelize(sanitizeName(operationId), true);
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.BASH; }
 }

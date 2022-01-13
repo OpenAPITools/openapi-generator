@@ -701,4 +701,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.HASKELL; }
 }

@@ -28,6 +28,7 @@ import org.openapitools.client.model.TriangleInterface;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -41,6 +42,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import org.openapitools.client.JSON;
 
 /**
  * EquilateralTriangle
@@ -143,6 +146,7 @@ public class EquilateralTriangle {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public static HashSet<String> openapiFields;
   public static HashSet<String> openapiRequiredFields;
 
@@ -156,6 +160,36 @@ public class EquilateralTriangle {
     openapiRequiredFields = new HashSet<String>();
     openapiRequiredFields.add("shapeType");
     openapiRequiredFields.add("triangleType");
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to EquilateralTriangle
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (EquilateralTriangle.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in EquilateralTriangle is not found in the empty JSON string", EquilateralTriangle.openapiRequiredFields.toString()));
+        }
+      }
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!EquilateralTriangle.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `EquilateralTriangle` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
+
+      // check to make sure all required properties/fields are present in the JSON string
+      for (String requiredField : EquilateralTriangle.openapiRequiredFields) {
+        if (jsonObj.get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
+        }
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -178,26 +212,33 @@ public class EquilateralTriangle {
 
            @Override
            public EquilateralTriangle read(JsonReader in) throws IOException {
-             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
-             Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-             // check to see if the JSON string contains additional fields
-             for (Entry<String, JsonElement> entry: entries) {
-               if (!EquilateralTriangle.openapiFields.contains(entry.getKey())) {
-                throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `EquilateralTriangle` properties");
-               }
-             }
-
-             // check to make sure all required properties/fields are present in the JSON string
-             for (String requiredField : EquilateralTriangle.openapiRequiredFields) {
-               if (obj.get(requiredField) == null) {
-                 throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON string");
-               }
-             }
-
-             return thisAdapter.fromJsonTree(obj);
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
            }
 
        }.nullSafe();
     }
   }
+
+ /**
+  * Create an instance of EquilateralTriangle given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of EquilateralTriangle
+  * @throws IOException if the JSON string is invalid with respect to EquilateralTriangle
+  */
+  public static EquilateralTriangle fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, EquilateralTriangle.class);
+  }
+
+ /**
+  * Convert an instance of EquilateralTriangle to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
+

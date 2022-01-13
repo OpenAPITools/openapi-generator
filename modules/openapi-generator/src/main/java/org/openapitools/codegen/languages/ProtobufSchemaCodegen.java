@@ -91,7 +91,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         apiTemplateFiles.put("api.mustache", ".proto");
         embeddedTemplateDir = templateDir = "protobuf-schema";
         hideGenerationTimestamp = Boolean.TRUE;
-        modelPackage = "messages";
+        modelPackage = "models";
         apiPackage = "services";
 
         defaultIncludes = new HashSet<>(
@@ -167,11 +167,19 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         apiDocTemplateFiles.clear(); // TODO: add api doc template
         modelDocTemplateFiles.clear(); // TODO: add model doc template
 
-        modelPackage = "models";
-        apiPackage = "services";
-
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        }
+        else {
+            additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        }
+
+        if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+        }
+
+        if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
 
         if (additionalProperties.containsKey(this.NUMBERED_FIELD_NUMBER_LIST)) {
@@ -253,6 +261,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 // add x-protobuf-type: repeated if it's an array
                 if (Boolean.TRUE.equals(var.isArray)) {
                     var.vendorExtensions.put("x-protobuf-type", "repeated");
+                }
+                else if (Boolean.TRUE.equals(var.isNullable &&  var.isPrimitiveType)) {
+                    var.vendorExtensions.put("x-protobuf-type", "optional");
                 }
 
                 // add x-protobuf-data-type
@@ -500,9 +511,14 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             int index = 1;
             for (CodegenParameter p : op.allParams) {
                 // add x-protobuf-type: repeated if it's an array
+                
                 if (Boolean.TRUE.equals(p.isArray)) {
                     p.vendorExtensions.put("x-protobuf-type", "repeated");
-                } else if (Boolean.TRUE.equals(p.isMap)) {
+                }
+                else if (Boolean.TRUE.equals(p.isNullable &&  p.isPrimitiveType)) {
+                    p.vendorExtensions.put("x-protobuf-type", "optional");
+                }
+                else if (Boolean.TRUE.equals(p.isMap)) {
                     LOGGER.warn("Map parameter (name: {}, operation ID: {}) not yet supported", p.paramName, op.operationId);
                 }
 
@@ -587,4 +603,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
         return containsVar;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PROTOBUF; }
 }

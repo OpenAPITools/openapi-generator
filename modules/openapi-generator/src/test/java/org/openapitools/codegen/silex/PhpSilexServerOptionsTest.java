@@ -41,5 +41,6 @@ public class PhpSilexServerOptionsTest extends AbstractOptionsTest {
     @Override
     protected void verifyOptions() {
         verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(PhpSilexServerOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(PhpSilexServerOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

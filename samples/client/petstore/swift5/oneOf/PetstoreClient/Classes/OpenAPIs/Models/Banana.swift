@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct Banana: Codable, Hashable {
+public struct Banana: Codable, JSONEncodable, Hashable {
 
     public var count: Double?
 

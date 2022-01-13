@@ -1016,4 +1016,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         return null;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.KOTLIN; }
 }

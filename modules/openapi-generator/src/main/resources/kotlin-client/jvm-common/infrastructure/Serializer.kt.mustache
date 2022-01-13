@@ -2,6 +2,9 @@ package {{packageName}}.infrastructure
 
 {{#moshi}}
 import com.squareup.moshi.Moshi
+{{#enumUnknownDefaultCase}}
+import com.squareup.moshi.adapters.EnumJsonAdapter
+{{/enumUnknownDefaultCase}}
 {{^moshiCodeGen}}
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 {{/moshiCodeGen}}
@@ -28,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 {{/jackson}}
 {{#kotlinx_serialization}}
-import java.util.Date
 import java.math.BigDecimal
 import java.math.BigInteger
 {{^threetenbp}}
@@ -69,6 +71,9 @@ import java.util.concurrent.atomic.AtomicLong
 
     @JvmStatic
     val moshi: Moshi by lazy {
+{{#enumUnknownDefaultCase}}
+        SerializerHelper.addEnumUnknownDefaultCase(moshiBuilder)
+{{/enumUnknownDefaultCase}}
         moshiBuilder.build()
     }
 {{/moshi}}
@@ -97,7 +102,6 @@ import java.util.concurrent.atomic.AtomicLong
     val kotlinSerializationAdapters = SerializersModule {
         contextual(BigDecimal::class, BigDecimalAdapter)
         contextual(BigInteger::class, BigIntegerAdapter)
-        contextual(Date::class, DateAdapter)
         contextual(LocalDate::class, LocalDateAdapter)
         contextual(LocalDateTime::class, LocalDateTimeAdapter)
         contextual(OffsetDateTime::class, OffsetDateTimeAdapter)

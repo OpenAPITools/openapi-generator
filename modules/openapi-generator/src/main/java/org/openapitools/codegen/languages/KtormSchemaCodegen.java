@@ -1224,4 +1224,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         return StringUtils.removeEnd(packagePath, File.separator);
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.KTORM; }
 }

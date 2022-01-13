@@ -124,7 +124,7 @@ public class StoreApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -249,7 +249,7 @@ public class StoreApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -371,7 +371,7 @@ public class StoreApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -505,7 +505,7 @@ public class StoreApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarHeaderParams != null && localVarContentTypes != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 

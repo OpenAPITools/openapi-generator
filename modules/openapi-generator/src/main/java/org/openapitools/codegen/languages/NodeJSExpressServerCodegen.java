@@ -455,4 +455,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }
