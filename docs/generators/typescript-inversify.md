@@ -1,8 +1,18 @@
 ---
-title: Config Options for typescript-inversify
-sidebar_label: typescript-inversify
+title: Documentation for the typescript-inversify Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-inversify | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Typescript | |
+| helpTxt | Generates Typescript services using Inversify IOC | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

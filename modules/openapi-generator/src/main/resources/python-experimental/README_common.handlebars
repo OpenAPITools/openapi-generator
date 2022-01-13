@@ -6,7 +6,7 @@ from pprint import pprint
 {{#with apiInfo}}
 {{#each apis}}
 {{#if @first}}
-from {{packageName}}.{{apiPackage}} import {{classVarName}}
+from {{packageName}}.{{apiPackage}} import {{classFilename}}
 {{#each imports}}
 {{{import}}}
 {{/each}}
@@ -18,7 +18,7 @@ from {{packageName}}.{{apiPackage}} import {{classVarName}}
 # Enter a context with an instance of the API client
 with {{{packageName}}}.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = {{classVarName}}.{{{classname}}}(api_client)
+    api_instance = {{classFilename}}.{{{classname}}}(api_client)
     {{#each allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{#unless required}} (optional){{/unless}}{{#if defaultValue}} (default to {{{.}}}){{/if}}
     {{/each}}
 

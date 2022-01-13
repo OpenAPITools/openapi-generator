@@ -1,8 +1,18 @@
 ---
-title: Config Options for erlang-server
-sidebar_label: erlang-server
+title: Documentation for the erlang-server Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | erlang-server | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Erlang | |
+| helpTxt | Generates an Erlang server library (beta) using OpenAPI Generator (https://openapi-generator.tech). By default, it will also generate service classes, which can be disabled with the `-Dnoservice` environment variable. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

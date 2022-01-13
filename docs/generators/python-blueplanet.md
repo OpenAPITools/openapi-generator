@@ -1,8 +1,19 @@
 ---
-title: Config Options for python-blueplanet
-sidebar_label: python-blueplanet
+title: Documentation for the python-blueplanet Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | python-blueplanet | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Python | |
+| generator language version | 2.7+ and 3.5.2+ | |
+| helpTxt | Generates a Python server library using the Connexion project. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

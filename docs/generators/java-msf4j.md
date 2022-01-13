@@ -1,8 +1,18 @@
 ---
-title: Config Options for java-msf4j
-sidebar_label: java-msf4j
+title: Documentation for the java-msf4j Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | java-msf4j | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Java | |
+| helpTxt | Generates a Java Micro Service based on WSO2 Microservices Framework for Java (MSF4J) | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

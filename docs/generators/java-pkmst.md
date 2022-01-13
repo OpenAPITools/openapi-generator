@@ -1,8 +1,18 @@
 ---
-title: Config Options for java-pkmst
-sidebar_label: java-pkmst
+title: Documentation for the java-pkmst Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | java-pkmst | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Java | |
+| helpTxt | Generates a PKMST SpringBoot Server application using the SpringFox integration. Also enables EurekaServerClient / Zipkin / Spring-Boot admin | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

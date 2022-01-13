@@ -1,8 +1,17 @@
 ---
-title: Config Options for cwiki
-sidebar_label: cwiki
+title: Documentation for the cwiki Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cwiki | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | DOCUMENTATION | |
+| helpTxt | Generates confluence wiki markup. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

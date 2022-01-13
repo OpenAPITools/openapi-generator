@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -65,22 +66,6 @@ class User(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    id (int,): 
-    username (str,): 
-    firstName (str,): 
-    lastName (str,): 
-    email (str,): 
-    password (str,): 
-    phone (str,): 
-    userStatus (int,): User Status
-    objectWithNoDeclaredProps (dict,): test code generation for objects Value must be a map of strings to values. It cannot be the &#x27;null&#x27; value.
-    objectWithNoDeclaredPropsNullable (dict, none_type,): test code generation for nullable objects. Value must be a map of strings to values or the &#x27;null&#x27; value.
-    anyTypeProp (): test code generation for any type Here the &#x27;type&#x27; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
-    anyTypePropNullable (): test code generation for any type Here the &#x27;type&#x27; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#x27;nullable&#x27; attribute does not change the allowed values.
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     id = Int64Schema
     username = StrSchema
@@ -105,7 +90,7 @@ class User(
             *args: typing.Union[dict, frozendict, None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'objectWithNoDeclaredPropsNullable':
             return super().__new__(
                 cls,
                 *args,
@@ -133,7 +118,7 @@ class User(
         anyTypePropNullable: typing.Union[anyTypePropNullable, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'User':
         return super().__new__(
             cls,
             *args,

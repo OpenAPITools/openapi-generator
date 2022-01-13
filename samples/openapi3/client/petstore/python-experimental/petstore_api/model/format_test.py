@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -65,31 +66,6 @@ class FormatTest(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    integer (int,): 
-    int32 (int,): 
-    int32withValidations (int,): 
-    int64 (int,): 
-    number (int, float,): 
-    float (float,): this is a reserved python keyword
-    float32 (float,): 
-    double (float,): 
-    float64 (float,): 
-    arrayWithUniqueItems (tuple,): 
-    string (str,): 
-    byte (str,): 
-    binary (): 
-    date (date,): 
-    dateTime (datetime,): 
-    uuid (str,): 
-    uuidNoExample (str,): 
-    password (str,): 
-    pattern_with_digits (str,): A string that is a 10 digit number. Can have leading zeros.
-    pattern_with_digits_and_delimiter (str,): A string starting with &#x27;image_&#x27; (case insensitive) and one to three digits following i.e. Image_01.
-    noneProp ( none_type,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     _required_property_names = set((
         'number',
@@ -247,7 +223,7 @@ class FormatTest(
         noneProp: typing.Union[noneProp, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'FormatTest':
         return super().__new__(
             cls,
             *args,

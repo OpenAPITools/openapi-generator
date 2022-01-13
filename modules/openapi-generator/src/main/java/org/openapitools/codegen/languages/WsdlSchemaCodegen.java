@@ -280,4 +280,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         // just return the original string
         return input;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.WSDL; }
 }
