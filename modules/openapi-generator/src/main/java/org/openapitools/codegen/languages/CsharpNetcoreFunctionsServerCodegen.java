@@ -381,6 +381,10 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
 
         // HACK: Unlikely in the wild, but we need to clean operation paths for MVC Routing
         if (operation.path != null) {
+            if (operation.path.startsWith("/"))
+            {
+                operation.path = operation.path.substring(1);
+            }
             String original = operation.path;
             operation.path = operation.path.replace("?", "/");
             if (!original.equals(operation.path)) {
