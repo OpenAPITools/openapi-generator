@@ -5120,11 +5120,11 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    protected void addImports(CodegenModel m, ComplexType type) {
+    protected void addImports(CodegenModel m, IJsonSchemaValidationProperties type) {
         addImports(m.imports, type);
     }
 
-    protected void addImports(Set<String> importsToBeAddedTo, ComplexType type) {
+    protected void addImports(Set<String> importsToBeAddedTo, IJsonSchemaValidationProperties type) {
         addImports(importsToBeAddedTo, type.getImports(true));
     }
 
