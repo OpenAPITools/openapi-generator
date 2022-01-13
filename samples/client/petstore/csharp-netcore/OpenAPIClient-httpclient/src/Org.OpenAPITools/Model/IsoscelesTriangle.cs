@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class IsoscelesTriangle {\n");
             sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
             sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
@@ -122,9 +122,13 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.ShapeType != null)
-                    hashCode = hashCode * 59 + this.ShapeType.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ShapeType.GetHashCode();
+                }
                 if (this.TriangleType != null)
-                    hashCode = hashCode * 59 + this.TriangleType.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.TriangleType.GetHashCode();
+                }
                 return hashCode;
             }
         }

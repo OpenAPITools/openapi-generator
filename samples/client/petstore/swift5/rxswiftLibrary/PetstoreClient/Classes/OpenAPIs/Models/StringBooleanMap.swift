@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct StringBooleanMap: Codable, Hashable {
+public struct StringBooleanMap: Codable, JSONEncodable, Hashable {
 
 
     public enum CodingKeys: CodingKey, CaseIterable {

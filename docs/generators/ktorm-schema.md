@@ -1,8 +1,18 @@
 ---
-title: Config Options for ktorm-schema
-sidebar_label: ktorm-schema
+title: Documentation for the ktorm-schema Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | ktorm-schema | pass this to the generate command after -g |
+| generator stability | BETA | |
+| generator type | SCHEMA | |
+| generator language | Ktorm | |
+| helpTxt | Generates a kotlin-ktorm schema (beta) | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

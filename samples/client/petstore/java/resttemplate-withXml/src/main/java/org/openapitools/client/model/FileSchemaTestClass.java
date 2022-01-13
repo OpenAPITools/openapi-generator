@@ -53,6 +53,8 @@ public class FileSchemaTestClass {
   @XmlElement(name = "files")
   private List<java.io.File> files = null;
 
+  public FileSchemaTestClass() { 
+  }
 
   public FileSchemaTestClass file(java.io.File file) {
     

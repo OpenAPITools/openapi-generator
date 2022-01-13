@@ -18,7 +18,7 @@ import {
     DeprecatedObjectFromJSON,
     DeprecatedObjectFromJSONTyped,
     DeprecatedObjectToJSON,
-} from './';
+} from './DeprecatedObject';
 
 /**
  * 

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc public class ArrayTest: NSObject, Codable {
+@objc public class ArrayTest: NSObject, Codable, JSONEncodable {
 
     public var arrayOfString: [String]?
     public var arrayArrayOfInteger: [[Int64]]?

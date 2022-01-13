@@ -614,7 +614,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         if ("t".equals(FilenameUtils.getExtension(file.toString())) ||
                 "pm".equals(FilenameUtils.getExtension(file.toString())) ||
                 "pl".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = perlTidyPath + " -b -bext='/' " + file.toString();
+            String command = perlTidyPath + " -b -bext='/' " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -643,4 +643,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         System.out.println("# - OpenAPI Generator for Perl Developers            https://bit.ly/2OId6p3    #");
         System.out.println("################################################################################");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PERL; }
 }

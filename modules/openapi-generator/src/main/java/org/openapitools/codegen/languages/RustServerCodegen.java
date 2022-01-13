@@ -53,7 +53,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
 
-    private HashMap<String, String> modelXmlNames = new HashMap<String, String>();
+    private Map<String, String> modelXmlNames = new HashMap<String, String>();
 
     private static final String NO_FORMAT = "%%NO_FORMAT";
 
@@ -160,13 +160,13 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "bool",
                         "char",
@@ -341,7 +341,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("serverHost", url.getHost());
         additionalProperties.put("serverPort", URLPathUtils.getPort(url, serverPort));
 
-        if (packageVersion == null || "".equals(packageVersion)) {
+        if (packageVersion == null || packageVersion.isEmpty()) {
             List<String> versionComponents = new ArrayList<>(Arrays.asList(info.getVersion().split("[.]")));
             if (versionComponents.size() < 1) {
                 versionComponents.add("1");
@@ -1087,7 +1087,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && dataType.equals(typeMapping.get("File").toString());
+        return dataType != null && dataType.equals(typeMapping.get("File"));
     }
 
     /**
@@ -1176,7 +1176,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
             return datatype;
         } else if (p instanceof FileSchema) {
-            return typeMapping.get("File").toString();
+            return typeMapping.get("File");
         }
 
         return super.getTypeDeclaration(p);
@@ -1314,7 +1314,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         // If we have callbacks, add the callbacks module, otherwise remove it
         boolean hasCallbacks = haveCallbacks(bundle);
         bundle.put("hasCallbacks", hasCallbacks);
-        SupportingFile[] callbackFiles = new SupportingFile[]{
+        SupportingFile[] callbackFiles = {
                 new SupportingFile("client-callbacks.mustache", "src/client", "callbacks.rs"),
                 new SupportingFile("server-callbacks.mustache", "src/server", "callbacks.rs"),
                 new SupportingFile("example-client-server.mustache", "examples/client", "server.rs")
@@ -1674,12 +1674,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 Process p = Runtime.getRuntime().exec(new String[]{commandPrefix, file.toString()});
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({} {}). Exit code: {}", commandPrefix, file.toString(), exitValue);
+                    LOGGER.error("Error running the command ({} {}). Exit code: {}", commandPrefix, file, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: {} {}", commandPrefix, file.toString());
+                    LOGGER.info("Successfully executed: {} {}", commandPrefix, file);
                 }
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({} ()). Exception: {}", commandPrefix, file.toString(), e.getMessage());
+                LOGGER.error("Error running the command ({} ()). Exception: {}", commandPrefix, file, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
@@ -1742,4 +1742,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             updatePropertyForMap(property, p);
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUST; }
 }

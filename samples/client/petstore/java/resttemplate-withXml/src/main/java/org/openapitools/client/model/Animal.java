@@ -60,6 +60,8 @@ public class Animal {
   @XmlElement(name = "color")
   private String color = "red";
 
+  public Animal() { 
+  }
 
   public Animal className(String className) {
     

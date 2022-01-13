@@ -130,7 +130,7 @@ static bool deleteOrderHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = deleteOrderProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -254,7 +254,7 @@ static bool getInventoryHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = getInventoryProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -406,7 +406,7 @@ static bool getOrderByIdHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = getOrderByIdProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -565,7 +565,7 @@ static bool placeOrderHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = placeOrderProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);

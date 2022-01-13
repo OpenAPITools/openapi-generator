@@ -48,6 +48,8 @@ public class ReadOnlyFirst {
   @XmlElement(name = "baz")
   private String baz;
 
+  public ReadOnlyFirst() { 
+  }
 
    /**
    * Get bar

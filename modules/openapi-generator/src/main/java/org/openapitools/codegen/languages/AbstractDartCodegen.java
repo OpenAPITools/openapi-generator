@@ -340,7 +340,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         // replace all characters that have a mapping but ignore underscores
         // append an underscore to each replacement so that it can be camelized
-        if (name.chars().anyMatch(character -> specialCharReplacements.containsKey("" + ((char) character)))) {
+        if (name.chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character)))) {
             name = escape(name, specialCharReplacements, Collections.singletonList("_"), "_");
         }
         // remove the rest
@@ -505,7 +505,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         super.postProcessModelProperty(model, property);
         if (!model.isEnum && property.isEnum) {
             // These are inner enums, enums which do not exist as models, just as properties.
-            // They are handled via the enum_inline template and and are generated in the
+            // They are handled via the enum_inline template and are generated in the
             // same file as the containing class. To prevent name clashes the inline enum classes
             // are prefix with the classname of the containing class in the template.
             // Here the datatypeWithEnum template variable gets updated to match that scheme.
@@ -529,9 +529,9 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         final CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         for (CodegenResponse r : op.responses) {
-            // By default only set types are automatically added to operation imports, not sure why.
+            // By default, only set types are automatically added to operation imports, not sure why.
             // Add all container type imports here, by default 'dart:core' imports are skipped
-            // but other sub classes may required specific container type imports.
+            // but other sub-classes may require specific container type imports.
             if (r.containerType != null && typeMapping().containsKey(r.containerType)) {
                 final String value = typeMapping().get(r.containerType);
                 if (needToImport(value)) {
@@ -752,7 +752,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         // process all files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
             // currently supported is "dartfmt -w" and "dart format"
-            String command = dartPostProcessFile + " " + file.toString();
+            String command = dartPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -768,4 +768,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.DART; }
 }

@@ -19,15 +19,26 @@ class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     }
 }
 
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} typealias {{projectName}}APIChallengeHandler = ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))
+
+// Store the URLSession's delegate to retain its reference
+private let sessionDelegate = SessionDelegate()
+
 // Store the URLSession to retain its reference
-private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
+private let defaultURLSession = URLSession(configuration: .default, delegate: sessionDelegate, delegateQueue: nil)
+
+// Store current taskDidReceiveChallenge for every URLSessionTask
+private var challengeHandlerStore = SynchronizedDictionary<Int, {{projectName}}APIChallengeHandler>()
+
+// Store current URLCredential for every URLSessionTask
+private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
     /**
      May be assigned if you want to control the authentication challenges.
      */
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var taskDidReceiveChallenge: ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))?
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var taskDidReceiveChallenge: {{projectName}}APIChallengeHandler?
 
     /**
      May be assigned if you want to do any of those things:
@@ -47,12 +58,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
      configuration.
      */
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func createURLSession() -> URLSession {
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = buildHeaders()
-        let sessionDelegate = SessionDelegate()
-        sessionDelegate.credential = credential
-        sessionDelegate.taskDidReceiveChallenge = taskDidReceiveChallenge
-        return URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: nil)
+        return defaultURLSession
     }
 
     /**
@@ -93,11 +99,9 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
         return modifiedRequest
     }
 
-    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
-        let urlSessionId = UUID().uuidString
-        // Create a new manager for each request to customize its request header
+    @discardableResult
+    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let urlSession = createURLSession()
-        urlSessionStore[urlSessionId] = urlSession
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
             fatalError("Unsupported Http method - \(method)")
@@ -123,13 +127,16 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
             }
         }
 
-        let cleanupRequest = {
-            urlSessionStore[urlSessionId]?.finishTasksAndInvalidate()
-            urlSessionStore[urlSessionId] = nil
-        }
-
         do {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
+
+            var taskIdentifier: Int?
+             let cleanupRequest = {
+                 if let taskIdentifier = taskIdentifier {
+                     challengeHandlerStore[taskIdentifier] = nil
+                     credentialStore[taskIdentifier] = nil
+                 }
+             }
 
             let dataTask = urlSession.dataTask(with: request) { data, response, error in
 
@@ -159,14 +166,20 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
                 onProgressReady?(dataTask.progress)
             }
 
+            taskIdentifier = dataTask.taskIdentifier
+            challengeHandlerStore[dataTask.taskIdentifier] = taskDidReceiveChallenge
+            credentialStore[dataTask.taskIdentifier] = credential
+
             dataTask.resume()
 
+            requestTask.set(task: dataTask)
         } catch {
             apiResponseQueue.async {
-                cleanupRequest()
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
         }
+
+        return requestTask
     }
 
     fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
@@ -187,60 +200,12 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
         }
 
         switch T.self {
-        case is String.Type:
-
-            let body = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
-
-            completion(.success(Response<T>(response: httpResponse, body: body as? T)))
-
-        case is URL.Type:
-            do {
-
-                guard error == nil else {
-                    throw DownloadException.responseFailed
-                }
-
-                guard let data = data else {
-                    throw DownloadException.responseDataMissing
-                }
-
-                let fileManager = FileManager.default
-                let cachesDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-                let requestURL = try getURL(from: urlRequest)
-
-                var requestPath = try getPath(from: requestURL)
-
-                if let headerFileName = getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
-                    requestPath = requestPath.appending("/\(headerFileName)")
-                } else {
-                    requestPath = requestPath.appending("/tmp.{{projectName}}.\(UUID().uuidString)")
-                }
-
-                let filePath = cachesDirectory.appendingPathComponent(requestPath)
-                let directoryPath = filePath.deletingLastPathComponent().path
-
-                try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
-                try data.write(to: filePath, options: .atomic)
-
-                completion(.success(Response(response: httpResponse, body: filePath as? T)))
-
-            } catch let requestParserError as DownloadException {
-                completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
-            } catch {
-                completion(.failure(ErrorResponse.error(400, data, response, error)))
-            }
-
         case is Void.Type:
 
-            completion(.success(Response(response: httpResponse, body: nil)))
-
-        case is Data.Type:
-
-            completion(.success(Response(response: httpResponse, body: data as? T)))
+            completion(.success(Response(response: httpResponse, body: () as! T)))
 
         default:
-
-            completion(.success(Response(response: httpResponse, body: data as? T)))
+            fatalError("Unsupported Response Body Type - \(String(describing: T.self))")
         }
 
     }
@@ -332,7 +297,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 
             let body = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
 
-            completion(.success(Response<T>(response: httpResponse, body: body as? T)))
+            completion(.success(Response<T>(response: httpResponse, body: body as! T)))
 
         case is URL.Type:
             do {
@@ -363,7 +328,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
                 try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
                 try data.write(to: filePath, options: .atomic)
 
-                completion(.success(Response(response: httpResponse, body: filePath as? T)))
+                completion(.success(Response(response: httpResponse, body: filePath as! T)))
 
             } catch let requestParserError as DownloadException {
                 completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
@@ -373,11 +338,11 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 
         case is Void.Type:
 
-            completion(.success(Response(response: httpResponse, body: nil)))
+            completion(.success(Response(response: httpResponse, body: () as! T)))
 
         case is Data.Type:
 
-            completion(.success(Response(response: httpResponse, body: data as? T)))
+            completion(.success(Response(response: httpResponse, body: data as! T)))
 
         default:
 
@@ -398,25 +363,20 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
     }
 }
 
-private class SessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDelegate {
-
-    var credential: URLCredential?
-
-    var taskDidReceiveChallenge: ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))?
-
+private class SessionDelegate: NSObject, URLSessionTaskDelegate {
     func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
 
         var disposition: URLSession.AuthChallengeDisposition = .performDefaultHandling
 
         var credential: URLCredential?
 
-        if let taskDidReceiveChallenge = taskDidReceiveChallenge {
+        if let taskDidReceiveChallenge = challengeHandlerStore[task.taskIdentifier] {
             (disposition, credential) = taskDidReceiveChallenge(session, task, challenge)
         } else {
             if challenge.previousFailureCount > 0 {
                 disposition = .rejectProtectionSpace
             } else {
-                credential = self.credential ?? session.configuration.urlCredentialStorage?.defaultCredential(for: challenge.protectionSpace)
+                credential = credentialStore[task.taskIdentifier] ?? session.configuration.urlCredentialStorage?.defaultCredential(for: challenge.protectionSpace)
 
                 if credential != nil {
                     disposition = .useCredential
@@ -516,6 +476,15 @@ private class FormDataEncoding: ParameterEncoding {
                         data: data
                     )
                 }
+
+            case let data as Data:
+
+                urlRequest = configureDataUploadRequest(
+                    urlRequest: urlRequest,
+                    boundary: boundary,
+                    name: key,
+                    data: data
+                )
 
             default:
                 fatalError("Unprocessable value \(value) with key \(key)")

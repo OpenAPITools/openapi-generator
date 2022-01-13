@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Model for testing model name starting with number */
-@objc public class Model200Response: NSObject, Codable {
+@objc public class Model200Response: NSObject, Codable, JSONEncodable {
 
     public var name: Int?
     public var nameNum: NSNumber? {

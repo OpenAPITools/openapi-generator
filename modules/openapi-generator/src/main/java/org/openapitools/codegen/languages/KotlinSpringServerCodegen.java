@@ -454,7 +454,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 basePath = basePath.substring(0, pos);
             }
 
-            if (basePath.equals("")) {
+            if (basePath.isEmpty()) {
                 basePath = "default";
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
@@ -541,10 +541,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 .forEach(cm -> {
                     cm.imports.add(importMapping.get("JsonValue"));
                     cm.imports.add(importMapping.get("JsonProperty"));
-                    Map<String, String> item = new HashMap<>();
-                    item.put("import", importMapping.get("JsonValue"));
-                    item.put("import", importMapping.get("JsonProperty"));
-                    imports.add(item);
+                    Map<String, String> itemJsonValue = new HashMap<>();
+                    itemJsonValue.put("import", importMapping.get("JsonValue"));
+                    imports.add(itemJsonValue);
+                    Map<String, String> itemJsonProperty = new HashMap<>();
+                    itemJsonProperty.put("import", importMapping.get("JsonProperty"));
+                    imports.add(itemJsonProperty);
                 });
 
         return objs;
