@@ -240,19 +240,18 @@ public interface IJsonSchemaValidationProperties {
      */
     default Set<String> getImports(boolean includeContainerTypes) {
         Set<String> imports = new HashSet<>();
-        if (includeContainerTypes || !(this.getIsArray() || this.getIsMap())) {
-            if (this.getComposedSchemas() != null) {
-                CodegenComposedSchemas composed = (CodegenComposedSchemas) this.getComposedSchemas();
-                List<CodegenProperty> allOfs =  composed.getAllOf() == null ? Collections.emptyList() : composed.getAllOf();
-                List<CodegenProperty> oneOfs =  composed.getOneOf() == null ? Collections.emptyList() : composed.getOneOf();
-                Stream<CodegenProperty> innerTypes = Stream.concat(allOfs.stream(), oneOfs.stream());
-                innerTypes.flatMap(cp -> cp.getImports(includeContainerTypes).stream()).forEach(s -> imports.add(s));
-            } else {
-                imports.add(this.getComplexType());
-                imports.add(this.getBaseType());
-            }
+        if (this.getComposedSchemas() != null) {
+            CodegenComposedSchemas composed = (CodegenComposedSchemas) this.getComposedSchemas();
+            List<CodegenProperty> allOfs =  composed.getAllOf() == null ? Collections.emptyList() : composed.getAllOf();
+            List<CodegenProperty> oneOfs =  composed.getOneOf() == null ? Collections.emptyList() : composed.getOneOf();
+            Stream<CodegenProperty> innerTypes = Stream.concat(allOfs.stream(), oneOfs.stream());
+            innerTypes.flatMap(cp -> cp.getImports(includeContainerTypes).stream()).forEach(s -> imports.add(s));
+        } else if (includeContainerTypes || !(this.getIsArray() || this.getIsMap())) {
+            // Composed types shouldn't be added directly because types like `Cat | Dog` won't have resolvable imports.
+            imports.add(this.getComplexType());
+            imports.add(this.getBaseType());
         }
-        if (this.getItems() !=null) {
+        if (this.getItems() !=null && this.getIsArray()) {
             imports.addAll(this.getItems().getImports(includeContainerTypes));
         }
         if (this.getAdditionalProperties() != null) {
