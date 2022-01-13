@@ -87,7 +87,7 @@
       end
       request.headers = header_params
       request.body = req_body
-      request.options = OpenStruct.new(req_opts)
+      request.options = OpenStruct.new(req_opts) unless opts[:return_type] == 'Binary'
       request.url url
       request.params = query_params
       download_file(request) if opts[:return_type] == 'File' || 'Binary'
