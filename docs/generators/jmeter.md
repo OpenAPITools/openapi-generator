@@ -1,8 +1,18 @@
 ---
-title: Config Options for jmeter
-sidebar_label: jmeter
+title: Documentation for the jmeter Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | jmeter | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Java | |
+| helpTxt | Generates a JMeter .jmx file. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

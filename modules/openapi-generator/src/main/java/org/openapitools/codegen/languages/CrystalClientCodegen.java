@@ -898,4 +898,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.CRYSTAL; }
 }

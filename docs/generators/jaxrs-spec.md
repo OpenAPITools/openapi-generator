@@ -1,8 +1,18 @@
 ---
-title: Config Options for jaxrs-spec
-sidebar_label: jaxrs-spec
+title: Documentation for the jaxrs-spec Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | jaxrs-spec | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Java | |
+| helpTxt | Generates a Java JAXRS Server according to JAXRS 2.0 specification. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

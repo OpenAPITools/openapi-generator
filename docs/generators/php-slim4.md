@@ -1,8 +1,18 @@
 ---
-title: Config Options for php-slim4
-sidebar_label: php-slim4
+title: Documentation for the php-slim4 Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | php-slim4 | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | PHP | |
+| helpTxt | Generates a PHP Slim 4 Framework server library(with Mock server). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

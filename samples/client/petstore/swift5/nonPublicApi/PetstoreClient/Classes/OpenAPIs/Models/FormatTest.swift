@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-internal struct FormatTest: Codable, Hashable {
+internal struct FormatTest: Codable, JSONEncodable, Hashable {
 
     internal var integer: Int?
     internal var int32: Int?

@@ -7356,4 +7356,15 @@ public class DefaultCodegen implements CodegenConfig {
         }
         return xOf;
     }
+
+    @Override
+    public String defaultTemplatingEngine() {
+        return "mustache";
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVA; }
+
+    @Override
+    public String generatorLanguageVersion() { return null; };
 }

@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -67,11 +68,6 @@ class HealthCheckResult(
     Do not edit the class manually.
 
     Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
-
-    Attributes:
-    NullableMessage (str, none_type,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     
     
@@ -86,7 +82,7 @@ class HealthCheckResult(
             cls,
             *args: typing.Union[str, None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-        ):
+        ) -> 'NullableMessage':
             return super().__new__(
                 cls,
                 *args,
@@ -100,7 +96,7 @@ class HealthCheckResult(
         NullableMessage: typing.Union[NullableMessage, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'HealthCheckResult':
         return super().__new__(
             cls,
             *args,

@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -65,16 +66,6 @@ class Capitalization(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    smallCamel (str,): 
-    CapitalCamel (str,): 
-    small_Snake (str,): 
-    Capital_Snake (str,): 
-    SCA_ETH_Flow_Points (str,): 
-    ATT_NAME (str,): Name of the pet 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     smallCamel = StrSchema
     CapitalCamel = StrSchema
@@ -95,7 +86,7 @@ class Capitalization(
         ATT_NAME: typing.Union[ATT_NAME, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Capitalization':
         return super().__new__(
             cls,
             *args,

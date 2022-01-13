@@ -603,4 +603,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
         return containsVar;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PROTOBUF; }
 }

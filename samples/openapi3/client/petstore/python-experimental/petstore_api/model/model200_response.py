@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -67,12 +68,6 @@ class Model200Response(
     Do not edit the class manually.
 
     model with an invalid class name for python, starts with a number
-
-    Attributes:
-    name (int,): 
-    class (str,): this is a reserved python keyword
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     name = Int32Schema
     _class = StrSchema
@@ -81,11 +76,11 @@ class Model200Response(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         name: typing.Union[name, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Model200Response':
         return super().__new__(
             cls,
             *args,

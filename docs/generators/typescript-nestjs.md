@@ -1,8 +1,18 @@
 ---
-title: Config Options for typescript-nestjs
-sidebar_label: typescript-nestjs
+title: Documentation for the typescript-nestjs Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-nestjs | pass this to the generate command after -g |
+| generator stability | EXPERIMENTAL | |
+| generator type | CLIENT | |
+| generator language | Typescript | |
+| helpTxt | Generates a TypeScript Nestjs 6.x client library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

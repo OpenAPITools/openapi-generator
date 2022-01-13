@@ -1,8 +1,17 @@
 ---
-title: Config Options for plantuml
-sidebar_label: plantuml
+title: Documentation for the plantuml Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | plantuml | pass this to the generate command after -g |
+| generator stability | BETA | |
+| generator type | DOCUMENTATION | |
+| helpTxt | Generates a plantuml documentation. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

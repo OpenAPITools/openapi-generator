@@ -1,8 +1,17 @@
 ---
-title: Config Options for html
-sidebar_label: html
+title: Documentation for the html Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | html | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | DOCUMENTATION | |
+| helpTxt | Generates a static HTML file. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
