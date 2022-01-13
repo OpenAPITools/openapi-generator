@@ -61,6 +61,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |supportMultipleSpringServices|Support generation of Spring services from multiple specifications| |false|
 |testDataControlFile|JSON file to control test data generation| |null|
 |testDataFile|JSON file to contain generated test data| |null|
+|testOutput|Set source output folder for test APIs and Models| |${project.build.directory}/generated-test-sources/openapi|
 |title|a title describing the application| |OpenAPI Server|
 |useAnnotatedBasePath|Use @Path annotations for basePath| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|

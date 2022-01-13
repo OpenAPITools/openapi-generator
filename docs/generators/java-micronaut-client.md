@@ -52,6 +52,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
 |test|Specify which test tool to generate files for|<dl><dt>**junit**</dt><dd>Use JUnit as test tool</dd><dt>**spock**</dt><dd>Use Spock as test tool</dd></dl>|junit|
+|testOutput|Set source output folder for test APIs and Models| |${project.build.directory}/generated-test-sources/openapi|
 |title|Client service name| |OpenAPI Micronaut Client|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
