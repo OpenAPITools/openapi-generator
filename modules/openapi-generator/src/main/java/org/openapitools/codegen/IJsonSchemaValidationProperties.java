@@ -255,6 +255,9 @@ public interface IJsonSchemaValidationProperties {
         if (this.getItems() !=null) {
             imports.addAll(this.getItems().getImports(includeContainerTypes));
         }
+        if (this.getAdditionalProperties() != null) {
+            imports.addAll(this.getAdditionalProperties().getImports(includeContainerTypes));
+        }
         return imports;
     }
 }
