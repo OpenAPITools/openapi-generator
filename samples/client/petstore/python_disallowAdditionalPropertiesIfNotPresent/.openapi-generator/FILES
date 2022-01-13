@@ -170,11 +170,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_polygon.py
-test/test_polygon_all_of.py
-test/test_shape.py
-test/test_square.py
-test/test_square_all_of.py
-test/test_triangle.py
-test/test_triangle_all_of.py
 tox.ini
