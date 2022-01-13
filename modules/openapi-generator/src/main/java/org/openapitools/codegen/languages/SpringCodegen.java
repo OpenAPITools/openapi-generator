@@ -957,7 +957,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         // add org.springframework.data.domain.Pageable import whgen needed
         if (codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
             codegenOperation.imports.add("Pageable");
-            if (additionalProperties.containsKey("useSpringfox")) {
+            if (Boolean.TRUE.equals(additionalProperties.get("useSpringfox"))) {
                 codegenOperation.imports.add("ApiIgnore");
             }
         }
