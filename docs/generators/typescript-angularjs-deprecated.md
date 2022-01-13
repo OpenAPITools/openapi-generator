@@ -1,8 +1,18 @@
 ---
-title: Config Options for typescript-angularjs-deprecated
-sidebar_label: typescript-angularjs-deprecated
+title: Documentation for the typescript-angularjs-deprecated Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-angularjs-deprecated | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
+| generator type | CLIENT | |
+| generator language | Typescript | |
+| helpTxt | Generates a TypeScript AngularJS client library. This generator has been deprecated and will be removed in the future release. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

@@ -1,8 +1,18 @@
 ---
-title: Config Options for php-mezzio-ph
-sidebar_label: php-mezzio-ph
+title: Documentation for the php-mezzio-ph Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | php-mezzio-ph | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | PHP | |
+| helpTxt | Generates PHP server stub using Mezzio ( https://docs.mezzio.dev/mezzio/ ) and Path Handler ( https://github.com/Articus/PathHandler ). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

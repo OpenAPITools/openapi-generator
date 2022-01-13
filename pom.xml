@@ -1246,10 +1246,6 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/spring-mvc-default-value</module>
-                <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
                 <!-- clients -->
                 <module>samples/client/petstore/spring-cloud</module>
                 <module>samples/openapi3/client/petstore/spring-cloud</module>
@@ -1258,6 +1254,11 @@
                 <module>samples/client/petstore/spring-stubs</module>
                 <module>samples/openapi3/client/petstore/spring-stubs</module>
                 <!-- servers -->
+                <module>samples/server/petstore/java-camel</module>
+                <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/server/petstore/spring-mvc-default-value</module>
+                <module>samples/server/petstore/spring-mvc-j8-async</module>
+                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
                 <module>samples/server/petstore/springboot</module>
                 <module>samples/openapi3/server/petstore/springboot</module>
                 <module>samples/server/petstore/springboot-beanvalidation</module>

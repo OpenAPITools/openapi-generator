@@ -2731,7 +2731,6 @@ public class DefaultCodegen implements CodegenConfig {
             addParentContainer(m, name, schema);
         } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
             // NOTE: Integral schemas as CodegenModel is a rare use case and may be removed at a later date.
-
             m.isNumeric = Boolean.TRUE;
             if (ModelUtils.isLongSchema(schema)) { // int64/long format
                 m.isLong = Boolean.TRUE;
@@ -2823,6 +2822,7 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
+
         return m;
     }
 
@@ -2870,16 +2870,15 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-
-        /**
-         * Recursively look in Schema sc for the discriminator discPropName
-         * and return a CodegenProperty with the dataType and required params set
-         * the returned CodegenProperty may not be required and it may not be of type string
-         *
-         * @param composedSchemaName The name of the sc Schema
-         * @param sc                 The Schema that may contain the discriminator
-         * @param discPropName       The String that is the discriminator propertyName in the schema
-         */
+    /**
+     * Recursively look in Schema sc for the discriminator discPropName
+     * and return a CodegenProperty with the dataType and required params set
+     * the returned CodegenProperty may not be required and it may not be of type string
+     *
+     * @param composedSchemaName The name of the sc Schema
+     * @param sc                 The Schema that may contain the discriminator
+     * @param discPropName       The String that is the discriminator propertyName in the schema
+     */
     private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName, OpenAPI openAPI) {
         Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
         if (refSchema.getProperties() != null && refSchema.getProperties().get(discPropName) != null) {
@@ -5199,7 +5198,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param properties a map of properties (schema)
      * @param mandatory  a set of required properties' name
      */
-    private void addVars(IJsonSchemaValidationProperties m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
+    protected void addVars(IJsonSchemaValidationProperties m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
         if (properties == null) {
             return;
         }
@@ -6826,7 +6825,7 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
-    private void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
+    protected void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
         setAddProps(schema, property);
         if (!"object".equals(schema.getType())) {
             return;
@@ -7357,4 +7356,15 @@ public class DefaultCodegen implements CodegenConfig {
         }
         return xOf;
     }
+
+    @Override
+    public String defaultTemplatingEngine() {
+        return "mustache";
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVA; }
+
+    @Override
+    public String generatorLanguageVersion() { return null; };
 }

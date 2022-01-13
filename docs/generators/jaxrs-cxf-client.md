@@ -1,8 +1,18 @@
 ---
-title: Config Options for jaxrs-cxf-client
-sidebar_label: jaxrs-cxf-client
+title: Documentation for the jaxrs-cxf-client Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | jaxrs-cxf-client | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Java | |
+| helpTxt | Generates a Java JAXRS Client based on Apache CXF framework. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

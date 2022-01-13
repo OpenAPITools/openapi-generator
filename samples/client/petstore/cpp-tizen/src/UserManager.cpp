@@ -137,7 +137,7 @@ static bool createUserHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = createUserProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -286,7 +286,7 @@ static bool createUsersWithArrayInputHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = createUsersWithArrayInputProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -435,7 +435,7 @@ static bool createUsersWithListInputHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = createUsersWithListInputProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -565,7 +565,7 @@ static bool deleteUserHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = deleteUserProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -717,7 +717,7 @@ static bool getUserByNameHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = getUserByNameProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -866,7 +866,7 @@ static bool loginUserHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = loginUserProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -990,7 +990,7 @@ static bool logoutUserHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = logoutUserProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -1133,7 +1133,7 @@ static bool updateUserHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = updateUserProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);

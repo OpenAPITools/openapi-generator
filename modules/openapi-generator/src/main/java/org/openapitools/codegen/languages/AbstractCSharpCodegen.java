@@ -1341,4 +1341,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.C_SHARP; }
 }
