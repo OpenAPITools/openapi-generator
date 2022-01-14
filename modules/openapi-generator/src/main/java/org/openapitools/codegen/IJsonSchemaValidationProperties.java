@@ -247,7 +247,9 @@ public interface IJsonSchemaValidationProperties {
             Stream<CodegenProperty> innerTypes = Stream.concat(allOfs.stream(), oneOfs.stream());
             innerTypes.flatMap(cp -> cp.getImports(includeContainerTypes).stream()).forEach(s -> imports.add(s));
         } else if (includeContainerTypes || !(this.getIsArray() || this.getIsMap())) {
-            // Composed types shouldn't be added directly because types like `Cat | Dog` won't have resolvable imports.
+            // this is our base case, add imports for referenced schemas
+            // this can't be broken out as a separate if block because Typescript only generates union types as A | B
+            // and would need to handle this differently
             imports.add(this.getComplexType());
             imports.add(this.getBaseType());
         }
