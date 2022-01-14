@@ -3,6 +3,7 @@ import { BaseAPIRequestFactory, RequiredError } from './baseapi';
 import {Configuration} from '../configuration';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import {ObjectSerializer} from '../models/ObjectSerializer';
+import { SecurityAuthentication } from '../auth/auth';
 import {ApiException} from './exception';
 import {canConsumeForm, isCodeInRange} from '../util';
 
@@ -13,6 +14,11 @@ import { Order } from '../models/Order';
  * no description
  */
 export class StoreApiRequestFactory extends BaseAPIRequestFactory {
+    private defaultSecurityAuthentication: SecurityAuthentication | undefined;
+
+    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
+        this.defaultSecurityAuthentication = auth;
+    }
 
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -56,9 +62,9 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["api_key"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }

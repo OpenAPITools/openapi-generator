@@ -3,6 +3,7 @@ import { BaseAPIRequestFactory, RequiredError } from './baseapi';
 import {Configuration} from '../configuration';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import {ObjectSerializer} from '../models/ObjectSerializer';
+import { SecurityAuthentication } from '../auth/auth';
 import {ApiException} from './exception';
 import {canConsumeForm, isCodeInRange} from '../util';
 
@@ -13,6 +14,11 @@ import { User } from '../models/User';
  * no description
  */
 export class UserApiRequestFactory extends BaseAPIRequestFactory {
+    private defaultSecurityAuthentication: SecurityAuthentication | undefined;
+
+    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
+        this.defaultSecurityAuthentication = auth;
+    }
 
     /**
      * This can only be done by the logged in user.
@@ -47,9 +53,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["api_key"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -89,9 +95,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["api_key"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -131,9 +137,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["api_key"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -164,9 +170,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["api_key"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -256,9 +262,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["api_key"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -307,9 +313,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["api_key"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }

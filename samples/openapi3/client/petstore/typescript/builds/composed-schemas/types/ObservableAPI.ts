@@ -1,6 +1,7 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http';
 import * as models from '../models/all';
 import { Configuration} from '../configuration'
+import { SecurityAuthentication } from '../auth/auth';
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
 import { Cat } from '../models/Cat';
@@ -25,6 +26,10 @@ export class ObservableDefaultApi {
         this.configuration = configuration;
         this.requestFactory = requestFactory || new DefaultApiRequestFactory(configuration);
         this.responseProcessor = responseProcessor || new DefaultApiResponseProcessor();
+    }
+
+    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
+        this.requestFactory.setDefaultSecurityAuthentication(auth);
     }
 
     /**

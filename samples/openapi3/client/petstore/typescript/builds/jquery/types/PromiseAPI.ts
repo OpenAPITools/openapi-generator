@@ -1,6 +1,7 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http';
 import * as models from '../models/all';
 import { Configuration} from '../configuration'
+import { SecurityAuthentication } from '../auth/auth';
 
 import { ApiResponse } from '../models/ApiResponse';
 import { Category } from '../models/Category';
@@ -20,6 +21,10 @@ export class PromisePetApi {
         responseProcessor?: PetApiResponseProcessor
     ) {
         this.api = new ObservablePetApi(configuration, requestFactory, responseProcessor);
+    }
+
+    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
+        this.api.setDefaultSecurityAuthentication(auth);
     }
 
     /**
@@ -121,6 +126,10 @@ export class PromiseStoreApi {
         this.api = new ObservableStoreApi(configuration, requestFactory, responseProcessor);
     }
 
+    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
+        this.api.setDefaultSecurityAuthentication(auth);
+    }
+
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
@@ -176,6 +185,10 @@ export class PromiseUserApi {
         responseProcessor?: UserApiResponseProcessor
     ) {
         this.api = new ObservableUserApi(configuration, requestFactory, responseProcessor);
+    }
+
+    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
+        this.api.setDefaultSecurityAuthentication(auth);
     }
 
     /**

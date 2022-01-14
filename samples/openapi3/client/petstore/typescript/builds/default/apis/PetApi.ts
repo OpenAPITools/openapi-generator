@@ -5,6 +5,7 @@ import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/ht
 import * as FormData from "form-data";
 import { URLSearchParams } from 'url';
 import {ObjectSerializer} from '../models/ObjectSerializer';
+import { SecurityAuthentication } from '../auth/auth';
 import {ApiException} from './exception';
 import {canConsumeForm, isCodeInRange} from '../util';
 
@@ -16,6 +17,11 @@ import { Pet } from '../models/Pet';
  * no description
  */
 export class PetApiRequestFactory extends BaseAPIRequestFactory {
+    private defaultSecurityAuthentication: SecurityAuthentication | undefined;
+
+    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
+        this.defaultSecurityAuthentication = auth;
+    }
 
     /**
      * Add a new pet to the store
@@ -51,9 +57,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["petstore_auth"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -88,9 +94,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("api_key", ObjectSerializer.serialize(apiKey, "string", ""));
 
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["petstore_auth"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -125,9 +131,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         }
 
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["petstore_auth"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -162,9 +168,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         }
 
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["petstore_auth"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -195,9 +201,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["api_key"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -239,9 +245,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["petstore_auth"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -304,9 +310,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             requestContext.setHeaderParam("Content-Type", contentType);
         }
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["petstore_auth"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -371,9 +377,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             requestContext.setHeaderParam("Content-Type", contentType);
         }
 
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = _config.authMethods["petstore_auth"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }

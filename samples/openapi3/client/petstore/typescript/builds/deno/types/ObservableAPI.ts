@@ -1,6 +1,7 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http.ts';
 import * as models from '../models/all.ts';
 import { Configuration} from '../configuration.ts'
+import { SecurityAuthentication } from '../auth/auth';
 import { Observable, of, from } from '../rxjsStub.ts';
 import {mergeMap, map} from  '../rxjsStub.ts';
 import { ApiResponse } from '../models/ApiResponse.ts';
@@ -24,6 +25,10 @@ export class ObservablePetApi {
         this.configuration = configuration;
         this.requestFactory = requestFactory || new PetApiRequestFactory(configuration);
         this.responseProcessor = responseProcessor || new PetApiResponseProcessor();
+    }
+
+    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
+        this.requestFactory.setDefaultSecurityAuthentication(auth);
     }
 
     /**
@@ -236,6 +241,10 @@ export class ObservableStoreApi {
         this.responseProcessor = responseProcessor || new StoreApiResponseProcessor();
     }
 
+    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
+        this.requestFactory.setDefaultSecurityAuthentication(auth);
+    }
+
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
@@ -346,6 +355,10 @@ export class ObservableUserApi {
         this.configuration = configuration;
         this.requestFactory = requestFactory || new UserApiRequestFactory(configuration);
         this.responseProcessor = responseProcessor || new UserApiResponseProcessor();
+    }
+
+    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
+        this.requestFactory.setDefaultSecurityAuthentication(auth);
     }
 
     /**
