@@ -157,11 +157,11 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{/bodyParam}}
 
         {{#hasAuthMethods}}
-        let authMethod = null;
+        let authMethod: SecurityAuthentication | undefined;
         {{/hasAuthMethods}}
         {{#authMethods}}
         // Apply auth methods
-        authMethod = defaultSecurityAuthentication || _config.authMethods["{{name}}"]
+        authMethod = this.defaultSecurityAuthentication || _config.authMethods["{{name}}"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
