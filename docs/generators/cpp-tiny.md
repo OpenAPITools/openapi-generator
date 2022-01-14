@@ -1,8 +1,18 @@
 ---
-title: Config Options for cpp-tiny
-sidebar_label: cpp-tiny
+title: Documentation for the cpp-tiny Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cpp-tiny | pass this to the generate command after -g |
+| generator stability | BETA | |
+| generator type | CLIENT | |
+| generator language | C++ | |
+| helpTxt | Generates a C++ Arduino REST API client. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

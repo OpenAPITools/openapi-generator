@@ -1,8 +1,18 @@
 ---
-title: Config Options for php-symfony
-sidebar_label: php-symfony
+title: Documentation for the php-symfony Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | php-symfony | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | PHP | |
+| helpTxt | Generates a PHP Symfony server bundle. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

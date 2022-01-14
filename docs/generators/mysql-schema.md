@@ -1,8 +1,18 @@
 ---
-title: Config Options for mysql-schema
-sidebar_label: mysql-schema
+title: Documentation for the mysql-schema Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | mysql-schema | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SCHEMA | |
+| generator language | Mysql | |
+| helpTxt | Generates a MySQL schema based on the model or schema defined in the OpenAPI specification (v2, v3). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

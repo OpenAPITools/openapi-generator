@@ -1,8 +1,18 @@
 ---
-title: Config Options for javascript-closure-angular
-sidebar_label: javascript-closure-angular
+title: Documentation for the javascript-closure-angular Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | javascript-closure-angular | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Javascript | |
+| helpTxt | Generates a Javascript AngularJS client library (beta) annotated with Google Closure Compiler annotations(https://developers.google.com/closure/compiler/docs/js-for-compiler?hl=en) | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

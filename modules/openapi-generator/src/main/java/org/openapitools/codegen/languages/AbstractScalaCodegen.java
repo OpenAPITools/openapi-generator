@@ -575,4 +575,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         this.invokerPackage = invokerPackage;
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SCALA; }
 }

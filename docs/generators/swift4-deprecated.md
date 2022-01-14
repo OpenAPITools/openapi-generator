@@ -1,8 +1,18 @@
 ---
-title: Config Options for swift4-deprecated
-sidebar_label: swift4-deprecated
+title: Documentation for the swift4-deprecated Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | swift4-deprecated | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
+| generator type | CLIENT | |
+| generator language | Swift | |
+| helpTxt | Generates a Swift 4.x client library (Deprecated and will be removed in 5.x releases. Please use `swift5` instead.) | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

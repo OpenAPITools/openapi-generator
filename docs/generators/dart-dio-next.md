@@ -1,8 +1,18 @@
 ---
-title: Config Options for dart-dio-next
-sidebar_label: dart-dio-next
+title: Documentation for the dart-dio-next Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | dart-dio-next | pass this to the generate command after -g |
+| generator stability | EXPERIMENTAL | |
+| generator type | CLIENT | |
+| generator language | Dart | |
+| helpTxt | Generates a Dart Dio client library with null-safety. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

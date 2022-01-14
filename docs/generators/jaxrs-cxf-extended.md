@@ -1,8 +1,18 @@
 ---
-title: Config Options for jaxrs-cxf-extended
-sidebar_label: jaxrs-cxf-extended
+title: Documentation for the jaxrs-cxf-extended Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | jaxrs-cxf-extended | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Java | |
+| helpTxt | Extends jaxrs-cxf with options to generate a functional mock server. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

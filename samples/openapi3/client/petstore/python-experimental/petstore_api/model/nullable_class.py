@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -65,27 +66,11 @@ class NullableClass(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    integer_prop (int, none_type,): 
-    number_prop (int, float, none_type,): 
-    boolean_prop (bool, none_type,): 
-    string_prop (str, none_type,): 
-    date_prop (date, none_type,): 
-    datetime_prop (datetime, none_type,): 
-    array_nullable_prop (tuple, none_type,): 
-    array_and_items_nullable_prop (tuple, none_type,): 
-    array_items_nullable (tuple,): 
-    object_nullable_prop (dict, none_type,): 
-    object_and_items_nullable_prop (dict, none_type,): 
-    object_items_nullable (dict,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     
     
     class integer_prop(
-        _SchemaTypeChecker(typing.Union[none_type, Decimal, ]),
+        _SchemaTypeChecker(typing.Union[none_type, decimal.Decimal, ]),
         IntBase,
         NoneBase,
         Schema
@@ -95,7 +80,7 @@ class NullableClass(
             cls,
             *args: typing.Union[int, None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-        ):
+        ) -> 'integer_prop':
             return super().__new__(
                 cls,
                 *args,
@@ -104,7 +89,7 @@ class NullableClass(
     
     
     class number_prop(
-        _SchemaTypeChecker(typing.Union[none_type, Decimal, ]),
+        _SchemaTypeChecker(typing.Union[none_type, decimal.Decimal, ]),
         NumberBase,
         NoneBase,
         Schema
@@ -114,7 +99,7 @@ class NullableClass(
             cls,
             *args: typing.Union[float, None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-        ):
+        ) -> 'number_prop':
             return super().__new__(
                 cls,
                 *args,
@@ -133,7 +118,7 @@ class NullableClass(
             cls,
             *args: typing.Union[bool, None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-        ):
+        ) -> 'boolean_prop':
             return super().__new__(
                 cls,
                 *args,
@@ -152,7 +137,7 @@ class NullableClass(
             cls,
             *args: typing.Union[str, None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-        ):
+        ) -> 'string_prop':
             return super().__new__(
                 cls,
                 *args,
@@ -171,7 +156,7 @@ class NullableClass(
             cls,
             *args: typing.Union[None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-        ):
+        ) -> 'date_prop':
             return super().__new__(
                 cls,
                 *args,
@@ -190,7 +175,7 @@ class NullableClass(
             cls,
             *args: typing.Union[None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-        ):
+        ) -> 'datetime_prop':
             return super().__new__(
                 cls,
                 *args,
@@ -209,7 +194,7 @@ class NullableClass(
             cls,
             *args: typing.Union[list, tuple, None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-        ):
+        ) -> 'array_nullable_prop':
             return super().__new__(
                 cls,
                 *args,
@@ -228,7 +213,7 @@ class NullableClass(
             cls,
             *args: typing.Union[list, tuple, None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-        ):
+        ) -> 'array_and_items_nullable_prop':
             return super().__new__(
                 cls,
                 *args,
@@ -253,7 +238,7 @@ class NullableClass(
                 *args: typing.Union[dict, frozendict, None, ],
                 _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
                 **kwargs: typing.Type[Schema],
-            ):
+            ) -> '_items':
                 return super().__new__(
                     cls,
                     *args,
@@ -275,7 +260,7 @@ class NullableClass(
             *args: typing.Union[dict, frozendict, None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'object_nullable_prop':
             return super().__new__(
                 cls,
                 *args,
@@ -304,7 +289,7 @@ class NullableClass(
                 *args: typing.Union[dict, frozendict, None, ],
                 _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
                 **kwargs: typing.Type[Schema],
-            ):
+            ) -> '_additional_properties':
                 return super().__new__(
                     cls,
                     *args,
@@ -317,7 +302,7 @@ class NullableClass(
             *args: typing.Union[dict, frozendict, None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'object_and_items_nullable_prop':
             return super().__new__(
                 cls,
                 *args,
@@ -343,7 +328,7 @@ class NullableClass(
                 *args: typing.Union[dict, frozendict, None, ],
                 _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
                 **kwargs: typing.Type[Schema],
-            ):
+            ) -> '_additional_properties':
                 return super().__new__(
                     cls,
                     *args,
@@ -357,7 +342,7 @@ class NullableClass(
             *args: typing.Union[dict, frozendict, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'object_items_nullable':
             return super().__new__(
                 cls,
                 *args,
@@ -378,7 +363,7 @@ class NullableClass(
             *args: typing.Union[dict, frozendict, None, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> '_additional_properties':
             return super().__new__(
                 cls,
                 *args,
@@ -404,7 +389,7 @@ class NullableClass(
         object_items_nullable: typing.Union[object_items_nullable, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'NullableClass':
         return super().__new__(
             cls,
             *args,

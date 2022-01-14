@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -67,12 +68,6 @@ class Player(
     Do not edit the class manually.
 
     a model that includes a self reference this forces properties and additionalProperties to be lazy loaded in python models because the Player class has not fully loaded when defining properties
-
-    Attributes:
-    name (str,): 
-    enemyPlayer (): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     name = StrSchema
 
@@ -89,7 +84,7 @@ class Player(
         enemyPlayer: typing.Union['Player', Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Player':
         return super().__new__(
             cls,
             *args,

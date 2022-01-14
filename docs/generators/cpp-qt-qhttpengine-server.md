@@ -1,8 +1,18 @@
 ---
-title: Config Options for cpp-qt-qhttpengine-server
-sidebar_label: cpp-qt-qhttpengine-server
+title: Documentation for the cpp-qt-qhttpengine-server Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cpp-qt-qhttpengine-server | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | C++ | |
+| helpTxt | Generates a Qt C++ Server using the QHTTPEngine HTTP Library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

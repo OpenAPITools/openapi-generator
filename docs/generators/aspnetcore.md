@@ -1,8 +1,18 @@
 ---
-title: Config Options for aspnetcore
-sidebar_label: aspnetcore
+title: Documentation for the aspnetcore Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | aspnetcore | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | C# | |
+| helpTxt | Generates an ASP.NET Core Web API server. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

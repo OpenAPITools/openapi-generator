@@ -150,4 +150,7 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
         // chomp tailing newline because it breaks the tables and keep all other sign to show documentation properly
         return StringUtils.chomp(input);
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return null; }
 }

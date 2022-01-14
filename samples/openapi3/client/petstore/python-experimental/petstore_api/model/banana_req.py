@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -65,10 +66,6 @@ class BananaReq(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    lengthCm (int, float,): 
-    sweet (bool,): 
     """
     _required_property_names = set((
         'lengthCm',
@@ -84,7 +81,7 @@ class BananaReq(
         lengthCm: lengthCm,
         sweet: typing.Union[sweet, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-    ):
+    ) -> 'BananaReq':
         return super().__new__(
             cls,
             *args,
