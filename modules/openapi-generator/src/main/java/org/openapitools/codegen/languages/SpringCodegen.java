@@ -898,6 +898,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
+        // add org.springframework.format.annotation.DateTimeFormat when needed
         if (property.isDate || property.isDateTime) {
             model.imports.add("DateTimeFormat");
         }
@@ -954,7 +955,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         codegenOperation.allParams.stream().filter(p -> p.isDate || p.isDateTime).findFirst()
             .ifPresent(p -> codegenOperation.imports.add("DateTimeFormat"));
 
-        // add org.springframework.data.domain.Pageable import whgen needed
+        // add org.springframework.data.domain.Pageable import when needed
         if (codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
             codegenOperation.imports.add("Pageable");
             if (Boolean.TRUE.equals(additionalProperties.get("useSpringfox"))) {
