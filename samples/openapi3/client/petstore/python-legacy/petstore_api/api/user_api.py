@@ -114,7 +114,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -137,7 +138,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -249,7 +250,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -272,7 +274,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -384,7 +386,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -407,7 +410,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -521,7 +524,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -546,7 +550,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -650,7 +654,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -675,7 +680,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -792,7 +797,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -823,7 +829,7 @@ class UserApi(object):
         if 'password' in local_var_params and local_var_params['password'] is not None:  # noqa: E501
             query_params.append(('password', local_var_params['password']))  # noqa: E501
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -929,7 +935,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -948,7 +955,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1059,7 +1066,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -1088,7 +1096,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
