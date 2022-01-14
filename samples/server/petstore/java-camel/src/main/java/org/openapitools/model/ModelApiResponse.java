@@ -16,15 +16,20 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.*;
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Describes the result of uploading an image resource
  */
-@Schema(name = "ApiResponse",description = "Describes the result of uploading an image resource")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")@JacksonXmlRootElement(localName = "ModelApiResponse")
+
+@Schema(name = "ApiResponse", description = "Describes the result of uploading an image resource")
+@JacksonXmlRootElement(localName = "ModelApiResponse")
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
+
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")
 public class ModelApiResponse   {
+
   @JsonProperty("code")
   @JacksonXmlProperty(localName = "code")
   private Integer code;
@@ -46,9 +51,8 @@ public class ModelApiResponse   {
    * Get code
    * @return code
   */
-  @Schema(name = "code", defaultValue = "")
-
-
+  
+  @Schema(name = "code", required = false)
   public Integer getCode() {
     return code;
   }
@@ -66,9 +70,8 @@ public class ModelApiResponse   {
    * Get type
    * @return type
   */
-  @Schema(name = "type", defaultValue = "")
-
-
+  
+  @Schema(name = "type", required = false)
   public String getType() {
     return type;
   }
@@ -86,9 +89,8 @@ public class ModelApiResponse   {
    * Get message
    * @return message
   */
-  @Schema(name = "message", defaultValue = "")
-
-
+  
+  @Schema(name = "message", required = false)
   public String getMessage() {
     return message;
   }
@@ -96,7 +98,6 @@ public class ModelApiResponse   {
   public void setMessage(String message) {
     this.message = message;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -121,7 +122,6 @@ public class ModelApiResponse   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModelApiResponse {\n");
-    
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
