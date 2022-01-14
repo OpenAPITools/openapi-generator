@@ -81,7 +81,7 @@ public class ApiClient {
    * @return URL-encoded representation of the input string.
    */
   public static String urlEncode(String s) {
-    return URLEncoder.encode(s, UTF_8);
+    return URLEncoder.encode(s, UTF_8).replaceAll("\\+", "%20");
   }
 
   /**

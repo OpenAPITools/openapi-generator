@@ -39,7 +39,7 @@ setup(
     author_email="{{#if infoEmail}}{{infoEmail}}{{/if}}{{#unless infoEmail}}team@openapitools.org{{/unless}}",
     url="{{packageUrl}}",
     keywords=["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"],
-    python_requires=">=3.9",
+    python_requires="{{{generatorLanguageVersion}}}",
     install_requires=REQUIRES,
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,

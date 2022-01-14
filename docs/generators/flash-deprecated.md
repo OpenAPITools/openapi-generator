@@ -1,8 +1,18 @@
 ---
-title: Config Options for flash-deprecated
-sidebar_label: flash-deprecated
+title: Documentation for the flash-deprecated Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | flash-deprecated | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
+| generator type | CLIENT | |
+| generator language | Flash | |
+| helpTxt | Generates a Flash (ActionScript) client library (beta). IMPORTANT: this generator has been deprecated in v5.x | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

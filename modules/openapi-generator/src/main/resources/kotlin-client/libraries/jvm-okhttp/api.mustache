@@ -217,7 +217,7 @@ import {{packageName}}.infrastructure.toMultiValue
 
         return RequestConfig(
             method = RequestMethod.{{httpMethod}},
-            path = "{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{{paramName}}}"){{/pathParams}},
+            path = "{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}},
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-internal struct Pet: Codable, Hashable {
+internal struct Pet: Codable, JSONEncodable, Hashable {
 
     internal enum Status: String, Codable, CaseIterable {
         case available = "available"

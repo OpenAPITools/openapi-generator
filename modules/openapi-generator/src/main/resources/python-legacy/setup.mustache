@@ -36,7 +36,8 @@ setup(
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
     {{#licenseInfo}}license="{{.}}",
-    {{/licenseInfo}}long_description="""\
+    {{/licenseInfo}}long_description_content_type='text/markdown',
+    long_description="""\
     {{appDescription}}  # noqa: E501
     """
 )

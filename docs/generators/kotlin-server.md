@@ -1,8 +1,18 @@
 ---
-title: Config Options for kotlin-server
-sidebar_label: kotlin-server
+title: Documentation for the kotlin-server Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | kotlin-server | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Kotlin | |
+| helpTxt | Generates a Kotlin server. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

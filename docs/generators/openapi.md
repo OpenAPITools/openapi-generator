@@ -1,8 +1,17 @@
 ---
-title: Config Options for openapi
-sidebar_label: openapi
+title: Documentation for the openapi Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | openapi | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | DOCUMENTATION | |
+| helpTxt | Creates a static openapi.json file (OpenAPI spec v3.0). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

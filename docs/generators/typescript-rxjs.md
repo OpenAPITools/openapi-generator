@@ -1,8 +1,18 @@
 ---
-title: Config Options for typescript-rxjs
-sidebar_label: typescript-rxjs
+title: Documentation for the typescript-rxjs Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-rxjs | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Typescript | |
+| helpTxt | Generates a TypeScript client library using Rxjs API. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

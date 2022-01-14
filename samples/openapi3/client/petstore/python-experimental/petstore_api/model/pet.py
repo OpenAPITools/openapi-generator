@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -67,16 +68,6 @@ class Pet(
     Do not edit the class manually.
 
     Pet object that needs to be added to the store
-
-    Attributes:
-    id (int,): 
-    category (): 
-    name (str,): 
-    photoUrls (tuple,): 
-    tags (tuple,): 
-    status (str,): pet status in the store
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     _required_property_names = set((
         'name',
@@ -145,7 +136,7 @@ class Pet(
         status: typing.Union[status, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Pet':
         return super().__new__(
             cls,
             *args,

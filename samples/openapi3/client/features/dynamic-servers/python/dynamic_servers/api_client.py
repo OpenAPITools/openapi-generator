@@ -753,11 +753,11 @@ class Endpoint(object):
                 base_name = self.attribute_map[param_name]
                 if (param_location == 'form' and
                         self.openapi_types[param_name] == (file_type,)):
-                    params['file'][param_name] = [param_value]
+                    params['file'][base_name] = [param_value]
                 elif (param_location == 'form' and
                         self.openapi_types[param_name] == ([file_type],)):
                     # param_value is already a list
-                    params['file'][param_name] = param_value
+                    params['file'][base_name] = param_value
                 elif param_location in {'form', 'query'}:
                     param_value_full = (base_name, param_value)
                     params[param_location].append(param_value_full)

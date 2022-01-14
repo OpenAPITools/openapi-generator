@@ -123,7 +123,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.EXPERIMENTAL)
+                .stability(Stability.STABLE)
                 .build();
     }
 
@@ -1501,4 +1501,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
         return modelNameToSchemaCache;
     }
+
+    @Override
+    public String generatorLanguageVersion() { return ">=3.6"; };
 }
