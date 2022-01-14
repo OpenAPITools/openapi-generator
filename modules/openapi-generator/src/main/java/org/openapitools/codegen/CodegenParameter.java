@@ -756,5 +756,10 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public void setContent(LinkedHashMap<String, CodegenMediaType> content) {
         this.content = content;
     }
+
+    @Override
+    public String getBaseType() {
+        return baseType;
+    }
 }
 
