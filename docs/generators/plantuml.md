@@ -7,6 +7,7 @@ title: Documentation for the plantuml Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | plantuml | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | DOCUMENTATION | |
 | helpTxt | Generates a plantuml documentation. | |
 

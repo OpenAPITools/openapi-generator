@@ -7,7 +7,9 @@ title: Documentation for the dart-jaguar Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | dart-jaguar | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
 | generator type | CLIENT | |
+| generator language | Dart | |
 | helpTxt | Generates a Dart Jaguar client library. | |
 
 ## CONFIG OPTIONS

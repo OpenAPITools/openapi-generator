@@ -42,7 +42,7 @@ int main() {
     char *exampleUrl2 = malloc(strlen(EXAMPLE_URL_2) + 1);
     strcpy(exampleUrl2, EXAMPLE_URL_2);
 
-    list_t *photoUrls = list_create();
+    list_t *photoUrls = list_createList();
 
     list_addElement(photoUrls, exampleUrl1);
     list_addElement(photoUrls, exampleUrl2);
@@ -55,7 +55,7 @@ int main() {
     strcpy(exampleTag2Name, EXAMPLE_TAG_2_NAME);
     tag_t *exampleTag2 = tag_create(EXAMPLE_TAG_2_ID, exampleTag2Name);
 
-    list_t *tags = list_create();
+    list_t *tags = list_createList();
 
     list_addElement(tags, exampleTag1);
     list_addElement(tags, exampleTag2);

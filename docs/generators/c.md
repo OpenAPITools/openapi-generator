@@ -7,7 +7,9 @@ title: Documentation for the c Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | c | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | C | |
 | helpTxt | Generates a C (libcurl) client library (beta). | |
 
 ## CONFIG OPTIONS

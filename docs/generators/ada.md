@@ -7,7 +7,9 @@ title: Documentation for the ada Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | ada | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Ada | |
 | helpTxt | Generates an Ada client implementation (beta). | |
 
 ## CONFIG OPTIONS

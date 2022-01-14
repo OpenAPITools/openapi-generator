@@ -7,7 +7,9 @@ title: Documentation for the aspnetcore Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | aspnetcore | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
+| generator language | C# | |
 | helpTxt | Generates an ASP.NET Core Web API server. | |
 
 ## CONFIG OPTIONS

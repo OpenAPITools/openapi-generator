@@ -330,4 +330,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     public String addRegularExpressionDelimiter(String pattern) {
         return pattern;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
 }

@@ -7,7 +7,9 @@ title: Documentation for the ocaml Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | ocaml | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | OCaml | |
 | helpTxt | Generates an OCaml client library (beta). | |
 
 ## CONFIG OPTIONS

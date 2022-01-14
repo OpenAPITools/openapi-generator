@@ -7,7 +7,9 @@ title: Documentation for the ruby-on-rails Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | ruby-on-rails | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
+| generator language | Ruby | |
 | helpTxt | Generates a Ruby on Rails (v5) server library. | |
 
 ## CONFIG OPTIONS

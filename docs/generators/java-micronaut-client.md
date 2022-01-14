@@ -7,7 +7,9 @@ title: Documentation for the java-micronaut-client Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | java-micronaut-client | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | CLIENT | |
+| generator language | Java | |
 | helpTxt | Generates a Java Micronaut Client. | |
 
 ## CONFIG OPTIONS

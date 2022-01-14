@@ -7,8 +7,11 @@ title: Documentation for the python-fastapi Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | python-fastapi | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | SERVER | |
-| helpTxt | Generates a Python FastAPI server (beta). | |
+| generator language | Python | |
+| generator language version | 3.7 | |
+| helpTxt | Generates a Python FastAPI server (beta). Models are defined with the pydantic library | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.

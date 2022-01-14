@@ -7,7 +7,9 @@ title: Documentation for the scala-play-server Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | scala-play-server | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
+| generator language | Scala | |
 | helpTxt | Generates a Scala server application (beta) with Play Framework. | |
 
 ## CONFIG OPTIONS

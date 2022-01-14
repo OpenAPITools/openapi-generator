@@ -7,7 +7,9 @@ title: Documentation for the java-undertow-server Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | java-undertow-server | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
+| generator language | Java | |
 | helpTxt | Generates a Java Undertow Server application (beta). | |
 
 ## CONFIG OPTIONS

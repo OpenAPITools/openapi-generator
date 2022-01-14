@@ -7,7 +7,9 @@ title: Documentation for the csharp Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | csharp | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | C# | |
 | helpTxt | Generates a CSharp client library. | |
 
 ## CONFIG OPTIONS

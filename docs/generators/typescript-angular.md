@@ -7,7 +7,9 @@ title: Documentation for the typescript-angular Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | typescript-angular | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Typescript | |
 | helpTxt | Generates a TypeScript Angular (6.x - 13.x) client library. | |
 
 ## CONFIG OPTIONS

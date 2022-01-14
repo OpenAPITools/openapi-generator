@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -65,12 +66,6 @@ class Mammal(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
-    _discriminator(cls) -> dict: the key is the required discriminator propertyName
-        the value is a dict mapping from a string name to the corresponding Schema class
     """
 
     @classmethod
@@ -108,10 +103,10 @@ class Mammal(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'Mammal':
         return super().__new__(
             cls,
             *args,

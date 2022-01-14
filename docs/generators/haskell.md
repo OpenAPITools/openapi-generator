@@ -7,7 +7,9 @@ title: Documentation for the haskell Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | haskell | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
+| generator language | Haskell | |
 | helpTxt | Generates a Haskell server and client library. | |
 
 ## CONFIG OPTIONS

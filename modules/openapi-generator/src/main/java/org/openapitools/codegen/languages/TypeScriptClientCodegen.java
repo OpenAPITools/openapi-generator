@@ -1573,4 +1573,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.TYPESCRIPT; }
 }

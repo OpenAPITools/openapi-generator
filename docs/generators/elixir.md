@@ -7,7 +7,9 @@ title: Documentation for the elixir Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | elixir | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Elixir | |
 | helpTxt | Generates an elixir client library (alpha). | |
 
 ## CONFIG OPTIONS

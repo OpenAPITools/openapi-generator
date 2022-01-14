@@ -7,7 +7,9 @@ title: Documentation for the java-vertx Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | java-vertx | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
 | generator type | SERVER | |
+| generator language | Java | |
 | helpTxt | Generates a java-Vert.X Server library. | |
 
 ## CONFIG OPTIONS

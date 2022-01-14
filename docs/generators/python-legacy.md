@@ -7,7 +7,10 @@ title: Documentation for the python-legacy Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | python-legacy | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Python | |
+| generator language version | 2.7 and 3.4+ | |
 | helpTxt | Generates a Python client library. | |
 
 ## CONFIG OPTIONS

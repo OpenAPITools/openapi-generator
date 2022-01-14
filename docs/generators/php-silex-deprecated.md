@@ -7,7 +7,9 @@ title: Documentation for the php-silex-deprecated Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | php-silex-deprecated | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
 | generator type | SERVER | |
+| generator language | PHP | |
 | helpTxt | Generates a PHP Silex server library. IMPORTANT NOTE: this generator is no longer actively maintained. | |
 
 ## CONFIG OPTIONS

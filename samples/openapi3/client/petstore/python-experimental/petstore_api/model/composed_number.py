@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -66,8 +67,6 @@ class ComposedNumber(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
     """
 
     @classmethod
@@ -95,7 +94,7 @@ class ComposedNumber(
         cls,
         *args: typing.Union[float, ],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-    ):
+    ) -> 'ComposedNumber':
         return super().__new__(
             cls,
             *args,

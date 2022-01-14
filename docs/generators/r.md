@@ -7,7 +7,9 @@ title: Documentation for the r Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | r | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | R | |
 | helpTxt | Generates a R client library (beta). | |
 
 ## CONFIG OPTIONS

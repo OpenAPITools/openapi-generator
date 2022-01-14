@@ -7,7 +7,9 @@ title: Documentation for the java-pkmst Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | java-pkmst | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
+| generator language | Java | |
 | helpTxt | Generates a PKMST SpringBoot Server application using the SpringFox integration. Also enables EurekaServerClient / Zipkin / Spring-Boot admin | |
 
 ## CONFIG OPTIONS

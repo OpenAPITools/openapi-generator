@@ -7,7 +7,9 @@ title: Documentation for the typescript-axios Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | typescript-axios | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Typescript | |
 | helpTxt | Generates a TypeScript client library using axios. | |
 
 ## CONFIG OPTIONS

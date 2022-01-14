@@ -7,7 +7,9 @@ title: Documentation for the scalaz Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | scalaz | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Scala | |
 | helpTxt | Generates a Scalaz client library (beta) that uses http4s | |
 
 ## CONFIG OPTIONS
