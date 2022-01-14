@@ -10,7 +10,7 @@ title: Documentation for the java-camel Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Java | |
-| helpTxt | Generates a camel server. | |
+| helpTxt | Generates a Java Camel server (beta). | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
