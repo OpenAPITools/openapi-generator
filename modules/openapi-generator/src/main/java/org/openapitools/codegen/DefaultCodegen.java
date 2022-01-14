@@ -7358,11 +7358,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String defaultTemplatingEngine() {
-        return "mustache";
-    }
-
-    @Override
     public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVA; }
 
     @Override
