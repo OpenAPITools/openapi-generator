@@ -5120,10 +5120,30 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected void addImports(CodegenModel m, IJsonSchemaValidationProperties type) {
+        addImports(m.imports, type);
+    }
+
+    protected void addImports(Set<String> importsToBeAddedTo, IJsonSchemaValidationProperties type) {
+        addImports(importsToBeAddedTo, type.getImports(true));
+    }
+
+    protected void addImports(Set<String> importsToBeAddedTo, Set<String> importsToAdd) {
+        importsToAdd.stream().forEach(i -> addImport(importsToBeAddedTo, i));
+    }
+
     protected void addImport(CodegenModel m, String type) {
-        if (type != null && needToImport(type)) {
-            m.imports.add(type);
+        addImport(m.imports, type);
+    }
+
+    private void addImport(Set<String> importsToBeAddedTo, String type) {
+        if (shouldAddImport(type)) {
+            importsToBeAddedTo.add(type);
         }
+    }
+
+    private boolean shouldAddImport(String type) {
+        return type != null && needToImport(type);
     }
 
     /**
@@ -5262,17 +5282,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @param property The codegen representation of the OAS schema's property.
      */
     protected void addImportsForPropertyType(CodegenModel model, CodegenProperty property) {
-        // TODO revise the logic to include map
         if (property.isContainer) {
-            addImport(model, typeMapping.get("array"));
+            addImport(model.imports, typeMapping.get("array"));
         }
-
-        addImport(model, property.baseType);
-        CodegenProperty innerCp = property;
-        while (innerCp != null) {
-            addImport(model, innerCp.complexType);
-            innerCp = innerCp.items;
-        }
+        addImports(model, property);
     }
 
     /**
@@ -6727,6 +6740,9 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty schemaProp = fromProperty(toMediaTypeSchemaName(contentType, mediaTypeSchemaSuffix), mt.getSchema());
             CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap);
             cmtContent.put(contentType, codegenMt);
+            if (schemaProp != null) {
+                addImports(imports, schemaProp.getImports(false));
+            }
         }
         return cmtContent;
     }
@@ -7355,11 +7371,6 @@ public class DefaultCodegen implements CodegenConfig {
             i += 1;
         }
         return xOf;
-    }
-
-    @Override
-    public String defaultTemplatingEngine() {
-        return "mustache";
     }
 
     @Override
