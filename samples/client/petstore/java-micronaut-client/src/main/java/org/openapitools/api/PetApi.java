@@ -15,7 +15,6 @@ package org.openapitools.api;
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
-import org.openapitools.query.QueryParam;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
 import java.io.File;
@@ -67,7 +66,7 @@ public interface PetApi {
     @Get(uri="/pet/findByStatus")
     @Consumes(value={"application/json"})
     Mono<List<Pet>> findPetsByStatus(
-        @QueryParam(name="status", format=QueryParam.Format.CSV) @NotNull List<String> status
+        @QueryValue(value="status") @NotNull List<String> status
   );
     /**
      * Finds Pets by tags
@@ -79,7 +78,7 @@ public interface PetApi {
     @Get(uri="/pet/findByTags")
     @Consumes(value={"application/json"})
     Mono<Set<Pet>> findPetsByTags(
-        @QueryParam(name="tags", format=QueryParam.Format.CSV) @NotNull Set<String> tags
+        @QueryValue(value="tags") @NotNull Set<String> tags
   );
     /**
      * Find pet by ID

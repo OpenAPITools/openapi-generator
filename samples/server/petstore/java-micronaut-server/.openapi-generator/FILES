@@ -33,3 +33,4 @@ src/main/java/org/openapitools/model/Pet.java
 src/main/java/org/openapitools/model/Tag.java
 src/main/java/org/openapitools/model/User.java
 src/main/resources/application.yml
+src/main/resources/logback.xml

@@ -14,7 +14,6 @@ package org.openapitools.controller;
 
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.*;
-import io.micronaut.http.client.annotation.Client;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
 import io.micronaut.http.multipart.CompletedFileUpload;

@@ -15,7 +15,6 @@ package org.openapitools.api;
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
-import org.openapitools.query.QueryParam;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
 import org.openapitools.model.ModelClient;

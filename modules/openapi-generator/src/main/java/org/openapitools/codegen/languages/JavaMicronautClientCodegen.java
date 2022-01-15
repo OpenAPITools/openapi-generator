@@ -66,11 +66,6 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
 
-        // Query files
-        final String queryFolder = invokerFolder + "/query";
-        supportingFiles.add(new SupportingFile("client/query/QueryParam.mustache", queryFolder, "QueryParam.java"));
-        supportingFiles.add(new SupportingFile("client/query/QueryParamBinder.mustache", queryFolder, "QueryParamBinder.java"));
-
         // Authorization files
         if (configureAuthorization) {
             final String authFolder = invokerFolder + "/auth";

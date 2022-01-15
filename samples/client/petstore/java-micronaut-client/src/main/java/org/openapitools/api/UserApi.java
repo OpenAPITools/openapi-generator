@@ -15,7 +15,6 @@ package org.openapitools.api;
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
-import org.openapitools.query.QueryParam;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
@@ -98,8 +97,8 @@ public interface UserApi {
     @Get(uri="/user/login")
     @Consumes(value={"application/json"})
     Mono<String> loginUser(
-        @QueryParam(name="username") @NotNull String username, 
-        @QueryParam(name="password") @NotNull String password
+        @QueryValue(value="username") @NotNull String username, 
+        @QueryValue(value="password") @NotNull String password
   );
     /**
      * Logs out current logged in user session

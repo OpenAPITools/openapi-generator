@@ -1,5 +1,6 @@
 package org.openapitools.controller
 
+import java.time.LocalDateTime
 import org.openapitools.model.User
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.micronaut.http.client.HttpClient

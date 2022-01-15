@@ -15,7 +15,6 @@ package org.openapitools.api;
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
-import org.openapitools.query.QueryParam;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
@@ -120,7 +119,7 @@ public interface FakeApi {
     @Produces(value={"application/json"})
     @Consumes(value={"application/json"})
     Mono<Object> testBodyWithQueryParams(
-        @QueryParam(name="query") @NotNull String query, 
+        @QueryValue(value="query") @NotNull String query, 
         @Body @Valid @NotNull User _body
   );
     /**
@@ -193,10 +192,10 @@ public interface FakeApi {
     Mono<Object> testEnumParameters(
         @Header(name="enum_header_string_array") List<String> enumHeaderStringArray, 
         @Header(name="enum_header_string", defaultValue="-efg") String enumHeaderString, 
-        @QueryParam(name="enum_query_string_array", format=QueryParam.Format.CSV) List<String> enumQueryStringArray, 
-        @QueryParam(name="enum_query_string", defaultValue="-efg") String enumQueryString, 
-        @QueryParam(name="enum_query_integer") Integer enumQueryInteger, 
-        @QueryParam(name="enum_query_double") Double enumQueryDouble, 
+        @QueryValue(value="enum_query_string_array") List<String> enumQueryStringArray, 
+        @QueryValue(value="enum_query_string", defaultValue="-efg") String enumQueryString, 
+        @QueryValue(value="enum_query_integer") Integer enumQueryInteger, 
+        @QueryValue(value="enum_query_double") Double enumQueryDouble, 
         List<String> enumFormStringArray, 
         String enumFormString
   );
@@ -214,12 +213,12 @@ public interface FakeApi {
     @Delete(uri="/fake")
     @Consumes(value={"application/json"})
     Mono<Object> testGroupParameters(
-        @QueryParam(name="required_string_group") @NotNull Integer requiredStringGroup, 
+        @QueryValue(value="required_string_group") @NotNull Integer requiredStringGroup, 
         @Header(name="required_boolean_group") @NotNull Boolean requiredBooleanGroup, 
-        @QueryParam(name="required_int64_group") @NotNull Long requiredInt64Group, 
-        @QueryParam(name="string_group") Integer stringGroup, 
+        @QueryValue(value="required_int64_group") @NotNull Long requiredInt64Group, 
+        @QueryValue(value="string_group") Integer stringGroup, 
         @Header(name="boolean_group") Boolean booleanGroup, 
-        @QueryParam(name="int64_group") Long int64Group
+        @QueryValue(value="int64_group") Long int64Group
   );
     /**
      * test inline additionalProperties
@@ -257,10 +256,10 @@ public interface FakeApi {
     @Put(uri="/fake/test-query-parameters")
     @Consumes(value={"application/json"})
     Mono<Object> testQueryParameterCollectionFormat(
-        @QueryParam(name="pipe", format=QueryParam.Format.CSV) @NotNull List<String> pipe, 
-        @QueryParam(name="ioutil", format=QueryParam.Format.CSV) @NotNull List<String> ioutil, 
-        @QueryParam(name="http", format=QueryParam.Format.SSV) @NotNull List<String> http, 
-        @QueryParam(name="url", format=QueryParam.Format.CSV) @NotNull List<String> url, 
-        @QueryParam(name="context", format=QueryParam.Format.MULTI) @NotNull List<String> context
+        @QueryValue(value="pipe") @NotNull List<String> pipe, 
+        @QueryValue(value="ioutil") @NotNull List<String> ioutil, 
+        @QueryValue(value="http") @NotNull List<String> http, 
+        @QueryValue(value="url") @NotNull List<String> url, 
+        @QueryValue(value="context") @NotNull List<String> context
   );
 }

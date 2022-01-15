@@ -29,7 +29,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected String buildTool;
     protected String testTool;
     protected boolean requiredPropertiesInConstructor = true;
-    protected String micronautVersion = "3.0.0";
+    protected String micronautVersion = "3.2.6";
 
     public static final String CONTENT_TYPE_APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
@@ -178,6 +178,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         // Add all the supporting files
         String resourceFolder = projectFolder + "/resources";
         supportingFiles.add(new SupportingFile("common/configuration/application.yml.mustache", resourceFolder, "application.yml").doNotOverwrite());
+        supportingFiles.add(new SupportingFile("common/configuration/logback.xml.mustache", resourceFolder, "logback.xml").doNotOverwrite());
 
         if (buildTool.equals(OPT_BUILD_GRADLE) || buildTool.equals(OPT_BUILD_ALL)) {
             // Gradle files
