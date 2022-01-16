@@ -1055,7 +1055,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return importMapping.get(name);
         }
 
-        // memoization
+        // memoization and lookup in the cache
         String origName = name;
         if (schemaKeyToModelNameCache.containsKey(origName)) {
             return schemaKeyToModelNameCache.get(origName);
@@ -1069,7 +1069,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             name = name + "_" + modelNameSuffix;
         }
 
-        name = sanitizeName(name);
+        name = camelize(sanitizeName(name));
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
@@ -1084,12 +1084,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        String camelizedName = camelize(name);
-        schemaKeyToModelNameCache.put(origName, camelizedName);
+        // store in cache
+        schemaKeyToModelNameCache.put(origName, name);
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelizedName;
+        return name;
     }
 
     @Override
