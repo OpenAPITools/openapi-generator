@@ -158,7 +158,7 @@ public class PetApi  {
          }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file", required = false) InputStream fileInputStream, @Multipart(value = "file" , required = false) Attachment fileDetail) {
-        return delegate.uploadFile(petId, additionalMetadata, fileInputStream, fileDetail, securityContext);
+    public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file", required = false) InputStream _fileInputStream, @Multipart(value = "file" , required = false) Attachment _fileDetail) {
+        return delegate.uploadFile(petId, additionalMetadata, _fileInputStream, _fileDetail, securityContext);
     }
 }

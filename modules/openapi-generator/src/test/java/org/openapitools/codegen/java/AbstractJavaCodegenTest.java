@@ -56,9 +56,9 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void toModelNameShouldUseProvidedMapping() throws Exception {
+    public void toModelNameShouldNotUseProvidedMapping() throws Exception {
         fakeJavaCodegen.importMapping().put("json_myclass", "com.test.MyClass");
-        Assert.assertEquals(fakeJavaCodegen.toModelName("json_myclass"), "com.test.MyClass");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("json_myclass"), "JsonMyclass");
     }
 
     @Test
@@ -601,7 +601,7 @@ public class AbstractJavaCodegenTest {
         codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("MyStringType", new StringSchema())));
         Schema<?> schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/MyStringType"));
         String defaultValue = codegen.getTypeDeclaration(schema);
-        Assert.assertEquals(defaultValue, "List<com.example.foo>");
+        Assert.assertEquals(defaultValue, "List<MyStringType>");
     }
 
     @Test

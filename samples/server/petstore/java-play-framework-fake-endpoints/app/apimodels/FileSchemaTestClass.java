@@ -1,5 +1,6 @@
 package apimodels;
 
+import apimodels.ModelFile;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
@@ -16,36 +17,36 @@ public class FileSchemaTestClass   {
   @JsonProperty("file")
   @Valid
 
-  private java.io.File file;
+  private ModelFile _file;
 
   @JsonProperty("files")
   @Valid
 
-  private List<java.io.File> files = null;
+  private List<ModelFile> files = null;
 
-  public FileSchemaTestClass file(java.io.File file) {
-    this.file = file;
+  public FileSchemaTestClass _file(ModelFile _file) {
+    this._file = _file;
     return this;
   }
 
    /**
-   * Get file
-   * @return file
+   * Get _file
+   * @return _file
   **/
-  public java.io.File getFile() {
-    return file;
+  public ModelFile getFile() {
+    return _file;
   }
 
-  public void setFile(java.io.File file) {
-    this.file = file;
+  public void setFile(ModelFile _file) {
+    this._file = _file;
   }
 
-  public FileSchemaTestClass files(List<java.io.File> files) {
+  public FileSchemaTestClass files(List<ModelFile> files) {
     this.files = files;
     return this;
   }
 
-  public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
+  public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
     if (files == null) {
       files = new ArrayList<>();
     }
@@ -57,11 +58,11 @@ public class FileSchemaTestClass   {
    * Get files
    * @return files
   **/
-  public List<java.io.File> getFiles() {
+  public List<ModelFile> getFiles() {
     return files;
   }
 
-  public void setFiles(List<java.io.File> files) {
+  public void setFiles(List<ModelFile> files) {
     this.files = files;
   }
 
@@ -75,13 +76,13 @@ public class FileSchemaTestClass   {
       return false;
     }
     FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(file, fileSchemaTestClass.file) &&
+    return Objects.equals(_file, fileSchemaTestClass._file) &&
         Objects.equals(files, fileSchemaTestClass.files);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(file, files);
+    return Objects.hash(_file, files);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -90,7 +91,7 @@ public class FileSchemaTestClass   {
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
     
-    sb.append("    file: ").append(toIndentedString(file)).append("\n");
+    sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");
     return sb.toString();
