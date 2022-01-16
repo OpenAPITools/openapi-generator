@@ -1288,10 +1288,6 @@
                 <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
                 <!-- comment out due to error `npm run build`
                 <module>samples/client/petstore/typescript-jquery/npm</module>-->
-                <module>samples/client/petstore/typescript-fetch/builds/default</module>
-                <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
-                <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
-                <module>samples/client/petstore/typescript-fetch/tests/default</module>
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v11-provided-in-root</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/default</module>
@@ -1304,6 +1300,10 @@
                 <!-- comment out due to failure in travis ci
                 <module>samples/openapi3/client/petstore/typescript/tests/inversify</module>
                 <module>samples/openapi3/client/petstore/typescript/tests/deno</module>-->
+                <module>samples/client/petstore/typescript-fetch/builds/default</module>
+                <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
+                <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
+                <module>samples/client/petstore/typescript-fetch/tests/default</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
                 <module>samples/client/petstore/typescript-axios/builds/with-npm-version</module>
