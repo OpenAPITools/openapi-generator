@@ -1074,14 +1074,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
-            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+            name = camelize("model_" + name); // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     camelize("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+            name = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
         }
 
         // store in cache
