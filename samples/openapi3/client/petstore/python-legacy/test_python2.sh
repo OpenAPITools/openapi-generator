@@ -11,6 +11,7 @@ export LANG=en_US.UTF-8
 
 ### set virtualenv
 if [ -z "$VIRTUAL_ENV" ]; then
+		pyenv local 2.7.14
 		virtualenv $VENV --always-copy
 		source $VENV/bin/activate
     DEACTIVE=true
