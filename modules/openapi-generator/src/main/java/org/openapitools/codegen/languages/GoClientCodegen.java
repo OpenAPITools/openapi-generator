@@ -61,11 +61,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         SecurityFeature.OAuth2_Implicit
                 ))
                 .includeGlobalFeatures(
-                        GlobalFeature.ParameterizedServer
+                        GlobalFeature.ParameterizedServer,
+                        GlobalFeature.Callbacks
                 )
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )
@@ -432,6 +432,14 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return objs;
     }
 
+    /*@Override
+    public void postProcessParameter(CodegenParameter p) {
+        //postProcessPattern(p.pattern, p.vendorExtensions);
+        if (p.baseType != null && languageSpecificPrimitives.contains(p.baseType)) {
+            // set baseType to null so the api docs will not point to a model for languageSpecificPrimitives
+            p.baseType = null;
+        }
+    }*/
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);

@@ -344,10 +344,6 @@ public class ObjcModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
-        Assert.assertTrue(op.bodyParam.isBinary);
-        Assert.assertTrue(op.responses.get(0).isBinary);
-        Assert.assertEquals(op.returnType, "NSURL*");
-        Assert.assertEquals(op.bodyParam.dataType, "NSURL*");
     }
 
     @Test(description = "create proper imports per #316")

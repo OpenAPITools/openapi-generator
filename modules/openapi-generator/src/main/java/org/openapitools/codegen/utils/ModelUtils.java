@@ -655,8 +655,9 @@ public class ModelUtils {
         if (schema instanceof FileSchema) {
             return true;
         }
+	return false;
         // file type in oas2 mapped to binary in oas3
-        return isBinarySchema(schema);
+        //return isBinarySchema(schema);
     }
 
     public static boolean isUUIDSchema(Schema schema) {
@@ -1039,7 +1040,11 @@ public class ModelUtils {
         if (content == null || content.isEmpty()) {
             return null;
         }
-        Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
+	Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
+	Iterator it = content.entrySet().iterator();
+	while (it.hasNext()) {
+		entry = (Map.Entry)it.next();
+	}
         if (content.size() > 1) {
             // Other content types are currently ignored by codegen. If you see this warning,
             // reorder the OAS spec to put the desired content type first.

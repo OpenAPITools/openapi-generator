@@ -58,11 +58,11 @@ public class GoDeprecatedClientCodegen extends AbstractGoCodegen {
                         SecurityFeature.OAuth2_Implicit
                 ))
                 .includeGlobalFeatures(
-                        GlobalFeature.ParameterizedServer
+                        GlobalFeature.ParameterizedServer,
+                        GlobalFeature.Callbacks
                 )
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )

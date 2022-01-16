@@ -3,13 +3,11 @@ type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{
 
 // List of {{{name}}}
 const (
-	{{#allowableValues}}
 	{{#enumVars}}
 	{{^-first}}
 	{{/-first}}
 	{{#enumClassPrefix}}{{{classname.toUpperCase}}}_{{/enumClassPrefix}}{{name}} {{{classname}}} = {{{value}}}
 	{{/enumVars}}
-	{{/allowableValues}}
 )
 
 var allowed{{{classname}}}EnumValues = []{{{classname}}}{

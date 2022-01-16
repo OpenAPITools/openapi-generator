@@ -8,6 +8,8 @@ import (
 	_nethttp "net/http"
 	_neturl "net/url"
 	_bytes "bytes"
+	"github.com/free5gc/openapi"
+	"github.com/free5gc/openapi/models"
 {{#imports}}	"{{import}}"
 {{/imports}}
 )
@@ -101,7 +103,7 @@ type {{#structPrefix}}{{&classname}}{{/structPrefix}}{{{nickname}}}Opts struct {
  * @return {{{returnType}}}
 {{/returnType}}
  */
-func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams}}, {{/hasParams}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals *{{#structPrefix}}{{&classname}}{{/structPrefix}}{{{nickname}}}Opts{{/hasOptionalParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}*_nethttp.Response, error) {
+func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#isCallbackRequest}}, requestUrl string{{/isCallbackRequest}}{{#hasParams}}{{/hasParams}}{{#allParams}}{{#required}}, {{paramName}} {{^isPrimitiveType}}models.{{/isPrimitiveType}}{{{dataType}}}{{/required}}{{/allParams}}{{#hasOptionalParams}}, localVarOptionals *{{#structPrefix}}{{&classname}}{{/structPrefix}}{{^isPrimitiveType}}models.{{/isPrimitiveType}}{{{nickname}}}Request{{/hasOptionalParams}}) ({{#returnType}}{{^returnTypeIsPrimitive}}models.{{/returnTypeIsPrimitive}}{{{returnType}}}, {{/returnType}}*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.Method{{httpMethod}}
 		localVarPostBody     interface{}
@@ -109,14 +111,19 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 		localVarFileName     string
 		localVarFileBytes    []byte
 		{{#returnType}}
-		localVarReturnValue  {{{returnType}}}
+		localVarReturnValue  {{^returnTypeIsPrimitive}}models.{{/returnTypeIsPrimitive}}{{{returnType}}}
 		{{/returnType}}
 	)
+	{{#isCallbackRequest}}
+	localVarPath := requestUrl
+	{{/isCallbackRequest}}
 
+	{{^isCallbackRequest}}
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "{{{path}}}"{{#pathParams}}
 	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", _neturl.PathEscape(parameterToString({{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")) , -1)
 	{{/pathParams}}
+	{{/isCallbackRequest}}
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -279,14 +286,27 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 		localVarFormParams.Add("{{baseName}}", paramJson)
 	}
 {{/isModel}}
-{{^isModel}}
-	if localVarOptionals != nil && localVarOptionals.{{vendorExtensions.x-export-param-name}}.IsSet() {
-		localVarFormParams.Add("{{baseName}}", parameterToString(localVarOptionals.{{vendorExtensions.x-export-param-name}}.Value(), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
-	}
-{{/isModel}}
 {{/required}}
 {{/isFile}}
 {{/formParams}}
+{{/hasFormParams}}
+{{#hasFormParams}}
+{{^isFile}}
+{{^required}}
+	if localVarOptionals != nil{{#formParams}}{{^isModel}} ||
+           localVarOptionals.{{vendorExtensions.x-export-param-name}} != nil{{^-last}}{{/-last}}{{/isModel}}{{/formParams}} {
+		localVarHeaderParams["Content-Type"] = "multipart/related"
+		localVarPostBody = &localVarOptionals
+	} else {
+{{#formParams}}
+{{#isModel}}
+		localVarHeaderParams["Content-Type"] = "application/json"
+		localVarPostBody = localVarOptionals.{{vendorExtensions.x-export-param-name}}
+{{/isModel}}
+{{/formParams}}
+{{/required}}
+	}
+{{/isFile}}
 {{/hasFormParams}}
 {{#hasBodyParam}}
 {{#bodyParams}}

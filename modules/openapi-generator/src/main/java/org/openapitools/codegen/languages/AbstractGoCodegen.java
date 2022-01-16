@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -48,7 +49,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
 
-    protected boolean usesOptionals = true;
+    protected boolean usesOptionals = false;
 
     public AbstractGoCodegen() {
         super();
@@ -118,8 +119,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("password", "string");
         typeMapping.put("File", "*os.File");
         typeMapping.put("file", "*os.File");
-        typeMapping.put("binary", "*os.File");
-        typeMapping.put("ByteArray", "string");
+        typeMapping.put("binary", "[]byte");
+        typeMapping.put("ByteArray", "[]byte");
         typeMapping.put("null", "nil");
         // A 'type: object' OAS schema without any declared property is
         // (per JSON schema specification) "an unordered set of properties
@@ -456,6 +457,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
+    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+        return "interface{}";
+    }
+
+    @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         @SuppressWarnings("unchecked")
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
@@ -497,6 +503,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 imports.add(createMapping("import", "os"));
                 addedOSImport = true;
             }
+	    LOGGER.warn("codegen-operation: {}", operation);
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
                 if (!addedOSImport && "*os.File".equals(param.dataType)) {
@@ -776,7 +783,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     public void setEnumClassPrefix(boolean enumClassPrefix) {
-        this.enumClassPrefix = enumClassPrefix;
+        this.enumClassPrefix = true;
     }
 
     public void setStructPrefix(boolean structPrefix) {
@@ -843,5 +850,41 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     protected boolean isNumberType(String datatype) {
         return numberTypes.contains(datatype);
+    }
+
+     /**
+     * Update property for array(list) container
+     *
+     * @param property      Codegen property
+     * @param innerProperty Codegen inner property of map or list
+     */
+    protected void updatePropertyForArray(CodegenProperty property, CodegenProperty innerProperty) {
+        if (innerProperty == null) {
+            if(LOGGER.isWarnEnabled()) {
+                LOGGER.warn("skipping invalid array property {}", property);
+            }
+            return;
+        }
+        property.dataFormat = innerProperty.dataFormat;
+        if (!languageSpecificPrimitives.contains(innerProperty.baseType)) {
+            property.complexType = innerProperty.baseType;
+        } else {
+	    property.dataType = "[]"+innerProperty.baseType;
+            property.isPrimitiveType = true;
+        }
+        property.items = innerProperty;
+        property.mostInnerItems = getMostInnerItems(innerProperty);
+        // inner item is Enum
+        if (isPropertyInnerMostEnum(property)) {
+            // isEnum is set to true when the type is an enum
+            // or the inner type of an array/map is an enum
+            property.isEnum = true;
+            // update datatypeWithEnum and default value for array
+            // e.g. List<string> => List<StatusEnum>
+            updateDataTypeWithEnumForArray(property);
+            // set allowable values to enum values (including array/map of enum)
+            property.allowableValues = getInnerEnumAllowableValues(property);
+        }
+
     }
 }

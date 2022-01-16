@@ -42,6 +42,7 @@ import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
 import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.GoDeprecatedClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.serializer.SerializerUtils;
@@ -427,7 +428,7 @@ public class DefaultGenerator implements Generator {
         Boolean skipFormModel = GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL) != null ?
                 Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
                 getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, true);
-
+        skipFormModel = true;
         // process models only
         for (String name : modelKeys) {
             try {
@@ -452,11 +453,12 @@ public class DefaultGenerator implements Generator {
                     } else {
                         LOGGER.info("Model {} not generated since it's marked as unused (due to form parameters) and `skipFormModel` (global property) set to true (default)", name);
                         // TODO: Should this be added to dryRun? If not, this seems like a weird place to return early from processing.
-                        continue;
+			continue;
                     }
                 }
 
                 Schema schema = schemas.get(name);
+		LOGGER.warn("schema name: {}", schema);
 
                 if (ModelUtils.isFreeFormObject(this.openAPI, schema)) { // check to see if it'a a free-form object
                     // there are 3 free form use cases
@@ -492,9 +494,13 @@ public class DefaultGenerator implements Generator {
                 Map<String, Schema> schemaMap = new HashMap<>();
                 schemaMap.put(name, schema);
                 Map<String, Object> models = processModels(config, schemaMap);
+		if (models == null) {
+			continue;
+		}
                 models.put("classname", config.toModelName(name));
                 models.putAll(config.additionalProperties());
                 allProcessedModels.put(name, models);
+		LOGGER.warn(" post schema name: {}", name);
             } catch (Exception e) {
                 throw new RuntimeException("Could not process model '" + name + "'" + ".Please make sure that your schema is correct!", e);
             }
@@ -508,11 +514,12 @@ public class DefaultGenerator implements Generator {
 
         // generate files based on processed models
         for (String modelName : allProcessedModels.keySet()) {
+		LOGGER.warn("model name: {}", modelName);
             Map<String, Object> models = (Map<String, Object>) allProcessedModels.get(modelName);
             models.put("modelPackage", config.modelPackage());
             try {
                 //don't generate models that have an import mapping
-                if (config.importMapping().containsKey(modelName)) {
+               if (config.importMapping().containsKey(modelName)) {
                     continue;
                 }
 
@@ -522,7 +529,7 @@ public class DefaultGenerator implements Generator {
                     Map<String, Object> modelTemplate = (Map<String, Object>) modelList.get(0);
                     if (modelTemplate != null && modelTemplate.containsKey("model")) {
                         CodegenModel m = (CodegenModel) modelTemplate.get("model");
-                        if (m.isAlias && !(config instanceof PythonClientCodegen))  {
+                        if (m.isAlias && !(config instanceof PythonClientCodegen || config instanceof GoDeprecatedClientCodegen))  {
                             // alias to number, string, enum, etc, which should not be generated as model
                             // for PythonClientCodegen, all aliases are generated as models
                             continue;  // Don't create user-defined classes for aliases
@@ -544,15 +551,173 @@ public class DefaultGenerator implements Generator {
                 throw new RuntimeException("Could not generate model '" + modelName + "'", e);
             }
         }
+
         if (GlobalSettings.getProperty("debugModels") != null) {
             LOGGER.info("############ Model info ############");
             Json.prettyPrint(allModels);
         }
 
     }
+    @SuppressWarnings("unchecked")
+    void generateApiCallbacks(List<File> files, List<Object> allOperations, List<Object> allModels) {
+	    int i = 1;
+        if (!generateApis) {
+            // TODO: Process these anyway and present info via dryRun?
+            LOGGER.info("Skipping generation of APIs.");
+            return;
+        }
+        Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
+        Set<String> apisToGenerate = null;
+        String apiNames = GlobalSettings.getProperty("apis");
+        if (apiNames != null && !apiNames.isEmpty()) {
+            apisToGenerate = new HashSet<>(Arrays.asList(apiNames.split(",")));
+        }
+	 Map<String, List<CodegenOperation>> updatedPaths1 = new TreeMap<>();
+	for (Map.Entry<String, List<CodegenOperation>> p : paths.entrySet()) {
+		List<CodegenOperation> code = p.getValue();
+		for( CodegenOperation op : code ) {
+			List<CodegenOperation> requests = new ArrayList<>();
+			boolean callback1 = false;
+			for (CodegenCallback call : op.callbacks) {
+				String name = call.name;
+				if (call.name.startsWith("on".toLowerCase())) {
+					name = call.name.substring(2);
+				}
+				callback1 = true;
+				for (CodegenCallback.Url op2 : call.urls) {
+					requests.addAll(op2.requests);
+					/*if (updatedPaths1.get(name + "CallbackDocument") == null) {
+					  updatedPaths1.put(name + "CallbackDocument", op2.requests);
+					  } else {
+					  updatedPaths1.put(name + "CallbackDocument", op2.requests);
+					  }*/
+
+				}
+			}
+				if (callback1) {
+					updatedPaths1.put(p.getKey() + "Callback", requests);
+				}
+		}
+	}
+	paths = updatedPaths1;
+        for (String tag : paths.keySet()) {
+            try {
+		LOGGER.warn("generation APIs");
+                List<CodegenOperation> ops = paths.get(tag);
+                ops.sort((one, another) -> ObjectUtils.compare(one.operationId, another.operationId));
+                Map<String, Object> operation = processOperations(config, tag, ops, allModels);
+                URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
+                operation.put("basePath", basePath);
+                operation.put("basePathWithoutHost", removeTrailingSlash(config.encodePath(url.getPath())));
+                operation.put("contextPath", contextPath);
+                operation.put("baseName", tag);
+                operation.put("apiPackage", config.apiPackage());
+                operation.put("modelPackage", config.modelPackage());
+                operation.putAll(config.additionalProperties());
+                operation.put("classname", config.toApiName(tag));
+                operation.put("classVarName", config.toApiVarName(tag));
+                operation.put("importPath", config.toApiImport(tag));
+                operation.put("classFilename", config.toApiFilename(tag));
+                operation.put("strictSpecBehavior", config.isStrictSpecBehavior());
+
+                if (allModels == null || allModels.isEmpty()) {
+                    operation.put("hasModel", false);
+                } else {
+                    operation.put("hasModel", true);
+                }
+
+			//LOGGER.warn("x-callback-request {}", operation);
+                if (!config.vendorExtensions().isEmpty()) {
+                    operation.put("vendorExtensions", config.vendorExtensions());
+                }
+
+                // process top-level x-group-parameters
+                if (config.vendorExtensions().containsKey("x-group-parameters")) {
+                    boolean isGroupParameters = Boolean.parseBoolean(config.vendorExtensions().get("x-group-parameters").toString());
+
+                    Map<String, Object> objectMap = (Map<String, Object>) operation.get("operations");
+                    @SuppressWarnings("unchecked")
+                    List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+                    for (CodegenOperation op : operations) {
+                        if (isGroupParameters && !op.vendorExtensions.containsKey("x-group-parameters")) {
+                            op.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
+                        }
+                    }
+                }
+
+
+                // Pass sortParamsByRequiredFlag through to the Mustache template...
+                boolean sortParamsByRequiredFlag = true;
+                if (this.config.additionalProperties().containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
+                    sortParamsByRequiredFlag = Boolean.parseBoolean(this.config.additionalProperties().get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString());
+                }
+                operation.put("sortParamsByRequiredFlag", sortParamsByRequiredFlag);
+
+                /* consumes, produces are no longer defined in OAS3.0
+                processMimeTypes(swagger.getConsumes(), operation, "consumes");
+                processMimeTypes(swagger.getProduces(), operation, "produces");
+                */
+
+                allOperations.add(new HashMap<>(operation));
+
+                for (String templateName : config.apiTemplateFiles().keySet()) {
+		    LOGGER.warn("templatename {} {}", templateName, tag);
+                    String filename = config.apiFilename(templateName, tag);
+		    LOGGER.warn("filename {}", filename);
+                    File written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
+                    if (written != null) {
+                        files.add(written);
+                        if (config.isEnablePostProcessFile() && !dryRun) {
+                            config.postProcessFile(written, "api");
+                        }
+                    }
+                }
+
+                // to generate api test files
+                for (String templateName : config.apiTestTemplateFiles().keySet()) {
+                    String filename = config.apiTestFilename(templateName, tag);
+                    File apiTestFile = new File(filename);
+                    // do not overwrite test file that already exists
+                    if (apiTestFile.exists()) {
+                        this.templateProcessor.skip(apiTestFile.toPath(), "Test files never overwrite an existing file of the same name.");
+                    } else {
+                        File written = processTemplateToFile(operation, templateName, filename, generateApiTests, CodegenConstants.API_TESTS);
+                        if (written != null) {
+                            files.add(written);
+                            if (config.isEnablePostProcessFile() && !dryRun) {
+                                config.postProcessFile(written, "api-test");
+                            }
+                        }
+                    }
+                }
+
+                // to generate api documentation files
+                for (String templateName : config.apiDocTemplateFiles().keySet()) {
+                    String filename = config.apiDocFilename(templateName, tag);
+                    File written = processTemplateToFile(operation, templateName, filename, generateApiDocumentation, CodegenConstants.API_DOCS);
+                    if (written != null) {
+                        files.add(written);
+                        if (config.isEnablePostProcessFile() && !dryRun) {
+                            config.postProcessFile(written, "api-doc");
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                throw new RuntimeException("Could not generate api file for '" + tag + "'", e);
+            }
+        }
+        if (GlobalSettings.getProperty("debugOperations") != null) {
+            LOGGER.info("############ Operation info ############");
+            Json.prettyPrint(allOperations);
+        }
+
+    }
+
 
     @SuppressWarnings("unchecked")
     void generateApis(List<File> files, List<Object> allOperations, List<Object> allModels) {
+	    int i = 1;
         if (!generateApis) {
             // TODO: Process these anyway and present info via dryRun?
             LOGGER.info("Skipping generation of APIs.");
@@ -567,6 +732,7 @@ public class DefaultGenerator implements Generator {
         if (apisToGenerate != null && !apisToGenerate.isEmpty()) {
             Map<String, List<CodegenOperation>> updatedPaths = new TreeMap<>();
             for (String m : paths.keySet()) {
+		LOGGER.warn("generation APIs {}", m);
                 if (apisToGenerate.contains(m)) {
                     updatedPaths.put(m, paths.get(m));
                 }
@@ -575,6 +741,7 @@ public class DefaultGenerator implements Generator {
         }
         for (String tag : paths.keySet()) {
             try {
+		LOGGER.warn("generation APIs");
                 List<CodegenOperation> ops = paths.get(tag);
                 ops.sort((one, another) -> ObjectUtils.compare(one.operationId, another.operationId));
                 Map<String, Object> operation = processOperations(config, tag, ops, allModels);
@@ -631,7 +798,9 @@ public class DefaultGenerator implements Generator {
                 allOperations.add(new HashMap<>(operation));
 
                 for (String templateName : config.apiTemplateFiles().keySet()) {
+		    LOGGER.warn("templatename {} {}", templateName, tag);
                     String filename = config.apiFilename(templateName, tag);
+		    LOGGER.warn("filename {}", filename);
                     File written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
                     if (written != null) {
                         files.add(written);
@@ -877,6 +1046,8 @@ public class DefaultGenerator implements Generator {
         List<Object> allOperations = new ArrayList<>();
         generateApis(files, allOperations, allModels);
 
+        List<Object> allOperations1 = new ArrayList<>();
+        generateApiCallbacks(files, allOperations1, allModels);
         // supporting files
         Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels);
         generateSupportingFiles(files, bundle);
@@ -1026,13 +1197,18 @@ public class DefaultGenerator implements Generator {
     }
 
     public Map<String, List<CodegenOperation>> processPaths(Paths paths) {
+	    Map<String, PathItem> pathItems = openAPI.getPaths();
         Map<String, List<CodegenOperation>> ops = new TreeMap<>();
         // when input file is not valid and doesn't contain any paths
         if(paths == null) {
             return ops;
         }
+	//for (Map.Entry<String, PathItem> e : pathItems.entrySet()) {
         for (String resourcePath : paths.keySet()) {
+	    //String resourcePath = e.getKey();
+	    //LOGGER.warn("resource path: {} {}", resourcePath, e.getValue());
             PathItem path = paths.get(resourcePath);
+	    //PathItem path = e.getValue();
             processOperation(resourcePath, "get", path.getGet(), ops, path);
             processOperation(resourcePath, "head", path.getHead(), ops, path);
             processOperation(resourcePath, "put", path.getPut(), ops, path);
@@ -1042,6 +1218,7 @@ public class DefaultGenerator implements Generator {
             processOperation(resourcePath, "options", path.getOptions(), ops, path);
             processOperation(resourcePath, "trace", path.getTrace(), ops, path);
         }
+
         return ops;
     }
 
@@ -1112,6 +1289,7 @@ public class DefaultGenerator implements Generator {
             try {
                 CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, path.getServers());
                 codegenOperation.tags = new ArrayList<>(tags);
+		LOGGER.warn("tag name {} {}", tag.getName(), config.sanitizeTag(tag.getName()));
                 config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
 
                 List<SecurityRequirement> securities = operation.getSecurity();
@@ -1162,8 +1340,10 @@ public class DefaultGenerator implements Generator {
         // check for operationId uniqueness
         Set<String> opIds = new HashSet<>();
         int counter = 0;
+
         for (CodegenOperation op : ops) {
             String opId = op.nickname;
+	    LOGGER.warn("opid: {}",opId);
             if (opIds.contains(opId)) {
                 counter++;
                 op.nickname += "_" + counter;
@@ -1248,6 +1428,9 @@ public class DefaultGenerator implements Generator {
             if (schema == null)
                 throw new RuntimeException("schema cannot be null in processModels");
             CodegenModel cm = config.fromModel(key, schema);
+	    if(!cm.isEnum && cm.getVars().size() == 0) {
+		    return null;
+	    }
             Map<String, Object> mo = new HashMap<>();
             mo.put("model", cm);
             mo.put("importPath", config.toModelImport(cm.classname));

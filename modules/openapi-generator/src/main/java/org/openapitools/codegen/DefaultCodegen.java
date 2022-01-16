@@ -1902,13 +1902,21 @@ public class DefaultCodegen implements CodegenConfig {
             List<Schema> schemas = ModelUtils.getInterfaces(cs);
 
             List<String> names = new ArrayList<>();
+	    /*if (cs.getAllOf() != null) {
+		    names.add(getSingleSchemaType(cs));
+	    }*/
             // Build a list of the schema types under each interface.
             // For example, if a 'allOf' composed schema has $ref children,
             // add the type of each child to the list of names.
             for (Schema s : schemas) {
+		 String s1 = getSingleSchemaType(s);
+		if (cs.getAllOf() != null && !(getSingleSchemaType(cs).matches("AnyType")) &&
+				s1 != null && s1.matches("AnyType")) {
+			s.setType(getSingleSchemaType(cs));
+		}
                 names.add(getSingleSchemaType(s));
             }
-
+	    LOGGER.warn("all of schema: {}", names);
             if (cs.getAllOf() != null) {
                 return toAllOfName(names, cs);
             } else if (cs.getAnyOf() != null) { // anyOf
@@ -1959,6 +1967,7 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.error("allOf has no member defined: {}. Default to ERROR_ALLOF_SCHEMA", composedSchema);
             return "ERROR_ALLOF_SCHEMA";
         } else if (names.size() == 1) {
+            LOGGER.warn("allOf with single schemas defined. Using only the first one: {}", names.get(0));
             return names.get(0);
         } else {
             LOGGER.warn("allOf with multiple schemas defined. Using only the first one: {}", names.get(0));
@@ -2414,10 +2423,12 @@ public class DefaultCodegen implements CodegenConfig {
                             if (m.oneOf.contains(languageType)) {
                                 LOGGER.warn("{} (oneOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
                             } else {
-                                m.oneOf.add(languageType);
-                            }
+				    m.oneOf.add(languageType);
+			    }
+
                         } else if (composed.getAllOf() != null) {
                             // no need to add primitive type to allOf, which should comprise of schemas (models) only
+			    //m.allOf.add(languageType);
                         } else {
                             LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
                         }
@@ -3213,7 +3224,7 @@ public class DefaultCodegen implements CodegenConfig {
                 property.isByteArray = true;
             } else if (ModelUtils.isBinarySchema(p)) {
                 property.isBinary = true;
-                property.isFile = true; // file = binary in OAS3
+                property.isFile = false; // file = binary in OAS3
             } else if (ModelUtils.isFileSchema(p)) {
                 property.isFile = true;
             } else if (ModelUtils.isUUIDSchema(p)) {
@@ -3335,10 +3346,15 @@ public class DefaultCodegen implements CodegenConfig {
             if (itemName == null) {
                 itemName = property.name;
             }
+            LOGGER.warn("before composed schema: {} {}", property.baseType, property);
             ArraySchema arraySchema = (ArraySchema) p;
             Schema innerSchema = unaliasSchema(getSchemaItems(arraySchema), importMapping);
             CodegenProperty cp = fromProperty(itemName, innerSchema);
             updatePropertyForArray(property, cp);
+	    if (p.getNullable() != null || cp.isNullable) {
+		    property.isNullable = true;
+	    }
+            LOGGER.warn("after composed schema: {} {}", property.baseType, property);
         } else if (ModelUtils.isMapSchema(p)) {
             property.isContainer = true;
             property.isMap = true;
@@ -3373,6 +3389,14 @@ public class DefaultCodegen implements CodegenConfig {
             setNonArrayMapProperty(property, type);
             Schema refOrCurrent = ModelUtils.getReferencedSchema(this.openAPI, p);
             property.isModel = (ModelUtils.isComposedSchema(refOrCurrent) || ModelUtils.isObjectSchema(refOrCurrent)) && ModelUtils.isModel(refOrCurrent);
+	    if (ModelUtils.isComposedSchema(refOrCurrent)) {
+		    property.dataType = getTypeDeclaration(refOrCurrent);
+		    property.dataFormat = refOrCurrent.getFormat();
+		    property.baseType = getSchemaType(refOrCurrent);
+	    }
+	    if (ModelUtils.isObjectSchema(refOrCurrent) && property.isModel) {
+		    property.isNullable = true;
+	    }
         }
 
         addVarsRequiredVarsAdditionalProps(p, property);
@@ -3702,7 +3726,7 @@ public class DefaultCodegen implements CodegenConfig {
         // store the original operationId for plug-in
         op.operationIdOriginal = operation.getOperationId();
 
-        String operationId = getOrGenerateOperationId(operation, path, httpMethod);
+        String operationId = getOrGenerateOperationId(operation, path, "");
         // remove prefix in operationId
         if (removeOperationIdPrefix) {
             int offset = operationId.indexOf('_');
@@ -3844,7 +3868,7 @@ public class DefaultCodegen implements CodegenConfig {
                         p.paramName = generateNextName(p.paramName);
                     }
                 }
-
+		//LOGGER.warn("codegenParameter: {}", p);
                 allParams.add(p);
 
                 if (param instanceof QueryParameter || "query".equalsIgnoreCase(param.getIn())) {
@@ -3892,6 +3916,16 @@ public class DefaultCodegen implements CodegenConfig {
                 op.hasOptionalParams = true;
             }
         }
+
+	if (optionalParams.size() == 1) {
+		for (CodegenParameter cp : optionalParams) {
+			cp.required = true;
+			requiredParams.add(cp.copy());
+			op.hasOptionalParams = false;
+			allParams.add(cp.copy());
+		}
+		optionalParams.clear();
+	}
 
         // add imports to operation import tag
         for (String i : imports) {
@@ -4080,7 +4114,7 @@ public class DefaultCodegen implements CodegenConfig {
                 r.isDecimal = true;
                 r.isNumeric = true;
             } else if (Boolean.TRUE.equals(cp.isBinary)) {
-                r.isFile = true; // file = binary in OAS3
+                r.isFile = false; // file = binary in OAS3
                 r.isBinary = true;
             } else if (Boolean.TRUE.equals(cp.isFile)) {
                 r.isFile = true;
@@ -4161,7 +4195,8 @@ public class DefaultCodegen implements CodegenConfig {
 
                         boolean genId = op.getOperationId() == null;
                         if (genId) {
-                            op.setOperationId(getOrGenerateOperationId(op, c.name + "_" + expression.replaceAll("\\{\\$.*}", ""), method));
+                            //op.setOperationId(getOrGenerateOperationId(op, c.name + "_" + expression.replaceAll("\\{\\$.*}", ""), ""));
+			    op.setOperationId(getOrGenerateOperationId(op, c.name, ""));
                         }
 
                         if (op.getExtensions() == null) {
@@ -4305,7 +4340,7 @@ public class DefaultCodegen implements CodegenConfig {
             //if (parameterSchema.getRequired() != null && !parameterSchema.getRequired().isEmpty() && parameterSchema.getRequired().contains(codegenProperty.baseName)) {
             codegenProperty.required = Boolean.TRUE.equals(parameter.getRequired()) ? true : false;
             //}
-            //codegenProperty.required = true;
+	    //codegenProperty.required = true;
 
             // set boolean flag (e.g. isString)
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
