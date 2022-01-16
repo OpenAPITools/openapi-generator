@@ -273,7 +273,7 @@ public interface PetApi {
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param _file file to upload (optional)
+     * @param file file to upload (optional)
      * @return successful operation (status code 200)
      */
     @Operation(
@@ -298,7 +298,7 @@ public interface PetApi {
         @Parameter(name = "file", description = "file to upload", schema = @Schema(description = "")) @RequestPart(value = "file", required = false) Flux<Part> file,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
-        return getDelegate().uploadFile(petId, additionalMetadata, _file, exchange);
+        return getDelegate().uploadFile(petId, additionalMetadata, file, exchange);
     }
 
 }
