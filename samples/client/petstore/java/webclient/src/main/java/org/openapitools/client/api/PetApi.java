@@ -454,11 +454,11 @@ public class PetApi {
      * <p><b>200</b> - successful operation
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
+     * @param _file file to upload
      * @return ModelApiResponse
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec uploadFileRequestCreation(Long petId, String additionalMetadata, File file) throws WebClientResponseException {
+    private ResponseSpec uploadFileRequestCreation(Long petId, String additionalMetadata, File _file) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -476,8 +476,8 @@ public class PetApi {
 
         if (additionalMetadata != null)
             formParams.add("additionalMetadata", additionalMetadata);
-        if (file != null)
-            formParams.add("file", new FileSystemResource(file));
+        if (_file != null)
+            formParams.add("file", new FileSystemResource(_file));
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -500,18 +500,18 @@ public class PetApi {
      * <p><b>200</b> - successful operation
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
+     * @param _file file to upload
      * @return ModelApiResponse
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ModelApiResponse> uploadFile(Long petId, String additionalMetadata, File file) throws WebClientResponseException {
+    public Mono<ModelApiResponse> uploadFile(Long petId, String additionalMetadata, File _file) throws WebClientResponseException {
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<ModelApiResponse>() {};
-        return uploadFileRequestCreation(petId, additionalMetadata, file).bodyToMono(localVarReturnType);
+        return uploadFileRequestCreation(petId, additionalMetadata, _file).bodyToMono(localVarReturnType);
     }
 
-    public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws WebClientResponseException {
+    public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws WebClientResponseException {
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<ModelApiResponse>() {};
-        return uploadFileRequestCreation(petId, additionalMetadata, file).toEntity(localVarReturnType);
+        return uploadFileRequestCreation(petId, additionalMetadata, _file).toEntity(localVarReturnType);
     }
     /**
      * uploads an image (required)

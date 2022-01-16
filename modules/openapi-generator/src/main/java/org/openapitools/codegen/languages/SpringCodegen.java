@@ -241,12 +241,15 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public void processOpts() {
-
         final List<Pair<String, String>> configOptions = additionalProperties.entrySet().stream()
                 .filter(e -> !Arrays.asList(API_FIRST, "hideGenerationTimestamp").contains(e.getKey()))
                 .filter(e -> cliOptions.stream().map(CliOption::getOpt).anyMatch(opt -> opt.equals(e.getKey())))
                 .map(e -> Pair.of(e.getKey(), e.getValue().toString())).collect(Collectors.toList());
         additionalProperties.put("configOptions", configOptions);
+
+        // TODO remove "file" from reserved word list as feign client doesn't support using `baseName`
+        // as the parameter name yet
+        reservedWords.remove("file");
 
         // Process java8 option before common java ones to change the default
         // dateLibrary to java8.

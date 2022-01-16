@@ -213,13 +213,13 @@ public class PetApiController extends Controller {
         } else {
             additionalMetadata = null;
         }
-        Http.MultipartFormData<TemporaryFile> bodyfile = request.body().asMultipartFormData();
-        Http.MultipartFormData.FilePart<TemporaryFile> file = bodyfile.getFile("file");
+        Http.MultipartFormData<TemporaryFile> body_file = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> _file = body_file.getFile("file");
                 if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
             return unauthorized();
         }
 
-        ModelApiResponse obj = imp.uploadFile(request, petId, additionalMetadata, file);
+        ModelApiResponse obj = imp.uploadFile(request, petId, additionalMetadata, _file);
 
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
