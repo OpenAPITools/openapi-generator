@@ -416,6 +416,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
+        if (additionalProperties.containsKey(MODEL_MUTABLE)) {
+            additionalProperties.put(MODEL_MUTABLE, Boolean.parseBoolean(additionalProperties.get(MODEL_MUTABLE).toString()));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
             setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
         }
