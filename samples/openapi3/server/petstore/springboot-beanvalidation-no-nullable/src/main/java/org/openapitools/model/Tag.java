@@ -10,12 +10,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Tag
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Tag   {
+
   @JsonProperty("id")
   private Long id;
 
@@ -31,9 +34,8 @@ public class Tag   {
    * Get id
    * @return id
   */
-  @Schema(name = "id", defaultValue = "")
-
-
+  
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -51,9 +53,8 @@ public class Tag   {
    * Get name
    * @return name
   */
-  @Schema(name = "name", defaultValue = "")
-
-
+  
+  @Schema(name = "name", required = false)
   public String getName() {
     return name;
   }
@@ -61,7 +62,6 @@ public class Tag   {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -85,7 +85,6 @@ public class Tag   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Tag {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");

@@ -34,67 +34,69 @@ import javax.annotation.Generated;
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
 @Introspected
 public class ModelFile {
-  public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
-  private String sourceURI;
+    public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
+    private String sourceURI;
 
-  public ModelFile sourceURI(String sourceURI) {
-    this.sourceURI = sourceURI;
-    return this;
-  }
-
-  /**
-   * Test capitalization
-   * @return sourceURI
-   **/
-  @Nullable
-  @ApiModelProperty(value = "Test capitalization")
-  @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public String getSourceURI() {
-    return sourceURI;
-  }
-
-  @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSourceURI(String sourceURI) {
-    this.sourceURI = sourceURI;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public ModelFile() {
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+    public ModelFile sourceURI(String sourceURI) {
+        this.sourceURI = sourceURI;
+        return this;
     }
+
+    /**
+     * Test capitalization
+     * @return sourceURI
+     **/
+    @Nullable
+    @ApiModelProperty(value = "Test capitalization")
+    @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public String getSourceURI() {
+        return sourceURI;
+    }
+
+    @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public void setSourceURI(String sourceURI) {
+        this.sourceURI = sourceURI;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
     ModelFile _file = (ModelFile) o;
-    return Objects.equals(this.sourceURI, _file.sourceURI);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(sourceURI);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ModelFile {\n");
-    sb.append("    sourceURI: ").append(toIndentedString(sourceURI)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+        return Objects.equals(this.sourceURI, _file.sourceURI);
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sourceURI);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class ModelFile {\n");
+        sb.append("    sourceURI: ").append(toIndentedString(sourceURI)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
 
 }

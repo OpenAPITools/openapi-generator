@@ -1191,6 +1191,7 @@
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
                 <!-- servers -->
+                <module>samples/server/petstore/java-camel</module>
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
                 <module>samples/server/petstore/jaxrs-spec-interface</module>
@@ -1258,15 +1259,18 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/spring-mvc-default-value</module>
-                <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
-                <!-- servers -->
+                <!-- clients -->
                 <module>samples/client/petstore/spring-cloud</module>
                 <module>samples/openapi3/client/petstore/spring-cloud</module>
                 <module>samples/client/petstore/spring-cloud-date-time</module>
                 <module>samples/openapi3/client/petstore/spring-cloud-date-time</module>
+                <module>samples/client/petstore/spring-stubs</module>
+                <module>samples/openapi3/client/petstore/spring-stubs</module>
+                <!-- servers -->
+                <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/server/petstore/spring-mvc-default-value</module>
+                <module>samples/server/petstore/spring-mvc-j8-async</module>
+                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
                 <module>samples/server/petstore/springboot</module>
                 <module>samples/openapi3/server/petstore/springboot</module>
                 <module>samples/server/petstore/springboot-beanvalidation</module>
@@ -1294,6 +1298,7 @@
                 <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/python_disallowAdditionalPropertiesIfNotPresent</module>
                 <module>samples/openapi3/client/petstore/python</module>
+                <!--<module>samples/openapi3/client/petstore/python-legacy</module>-->
                 <!-- TODO comment out below when the test for typescript-nestjs is ready
                 <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
                 <!-- comment out due to error `npm run build`

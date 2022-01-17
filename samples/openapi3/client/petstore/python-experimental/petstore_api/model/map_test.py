@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -84,7 +85,7 @@ class MapTest(
                 *args: typing.Union[dict, frozendict, ],
                 _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
                 **kwargs: typing.Type[Schema],
-            ):
+            ) -> '_additional_properties':
                 return super().__new__(
                     cls,
                     *args,
@@ -98,7 +99,7 @@ class MapTest(
             *args: typing.Union[dict, frozendict, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'map_map_of_string':
             return super().__new__(
                 cls,
                 *args,
@@ -138,7 +139,7 @@ class MapTest(
             *args: typing.Union[dict, frozendict, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'map_of_enum_string':
             return super().__new__(
                 cls,
                 *args,
@@ -158,7 +159,7 @@ class MapTest(
             *args: typing.Union[dict, frozendict, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'direct_map':
             return super().__new__(
                 cls,
                 *args,
@@ -181,7 +182,7 @@ class MapTest(
         indirect_map: typing.Union['StringBooleanMap', Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'MapTest':
         return super().__new__(
             cls,
             *args,

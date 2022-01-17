@@ -694,7 +694,7 @@ public class PetApi {
      *
      * @see #petIdPath ID of pet to update (required)
      * @see #additionalMetadataForm Additional data to pass to server (optional)
-     * @see #fileMultiPart file to upload (optional)
+     * @see #_fileMultiPart file to upload (optional)
      * return ModelApiResponse
      */
     public static class UploadFileOper implements Oper {
@@ -758,11 +758,11 @@ public class PetApi {
          /**
          * It will assume that the control name is file and the &lt;content-type&gt; is &lt;application/octet-stream&gt;
          * @see #reqSpec for customise
-         * @param file (File) file to upload (optional)
+         * @param _file (File) file to upload (optional)
          * @return operation
          */
-         public UploadFileOper fileMultiPart(File file) {
-            reqSpec.addMultiPart(file);
+         public UploadFileOper _fileMultiPart(File _file) {
+            reqSpec.addMultiPart(_file);
             return this;
          }
 

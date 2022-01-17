@@ -123,7 +123,7 @@ public interface PetApi {
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param _file file to upload (optional)
      * @return ModelApiResponse
      */
     @Post(uri="/pet/{petId}/uploadImage")
@@ -132,7 +132,7 @@ public interface PetApi {
     Mono<ModelApiResponse> uploadFile(
         @PathVariable(name="petId") @NotNull Long petId, 
         String additionalMetadata, 
-        File file
+        File _file
   );
     /**
      * uploads an image (required)

@@ -11,6 +11,7 @@
 
 
 import unittest
+from decimal import Decimal
 
 import petstore_api
 from petstore_api.schemas import (
@@ -24,9 +25,9 @@ from petstore_api.schemas import (
     NoneSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     ComposedSchema,
     frozendict,
-    Decimal,
     NoneClass,
     BoolClass
 )
@@ -267,6 +268,31 @@ class TestAnyTypeSchema(unittest.TestCase):
         assert isinstance(m, DateTimeSchema)
         assert isinstance(m, str)
         assert m == '2020-01-01T00:00:00'
+
+    def testDecimalSchema(self):
+        class Model(ComposedSchema):
+
+            @classmethod
+            @property
+            def _composed_schemas(cls):
+                return {
+                    'allOf': [
+                        AnyTypeSchema,
+                        DecimalSchema,
+                    ],
+                    'oneOf': [
+                    ],
+                    'anyOf': [
+                    ],
+                }
+
+        m = Model('12.34')
+        assert isinstance(m, Model)
+        assert isinstance(m, AnyTypeSchema)
+        assert isinstance(m, DecimalSchema)
+        assert isinstance(m, str)
+        assert m == '12.34'
+        assert m.as_decimal == Decimal('12.34')
 
 
 if __name__ == '__main__':

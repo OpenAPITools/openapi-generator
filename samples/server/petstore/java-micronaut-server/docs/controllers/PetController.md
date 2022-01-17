@@ -184,7 +184,7 @@ Name | Type | Description  | Notes
 <a name="uploadFile"></a>
 # **uploadFile**
 ```java
-Mono<ModelApiResponse> PetController.uploadFile(petIdadditionalMetadatafile)
+Mono<ModelApiResponse> PetController.uploadFile(petIdadditionalMetadata_file)
 ```
 
 uploads an image
@@ -194,7 +194,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **petId** | `Long` | ID of pet to update |
 **additionalMetadata** | `String` | Additional data to pass to server | [optional parameter]
-**file** | `CompletedFileUpload` | file to upload | [optional parameter]
+**_file** | `CompletedFileUpload` | file to upload | [optional parameter]
 
 ### Return type
 [**ModelApiResponse**](../../docs/models/ModelApiResponse.md)

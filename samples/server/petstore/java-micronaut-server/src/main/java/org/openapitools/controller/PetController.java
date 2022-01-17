@@ -255,7 +255,7 @@ public class PetController {
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param _file file to upload (optional)
      * @return ModelApiResponse
      */
     @ApiOperation(
@@ -277,7 +277,7 @@ public class PetController {
     public Mono<ModelApiResponse> uploadFile(
         @PathVariable(value="petId") @NotNull Long petId, 
         String additionalMetadata, 
-        CompletedFileUpload file
+        CompletedFileUpload _file
     ) {
         // TODO implement uploadFile() body;
         Mono<ModelApiResponse> result = Mono.empty();

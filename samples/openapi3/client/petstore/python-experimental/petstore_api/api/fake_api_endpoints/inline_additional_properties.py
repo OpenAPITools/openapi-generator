@@ -14,7 +14,7 @@ import urllib3
 from urllib3._collections import HTTPHeaderDict
 
 from petstore_api import api_client, exceptions
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -32,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -70,7 +71,7 @@ class SchemaForRequestBodyApplicationJson(
         *args: typing.Union[dict, frozendict, ],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,
             *args,
