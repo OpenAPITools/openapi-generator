@@ -263,59 +263,67 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         snapShotVersion.setEnum(snapShotVersionOptions);
         cliOptions.add(snapShotVersion);
 
-        CliOption documentationProviderCliOption = new CliOption(DOCUMENTATION_PROVIDER,
-            "Select the OpenAPI documentation provider.")
-            .defaultValue(defaultDocumentationProvider().toCliOptValue());
-        supportedDocumentationProvider().forEach(dp ->
-            documentationProviderCliOption.addEnum(dp.toCliOptValue(), dp.getDescription()));
-        cliOptions.add(documentationProviderCliOption);
+        if (null != defaultDocumentationProvider()) {
+            CliOption documentationProviderCliOption = new CliOption(DOCUMENTATION_PROVIDER,
+                "Select the OpenAPI documentation provider.")
+                .defaultValue(defaultDocumentationProvider().toCliOptValue());
+            supportedDocumentationProvider().forEach(dp ->
+                documentationProviderCliOption.addEnum(dp.toCliOptValue(), dp.getDescription()));
+            cliOptions.add(documentationProviderCliOption);
 
-        CliOption annotationLibraryCliOption = new CliOption(ANNOTATION_LIBRARY,
-            "Select the complementary documentation annotation library.")
-            .defaultValue(defaultDocumentationProvider().getPreferredAnnotationLibrary().toCliOptValue());
-        supportedAnnotationLibraries().forEach(al ->
-            annotationLibraryCliOption.addEnum(al.toCliOptValue(), al.getDescription()));
-        cliOptions.add(annotationLibraryCliOption);
+            CliOption annotationLibraryCliOption = new CliOption(ANNOTATION_LIBRARY,
+                "Select the complementary documentation annotation library.")
+                .defaultValue(defaultDocumentationProvider().getPreferredAnnotationLibrary().toCliOptValue());
+            supportedAnnotationLibraries().forEach(al ->
+                annotationLibraryCliOption.addEnum(al.toCliOptValue(), al.getDescription()));
+            cliOptions.add(annotationLibraryCliOption);
+        }
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
-        documentationProvider = DocumentationProvider.ofCliOption(
-            (String)additionalProperties.getOrDefault(DOCUMENTATION_PROVIDER,
-                defaultDocumentationProvider().toCliOptValue())
-        );
+        if  (null != defaultDocumentationProvider()) {
+            documentationProvider = DocumentationProvider.ofCliOption(
+                (String)additionalProperties.getOrDefault(DOCUMENTATION_PROVIDER,
+                    defaultDocumentationProvider().toCliOptValue())
+            );
 
-        if (! supportedDocumentationProvider().contains(documentationProvider)) {
-            String msg = String.format(Locale.ROOT,
-                "The [%s] Documentation Provider is not supported by this generator",
-                documentationProvider.toCliOptValue());
-            throw new IllegalArgumentException(msg);
+            if (! supportedDocumentationProvider().contains(documentationProvider)) {
+                String msg = String.format(Locale.ROOT,
+                    "The [%s] Documentation Provider is not supported by this generator",
+                    documentationProvider.toCliOptValue());
+                throw new IllegalArgumentException(msg);
+            }
+
+            annotationLibrary = AnnotationLibrary.ofCliOption(
+                (String) additionalProperties.getOrDefault(ANNOTATION_LIBRARY,
+                    documentationProvider.getPreferredAnnotationLibrary().toCliOptValue())
+            );
+
+            if (! supportedAnnotationLibraries().contains(annotationLibrary)) {
+                String msg = String.format(Locale.ROOT, "The Annotation Library [%s] is not supported by this generator",
+                    annotationLibrary.toCliOptValue());
+                throw new IllegalArgumentException(msg);
+            }
+
+            if (! documentationProvider.supportedAnnotationLibraries().contains(annotationLibrary)) {
+                String msg = String.format(Locale.ROOT,
+                    "The [%s] documentation provider does not support [%s] as complementary annotation library",
+                    documentationProvider.toCliOptValue(), annotationLibrary.toCliOptValue());
+                throw new IllegalArgumentException(msg);
+            }
+
+            additionalProperties.put(DOCUMENTATION_PROVIDER, documentationProvider.toCliOptValue());
+            additionalProperties.put(documentationProvider.getPropertyName(), true);
+            additionalProperties.put(ANNOTATION_LIBRARY, annotationLibrary.toCliOptValue());
+            additionalProperties.put(annotationLibrary.getPropertyName(), true);
+        } else {
+            additionalProperties.put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE);
+            additionalProperties.put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE);
         }
 
-        annotationLibrary = AnnotationLibrary.ofCliOption(
-            (String) additionalProperties.getOrDefault(ANNOTATION_LIBRARY,
-                documentationProvider.getPreferredAnnotationLibrary().toCliOptValue())
-        );
-
-        if (! supportedAnnotationLibraries().contains(annotationLibrary)) {
-            String msg = String.format(Locale.ROOT, "The Annotation Library [%s] is not supported by this generator",
-                annotationLibrary.toCliOptValue());
-            throw new IllegalArgumentException(msg);
-        }
-
-        if (! documentationProvider.supportedAnnotationLibraries().contains(annotationLibrary)) {
-            String msg = String.format(Locale.ROOT,
-                "The [%s] documentation provider does not support [%s] as complementary annotation library",
-                documentationProvider.toCliOptValue(), annotationLibrary.toCliOptValue());
-            throw new IllegalArgumentException(msg);
-        }
-
-        additionalProperties.put(DOCUMENTATION_PROVIDER, documentationProvider.toCliOptValue());
-        additionalProperties.put(documentationProvider.getPropertyName(), true);
-        additionalProperties.put(ANNOTATION_LIBRARY, annotationLibrary.toCliOptValue());
-        additionalProperties.put(annotationLibrary.getPropertyName(), true);
 
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");

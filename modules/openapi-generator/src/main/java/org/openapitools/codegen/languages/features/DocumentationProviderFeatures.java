@@ -21,11 +21,12 @@ public interface DocumentationProviderFeatures {
 
   /**
    * Define the default documentation Provider for CliOpts processing.
+   * A NULL return value will disable the documentation provider support.
    * Override in subclasses to customize.
    * @return the default documentation provider
    */
   default DocumentationProvider defaultDocumentationProvider() {
-    return DocumentationProvider.NONE;
+    return null;
   }
 
   /**
