@@ -1,8 +1,18 @@
 ---
-title: Config Options for typescript-fetch
-sidebar_label: typescript-fetch
+title: Documentation for the typescript-fetch Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-fetch | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Typescript | |
+| helpTxt | Generates a TypeScript client library using Fetch API (beta). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -27,7 +37,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportsES6|Generate code that conforms to ES6.| |false|
-|typescriptThreePlus|Setting this property to true will generate TypeScript 3.6+ compatible code.| |false|
+|typescriptThreePlus|Setting this property to true will generate TypeScript 3.6+ compatible code.| |true|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |true|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 |withoutRuntimeChecks|Setting this property to true will remove any runtime checks on the request and response payloads. Payloads will be casted to their expected types.| |false|

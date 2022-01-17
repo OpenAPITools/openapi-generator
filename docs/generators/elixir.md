@@ -1,8 +1,18 @@
 ---
-title: Config Options for elixir
-sidebar_label: elixir
+title: Documentation for the elixir Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | elixir | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Elixir | |
+| helpTxt | Generates an elixir client library (alpha). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

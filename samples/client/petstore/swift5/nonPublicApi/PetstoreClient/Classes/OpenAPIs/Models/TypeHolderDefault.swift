@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-internal struct TypeHolderDefault: Codable, Hashable {
+internal struct TypeHolderDefault: Codable, JSONEncodable, Hashable {
 
     internal var stringItem: String = "what"
     internal var numberItem: Double

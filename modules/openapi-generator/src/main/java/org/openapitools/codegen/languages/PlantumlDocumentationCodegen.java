@@ -215,4 +215,7 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
         // to suppress the warning message
         return input;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return null; }
 }

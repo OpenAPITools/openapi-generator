@@ -1,8 +1,18 @@
 ---
-title: Config Options for jaxrs-resteasy
-sidebar_label: jaxrs-resteasy
+title: Documentation for the jaxrs-resteasy Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | jaxrs-resteasy | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Java | |
+| helpTxt | Generates a Java JAXRS-Resteasy Server application. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -128,6 +138,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>else</li>
 <li>enum</li>
 <li>extends</li>
+<li>file</li>
 <li>final</li>
 <li>finally</li>
 <li>float</li>
@@ -139,6 +150,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>instanceof</li>
 <li>int</li>
 <li>interface</li>
+<li>list</li>
 <li>localreturntype</li>
 <li>localvaraccept</li>
 <li>localvaraccepts</li>

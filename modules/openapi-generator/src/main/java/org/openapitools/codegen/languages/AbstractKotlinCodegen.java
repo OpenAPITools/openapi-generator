@@ -475,6 +475,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
             this.setParcelizeModels(convertPropertyToBooleanAndWriteBack(CodegenConstants.PARCELIZE_MODELS));
         } else {
@@ -1016,4 +1020,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         return null;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.KOTLIN; }
 }

@@ -1,8 +1,18 @@
 ---
-title: Config Options for clojure
-sidebar_label: clojure
+title: Documentation for the clojure Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | clojure | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Clojure | |
+| helpTxt | Generates a Clojure client library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

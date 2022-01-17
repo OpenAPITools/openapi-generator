@@ -15,14 +15,17 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * AdditionalPropertiesBoolean
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
+
   @JsonProperty("name")
   private String name;
 
@@ -35,9 +38,8 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
    * Get name
    * @return name
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getName() {
     return name;
   }
@@ -45,7 +47,6 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {

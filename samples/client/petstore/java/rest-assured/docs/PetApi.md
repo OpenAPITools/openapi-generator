@@ -306,7 +306,7 @@ null (empty response body)
 
 <a name="uploadFile"></a>
 # **uploadFile**
-> ModelApiResponse uploadFile(petId, additionalMetadata, file)
+> ModelApiResponse uploadFile(petId, additionalMetadata, _file)
 
 uploads an image
 
@@ -331,7 +331,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
  **additionalMetadata** | **String**| Additional data to pass to server | [optional]
- **file** | **File**| file to upload | [optional]
+ **_file** | **File**| file to upload | [optional]
 
 ### Return type
 

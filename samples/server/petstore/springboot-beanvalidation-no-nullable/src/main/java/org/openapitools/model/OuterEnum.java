@@ -8,6 +8,7 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -15,6 +16,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Gets or Sets OuterEnum
  */
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public enum OuterEnum {
   
   PLACED("placed"),

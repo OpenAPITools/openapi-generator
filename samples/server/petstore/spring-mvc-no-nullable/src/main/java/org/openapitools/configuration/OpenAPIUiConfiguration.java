@@ -19,8 +19,9 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 
 import java.util.List;
+import javax.annotation.Generated;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Configuration
 @ComponentScan(basePackages = {"org.openapitools.api", "org.openapitools.configuration"})
 @EnableWebMvc

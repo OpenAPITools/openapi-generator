@@ -319,4 +319,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     public void setUseEs6(boolean useEs6) {
         this.useEs6 = useEs6;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }

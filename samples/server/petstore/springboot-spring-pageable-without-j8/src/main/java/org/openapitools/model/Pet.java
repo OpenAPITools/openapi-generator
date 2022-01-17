@@ -17,12 +17,15 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet   {
+
   @JsonProperty("id")
   private Long id;
 
@@ -89,9 +92,8 @@ public class Pet   {
    * Get id
    * @return id
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Long getId() {
     return id;
   }
@@ -109,10 +111,8 @@ public class Pet   {
    * Get category
    * @return category
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public Category getCategory() {
     return category;
   }
@@ -130,10 +130,8 @@ public class Pet   {
    * Get name
    * @return name
   */
+  @NotNull 
   @ApiModelProperty(example = "doggie", required = true, value = "")
-  @NotNull
-
-
   public String getName() {
     return name;
   }
@@ -156,10 +154,8 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -185,10 +181,8 @@ public class Pet   {
    * Get tags
    * @return tags
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public List<Tag> getTags() {
     return tags;
   }
@@ -206,9 +200,8 @@ public class Pet   {
    * pet status in the store
    * @return status
   */
+  
   @ApiModelProperty(value = "pet status in the store")
-
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -216,7 +209,6 @@ public class Pet   {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -244,7 +236,6 @@ public class Pet   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pet {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

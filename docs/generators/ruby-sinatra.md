@@ -1,8 +1,18 @@
 ---
-title: Config Options for ruby-sinatra
-sidebar_label: ruby-sinatra
+title: Documentation for the ruby-sinatra Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | ruby-sinatra | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Ruby | |
+| helpTxt | Generates a Ruby Sinatra server library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

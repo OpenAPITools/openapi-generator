@@ -2,10 +2,6 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-import io.swagger.annotations.*;
-{{#vendorExtensions.x-spring-paginated}}
-import org.springframework.data.domain.Pageable;
-{{/vendorExtensions.x-spring-paginated}}
 {{#jdk8}}
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,6 +31,7 @@ import java.util.Optional;
 {{#async}}
 import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture{{/jdk8}};
 {{/async}}
+import javax.annotation.Generated;
 
 {{#operations}}
 /**
