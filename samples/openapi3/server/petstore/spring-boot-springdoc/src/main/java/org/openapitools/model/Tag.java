@@ -12,23 +12,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * A tag for a pet
  */
 
-
 @Schema(name = "Tag", description = "A tag for a pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Tag   {
 
   @JsonProperty("id")
   private Long id;
 
-
   @JsonProperty("name")
   private String name;
-
 
   public Tag id(Long id) {
     this.id = id;
@@ -40,8 +38,6 @@ public class Tag   {
    * @return id
   */
   
-
-
   @Schema(name = "id", required = false)
   public Long getId() {
     return id;
@@ -61,8 +57,6 @@ public class Tag   {
    * @return name
   */
   
-
-
   @Schema(name = "name", required = false)
   public String getName() {
     return name;

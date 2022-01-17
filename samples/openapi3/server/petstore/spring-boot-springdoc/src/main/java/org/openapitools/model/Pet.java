@@ -17,37 +17,32 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * A pet for sale in the pet store
  */
 
-
 @Schema(name = "Pet", description = "A pet for sale in the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet   {
 
   @JsonProperty("id")
   private Long id;
 
-
   @JsonProperty("category")
   private Category category;
 
-
   @JsonProperty("name")
   private String name;
-
 
   @JsonProperty("photoUrls")
   @Valid
   private List<String> photoUrls = new ArrayList<>();
 
-
   @JsonProperty("tags")
   @Valid
   private List<Tag> tags = null;
-
 
   /**
    * pet status in the store
@@ -89,7 +84,6 @@ public class Pet   {
   @JsonProperty("status")
   private StatusEnum status;
 
-
   public Pet id(Long id) {
     this.id = id;
     return this;
@@ -100,8 +94,6 @@ public class Pet   {
    * @return id
   */
   
-
-
   @Schema(name = "id", required = false)
   public Long getId() {
     return id;
@@ -120,10 +112,7 @@ public class Pet   {
    * Get category
    * @return category
   */
-  
-  @Valid
-
-
+  @Valid 
   @Schema(name = "category", required = false)
   public Category getCategory() {
     return category;
@@ -142,10 +131,7 @@ public class Pet   {
    * Get name
    * @return name
   */
-    @NotNull
-
-
-
+  @NotNull 
   @Schema(name = "name", example = "doggie", required = true)
   public String getName() {
     return name;
@@ -169,10 +155,7 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
   */
-    @NotNull
-
-
-
+  @NotNull 
   @Schema(name = "photoUrls", required = true)
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -199,10 +182,7 @@ public class Pet   {
    * Get tags
    * @return tags
   */
-  
-  @Valid
-
-
+  @Valid 
   @Schema(name = "tags", required = false)
   public List<Tag> getTags() {
     return tags;
@@ -222,8 +202,6 @@ public class Pet   {
    * @return status
   */
   
-
-
   @Schema(name = "status", description = "pet status in the store", required = false)
   public StatusEnum getStatus() {
     return status;

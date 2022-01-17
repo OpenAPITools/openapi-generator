@@ -7,6 +7,7 @@ package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
 import org.springframework.data.domain.Pageable;
+import org.springdoc.api.annotations.ParameterObject;
 import org.openapitools.model.Pet;
 import org.springframework.core.io.Resource;
 import io.swagger.v3.oas.annotations.Operation;
@@ -119,7 +120,7 @@ public interface PetApi {
     )
     ResponseEntity<List<Pet>> findPetsByStatus(
         @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, schema = @Schema(description = "", allowableValues = { "available", "pending", "sold" })) @Valid @RequestParam(value = "status", required = true) List<String> status,
-        final Pageable pageable
+        @ParameterObject final Pageable pageable
     );
 
 
@@ -151,7 +152,7 @@ public interface PetApi {
     )
     ResponseEntity<List<Pet>> findPetsByTags(
         @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "tags", required = true) List<String> tags,
-        final Pageable pageable
+        @ParameterObject final Pageable pageable
     );
 
 

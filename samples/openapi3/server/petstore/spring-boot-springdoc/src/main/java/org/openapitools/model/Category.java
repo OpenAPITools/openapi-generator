@@ -12,23 +12,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * A category for a pet
  */
 
-
 @Schema(name = "Category", description = "A category for a pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Category   {
 
   @JsonProperty("id")
   private Long id;
 
-
   @JsonProperty("name")
   private String name;
-
 
   public Category id(Long id) {
     this.id = id;
@@ -40,8 +38,6 @@ public class Category   {
    * @return id
   */
   
-
-
   @Schema(name = "id", required = false)
   public Long getId() {
     return id;
@@ -60,9 +56,7 @@ public class Category   {
    * Get name
    * @return name
   */
-  
-@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
-
+  @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
   @Schema(name = "name", required = false)
   public String getName() {
     return name;

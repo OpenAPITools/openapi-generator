@@ -12,47 +12,39 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * A User who is purchasing from the pet store
  */
 
-
 @Schema(name = "User", description = "A User who is purchasing from the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class User   {
 
   @JsonProperty("id")
   private Long id;
 
-
   @JsonProperty("username")
   private String username;
-
 
   @JsonProperty("firstName")
   private String firstName;
 
-
   @JsonProperty("lastName")
   private String lastName;
-
 
   @JsonProperty("email")
   private String email;
 
-
   @JsonProperty("password")
   private String password;
-
 
   @JsonProperty("phone")
   private String phone;
 
-
   @JsonProperty("userStatus")
   private Integer userStatus;
-
 
   public User id(Long id) {
     this.id = id;
@@ -64,8 +56,6 @@ public class User   {
    * @return id
   */
   
-
-
   @Schema(name = "id", required = false)
   public Long getId() {
     return id;
@@ -85,8 +75,6 @@ public class User   {
    * @return username
   */
   
-
-
   @Schema(name = "username", required = false)
   public String getUsername() {
     return username;
@@ -106,8 +94,6 @@ public class User   {
    * @return firstName
   */
   
-
-
   @Schema(name = "firstName", required = false)
   public String getFirstName() {
     return firstName;
@@ -127,8 +113,6 @@ public class User   {
    * @return lastName
   */
   
-
-
   @Schema(name = "lastName", required = false)
   public String getLastName() {
     return lastName;
@@ -148,8 +132,6 @@ public class User   {
    * @return email
   */
   
-
-
   @Schema(name = "email", required = false)
   public String getEmail() {
     return email;
@@ -169,8 +151,6 @@ public class User   {
    * @return password
   */
   
-
-
   @Schema(name = "password", required = false)
   public String getPassword() {
     return password;
@@ -190,8 +170,6 @@ public class User   {
    * @return phone
   */
   
-
-
   @Schema(name = "phone", required = false)
   public String getPhone() {
     return phone;
@@ -211,8 +189,6 @@ public class User   {
    * @return userStatus
   */
   
-
-
   @Schema(name = "userStatus", description = "User Status", required = false)
   public Integer getUserStatus() {
     return userStatus;

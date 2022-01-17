@@ -5,6 +5,7 @@
  */
 package org.openapitools.api;
 
+import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.Client;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +60,7 @@ public interface FakeClassnameTestApi {
     )
     default Mono<ResponseEntity<Client>> testClassname(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody Mono<Client> body,
-         final ServerWebExchange exchange
+        @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().testClassname(body, exchange);
     }

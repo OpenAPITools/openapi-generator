@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -14,32 +15,28 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * An order for a pets from the pet store
  */
 
-
 @Schema(name = "Order", description = "An order for a pets from the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Order   {
 
   @JsonProperty("id")
   private Long id;
 
-
   @JsonProperty("petId")
   private Long petId;
-
 
   @JsonProperty("quantity")
   private Integer quantity;
 
-
   @JsonProperty("shipDate")
-  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime shipDate;
-
 
   /**
    * Order Status
@@ -81,10 +78,8 @@ public class Order   {
   @JsonProperty("status")
   private StatusEnum status;
 
-
   @JsonProperty("complete")
   private Boolean complete = false;
-
 
   public Order id(Long id) {
     this.id = id;
@@ -96,8 +91,6 @@ public class Order   {
    * @return id
   */
   
-
-
   @Schema(name = "id", required = false)
   public Long getId() {
     return id;
@@ -117,8 +110,6 @@ public class Order   {
    * @return petId
   */
   
-
-
   @Schema(name = "petId", required = false)
   public Long getPetId() {
     return petId;
@@ -138,8 +129,6 @@ public class Order   {
    * @return quantity
   */
   
-
-
   @Schema(name = "quantity", required = false)
   public Integer getQuantity() {
     return quantity;
@@ -158,10 +147,7 @@ public class Order   {
    * Get shipDate
    * @return shipDate
   */
-  
-  @Valid
-
-
+  @Valid 
   @Schema(name = "shipDate", required = false)
   public OffsetDateTime getShipDate() {
     return shipDate;
@@ -181,8 +167,6 @@ public class Order   {
    * @return status
   */
   
-
-
   @Schema(name = "status", description = "Order Status", required = false)
   public StatusEnum getStatus() {
     return status;
@@ -202,8 +186,6 @@ public class Order   {
    * @return complete
   */
   
-
-
   @Schema(name = "complete", required = false)
   public Boolean getComplete() {
     return complete;
