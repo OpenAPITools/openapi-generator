@@ -2,8 +2,7 @@
 title: Config Options for csharp-netcore-functions
 sidebar_label: csharp-netcore-functions
 ---
-
-These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details. 
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
