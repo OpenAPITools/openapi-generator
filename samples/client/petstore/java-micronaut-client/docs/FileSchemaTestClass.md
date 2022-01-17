@@ -7,8 +7,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**file** | [`java.io.File`](java.io.File.md) |  |  [optional property]
-**files** | [`List&lt;java.io.File&gt;`](java.io.File.md) |  |  [optional property]
+**_file** | [`ModelFile`](ModelFile.md) |  |  [optional property]
+**files** | [`List&lt;ModelFile&gt;`](ModelFile.md) |  |  [optional property]
 
 
 

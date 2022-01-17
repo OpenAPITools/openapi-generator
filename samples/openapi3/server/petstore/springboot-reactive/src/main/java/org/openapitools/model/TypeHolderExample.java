@@ -15,12 +15,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * TypeHolderExample
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderExample   {
+
   @JsonProperty("string_item")
   private String stringItem;
 
@@ -49,10 +52,8 @@ public class TypeHolderExample   {
    * Get stringItem
    * @return stringItem
   */
-  @Schema(name = "stringItem", example = "what", required = true, defaultValue = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "string_item", example = "what", required = true)
   public String getStringItem() {
     return stringItem;
   }
@@ -70,11 +71,8 @@ public class TypeHolderExample   {
    * Get numberItem
    * @return numberItem
   */
-  @Schema(name = "numberItem", example = "1.234", required = true, defaultValue = "")
-  @NotNull
-
-  @Valid
-
+  @NotNull @Valid 
+  @Schema(name = "number_item", example = "1.234", required = true)
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -92,10 +90,8 @@ public class TypeHolderExample   {
    * Get floatItem
    * @return floatItem
   */
-  @Schema(name = "floatItem", example = "1.234", required = true, defaultValue = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "float_item", example = "1.234", required = true)
   public Float getFloatItem() {
     return floatItem;
   }
@@ -113,10 +109,8 @@ public class TypeHolderExample   {
    * Get integerItem
    * @return integerItem
   */
-  @Schema(name = "integerItem", example = "-2", required = true, defaultValue = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "integer_item", example = "-2", required = true)
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -134,10 +128,8 @@ public class TypeHolderExample   {
    * Get boolItem
    * @return boolItem
   */
-  @Schema(name = "boolItem", example = "true", required = true, defaultValue = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "bool_item", example = "true", required = true)
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -160,10 +152,8 @@ public class TypeHolderExample   {
    * Get arrayItem
    * @return arrayItem
   */
-  @Schema(name = "arrayItem", example = "[0, 1, 2, 3]", required = true, defaultValue = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "array_item", example = "[0, 1, 2, 3]", required = true)
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
@@ -171,7 +161,6 @@ public class TypeHolderExample   {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -199,7 +188,6 @@ public class TypeHolderExample   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TypeHolderExample {\n");
-    
     sb.append("    stringItem: ").append(toIndentedString(stringItem)).append("\n");
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
     sb.append("    floatItem: ").append(toIndentedString(floatItem)).append("\n");

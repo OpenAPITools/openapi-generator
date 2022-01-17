@@ -13,12 +13,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * ArrayTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayTest   {
+
   @JsonProperty("array_of_string")
   @Valid
   private List<String> arrayOfString = null;
@@ -48,9 +51,8 @@ public class ArrayTest   {
    * Get arrayOfString
    * @return arrayOfString
   */
-  @Schema(name = "arrayOfString", defaultValue = "")
-
-
+  
+  @Schema(name = "array_of_string", required = false)
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -76,10 +78,8 @@ public class ArrayTest   {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   */
-  @Schema(name = "arrayArrayOfInteger", defaultValue = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "array_array_of_integer", required = false)
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -105,10 +105,8 @@ public class ArrayTest   {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   */
-  @Schema(name = "arrayArrayOfModel", defaultValue = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "array_array_of_model", required = false)
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
@@ -116,7 +114,6 @@ public class ArrayTest   {
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -141,7 +138,6 @@ public class ArrayTest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ArrayTest {\n");
-    
     sb.append("    arrayOfString: ").append(toIndentedString(arrayOfString)).append("\n");
     sb.append("    arrayArrayOfInteger: ").append(toIndentedString(arrayArrayOfInteger)).append("\n");
     sb.append("    arrayArrayOfModel: ").append(toIndentedString(arrayArrayOfModel)).append("\n");

@@ -10,12 +10,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Client
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Client   {
+
   @JsonProperty("client")
   private String client;
 
@@ -28,9 +31,8 @@ public class Client   {
    * Get client
    * @return client
   */
-  @Schema(name = "client", defaultValue = "")
-
-
+  
+  @Schema(name = "client", required = false)
   public String getClient() {
     return client;
   }
@@ -38,7 +40,6 @@ public class Client   {
   public void setClient(String client) {
     this.client = client;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -61,7 +62,6 @@ public class Client   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Client {\n");
-    
     sb.append("    client: ").append(toIndentedString(client)).append("\n");
     sb.append("}");
     return sb.toString();
