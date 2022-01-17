@@ -1,7 +1,10 @@
 package org.openapitools.api;
 
+import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.ModelApiResponse;
+import org.springframework.data.domain.Pageable;
 import org.openapitools.model.Pet;
+import org.springframework.core.io.Resource;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,20 +17,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class PetApiController implements PetApi {
 
     private final PetApiDelegate delegate;
 
-    public PetApiController(@org.springframework.beans.factory.annotation.Autowired(required = false) PetApiDelegate delegate) {
+    public PetApiController(@Autowired(required = false) PetApiDelegate delegate) {
         this.delegate = delegate;
     }
 
@@ -72,7 +78,7 @@ public class PetApiController implements PetApi {
      */
     public ResponseEntity<List<Pet>> findPetsByStatus(
         @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status,
-        @springfox.documentation.annotations.ApiIgnore final Pageable pageable
+        @ApiIgnore final Pageable pageable
     ) {
         return delegate.findPetsByStatus(status, pageable);
     }
@@ -89,7 +95,7 @@ public class PetApiController implements PetApi {
      */
     public ResponseEntity<List<Pet>> findPetsByTags(
         @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags,
-        @springfox.documentation.annotations.ApiIgnore final Pageable pageable
+        @ApiIgnore final Pageable pageable
     ) {
         return delegate.findPetsByTags(tags, pageable);
     }

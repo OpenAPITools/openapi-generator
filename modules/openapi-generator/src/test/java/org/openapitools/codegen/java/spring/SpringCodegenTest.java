@@ -81,14 +81,17 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
-
         generator.opts(input).generate();
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"),
-                "AnimalParams");
+            "AnimalParams");
+
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/AnimalParams.java"),
-                "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)",
-                "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)");
+            "@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)", "@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)");
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/AnimalParams.java"),
+            "import org.springframework.format.annotation.DateTimeFormat;"
+        );
     }
 
     @Test
@@ -207,7 +210,6 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
@@ -217,11 +219,19 @@ public class SpringCodegenTest {
 
         assertFileContains(
                 Paths.get(outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java"),
-                "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)"
+                "import org.springframework.format.annotation.DateTimeFormat;"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java"),
+                "@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)"
         );
         assertFileContains(
                 Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"),
-                "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)"
+                "import org.springframework.format.annotation.DateTimeFormat;"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"),
+                "@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)"
         );
     }
 
@@ -774,4 +784,22 @@ public class SpringCodegenTest {
             fail("OpenAPIDocumentationConfig.java not generated");
         }
     }
+
+    @Test
+    public void testTypeMappings() {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.typeMapping().get("file"), "Resource");
+    }
+
+    @Test
+    public void testImportMappings() {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.importMapping().get("Resource"), "org.springframework.core.io.Resource");
+        Assert.assertEquals(codegen.importMapping().get("Pageable"), "org.springframework.data.domain.Pageable");
+        Assert.assertEquals(codegen.importMapping().get("DateTimeFormat"), "org.springframework.format.annotation.DateTimeFormat");
+        Assert.assertEquals(codegen.importMapping().get("ApiIgnore"), "springfox.documentation.annotations.ApiIgnore");
+    }
+
 }

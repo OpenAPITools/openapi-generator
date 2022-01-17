@@ -12,12 +12,15 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * ModelList
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelList   {
+
   @JsonProperty("123-list")
   private String _123list;
 
@@ -30,9 +33,8 @@ public class ModelList   {
    * Get _123list
    * @return _123list
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String get123list() {
     return _123list;
   }
@@ -40,7 +42,6 @@ public class ModelList   {
   public void set123list(String _123list) {
     this._123list = _123list;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -63,7 +64,6 @@ public class ModelList   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModelList {\n");
-    
     sb.append("    _123list: ").append(toIndentedString(_123list)).append("\n");
     sb.append("}");
     return sb.toString();

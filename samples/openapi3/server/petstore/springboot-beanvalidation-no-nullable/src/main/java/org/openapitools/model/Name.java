@@ -10,13 +10,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Model for testing model name same as property name
  */
-@Schema(name = "Name",description = "Model for testing model name same as property name")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Schema(name = "Name", description = "Model for testing model name same as property name")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Name   {
+
   @JsonProperty("name")
   private Integer name;
 
@@ -38,10 +41,8 @@ public class Name   {
    * Get name
    * @return name
   */
-  @Schema(name = "name", required = true, defaultValue = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "name", required = true)
   public Integer getName() {
     return name;
   }
@@ -59,9 +60,8 @@ public class Name   {
    * Get snakeCase
    * @return snakeCase
   */
-  @Schema(name = "snakeCase", readOnly = true, defaultValue = "")
-
-
+  
+  @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -79,9 +79,8 @@ public class Name   {
    * Get property
    * @return property
   */
-  @Schema(name = "property", defaultValue = "")
-
-
+  
+  @Schema(name = "property", required = false)
   public String getProperty() {
     return property;
   }
@@ -99,9 +98,8 @@ public class Name   {
    * Get _123number
    * @return _123number
   */
-  @Schema(name = "_123number", readOnly = true, defaultValue = "")
-
-
+  
+  @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public Integer get123number() {
     return _123number;
   }
@@ -109,7 +107,6 @@ public class Name   {
   public void set123number(Integer _123number) {
     this._123number = _123number;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -135,7 +132,6 @@ public class Name   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Name {\n");
-    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
     sb.append("    property: ").append(toIndentedString(property)).append("\n");

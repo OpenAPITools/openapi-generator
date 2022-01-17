@@ -13,12 +13,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * AdditionalPropertiesArray
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesArray extends HashMap<String, List>  {
+
   @JsonProperty("name")
   private String name;
 
@@ -31,9 +34,8 @@ public class AdditionalPropertiesArray extends HashMap<String, List>  {
    * Get name
    * @return name
   */
-  @Schema(name = "name", defaultValue = "")
-
-
+  
+  @Schema(name = "name", required = false)
   public String getName() {
     return name;
   }
@@ -41,7 +43,6 @@ public class AdditionalPropertiesArray extends HashMap<String, List>  {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {
