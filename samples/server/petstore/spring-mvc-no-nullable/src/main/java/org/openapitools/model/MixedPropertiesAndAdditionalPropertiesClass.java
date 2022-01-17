@@ -12,23 +12,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
+import org.springframework.format.annotation.DateTimeFormat;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass   {
+
   @JsonProperty("uuid")
   private UUID uuid;
 
   @JsonProperty("dateTime")
-  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
 
   @JsonProperty("map")
@@ -44,10 +48,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get uuid
    * @return uuid
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public UUID getUuid() {
     return uuid;
   }
@@ -65,10 +67,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get dateTime
    * @return dateTime
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -94,10 +94,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get map
    * @return map
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public Map<String, Animal> getMap() {
     return map;
   }
@@ -105,7 +103,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -130,7 +127,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
-    
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    map: ").append(toIndentedString(map)).append("\n");

@@ -357,11 +357,11 @@ public class PetApi {
     * 
     * @param petId ID of pet to update (required)
     * @param additionalMetadata Additional data to pass to server (optional)
-    * @param file file to upload (optional)
+    * @param _file file to upload (optional)
     * @param resultHandler Asynchronous result handler
     */
-    public void uploadFile(Long petId, String additionalMetadata, AsyncFile file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
-        delegate.uploadFile(petId, additionalMetadata, file, resultHandler);
+    public void uploadFile(Long petId, String additionalMetadata, AsyncFile _file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+        delegate.uploadFile(petId, additionalMetadata, _file, resultHandler);
     }
 
     /**
@@ -369,12 +369,12 @@ public class PetApi {
     * 
     * @param petId ID of pet to update (required)
     * @param additionalMetadata Additional data to pass to server (optional)
-    * @param file file to upload (optional)
+    * @param _file file to upload (optional)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void uploadFile(Long petId, String additionalMetadata, AsyncFile file, ApiClient.AuthInfo authInfo, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
-        delegate.uploadFile(petId, additionalMetadata, file, authInfo, resultHandler);
+    public void uploadFile(Long petId, String additionalMetadata, AsyncFile _file, ApiClient.AuthInfo authInfo, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+        delegate.uploadFile(petId, additionalMetadata, _file, authInfo, resultHandler);
     }
 
     /**
@@ -382,12 +382,12 @@ public class PetApi {
     * 
     * @param petId ID of pet to update (required)
     * @param additionalMetadata Additional data to pass to server (optional)
-    * @param file file to upload (optional)
+    * @param _file file to upload (optional)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<ModelApiResponse> rxUploadFile(Long petId, String additionalMetadata, AsyncFile file) {
+    public Single<ModelApiResponse> rxUploadFile(Long petId, String additionalMetadata, AsyncFile _file) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.uploadFile(petId, additionalMetadata, file, fut)
+            delegate.uploadFile(petId, additionalMetadata, _file, fut)
         ));
     }
 
@@ -396,13 +396,13 @@ public class PetApi {
     * 
     * @param petId ID of pet to update (required)
     * @param additionalMetadata Additional data to pass to server (optional)
-    * @param file file to upload (optional)
+    * @param _file file to upload (optional)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<ModelApiResponse> rxUploadFile(Long petId, String additionalMetadata, AsyncFile file, ApiClient.AuthInfo authInfo) {
+    public Single<ModelApiResponse> rxUploadFile(Long petId, String additionalMetadata, AsyncFile _file, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.uploadFile(petId, additionalMetadata, file, authInfo, fut)
+            delegate.uploadFile(petId, additionalMetadata, _file, authInfo, fut)
         ));
     }
     /**

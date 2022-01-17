@@ -14,19 +14,21 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Animal
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
 })
-
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Animal   {
+
   @JsonProperty("className")
   private String className;
 
@@ -42,10 +44,8 @@ public class Animal   {
    * Get className
    * @return className
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public String getClassName() {
     return className;
   }
@@ -63,9 +63,8 @@ public class Animal   {
    * Get color
    * @return color
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getColor() {
     return color;
   }
@@ -73,7 +72,6 @@ public class Animal   {
   public void setColor(String color) {
     this.color = color;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -97,7 +95,6 @@ public class Animal   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Animal {\n");
-    
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("}");
