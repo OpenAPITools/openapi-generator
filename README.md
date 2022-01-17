@@ -577,6 +577,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [ASKUL](https://www.askul.co.jp)
 - [Arduino](https://www.arduino.cc/)
 - [b<>com](https://b-com.com/en)
+- [百度营销](https://e.baidu.com)
 - [Banzai Cloud](https://banzaicloud.com)
 - [BIMData.io](https://bimdata.io)
 - [Bithost GmbH](https://www.bithost.ch)
