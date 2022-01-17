@@ -2,7 +2,7 @@
 
 /**
  * PetController
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Controller
@@ -113,8 +113,10 @@ class PetController extends Controller
 
             // Make the call to the business logic
             $responseCode = 200;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->addPet($pet, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';
@@ -197,8 +199,10 @@ class PetController extends Controller
 
             // Make the call to the business logic
             $responseCode = 204;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->deletePet($petId, $apiKey, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';
@@ -285,8 +289,10 @@ class PetController extends Controller
 
             // Make the call to the business logic
             $responseCode = 200;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->findPetsByStatus($status, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';
@@ -375,8 +381,10 @@ class PetController extends Controller
 
             // Make the call to the business logic
             $responseCode = 200;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->findPetsByTags($tags, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';
@@ -460,8 +468,10 @@ class PetController extends Controller
 
             // Make the call to the business logic
             $responseCode = 200;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->getPetById($petId, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';
@@ -558,8 +568,10 @@ class PetController extends Controller
 
             // Make the call to the business logic
             $responseCode = 200;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->updatePet($pet, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';
@@ -656,8 +668,10 @@ class PetController extends Controller
 
             // Make the call to the business logic
             $responseCode = 204;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->updatePetWithForm($petId, $name, $status, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';
@@ -752,8 +766,10 @@ class PetController extends Controller
 
             // Make the call to the business logic
             $responseCode = 200;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->uploadFile($petId, $additionalMetadata, $file, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';

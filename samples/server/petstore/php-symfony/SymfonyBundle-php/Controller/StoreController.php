@@ -2,7 +2,7 @@
 
 /**
  * StoreController
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Controller
@@ -88,8 +88,10 @@ class StoreController extends Controller
 
             // Make the call to the business logic
             $responseCode = 204;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->deleteOrder($orderId, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';
@@ -158,8 +160,10 @@ class StoreController extends Controller
 
             // Make the call to the business logic
             $responseCode = 200;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->getInventory($responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';
@@ -237,8 +241,10 @@ class StoreController extends Controller
 
             // Make the call to the business logic
             $responseCode = 200;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->getOrderById($orderId, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';
@@ -330,8 +336,10 @@ class StoreController extends Controller
 
             // Make the call to the business logic
             $responseCode = 200;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->placeOrder($order, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';

@@ -2,7 +2,7 @@
 /**
  * ApiServer
  *
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Api
@@ -32,7 +32,7 @@ namespace OpenAPI\Server\Api;
 /**
  * ApiServer Class Doc Comment
  *
- * PHP version 5
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Api

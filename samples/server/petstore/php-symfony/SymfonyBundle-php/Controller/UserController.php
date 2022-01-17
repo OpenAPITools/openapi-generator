@@ -2,7 +2,7 @@
 
 /**
  * UserController
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Controller
@@ -103,8 +103,10 @@ class UserController extends Controller
 
             // Make the call to the business logic
             $responseCode = 204;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->createUser($user, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = 'successful operation';
@@ -187,8 +189,10 @@ class UserController extends Controller
 
             // Make the call to the business logic
             $responseCode = 204;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->createUsersWithArrayInput($user, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = 'successful operation';
@@ -271,8 +275,10 @@ class UserController extends Controller
 
             // Make the call to the business logic
             $responseCode = 204;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->createUsersWithListInput($user, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = 'successful operation';
@@ -343,8 +349,10 @@ class UserController extends Controller
 
             // Make the call to the business logic
             $responseCode = 204;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->deleteUser($username, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';
@@ -422,8 +430,10 @@ class UserController extends Controller
 
             // Make the call to the business logic
             $responseCode = 200;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->getUserByName($username, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';
@@ -516,8 +526,10 @@ class UserController extends Controller
 
             // Make the call to the business logic
             $responseCode = 200;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->loginUser($username, $password, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';
@@ -578,8 +590,10 @@ class UserController extends Controller
 
             // Make the call to the business logic
             $responseCode = 204;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->logoutUser($responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = 'successful operation';
@@ -668,8 +682,10 @@ class UserController extends Controller
 
             // Make the call to the business logic
             $responseCode = 204;
+            $handler->setResponseCode($responseCode);
             $responseHeaders = [];
             $result = $handler->updateUser($username, $user, $responseCode, $responseHeaders);
+            $responseCode = $handler->getResponseCode();
 
             // Find default response message
             $message = '';
