@@ -13,15 +13,18 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Must be named &#x60;File&#x60; for test.
  */
-@ApiModel(description = "Must be named `File` for test.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
+@ApiModel(description = "Must be named `File` for test.")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class File   {
+
   @JsonProperty("sourceURI")
   private String sourceURI;
 
@@ -34,9 +37,8 @@ public class File   {
    * Test capitalization
    * @return sourceURI
   */
+  
   @ApiModelProperty(value = "Test capitalization")
-
-
   public String getSourceURI() {
     return sourceURI;
   }
@@ -44,7 +46,6 @@ public class File   {
   public void setSourceURI(String sourceURI) {
     this.sourceURI = sourceURI;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -67,7 +68,6 @@ public class File   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class File {\n");
-    
     sb.append("    sourceURI: ").append(toIndentedString(sourceURI)).append("\n");
     sb.append("}");
     return sb.toString();
