@@ -915,4 +915,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     public void setModuleName(String moduleName) {
         this.moduleName = moduleName;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ELIXIR; }
 }

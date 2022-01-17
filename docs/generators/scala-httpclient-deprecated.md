@@ -1,8 +1,18 @@
 ---
-title: Config Options for scala-httpclient-deprecated
-sidebar_label: scala-httpclient-deprecated
+title: Documentation for the scala-httpclient-deprecated Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | scala-httpclient-deprecated | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
+| generator type | CLIENT | |
+| generator language | Scala | |
+| helpTxt | Generates a Scala client library (beta). IMPORTANT: This generator is no longer actively maintained and will be deprecated. PLease use 'scala-akka' generator instead. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

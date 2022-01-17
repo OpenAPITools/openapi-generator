@@ -1055,7 +1055,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return importMapping.get(name);
         }
 
-        // memoization
+        // memoization and lookup in the cache
         String origName = name;
         if (schemaKeyToModelNameCache.containsKey(origName)) {
             return schemaKeyToModelNameCache.get(origName);
@@ -1069,27 +1069,27 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             name = name + "_" + modelNameSuffix;
         }
 
-        name = sanitizeName(name);
+        name = camelize(sanitizeName(name));
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
-            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+            name = camelize("model_" + name); // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     camelize("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+            name = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
         }
 
-        String camelizedName = camelize(name);
-        schemaKeyToModelNameCache.put(origName, camelizedName);
+        // store in cache
+        schemaKeyToModelNameCache.put(origName, name);
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelizedName;
+        return name;
     }
 
     @Override
@@ -1341,4 +1341,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.C_SHARP; }
 }

@@ -3,8 +3,12 @@
  */
 {{>additionalModelTypeAnnotations}}
 {{#description}}
-{{#swagger1AnnotationLibrary}}@ApiModel(description = "{{{description}}}"){{/swagger1AnnotationLibrary}}
-{{#swagger2AnnotationLibrary}}@Schema({{#name}}name = "{{name}}", {{/name}}description = "{{{description}}}"){{/swagger2AnnotationLibrary}}
+{{#swagger1AnnotationLibrary}}
+@ApiModel(description = "{{{description}}}")
+{{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+@Schema({{#name}}name = "{{name}}", {{/name}}description = "{{{description}}}")
+{{/swagger2AnnotationLibrary}}
 {{/description}}
 {{#discriminator}}
 {{>typeInfoAnnotation}}
@@ -50,10 +54,10 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{/isContainer}}
   {{^isContainer}}
   {{#isDate}}
-  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   {{/isDate}}
   {{#isDateTime}}
-  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   {{/isDateTime}}
   {{#openApiNullable}}
   private {{>nullableDataType}} {{name}}{{#isNullable}} = JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
@@ -62,7 +66,6 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   private {{>nullableDataType}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
   {{/openApiNullable}}
   {{/isContainer}}
-
   {{/vars}}
   {{#vars}}
 
@@ -108,6 +111,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
     return this;
   }
   {{/isMap}}
+  {{! end feature: fluent setter methods }}
+  {{! begin feature: getter and setter }}
 
   /**
   {{#description}}

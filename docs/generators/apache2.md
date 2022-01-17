@@ -1,8 +1,18 @@
 ---
-title: Config Options for apache2
-sidebar_label: apache2
+title: Documentation for the apache2 Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | apache2 | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CONFIG | |
+| generator language | Java | |
+| helpTxt | Generates an Apache2 Config file with the permissions | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

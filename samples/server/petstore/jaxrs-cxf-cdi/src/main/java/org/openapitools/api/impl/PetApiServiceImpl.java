@@ -56,7 +56,7 @@ public class PetApiServiceImpl implements PetApiService {
       return Response.ok().entity("magic!").build();
   }
       @Override
-      public Response uploadFile(Long petId, String additionalMetadata, InputStream fileInputStream, Attachment fileDetail, SecurityContext securityContext) {
+      public Response uploadFile(Long petId, String additionalMetadata, InputStream _fileInputStream, Attachment _fileDetail, SecurityContext securityContext) {
       // do some magic!
       return Response.ok().entity("magic!").build();
   }

@@ -1,8 +1,18 @@
 ---
-title: Config Options for nim
-sidebar_label: nim
+title: Documentation for the nim Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | nim | pass this to the generate command after -g |
+| generator stability | BETA | |
+| generator type | CLIENT | |
+| generator language | Nim | |
+| helpTxt | Generates a nim client (beta). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

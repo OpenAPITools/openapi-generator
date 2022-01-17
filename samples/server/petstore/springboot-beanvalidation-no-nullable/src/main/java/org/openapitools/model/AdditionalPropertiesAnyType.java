@@ -13,12 +13,15 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * AdditionalPropertiesAnyType
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
+
   @JsonProperty("name")
   private String name;
 
@@ -31,9 +34,8 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
    * Get name
    * @return name
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getName() {
     return name;
   }
@@ -41,7 +43,6 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {

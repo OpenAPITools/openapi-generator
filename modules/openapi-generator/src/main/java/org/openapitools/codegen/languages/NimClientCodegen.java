@@ -368,4 +368,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             return name;
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.NIM; }
 }

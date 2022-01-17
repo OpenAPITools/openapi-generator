@@ -382,4 +382,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         // ref: https://clojurebridge.github.io/community-docs/docs/clojure/comment/
         return input.replace("(comment", "(_comment");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.CLOJURE; }
 }

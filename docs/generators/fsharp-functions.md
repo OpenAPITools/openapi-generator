@@ -1,8 +1,18 @@
 ---
-title: Config Options for fsharp-functions
-sidebar_label: fsharp-functions
+title: Documentation for the fsharp-functions Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | fsharp-functions | pass this to the generate command after -g |
+| generator stability | BETA | |
+| generator type | SERVER | |
+| generator language | F# | |
+| helpTxt | Generates a fsharp-functions server (beta). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

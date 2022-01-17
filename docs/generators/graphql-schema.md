@@ -1,8 +1,18 @@
 ---
-title: Config Options for graphql-schema
-sidebar_label: graphql-schema
+title: Documentation for the graphql-schema Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | graphql-schema | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SCHEMA | |
+| generator language | GraphQL | |
+| helpTxt | Generates GraphQL schema files (beta) | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

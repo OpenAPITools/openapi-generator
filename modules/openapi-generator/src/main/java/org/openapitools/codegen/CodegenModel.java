@@ -64,7 +64,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String defaultValue;
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
-    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isDate, isDateTime, isShort, isUnboundedInteger, isBoolean;
+    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isDate, isDateTime, isDecimal, isShort, isUnboundedInteger, isBoolean;
     private boolean additionalPropertiesIsAnyType;
     public List<CodegenProperty> vars = new ArrayList<>(); // all properties (without parent's properties)
     public List<CodegenProperty> allVars = new ArrayList<>(); // all properties (with parent's properties)
@@ -856,6 +856,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasOnlyReadOnly == that.hasOnlyReadOnly &&
                 isNull == that.isNull &&
                 hasValidation == that.hasValidation &&
+                isDecimal == that.isDecimal &&
                 hasMultipleTypes == that.getHasMultipleTypes() &&
                 hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
                 getIsAnyType() == that.getIsAnyType() &&
@@ -934,7 +935,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
                 getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
-                isAnyType, getComposedSchemas(), hasMultipleTypes);
+                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal);
     }
 
     @Override
@@ -1028,6 +1029,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", getIsAnyType=").append(getIsAnyType());
         sb.append(", composedSchemas=").append(composedSchemas);
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
+        sb.append(", isDecimal=").append(isDecimal);
         sb.append('}');
         return sb.toString();
     }
@@ -1051,6 +1053,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.emptyVars = emptyVars;
     }
 
+    public boolean getHasItems() {
+        return this.items != null;
+    }
     /**
      * Remove duplicated properties in all variable list
      */
