@@ -652,6 +652,12 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
                     prop.vendorExtensions.put("x-codegen-escaped-property-name", true);
                     modelHasPropertyWithEscapedName = true;
                 }
+                if (notCodableTypes.contains(prop.dataType) || notCodableTypes.contains(prop.baseType)) {
+                    prop.vendorExtensions.put("x-swift-is-not-codable", true);
+                }
+                if (modelHasPropertyWithEscapedName || notCodableTypes.contains(prop.dataType) || notCodableTypes.contains(prop.baseType)) {
+                    cm.vendorExtensions.put("x-swift-contains-not-codable", true);
+                }
             }
             if (modelHasPropertyWithEscapedName) {
                 cm.vendorExtensions.put("x-codegen-has-escaped-property-names", true);
@@ -659,15 +665,6 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         }
 
         return postProcessedModelsEnum;
-    }
-
-    @Override
-    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        super.postProcessModelProperty(model, property);
-        if (notCodableTypes.contains(property.dataType) || notCodableTypes.contains(property.baseType)) {
-            property.vendorExtensions.put("x-swift-is-not-codable", true);
-            model.vendorExtensions.put("x-swift-contains-not-codable", true);
-        }
     }
 
     @Override
@@ -758,7 +755,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
         System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift alternative generator v0.3.0                                           #");
+        System.out.println("# swift alternative generator v0.4.0                                           #");
         System.out.println("################################################################################");
     }
 }
