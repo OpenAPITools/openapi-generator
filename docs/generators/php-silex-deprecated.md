@@ -1,8 +1,18 @@
 ---
-title: Config Options for php-silex-deprecated
-sidebar_label: php-silex-deprecated
+title: Documentation for the php-silex-deprecated Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | php-silex-deprecated | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
+| generator type | SERVER | |
+| generator language | PHP | |
+| helpTxt | Generates a PHP Silex server library. IMPORTANT NOTE: this generator is no longer actively maintained. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

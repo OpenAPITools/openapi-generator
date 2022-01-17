@@ -130,6 +130,20 @@ class ObjectSerializer
     }
 
     /**
+     * Shorter timestamp microseconds to 6 digits length.
+     *
+     * @param string $timestamp Original timestamp
+     *
+     * @return string the shorten timestamp
+     */
+    public static function sanitizeTimestamp($timestamp)
+    {
+        if (!is_string($timestamp)) return $timestamp;
+
+        return preg_replace('/(:\d{2}.\d{6})\d*/', '$1', $timestamp);
+    }
+
+    /**
      * Take value and turn it into a string suitable for inclusion in
      * the path, by url-encoding.
      *
@@ -322,10 +336,9 @@ class ObjectSerializer
                     return new \DateTime($data);
                 } catch (\Exception $exception) {
                     // Some API's return a date-time with too high nanosecond
-                    // precision for php's DateTime to handle. This conversion
-                    // (string -> unix timestamp -> DateTime) is a workaround
-                    // for the problem.
-                    return (new \DateTime())->setTimestamp(strtotime($data));
+                    // precision for php's DateTime to handle.
+                    // With provided regexp 6 digits of microseconds saved
+                    return new \DateTime(self::sanitizeTimestamp($data));
                 }
             } else {
                 return null;

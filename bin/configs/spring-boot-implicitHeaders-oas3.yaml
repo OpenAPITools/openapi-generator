@@ -1,0 +1,10 @@
+generatorName: spring
+outputDir: samples/openapi3/server/petstore/springboot-implicitHeaders
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  groupId: org.openapitools.openapi3
+  oas3: "true"
+  artifactId: springboot-implicitHeaders
+  hideGenerationTimestamp: "true"
+  implicitHeaders: true

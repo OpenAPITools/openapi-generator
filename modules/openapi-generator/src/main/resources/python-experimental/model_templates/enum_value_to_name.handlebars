@@ -1,0 +1,12 @@
+_SchemaEnumMaker(
+    enum_value_to_name={
+{{#if isNull}}
+        None: "NONE",
+{{/if}}
+{{#with allowableValues}}
+{{#each enumVars}}
+        {{{value}}}: "{{name}}",
+{{/each}}
+{{/with}}
+    }
+),

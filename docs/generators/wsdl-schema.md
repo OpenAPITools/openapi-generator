@@ -1,8 +1,18 @@
 ---
-title: Config Options for wsdl-schema
-sidebar_label: wsdl-schema
+title: Documentation for the wsdl-schema Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | wsdl-schema | pass this to the generate command after -g |
+| generator stability | BETA | |
+| generator type | SCHEMA | |
+| generator language | Web Services Description Language (WSDL) | |
+| helpTxt | Generates WSDL files. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

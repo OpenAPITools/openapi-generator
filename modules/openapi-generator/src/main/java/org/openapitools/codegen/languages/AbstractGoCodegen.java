@@ -848,4 +848,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected boolean isNumberType(String datatype) {
         return numberTypes.contains(datatype);
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.GO; }
 }

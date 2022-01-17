@@ -594,4 +594,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         System.out.println("# Pls support his work directly via https://github.com/sponsors/daurnimator \uD83D\uDE4F #");
         System.out.println("################################################################################");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.LUA; }
 }

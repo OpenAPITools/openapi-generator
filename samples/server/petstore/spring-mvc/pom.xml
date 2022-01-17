@@ -166,17 +166,18 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
-    	<jakarta.xml.bind-version>2.3.3</jakarta.xml.bind-version>
+    	  <jakarta.xml.bind-version>2.3.3</jakarta.xml.bind-version>
         <jetty-version>9.2.15.v20160210</jetty-version>
         <slf4j-version>1.7.21</slf4j-version>
         <junit-version>4.13.1</junit-version>
         <servlet-api-version>4.0.4</servlet-api-version>
-        <springfox-version>2.8.0</springfox-version>
+        <springfox-version>2.9.2</springfox-version>
         <jackson-version>2.9.9</jackson-version>
         <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>
         <beanvalidation-version>2.0.2</beanvalidation-version>
         <spring-version>4.3.20.RELEASE</spring-version>
         <jackson-databind-nullable-version>0.2.2</jackson-databind-nullable-version>
         <jackson-databind-version>2.9.8</jackson-databind-version>
+        <swagger-core-version>1.6.3</swagger-core-version>
     </properties>
 </project>

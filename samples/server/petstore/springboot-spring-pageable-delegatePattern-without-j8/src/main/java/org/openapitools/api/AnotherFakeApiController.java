@@ -13,20 +13,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class AnotherFakeApiController implements AnotherFakeApi {
 
     private final AnotherFakeApiDelegate delegate;
 
-    public AnotherFakeApiController(@org.springframework.beans.factory.annotation.Autowired(required = false) AnotherFakeApiDelegate delegate) {
+    public AnotherFakeApiController(@Autowired(required = false) AnotherFakeApiDelegate delegate) {
         this.delegate = delegate;
     }
 
@@ -39,8 +42,8 @@ public class AnotherFakeApiController implements AnotherFakeApi {
      * @see AnotherFakeApi#call123testSpecialTags
      */
     public ResponseEntity<Client> call123testSpecialTags(
-
-@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body) {
+        @ApiParam(value = "client model", required = true) @Valid @RequestBody Client body
+    ) {
         return delegate.call123testSpecialTags(body);
     }
 

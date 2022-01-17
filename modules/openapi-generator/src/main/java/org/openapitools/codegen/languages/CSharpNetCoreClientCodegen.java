@@ -1105,16 +1105,16 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
+            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("Null")) {
                 // if oneOf contains "null" type
                 cm.isNullable = true;
-                cm.oneOf.remove("ModelNull");
+                cm.oneOf.remove("Null");
             }
 
-            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
+            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("Null")) {
                 // if anyOf contains "null" type
                 cm.isNullable = true;
-                cm.anyOf.remove("ModelNull");
+                cm.anyOf.remove("Null");
             }
         }
 
