@@ -15,12 +15,15 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class BigCat extends Cat  {
+
   /**
    * Gets or Sets kind
    */
@@ -72,9 +75,8 @@ public class BigCat extends Cat  {
    * Get kind
    * @return kind
   */
+  
   @ApiModelProperty(value = "")
-
-
   public KindEnum getKind() {
     return kind;
   }
@@ -82,7 +84,6 @@ public class BigCat extends Cat  {
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }
-
 
   @Override
   public boolean equals(Object o) {

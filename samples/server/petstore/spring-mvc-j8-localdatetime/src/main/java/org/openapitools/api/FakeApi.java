@@ -7,12 +7,14 @@ package org.openapitools.api;
 
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
@@ -29,7 +31,9 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "fake", description = "the fake API")
 public interface FakeApi {
@@ -345,8 +349,8 @@ public interface FakeApi {
         @ApiParam(value = "None") @Valid @RequestPart(value = "float", required = false) Float _float,
         @ApiParam(value = "None") @Valid @RequestPart(value = "string", required = false) String string,
         @ApiParam(value = "None") @RequestPart(value = "binary", required = false) MultipartFile binary,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "date", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate date,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "dateTime", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime,
+        @ApiParam(value = "None") @Valid @RequestPart(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @ApiParam(value = "None") @Valid @RequestPart(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime,
         @ApiParam(value = "None") @Valid @RequestPart(value = "password", required = false) String password,
         @ApiParam(value = "None") @Valid @RequestPart(value = "callback", required = false) String paramCallback
     ) {

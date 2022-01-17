@@ -176,12 +176,12 @@ return stage.thenApply(obj -> {
 
     public abstract void updatePetWithForm(Http.Request request, Long petId, String name, String status) throws Exception;
 
-    public CompletionStage<Result> uploadFileHttp(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception {
+    public CompletionStage<Result> uploadFileHttp(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> _file) throws Exception {
         if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
             return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
         }
 
-        CompletionStage<ModelApiResponse> stage = uploadFile(request, petId, additionalMetadata, file).thenApply(obj -> { 
+        CompletionStage<ModelApiResponse> stage = uploadFile(request, petId, additionalMetadata, _file).thenApply(obj -> { 
 
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -197,6 +197,6 @@ return stage.thenApply(obj -> {
 
     }
 
-    public abstract CompletionStage<ModelApiResponse> uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception;
+    public abstract CompletionStage<ModelApiResponse> uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> _file) throws Exception;
 
 }

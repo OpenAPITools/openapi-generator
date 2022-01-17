@@ -10,12 +10,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * HasOnlyReadOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class HasOnlyReadOnly   {
+
   @JsonProperty("bar")
   private String bar;
 
@@ -31,9 +34,8 @@ public class HasOnlyReadOnly   {
    * Get bar
    * @return bar
   */
-  @Schema(name = "bar", readOnly = true, defaultValue = "")
-
-
+  
+  @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public String getBar() {
     return bar;
   }
@@ -51,9 +53,8 @@ public class HasOnlyReadOnly   {
    * Get foo
    * @return foo
   */
-  @Schema(name = "foo", readOnly = true, defaultValue = "")
-
-
+  
+  @Schema(name = "foo", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public String getFoo() {
     return foo;
   }
@@ -61,7 +62,6 @@ public class HasOnlyReadOnly   {
   public void setFoo(String foo) {
     this.foo = foo;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -85,7 +85,6 @@ public class HasOnlyReadOnly   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class HasOnlyReadOnly {\n");
-    
     sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
     sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
     sb.append("}");

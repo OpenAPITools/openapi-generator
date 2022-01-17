@@ -1,6 +1,1 @@
-{{#required}}
-  @NotNull
-{{/required}}{{#isContainer}}{{^isPrimitiveType}}{{^isEnum}}
-  @Valid{{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{^isContainer}}{{^isPrimitiveType}}
-  @Valid{{/isPrimitiveType}}{{/isContainer}}
-{{>beanValidationCore}}
+{{#required}}@NotNull {{/required}}{{#isContainer}}{{^isPrimitiveType}}{{^isEnum}}@Valid {{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{^isContainer}}{{^isPrimitiveType}}@Valid {{/isPrimitiveType}}{{/isContainer}}{{>beanValidationCore}}
