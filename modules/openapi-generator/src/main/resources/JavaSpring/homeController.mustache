@@ -1,9 +1,9 @@
 package {{configPackage}};
 
+import org.springframework.context.annotation.Bean;
 {{^springFoxDocumentationProvider}}
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 {{/springFoxDocumentationProvider}}
 import org.springframework.stereotype.Controller;

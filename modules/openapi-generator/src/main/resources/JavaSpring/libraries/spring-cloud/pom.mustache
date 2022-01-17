@@ -9,9 +9,21 @@
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <swagger-core-version>{{#oas3}}2.1.11{{/oas3}}{{^oas3}}1.6.3{{/oas3}}</swagger-core-version>
         {{#springFoxDocumentationProvider}}
         <springfox.version>2.9.2</springfox.version>
+        {{/springFoxDocumentationProvider}}
+        {{#springDocDocumentationProvider}}
+        <springdoc.version>1.6.4</springdoc.version>
+        {{/springDocDocumentationProvider}}
+        {{^springFoxDocumentationProvider}}
+        {{^springDocDocumentationProvider}}
+        {{#swagger1AnnotationLibrary}}
+        <swagger-annotations.version>1.6.4</swagger-annotations.version>
+        {{/swagger1AnnotationLibrary}}
+        {{#swagger2AnnotationLibrary}}
+        <swagger-annotations.version>}2.1.12</swagger-annotations.version>
+        {{/swagger2AnnotationLibrary}}
+        {{/springDocDocumentationProvider}}
         {{/springFoxDocumentationProvider}}
     </properties>
 {{#parentOverridden}}
@@ -47,6 +59,14 @@
 
 {{/parentOverridden}}
     <dependencies>
+        {{#springDocDocumentationProvider}}
+        <!--SpringDoc dependencies -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+        {{/springDocDocumentationProvider}}
         {{#springFoxDocumentationProvider}}
         <!--SpringFox dependencies -->
         <dependency>
@@ -56,20 +76,22 @@
         </dependency>
         {{/springFoxDocumentationProvider}}
         {{^springFoxDocumentationProvider}}
-        {{#oas3}}
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-core-version}</version>
-        </dependency>
-        {{/oas3}}
-        {{^oas3}}
+        {{^springDocDocumentationProvider}}
+        {{#swagger1AnnotationLibrary}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-core-version}</version>
+            <version>${swagger-annotations.version}</version>
         </dependency>
-        {{/oas3}}
+        {{/swagger1AnnotationLibrary}}
+        {{#swagger2AnnotationLibrary}}
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations.version}</version>
+        </dependency>
+        {{/swagger2AnnotationLibrary}}
+        {{/springDocDocumentationProvider}}
         {{/springFoxDocumentationProvider}}
         <!-- @Nullable annotation -->
         <dependency>

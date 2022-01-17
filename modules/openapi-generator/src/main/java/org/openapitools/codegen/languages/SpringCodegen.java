@@ -409,6 +409,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
+        importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
 
         if (useOptional) {
             writePropertyBack(USE_OPTIONAL, useOptional);
@@ -572,6 +573,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
+
     }
 
     @Override
@@ -963,7 +965,16 @@ public class SpringCodegen extends AbstractJavaCodegen
         // add org.springframework.data.domain.Pageable import when needed
         if (codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
             codegenOperation.imports.add("Pageable");
-            if (Boolean.TRUE.equals(additionalProperties.get("useSpringfox"))) {
+            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                codegenOperation.imports.add("ApiIgnore");
+            }
+            if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
+                codegenOperation.imports.add("ParameterObject");
+            }
+        }
+
+        if (reactive) {
+            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 codegenOperation.imports.add("ApiIgnore");
             }
         }
