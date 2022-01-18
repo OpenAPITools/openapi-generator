@@ -70,7 +70,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETCOREAPP_3_0,
             FrameworkStrategy.NETCOREAPP_3_1,
             FrameworkStrategy.NETFRAMEWORK_4_7,
-            FrameworkStrategy.NET_5_0
+            FrameworkStrategy.NET_5_0,
+            FrameworkStrategy.NET_6_0
     );
     private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
@@ -1001,6 +1002,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         };
         static FrameworkStrategy NET_5_0 = new FrameworkStrategy("net5.0", ".NET 5.0 compatible", "net5.0", Boolean.FALSE) {
         };
+        static FrameworkStrategy NET_6_0 = new FrameworkStrategy("net6.0", ".NET 6.0 compatible", "net6.0", Boolean.FALSE) {
+        };
         protected String name;
         protected String description;
         protected String testTargetFramework;
@@ -1102,16 +1105,16 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
+            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("Null")) {
                 // if oneOf contains "null" type
                 cm.isNullable = true;
-                cm.oneOf.remove("ModelNull");
+                cm.oneOf.remove("Null");
             }
 
-            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
+            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("Null")) {
                 // if anyOf contains "null" type
                 cm.isNullable = true;
-                cm.anyOf.remove("ModelNull");
+                cm.anyOf.remove("Null");
             }
         }
 

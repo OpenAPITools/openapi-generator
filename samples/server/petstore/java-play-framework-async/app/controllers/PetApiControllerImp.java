@@ -61,7 +61,7 @@ public class PetApiControllerImp extends PetApiControllerImpInterface {
     }
 
     @Override
-    public CompletionStage<ModelApiResponse> uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception {
+    public CompletionStage<ModelApiResponse> uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> _file) throws Exception {
         //Do your magic!!!
         return CompletableFuture.supplyAsync(() -> {
            return new ModelApiResponse();

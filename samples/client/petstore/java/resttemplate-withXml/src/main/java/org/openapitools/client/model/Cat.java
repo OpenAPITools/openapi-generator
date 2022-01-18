@@ -53,6 +53,8 @@ public class Cat extends Animal {
   @XmlElement(name = "declawed")
   private Boolean declawed;
 
+  public Cat() { 
+  }
 
   public Cat declawed(Boolean declawed) {
     

@@ -132,7 +132,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         // reserved word. Ref: https://github.com/crystal-lang/crystal/wiki/Crystal-for-Rubyists#available-keywords
         reservedWords = new HashSet<>(
                 Arrays.asList(
-                        "abstract", "do", "if", "nil?", "select", "union",
+                        "abstract", "annotation", "do", "if", "nil?", "select", "union",
                         "alias", "else", "in", "of", "self", "unless",
                         "as", "elsif", "include", "out", "sizeof", "until",
                         "as?", "end", "instance", "sizeof", "pointerof", "struct", "verbatim",
@@ -657,7 +657,11 @@ public class CrystalClientCodegen extends DefaultCodegen {
         if (codegenProperty.isArray) { // array
             return "[" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "]";
         } else if (codegenProperty.isMap) {
-            return "{ key: " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            if (codegenProperty.items != null) {
+                return "{ key: " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            } else {
+                return "{ ... }";
+            }
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isEnum) {
                 // When inline enum, set example to first allowable value
@@ -894,4 +898,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.CRYSTAL; }
 }

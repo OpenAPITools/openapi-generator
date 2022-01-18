@@ -98,6 +98,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
         // as well as keywords from https://kotlinlang.org/docs/reference/keyword-reference.html
         reservedWords = new HashSet<>(Arrays.asList(
+                "ApiResponse", // Used in the auto-generated api client
                 "abstract",
                 "actual",
                 "annotation",
@@ -472,6 +473,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             this.setSerializableModel(convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL));
         } else {
             additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
@@ -1015,4 +1020,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         return null;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.KOTLIN; }
 }

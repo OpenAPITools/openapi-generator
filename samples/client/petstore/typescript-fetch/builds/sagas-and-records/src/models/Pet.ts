@@ -18,19 +18,25 @@ import {
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
+} from './Category';
+import {
     DeploymentRequestStatus,
     DeploymentRequestStatusFromJSON,
     DeploymentRequestStatusFromJSONTyped,
     DeploymentRequestStatusToJSON,
+} from './DeploymentRequestStatus';
+import {
     Tag,
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
+} from './Tag';
+import {
     WarningCode,
     WarningCodeFromJSON,
     WarningCodeFromJSONTyped,
     WarningCodeToJSON,
-} from './';
+} from './WarningCode';
 
 /**
  * A pet for sale in the pet store

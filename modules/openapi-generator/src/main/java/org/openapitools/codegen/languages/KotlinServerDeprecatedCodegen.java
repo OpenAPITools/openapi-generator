@@ -175,10 +175,6 @@ public class KotlinServerDeprecatedCodegen extends AbstractKotlinCodegen {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
-            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
-        }
-
         // set default library to "ktor"
         if (StringUtils.isEmpty(library)) {
             this.setLibrary(DEFAULT_LIBRARY);

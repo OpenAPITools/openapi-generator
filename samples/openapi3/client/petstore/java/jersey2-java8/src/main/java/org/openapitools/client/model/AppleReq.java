@@ -43,6 +43,8 @@ public class AppleReq {
   public static final String JSON_PROPERTY_MEALY = "mealy";
   private Boolean mealy;
 
+  public AppleReq() { 
+  }
 
   public AppleReq cultivar(String cultivar) {
     this.cultivar = cultivar;

@@ -12,6 +12,16 @@ paths:
                   application/json:
                      schema:
                         $ref: '#/components/schemas/fruit'
+      put:
+         operationId: test
+         parameters: []
+         requestBody:
+            content:
+               application/json:
+                  schema: {}
+         responses:
+            '204':
+               description: Success
 components:
    schemas:
       fruit:

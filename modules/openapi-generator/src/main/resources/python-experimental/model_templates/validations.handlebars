@@ -1,0 +1,50 @@
+_SchemaValidator(
+{{#if getUniqueItems}}
+    unique_items=True,
+{{/if}}
+{{#if maxLength}}
+    max_length={{maxLength}},
+{{/if}}
+{{#if minLength}}
+    min_length={{minLength}},
+{{/if}}
+{{#if maxItems}}
+    max_items={{maxItems}},
+{{/if}}
+{{#if minItems}}
+    min_items={{minItems}},
+{{/if}}
+{{#if maxProperties}}
+    max_properties={{maxProperties}},
+{{/if}}
+{{#if minProperties}}
+    min_properties={{minProperties}},
+{{/if}}
+{{#if maximum}}
+    {{#if exclusiveMaximum}}exclusive_maximum{{/if}}inclusive_maximum{{#unless exclusiveMaximum}}{{/unless}}={{maximum}},
+{{/if}}
+{{#if minimum}}
+    {{#if exclusiveMinimum}}exclusive_minimum{{/if}}inclusive_minimum{{#unless exclusiveMinimum}}{{/unless}}={{minimum}},
+{{/if}}
+{{#if pattern}}
+    regex=[{
+{{#if vendorExtensions.x-regex}}
+        'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501
+{{else}}
+        'pattern': r'{{{pattern}}}',  # noqa: E501
+{{/if}}
+{{#each vendorExtensions.x-modifiers}}
+{{#if @first}}
+        'flags': (
+{{/if}}
+            {{#unless @first}}| {{/unless}}re.{{.}}
+{{#if @last}}
+        )
+{{/if}}
+{{/each}}
+    }],
+{{/if}}
+{{#if multipleOf}}
+    multiple_of=[{{multipleOf}}],
+{{/if}}
+),

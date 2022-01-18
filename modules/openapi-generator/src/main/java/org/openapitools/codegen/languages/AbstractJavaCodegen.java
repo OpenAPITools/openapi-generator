@@ -147,7 +147,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // special words
-                        "object",
+                        "object", "list", "file",
                         // used as internal variables, can collide with parameter names
                         "localVarPath", "localVarQueryParams", "localVarCollectionQueryParams",
                         "localVarHeaderParams", "localVarCookieParams", "localVarFormParams", "localVarPostBody",
@@ -507,6 +507,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // optional jackson mappings for BigDecimal support
         importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
         importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
+        importMapping.put("JsonDeserialize", "com.fasterxml.jackson.databind.annotation.JsonDeserialize");
 
         // imports for pojos
         importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
@@ -752,12 +753,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toModelName(final String name) {
-        // We need to check if import-mapping has a different model for this class, so we use it
-        // instead of the auto-generated one.
-        if (importMapping.containsKey(name)) {
-            return importMapping.get(name);
-        }
-
         final String sanitizedName = sanitizeName(name);
 
         String nameWithPrefixSuffix = sanitizedName;
@@ -1227,6 +1222,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 model.imports.add("ArrayList");
             } else if ("set".equals(property.containerType)) {
                 model.imports.add("LinkedHashSet");
+                model.imports.add("JsonDeserialize");
+                property.vendorExtensions.put("x-setter-extra-annotation", "@JsonDeserialize(as = LinkedHashSet.class)");
             } else if ("map".equals(property.containerType)) {
                 model.imports.add("HashMap");
             }
@@ -1243,6 +1240,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 model.imports.add("JsonNullable");
                 model.getVendorExtensions().put("x-jackson-optional-nullable-helpers", true);
             }
+        }
+
+        if (property.isReadOnly) {
+            model.getVendorExtensions().put("x-has-readonly-properties", true);
         }
     }
 

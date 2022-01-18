@@ -41,6 +41,7 @@ import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
 import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.PythonExperimentalClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.serializer.SerializerUtils;
@@ -436,19 +437,6 @@ public class DefaultGenerator implements Generator {
         // process models only
         for (String name : modelKeys) {
             try {
-                //don't generate models that have an import mapping
-                if (config.importMapping().containsKey(name)) {
-                    LOGGER.debug("Model {} not imported due to import mapping", name);
-
-                    for (String templateName : config.modelTemplateFiles().keySet()) {
-                        // HACK: Because this returns early, could lead to some invalid model reporting.
-                        String filename = config.modelFilename(templateName, name);
-                        Path path = java.nio.file.Paths.get(filename);
-                        this.templateProcessor.skip(path,"Skipped prior to model processing due to import mapping conflict (either by user or by generator)." );
-                    }
-                    continue;
-                }
-
                 // don't generate models that are not used as object (e.g. form parameters)
                 if (unusedModels.contains(name)) {
                     if (Boolean.FALSE.equals(skipFormModel)) {
@@ -516,18 +504,13 @@ public class DefaultGenerator implements Generator {
             Map<String, Object> models = (Map<String, Object>) allProcessedModels.get(modelName);
             models.put("modelPackage", config.modelPackage());
             try {
-                //don't generate models that have an import mapping
-                if (config.importMapping().containsKey(modelName)) {
-                    continue;
-                }
-
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
                 List<Object> modelList = (List<Object>) models.get("models");
                 if (modelList != null && !modelList.isEmpty()) {
                     Map<String, Object> modelTemplate = (Map<String, Object>) modelList.get(0);
                     if (modelTemplate != null && modelTemplate.containsKey("model")) {
                         CodegenModel m = (CodegenModel) modelTemplate.get("model");
-                        if (m.isAlias && !(config instanceof PythonClientCodegen))  {
+                        if (m.isAlias && !((config instanceof PythonClientCodegen) || (config instanceof PythonExperimentalClientCodegen)))  {
                             // alias to number, string, enum, etc, which should not be generated as model
                             // for PythonClientCodegen, all aliases are generated as models
                             continue;  // Don't create user-defined classes for aliases
@@ -787,6 +770,7 @@ public class DefaultGenerator implements Generator {
         bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
         bundle.put("modelPackage", config.modelPackage());
         bundle.put("library", config.getLibrary());
+        bundle.put("generatorLanguageVersion", config.generatorLanguageVersion());
         // todo verify support and operation bundles have access to the common variables
 
         addAuthenticationSwitches(bundle);

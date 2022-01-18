@@ -9,7 +9,10 @@
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <swagger-core-version>1.5.18</swagger-core-version>
+        <swagger-core-version>{{#oas3}}2.1.11{{/oas3}}{{^oas3}}1.6.3{{/oas3}}</swagger-core-version>
+        {{#useSpringfox}}
+        <springfox.version>2.9.2</springfox.version>
+        {{/useSpringfox}}
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -22,7 +25,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.5</version>
+        <version>2.6.2</version>
     </parent>
 {{/parentOverridden}}
     <build>
@@ -35,7 +38,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>2020.0.4</version>
+                <version>2021.0.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -44,27 +47,37 @@
 
 {{/parentOverridden}}
     <dependencies>
+        {{#useSpringfox}}
+        <!--SpringFox dependencies -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+        {{/useSpringfox}}
+        {{^useSpringfox}}
         {{#oas3}}
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>2.1.2</version>
+            <version>${swagger-core-version}</version>
         </dependency>
         {{/oas3}}
         {{^oas3}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-{{^parentOverridden}}
             <version>${swagger-core-version}</version>
-{{/parentOverridden}}
         </dependency>
         {{/oas3}}
+        {{/useSpringfox}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
+            {{^parentOverridden}}
             <version>3.0.2</version>
+            {{/parentOverridden}}
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -73,7 +86,9 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
+            {{^parentOverridden}}
             <version>2.2.5.RELEASE</version>
+            {{/parentOverridden}}
         </dependency>
         {{#withXml}}
         <!-- XML processing: Jackson -->
@@ -107,40 +122,31 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            {{^parentOverridden}}
-            <version>0.2.1</version>
-            {{/parentOverridden}}
+        {{^parentOverridden}}
+            <version>0.2.2</version>
+        {{/parentOverridden}}
         </dependency>
         {{/openApiNullable}}
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-{{#hateoas}}
-        <!-- Spring HATEOAS -->
+        {{#hateoas}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
-{{/hateoas}}
-{{#useBeanValidation}}
+        {{/hateoas}}
+        {{#useBeanValidation}}
         <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        {{^parentOverridden}}
-            <version>6.0.16.Final</version>
-        {{/parentOverridden}}
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-{{/useBeanValidation}}
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>3.0.0</version>
-        </dependency>
+        {{/useBeanValidation}}
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

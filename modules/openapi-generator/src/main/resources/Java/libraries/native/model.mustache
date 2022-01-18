@@ -31,6 +31,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 {{#withXml}}
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 {{/withXml}}
+{{#vendorExtensions.x-has-readonly-properties}}
+import com.fasterxml.jackson.annotation.JsonCreator;
+{{/vendorExtensions.x-has-readonly-properties}}
 {{/jackson}}
 {{#withXml}}
 import javax.xml.bind.annotation.*;

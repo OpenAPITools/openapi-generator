@@ -78,7 +78,8 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         return manager.request(URLString, method: method, parameters: parameters, encoding: encoding, headers: HTTPHeaders(headers))
     }
 
-    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    @discardableResult
+    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let managerId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createAlamofireSession()
@@ -113,6 +114,8 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                             mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
                         case let number as NSNumber:
                             mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
+                        case let data as Data:
+                            mpForm.append(data, withName: k)
                         default:
                             fatalError("Unprocessable value \(v) with key \(k)")
                         }
@@ -123,6 +126,8 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                         onProgressReady(progress)
                     }
                 }
+
+                requestTask.set(request: upload)
 
                 self.processRequest(request: upload, managerId, apiResponseQueue, completion)
             } else if contentType == "application/x-www-form-urlencoded" {
@@ -141,7 +146,10 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 onProgressReady(request.uploadProgress)
             }
             processRequest(request: request, managerId, apiResponseQueue, completion)
+            requestTask.set(request: request)
         }
+
+        return requestTask
     }
 
     fileprivate func processRequest(request: DataRequest, _ managerId: String, _ apiResponseQueue: DispatchQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
@@ -156,100 +164,20 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         let validatedRequest = request.validate()
 
         switch T.self {
-        case is String.Type:
-            validatedRequest.responseString(queue: apiResponseQueue, completionHandler: { stringResponse in
-                cleanupRequest()
-
-                switch stringResponse.result {
-                case let .success(value):
-                    completion(.success(Response(response: stringResponse.response!, body: value as? T)))
-                case let .failure(error):
-                    completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.response, error)))
-                }
-
-            })
-        case is URL.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
-                cleanupRequest()
-
-                do {
-
-                    guard case .success = dataResponse.result else {
-                        throw DownloadException.responseFailed
-                    }
-
-                    guard let data = dataResponse.data else {
-                        throw DownloadException.responseDataMissing
-                    }
-
-                    guard let request = request.request else {
-                        throw DownloadException.requestMissing
-                    }
-
-                    let fileManager = FileManager.default
-                    let urlRequest = try request.asURLRequest()
-                    let cachesDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-                    let requestURL = try self.getURL(from: urlRequest)
-
-                    var requestPath = try self.getPath(from: requestURL)
-
-                    if let headerFileName = self.getFileName(fromContentDisposition: dataResponse.response?.allHeaderFields["Content-Disposition"] as? String) {
-                        requestPath = requestPath.appending("/\(headerFileName)")
-                    } else {
-                        requestPath = requestPath.appending("/tmp.PetstoreClient.\(UUID().uuidString)")
-                    }
-
-                    let filePath = cachesDirectory.appendingPathComponent(requestPath)
-                    let directoryPath = filePath.deletingLastPathComponent().path
-
-                    try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
-                    try data.write(to: filePath, options: .atomic)
-
-                    completion(.success(Response(response: dataResponse.response!, body: filePath as? T)))
-
-                } catch let requestParserError as DownloadException {
-                    completion(.failure(ErrorResponse.error(400, dataResponse.data, dataResponse.response, requestParserError)))
-                } catch {
-                    completion(.failure(ErrorResponse.error(400, dataResponse.data, dataResponse.response, error)))
-                }
-                return
-            })
         case is Void.Type:
             validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { voidResponse in
                 cleanupRequest()
 
                 switch voidResponse.result {
                 case .success:
-                    completion(.success(Response(response: voidResponse.response!, body: nil)))
+                    completion(.success(Response(response: voidResponse.response!, body: () as! T)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
                 }
 
             })
-        case is Data.Type:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
-                cleanupRequest()
-
-                switch dataResponse.result {
-                case .success:
-                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as? T)))
-                case let .failure(error):
-                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
-                }
-
-            })
         default:
-            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
-                cleanupRequest()
-
-                switch dataResponse.result {
-                case .success:
-                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as? T)))
-                case let .failure(error):
-                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
-                }
-
-            })
+            fatalError("Unsupported Response Body Type - \(String(describing: T.self))")
         }
     }
 
@@ -334,7 +262,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
                 switch stringResponse.result {
                 case let .success(value):
-                    completion(.success(Response(response: stringResponse.response!, body: value as? T)))
+                    completion(.success(Response(response: stringResponse.response!, body: value as! T)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.response, error)))
                 }
@@ -377,7 +305,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                     try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
                     try data.write(to: filePath, options: .atomic)
 
-                    completion(.success(Response(response: dataResponse.response!, body: filePath as? T)))
+                    completion(.success(Response(response: dataResponse.response!, body: filePath as! T)))
 
                 } catch let requestParserError as DownloadException {
                     completion(.failure(ErrorResponse.error(400, dataResponse.data, dataResponse.response, requestParserError)))
@@ -392,7 +320,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
                 switch voidResponse.result {
                 case .success:
-                    completion(.success(Response(response: voidResponse.response!, body: nil)))
+                    completion(.success(Response(response: voidResponse.response!, body: () as! T)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
                 }
@@ -404,7 +332,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
                 switch dataResponse.result {
                 case .success:
-                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as? T)))
+                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as! T)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
                 }

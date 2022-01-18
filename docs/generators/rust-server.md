@@ -1,8 +1,18 @@
 ---
-title: Config Options for rust-server
-sidebar_label: rust-server
+title: Documentation for the rust-server Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | rust-server | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Rust | |
+| helpTxt | Generates a Rust client/server library (beta) using the openapi-generator project. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

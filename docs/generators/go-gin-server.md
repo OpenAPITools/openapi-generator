@@ -1,8 +1,18 @@
 ---
-title: Config Options for go-gin-server
-sidebar_label: go-gin-server
+title: Documentation for the go-gin-server Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | go-gin-server | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Go | |
+| helpTxt | Generates a Go server library with the gin framework using OpenAPI-Generator.By default, it will also generate service classes. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
