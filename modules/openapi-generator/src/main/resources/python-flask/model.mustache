@@ -41,7 +41,6 @@ class {{classname}}(Model):
     allowable_values = [{{#enumVars}}{{name}}{{^-last}}, {{/-last}}{{/enumVars}}]  # noqa: E501
     enum_items = { {{#enumVars}} "{{name}}" : {{name}}{{^-last}}, {{/-last}}{{/enumVars}} }  # noqa: E501
 {{/allowableValues}}
-
 {{#allowableValues}}
     @staticmethod
     def of(value):
@@ -56,7 +55,6 @@ class {{classname}}(Model):
             .format(value, {{classname}}.allowable_values)
         )
 {{/allowableValues}}
-
     def __init__(self{{#vars}}, {{name}}={{{defaultValue}}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI
 
@@ -91,9 +89,7 @@ class {{classname}}(Model):
         :rtype: {{classname}}
         """
         return util.deserialize_model(dikt, cls)
-
 {{#vars}}{{#-first}}
-
 {{/-first}}
     @property
     def {{name}}(self):
