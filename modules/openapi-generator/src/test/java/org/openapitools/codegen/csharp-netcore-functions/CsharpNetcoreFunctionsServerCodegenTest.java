@@ -27,11 +27,11 @@ public class CsharpNetcoreFunctionsServerCodegenTest {
         final CsharpNetcoreFunctionsServerCodegen codegen = new CsharpNetcoreFunctionsServerCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.toEnumVarName("FooBar", "string"), "FooBar");
-        Assert.assertEquals(codegen.toEnumVarName("fooBar", "string"), "FooBar");
-        Assert.assertEquals(codegen.toEnumVarName("foo-bar", "string"), "FooBar");
-        Assert.assertEquals(codegen.toEnumVarName("foo_bar", "string"), "FooBar");
-        Assert.assertEquals(codegen.toEnumVarName("foo bar", "string"), "FooBar");
+        Assert.assertEquals(codegen.toEnumVarName("FooBar", "string"), "FooBarEnum");
+        Assert.assertEquals(codegen.toEnumVarName("fooBar", "string"), "FooBarEnum");
+        Assert.assertEquals(codegen.toEnumVarName("foo-bar", "string"), "FooBarEnum");
+        Assert.assertEquals(codegen.toEnumVarName("foo_bar", "string"), "FooBarEnum");
+        Assert.assertEquals(codegen.toEnumVarName("foo bar", "string"), "FooBarEnum");
 
         // The below cases do not work currently, camelize doesn't support uppercase
         // Assert.assertEquals(codegen.toEnumVarName("FOO-BAR", "string"), "FooBar");
