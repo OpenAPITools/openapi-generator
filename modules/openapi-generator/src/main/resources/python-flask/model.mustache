@@ -40,20 +40,7 @@ class {{classname}}(Model):
 {{#allowableValues}}
     allowable_values = [{{#enumVars}}{{name}}{{^-last}}, {{/-last}}{{/enumVars}}]  # noqa: E501
     enum_items = { {{#enumVars}} "{{name}}" : {{name}}{{^-last}}, {{/-last}}{{/enumVars}} }  # noqa: E501
-{{/allowableValues}}
-{{#allowableValues}}
-    @staticmethod
-    def of(value):
-        """
-        return value if it is a valid enum value or none
-        """
-        if not value or value in {{classname}}.allowable_values:
-            return value
 
-        raise ValueError(
-            "Invalid enum value for `{{classname}}` ({0}), must be one of {1}"  # noqa: E501
-            .format(value, {{classname}}.allowable_values)
-        )
 {{/allowableValues}}
     def __init__(self{{#vars}}, {{name}}={{{defaultValue}}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI
@@ -185,6 +172,21 @@ class {{classname}}(Model):
 
 {{/-last}}
 {{/vars}}
+{{#allowableValues}}
+
+    @staticmethod
+    def of(value):
+        """
+        return value if it is a valid enum value or none, otherwise throw
+        """
+        if not value or value in {{classname}}.allowable_values:
+           return value
+
+        raise ValueError(
+            "Invalid enum value for `{{classname}}` ({0}), must be one of {1}"  # noqa: E501
+            .format(value, {{classname}}.allowable_values)
+        )
+    {{/allowableValues}}
 
 {{/model}}
 {{/models}}
