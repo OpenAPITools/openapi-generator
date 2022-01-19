@@ -18,12 +18,7 @@ import { PetByType } from '../models/PetByType';
  * no description
  */
 export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
-    private defaultSecurityAuthentication: SecurityAuthentication | undefined;
-
-    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
-        this.defaultSecurityAuthentication = auth;
-    }
-
+    
     /**
      * @param inlineObject 
      */
@@ -50,6 +45,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
 
         return requestContext;
     }
@@ -80,6 +79,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
 
         return requestContext;
     }
@@ -110,6 +113,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
 
         return requestContext;
     }

@@ -16,12 +16,7 @@ import { User } from '../models/User';
  * no description
  */
 export class UserApiRequestFactory extends BaseAPIRequestFactory {
-    private defaultSecurityAuthentication: SecurityAuthentication | undefined;
-
-    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
-        this.defaultSecurityAuthentication = auth;
-    }
-
+    
     /**
      * This can only be done by the logged in user.
      * Create user
@@ -57,8 +52,12 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = this.defaultSecurityAuthentication || _config.authMethods["api_key"]
+        authMethod =  _config.authMethods["api_key"]
         if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
 
@@ -99,8 +98,12 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = this.defaultSecurityAuthentication || _config.authMethods["api_key"]
+        authMethod =  _config.authMethods["api_key"]
         if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
 
@@ -141,8 +144,12 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = this.defaultSecurityAuthentication || _config.authMethods["api_key"]
+        authMethod =  _config.authMethods["api_key"]
         if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
 
@@ -174,8 +181,12 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = this.defaultSecurityAuthentication || _config.authMethods["api_key"]
+        authMethod =  _config.authMethods["api_key"]
         if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
 
@@ -204,6 +215,10 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
 
         return requestContext;
     }
@@ -246,6 +261,10 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         }
 
 
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
 
         return requestContext;
     }
@@ -266,8 +285,12 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = this.defaultSecurityAuthentication || _config.authMethods["api_key"]
+        authMethod =  _config.authMethods["api_key"]
         if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
 
@@ -317,8 +340,12 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod = this.defaultSecurityAuthentication || _config.authMethods["api_key"]
+        authMethod =  _config.authMethods["api_key"]
         if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
 
