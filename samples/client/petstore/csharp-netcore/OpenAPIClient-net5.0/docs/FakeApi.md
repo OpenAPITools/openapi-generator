@@ -670,7 +670,7 @@ namespace Example
 
             var apiInstance = new FakeApi(config);
             var number = 8.14D;  // decimal | None
-            var _double = l.2D;  // double | None
+            var _double = 1.2D;  // double | None
             var patternWithoutDelimiter = "patternWithoutDelimiter_example";  // string | None
             var _byte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
             var integer = 56;  // int? | None (optional) 
