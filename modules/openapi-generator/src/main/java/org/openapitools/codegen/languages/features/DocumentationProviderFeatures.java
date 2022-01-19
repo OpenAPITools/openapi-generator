@@ -66,13 +66,13 @@ public interface DocumentationProviderFeatures {
       SOURCE("sourceDocumentationProvider", "Publish the original input OpenAPI specification.",
           AnnotationLibrary.NONE, AnnotationLibrary.values()),
 
-      SWAGGER1("swagger1DocumentationProvider", "Generate a OpenAPI 2 (fka Swagger RESTful API Documentation Specification) specification using Swagger-Core 1.x.",
+      SWAGGER1("swagger1DocumentationProvider", "Generate an OpenAPI 2 (fka Swagger RESTful API Documentation Specification) specification using Swagger-Core 1.x.",
           AnnotationLibrary.SWAGGER1, AnnotationLibrary.SWAGGER1),
 
       SWAGGER2("swagger2DocumentationProvider", "Generate an OpenAPI 3 specification using Swagger-Core 2.x.",
           AnnotationLibrary.SWAGGER2, AnnotationLibrary.SWAGGER2),
 
-      SPRINGFOX("springFoxDocumentationProvider", "Generate a OpenAPI 2 (fka Swagger RESTful API Documentation Specification) specification using SpringFox 2.x.",
+      SPRINGFOX("springFoxDocumentationProvider", "Generate an OpenAPI 2 (fka Swagger RESTful API Documentation Specification) specification using SpringFox 2.x.",
           AnnotationLibrary.SWAGGER1, AnnotationLibrary.SWAGGER1),
 
       SPRINGDOC("springDocDocumentationProvider", "Generate an OpenAPI 3 specification using SpringDoc.",
