@@ -136,8 +136,12 @@ class {{classname}}(Model):
         if {{name}} is None:
             raise ValueError("Invalid value for `{{name}}`, must not be `None`")  # noqa: E501
 {{/required}}
+{{#allowableValues}}
+        # assert that this is a valid {{dataType}} enum value
+        {{{name}}} = {{dataType}}.of({{{name}}})
+{{/allowableValues}}
 {{#hasValidation}}
-{{#maxLength}}
+    {{#maxLength}}
         if {{name}} is not None and len({{name}}) > {{maxLength}}:
             raise ValueError("Invalid value for `{{name}}`, length must be less than or equal to `{{maxLength}}`")  # noqa: E501
 {{/maxLength}}

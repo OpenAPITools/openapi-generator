@@ -64,5 +64,7 @@ class OuterObjectWithEnumProperty(Model):
         """
         if value is None:
             raise ValueError("Invalid value for `value`, must not be `None`")  # noqa: E501
+        # assert that this is a valid OuterEnumInteger enum value
+        value = OuterEnumInteger.of(value)
 
         self._value = value

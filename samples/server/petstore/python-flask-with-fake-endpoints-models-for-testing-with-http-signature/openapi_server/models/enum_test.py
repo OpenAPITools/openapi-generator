@@ -211,6 +211,8 @@ class EnumTest(Model):
         :param outer_enum: The outer_enum of this EnumTest.
         :type outer_enum: OuterEnum
         """
+        # assert that this is a valid OuterEnum enum value
+        outer_enum = OuterEnum.of(outer_enum)
 
         self._outer_enum = outer_enum
 
@@ -232,6 +234,8 @@ class EnumTest(Model):
         :param outer_enum_integer: The outer_enum_integer of this EnumTest.
         :type outer_enum_integer: OuterEnumInteger
         """
+        # assert that this is a valid OuterEnumInteger enum value
+        outer_enum_integer = OuterEnumInteger.of(outer_enum_integer)
 
         self._outer_enum_integer = outer_enum_integer
 
@@ -253,6 +257,8 @@ class EnumTest(Model):
         :param outer_enum_default_value: The outer_enum_default_value of this EnumTest.
         :type outer_enum_default_value: OuterEnumDefaultValue
         """
+        # assert that this is a valid OuterEnumDefaultValue enum value
+        outer_enum_default_value = OuterEnumDefaultValue.of(outer_enum_default_value)
 
         self._outer_enum_default_value = outer_enum_default_value
 
@@ -274,5 +280,7 @@ class EnumTest(Model):
         :param outer_enum_integer_default_value: The outer_enum_integer_default_value of this EnumTest.
         :type outer_enum_integer_default_value: OuterEnumIntegerDefaultValue
         """
+        # assert that this is a valid OuterEnumIntegerDefaultValue enum value
+        outer_enum_integer_default_value = OuterEnumIntegerDefaultValue.of(outer_enum_integer_default_value)
 
         self._outer_enum_integer_default_value = outer_enum_integer_default_value
