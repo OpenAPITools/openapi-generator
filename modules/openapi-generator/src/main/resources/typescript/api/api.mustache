@@ -29,12 +29,7 @@ import { {{classname}} } from '..{{filename}}{{extensionForDeno}}';
 @injectable()
 {{/useInversify}}
 export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
-    private defaultSecurityAuthentication: SecurityAuthentication | undefined;
-
-    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
-        this.defaultSecurityAuthentication = auth;
-    }
-
+    
     {{#operation}}
     /**
      {{#notes}}
@@ -161,11 +156,15 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{/hasAuthMethods}}
         {{#authMethods}}
         // Apply auth methods
-        authMethod = this.defaultSecurityAuthentication || _config.authMethods["{{name}}"]
+        authMethod =  _config.authMethods["{{name}}"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
         {{/authMethods}}
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
 
         return requestContext;
     }

@@ -51,9 +51,6 @@ export class Observable{{classname}} {
         this.responseProcessor = responseProcessor || new {{classname}}ResponseProcessor();
     }
 
-    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
-        this.requestFactory.setDefaultSecurityAuthentication(auth);
-    }
 
 {{#operation}}
     /**
