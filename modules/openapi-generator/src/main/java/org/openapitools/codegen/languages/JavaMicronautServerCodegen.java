@@ -90,12 +90,11 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
         }
         additionalProperties.put(OPT_CONTROLLER_PACKAGE, controllerPackage);
 
-        super.processOpts();
         if (!generateControllerAsAbstract) {
-            // The values must match in this case
             apiPackage = controllerPackage;
             additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         }
+        super.processOpts();
 
         // Get all the other properties after superclass processed everything
         if (additionalProperties.containsKey(OPT_GENERATE_CONTROLLER_FROM_EXAMPLES)) {
