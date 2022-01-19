@@ -36,7 +36,7 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new StoreApi(Configuration.Default);
-            var orderId = orderId_example;  // string | ID of the order that needs to be deleted
+            var orderId = "orderId_example";  // string | ID of the order that needs to be deleted
 
             try
             {
@@ -189,7 +189,7 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new StoreApi(Configuration.Default);
-            var orderId = 789;  // long | ID of pet that needs to be fetched
+            var orderId = 789L;  // long | ID of pet that needs to be fetched
 
             try
             {
