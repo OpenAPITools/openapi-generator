@@ -49,6 +49,11 @@
   infoLink: "https://b-com.com/en"
   pinned: false
 -
+  caption: "百度营销"
+  image: "img/companies/ebaidu.jpeg"
+  infoLink: "https://e.baidu.com"
+  pinned: false
+-
   caption: "Banzai Cloud"
   image: "img/companies/banzai_cloud.png"
   infoLink: "https://banzaicloud.com/"

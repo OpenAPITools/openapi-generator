@@ -10,12 +10,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * CatAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CatAllOf   {
+
   @JsonProperty("declawed")
   private Boolean declawed;
 
@@ -28,9 +31,8 @@ public class CatAllOf   {
    * Get declawed
    * @return declawed
   */
-  @Schema(name = "declawed", defaultValue = "")
-
-
+  
+  @Schema(name = "declawed", required = false)
   public Boolean getDeclawed() {
     return declawed;
   }
@@ -38,7 +40,6 @@ public class CatAllOf   {
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -61,7 +62,6 @@ public class CatAllOf   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CatAllOf {\n");
-    
     sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
     sb.append("}");
     return sb.toString();

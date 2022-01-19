@@ -5,8 +5,11 @@
  */
 package org.openapitools.api;
 
+import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.ModelApiResponse;
+import org.springframework.data.domain.Pageable;
 import org.openapitools.model.Pet;
+import org.springframework.core.io.Resource;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,7 +24,9 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "Pet", description = "the Pet API")
 public interface PetApi {
@@ -122,7 +127,7 @@ public interface PetApi {
     )
     ResponseEntity<List<Pet>> findPetsByStatus(
         @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status,
-        @springfox.documentation.annotations.ApiIgnore final org.springframework.data.domain.Pageable pageable
+        @ApiIgnore final Pageable pageable
     );
 
 
@@ -160,7 +165,7 @@ public interface PetApi {
     )
     ResponseEntity<List<Pet>> findPetsByTags(
         @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags,
-        @springfox.documentation.annotations.ApiIgnore final org.springframework.data.domain.Pageable pageable
+        @ApiIgnore final Pageable pageable
     );
 
 

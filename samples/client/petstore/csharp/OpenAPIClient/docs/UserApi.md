@@ -261,7 +261,7 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(Configuration.Default);
-            var username = username_example;  // string | The name that needs to be deleted
+            var username = "username_example";  // string | The name that needs to be deleted
 
             try
             {
@@ -335,7 +335,7 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(Configuration.Default);
-            var username = username_example;  // string | The name that needs to be fetched. Use user1 for testing.
+            var username = "username_example";  // string | The name that needs to be fetched. Use user1 for testing.
 
             try
             {
@@ -411,8 +411,8 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(Configuration.Default);
-            var username = username_example;  // string | The user name for login
-            var password = password_example;  // string | The password for login in clear text
+            var username = "username_example";  // string | The user name for login
+            var password = "password_example";  // string | The password for login in clear text
 
             try
             {
@@ -559,7 +559,7 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(Configuration.Default);
-            var username = username_example;  // string | name that need to be deleted
+            var username = "username_example";  // string | name that need to be deleted
             var user = new User(); // User | Updated user object
 
             try

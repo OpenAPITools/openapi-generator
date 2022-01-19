@@ -12,12 +12,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Capitalization
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Capitalization   {
+
   @JsonProperty("smallCamel")
   private String smallCamel;
 
@@ -45,9 +48,8 @@ public class Capitalization   {
    * Get smallCamel
    * @return smallCamel
   */
-  @Schema(name = "smallCamel", defaultValue = "")
-
-
+  
+  @Schema(name = "smallCamel", required = false)
   public String getSmallCamel() {
     return smallCamel;
   }
@@ -65,9 +67,8 @@ public class Capitalization   {
    * Get capitalCamel
    * @return capitalCamel
   */
-  @Schema(name = "capitalCamel", defaultValue = "")
-
-
+  
+  @Schema(name = "CapitalCamel", required = false)
   public String getCapitalCamel() {
     return capitalCamel;
   }
@@ -85,9 +86,8 @@ public class Capitalization   {
    * Get smallSnake
    * @return smallSnake
   */
-  @Schema(name = "smallSnake", defaultValue = "")
-
-
+  
+  @Schema(name = "small_Snake", required = false)
   public String getSmallSnake() {
     return smallSnake;
   }
@@ -105,9 +105,8 @@ public class Capitalization   {
    * Get capitalSnake
    * @return capitalSnake
   */
-  @Schema(name = "capitalSnake", defaultValue = "")
-
-
+  
+  @Schema(name = "Capital_Snake", required = false)
   public String getCapitalSnake() {
     return capitalSnake;
   }
@@ -125,9 +124,8 @@ public class Capitalization   {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   */
-  @Schema(name = "scAETHFlowPoints", defaultValue = "")
-
-
+  
+  @Schema(name = "SCA_ETH_Flow_Points", required = false)
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
@@ -145,9 +143,8 @@ public class Capitalization   {
    * Name of the pet 
    * @return ATT_NAME
   */
-  @Schema(name = "ATT_NAME", defaultValue = "Name of the pet ")
-
-
+  
+  @Schema(name = "ATT_NAME", description = "Name of the pet ", required = false)
   public String getATTNAME() {
     return ATT_NAME;
   }
@@ -155,7 +152,6 @@ public class Capitalization   {
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -183,7 +179,6 @@ public class Capitalization   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Capitalization {\n");
-    
     sb.append("    smallCamel: ").append(toIndentedString(smallCamel)).append("\n");
     sb.append("    capitalCamel: ").append(toIndentedString(capitalCamel)).append("\n");
     sb.append("    smallSnake: ").append(toIndentedString(smallSnake)).append("\n");

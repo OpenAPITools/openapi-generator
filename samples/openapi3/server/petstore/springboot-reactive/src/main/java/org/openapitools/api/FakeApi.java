@@ -7,12 +7,14 @@ package org.openapitools.api;
 
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
+import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,7 +38,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "fake", description = "the fake API")
 public interface FakeApi {
@@ -53,6 +57,7 @@ public interface FakeApi {
      * @return successful operation (status code 200)
      */
     @Operation(
+        operationId = "createXmlItem",
         summary = "creates an XmlItem",
         tags = { "fake" },
         responses = {
@@ -80,7 +85,7 @@ public interface FakeApi {
      * @return Output boolean (status code 200)
      */
     @Operation(
-        summary = "",
+        operationId = "fakeOuterBooleanSerialize",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Output boolean", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Boolean.class)))
@@ -107,7 +112,7 @@ public interface FakeApi {
      * @return Output composite (status code 200)
      */
     @Operation(
-        summary = "",
+        operationId = "fakeOuterCompositeSerialize",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Output composite", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  OuterComposite.class)))
@@ -134,7 +139,7 @@ public interface FakeApi {
      * @return Output number (status code 200)
      */
     @Operation(
-        summary = "",
+        operationId = "fakeOuterNumberSerialize",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Output number", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  BigDecimal.class)))
@@ -161,7 +166,7 @@ public interface FakeApi {
      * @return Output string (status code 200)
      */
     @Operation(
-        summary = "",
+        operationId = "fakeOuterStringSerialize",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Output string", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  String.class)))
@@ -188,7 +193,7 @@ public interface FakeApi {
      * @return Success (status code 200)
      */
     @Operation(
-        summary = "",
+        operationId = "testBodyWithFileSchema",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Success")
@@ -215,7 +220,7 @@ public interface FakeApi {
      * @return Success (status code 200)
      */
     @Operation(
-        summary = "",
+        operationId = "testBodyWithQueryParams",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Success")
@@ -243,6 +248,7 @@ public interface FakeApi {
      * @return successful operation (status code 200)
      */
     @Operation(
+        operationId = "testClientModel",
         summary = "To test \"client\" model",
         tags = { "fake" },
         responses = {
@@ -285,6 +291,7 @@ public interface FakeApi {
      *         or User not found (status code 404)
      */
     @Operation(
+        operationId = "testEndpointParameters",
         summary = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
         tags = { "fake" },
         responses = {
@@ -311,8 +318,8 @@ public interface FakeApi {
         @Parameter(name = "float", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "float", required = false) Float _float,
         @Parameter(name = "string", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "string", required = false) String string,
         @Parameter(name = "binary", description = "None", schema = @Schema(description = "")) @RequestPart(value = "binary", required = false) Flux<Part> binary,
-        @Parameter(name = "date", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "date", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate date,
-        @Parameter(name = "dateTime", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "dateTime", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+        @Parameter(name = "date", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @Parameter(name = "dateTime", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
         @Parameter(name = "password", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "password", required = false) String password,
         @Parameter(name = "callback", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "callback", required = false) String paramCallback,
         @Parameter(hidden = true) final ServerWebExchange exchange
@@ -337,6 +344,7 @@ public interface FakeApi {
      *         or Not found (status code 404)
      */
     @Operation(
+        operationId = "testEnumParameters",
         summary = "To test enum parameters",
         tags = { "fake" },
         responses = {
@@ -377,6 +385,7 @@ public interface FakeApi {
      * @return Someting wrong (status code 400)
      */
     @Operation(
+        operationId = "testGroupParameters",
         summary = "Fake endpoint to test group parameters (optional)",
         tags = { "fake" },
         responses = {
@@ -407,6 +416,7 @@ public interface FakeApi {
      * @return successful operation (status code 200)
      */
     @Operation(
+        operationId = "testInlineAdditionalProperties",
         summary = "test inline additionalProperties",
         tags = { "fake" },
         responses = {
@@ -434,6 +444,7 @@ public interface FakeApi {
      * @return successful operation (status code 200)
      */
     @Operation(
+        operationId = "testJsonFormData",
         summary = "test json serialization of form data",
         tags = { "fake" },
         responses = {
@@ -466,7 +477,7 @@ public interface FakeApi {
      * @return Success (status code 200)
      */
     @Operation(
-        summary = "",
+        operationId = "testQueryParameterCollectionFormat",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Success")
@@ -497,6 +508,7 @@ public interface FakeApi {
      * @return successful operation (status code 200)
      */
     @Operation(
+        operationId = "uploadFileWithRequiredFile",
         summary = "uploads an image (required)",
         tags = { "pet" },
         responses = {
