@@ -1301,7 +1301,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             example = StringUtils.appendIfMissingIgnoreCase(example, "F");
         } else if (p.isDouble) {
             if (example == null) {
-                example = "l.2D";
+                example = "1.2D";
             }
             example = StringUtils.appendIfMissingIgnoreCase(example, "D");
         } else if (p.isNumber) {
