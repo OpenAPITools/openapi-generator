@@ -1,6 +1,6 @@
 package org.openapitools.server.apis;
 
-import org.openapitools.server.models.ApiResponse
+import org.openapitools.server.models.ModelApiResponse
 import org.openapitools.server.models.Pet
 
 import javax.ws.rs.*
@@ -13,6 +13,7 @@ import java.util.List
 
 
 
+@Path("/")
 @javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"))class PetApi {
 
     @POST
@@ -22,7 +23,7 @@ import java.util.List
     }
 
     @DELETE
-    suspend fun deletePet(@PathParam("petId") petId: kotlin.Long,@HeaderParam("api_key")   apiKey: kotlin.String): Response {
+    suspend fun deletePet(@PathParam("petId") petId: kotlin.Long,@HeaderParam("api_key")   apiKey: kotlin.String?): Response {
         return Response.ok().entity("magic!").build();
     }
 
@@ -52,14 +53,14 @@ import java.util.List
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
-    suspend fun updatePetWithForm(@PathParam("petId") petId: kotlin.Long,@FormParam(value = "name") name: kotlin.String,@FormParam(value = "status") status: kotlin.String): Response {
+    suspend fun updatePetWithForm(@PathParam("petId") petId: kotlin.Long,@FormParam(value = "name") name: kotlin.String?,@FormParam(value = "status") status: kotlin.String?): Response {
         return Response.ok().entity("magic!").build();
     }
 
     @POST
     @Consumes("multipart/form-data")
     @Produces("application/json")
-    suspend fun uploadFile(@PathParam("petId") petId: kotlin.Long,@FormParam(value = "additionalMetadata") additionalMetadata: kotlin.String, @FormParam(value = "file") fileInputStream: InputStream): Response {
+    suspend fun uploadFile(@PathParam("petId") petId: kotlin.Long,@FormParam(value = "additionalMetadata") additionalMetadata: kotlin.String?, @FormParam(value = "file") fileInputStream: InputStream?): Response {
         return Response.ok().entity("magic!").build();
     }
 }
