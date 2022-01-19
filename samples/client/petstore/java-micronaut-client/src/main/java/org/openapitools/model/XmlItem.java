@@ -900,7 +900,7 @@ public class XmlItem {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    XmlItem xmlItem = (XmlItem) o;
+        XmlItem xmlItem = (XmlItem) o;
         return Objects.equals(this.attributeString, xmlItem.attributeString) &&
             Objects.equals(this.attributeNumber, xmlItem.attributeNumber) &&
             Objects.equals(this.attributeInteger, xmlItem.attributeInteger) &&

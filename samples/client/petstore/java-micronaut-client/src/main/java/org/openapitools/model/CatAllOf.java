@@ -69,7 +69,7 @@ public class CatAllOf {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    CatAllOf catAllOf = (CatAllOf) o;
+        CatAllOf catAllOf = (CatAllOf) o;
         return Objects.equals(this.declawed, catAllOf.declawed);
     }
 

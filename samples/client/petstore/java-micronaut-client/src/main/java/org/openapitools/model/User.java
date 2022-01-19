@@ -258,7 +258,7 @@ public class User {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    User user = (User) o;
+        User user = (User) o;
         return Objects.equals(this.id, user.id) &&
             Objects.equals(this.username, user.username) &&
             Objects.equals(this.firstName, user.firstName) &&

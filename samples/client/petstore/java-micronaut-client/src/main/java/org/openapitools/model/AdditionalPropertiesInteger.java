@@ -72,7 +72,7 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    AdditionalPropertiesInteger additionalPropertiesInteger = (AdditionalPropertiesInteger) o;
+        AdditionalPropertiesInteger additionalPropertiesInteger = (AdditionalPropertiesInteger) o;
         return Objects.equals(this.name, additionalPropertiesInteger.name) &&
             super.equals(o);
     }

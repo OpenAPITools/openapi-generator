@@ -204,7 +204,7 @@ public class Capitalization {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    Capitalization capitalization = (Capitalization) o;
+        Capitalization capitalization = (Capitalization) o;
         return Objects.equals(this.smallCamel, capitalization.smallCamel) &&
             Objects.equals(this.capitalCamel, capitalization.capitalCamel) &&
             Objects.equals(this.smallSnake, capitalization.smallSnake) &&

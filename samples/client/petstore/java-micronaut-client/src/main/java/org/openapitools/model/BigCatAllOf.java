@@ -104,7 +104,7 @@ public class BigCatAllOf {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    BigCatAllOf bigCatAllOf = (BigCatAllOf) o;
+        BigCatAllOf bigCatAllOf = (BigCatAllOf) o;
         return Objects.equals(this.kind, bigCatAllOf.kind);
     }
 

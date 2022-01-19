@@ -243,7 +243,7 @@ public class Order {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    Order order = (Order) o;
+        Order order = (Order) o;
         return Objects.equals(this.id, order.id) &&
             Objects.equals(this.petId, order.petId) &&
             Objects.equals(this.quantity, order.quantity) &&

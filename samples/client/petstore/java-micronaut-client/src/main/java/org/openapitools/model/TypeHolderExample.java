@@ -212,7 +212,7 @@ public class TypeHolderExample {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    TypeHolderExample typeHolderExample = (TypeHolderExample) o;
+        TypeHolderExample typeHolderExample = (TypeHolderExample) o;
         return Objects.equals(this.stringItem, typeHolderExample.stringItem) &&
             Objects.equals(this.numberItem, typeHolderExample.numberItem) &&
             Objects.equals(this.floatItem, typeHolderExample.floatItem) &&

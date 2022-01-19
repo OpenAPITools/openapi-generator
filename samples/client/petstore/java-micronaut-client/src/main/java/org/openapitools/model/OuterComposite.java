@@ -124,7 +124,7 @@ public class OuterComposite {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    OuterComposite outerComposite = (OuterComposite) o;
+        OuterComposite outerComposite = (OuterComposite) o;
         return Objects.equals(this.myNumber, outerComposite.myNumber) &&
             Objects.equals(this.myString, outerComposite.myString) &&
             Objects.equals(this.myBoolean, outerComposite.myBoolean);

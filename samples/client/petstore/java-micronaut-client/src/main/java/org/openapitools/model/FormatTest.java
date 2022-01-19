@@ -451,7 +451,7 @@ public class FormatTest {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    FormatTest formatTest = (FormatTest) o;
+        FormatTest formatTest = (FormatTest) o;
         return Objects.equals(this.integer, formatTest.integer) &&
             Objects.equals(this.int32, formatTest.int32) &&
             Objects.equals(this.int64, formatTest.int64) &&

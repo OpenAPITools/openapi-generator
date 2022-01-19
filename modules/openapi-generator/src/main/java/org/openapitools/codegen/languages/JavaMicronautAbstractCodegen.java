@@ -312,10 +312,14 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
                 String groovyExample;
                 if (models.containsKey(op.returnType)) {
                     CodegenModel m = models.get(op.returnType);
+                    List<Object> allowableValues = null;
+                    if (m.allowableValues != null && m.allowableValues.containsKey("values")) {
+                        allowableValues = (List<Object>) m.allowableValues.get("values");
+                    }
                     example = getExampleValue(m.defaultValue, null, m.classname, true,
-                            null, null, null, m.requiredVars, false);
+                            allowableValues, null, null, m.requiredVars, false);
                     groovyExample = getExampleValue(m.defaultValue, null, m.classname, true,
-                            null, null, null, m.requiredVars, true);
+                            allowableValues, null, null, m.requiredVars, true);
                 } else {
                     example = getExampleValue(null, null, op.returnType, false, null,
                             op.returnBaseType, null, null, false);
@@ -434,7 +438,12 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         } else if ("BigDecimal".equals(dataType)) {
             example = "new BigDecimal(78)";
         } else if (allowableValues != null && !allowableValues.isEmpty()) {
-            example = dataType + ".fromValue(\"" + allowableValues.get(0) + "\")";
+            // This is an enum
+            Object value = example;
+            if (value == null || !allowableValues.contains(value)) {
+                value = allowableValues.get(0);
+            }
+            example = dataType + ".fromValue(\"" + value + "\")";
         } else if ((isModel != null && isModel) || (isModel == null && !languageSpecificPrimitives.contains(dataType))) {
             if (requiredVars == null) {
                 example = null;

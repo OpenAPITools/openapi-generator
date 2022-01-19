@@ -70,7 +70,7 @@ public class ClassModel {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    ClassModel classModel = (ClassModel) o;
+        ClassModel classModel = (ClassModel) o;
         return Objects.equals(this.propertyClass, classModel.propertyClass);
     }
 

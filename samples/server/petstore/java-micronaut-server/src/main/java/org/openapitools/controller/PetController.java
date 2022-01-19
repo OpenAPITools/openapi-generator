@@ -13,7 +13,7 @@
 package org.openapitools.controller;
 
 import io.micronaut.http.annotation.*;
-import io.micronaut.core.annotation.*;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
 import io.micronaut.http.multipart.CompletedFileUpload;
@@ -55,7 +55,7 @@ public class PetController {
     @Produces(value = {"application/xml", "application/json"})
     @Consumes(value = {"application/json", "application/xml"})
     public Mono<Pet> addPet(
-        @Body @Valid @NotNull Pet pet
+        @Body @NotNull @Valid Pet pet
     ) {
         // TODO implement addPet() body;
         Mono<Pet> result = Mono.empty();
@@ -84,7 +84,7 @@ public class PetController {
     @Produces(value = {})
     public Mono<Object> deletePet(
         @PathVariable(value="petId") @NotNull Long petId, 
-        @Header(value="api_key") String apiKey
+        @Header(value="api_key") @Nullable String apiKey
     ) {
         // TODO implement deletePet() body;
         Mono<Object> result = Mono.empty();
@@ -211,7 +211,7 @@ public class PetController {
     @Produces(value = {"application/xml", "application/json"})
     @Consumes(value = {"application/json", "application/xml"})
     public Mono<Pet> updatePet(
-        @Body @Valid @NotNull Pet pet
+        @Body @NotNull @Valid Pet pet
     ) {
         // TODO implement updatePet() body;
         Mono<Pet> result = Mono.empty();
@@ -242,8 +242,8 @@ public class PetController {
     @Consumes(value = {"application/x-www-form-urlencoded"})
     public Mono<Object> updatePetWithForm(
         @PathVariable(value="petId") @NotNull Long petId, 
-        String name, 
-        String status
+        @Nullable String name, 
+        @Nullable String status
     ) {
         // TODO implement updatePetWithForm() body;
         Mono<Object> result = Mono.empty();
@@ -276,8 +276,8 @@ public class PetController {
     @Consumes(value = {"multipart/form-data"})
     public Mono<ModelApiResponse> uploadFile(
         @PathVariable(value="petId") @NotNull Long petId, 
-        String additionalMetadata, 
-        CompletedFileUpload _file
+        @Nullable String additionalMetadata, 
+        @Nullable CompletedFileUpload _file
     ) {
         // TODO implement uploadFile() body;
         Mono<ModelApiResponse> result = Mono.empty();

@@ -69,7 +69,7 @@ public class ModelClient {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    ModelClient _client = (ModelClient) o;
+        ModelClient _client = (ModelClient) o;
         return Objects.equals(this._client, _client._client);
     }
 

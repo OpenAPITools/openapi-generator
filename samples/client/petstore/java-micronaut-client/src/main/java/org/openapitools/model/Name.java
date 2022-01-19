@@ -129,7 +129,7 @@ public class Name {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    Name name = (Name) o;
+        Name name = (Name) o;
         return Objects.equals(this.name, name.name) &&
             Objects.equals(this.snakeCase, name.snakeCase) &&
             Objects.equals(this.property, name.property) &&

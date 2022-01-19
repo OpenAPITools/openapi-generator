@@ -139,7 +139,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
+        MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
         return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
             Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
             Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);

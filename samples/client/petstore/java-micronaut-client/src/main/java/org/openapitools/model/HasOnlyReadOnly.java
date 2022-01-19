@@ -74,7 +74,7 @@ public class HasOnlyReadOnly {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
+        HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
         return Objects.equals(this.bar, hasOnlyReadOnly.bar) &&
             Objects.equals(this.foo, hasOnlyReadOnly.foo);
     }

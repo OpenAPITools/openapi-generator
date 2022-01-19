@@ -41,6 +41,6 @@ public interface FakeClassnameTags123Api {
     @Produces(value={"application/json"})
     @Consumes(value={"application/json"})
     Mono<ModelClient> testClassname(
-        @Body @Valid @NotNull ModelClient _body
+        @Body @NotNull @Valid ModelClient _body
   );
 }

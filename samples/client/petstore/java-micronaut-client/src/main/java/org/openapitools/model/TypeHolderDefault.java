@@ -185,7 +185,7 @@ public class TypeHolderDefault {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    TypeHolderDefault typeHolderDefault = (TypeHolderDefault) o;
+        TypeHolderDefault typeHolderDefault = (TypeHolderDefault) o;
         return Objects.equals(this.stringItem, typeHolderDefault.stringItem) &&
             Objects.equals(this.numberItem, typeHolderDefault.numberItem) &&
             Objects.equals(this.integerItem, typeHolderDefault.integerItem) &&

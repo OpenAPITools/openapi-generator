@@ -407,7 +407,7 @@ public class AdditionalPropertiesClass {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
+        AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
         return Objects.equals(this.mapString, additionalPropertiesClass.mapString) &&
             Objects.equals(this.mapNumber, additionalPropertiesClass.mapNumber) &&
             Objects.equals(this.mapInteger, additionalPropertiesClass.mapInteger) &&

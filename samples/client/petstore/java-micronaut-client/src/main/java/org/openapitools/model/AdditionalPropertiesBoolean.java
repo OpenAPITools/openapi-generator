@@ -72,7 +72,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    AdditionalPropertiesBoolean additionalPropertiesBoolean = (AdditionalPropertiesBoolean) o;
+        AdditionalPropertiesBoolean additionalPropertiesBoolean = (AdditionalPropertiesBoolean) o;
         return Objects.equals(this.name, additionalPropertiesBoolean.name) &&
             super.equals(o);
     }

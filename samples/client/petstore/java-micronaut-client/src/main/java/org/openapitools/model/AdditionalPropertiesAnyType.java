@@ -72,7 +72,7 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    AdditionalPropertiesAnyType additionalPropertiesAnyType = (AdditionalPropertiesAnyType) o;
+        AdditionalPropertiesAnyType additionalPropertiesAnyType = (AdditionalPropertiesAnyType) o;
         return Objects.equals(this.name, additionalPropertiesAnyType.name) &&
             super.equals(o);
     }

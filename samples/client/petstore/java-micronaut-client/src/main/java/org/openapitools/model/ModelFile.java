@@ -70,7 +70,7 @@ public class ModelFile {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    ModelFile _file = (ModelFile) o;
+        ModelFile _file = (ModelFile) o;
         return Objects.equals(this.sourceURI, _file.sourceURI);
     }
 

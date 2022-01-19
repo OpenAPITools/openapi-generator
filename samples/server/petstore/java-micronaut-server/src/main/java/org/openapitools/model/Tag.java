@@ -98,7 +98,7 @@ public class Tag {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    Tag tag = (Tag) o;
+        Tag tag = (Tag) o;
         return Objects.equals(this.id, tag.id) &&
             Objects.equals(this.name, tag.name);
     }

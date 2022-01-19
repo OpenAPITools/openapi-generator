@@ -48,7 +48,7 @@ public interface FakeApi {
     @Produces(value={"application/xml"})
     @Consumes(value={"application/json"})
     Mono<Object> createXmlItem(
-        @Body @Valid @NotNull XmlItem xmlItem
+        @Body @NotNull @Valid XmlItem xmlItem
   );
     /**
      * Test serialization of outer boolean types
@@ -60,7 +60,7 @@ public interface FakeApi {
     @Produces(value={"application/json"})
     @Consumes(value={"*/*"})
     Mono<Boolean> fakeOuterBooleanSerialize(
-        @Body Boolean _body
+        @Body @Nullable Boolean _body
   );
     /**
      * Test serialization of object with outer number type
@@ -72,7 +72,7 @@ public interface FakeApi {
     @Produces(value={"application/json"})
     @Consumes(value={"*/*"})
     Mono<OuterComposite> fakeOuterCompositeSerialize(
-        @Body @Valid OuterComposite _body
+        @Body @Nullable @Valid OuterComposite _body
   );
     /**
      * Test serialization of outer number types
@@ -84,7 +84,7 @@ public interface FakeApi {
     @Produces(value={"application/json"})
     @Consumes(value={"*/*"})
     Mono<BigDecimal> fakeOuterNumberSerialize(
-        @Body BigDecimal _body
+        @Body @Nullable BigDecimal _body
   );
     /**
      * Test serialization of outer string types
@@ -96,7 +96,7 @@ public interface FakeApi {
     @Produces(value={"application/json"})
     @Consumes(value={"*/*"})
     Mono<String> fakeOuterStringSerialize(
-        @Body String _body
+        @Body @Nullable String _body
   );
     /**
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
@@ -107,7 +107,7 @@ public interface FakeApi {
     @Produces(value={"application/json"})
     @Consumes(value={"application/json"})
     Mono<Object> testBodyWithFileSchema(
-        @Body @Valid @NotNull FileSchemaTestClass _body
+        @Body @NotNull @Valid FileSchemaTestClass _body
   );
     /**
      * testBodyWithQueryParams
@@ -120,7 +120,7 @@ public interface FakeApi {
     @Consumes(value={"application/json"})
     Mono<Object> testBodyWithQueryParams(
         @QueryValue(value="query") @NotNull String query, 
-        @Body @Valid @NotNull User _body
+        @Body @NotNull @Valid User _body
   );
     /**
      * To test \&quot;client\&quot; model
@@ -133,7 +133,7 @@ public interface FakeApi {
     @Produces(value={"application/json"})
     @Consumes(value={"application/json"})
     Mono<ModelClient> testClientModel(
-        @Body @Valid @NotNull ModelClient _body
+        @Body @NotNull @Valid ModelClient _body
   );
     /**
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -162,16 +162,16 @@ public interface FakeApi {
         @NotNull @DecimalMin("67.8") @DecimalMax("123.4") Double _double, 
         @NotNull @Pattern(regexp="^[A-Z].*") String patternWithoutDelimiter, 
         @NotNull byte[] _byte, 
-        @Min(10) @Max(100) Integer integer, 
-        @Min(20) @Max(200) Integer int32, 
-        Long int64, 
-        @DecimalMax("987.6") Float _float, 
-        @Pattern(regexp="/[a-z]/i") String string, 
-        File binary, 
-        @Format("yyyy-MM-dd") LocalDate date, 
-        @Format("yyyy-MM-dd'T'HH:mm:ss.SSSXXXX") LocalDateTime dateTime, 
-        @Size(min=10, max=64) String password, 
-        String paramCallback
+        @Nullable @Min(10) @Max(100) Integer integer, 
+        @Nullable @Min(20) @Max(200) Integer int32, 
+        @Nullable Long int64, 
+        @Nullable @DecimalMax("987.6") Float _float, 
+        @Nullable @Pattern(regexp="/[a-z]/i") String string, 
+        @Nullable File binary, 
+        @Nullable @Format("yyyy-MM-dd") LocalDate date, 
+        @Nullable @Format("yyyy-MM-dd'T'HH:mm:ss.SSSXXXX") LocalDateTime dateTime, 
+        @Nullable @Size(min=10, max=64) String password, 
+        @Nullable String paramCallback
   );
     /**
      * To test enum parameters
@@ -190,14 +190,14 @@ public interface FakeApi {
     @Produces(value={"application/x-www-form-urlencoded"})
     @Consumes(value={"application/json"})
     Mono<Object> testEnumParameters(
-        @Header(name="enum_header_string_array") List<String> enumHeaderStringArray, 
-        @Header(name="enum_header_string", defaultValue="-efg") String enumHeaderString, 
-        @QueryValue(value="enum_query_string_array") List<String> enumQueryStringArray, 
-        @QueryValue(value="enum_query_string", defaultValue="-efg") String enumQueryString, 
-        @QueryValue(value="enum_query_integer") Integer enumQueryInteger, 
-        @QueryValue(value="enum_query_double") Double enumQueryDouble, 
-        List<String> enumFormStringArray, 
-        String enumFormString
+        @Header(name="enum_header_string_array") @Nullable List<String> enumHeaderStringArray, 
+        @Header(name="enum_header_string", defaultValue="-efg") @Nullable String enumHeaderString, 
+        @QueryValue(value="enum_query_string_array") @Nullable List<String> enumQueryStringArray, 
+        @QueryValue(value="enum_query_string", defaultValue="-efg") @Nullable String enumQueryString, 
+        @QueryValue(value="enum_query_integer") @Nullable Integer enumQueryInteger, 
+        @QueryValue(value="enum_query_double") @Nullable Double enumQueryDouble, 
+        @Nullable List<String> enumFormStringArray, 
+        @Nullable String enumFormString
   );
     /**
      * Fake endpoint to test group parameters (optional)
@@ -216,9 +216,9 @@ public interface FakeApi {
         @QueryValue(value="required_string_group") @NotNull Integer requiredStringGroup, 
         @Header(name="required_boolean_group") @NotNull Boolean requiredBooleanGroup, 
         @QueryValue(value="required_int64_group") @NotNull Long requiredInt64Group, 
-        @QueryValue(value="string_group") Integer stringGroup, 
-        @Header(name="boolean_group") Boolean booleanGroup, 
-        @QueryValue(value="int64_group") Long int64Group
+        @QueryValue(value="string_group") @Nullable Integer stringGroup, 
+        @Header(name="boolean_group") @Nullable Boolean booleanGroup, 
+        @QueryValue(value="int64_group") @Nullable Long int64Group
   );
     /**
      * test inline additionalProperties

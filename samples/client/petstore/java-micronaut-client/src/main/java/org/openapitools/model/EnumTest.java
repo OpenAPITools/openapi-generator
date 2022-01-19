@@ -312,7 +312,7 @@ public class EnumTest {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    EnumTest enumTest = (EnumTest) o;
+        EnumTest enumTest = (EnumTest) o;
         return Objects.equals(this.enumString, enumTest.enumString) &&
             Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
             Objects.equals(this.enumInteger, enumTest.enumInteger) &&

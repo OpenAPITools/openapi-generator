@@ -85,7 +85,7 @@ public class ReadOnlyFirst {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
+        ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
         return Objects.equals(this.bar, readOnlyFirst.bar) &&
             Objects.equals(this.baz, readOnlyFirst.baz);
     }

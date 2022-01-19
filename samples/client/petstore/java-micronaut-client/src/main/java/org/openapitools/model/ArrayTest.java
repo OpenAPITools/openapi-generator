@@ -150,7 +150,7 @@ public class ArrayTest {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    ArrayTest arrayTest = (ArrayTest) o;
+        ArrayTest arrayTest = (ArrayTest) o;
         return Objects.equals(this.arrayOfString, arrayTest.arrayOfString) &&
             Objects.equals(this.arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
             Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel);

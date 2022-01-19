@@ -70,7 +70,7 @@ public class NumberOnly {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    NumberOnly numberOnly = (NumberOnly) o;
+        NumberOnly numberOnly = (NumberOnly) o;
         return Objects.equals(this.justNumber, numberOnly.justNumber);
     }
 

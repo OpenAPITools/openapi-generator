@@ -260,7 +260,7 @@ public class Pet {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    Pet pet = (Pet) o;
+        Pet pet = (Pet) o;
         return Objects.equals(this.id, pet.id) &&
             Objects.equals(this.category, pet.category) &&
             Objects.equals(this.name, pet.name) &&

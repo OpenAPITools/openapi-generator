@@ -80,7 +80,7 @@ public class ArrayOfArrayOfNumberOnly {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    ArrayOfArrayOfNumberOnly arrayOfArrayOfNumberOnly = (ArrayOfArrayOfNumberOnly) o;
+        ArrayOfArrayOfNumberOnly arrayOfArrayOfNumberOnly = (ArrayOfArrayOfNumberOnly) o;
         return Objects.equals(this.arrayArrayNumber, arrayOfArrayOfNumberOnly.arrayArrayNumber);
     }
 

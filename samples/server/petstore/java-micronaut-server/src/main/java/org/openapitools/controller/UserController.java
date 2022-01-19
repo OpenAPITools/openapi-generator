@@ -13,7 +13,7 @@
 package org.openapitools.controller;
 
 import io.micronaut.http.annotation.*;
-import io.micronaut.core.annotation.*;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
@@ -50,7 +50,7 @@ public class UserController {
     @Produces(value = {})
     @Consumes(value = {"application/json"})
     public Mono<Object> createUser(
-        @Body @Valid @NotNull User user
+        @Body @NotNull @Valid User user
     ) {
         // TODO implement createUser() body;
         Mono<Object> result = Mono.empty();
@@ -231,7 +231,7 @@ public class UserController {
     @Consumes(value = {"application/json"})
     public Mono<Object> updateUser(
         @PathVariable(value="username") @NotNull String username, 
-        @Body @Valid @NotNull User user
+        @Body @NotNull @Valid User user
     ) {
         // TODO implement updateUser() body;
         Mono<Object> result = Mono.empty();

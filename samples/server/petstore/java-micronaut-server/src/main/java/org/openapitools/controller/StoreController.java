@@ -13,7 +13,7 @@
 package org.openapitools.controller;
 
 import io.micronaut.http.annotation.*;
-import io.micronaut.core.annotation.*;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
 import org.openapitools.model.Order;
@@ -127,7 +127,7 @@ public class StoreController {
     @Produces(value = {"application/xml", "application/json"})
     @Consumes(value = {"application/json"})
     public Mono<Order> placeOrder(
-        @Body @Valid @NotNull Order order
+        @Body @NotNull @Valid Order order
     ) {
         // TODO implement placeOrder() body;
         Mono<Order> result = Mono.empty();

@@ -72,6 +72,6 @@ public interface StoreApi {
     @Produces(value={"application/json"})
     @Consumes(value={"application/json"})
     Mono<Order> placeOrder(
-        @Body @Valid @NotNull Order _body
+        @Body @NotNull @Valid Order _body
   );
 }

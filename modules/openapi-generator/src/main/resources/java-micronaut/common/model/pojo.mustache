@@ -234,7 +234,7 @@ Declare the class with extends and implements
             return false;
         }
         {{#hasVars}}
-    {{classname}} {{classVarName}} = ({{classname}}) o;
+        {{classname}} {{classVarName}} = ({{classname}}) o;
         return {{#vars}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
             {{/-last}}{{/vars}}{{#parent}} &&
             super.equals(o){{/parent}};

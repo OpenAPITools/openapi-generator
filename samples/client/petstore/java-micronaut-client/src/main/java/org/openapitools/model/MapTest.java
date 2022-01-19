@@ -218,7 +218,7 @@ public class MapTest {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    MapTest mapTest = (MapTest) o;
+        MapTest mapTest = (MapTest) o;
         return Objects.equals(this.mapMapOfString, mapTest.mapMapOfString) &&
             Objects.equals(this.mapOfEnumString, mapTest.mapOfEnumString) &&
             Objects.equals(this.directMap, mapTest.directMap) &&

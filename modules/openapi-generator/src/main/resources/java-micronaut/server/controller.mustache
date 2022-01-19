@@ -1,8 +1,8 @@
 {{>common/licenseInfo}}
-package {{controllerPackage}};
+package {{apiPackage}};
 
 import io.micronaut.http.annotation.*;
-import io.micronaut.core.annotation.*;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.convert.format.Format;
 {{#useAuth}}
 import io.micronaut.security.annotation.Secured;
@@ -29,8 +29,10 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
 {{>common/generatedAnnotation}}
+{{^generateControllerAsAbstract}}
 @Controller("${context-path}")
-public class {{classname}} {
+{{/generateControllerAsAbstract}}
+public {{#generateControllerAsAbstract}}abstract {{/generateControllerAsAbstract}}class {{classname}} {
 {{#operations}}
     {{#operation}}
     /**
@@ -98,27 +100,27 @@ public class {{classname}} {
         {{/hasAuthMethods}}
     {{/useAuth}}
     {{!the method definition}}
-    public {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}({{#allParams}}
+    public {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}{{#generateControllerAsAbstract}}Api{{/generateControllerAsAbstract}}({{#allParams}}
         {{>server/params/queryParams}}{{>server/params/pathParams}}{{>server/params/headerParams}}{{>server/params/bodyParams}}{{>server/params/formParams}}{{>server/params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
     {{/-last}}{{/allParams}}) {
-    {{^generateControllerFromExamples}}
-        {{!The body needs to be implemented by user}}
-        // TODO implement {{nickname}}() body;
-        {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} result = Mono.empty();
-        return result;
-    {{/generateControllerFromExamples}}
-    {{#generateControllerFromExamples}}
-        {{!The body is generated to verify that example values are passed correctly}}
-        {{#allParams}}
-            {{^isFile}}
-        {{{dataType}}} {{paramName}}Expected = {{{example}}};
-        assert {{paramName}}.equals({{paramName}}Expected) : "The parameter {{paramName}} was expected to match its example value";
-            {{/isFile}}
-        {{/allParams}}
-
-        return Mono.fromCallable(() -> {{^returnType}}""{{/returnType}}{{#returnType}}{{#vendorExtensions.example}}{{{vendorExtensions.example}}}{{/vendorExtensions.example}}{{^vendorExtensions.example}}null{{/vendorExtensions.example}}{{/returnType}});
-    {{/generateControllerFromExamples}}
+        {{^generateControllerAsAbstract}}
+{{>server/controllerOperationBody}}    }
+        {{/generateControllerAsAbstract}}
+        {{#generateControllerAsAbstract}}
+        return {{nickname}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
     }
+        {{/generateControllerAsAbstract}}
+    {{#generateControllerAsAbstract}}
+
+    /**
+        {{#summary}}
+     * {{summary}}
+        {{/summary}}
+     *
+     * This method will be delegated to when the controller gets a request
+     */
+    public abstract {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    {{/generateControllerAsAbstract}}
     {{^-last}}
 
     {{/-last}}

@@ -172,7 +172,7 @@ public class EnumArrays {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    EnumArrays enumArrays = (EnumArrays) o;
+        EnumArrays enumArrays = (EnumArrays) o;
         return Objects.equals(this.justSymbol, enumArrays.justSymbol) &&
             Objects.equals(this.arrayEnum, enumArrays.arrayEnum);
     }

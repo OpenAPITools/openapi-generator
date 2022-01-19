@@ -70,7 +70,7 @@ public class ModelReturn {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    ModelReturn _return = (ModelReturn) o;
+        ModelReturn _return = (ModelReturn) o;
         return Objects.equals(this._return, _return._return);
     }
 

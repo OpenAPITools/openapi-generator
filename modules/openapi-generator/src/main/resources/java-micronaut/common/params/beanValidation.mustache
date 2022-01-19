@@ -1,8 +1,11 @@
-{{#useBeanValidation}}{{!
+{{!First handle the nullable - it should be present unless otherwise specified}}
+{{#isNullable}}@Nullable {{/isNullable}}{{^isNullable}}{{^required}}@Nullable {{/required}}{{/isNullable}}{{!
+All the validation
+}}{{#useBeanValidation}}{{!
+nullable overrides required
+}}{{^isNullable}}{{#required}}@NotNull {{/required}}{{/isNullable}}{{!
 validate all pojos and enums
 }}{{^isContainer}}{{#isModel}}@Valid {{/isModel}}{{/isContainer}}{{!
-nullable & nonnull
-}}{{#required}}@NotNull {{/required}}{{#isNullable}}@Nullable {{/isNullable}}{{!
 pattern
 }}{{#pattern}}{{^isByteArray}}@Pattern(regexp="{{{pattern}}}") {{/isByteArray}}{{/pattern}}{{!
 both minLength && maxLength

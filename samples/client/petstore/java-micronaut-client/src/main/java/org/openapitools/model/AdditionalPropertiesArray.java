@@ -73,7 +73,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    AdditionalPropertiesArray additionalPropertiesArray = (AdditionalPropertiesArray) o;
+        AdditionalPropertiesArray additionalPropertiesArray = (AdditionalPropertiesArray) o;
         return Objects.equals(this.name, additionalPropertiesArray.name) &&
             super.equals(o);
     }

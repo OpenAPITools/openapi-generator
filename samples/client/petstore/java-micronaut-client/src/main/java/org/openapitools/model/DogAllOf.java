@@ -69,7 +69,7 @@ public class DogAllOf {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    DogAllOf dogAllOf = (DogAllOf) o;
+        DogAllOf dogAllOf = (DogAllOf) o;
         return Objects.equals(this.breed, dogAllOf.breed);
     }
 

@@ -72,7 +72,7 @@ public class Dog extends Animal {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    Dog dog = (Dog) o;
+        Dog dog = (Dog) o;
         return Objects.equals(this.breed, dog.breed) &&
             super.equals(o);
     }

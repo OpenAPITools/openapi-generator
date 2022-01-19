@@ -105,7 +105,7 @@ public class Animal {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    Animal animal = (Animal) o;
+        Animal animal = (Animal) o;
         return Objects.equals(this.className, animal.className) &&
             Objects.equals(this.color, animal.color);
     }

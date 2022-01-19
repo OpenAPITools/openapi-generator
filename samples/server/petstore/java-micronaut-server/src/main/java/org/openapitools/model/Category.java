@@ -99,7 +99,7 @@ public class Category {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    Category category = (Category) o;
+        Category category = (Category) o;
         return Objects.equals(this.id, category.id) &&
             Objects.equals(this.name, category.name);
     }

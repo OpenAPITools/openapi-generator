@@ -42,7 +42,7 @@ public interface PetApi {
     @Produces(value={"application/json"})
     @Consumes(value={"application/json"})
     Mono<Object> addPet(
-        @Body @Valid @NotNull Pet _body
+        @Body @NotNull @Valid Pet _body
   );
     /**
      * Deletes a pet
@@ -54,7 +54,7 @@ public interface PetApi {
     @Consumes(value={"application/json"})
     Mono<Object> deletePet(
         @PathVariable(name="petId") @NotNull Long petId, 
-        @Header(name="api_key") String apiKey
+        @Header(name="api_key") @Nullable String apiKey
   );
     /**
      * Finds Pets by status
@@ -101,7 +101,7 @@ public interface PetApi {
     @Produces(value={"application/json"})
     @Consumes(value={"application/json"})
     Mono<Object> updatePet(
-        @Body @Valid @NotNull Pet _body
+        @Body @NotNull @Valid Pet _body
   );
     /**
      * Updates a pet in the store with form data
@@ -115,8 +115,8 @@ public interface PetApi {
     @Consumes(value={"application/json"})
     Mono<Object> updatePetWithForm(
         @PathVariable(name="petId") @NotNull Long petId, 
-        String name, 
-        String status
+        @Nullable String name, 
+        @Nullable String status
   );
     /**
      * uploads an image
@@ -131,8 +131,8 @@ public interface PetApi {
     @Consumes(value={"application/json"})
     Mono<ModelApiResponse> uploadFile(
         @PathVariable(name="petId") @NotNull Long petId, 
-        String additionalMetadata, 
-        File _file
+        @Nullable String additionalMetadata, 
+        @Nullable File _file
   );
     /**
      * uploads an image (required)
@@ -148,6 +148,6 @@ public interface PetApi {
     Mono<ModelApiResponse> uploadFileWithRequiredFile(
         @PathVariable(name="petId") @NotNull Long petId, 
         @NotNull File requiredFile, 
-        String additionalMetadata
+        @Nullable String additionalMetadata
   );
 }

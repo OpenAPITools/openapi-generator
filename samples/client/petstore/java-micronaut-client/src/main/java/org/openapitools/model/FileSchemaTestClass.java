@@ -108,7 +108,7 @@ public class FileSchemaTestClass {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
+        FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
         return Objects.equals(this._file, fileSchemaTestClass._file) &&
             Objects.equals(this.files, fileSchemaTestClass.files);
     }

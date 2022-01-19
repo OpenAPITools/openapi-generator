@@ -72,7 +72,7 @@ public class Cat extends Animal {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    Cat cat = (Cat) o;
+        Cat cat = (Cat) o;
         return Objects.equals(this.declawed, cat.declawed) &&
             super.equals(o);
     }

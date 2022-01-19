@@ -1,6 +1,7 @@
+{{!CLIENT CONFIGURATION}}
 {{#client}}
-base-path: "{{{basePath}}}"
-context-path: "{{{contextPath}}}"
+base-path: "{{{basePath}}}/"
+context-path: "{{{contextPath}}}/"
 
 micronaut:
     application:
@@ -53,8 +54,9 @@ micronaut:
             password:
     {{/isBasic}}{{/authMethods}}{{/configureAuth}}
 {{/client}}
+{{!SERVER CONFIGURATION}}
 {{#server}}
-context-path: "{{{contextPath}}}"
+context-path: "{{{contextPath}}}/"
 
 micronaut:
     application:

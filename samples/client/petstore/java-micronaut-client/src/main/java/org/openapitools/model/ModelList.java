@@ -69,7 +69,7 @@ public class ModelList {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-    ModelList _list = (ModelList) o;
+        ModelList _list = (ModelList) o;
         return Objects.equals(this._123list, _list._123list);
     }
 

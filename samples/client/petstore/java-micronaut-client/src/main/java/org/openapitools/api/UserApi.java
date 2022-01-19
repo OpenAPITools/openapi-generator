@@ -41,7 +41,7 @@ public interface UserApi {
     @Produces(value={"application/json"})
     @Consumes(value={"application/json"})
     Mono<Object> createUser(
-        @Body @Valid @NotNull User _body
+        @Body @NotNull @Valid User _body
   );
     /**
      * Creates list of users with given input array
@@ -119,6 +119,6 @@ public interface UserApi {
     @Consumes(value={"application/json"})
     Mono<Object> updateUser(
         @PathVariable(name="username") @NotNull String username, 
-        @Body @Valid @NotNull User _body
+        @Body @NotNull @Valid User _body
   );
 }
