@@ -24,10 +24,6 @@ export class PromiseDefaultApi {
         this.api = new ObservableDefaultApi(configuration, requestFactory, responseProcessor);
     }
 
-    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
-        this.api.setDefaultSecurityAuthentication(auth);
-    }
-
     /**
      * @param inlineObject 
      */

@@ -14,16 +14,7 @@ import { User } from '../models/User';
  * no description
  */
 export class UserApiRequestFactory extends BaseAPIRequestFactory {
-<<<<<<< HEAD
-    private defaultSecurityAuthentication: SecurityAuthentication | undefined;
 
-    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
-        this.defaultSecurityAuthentication = auth;
-    }
-
-=======
-    
->>>>>>> 36eb3046d177f220ab68baafb9a64ef1df308571
     /**
      * This can only be done by the logged in user.
      * Create user
@@ -59,17 +50,13 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-<<<<<<< HEAD
-        authMethod = defaultSecurityAuthentication || _config.authMethods["api_key"]
-=======
         authMethod =  _config.authMethods["api_key"]
->>>>>>> 36eb3046d177f220ab68baafb9a64ef1df308571
-        if (authMethod) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
         }
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
-        if (defaultAuth) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
@@ -109,17 +96,13 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-<<<<<<< HEAD
-        authMethod = defaultSecurityAuthentication || _config.authMethods["api_key"]
-=======
         authMethod =  _config.authMethods["api_key"]
->>>>>>> 36eb3046d177f220ab68baafb9a64ef1df308571
-        if (authMethod) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
         }
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
-        if (defaultAuth) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
@@ -159,17 +142,13 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-<<<<<<< HEAD
-        authMethod = defaultSecurityAuthentication || _config.authMethods["api_key"]
-=======
         authMethod =  _config.authMethods["api_key"]
->>>>>>> 36eb3046d177f220ab68baafb9a64ef1df308571
-        if (authMethod) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
         }
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
-        if (defaultAuth) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
@@ -200,17 +179,13 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-<<<<<<< HEAD
-        authMethod = defaultSecurityAuthentication || _config.authMethods["api_key"]
-=======
         authMethod =  _config.authMethods["api_key"]
->>>>>>> 36eb3046d177f220ab68baafb9a64ef1df308571
-        if (authMethod) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
         }
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
-        if (defaultAuth) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
@@ -239,8 +214,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
-        if (defaultAuth) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
@@ -285,8 +260,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
-        if (defaultAuth) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
@@ -308,17 +283,13 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-<<<<<<< HEAD
-        authMethod = defaultSecurityAuthentication || _config.authMethods["api_key"]
-=======
         authMethod =  _config.authMethods["api_key"]
->>>>>>> 36eb3046d177f220ab68baafb9a64ef1df308571
-        if (authMethod) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
         }
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
-        if (defaultAuth) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
@@ -367,17 +338,13 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-<<<<<<< HEAD
-        authMethod = defaultSecurityAuthentication || _config.authMethods["api_key"]
-=======
         authMethod =  _config.authMethods["api_key"]
->>>>>>> 36eb3046d177f220ab68baafb9a64ef1df308571
-        if (authMethod) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
         }
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
-        if (defaultAuth) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;

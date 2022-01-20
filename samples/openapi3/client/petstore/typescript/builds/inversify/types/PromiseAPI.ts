@@ -28,10 +28,6 @@ export class PromisePetApi {
         this.api = new ObservablePetApi(configuration, requestFactory, responseProcessor);
     }
 
-    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
-        this.api.setDefaultSecurityAuthentication(auth);
-    }
-
     /**
      * Add a new pet to the store
      * @param pet Pet object that needs to be added to the store
@@ -134,10 +130,6 @@ export class PromiseStoreApi {
         this.api = new ObservableStoreApi(configuration, requestFactory, responseProcessor);
     }
 
-    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
-        this.api.setDefaultSecurityAuthentication(auth);
-    }
-
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
@@ -196,10 +188,6 @@ export class PromiseUserApi {
         @inject(AbstractUserApiResponseProcessor) @optional() responseProcessor?: AbstractUserApiResponseProcessor
     ) {
         this.api = new ObservableUserApi(configuration, requestFactory, responseProcessor);
-    }
-
-    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
-        this.api.setDefaultSecurityAuthentication(auth);
     }
 
     /**

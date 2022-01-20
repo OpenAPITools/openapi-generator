@@ -14,16 +14,7 @@ import { Order } from '../models/Order.ts';
  * no description
  */
 export class StoreApiRequestFactory extends BaseAPIRequestFactory {
-<<<<<<< HEAD
-    private defaultSecurityAuthentication: SecurityAuthentication | undefined;
 
-    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
-        this.defaultSecurityAuthentication = auth;
-    }
-
-=======
-    
->>>>>>> 36eb3046d177f220ab68baafb9a64ef1df308571
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
@@ -48,8 +39,8 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
-        if (defaultAuth) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
@@ -72,17 +63,13 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-<<<<<<< HEAD
-        authMethod = defaultSecurityAuthentication || _config.authMethods["api_key"]
-=======
         authMethod =  _config.authMethods["api_key"]
->>>>>>> 36eb3046d177f220ab68baafb9a64ef1df308571
-        if (authMethod) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
         }
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
-        if (defaultAuth) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
@@ -112,8 +99,8 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
-        if (defaultAuth) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
@@ -152,8 +139,8 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
-        if (defaultAuth) {
-            await authMethod.applySecurityAuthentication(requestContext);
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
         }
 
         return requestContext;
