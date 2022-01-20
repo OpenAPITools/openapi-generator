@@ -33,6 +33,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_PROGRESS_SUBSCRIBER = "withProgressSubscriber";
+    public static final String RXJS_7 = "rxjs7";
 
     protected String npmRepository = null;
     protected Set<String> reservedParamNames = new HashSet<>();
@@ -44,7 +45,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
         outputFolder = "generated-code/typescript-rxjs";
         embeddedTemplateDir = templateDir = "typescript-rxjs";
-
         this.apiPackage = "apis";
         this.apiTemplateFiles.put("apis.mustache", ".ts");
         this.modelPackage = "models";
@@ -56,6 +56,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_PROGRESS_SUBSCRIBER, "Setting this property to true will generate API controller methods with support for subscribing to request progress.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(RXJS_7, "Whether to use RxJS 7 or not.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
 
         // these are used in the api template for more efficient destructuring
         this.reservedParamNames.add("headers");

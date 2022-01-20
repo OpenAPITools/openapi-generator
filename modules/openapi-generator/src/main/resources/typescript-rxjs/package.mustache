@@ -10,10 +10,10 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "rxjs": "^6.3.3"
+    "rxjs": "{{#rxjs7}}^7.2.0{{/rxjs7}}{{^rxjs7}}^6.3.3{{/rxjs7}}"
   },
   "devDependencies": {
-    "typescript": "^3.7"
+    "typescript": "{{#rxjs7}}^4.0{{/rxjs7}}{{^rxjs7}}^3.7{{/rxjs7}}"
   }{{#npmRepository}},{{/npmRepository}}
 {{#npmRepository}}
   "publishConfig": {

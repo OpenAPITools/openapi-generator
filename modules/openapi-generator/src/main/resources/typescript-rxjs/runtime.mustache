@@ -1,7 +1,10 @@
 // tslint:disable
 {{>licenseInfo}}
-import { Observable, of{{#withProgressSubscriber}}, Subscriber{{/withProgressSubscriber}} } from 'rxjs';
-import { ajax, AjaxRequest, AjaxResponse } from 'rxjs/ajax';
+import { of } from 'rxjs';
+import type { Observable{{#withProgressSubscriber}}, Subscriber{{/withProgressSubscriber}} } from 'rxjs';
+import { ajax } from 'rxjs/ajax';
+import type { {{#rxjs7}}AjaxConfig,{{/rxjs7}} AjaxResponse{{^rxjs7}}, AjaxRequest{{/rxjs7}} } from 'rxjs/ajax';
+
 import { map, concatMap } from 'rxjs/operators';
 import { servers } from './servers';
 
@@ -69,9 +72,9 @@ export class BaseAPI {
         this.withMiddleware(postMiddlewares.map((post) => ({ post })));
 
     protected request<T>(requestOpts: RequestOpts): Observable<T>
-    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<RawAjaxResponse<T>>
-    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<T | RawAjaxResponse<T>> {
-        return this.rxjsRequest(this.createRequestArgs(requestOpts)).pipe(
+    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<{{#rxjs7}}AjaxResponse{{/rxjs7}}{{^rxjs7}}RawAjaxResponse{{/rxjs7}}<T>>
+    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<T | {{#rxjs7}}AjaxResponse{{/rxjs7}}{{^rxjs7}}RawAjaxResponse{{/rxjs7}}<T>> {
+        return this.rxjsRequest{{#rxjs7}}<T>{{/rxjs7}}(this.createRequestArgs(requestOpts)).pipe(
             map((res) => {
                 const { status, response } = res;
                 if (status >= 200 && status < 300) {
@@ -82,7 +85,7 @@ export class BaseAPI {
         );
     }
 
-    private createRequestArgs = ({ url: baseUrl, query, method, headers, body, responseType{{#withProgressSubscriber}}, progressSubscriber{{/withProgressSubscriber}} }: RequestOpts): RequestArgs => {
+    private createRequestArgs = ({ url: baseUrl, query, method, headers, body, responseType{{#withProgressSubscriber}}, progressSubscriber{{/withProgressSubscriber}} }: RequestOpts): {{#rxjs7}}AjaxConfig{{/rxjs7}}{{^rxjs7}}RequestArgs{{/rxjs7}} => {
         // only add the queryString to the URL if there are query parameters.
         // this is done to avoid urls ending with a '?' character which buggy webservers
         // do not handle correctly sometimes.
@@ -99,15 +102,19 @@ export class BaseAPI {
             {{/withProgressSubscriber}}
         };
     }
-
+    {{#rxjs7}}
+    private rxjsRequest = <T>(params: AjaxConfig): Observable<AjaxResponse<T>> =>
+    {{/rxjs7}}
+    {{^rxjs7}}
     private rxjsRequest = (params: RequestArgs): Observable<AjaxResponse> =>
+    {{/rxjs7}}
         of(params).pipe(
             map((request) => {
                 this.middleware.filter((item) => item.pre).forEach((mw) => (request = mw.pre!(request)));
                 return request;
             }),
             concatMap((args) =>
-                ajax(args).pipe(
+                ajax{{#rxjs7}}<T>{{/rxjs7}}(args).pipe(
                     map((response) => {
                         this.middleware.filter((item) => item.post).forEach((mw) => (response = mw.post!(response)));
                         return response;
@@ -145,13 +152,14 @@ export type HttpHeaders = { [key: string]: string };
 export type HttpQuery = Partial<{ [key: string]: string | number | null | boolean | Array<string | number | null | boolean> }>; // partial is needed for strict mode
 export type HttpBody = Json | FormData;
 
-export interface RequestOpts extends AjaxRequest {
+export interface RequestOpts extends  {{#rxjs7}}AjaxConfig{{/rxjs7}} {{^rxjs7}}AjaxRequest{{/rxjs7}} {
+    // TODO: replace custom 'query' prop with 'queryParams'
     query?: HttpQuery; // additional prop
     // the following props have improved types over AjaxRequest
     method: HttpMethod;
     headers?: HttpHeaders;
     body?: HttpBody;
-    responseType?: 'json' | 'blob' | 'arraybuffer' | 'text';
+    {{^rxjs7}}responseType?: 'json' | 'blob' | 'arraybuffer' | 'text';{{/rxjs7}}
     {{#withProgressSubscriber}}
     progressSubscriber?: Subscriber<ProgressEvent>;
     {{/withProgressSubscriber}}
@@ -167,11 +175,12 @@ export interface OperationOpts {
     {{/withProgressSubscriber}}
     responseOpts?: ResponseOpts;
 }
-
+ {{^rxjs7}}
 // AjaxResponse with typed response
 export interface RawAjaxResponse<T> extends AjaxResponse {
     response: T;
 }
+{{/rxjs7}}
 
 export const encodeURI = (value: any) => encodeURIComponent(`${value}`);
 
@@ -182,17 +191,19 @@ const queryString = (params: HttpQuery): string => Object.entries(params)
     )
     .join('&');
 
+{{^rxjs7}}
 // alias fallback for not being a breaking change
 export const querystring = queryString;
 
 /**
- * @deprecated
- */
+* @deprecated
+*/
 export const throwIfRequired = (params: {[key: string]: any}, key: string, nickname: string) => {
-    if (!params || params[key] == null) {
+    if (!params || params[key] == null) {
         throw new RequiredError(`Required parameter ${key} was null or undefined when calling ${nickname}.`);
     }
 };
+{{/rxjs7}}
 
 export const throwIfNullOrUndefined = (value: any, paramName: string, nickname: string) => {
     if (value == null) {
@@ -200,11 +211,19 @@ export const throwIfNullOrUndefined = (value: any, paramName: string, nickname: 
     }
 };
 
+{{^rxjs7}}
 // alias for easier importing
 export interface RequestArgs extends AjaxRequest {}
 export interface ResponseArgs extends AjaxResponse {}
+{{/rxjs7}}
 
 export interface Middleware {
+{{#rxjs7}}
+    pre?(request: AjaxConfig): AjaxConfig;
+    post?(response: AjaxResponse<any>): AjaxResponse<any>;
+{{/rxjs7}}
+{{^rxjs7}}
     pre?(request: RequestArgs): RequestArgs;
     post?(response: ResponseArgs): ResponseArgs;
+{{/rxjs7}}
 }
