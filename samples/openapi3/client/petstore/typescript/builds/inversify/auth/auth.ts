@@ -74,13 +74,11 @@ export class PetstoreAuthAuthentication implements SecurityAuthentication {
 
 
 export type AuthMethods = {
-    "default"?: SecurityAuthentication,
     "api_key"?: SecurityAuthentication,
     "petstore_auth"?: SecurityAuthentication
 }
 
 export const authMethodServices = {
-    "default"?: SecurityAuthentication,
     "api_key": ApiKeyAuthentication,
     "petstore_auth": PetstoreAuthAuthentication
 }
@@ -91,7 +89,6 @@ export type HttpBearerConfiguration = { tokenProvider: TokenProvider };
 export type OAuth2Configuration = { accessToken: string };
 
 export type AuthMethodsConfiguration = {
-    "default"?: SecurityAuthentication,
     "api_key"?: ApiKeyConfiguration,
     "petstore_auth"?: OAuth2Configuration
 }
@@ -106,7 +103,6 @@ export function configureAuthMethods(config: AuthMethodsConfiguration | undefine
     if (!config) {
         return authMethods;
     }
-    authMethods["default"] = config["default"]
 
     if (config["api_key"]) {
         authMethods["api_key"] = new ApiKeyAuthentication(
