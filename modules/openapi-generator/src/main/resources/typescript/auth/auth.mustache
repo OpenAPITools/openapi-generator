@@ -115,6 +115,7 @@ export type AuthMethods = {
 {{#useInversify}}
 
 export const authMethodServices = {
+    "default"?: SecurityAuthentication,
     {{#authMethods}}
     "{{name}}": {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication{{^-last}},{{/-last}}
     {{/authMethods}}
