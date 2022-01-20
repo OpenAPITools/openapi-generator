@@ -15,14 +15,17 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Cat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Cat extends Animal  {
+
   @JsonProperty("declawed")
   private Boolean declawed;
 
@@ -35,9 +38,8 @@ public class Cat extends Animal  {
    * Get declawed
    * @return declawed
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Boolean getDeclawed() {
     return declawed;
   }
@@ -45,7 +47,6 @@ public class Cat extends Animal  {
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
-
 
   @Override
   public boolean equals(Object o) {

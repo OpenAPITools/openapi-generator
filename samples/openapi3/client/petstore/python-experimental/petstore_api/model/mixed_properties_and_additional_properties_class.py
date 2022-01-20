@@ -113,3 +113,5 @@ class MixedPropertiesAndAdditionalPropertiesClass(
             _instantiation_metadata=_instantiation_metadata,
             **kwargs,
         )
+
+from petstore_api.model.animal import Animal

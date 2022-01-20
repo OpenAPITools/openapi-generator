@@ -41,10 +41,6 @@ export class Promise{{classname}} {
         this.api = new Observable{{classname}}(configuration, requestFactory, responseProcessor);
     }
 
-    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
-        this.api.setDefaultSecurityAuthentication(auth);
-    }
-
 {{#operation}}
     /**
      {{#notes}}

@@ -78,7 +78,7 @@ export abstract class AbstractObjectStoreApi {
      * Returns pet inventories by status
      * @param param the request object
      */
-    public abstract getInventory(param: req.StoreApiGetInventoryRequest, options?: Configuration): Promise<{ [key: string]: number; }>;
+    public abstract getInventory(param: req.StoreApiGetInventoryRequest = {}, options?: Configuration): Promise<{ [key: string]: number; }>;
 
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -139,7 +139,7 @@ export abstract class AbstractObjectUserApi {
      * Logs out current logged in user session
      * @param param the request object
      */
-    public abstract logoutUser(param: req.UserApiLogoutUserRequest, options?: Configuration): Promise<void>;
+    public abstract logoutUser(param: req.UserApiLogoutUserRequest = {}, options?: Configuration): Promise<void>;
 
     /**
      * This can only be done by the logged in user.

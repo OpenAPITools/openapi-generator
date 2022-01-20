@@ -7,6 +7,7 @@ package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import org.springframework.core.io.Resource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -29,7 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "Pet", description = "the Pet API")
 public interface PetApi {
@@ -41,6 +44,7 @@ public interface PetApi {
      * @return Invalid input (status code 405)
      */
     @Operation(
+        operationId = "addPet",
         summary = "Add a new pet to the store",
         tags = { "pet" },
         responses = {
@@ -68,6 +72,7 @@ public interface PetApi {
      * @return Invalid pet value (status code 400)
      */
     @Operation(
+        operationId = "deletePet",
         summary = "Deletes a pet",
         tags = { "pet" },
         responses = {
@@ -96,6 +101,7 @@ public interface PetApi {
      *         or Invalid status value (status code 400)
      */
     @Operation(
+        operationId = "findPetsByStatus",
         summary = "Finds Pets by status",
         tags = { "pet" },
         responses = {
@@ -126,6 +132,7 @@ public interface PetApi {
      * @deprecated
      */
     @Operation(
+        operationId = "findPetsByTags",
         summary = "Finds Pets by tags",
         tags = { "pet" },
         responses = {
@@ -156,6 +163,7 @@ public interface PetApi {
      *         or Pet not found (status code 404)
      */
     @Operation(
+        operationId = "getPetById",
         summary = "Find pet by ID",
         tags = { "pet" },
         responses = {
@@ -186,6 +194,7 @@ public interface PetApi {
      *         or Validation exception (status code 405)
      */
     @Operation(
+        operationId = "updatePet",
         summary = "Update an existing pet",
         tags = { "pet" },
         responses = {
@@ -216,6 +225,7 @@ public interface PetApi {
      * @return Invalid input (status code 405)
      */
     @Operation(
+        operationId = "updatePetWithForm",
         summary = "Updates a pet in the store with form data",
         tags = { "pet" },
         responses = {
@@ -246,6 +256,7 @@ public interface PetApi {
      * @return successful operation (status code 200)
      */
     @Operation(
+        operationId = "uploadFile",
         summary = "uploads an image",
         tags = { "pet" },
         responses = {

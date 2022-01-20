@@ -107,6 +107,7 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
 {{/authMethods}}
 
 export type AuthMethods = {
+    "default"?: SecurityAuthentication,
     {{#authMethods}}
     "{{name}}"?: SecurityAuthentication{{^-last}},{{/-last}}
     {{/authMethods}}
@@ -126,6 +127,7 @@ export type HttpBearerConfiguration = { tokenProvider: TokenProvider };
 export type OAuth2Configuration = { accessToken: string };
 
 export type AuthMethodsConfiguration = {
+    "default"?: SecurityAuthentication,
     {{#authMethods}}
     "{{name}}"?: {{#isApiKey}}ApiKeyConfiguration{{/isApiKey}}{{#isBasicBasic}}HttpBasicConfiguration{{/isBasicBasic}}{{#isBasicBearer}}HttpBearerConfiguration{{/isBasicBearer}}{{#isOAuth}}OAuth2Configuration{{/isOAuth}}{{^-last}},{{/-last}}
     {{/authMethods}}
@@ -141,6 +143,7 @@ export function configureAuthMethods(config: AuthMethodsConfiguration | undefine
     if (!config) {
         return authMethods;
     }
+    authMethods["default"] = config["default"]
 
     {{#authMethods}}
     if (config["{{name}}"]) {

@@ -27,9 +27,12 @@ export class ObservablePetApi {
         this.responseProcessor = responseProcessor || new PetApiResponseProcessor();
     }
 
+<<<<<<< HEAD
     public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
         this.requestFactory.setDefaultSecurityAuthentication(auth);
     }
+=======
+>>>>>>> 36eb3046d177f220ab68baafb9a64ef1df308571
 
     /**
      * Add a new pet to the store
@@ -241,9 +244,12 @@ export class ObservableStoreApi {
         this.responseProcessor = responseProcessor || new StoreApiResponseProcessor();
     }
 
+<<<<<<< HEAD
     public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
         this.requestFactory.setDefaultSecurityAuthentication(auth);
     }
+=======
+>>>>>>> 36eb3046d177f220ab68baafb9a64ef1df308571
 
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -357,9 +363,12 @@ export class ObservableUserApi {
         this.responseProcessor = responseProcessor || new UserApiResponseProcessor();
     }
 
+<<<<<<< HEAD
     public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
         this.requestFactory.setDefaultSecurityAuthentication(auth);
     }
+=======
+>>>>>>> 36eb3046d177f220ab68baafb9a64ef1df308571
 
     /**
      * This can only be done by the logged in user.

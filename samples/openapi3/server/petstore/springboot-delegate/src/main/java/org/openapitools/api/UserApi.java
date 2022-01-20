@@ -25,7 +25,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "user", description = "the user API")
 public interface UserApi {
@@ -42,6 +44,7 @@ public interface UserApi {
      * @return successful operation (status code 200)
      */
     @Operation(
+        operationId = "createUser",
         summary = "Create user",
         tags = { "user" },
         responses = {
@@ -66,6 +69,7 @@ public interface UserApi {
      * @return successful operation (status code 200)
      */
     @Operation(
+        operationId = "createUsersWithArrayInput",
         summary = "Creates list of users with given input array",
         tags = { "user" },
         responses = {
@@ -90,6 +94,7 @@ public interface UserApi {
      * @return successful operation (status code 200)
      */
     @Operation(
+        operationId = "createUsersWithListInput",
         summary = "Creates list of users with given input array",
         tags = { "user" },
         responses = {
@@ -116,6 +121,7 @@ public interface UserApi {
      *         or User not found (status code 404)
      */
     @Operation(
+        operationId = "deleteUser",
         summary = "Delete user",
         tags = { "user" },
         responses = {
@@ -143,6 +149,7 @@ public interface UserApi {
      *         or User not found (status code 404)
      */
     @Operation(
+        operationId = "getUserByName",
         summary = "Get user by user name",
         tags = { "user" },
         responses = {
@@ -172,6 +179,7 @@ public interface UserApi {
      *         or Invalid username/password supplied (status code 400)
      */
     @Operation(
+        operationId = "loginUser",
         summary = "Logs user into the system",
         tags = { "user" },
         responses = {
@@ -198,6 +206,7 @@ public interface UserApi {
      * @return successful operation (status code 200)
      */
     @Operation(
+        operationId = "logoutUser",
         summary = "Logs out current logged in user session",
         tags = { "user" },
         responses = {
@@ -225,6 +234,7 @@ public interface UserApi {
      *         or User not found (status code 404)
      */
     @Operation(
+        operationId = "updateUser",
         summary = "Updated user",
         tags = { "user" },
         responses = {

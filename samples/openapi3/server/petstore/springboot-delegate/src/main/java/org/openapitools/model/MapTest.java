@@ -16,12 +16,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * MapTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MapTest   {
+
   @JsonProperty("map_map_of_string")
   @Valid
   private Map<String, Map<String, String>> mapMapOfString = null;
@@ -90,10 +93,8 @@ public class MapTest   {
    * Get mapMapOfString
    * @return mapMapOfString
   */
-  @Schema(name = "mapMapOfString", defaultValue = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "map_map_of_string", required = false)
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -119,9 +120,8 @@ public class MapTest   {
    * Get mapOfEnumString
    * @return mapOfEnumString
   */
-  @Schema(name = "mapOfEnumString", defaultValue = "")
-
-
+  
+  @Schema(name = "map_of_enum_string", required = false)
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
@@ -147,9 +147,8 @@ public class MapTest   {
    * Get directMap
    * @return directMap
   */
-  @Schema(name = "directMap", defaultValue = "")
-
-
+  
+  @Schema(name = "direct_map", required = false)
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -175,9 +174,8 @@ public class MapTest   {
    * Get indirectMap
    * @return indirectMap
   */
-  @Schema(name = "indirectMap", defaultValue = "")
-
-
+  
+  @Schema(name = "indirect_map", required = false)
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
@@ -185,7 +183,6 @@ public class MapTest   {
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -211,7 +208,6 @@ public class MapTest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class MapTest {\n");
-    
     sb.append("    mapMapOfString: ").append(toIndentedString(mapMapOfString)).append("\n");
     sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
     sb.append("    directMap: ").append(toIndentedString(directMap)).append("\n");

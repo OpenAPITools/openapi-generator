@@ -28,9 +28,12 @@ export class ObservableDefaultApi {
         this.responseProcessor = responseProcessor || new DefaultApiResponseProcessor();
     }
 
+<<<<<<< HEAD
     public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
         this.requestFactory.setDefaultSecurityAuthentication(auth);
     }
+=======
+>>>>>>> 36eb3046d177f220ab68baafb9a64ef1df308571
 
     /**
      * @param inlineObject 

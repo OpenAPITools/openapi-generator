@@ -59,6 +59,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #sudo make altinstall
   pyenv install --list 
   pyenv install 3.6.3
+  pyenv install 2.7.14
   pyenv global 3.6.3
   python3 --version
 
