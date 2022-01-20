@@ -1,7 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http';
 import * as models from '../models/all';
 import { Configuration} from '../configuration'
-import { SecurityAuthentication } from '../auth/auth';
 
 import { Cat } from '../models/Cat';
 import { CatAllOf } from '../models/CatAllOf';

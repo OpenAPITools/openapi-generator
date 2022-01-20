@@ -1,7 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http.ts';
 import * as models from '../models/all.ts';
 import { Configuration} from '../configuration.ts'
-import { SecurityAuthentication } from '../auth/auth';
 
 import { ApiResponse } from '../models/ApiResponse.ts';
 import { Category } from '../models/Category.ts';

@@ -1,7 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http';
 import * as models from '../models/all';
 import { Configuration} from '../configuration'
-import { SecurityAuthentication } from '../auth/auth';
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
 import { injectable, inject, optional } from "inversify";
@@ -31,7 +30,6 @@ export class ObservablePetApi {
         this.requestFactory = requestFactory || new PetApiRequestFactory(configuration);
         this.responseProcessor = responseProcessor || new PetApiResponseProcessor();
     }
-
 
     /**
      * Add a new pet to the store
@@ -246,7 +244,6 @@ export class ObservableStoreApi {
         this.responseProcessor = responseProcessor || new StoreApiResponseProcessor();
     }
 
-
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
@@ -361,7 +358,6 @@ export class ObservableUserApi {
         this.requestFactory = requestFactory || new UserApiRequestFactory(configuration);
         this.responseProcessor = responseProcessor || new UserApiResponseProcessor();
     }
-
 
     /**
      * This can only be done by the logged in user.

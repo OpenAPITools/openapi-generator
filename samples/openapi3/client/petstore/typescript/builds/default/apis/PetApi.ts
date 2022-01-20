@@ -54,7 +54,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod =  _config.authMethods["petstore_auth"]
+        authMethod = _config.authMethods["petstore_auth"]
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
@@ -95,7 +95,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod =  _config.authMethods["petstore_auth"]
+        authMethod = _config.authMethods["petstore_auth"]
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
@@ -136,7 +136,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod =  _config.authMethods["petstore_auth"]
+        authMethod = _config.authMethods["petstore_auth"]
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
@@ -177,7 +177,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod =  _config.authMethods["petstore_auth"]
+        authMethod = _config.authMethods["petstore_auth"]
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
@@ -214,7 +214,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod =  _config.authMethods["api_key"]
+        authMethod = _config.authMethods["api_key"]
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
@@ -262,7 +262,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod =  _config.authMethods["petstore_auth"]
+        authMethod = _config.authMethods["petstore_auth"]
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
@@ -331,7 +331,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod =  _config.authMethods["petstore_auth"]
+        authMethod = _config.authMethods["petstore_auth"]
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
@@ -402,7 +402,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod: SecurityAuthentication | undefined;
         // Apply auth methods
-        authMethod =  _config.authMethods["petstore_auth"]
+        authMethod = _config.authMethods["petstore_auth"]
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
