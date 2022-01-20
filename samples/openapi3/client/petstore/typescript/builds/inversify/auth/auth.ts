@@ -80,6 +80,7 @@ export type AuthMethods = {
 }
 
 export const authMethodServices = {
+    "default"?: SecurityAuthentication,
     "api_key": ApiKeyAuthentication,
     "petstore_auth": PetstoreAuthAuthentication
 }
