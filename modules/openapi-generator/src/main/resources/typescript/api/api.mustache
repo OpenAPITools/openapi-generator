@@ -156,7 +156,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{/hasAuthMethods}}
         {{#authMethods}}
         // Apply auth methods
-        authMethod =  _config.authMethods["{{name}}"]
+        authMethod = _config.authMethods["{{name}}"]
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }

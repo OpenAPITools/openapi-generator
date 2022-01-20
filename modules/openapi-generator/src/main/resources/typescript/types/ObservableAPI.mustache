@@ -1,7 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http{{extensionForDeno}}';
 import * as models from '../models/all{{extensionForDeno}}';
 import { Configuration} from '../configuration{{extensionForDeno}}'
-import { SecurityAuthentication } from '../auth/auth';
 import { Observable, of, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
 import {mergeMap, map} from  {{#useRxJS}}'rxjs/operators'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
 {{#useInversify}}
@@ -50,7 +49,6 @@ export class Observable{{classname}} {
         this.requestFactory = requestFactory || new {{classname}}RequestFactory(configuration);
         this.responseProcessor = responseProcessor || new {{classname}}ResponseProcessor();
     }
-
 
 {{#operation}}
     /**
