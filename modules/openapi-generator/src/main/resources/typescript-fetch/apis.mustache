@@ -91,6 +91,8 @@ export class {{classname}} extends runtime.BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
+    readonly {{nickname}}Path = '{{path}}'
+
     async {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
         {{#allParams}}
         {{#required}}
@@ -252,7 +254,7 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/formParams}}
         {{/hasFormParams}}
         const response = await this.request({
-            path: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
+            path: this.{{nickname}}Path{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
             method: '{{httpMethod}}',
             headers: headerParameters,
             query: queryParameters,

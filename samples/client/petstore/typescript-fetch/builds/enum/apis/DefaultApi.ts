@@ -61,6 +61,8 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
+    readonly fakeEnumRequestGetInlinePath = '/fake/enum-request-inline'
+
     async fakeEnumRequestGetInlineRaw(requestParameters: FakeEnumRequestGetInlineRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse200>> {
         const queryParameters: any = {};
 
@@ -83,7 +85,7 @@ export class DefaultApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/fake/enum-request-inline`,
+            path: this.fakeEnumRequestGetInlinePath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -101,6 +103,8 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
+    readonly fakeEnumRequestGetRefPath = '/fake/enum-request-ref'
+
     async fakeEnumRequestGetRefRaw(requestParameters: FakeEnumRequestGetRefRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<EnumPatternObject>> {
         const queryParameters: any = {};
 
@@ -123,7 +127,7 @@ export class DefaultApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/fake/enum-request-ref`,
+            path: this.fakeEnumRequestGetRefPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -141,6 +145,8 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
+    readonly fakeEnumRequestPostInlinePath = '/fake/enum-request-inline'
+
     async fakeEnumRequestPostInlineRaw(requestParameters: FakeEnumRequestPostInlineRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineObject>> {
         const queryParameters: any = {};
 
@@ -149,7 +155,7 @@ export class DefaultApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/fake/enum-request-inline`,
+            path: this.fakeEnumRequestPostInlinePath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -168,6 +174,8 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
+    readonly fakeEnumRequestPostRefPath = '/fake/enum-request-ref'
+
     async fakeEnumRequestPostRefRaw(requestParameters: FakeEnumRequestPostRefRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<EnumPatternObject>> {
         const queryParameters: any = {};
 
@@ -176,7 +184,7 @@ export class DefaultApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/fake/enum-request-ref`,
+            path: this.fakeEnumRequestPostRefPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

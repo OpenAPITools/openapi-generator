@@ -39,6 +39,8 @@ export class BehaviorApi extends runtime.BaseAPI {
     /**
      * Get permissions for the behavior
      */
+    readonly getBehaviorPermissionsPath = '/fake_behavior/{behavior-id}/permissions'
+
     async getBehaviorPermissionsRaw(requestParameters: GetBehaviorPermissionsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<GetBehaviorPermissionsResponse>> {
         if (requestParameters.behaviorId === null || requestParameters.behaviorId === undefined) {
             throw new runtime.RequiredError('behaviorId','Required parameter requestParameters.behaviorId was null or undefined when calling getBehaviorPermissions.');
@@ -49,7 +51,7 @@ export class BehaviorApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/fake_behavior/{behavior-id}/permissions`.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters.behaviorId))),
+            path: this.getBehaviorPermissionsPath.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters.behaviorId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -69,6 +71,8 @@ export class BehaviorApi extends runtime.BaseAPI {
     /**
      * Get the type of behavior
      */
+    readonly getBehaviorTypePath = '/fake_behavior/{behavior-id}/type'
+
     async getBehaviorTypeRaw(requestParameters: GetBehaviorTypeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<GetBehaviorTypeResponse>> {
         if (requestParameters.behaviorId === null || requestParameters.behaviorId === undefined) {
             throw new runtime.RequiredError('behaviorId','Required parameter requestParameters.behaviorId was null or undefined when calling getBehaviorType.');
@@ -79,7 +83,7 @@ export class BehaviorApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/fake_behavior/{behavior-id}/type`.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters.behaviorId))),
+            path: this.getBehaviorTypePath.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters.behaviorId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

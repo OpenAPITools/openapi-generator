@@ -33,6 +33,8 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
      * To test class name in snake case
      * To test class name in snake case
      */
+    readonly testClassnamePath = '/fake_classname_test'
+
     async testClassnameRaw(requestParameters: TestClassnameRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Client>> {
         if (requestParameters.client === null || requestParameters.client === undefined) {
             throw new runtime.RequiredError('client','Required parameter requestParameters.client was null or undefined when calling testClassname.');
@@ -49,7 +51,7 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/fake_classname_test`,
+            path: this.testClassnamePath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
