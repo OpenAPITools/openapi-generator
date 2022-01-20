@@ -3,6 +3,7 @@ import { BaseAPIRequestFactory, RequiredError } from './baseapi';
 import {Configuration} from '../configuration';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import {ObjectSerializer} from '../models/ObjectSerializer';
+import { SecurityAuthentication } from '../auth/auth';
 import {ApiException} from './exception';
 import {canConsumeForm, isCodeInRange} from '../util';
 
@@ -17,6 +18,11 @@ import { PetByType } from '../models/PetByType';
  * no description
  */
 export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
+    private defaultSecurityAuthentication: SecurityAuthentication | undefined;
+
+    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
+        this.defaultSecurityAuthentication = auth;
+    }
 
     /**
      * @param inlineObject 

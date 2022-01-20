@@ -5,6 +5,7 @@ import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/ht
 import * as FormData from "form-data";
 import { URLSearchParams } from 'url';
 import {ObjectSerializer} from '../models/ObjectSerializer';
+import { SecurityAuthentication } from '../auth/auth';
 import {ApiException} from './exception';
 import {canConsumeForm, isCodeInRange} from '../util';
 
@@ -15,6 +16,11 @@ import { Order } from '../models/Order';
  * no description
  */
 export class StoreApiRequestFactory extends BaseAPIRequestFactory {
+    private defaultSecurityAuthentication: SecurityAuthentication | undefined;
+
+    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
+        this.defaultSecurityAuthentication = auth;
+    }
 
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -60,7 +66,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = _config.authMethods["api_key"]
+        authMethod = defaultSecurityAuthentication || _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }

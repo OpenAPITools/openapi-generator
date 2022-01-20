@@ -3,6 +3,7 @@ import { BaseAPIRequestFactory, RequiredError } from './baseapi.ts';
 import {Configuration} from '../configuration.ts';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http.ts';
 import {ObjectSerializer} from '../models/ObjectSerializer.ts';
+import { SecurityAuthentication } from '../auth/auth';
 import {ApiException} from './exception.ts';
 import {canConsumeForm, isCodeInRange} from '../util.ts';
 
@@ -14,6 +15,11 @@ import { Pet } from '../models/Pet.ts';
  * no description
  */
 export class PetApiRequestFactory extends BaseAPIRequestFactory {
+    private defaultSecurityAuthentication: SecurityAuthentication | undefined;
+
+    public setDefaultSecurityAuthentication(auth: SecurityAuthentication){
+        this.defaultSecurityAuthentication = auth;
+    }
 
     /**
      * Add a new pet to the store
@@ -51,7 +57,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = _config.authMethods["petstore_auth"]
+        authMethod = defaultSecurityAuthentication || _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -88,7 +94,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = _config.authMethods["petstore_auth"]
+        authMethod = defaultSecurityAuthentication || _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -125,7 +131,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = _config.authMethods["petstore_auth"]
+        authMethod = defaultSecurityAuthentication || _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -162,7 +168,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = _config.authMethods["petstore_auth"]
+        authMethod = defaultSecurityAuthentication || _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -195,7 +201,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = _config.authMethods["api_key"]
+        authMethod = defaultSecurityAuthentication || _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -239,7 +245,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = _config.authMethods["petstore_auth"]
+        authMethod = defaultSecurityAuthentication || _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -304,7 +310,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = _config.authMethods["petstore_auth"]
+        authMethod = defaultSecurityAuthentication || _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -371,7 +377,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = _config.authMethods["petstore_auth"]
+        authMethod = defaultSecurityAuthentication || _config.authMethods["petstore_auth"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
