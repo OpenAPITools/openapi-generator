@@ -1,7 +1,7 @@
 // TODO: better import syntax?
-import { BaseAPIRequestFactory, RequiredError } from './baseapi{{extensionForDeno}}';
+import {BaseAPIRequestFactory, RequiredError} from './baseapi{{extensionForDeno}}';
 import {Configuration} from '../configuration{{extensionForDeno}}';
-import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{extensionForDeno}}';
+import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{extensionForDeno}}';
 {{#platforms}}
 {{#node}}
 import * as FormData from "form-data";
@@ -11,10 +11,7 @@ import { URLSearchParams } from 'url';
 import {ObjectSerializer} from '../models/ObjectSerializer{{extensionForDeno}}';
 import {ApiException} from './exception{{extensionForDeno}}';
 import {canConsumeForm, isCodeInRange} from '../util{{extensionForDeno}}';
-
-{{^useInversify}}
-import { SecurityAuthentication } from '../auth/auth';
-{{/useInversify}}
+import {SecurityAuthentication} from '../auth/auth';
 
 {{#useInversify}}
 import { injectable } from "inversify";

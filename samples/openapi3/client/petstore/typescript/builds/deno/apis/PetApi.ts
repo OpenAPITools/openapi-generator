@@ -1,12 +1,11 @@
 // TODO: better import syntax?
-import { BaseAPIRequestFactory, RequiredError } from './baseapi.ts';
+import {BaseAPIRequestFactory, RequiredError} from './baseapi.ts';
 import {Configuration} from '../configuration.ts';
-import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http.ts';
+import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http.ts';
 import {ObjectSerializer} from '../models/ObjectSerializer.ts';
 import {ApiException} from './exception.ts';
 import {canConsumeForm, isCodeInRange} from '../util.ts';
-
-import { SecurityAuthentication } from '../auth/auth';
+import {SecurityAuthentication} from '../auth/auth';
 
 
 import { ApiResponse } from '../models/ApiResponse.ts';
