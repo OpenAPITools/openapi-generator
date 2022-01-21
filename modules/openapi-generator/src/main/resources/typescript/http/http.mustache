@@ -9,8 +9,6 @@ import * as https from 'https';
 {{/platforms}}
 {{#platforms}}
 {{^deno}}
-// typings of url-parse are incorrect...
-// @ts-ignore
 import * as URLParse from "url-parse";
 {{/deno}}
 {{/platforms}}
