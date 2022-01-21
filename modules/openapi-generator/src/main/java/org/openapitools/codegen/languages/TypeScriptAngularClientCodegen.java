@@ -549,8 +549,19 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                             setChildDiscriminatorValue(cm, child);
                         }
                     }
+
+                    // with tagged union, a child model doesn't extend the parent (all properties are just copied over)
+                    // it means we don't need to import that parent any more
                     if (cm.parent != null) {
                         cm.imports.remove(cm.parent);
+
+                        // however, it's possible that the child model contains a recursive reference to the parent
+                        // in order to support this case, we update the list of imports from properties once again
+                        for (CodegenProperty cp: cm.allVars) {
+                            addImportsForPropertyType(cm, cp);
+                        }
+                        removeSelfReferenceImports(cm);
+
                     }
                 }
                 // Add additional filename information for imports

@@ -98,6 +98,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
         // as well as keywords from https://kotlinlang.org/docs/reference/keyword-reference.html
         reservedWords = new HashSet<>(Arrays.asList(
+                "ApiResponse", // Used in the auto-generated api client
                 "abstract",
                 "actual",
                 "annotation",

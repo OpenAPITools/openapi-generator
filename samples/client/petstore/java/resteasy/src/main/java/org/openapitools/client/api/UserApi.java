@@ -7,6 +7,7 @@ import org.openapitools.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
+import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;

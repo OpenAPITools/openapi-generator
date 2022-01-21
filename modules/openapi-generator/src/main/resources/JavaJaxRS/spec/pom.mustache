@@ -140,6 +140,11 @@
 {{/useBeanValidation}}
   </dependencies>
   <properties>
+{{#java8}}
+    <java.version>1.8</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+{{/java8}}
     <jackson-version>2.9.9</jackson-version>
     <junit-version>4.13.1</junit-version>
 {{#useBeanValidation}}

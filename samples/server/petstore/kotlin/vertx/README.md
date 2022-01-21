@@ -51,8 +51,8 @@ This runs all tests and packages the library.
     <a name="documentation-for-models"></a>
     ## Documentation for Models
 
-         - [org.openapitools.server.api.model.ApiResponse](docs/ApiResponse.md)
          - [org.openapitools.server.api.model.Category](docs/Category.md)
+         - [org.openapitools.server.api.model.ModelApiResponse](docs/ModelApiResponse.md)
          - [org.openapitools.server.api.model.Order](docs/Order.md)
          - [org.openapitools.server.api.model.Pet](docs/Pet.md)
          - [org.openapitools.server.api.model.Tag](docs/Tag.md)

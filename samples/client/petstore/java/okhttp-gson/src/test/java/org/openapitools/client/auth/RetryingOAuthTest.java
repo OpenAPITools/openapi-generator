@@ -36,7 +36,7 @@ public class RetryingOAuthTest {
                 new RetryingOAuth(
                         "_clientId",
                         "_clientSecret",
-                        OAuthFlow.accessCode,
+                        OAuthFlow.ACCESS_CODE,
                         "https://token.example.com",
                         Collections.<String, String>emptyMap());
         oauth.setAccessToken("expired-access-token");

@@ -281,6 +281,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // {{sourceFolder}}
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
+            
+            // TODO: Move to its own option when a parameter for 'testFolder' is added.
+            setTestFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         } else {
             additionalProperties.put(CodegenConstants.SOURCE_FOLDER, this.sourceFolder);
         }
@@ -1150,6 +1153,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
+    }
+    
+    public void setTestFolder(String testFolder) {
+        this.testFolder = testFolder;
     }
 
     public String getInterfacePrefix() {
