@@ -3,7 +3,12 @@
  */
 {{>additionalModelTypeAnnotations}}
 {{#description}}
-{{#oas3}}@Schema({{#name}}name = "{{name}}", {{/name}}{{/oas3}}{{^oas3}}@ApiModel({{/oas3}}description = "{{{.}}}")
+{{#swagger1AnnotationLibrary}}
+@ApiModel(description = "{{{description}}}")
+{{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+@Schema({{#name}}name = "{{name}}", {{/name}}description = "{{{description}}}")
+{{/swagger2AnnotationLibrary}}
 {{/description}}
 {{#discriminator}}
 {{>typeInfoAnnotation}}
@@ -130,12 +135,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{#useBeanValidation}}
   {{>beanValidation}}
   {{/useBeanValidation}}
-  {{#oas3}}
+  {{#swagger2AnnotationLibrary}}
   @Schema(name = "{{{baseName}}}", {{#isReadOnly}}accessMode = Schema.AccessMode.READ_ONLY, {{/isReadOnly}}{{#example}}example = "{{{.}}}", {{/example}}{{#description}}description = "{{{.}}}", {{/description}}required = {{{required}}})
-  {{/oas3}}
-  {{^oas3}}
+  {{/swagger2AnnotationLibrary}}
+  {{#swagger1AnnotationLibrary}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
-  {{/oas3}}
+  {{/swagger1AnnotationLibrary}}
   public {{>nullableDataType}} {{getter}}() {
     return {{name}};
   }

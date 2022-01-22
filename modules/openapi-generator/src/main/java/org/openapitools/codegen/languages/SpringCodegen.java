@@ -89,7 +89,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String OPENAPI_DOCKET_CONFIG = "swaggerDocketConfig";
     public static final String API_FIRST = "apiFirst";
-    public static final String OAS3 = "oas3";
     public static final String SPRING_CONTROLLER = "useSpringController";
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
@@ -122,7 +121,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
     protected boolean useSpringController = false;
-    protected boolean oas3 = false;
 
     public SpringCodegen() {
         super();
@@ -198,7 +196,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
         cliOptions
                 .add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
-        cliOptions.add(CliOption.newBoolean(OAS3, "Use OAS 3 Swagger annotations instead of OAS 2 annotations", oas3));
         cliOptions.add(CliOption.newBoolean(SPRING_CONTROLLER, "Annotate the generated API as a Spring Controller", useSpringController));
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING,
                 "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).",
@@ -237,6 +234,29 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public String getHelp() {
         return "Generates a Java SpringBoot Server application using the SpringFox integration.";
+    }
+
+    @Override
+    public DocumentationProvider defaultDocumentationProvider() {
+        return DocumentationProvider.SPRINGDOC;
+    }
+
+    public List<DocumentationProvider> supportedDocumentationProvider() {
+        List<DocumentationProvider> supportedProviders = new ArrayList<>();
+        supportedProviders.add(DocumentationProvider.NONE);
+        supportedProviders.add(DocumentationProvider.SOURCE);
+        supportedProviders.add(DocumentationProvider.SPRINGFOX);
+        supportedProviders.add(DocumentationProvider.SPRINGDOC);
+        return supportedProviders;
+    }
+
+    @Override
+    public List<AnnotationLibrary> supportedAnnotationLibraries() {
+        List<AnnotationLibrary> supportedLibraries = new ArrayList<>();
+        supportedLibraries.add(AnnotationLibrary.NONE);
+        supportedLibraries.add(AnnotationLibrary.SWAGGER1);
+        supportedLibraries.add(AnnotationLibrary.SWAGGER2);
+        return supportedLibraries;
     }
 
     @Override
@@ -374,11 +394,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         writePropertyBack(SPRING_CONTROLLER, useSpringController);
 
-        if (additionalProperties.containsKey(OAS3)) {
-            this.setOas3(convertPropertyToBoolean(OAS3));
-        }
-        writePropertyBack(OAS3, oas3);
-
         if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
             this.setReturnSuccessCode(Boolean.parseBoolean(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
         }
@@ -394,6 +409,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
+        importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
 
         if (useOptional) {
             writePropertyBack(USE_OPTIONAL, useOptional);
@@ -517,15 +533,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         } else if (async) {
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
-
-        // Springfox cannot be used with oas3 or apiFirst or reactive. So, write the property back after determining
-        // whether it should be enabled or not.
-        boolean useSpringFox = false;
-        if (!apiFirst && !reactive && !oas3) {
-            useSpringFox = true;
-            additionalProperties.put("useSpringfox", true);
-        }
-        writePropertyBack("useSpringfox", useSpringFox);
 
         // Some well-known Spring or Spring-Cloud response wrappers
         if (isNotEmpty(responseWrapper)) {
@@ -885,10 +892,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.useSpringController = useSpringController;
     }
 
-    public void setOas3(boolean oas3) {
-        this.oas3 = oas3;
-    }
-
     public void setReturnSuccessCode(boolean returnSuccessCode) {
         this.returnSuccessCode = returnSuccessCode;
     }
@@ -937,8 +940,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel codegenModel = super.fromModel(name, model);
-        if (oas3) {
-            // remove swagger2 imports
+        if (getAnnotationLibrary() != AnnotationLibrary.SWAGGER1) {
+            // remove swagger imports
             codegenModel.imports.remove("ApiModelProperty");
             codegenModel.imports.remove("ApiModel");
         }
@@ -961,7 +964,16 @@ public class SpringCodegen extends AbstractJavaCodegen
         // add org.springframework.data.domain.Pageable import when needed
         if (codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
             codegenOperation.imports.add("Pageable");
-            if (Boolean.TRUE.equals(additionalProperties.get("useSpringfox"))) {
+            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                codegenOperation.imports.add("ApiIgnore");
+            }
+            if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
+                codegenOperation.imports.add("ParameterObject");
+            }
+        }
+
+        if (reactive) {
+            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 codegenOperation.imports.add("ApiIgnore");
             }
         }
