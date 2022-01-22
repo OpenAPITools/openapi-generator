@@ -138,7 +138,7 @@ static bool addPetHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = addPetProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -274,7 +274,7 @@ static bool deletePetHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = deletePetProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -418,7 +418,7 @@ static bool findPetsByStatusHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = findPetsByStatusProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -562,7 +562,7 @@ static bool findPetsByTagsHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = findPetsByTagsProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -714,7 +714,7 @@ static bool getPetByIdHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = getPetByIdProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -852,7 +852,7 @@ static bool updatePetHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = updatePetProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -982,7 +982,7 @@ static bool updatePetWithFormHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = updatePetWithFormProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);
@@ -1134,7 +1134,7 @@ static bool uploadFileHelper(char * accessToken,
 			mBody, headerList, p_chunk, &code, errormsg);
 		bool retval = uploadFileProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (p_chunk) {
 			if(p_chunk->memory) {
 				free(p_chunk->memory);

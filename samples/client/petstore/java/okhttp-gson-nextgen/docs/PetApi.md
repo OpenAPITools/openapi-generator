@@ -46,11 +46,7 @@ public class Example {
     try {
       apiInstance.addPet(pet);
     } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#addPet");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -111,11 +107,7 @@ public class Example {
     try {
       apiInstance.deletePet(petId, apiKey);
     } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#deletePet");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -180,11 +172,7 @@ public class Example {
       List<Pet> result = apiInstance.findPetsByStatus(status);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#findPetsByStatus");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -249,11 +237,7 @@ public class Example {
       List<Pet> result = apiInstance.findPetsByTags(tags);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#findPetsByTags");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -319,11 +303,7 @@ public class Example {
       Pet result = apiInstance.getPetById(petId);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#getPetById");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -386,11 +366,7 @@ public class Example {
     try {
       apiInstance.updatePet(pet);
     } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#updatePet");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -454,11 +430,7 @@ public class Example {
     try {
       apiInstance.updatePetWithForm(petId, name, status);
     } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#updatePetWithForm");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -492,7 +464,7 @@ null (empty response body)
 
 <a name="uploadFile"></a>
 # **uploadFile**
-> ModelApiResponse uploadFile(petId, additionalMetadata, file)
+> ModelApiResponse uploadFile(petId, additionalMetadata, _file)
 
 uploads an image
 
@@ -518,16 +490,12 @@ public class Example {
     PetApi apiInstance = new PetApi(defaultClient);
     Long petId = 56L; // Long | ID of pet to update
     String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
-    File file = new File("/path/to/file"); // File | file to upload
+    File _file = new File("/path/to/file"); // File | file to upload
     try {
-      ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
+      ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, _file);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#uploadFile");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -539,7 +507,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
  **additionalMetadata** | **String**| Additional data to pass to server | [optional]
- **file** | **File**| file to upload | [optional]
+ **_file** | **File**| file to upload | [optional]
 
 ### Return type
 
@@ -592,11 +560,7 @@ public class Example {
       ModelApiResponse result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#uploadFileWithRequiredFile");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }

@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
-import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
@@ -43,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.GenericType;
 
 public class FakeApi {
     private ApiClient localVarApiClient;
@@ -98,7 +98,7 @@ public class FakeApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -144,8 +144,14 @@ public class FakeApi {
      */
     public ApiResponse<HealthCheckResult> fakeHealthGetWithHttpInfo() throws ApiException {
         okhttp3.Call localVarCall = fakeHealthGetValidateBeforeCall(null);
-        Type localVarReturnType = new TypeToken<HealthCheckResult>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<HealthCheckResult>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<HealthCheckResult>(){}.getType()));
+            e.setErrorObjectType(new GenericType<HealthCheckResult>(){});
+            throw e;
+        }
     }
 
     /**
@@ -203,7 +209,7 @@ public class FakeApi {
             "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -251,8 +257,14 @@ public class FakeApi {
      */
     public ApiResponse<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterBooleanSerializeValidateBeforeCall(body, null);
-        Type localVarReturnType = new TypeToken<Boolean>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<Boolean>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Boolean>(){}.getType()));
+            e.setErrorObjectType(new GenericType<Boolean>(){});
+            throw e;
+        }
     }
 
     /**
@@ -311,7 +323,7 @@ public class FakeApi {
             "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -359,8 +371,14 @@ public class FakeApi {
      */
     public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterCompositeSerializeValidateBeforeCall(outerComposite, null);
-        Type localVarReturnType = new TypeToken<OuterComposite>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<OuterComposite>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<OuterComposite>(){}.getType()));
+            e.setErrorObjectType(new GenericType<OuterComposite>(){});
+            throw e;
+        }
     }
 
     /**
@@ -419,7 +437,7 @@ public class FakeApi {
             "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -467,8 +485,14 @@ public class FakeApi {
      */
     public ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterNumberSerializeValidateBeforeCall(body, null);
-        Type localVarReturnType = new TypeToken<BigDecimal>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<BigDecimal>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<BigDecimal>(){}.getType()));
+            e.setErrorObjectType(new GenericType<BigDecimal>(){});
+            throw e;
+        }
     }
 
     /**
@@ -527,7 +551,7 @@ public class FakeApi {
             "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -575,8 +599,14 @@ public class FakeApi {
      */
     public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(String body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterStringSerializeValidateBeforeCall(body, null);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<String>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<String>(){}.getType()));
+            e.setErrorObjectType(new GenericType<String>(){});
+            throw e;
+        }
     }
 
     /**
@@ -634,7 +664,7 @@ public class FakeApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -680,8 +710,14 @@ public class FakeApi {
      */
     public ApiResponse<List<OuterEnum>> getArrayOfEnumsWithHttpInfo() throws ApiException {
         okhttp3.Call localVarCall = getArrayOfEnumsValidateBeforeCall(null);
-        Type localVarReturnType = new TypeToken<List<OuterEnum>>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<List<OuterEnum>>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<List<OuterEnum>>(){}.getType()));
+            e.setErrorObjectType(new GenericType<List<OuterEnum>>(){});
+            throw e;
+        }
     }
 
     /**
@@ -701,115 +737,6 @@ public class FakeApi {
         okhttp3.Call localVarCall = getArrayOfEnumsValidateBeforeCall(_callback);
         Type localVarReturnType = new TypeToken<List<OuterEnum>>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
-        return localVarCall;
-    }
-    /**
-     * Build call for testBodyWithFileSchema
-     * @param fileSchemaTestClass  (required)
-     * @param _callback Callback for upload/download progress
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call testBodyWithFileSchemaCall(FileSchemaTestClass fileSchemaTestClass, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = fileSchemaTestClass;
-
-        // create path and map variables
-        String localVarPath = "/fake/body-with-file-schema";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            
-        };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) {
-            localVarHeaderParams.put("Accept", localVarAccept);
-        }
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
-            localVarHeaderParams.put("Content-Type", localVarContentType);
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private okhttp3.Call testBodyWithFileSchemaValidateBeforeCall(FileSchemaTestClass fileSchemaTestClass, final ApiCallback _callback) throws ApiException {
-        
-        // verify the required parameter 'fileSchemaTestClass' is set
-        if (fileSchemaTestClass == null) {
-            throw new ApiException("Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema(Async)");
-        }
-        
-
-        okhttp3.Call localVarCall = testBodyWithFileSchemaCall(fileSchemaTestClass, _callback);
-        return localVarCall;
-
-    }
-
-    /**
-     * 
-     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param fileSchemaTestClass  (required)
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
-     </table>
-     */
-    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
-        testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass);
-    }
-
-    /**
-     * 
-     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param fileSchemaTestClass  (required)
-     * @return ApiResponse&lt;Void&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
-     </table>
-     */
-    public ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
-        okhttp3.Call localVarCall = testBodyWithFileSchemaValidateBeforeCall(fileSchemaTestClass, null);
-        return localVarApiClient.execute(localVarCall);
-    }
-
-    /**
-     *  (asynchronously)
-     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param fileSchemaTestClass  (required)
-     * @param _callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call testBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, final ApiCallback<Void> _callback) throws ApiException {
-
-        okhttp3.Call localVarCall = testBodyWithFileSchemaValidateBeforeCall(fileSchemaTestClass, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
     /**
@@ -853,7 +780,7 @@ public class FakeApi {
             "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -970,7 +897,7 @@ public class FakeApi {
             "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -1023,8 +950,14 @@ public class FakeApi {
      */
     public ApiResponse<Client> testClientModelWithHttpInfo(Client client) throws ApiException {
         okhttp3.Call localVarCall = testClientModelValidateBeforeCall(client, null);
-        Type localVarReturnType = new TypeToken<Client>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<Client>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Client>(){}.getType()));
+            e.setErrorObjectType(new GenericType<Client>(){});
+            throw e;
+        }
     }
 
     /**
@@ -1153,7 +1086,7 @@ public class FakeApi {
             "application/x-www-form-urlencoded"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -1359,7 +1292,7 @@ public class FakeApi {
             "application/x-www-form-urlencoded"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -1499,7 +1432,7 @@ public class FakeApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -1698,7 +1631,7 @@ public class FakeApi {
             "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -1816,7 +1749,7 @@ public class FakeApi {
             "application/x-www-form-urlencoded"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -1957,7 +1890,7 @@ public class FakeApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 

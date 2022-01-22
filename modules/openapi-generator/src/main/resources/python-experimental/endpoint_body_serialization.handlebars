@@ -1,0 +1,6 @@
+serialized_data = request_body_{{paramName}}.serialize(body, content_type)
+_headers.add('Content-Type', content_type)
+if 'fields' in serialized_data:
+    _fields = serialized_data['fields']
+elif 'body' in serialized_data:
+    _body = serialized_data['body']

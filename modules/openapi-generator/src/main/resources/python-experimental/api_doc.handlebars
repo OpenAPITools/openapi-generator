@@ -1,0 +1,212 @@
+# {{packageName}}.{{classname}}{{#if description}}
+{{description}}{{/if}}
+
+All URIs are relative to *{{basePath}}*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#with operations}}{{#each operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#if summary}}{{summary}}{{/if}}
+{{/each}}{{/with}}
+
+{{#with operations}}
+{{#each operation}}
+# **{{{operationId}}}**
+> {{#if returnType}}{{{returnType}}} {{/if}}{{{operationId}}}({{#each requiredParams}}{{#unless defaultValue}}{{paramName}}{{#if hasMore}}, {{/if}}{{/unless}}{{/each}})
+
+{{{summary}}}{{#if notes}}
+
+{{{notes}}}{{/if}}
+
+### Example
+
+{{#if hasAuthMethods}}
+{{#each authMethods}}
+{{#if isBasic}}
+{{#if isBasicBasic}}
+* Basic Authentication ({{name}}):
+{{/if}}
+{{#if isBasicBearer}}
+* Bearer{{#if bearerFormat}} ({{{bearerFormat}}}){{/if}} Authentication ({{name}}):
+{{/if}}
+{{/if}}
+{{#if isApiKey}}
+* Api Key Authentication ({{name}}):
+{{/if}}
+{{#if isOAuth}}
+* OAuth Authentication ({{name}}):
+{{/if}}
+{{/each}}
+{{/if}}
+{{> api_doc_example }}
+### Parameters
+{{#if allParams}}
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+    {{#with bodyParam}}
+{{baseName}} | typing.Union[{{#each content}}{{#unless @first}}, {{/unless}}{{this.schema.baseName}}{{/each}}{{#unless required}}, Unset]{{else}}]{{/unless}} | {{#if required}}required{{else}}optional, default is unset{{/if}} |
+    {{/with}}
+    {{#if queryParams}}
+query_params | RequestQueryParams | |
+    {{/if}}
+    {{#if headerParams}}
+header_params | RequestHeaderParams | |
+    {{/if}}
+    {{#if pathParams}}
+path_params | RequestPathParams | |
+    {{/if}}
+    {{#if cookieParams}}
+cookie_params | RequestCookieParams | |
+    {{/if}}
+    {{#with bodyParam}}
+        {{#each content}}
+        {{#if @first}}
+content_type | str | optional, default is '{{@key}}' | Selects the schema and serialization of the request body
+        {{/if}}
+        {{/each}}
+    {{/with}}
+    {{#if produces}}
+accept_content_types | typing.Tuple[str] | default is ({{#each produces}}'{{this.mediaType}}', {{/each}}) | Tells the server the content type(s) that are accepted by the client
+    {{/if}}
+    {{#if servers}}
+host_index | typing.Optional[int] | default is None | Allows one to select a different host
+    {{/if}}
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+    {{#with bodyParam}}
+
+### body
+        {{#each content}}
+        {{#with this.schema}}
+{{> api_doc_schema_type_hint }}
+        {{/with}}
+        {{/each}}
+    {{/with}}
+    {{#if queryParams}}
+
+### query_params
+#### RequestQueryParams
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+        {{#each queryParams}}
+{{baseName}} | {{#with schema}}{{baseName}}{{/with}} | | {{#unless required}}optional{{/unless}}
+        {{/each}}
+
+        {{#each queryParams}}
+        {{#with schema}}
+{{> api_doc_schema_type_hint }}
+        {{/with}}
+        {{/each}}
+    {{/if}}
+    {{#if headerParams}}
+
+### header_params
+#### RequestHeaderParams
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+        {{#each headerParams}}
+{{baseName}} | {{#with schema}}{{baseName}}{{/with}} | | {{#unless required}}optional{{/unless}}
+        {{/each}}
+        {{#each headerParams}}
+        {{#with schema}}
+{{> api_doc_schema_type_hint }}
+        {{/with}}
+        {{/each}}
+    {{/if}}
+    {{#if pathParams}}
+
+### path_params
+#### RequestPathParams
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+        {{#each pathParams}}
+{{baseName}} | {{#with schema}}{{baseName}}{{/with}} | | {{#unless required}}optional{{/unless}}
+        {{/each}}
+        {{#each pathParams}}
+        {{#with schema}}
+{{> api_doc_schema_type_hint }}
+        {{/with}}
+        {{/each}}
+    {{/if}}
+    {{#if cookieParams}}
+
+### cookie_params
+#### RequestCookieParams
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+        {{#each cookieParams}}
+{{baseName}} | {{#with schema}}{{baseName}}{{/with}} | | {{#unless required}}optional{{/unless}}
+        {{/each}}
+        {{#each cookieParams}}
+        {{#with schema}}
+{{> api_doc_schema_type_hint }}
+        {{/with}}
+        {{/each}}
+    {{/if}}
+{{else}}
+This endpoint does not need any parameter.
+{{/if}}
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+{{#each responses}}
+{{#if isDefault}}
+default | ApiResponseForDefault | {{message}} {{description}}
+{{else}}
+{{code}} | ApiResponseFor{{code}} | {{message}} {{description}}
+{{/if}}
+{{/each}}
+{{#each responses}}
+{{#if isDefault}}
+
+#### ApiResponseForDefault
+{{else}}
+
+#### ApiResponseFor{{code}}
+{{/if}}
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | {{#unless content}}Unset{{else}}typing.Union[{{#each content}}{{this.schema.baseName}}, {{/each}}]{{/unless}} | {{#unless content}}body was not defined{{/unless}} |
+headers | {{#unless responseHeaders}}Unset{{else}}ResponseHeadersFor{{code}}{{/unless}} | {{#unless responseHeaders}}headers were not defined{{/unless}} |
+{{#each content}}
+{{#with this.schema}}
+{{> api_doc_schema_type_hint }}
+{{/with}}
+{{/each}}
+{{#if responseHeaders}}
+#### ResponseHeadersFor{{code}}
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+        {{#each responseHeaders}}
+{{baseName}} | {{#with schema}}{{baseName}}{{/with}} | | {{#unless required}}optional{{/unless}}
+        {{/each}}
+        {{#each responseHeaders}}
+        {{#with schema}}
+{{> api_doc_schema_type_hint }}
+        {{/with}}
+        {{/each}}
+
+{{/if}}
+{{/each}}
+
+
+{{#if returnType}}{{#if returnTypeIsPrimitive}}**{{{returnType}}}**{{/if}}{{#unless returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/unless}}{{/if}}{{#unless returnType}}void (empty response body){{/unless}}
+
+### Authorization
+
+{{#unless authMethods}}No authorization required{{/unless}}{{#each authMethods}}[{{{name}}}](../README.md#{{{name}}}){{#unless @last}}, {{/unless}}{{/each}}
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+{{/each}}
+{{/with}}

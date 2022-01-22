@@ -1,0 +1,51 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+from setuptools import setup, find_packages  # noqa: H301
+
+NAME = "{{{projectName}}}"
+VERSION = "{{packageVersion}}"
+{{#with apiInfo}}
+# To install the library, run the following
+#
+# python setup.py install
+#
+# prerequisite: setuptools
+# http://pypi.python.org/pypi/setuptools
+
+REQUIRES = [
+  "urllib3 >= 1.15",
+  "certifi",
+  "python-dateutil",
+  "frozendict >= 2.0.3",
+{{#if asyncio}}
+  "aiohttp >= 3.0.0",
+{{/if}}
+{{#if tornado}}
+  "tornado>=4.2,<5",
+{{/if}}
+{{#if hasHttpSignatureMethods}}
+  "pem>=19.3.0",
+  "pycryptodome>=3.9.0",
+{{/if}}
+]
+
+setup(
+    name=NAME,
+    version=VERSION,
+    description="{{appName}}",
+    author="{{#if infoName}}{{infoName}}{{/if}}{{#unless infoName}}OpenAPI Generator community{{/unless}}",
+    author_email="{{#if infoEmail}}{{infoEmail}}{{/if}}{{#unless infoEmail}}team@openapitools.org{{/unless}}",
+    url="{{packageUrl}}",
+    keywords=["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"],
+    python_requires="{{{generatorLanguageVersion}}}",
+    install_requires=REQUIRES,
+    packages=find_packages(exclude=["test", "tests"]),
+    include_package_data=True,
+    {{#if licenseInfo}}license="{{licenseInfo}}",
+    {{/if}}long_description="""\
+    {{appDescription}}  # noqa: E501
+    """
+)
+{{/with}}

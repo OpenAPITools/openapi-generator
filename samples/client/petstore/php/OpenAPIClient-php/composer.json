@@ -23,7 +23,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "guzzlehttp/guzzle": "^7.3",
-        "guzzlehttp/psr7": "^2.0"
+        "guzzlehttp/psr7": "^1.7 || ^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0 || ^9.0",

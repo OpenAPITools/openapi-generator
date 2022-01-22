@@ -19,7 +19,7 @@ type {{classname}} struct {
 {{#deprecated}}
 	// Deprecated
 {{/deprecated}}
-	{{name}} {{^required}}{{^isNullable}}*{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+	{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
 {{#isAdditionalPropertiesTrue}}
 	AdditionalProperties map[string]interface{}
@@ -121,20 +121,20 @@ func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
 {{#deprecated}}
 // Deprecated
 {{/deprecated}}
-func (o *{{classname}}) Get{{name}}Ok() (*{{vendorExtensions.x-go-base-type}}, bool) {
+func (o *{{classname}}) Get{{name}}Ok() ({{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{vendorExtensions.x-go-base-type}}, bool) {
 	if o == nil {{#isNullable}}{{#vendorExtensions.x-golang-is-container}}|| o.{{name}} == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
 		return nil, false
 	}
 {{#isNullable}}
 {{#vendorExtensions.x-golang-is-container}}
-	return &o.{{name}}, true
+	return {{^isArray}}{{^isFreeFormObject}}&{{/isFreeFormObject}}{{/isArray}}o.{{name}}, true
 {{/vendorExtensions.x-golang-is-container}}
 {{^vendorExtensions.x-golang-is-container}}
 	return o.{{name}}.Get(), o.{{name}}.IsSet()
 {{/vendorExtensions.x-golang-is-container}}
 {{/isNullable}}
 {{^isNullable}}
-	return &o.{{name}}, true
+	return {{^isArray}}{{^isFreeFormObject}}&{{/isFreeFormObject}}{{/isArray}}o.{{name}}, true
 {{/isNullable}}
 }
 
@@ -176,7 +176,7 @@ func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
 {{/vendorExtensions.x-golang-is-container}}
 {{/isNullable}}
 {{^isNullable}}
-	return *o.{{name}}
+	return {{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}o.{{name}}
 {{/isNullable}}
 }
 
@@ -188,13 +188,13 @@ func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
 {{#deprecated}}
 // Deprecated
 {{/deprecated}}
-func (o *{{classname}}) Get{{name}}Ok() (*{{vendorExtensions.x-go-base-type}}, bool) {
+func (o *{{classname}}) Get{{name}}Ok() ({{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{vendorExtensions.x-go-base-type}}, bool) {
 	if o == nil {{^isNullable}}|| o.{{name}} == nil{{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}}|| o.{{name}} == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
 		return nil, false
 	}
 {{#isNullable}}
 {{#vendorExtensions.x-golang-is-container}}
-	return &o.{{name}}, true
+	return {{^isArray}}{{^isFreeFormObject}}&{{/isFreeFormObject}}{{/isArray}}o.{{name}}, true
 {{/vendorExtensions.x-golang-is-container}}
 {{^vendorExtensions.x-golang-is-container}}
 	return o.{{name}}.Get(), o.{{name}}.IsSet()
@@ -224,11 +224,11 @@ func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
 	o.{{name}} = v
 {{/vendorExtensions.x-golang-is-container}}
 {{^vendorExtensions.x-golang-is-container}}
-	o.{{name}}.Set(&v)
+	o.{{name}}.Set({{^isArray}}{{^isFreeFormObject}}&{{/isFreeFormObject}}{{/isArray}}v)
 {{/vendorExtensions.x-golang-is-container}}
 {{/isNullable}}
 {{^isNullable}}
-	o.{{name}} = &v
+	o.{{name}} = {{^isArray}}{{^isFreeFormObject}}&{{/isFreeFormObject}}{{/isArray}}v
 {{/isNullable}}
 }
 {{#isNullable}}

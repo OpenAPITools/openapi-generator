@@ -50,6 +50,8 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     protected String artifactId = "openapi-server";
     protected String authDirName = "Auth";
     protected String authPackage = "";
+    protected String appDirName = "App";
+    protected String appPackage = "";
     protected String psr7Implementation = "slim-psr7";
     protected String interfacesDirName = "Interfaces";
     protected String interfacesPackage = "";
@@ -92,6 +94,7 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         modelPackage = invokerPackage + "\\" + modelDirName;
         authPackage = invokerPackage + "\\" + authDirName;
         interfacesPackage = invokerPackage + "\\" + interfacesDirName;
+        appPackage = invokerPackage + "\\" + appDirName;
         outputFolder = "generated-code" + File.separator + "slim4";
 
         modelTestTemplateFiles.put("model_test.mustache", ".php");
@@ -158,11 +161,17 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     public void processOpts() {
         super.processOpts();
 
+        Boolean generateModels = additionalProperties.containsKey(CodegenConstants.GENERATE_MODELS) && Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_MODELS));
+        Boolean generateApiTests = additionalProperties.containsKey(CodegenConstants.GENERATE_API_TESTS) && Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_API_TESTS));
+        Boolean generateModelTests = additionalProperties.containsKey(CodegenConstants.GENERATE_MODEL_TESTS) && Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_MODEL_TESTS));
+
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             // Update the invokerPackage for the default authPackage
             authPackage = invokerPackage + "\\" + authDirName;
             // Update interfacesPackage
             interfacesPackage = invokerPackage + "\\" + interfacesDirName;
+            // update appPackage
+            appPackage = invokerPackage + "\\" + appDirName;
         }
 
         // make auth src path available in mustache template
@@ -173,6 +182,10 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         additionalProperties.put("interfacesPackage", interfacesPackage);
         additionalProperties.put("interfacesSrcPath", "./" + toSrcPath(interfacesPackage, srcBasePath));
         additionalProperties.put("interfacesTestPath", "./" + toSrcPath(interfacesPackage, testBasePath));
+
+        // same for app classes
+        additionalProperties.put("appPackage", appPackage);
+        additionalProperties.put("appSrcPath", "./" + toSrcPath(appPackage, srcBasePath));
 
         if (additionalProperties.containsKey(PSR7_IMPLEMENTATION)) {
             this.setPsr7Implementation((String) additionalProperties.get(PSR7_IMPLEMENTATION));
@@ -209,18 +222,29 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
         supportingFiles.add(new SupportingFile("index.mustache", "public", "index.php"));
         supportingFiles.add(new SupportingFile(".htaccess", "public", ".htaccess"));
-        supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
-        supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
+        supportingFiles.add(new SupportingFile("register_dependencies.mustache", toSrcPath(appPackage, srcBasePath), "RegisterDependencies.php"));
+        supportingFiles.add(new SupportingFile("register_middlewares.mustache", toSrcPath(appPackage, srcBasePath), "RegisterMiddlewares.php"));
+        supportingFiles.add(new SupportingFile("register_routes.mustache", toSrcPath(appPackage, srcBasePath), "RegisterRoutes.php"));
+
+        // don't generate phpunit config when tests generation disabled
+        if (Boolean.TRUE.equals(generateApiTests) || Boolean.TRUE.equals(generateModelTests)) {
+            supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
+            additionalProperties.put("generateTests", Boolean.TRUE);
+        }
+
         supportingFiles.add(new SupportingFile("phpcs.xml.mustache", "", "phpcs.xml.dist"));
 
-        // Slim 4 doesn't parse JSON body anymore we need to add suggested middleware
-        // ref: https://www.slimframework.com/docs/v4/objects/request.html#the-request-body
         supportingFiles.add(new SupportingFile("htaccess_deny_all", "config", ".htaccess"));
-        supportingFiles.add(new SupportingFile("config_example.mustache", "config" + File.separator + "dev", "example.inc.php"));
-        supportingFiles.add(new SupportingFile("config_example.mustache", "config" + File.separator + "prod", "example.inc.php"));
-        supportingFiles.add(new SupportingFile("json_body_parser_middleware.mustache", toSrcPath(invokerPackage + "\\Middleware", srcBasePath), "JsonBodyParserMiddleware.php"));
-        supportingFiles.add(new SupportingFile("base_model.mustache", toSrcPath(invokerPackage, srcBasePath), "BaseModel.php"));
-        supportingFiles.add(new SupportingFile("base_model_test.mustache", toSrcPath(invokerPackage, testBasePath), "BaseModelTest.php"));
+        supportingFiles.add(new SupportingFile("config_dev_default.mustache", "config" + File.separator + "dev", "default.inc.php"));
+        supportingFiles.add(new SupportingFile("config_prod_default.mustache", "config" + File.separator + "prod", "default.inc.php"));
+
+        if (Boolean.TRUE.equals(generateModels)) {
+            supportingFiles.add(new SupportingFile("base_model.mustache", toSrcPath(invokerPackage, srcBasePath), "BaseModel.php"));
+        }
+
+        if (Boolean.TRUE.equals(generateModelTests)) {
+            supportingFiles.add(new SupportingFile("base_model_test.mustache", toSrcPath(invokerPackage, testBasePath), "BaseModelTest.php"));
+        }
     }
 
     @Override

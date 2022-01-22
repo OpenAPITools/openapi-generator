@@ -1,8 +1,18 @@
 ---
-title: Config Options for graphql-nodejs-express-server
-sidebar_label: graphql-nodejs-express-server
+title: Documentation for the graphql-nodejs-express-server Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | graphql-nodejs-express-server | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Javascript | |
+| helpTxt | Generates a GraphQL Node.js Express server (beta) including it's types, queries, mutations, (resolvers) | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

@@ -10,7 +10,6 @@ Method | HTTP request | Description
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 [**getArrayOfEnums**](FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums
-[**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -46,11 +45,7 @@ public class Example {
       HealthCheckResult result = apiInstance.fakeHealthGet();
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#fakeHealthGet");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -105,11 +100,7 @@ public class Example {
       Boolean result = apiInstance.fakeOuterBooleanSerialize(body);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#fakeOuterBooleanSerialize");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -167,11 +158,7 @@ public class Example {
       OuterComposite result = apiInstance.fakeOuterCompositeSerialize(outerComposite);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#fakeOuterCompositeSerialize");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -229,11 +216,7 @@ public class Example {
       BigDecimal result = apiInstance.fakeOuterNumberSerialize(body);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#fakeOuterNumberSerialize");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -291,11 +274,7 @@ public class Example {
       String result = apiInstance.fakeOuterStringSerialize(body);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#fakeOuterStringSerialize");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -350,11 +329,7 @@ public class Example {
       List<OuterEnum> result = apiInstance.getArrayOfEnums();
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#getArrayOfEnums");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -380,67 +355,6 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Got named array of enums |  -  |
-
-<a name="testBodyWithFileSchema"></a>
-# **testBodyWithFileSchema**
-> testBodyWithFileSchema(fileSchemaTestClass)
-
-
-
-For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-
-### Example
-```java
-// Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.FakeApi;
-
-public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-
-    FakeApi apiInstance = new FakeApi(defaultClient);
-    FileSchemaTestClass fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
-    try {
-      apiInstance.testBodyWithFileSchema(fileSchemaTestClass);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#testBodyWithFileSchema");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
-    }
-  }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  |
-
-### Return type
-
-null (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: Not defined
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Success |  -  |
 
 <a name="testBodyWithQueryParams"></a>
 # **testBodyWithQueryParams**
@@ -468,11 +382,7 @@ public class Example {
     try {
       apiInstance.testBodyWithQueryParams(query, user);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#testBodyWithQueryParams");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -531,11 +441,7 @@ public class Example {
       Client result = apiInstance.testClientModel(client);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#testClientModel");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -611,11 +517,7 @@ public class Example {
     try {
       apiInstance.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#testEndpointParameters");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -693,11 +595,7 @@ public class Example {
     try {
       apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#testEnumParameters");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -776,11 +674,7 @@ public class Example {
             .int64Group(int64Group)
             .execute();
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#testGroupParameters");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -840,11 +734,7 @@ public class Example {
     try {
       apiInstance.testInlineAdditionalProperties(requestBody);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#testInlineAdditionalProperties");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -900,11 +790,7 @@ public class Example {
     try {
       apiInstance.testJsonFormData(param, param2);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#testJsonFormData");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -966,11 +852,7 @@ public class Example {
     try {
       apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#testQueryParameterCollectionFormat");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }

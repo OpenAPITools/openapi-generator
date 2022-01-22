@@ -1,8 +1,18 @@
 ---
-title: Config Options for protobuf-schema
-sidebar_label: protobuf-schema
+title: Documentation for the protobuf-schema Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | protobuf-schema | pass this to the generate command after -g |
+| generator stability | BETA | |
+| generator type | SCHEMA | |
+| generator language | Protocol Buffers (Protobuf) | |
+| helpTxt | Generates gRPC and protocol buffer schema files (beta) | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
