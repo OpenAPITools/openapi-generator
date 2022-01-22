@@ -801,7 +801,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("HostConfiguration.mustache", clientPackageDir, "HostConfiguration.cs"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "docs" + File.separator + "scripts", "git_push.sh"));
-        // TODO: supportingFiles.add(new SupportingFile("git_push.ps1.mustache", "docs" + File.separator + "scripts", "git_push.ps1"));
+        supportingFiles.add(new SupportingFile("git_push.ps1.mustache", "docs" + File.separator + "scripts", "git_push.ps1"));
         // TODO: supportingFiles.add(new SupportingFile("generate.ps1.mustache", "docs" + File.separator + "scripts", "generate.ps1"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
