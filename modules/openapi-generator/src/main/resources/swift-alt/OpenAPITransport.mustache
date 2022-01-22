@@ -209,7 +209,7 @@ open class URLSessionOpenAPITransport: OpenAPITransport {
             .flatMap { request -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError> in
                 self.config.delegate?.willStart(request: request)
                 // Perform network call
-                return URLSession.shared.dataTaskPublisher(for: request)
+                return self.config.session.dataTaskPublisher(for: request)
                     .mapError { OpenAPITransportError(statusCode: $0.code.rawValue, description: "Network call finished fails") }
                     .flatMap { output in
                         self.config.processor.decode(output: output)
