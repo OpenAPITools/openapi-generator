@@ -55,7 +55,7 @@ export const {{enumName}} = {
 {{/allowableValues}}
 } as const;
 
-type {{enumName}} = typeof {{enumName}}[keyof typeof {{enumName}}];
+export type {{enumName}} = typeof {{enumName}}[keyof typeof {{enumName}}];
 {{/stringEnums}}
 {{/isEnum}}
 {{/vars}}
