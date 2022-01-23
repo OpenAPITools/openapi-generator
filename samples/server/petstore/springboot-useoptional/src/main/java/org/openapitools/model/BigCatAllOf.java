@@ -63,7 +63,7 @@ public class BigCatAllOf   {
   }
 
   @JsonProperty("kind")
-  private Optional<KindEnum> kind;
+  private KindEnum kind;
 
   public BigCatAllOf kind(KindEnum kind) {
     this.kind = kind;
@@ -82,7 +82,7 @@ public class BigCatAllOf   {
     return Optional.ofNullable(kind);
   }
 
-  public void setKind(Optional<KindEnum> kind) {
+  public void setKind(KindEnum kind) {
     this.kind = kind;
   }
 

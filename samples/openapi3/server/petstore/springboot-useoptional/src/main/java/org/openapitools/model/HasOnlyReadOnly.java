@@ -22,10 +22,10 @@ import javax.annotation.Generated;
 public class HasOnlyReadOnly   {
 
   @JsonProperty("bar")
-  private Optional<String> bar;
+  private String bar;
 
   @JsonProperty("foo")
-  private Optional<String> foo;
+  private String foo;
 
   public HasOnlyReadOnly bar(String bar) {
     this.bar = bar;
@@ -44,7 +44,7 @@ public class HasOnlyReadOnly   {
     return Optional.ofNullable(bar);
   }
 
-  public void setBar(Optional<String> bar) {
+  public void setBar(String bar) {
     this.bar = bar;
   }
 
@@ -65,7 +65,7 @@ public class HasOnlyReadOnly   {
     return Optional.ofNullable(foo);
   }
 
-  public void setFoo(Optional<String> foo) {
+  public void setFoo(String foo) {
     this.foo = foo;
   }
 

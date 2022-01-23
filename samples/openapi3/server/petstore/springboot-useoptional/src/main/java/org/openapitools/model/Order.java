@@ -25,17 +25,17 @@ import javax.annotation.Generated;
 public class Order   {
 
   @JsonProperty("id")
-  private Optional<Long> id;
+  private Long id;
 
   @JsonProperty("petId")
-  private Optional<Long> petId;
+  private Long petId;
 
   @JsonProperty("quantity")
-  private Optional<Integer> quantity;
+  private Integer quantity;
 
   @JsonProperty("shipDate")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private Optional<OffsetDateTime> shipDate;
+  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -75,10 +75,10 @@ public class Order   {
   }
 
   @JsonProperty("status")
-  private Optional<StatusEnum> status;
+  private StatusEnum status;
 
   @JsonProperty("complete")
-  private Optional<Boolean> complete = false;
+  private Boolean complete = false;
 
   public Order id(Long id) {
     this.id = id;
@@ -97,7 +97,7 @@ public class Order   {
     return Optional.ofNullable(id);
   }
 
-  public void setId(Optional<Long> id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -118,7 +118,7 @@ public class Order   {
     return Optional.ofNullable(petId);
   }
 
-  public void setPetId(Optional<Long> petId) {
+  public void setPetId(Long petId) {
     this.petId = petId;
   }
 
@@ -139,7 +139,7 @@ public class Order   {
     return Optional.ofNullable(quantity);
   }
 
-  public void setQuantity(Optional<Integer> quantity) {
+  public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
 
@@ -160,7 +160,7 @@ public class Order   {
     return Optional.ofNullable(shipDate);
   }
 
-  public void setShipDate(Optional<OffsetDateTime> shipDate) {
+  public void setShipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
 
@@ -181,7 +181,7 @@ public class Order   {
     return Optional.ofNullable(status);
   }
 
-  public void setStatus(Optional<StatusEnum> status) {
+  public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
@@ -202,7 +202,7 @@ public class Order   {
     return Optional.ofNullable(complete);
   }
 
-  public void setComplete(Optional<Boolean> complete) {
+  public void setComplete(Boolean complete) {
     this.complete = complete;
   }
 

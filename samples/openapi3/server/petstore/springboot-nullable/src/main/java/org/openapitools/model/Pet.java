@@ -30,10 +30,10 @@ import javax.annotation.Generated;
 public class Pet   {
 
   @JsonProperty("id")
-  private Optional<Long> id;
+  private Long id;
 
   @JsonProperty("category")
-  private Optional<Category> category;
+  private Category category;
 
   @JsonProperty("name")
   private JsonNullable<String> name = JsonNullable.undefined();
@@ -44,7 +44,7 @@ public class Pet   {
 
   @JsonProperty("tags")
   @Valid
-  private Optional<List<Tag>> tags = null;
+  private List<Tag> tags = null;
 
   /**
    * pet status in the store
@@ -103,7 +103,7 @@ public class Pet   {
     return Optional.ofNullable(id);
   }
 
-  public void setId(Optional<Long> id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -124,7 +124,7 @@ public class Pet   {
     return Optional.ofNullable(category);
   }
 
-  public void setCategory(Optional<Category> category) {
+  public void setCategory(Category category) {
     this.category = category;
   }
 
@@ -200,7 +200,7 @@ public class Pet   {
     return Optional.ofNullable(tags);
   }
 
-  public void setTags(Optional<List<Tag>> tags) {
+  public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 

@@ -74,7 +74,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    default Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(List<StatusEnum> status,
+    default Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(List<String> status,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

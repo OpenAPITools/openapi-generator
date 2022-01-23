@@ -28,44 +28,44 @@ public class AdditionalPropertiesClass   {
 
   @JsonProperty("map_string")
   @Valid
-  private Optional<Map<String, String>> mapString = null;
+  private Map<String, String> mapString = null;
 
   @JsonProperty("map_number")
   @Valid
-  private Optional<Map<String, BigDecimal>> mapNumber = null;
+  private Map<String, BigDecimal> mapNumber = null;
 
   @JsonProperty("map_integer")
   @Valid
-  private Optional<Map<String, Integer>> mapInteger = null;
+  private Map<String, Integer> mapInteger = null;
 
   @JsonProperty("map_boolean")
   @Valid
-  private Optional<Map<String, Boolean>> mapBoolean = null;
+  private Map<String, Boolean> mapBoolean = null;
 
   @JsonProperty("map_array_integer")
   @Valid
-  private Optional<Map<String, List<Integer>>> mapArrayInteger = null;
+  private Map<String, List<Integer>> mapArrayInteger = null;
 
   @JsonProperty("map_array_anytype")
   @Valid
-  private Optional<Map<String, List<Object>>> mapArrayAnytype = null;
+  private Map<String, List<Object>> mapArrayAnytype = null;
 
   @JsonProperty("map_map_string")
   @Valid
-  private Optional<Map<String, Map<String, String>>> mapMapString = null;
+  private Map<String, Map<String, String>> mapMapString = null;
 
   @JsonProperty("map_map_anytype")
   @Valid
-  private Optional<Map<String, Map<String, Object>>> mapMapAnytype = null;
+  private Map<String, Map<String, Object>> mapMapAnytype = null;
 
   @JsonProperty("anytype_1")
-  private Optional<Object> anytype1;
+  private Object anytype1;
 
   @JsonProperty("anytype_2")
-  private Optional<Object> anytype2;
+  private Object anytype2;
 
   @JsonProperty("anytype_3")
-  private Optional<Object> anytype3;
+  private Object anytype3;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;
@@ -92,7 +92,7 @@ public class AdditionalPropertiesClass   {
     return Optional.ofNullable(mapString);
   }
 
-  public void setMapString(Optional<Map<String, String>> mapString) {
+  public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
   }
 
@@ -121,7 +121,7 @@ public class AdditionalPropertiesClass   {
     return Optional.ofNullable(mapNumber);
   }
 
-  public void setMapNumber(Optional<Map<String, BigDecimal>> mapNumber) {
+  public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
 
@@ -150,7 +150,7 @@ public class AdditionalPropertiesClass   {
     return Optional.ofNullable(mapInteger);
   }
 
-  public void setMapInteger(Optional<Map<String, Integer>> mapInteger) {
+  public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
   }
 
@@ -179,7 +179,7 @@ public class AdditionalPropertiesClass   {
     return Optional.ofNullable(mapBoolean);
   }
 
-  public void setMapBoolean(Optional<Map<String, Boolean>> mapBoolean) {
+  public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
 
@@ -208,7 +208,7 @@ public class AdditionalPropertiesClass   {
     return Optional.ofNullable(mapArrayInteger);
   }
 
-  public void setMapArrayInteger(Optional<Map<String, List<Integer>>> mapArrayInteger) {
+  public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
   }
 
@@ -237,7 +237,7 @@ public class AdditionalPropertiesClass   {
     return Optional.ofNullable(mapArrayAnytype);
   }
 
-  public void setMapArrayAnytype(Optional<Map<String, List<Object>>> mapArrayAnytype) {
+  public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
 
@@ -266,7 +266,7 @@ public class AdditionalPropertiesClass   {
     return Optional.ofNullable(mapMapString);
   }
 
-  public void setMapMapString(Optional<Map<String, Map<String, String>>> mapMapString) {
+  public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
   }
 
@@ -295,7 +295,7 @@ public class AdditionalPropertiesClass   {
     return Optional.ofNullable(mapMapAnytype);
   }
 
-  public void setMapMapAnytype(Optional<Map<String, Map<String, Object>>> mapMapAnytype) {
+  public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
   }
 
@@ -316,7 +316,7 @@ public class AdditionalPropertiesClass   {
     return Optional.ofNullable(anytype1);
   }
 
-  public void setAnytype1(Optional<Object> anytype1) {
+  public void setAnytype1(Object anytype1) {
     this.anytype1 = anytype1;
   }
 
@@ -337,7 +337,7 @@ public class AdditionalPropertiesClass   {
     return Optional.ofNullable(anytype2);
   }
 
-  public void setAnytype2(Optional<Object> anytype2) {
+  public void setAnytype2(Object anytype2) {
     this.anytype2 = anytype2;
   }
 
@@ -358,7 +358,7 @@ public class AdditionalPropertiesClass   {
     return Optional.ofNullable(anytype3);
   }
 
-  public void setAnytype3(Optional<Object> anytype3) {
+  public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;
   }
 

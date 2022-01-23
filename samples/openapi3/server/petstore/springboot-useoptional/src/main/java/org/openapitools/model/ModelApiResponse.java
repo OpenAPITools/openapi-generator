@@ -22,13 +22,13 @@ import javax.annotation.Generated;
 public class ModelApiResponse   {
 
   @JsonProperty("code")
-  private Optional<Integer> code;
+  private Integer code;
 
   @JsonProperty("type")
-  private Optional<String> type;
+  private String type;
 
   @JsonProperty("message")
-  private Optional<String> message;
+  private String message;
 
   public ModelApiResponse code(Integer code) {
     this.code = code;
@@ -47,7 +47,7 @@ public class ModelApiResponse   {
     return Optional.ofNullable(code);
   }
 
-  public void setCode(Optional<Integer> code) {
+  public void setCode(Integer code) {
     this.code = code;
   }
 
@@ -68,7 +68,7 @@ public class ModelApiResponse   {
     return Optional.ofNullable(type);
   }
 
-  public void setType(Optional<String> type) {
+  public void setType(String type) {
     this.type = type;
   }
 
@@ -89,7 +89,7 @@ public class ModelApiResponse   {
     return Optional.ofNullable(message);
   }
 
-  public void setMessage(Optional<String> message) {
+  public void setMessage(String message) {
     this.message = message;
   }
 

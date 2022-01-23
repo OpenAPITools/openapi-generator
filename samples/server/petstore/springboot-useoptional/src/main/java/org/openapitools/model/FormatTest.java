@@ -30,31 +30,31 @@ import javax.annotation.Generated;
 public class FormatTest   {
 
   @JsonProperty("integer")
-  private Optional<@Min(10) @Max(100) Integer> integer;
+  private Integer integer;
 
   @JsonProperty("int32")
-  private Optional<@Min(20) @Max(200) Integer> int32;
+  private Integer int32;
 
   @JsonProperty("int64")
-  private Optional<Long> int64;
+  private Long int64;
 
   @JsonProperty("number")
   private BigDecimal number;
 
   @JsonProperty("float")
-  private Optional<@DecimalMin("54.3") @DecimalMax("987.6") Float> _float;
+  private Float _float;
 
   @JsonProperty("double")
-  private Optional<@DecimalMin("67.8") @DecimalMax("123.4") Double> _double;
+  private Double _double;
 
   @JsonProperty("string")
-  private Optional<@Pattern(regexp = "/[a-z]/i") String> string;
+  private String string;
 
   @JsonProperty("byte")
   private byte[] _byte;
 
   @JsonProperty("binary")
-  private Optional<Resource> binary;
+  private Resource binary;
 
   @JsonProperty("date")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -62,16 +62,16 @@ public class FormatTest   {
 
   @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private Optional<OffsetDateTime> dateTime;
+  private OffsetDateTime dateTime;
 
   @JsonProperty("uuid")
-  private Optional<UUID> uuid;
+  private UUID uuid;
 
   @JsonProperty("password")
   private String password;
 
   @JsonProperty("BigDecimal")
-  private Optional<BigDecimal> bigDecimal;
+  private BigDecimal bigDecimal;
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;
@@ -92,7 +92,7 @@ public class FormatTest   {
     return Optional.ofNullable(integer);
   }
 
-  public void setInteger(Optional<@Min(10) @Max(100) Integer> integer) {
+  public void setInteger(Integer integer) {
     this.integer = integer;
   }
 
@@ -115,7 +115,7 @@ public class FormatTest   {
     return Optional.ofNullable(int32);
   }
 
-  public void setInt32(Optional<@Min(20) @Max(200) Integer> int32) {
+  public void setInt32(Integer int32) {
     this.int32 = int32;
   }
 
@@ -136,7 +136,7 @@ public class FormatTest   {
     return Optional.ofNullable(int64);
   }
 
-  public void setInt64(Optional<Long> int64) {
+  public void setInt64(Long int64) {
     this.int64 = int64;
   }
 
@@ -182,7 +182,7 @@ public class FormatTest   {
     return Optional.ofNullable(_float);
   }
 
-  public void setFloat(Optional<@DecimalMin("54.3") @DecimalMax("987.6") Float> _float) {
+  public void setFloat(Float _float) {
     this._float = _float;
   }
 
@@ -205,7 +205,7 @@ public class FormatTest   {
     return Optional.ofNullable(_double);
   }
 
-  public void setDouble(Optional<@DecimalMin("67.8") @DecimalMax("123.4") Double> _double) {
+  public void setDouble(Double _double) {
     this._double = _double;
   }
 
@@ -226,7 +226,7 @@ public class FormatTest   {
     return Optional.ofNullable(string);
   }
 
-  public void setString(Optional<@Pattern(regexp = "/[a-z]/i") String> string) {
+  public void setString(String string) {
     this.string = string;
   }
 
@@ -268,7 +268,7 @@ public class FormatTest   {
     return Optional.ofNullable(binary);
   }
 
-  public void setBinary(Optional<Resource> binary) {
+  public void setBinary(Resource binary) {
     this.binary = binary;
   }
 
@@ -310,7 +310,7 @@ public class FormatTest   {
     return Optional.ofNullable(dateTime);
   }
 
-  public void setDateTime(Optional<OffsetDateTime> dateTime) {
+  public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -331,7 +331,7 @@ public class FormatTest   {
     return Optional.ofNullable(uuid);
   }
 
-  public void setUuid(Optional<UUID> uuid) {
+  public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
@@ -373,7 +373,7 @@ public class FormatTest   {
     return Optional.ofNullable(bigDecimal);
   }
 
-  public void setBigDecimal(Optional<BigDecimal> bigDecimal) {
+  public void setBigDecimal(BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
 

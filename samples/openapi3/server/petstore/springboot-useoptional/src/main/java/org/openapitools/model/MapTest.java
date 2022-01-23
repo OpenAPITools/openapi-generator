@@ -27,7 +27,7 @@ public class MapTest   {
 
   @JsonProperty("map_map_of_string")
   @Valid
-  private Optional<Map<String, Map<String, String>>> mapMapOfString = null;
+  private Map<String, Map<String, String>> mapMapOfString = null;
 
   /**
    * Gets or Sets inner
@@ -66,15 +66,15 @@ public class MapTest   {
 
   @JsonProperty("map_of_enum_string")
   @Valid
-  private Optional<Map<String, InnerEnum>> mapOfEnumString = null;
+  private Map<String, InnerEnum> mapOfEnumString = null;
 
   @JsonProperty("direct_map")
   @Valid
-  private Optional<Map<String, Boolean>> directMap = null;
+  private Map<String, Boolean> directMap = null;
 
   @JsonProperty("indirect_map")
   @Valid
-  private Optional<Map<String, Boolean>> indirectMap = null;
+  private Map<String, Boolean> indirectMap = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -101,7 +101,7 @@ public class MapTest   {
     return Optional.ofNullable(mapMapOfString);
   }
 
-  public void setMapMapOfString(Optional<Map<String, Map<String, String>>> mapMapOfString) {
+  public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
@@ -130,7 +130,7 @@ public class MapTest   {
     return Optional.ofNullable(mapOfEnumString);
   }
 
-  public void setMapOfEnumString(Optional<Map<String, InnerEnum>> mapOfEnumString) {
+  public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
@@ -159,7 +159,7 @@ public class MapTest   {
     return Optional.ofNullable(directMap);
   }
 
-  public void setDirectMap(Optional<Map<String, Boolean>> directMap) {
+  public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
 
@@ -188,7 +188,7 @@ public class MapTest   {
     return Optional.ofNullable(indirectMap);
   }
 
-  public void setIndirectMap(Optional<Map<String, Boolean>> indirectMap) {
+  public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 

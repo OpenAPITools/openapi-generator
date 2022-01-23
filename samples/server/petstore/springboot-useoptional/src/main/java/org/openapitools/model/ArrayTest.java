@@ -27,15 +27,15 @@ public class ArrayTest   {
 
   @JsonProperty("array_of_string")
   @Valid
-  private Optional<List<String>> arrayOfString = null;
+  private List<String> arrayOfString = null;
 
   @JsonProperty("array_array_of_integer")
   @Valid
-  private Optional<List<List<Long>>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger = null;
 
   @JsonProperty("array_array_of_model")
   @Valid
-  private Optional<List<List<ReadOnlyFirst>>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -62,7 +62,7 @@ public class ArrayTest   {
     return Optional.ofNullable(arrayOfString);
   }
 
-  public void setArrayOfString(Optional<List<String>> arrayOfString) {
+  public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
 
@@ -91,7 +91,7 @@ public class ArrayTest   {
     return Optional.ofNullable(arrayArrayOfInteger);
   }
 
-  public void setArrayArrayOfInteger(Optional<List<List<Long>>> arrayArrayOfInteger) {
+  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
@@ -120,7 +120,7 @@ public class ArrayTest   {
     return Optional.ofNullable(arrayArrayOfModel);
   }
 
-  public void setArrayArrayOfModel(Optional<List<List<ReadOnlyFirst>>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 

@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 public class ClassModel   {
 
   @JsonProperty("_class")
-  private Optional<String> propertyClass;
+  private String propertyClass;
 
   public ClassModel propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
@@ -42,7 +42,7 @@ public class ClassModel   {
     return Optional.ofNullable(propertyClass);
   }
 
-  public void setPropertyClass(Optional<String> propertyClass) {
+  public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
 

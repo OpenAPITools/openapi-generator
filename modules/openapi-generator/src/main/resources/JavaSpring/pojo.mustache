@@ -145,14 +145,14 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{#swagger1AnnotationLibrary}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
   {{/swagger1AnnotationLibrary}}
-  public {{>nullableDataType}} {{getter}}() {
+  public {{#isNullable}}{{>nullableDataType}}{{/isNullable}}{{^isNullable}}{{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{#isEnum}}{{#useOptional}}Optional<{{/useOptional}}{{{datatypeWithEnum}}}{{#useOptional}}>{{/useOptional}}{{/isEnum}}{{^isEnum}}{{>optionalDataType}}{{/isEnum}}{{/required}}{{/isNullable}} {{getter}}() {
     return {{^isNullable}}{{#useOptional}}{{^required}}Optional.ofNullable({{/required}}{{/useOptional}}{{/isNullable}}{{name}}{{^isNullable}}{{#useOptional}}{{^required}}){{/required}}{{/useOptional}}{{/isNullable}};
   }
 
   {{#vendorExtensions.x-setter-extra-annotation}}
   {{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}
-  public void {{setter}}({{>nullableDataType}} {{name}}) {
+  public void {{setter}}({{#isNullable}}{{>nullableDataType}}{{/isNullable}}{{^isNullable}}{{{datatypeWithEnum}}}{{/isNullable}} {{name}}) {
     this.{{name}} = {{name}};
   }
   {{! end feature: getter and setter }}

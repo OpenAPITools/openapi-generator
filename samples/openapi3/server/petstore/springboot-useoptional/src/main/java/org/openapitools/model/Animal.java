@@ -33,7 +33,7 @@ public class Animal   {
   private String className;
 
   @JsonProperty("color")
-  private Optional<String> color = "red";
+  private String color = "red";
 
   public Animal className(String className) {
     this.className = className;
@@ -73,7 +73,7 @@ public class Animal   {
     return Optional.ofNullable(color);
   }
 
-  public void setColor(Optional<String> color) {
+  public void setColor(String color) {
     this.color = color;
   }
 

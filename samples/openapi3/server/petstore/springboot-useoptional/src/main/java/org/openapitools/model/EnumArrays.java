@@ -60,7 +60,7 @@ public class EnumArrays   {
   }
 
   @JsonProperty("just_symbol")
-  private Optional<JustSymbolEnum> justSymbol;
+  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -99,7 +99,7 @@ public class EnumArrays   {
 
   @JsonProperty("array_enum")
   @Valid
-  private Optional<List<ArrayEnumEnum>> arrayEnum = null;
+  private List<ArrayEnumEnum> arrayEnum = null;
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -118,7 +118,7 @@ public class EnumArrays   {
     return Optional.ofNullable(justSymbol);
   }
 
-  public void setJustSymbol(Optional<JustSymbolEnum> justSymbol) {
+  public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
 
@@ -147,7 +147,7 @@ public class EnumArrays   {
     return Optional.ofNullable(arrayEnum);
   }
 
-  public void setArrayEnum(Optional<List<ArrayEnumEnum>> arrayEnum) {
+  public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
 

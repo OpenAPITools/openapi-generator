@@ -23,28 +23,28 @@ import javax.annotation.Generated;
 public class User   {
 
   @JsonProperty("id")
-  private Optional<Long> id;
+  private Long id;
 
   @JsonProperty("username")
-  private Optional<String> username;
+  private String username;
 
   @JsonProperty("firstName")
-  private Optional<String> firstName;
+  private String firstName;
 
   @JsonProperty("lastName")
-  private Optional<String> lastName;
+  private String lastName;
 
   @JsonProperty("email")
-  private Optional<String> email;
+  private String email;
 
   @JsonProperty("password")
-  private Optional<String> password;
+  private String password;
 
   @JsonProperty("phone")
-  private Optional<String> phone;
+  private String phone;
 
   @JsonProperty("userStatus")
-  private Optional<Integer> userStatus;
+  private Integer userStatus;
 
   public User id(Long id) {
     this.id = id;
@@ -63,7 +63,7 @@ public class User   {
     return Optional.ofNullable(id);
   }
 
-  public void setId(Optional<Long> id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -84,7 +84,7 @@ public class User   {
     return Optional.ofNullable(username);
   }
 
-  public void setUsername(Optional<String> username) {
+  public void setUsername(String username) {
     this.username = username;
   }
 
@@ -105,7 +105,7 @@ public class User   {
     return Optional.ofNullable(firstName);
   }
 
-  public void setFirstName(Optional<String> firstName) {
+  public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
 
@@ -126,7 +126,7 @@ public class User   {
     return Optional.ofNullable(lastName);
   }
 
-  public void setLastName(Optional<String> lastName) {
+  public void setLastName(String lastName) {
     this.lastName = lastName;
   }
 
@@ -147,7 +147,7 @@ public class User   {
     return Optional.ofNullable(email);
   }
 
-  public void setEmail(Optional<String> email) {
+  public void setEmail(String email) {
     this.email = email;
   }
 
@@ -168,7 +168,7 @@ public class User   {
     return Optional.ofNullable(password);
   }
 
-  public void setPassword(Optional<String> password) {
+  public void setPassword(String password) {
     this.password = password;
   }
 
@@ -189,7 +189,7 @@ public class User   {
     return Optional.ofNullable(phone);
   }
 
-  public void setPhone(Optional<String> phone) {
+  public void setPhone(String phone) {
     this.phone = phone;
   }
 
@@ -210,7 +210,7 @@ public class User   {
     return Optional.ofNullable(userStatus);
   }
 
-  public void setUserStatus(Optional<Integer> userStatus) {
+  public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
 

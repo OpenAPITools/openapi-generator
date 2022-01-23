@@ -50,7 +50,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    ResponseEntity<List<Pet>> findPetsByStatus(List<StatusEnum> status, final Pageable pageable);
+    ResponseEntity<List<Pet>> findPetsByStatus(List<String> status, final Pageable pageable);
 
     /**
      * GET /pet/findByTags : Finds Pets by tags

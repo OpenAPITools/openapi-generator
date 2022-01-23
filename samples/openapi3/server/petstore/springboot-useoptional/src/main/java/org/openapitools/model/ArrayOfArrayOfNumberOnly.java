@@ -26,7 +26,7 @@ public class ArrayOfArrayOfNumberOnly   {
 
   @JsonProperty("ArrayArrayNumber")
   @Valid
-  private Optional<List<List<BigDecimal>>> arrayArrayNumber = null;
+  private List<List<BigDecimal>> arrayArrayNumber = null;
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
@@ -53,7 +53,7 @@ public class ArrayOfArrayOfNumberOnly   {
     return Optional.ofNullable(arrayArrayNumber);
   }
 
-  public void setArrayArrayNumber(Optional<List<List<BigDecimal>>> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 

@@ -23,22 +23,22 @@ import javax.annotation.Generated;
 public class Capitalization   {
 
   @JsonProperty("smallCamel")
-  private Optional<String> smallCamel;
+  private String smallCamel;
 
   @JsonProperty("CapitalCamel")
-  private Optional<String> capitalCamel;
+  private String capitalCamel;
 
   @JsonProperty("small_Snake")
-  private Optional<String> smallSnake;
+  private String smallSnake;
 
   @JsonProperty("Capital_Snake")
-  private Optional<String> capitalSnake;
+  private String capitalSnake;
 
   @JsonProperty("SCA_ETH_Flow_Points")
-  private Optional<String> scAETHFlowPoints;
+  private String scAETHFlowPoints;
 
   @JsonProperty("ATT_NAME")
-  private Optional<String> ATT_NAME;
+  private String ATT_NAME;
 
   public Capitalization smallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
@@ -57,7 +57,7 @@ public class Capitalization   {
     return Optional.ofNullable(smallCamel);
   }
 
-  public void setSmallCamel(Optional<String> smallCamel) {
+  public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
   }
 
@@ -78,7 +78,7 @@ public class Capitalization   {
     return Optional.ofNullable(capitalCamel);
   }
 
-  public void setCapitalCamel(Optional<String> capitalCamel) {
+  public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
 
@@ -99,7 +99,7 @@ public class Capitalization   {
     return Optional.ofNullable(smallSnake);
   }
 
-  public void setSmallSnake(Optional<String> smallSnake) {
+  public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
   }
 
@@ -120,7 +120,7 @@ public class Capitalization   {
     return Optional.ofNullable(capitalSnake);
   }
 
-  public void setCapitalSnake(Optional<String> capitalSnake) {
+  public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
 
@@ -141,7 +141,7 @@ public class Capitalization   {
     return Optional.ofNullable(scAETHFlowPoints);
   }
 
-  public void setScAETHFlowPoints(Optional<String> scAETHFlowPoints) {
+  public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
@@ -162,7 +162,7 @@ public class Capitalization   {
     return Optional.ofNullable(ATT_NAME);
   }
 
-  public void setATTNAME(Optional<String> ATT_NAME) {
+  public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
 

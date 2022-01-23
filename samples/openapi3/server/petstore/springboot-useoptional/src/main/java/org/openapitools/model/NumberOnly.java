@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 public class NumberOnly   {
 
   @JsonProperty("JustNumber")
-  private Optional<BigDecimal> justNumber;
+  private BigDecimal justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
@@ -42,7 +42,7 @@ public class NumberOnly   {
     return Optional.ofNullable(justNumber);
   }
 
-  public void setJustNumber(Optional<BigDecimal> justNumber) {
+  public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
 

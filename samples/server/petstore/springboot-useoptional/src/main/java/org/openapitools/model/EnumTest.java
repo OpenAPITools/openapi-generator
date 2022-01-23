@@ -62,7 +62,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_string")
-  private Optional<EnumStringEnum> enumString;
+  private EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -140,7 +140,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_integer")
-  private Optional<EnumIntegerEnum> enumInteger;
+  private EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -178,10 +178,10 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_number")
-  private Optional<EnumNumberEnum> enumNumber;
+  private EnumNumberEnum enumNumber;
 
   @JsonProperty("outerEnum")
-  private Optional<OuterEnum> outerEnum;
+  private OuterEnum outerEnum;
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -200,7 +200,7 @@ public class EnumTest   {
     return Optional.ofNullable(enumString);
   }
 
-  public void setEnumString(Optional<EnumStringEnum> enumString) {
+  public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
 
@@ -242,7 +242,7 @@ public class EnumTest   {
     return Optional.ofNullable(enumInteger);
   }
 
-  public void setEnumInteger(Optional<EnumIntegerEnum> enumInteger) {
+  public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
 
@@ -263,7 +263,7 @@ public class EnumTest   {
     return Optional.ofNullable(enumNumber);
   }
 
-  public void setEnumNumber(Optional<EnumNumberEnum> enumNumber) {
+  public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
 
@@ -284,7 +284,7 @@ public class EnumTest   {
     return Optional.ofNullable(outerEnum);
   }
 
-  public void setOuterEnum(Optional<OuterEnum> outerEnum) {
+  public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
 

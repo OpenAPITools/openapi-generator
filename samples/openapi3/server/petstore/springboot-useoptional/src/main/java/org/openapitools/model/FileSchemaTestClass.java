@@ -25,11 +25,11 @@ import javax.annotation.Generated;
 public class FileSchemaTestClass   {
 
   @JsonProperty("file")
-  private Optional<File> file;
+  private File file;
 
   @JsonProperty("files")
   @Valid
-  private Optional<List<File>> files = null;
+  private List<File> files = null;
 
   public FileSchemaTestClass file(File file) {
     this.file = file;
@@ -48,7 +48,7 @@ public class FileSchemaTestClass   {
     return Optional.ofNullable(file);
   }
 
-  public void setFile(Optional<File> file) {
+  public void setFile(File file) {
     this.file = file;
   }
 
@@ -77,7 +77,7 @@ public class FileSchemaTestClass   {
     return Optional.ofNullable(files);
   }
 
-  public void setFiles(Optional<List<File>> files) {
+  public void setFiles(List<File> files) {
     this.files = files;
   }
 

@@ -4720,8 +4720,6 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenProperty.isEnum) {
             codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
             codegenParameter.enumName = codegenProperty.enumName;
-        } else {
-            codegenParameter.datatypeWithEnum = codegenParameter.dataType;
         }
 
         // enum
@@ -6419,8 +6417,6 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenProperty.isEnum) {
             codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
             codegenParameter.enumName = codegenProperty.enumName;
-        } else {
-            codegenParameter.datatypeWithEnum = codegenParameter.dataType;
         }
 
         // import

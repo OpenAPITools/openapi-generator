@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 public class Client   {
 
   @JsonProperty("client")
-  private Optional<String> client;
+  private String client;
 
   public Client client(String client) {
     this.client = client;
@@ -41,7 +41,7 @@ public class Client   {
     return Optional.ofNullable(client);
   }
 
-  public void setClient(Optional<String> client) {
+  public void setClient(String client) {
     this.client = client;
   }
 

@@ -23,13 +23,13 @@ import javax.annotation.Generated;
 public class OuterComposite   {
 
   @JsonProperty("my_number")
-  private Optional<BigDecimal> myNumber;
+  private BigDecimal myNumber;
 
   @JsonProperty("my_string")
-  private Optional<String> myString;
+  private String myString;
 
   @JsonProperty("my_boolean")
-  private Optional<Boolean> myBoolean;
+  private Boolean myBoolean;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
@@ -48,7 +48,7 @@ public class OuterComposite   {
     return Optional.ofNullable(myNumber);
   }
 
-  public void setMyNumber(Optional<BigDecimal> myNumber) {
+  public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
@@ -69,7 +69,7 @@ public class OuterComposite   {
     return Optional.ofNullable(myString);
   }
 
-  public void setMyString(Optional<String> myString) {
+  public void setMyString(String myString) {
     this.myString = myString;
   }
 
@@ -90,7 +90,7 @@ public class OuterComposite   {
     return Optional.ofNullable(myBoolean);
   }
 
-  public void setMyBoolean(Optional<Boolean> myBoolean) {
+  public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
 

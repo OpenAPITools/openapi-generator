@@ -23,10 +23,10 @@ import javax.annotation.Generated;
 public class Tag   {
 
   @JsonProperty("id")
-  private Optional<Long> id;
+  private Long id;
 
   @JsonProperty("name")
-  private Optional<String> name;
+  private String name;
 
   public Tag id(Long id) {
     this.id = id;
@@ -45,7 +45,7 @@ public class Tag   {
     return Optional.ofNullable(id);
   }
 
-  public void setId(Optional<Long> id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -66,7 +66,7 @@ public class Tag   {
     return Optional.ofNullable(name);
   }
 
-  public void setName(Optional<String> name) {
+  public void setName(String name) {
     this.name = name;
   }
 

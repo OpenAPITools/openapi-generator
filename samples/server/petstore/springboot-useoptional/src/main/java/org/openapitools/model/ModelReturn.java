@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 public class ModelReturn   {
 
   @JsonProperty("return")
-  private Optional<Integer> _return;
+  private Integer _return;
 
   public ModelReturn _return(Integer _return) {
     this._return = _return;
@@ -43,7 +43,7 @@ public class ModelReturn   {
     return Optional.ofNullable(_return);
   }
 
-  public void setReturn(Optional<Integer> _return) {
+  public void setReturn(Integer _return) {
     this._return = _return;
   }
 

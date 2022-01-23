@@ -76,7 +76,7 @@ public class PetApiController implements PetApi {
      * @see PetApi#findPetsByStatus
      */
     public ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<StatusEnum> status,
+        @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status,
         @ApiIgnore final Pageable pageable
     ) {
         return delegate.findPetsByStatus(status, pageable);

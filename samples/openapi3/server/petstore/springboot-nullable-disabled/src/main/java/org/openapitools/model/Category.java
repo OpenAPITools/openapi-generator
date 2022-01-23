@@ -22,10 +22,10 @@ import javax.annotation.Generated;
 public class Category   {
 
   @JsonProperty("id")
-  private Optional<Long> id;
+  private Long id;
 
   @JsonProperty("name")
-  private Optional<@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String> name;
+  private String name;
 
   public Category id(Long id) {
     this.id = id;
@@ -44,7 +44,7 @@ public class Category   {
     return Optional.ofNullable(id);
   }
 
-  public void setId(Optional<Long> id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -65,7 +65,7 @@ public class Category   {
     return Optional.ofNullable(name);
   }
 
-  public void setName(Optional<@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String> name) {
+  public void setName(String name) {
     this.name = name;
   }
 

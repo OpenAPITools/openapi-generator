@@ -63,7 +63,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    default ResponseEntity<List<Pet>> findPetsByStatus(List<StatusEnum> status) {
+    default ResponseEntity<List<Pet>> findPetsByStatus(List<String> status) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

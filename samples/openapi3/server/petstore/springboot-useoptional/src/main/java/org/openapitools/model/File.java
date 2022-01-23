@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 public class File   {
 
   @JsonProperty("sourceURI")
-  private Optional<String> sourceURI;
+  private String sourceURI;
 
   public File sourceURI(String sourceURI) {
     this.sourceURI = sourceURI;
@@ -42,7 +42,7 @@ public class File   {
     return Optional.ofNullable(sourceURI);
   }
 
-  public void setSourceURI(Optional<String> sourceURI) {
+  public void setSourceURI(String sourceURI) {
     this.sourceURI = sourceURI;
   }
 

@@ -64,7 +64,7 @@ public class BigCat extends Cat  {
   }
 
   @JsonProperty("kind")
-  private Optional<KindEnum> kind;
+  private KindEnum kind;
 
   public BigCat kind(KindEnum kind) {
     this.kind = kind;
@@ -83,7 +83,7 @@ public class BigCat extends Cat  {
     return Optional.ofNullable(kind);
   }
 
-  public void setKind(Optional<KindEnum> kind) {
+  public void setKind(KindEnum kind) {
     this.kind = kind;
   }
 

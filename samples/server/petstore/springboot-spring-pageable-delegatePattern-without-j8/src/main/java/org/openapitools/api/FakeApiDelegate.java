@@ -160,14 +160,14 @@ public interface FakeApiDelegate {
      *         or Not found (status code 404)
      * @see FakeApi#testEnumParameters
      */
-    ResponseEntity<Void> testEnumParameters(List<EnumHeaderStringArrayEnum> enumHeaderStringArray,
-        EnumHeaderStringEnum enumHeaderString,
-        List<EnumQueryStringArrayEnum> enumQueryStringArray,
-        EnumQueryStringEnum enumQueryString,
-        EnumQueryIntegerEnum enumQueryInteger,
-        EnumQueryDoubleEnum enumQueryDouble,
-        List<EnumFormStringArrayEnum> enumFormStringArray,
-        EnumFormStringEnum enumFormString);
+    ResponseEntity<Void> testEnumParameters(List<String> enumHeaderStringArray,
+        String enumHeaderString,
+        List<String> enumQueryStringArray,
+        String enumQueryString,
+        Integer enumQueryInteger,
+        Double enumQueryDouble,
+        List<String> enumFormStringArray,
+        String enumFormString);
 
     /**
      * DELETE /fake : Fake endpoint to test group parameters (optional)

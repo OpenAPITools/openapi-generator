@@ -23,10 +23,10 @@ import javax.annotation.Generated;
 public class Model200Response   {
 
   @JsonProperty("name")
-  private Optional<Integer> name;
+  private Integer name;
 
   @JsonProperty("class")
-  private Optional<String> propertyClass;
+  private String propertyClass;
 
   public Model200Response name(Integer name) {
     this.name = name;
@@ -45,7 +45,7 @@ public class Model200Response   {
     return Optional.ofNullable(name);
   }
 
-  public void setName(Optional<Integer> name) {
+  public void setName(Integer name) {
     this.name = name;
   }
 
@@ -66,7 +66,7 @@ public class Model200Response   {
     return Optional.ofNullable(propertyClass);
   }
 
-  public void setPropertyClass(Optional<String> propertyClass) {
+  public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
 

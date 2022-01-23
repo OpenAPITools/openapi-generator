@@ -30,15 +30,15 @@ import javax.annotation.Generated;
 public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   @JsonProperty("uuid")
-  private Optional<UUID> uuid;
+  private UUID uuid;
 
   @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private Optional<OffsetDateTime> dateTime;
+  private OffsetDateTime dateTime;
 
   @JsonProperty("map")
   @Valid
-  private Optional<Map<String, Animal>> map = null;
+  private Map<String, Animal> map = null;
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;
@@ -57,7 +57,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     return Optional.ofNullable(uuid);
   }
 
-  public void setUuid(Optional<UUID> uuid) {
+  public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
@@ -78,7 +78,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     return Optional.ofNullable(dateTime);
   }
 
-  public void setDateTime(Optional<OffsetDateTime> dateTime) {
+  public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -107,7 +107,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     return Optional.ofNullable(map);
   }
 
-  public void setMap(Optional<Map<String, Animal>> map) {
+  public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
 

@@ -1,1 +1,1 @@
-{{#useOptional}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{^required}}Optional<{{#useBeanValidation}}{{>beanValidationCore}}{{/useBeanValidation}}{{{datatypeWithEnum}}}>{{/required}}{{/useOptional}}{{^useOptional}}{{{datatypeWithEnum}}}{{/useOptional}}
+{{#useOptional}}{{#required}}{{{dataType}}}{{/required}}{{^required}}Optional<{{#useBeanValidation}}{{>beanValidationCore}}{{/useBeanValidation}}{{{dataType}}}>{{/required}}{{/useOptional}}{{^useOptional}}{{{dataType}}}{{/useOptional}}

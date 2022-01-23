@@ -27,13 +27,13 @@ public class Name   {
   private Integer name;
 
   @JsonProperty("snake_case")
-  private Optional<Integer> snakeCase;
+  private Integer snakeCase;
 
   @JsonProperty("property")
-  private Optional<String> property;
+  private String property;
 
   @JsonProperty("123Number")
-  private Optional<Integer> _123number;
+  private Integer _123number;
 
   public Name name(Integer name) {
     this.name = name;
@@ -73,7 +73,7 @@ public class Name   {
     return Optional.ofNullable(snakeCase);
   }
 
-  public void setSnakeCase(Optional<Integer> snakeCase) {
+  public void setSnakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
 
@@ -94,7 +94,7 @@ public class Name   {
     return Optional.ofNullable(property);
   }
 
-  public void setProperty(Optional<String> property) {
+  public void setProperty(String property) {
     this.property = property;
   }
 
@@ -115,7 +115,7 @@ public class Name   {
     return Optional.ofNullable(_123number);
   }
 
-  public void set123number(Optional<Integer> _123number) {
+  public void set123number(Integer _123number) {
     this._123number = _123number;
   }
 

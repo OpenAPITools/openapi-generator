@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 public class SpecialModelName   {
 
   @JsonProperty("$special[property.name]")
-  private Optional<Long> $specialPropertyName;
+  private Long $specialPropertyName;
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
@@ -42,7 +42,7 @@ public class SpecialModelName   {
     return Optional.ofNullable($specialPropertyName);
   }
 
-  public void set$SpecialPropertyName(Optional<Long> $specialPropertyName) {
+  public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 

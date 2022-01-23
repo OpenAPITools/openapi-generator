@@ -25,7 +25,7 @@ import javax.annotation.Generated;
 public class AdditionalPropertiesString extends HashMap<String, String>  {
 
   @JsonProperty("name")
-  private Optional<String> name;
+  private String name;
 
   public AdditionalPropertiesString name(String name) {
     this.name = name;
@@ -44,7 +44,7 @@ public class AdditionalPropertiesString extends HashMap<String, String>  {
     return Optional.ofNullable(name);
   }
 
-  public void setName(Optional<String> name) {
+  public void setName(String name) {
     this.name = name;
   }
 

@@ -140,7 +140,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default CompletableFuture<ResponseEntity<List<Pet>>> findPetsByStatus(
-        @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<StatusEnum> status
+        @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status
     ) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {

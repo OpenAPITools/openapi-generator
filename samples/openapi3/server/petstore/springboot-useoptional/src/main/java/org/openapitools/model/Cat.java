@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 public class Cat extends Animal  {
 
   @JsonProperty("declawed")
-  private Optional<Boolean> declawed;
+  private Boolean declawed;
 
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
@@ -43,7 +43,7 @@ public class Cat extends Animal  {
     return Optional.ofNullable(declawed);
   }
 
-  public void setDeclawed(Optional<Boolean> declawed) {
+  public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
 
