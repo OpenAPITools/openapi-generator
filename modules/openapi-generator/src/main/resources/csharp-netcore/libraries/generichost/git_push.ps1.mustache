@@ -1,8 +1,9 @@
 param(
-    [Parameter()][Alias("h")][String]$GitHost = "{{{gitHost}}}",
+    [Parameter()][Alias("g")][String]$GitHost = "{{{gitHost}}}",
     [Parameter()][Alias("u")][String]$GitUserId = "{{{gitUserId}}}",
     [Parameter()][Alias("r")][String]$GitRepoId = "{{{gitRepoId}}}",
-    [Parameter()][Alias("m")][string]$Message = "{{{releaseNote}}}"
+    [Parameter()][Alias("m")][string]$Message = "{{{releaseNote}}}",
+    [Parameter()][Alias("h")][switch]$Help
 )
 
 function Publish-ToGitHost{
@@ -16,8 +17,8 @@ function Publish-ToGitHost{
     git add .
     git commit -am "${Message}"
     $branchName=$(git rev-parse --abbrev-ref HEAD)
-
     $gitRemote=$(git remote)
+
     if([string]::IsNullOrWhiteSpace($gitRemote)){
         git remote add origin https://${GitHost}/${GitUserId}/${GitRepoId}.git
     }
@@ -44,6 +45,23 @@ function Publish-ToGitHost{
 
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version 3.0
+
+if ($Help){
+    Write-Output "
+    This script will initialize a git repository, then add and commit all files.
+    The local repository will then be pushed to your prefered git provider.
+    If the remote repository does not exist yet and you are using GitHub,
+    the repository will be created for you provided you have the GitHub CLI installed.
+    
+    Parameters:
+    -g | -GitHost   -> ex: github.com
+    -m | -Message   -> the git commit message
+    -r | -GitRepoId -> the name of the repository
+    -u | -GitUserId -> your user id
+    "
+
+    return
+}
 
 $rootPath=Resolve-Path -Path $PSScriptRoot/../..
 
