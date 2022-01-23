@@ -333,7 +333,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+        if (GENERICHOST.equals(getLibrary())){
+            return (outputFolder + "/" + apiDocPath + File.separatorChar + "apis").replace('/', File.separatorChar);
+        }else{
+            return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+        }
     }
 
     @Override
@@ -463,7 +467,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+        if (GENERICHOST.equals(getLibrary())){
+            return (outputFolder + "/" + modelDocPath + File.separator + "models").replace('/', File.separatorChar);
+        }else{
+            return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+        }
     }
 
     @Override
@@ -702,16 +710,20 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
             typeMapping.put("file", "FileParameter");
             addRestSharpSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
+            additionalProperties.put("apiDocPath", apiDocPath);
+            additionalProperties.put("modelDocPath", modelDocPath);
         }
         else if (GENERICHOST.equals(getLibrary())){
             addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
+            additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
+            additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
         }
         else{
             addRestSharpSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
+            additionalProperties.put("apiDocPath", apiDocPath);
+            additionalProperties.put("modelDocPath", modelDocPath);
         }
 
-        additionalProperties.put("apiDocPath", apiDocPath);
-        additionalProperties.put("modelDocPath", modelDocPath);
         addTestInstructions();
     }
 
