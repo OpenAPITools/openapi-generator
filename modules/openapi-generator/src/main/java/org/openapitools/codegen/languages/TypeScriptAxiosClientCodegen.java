@@ -134,10 +134,6 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         if (additionalProperties.containsKey(STRING_ENUMS)) {
             this.stringEnums = Boolean.parseBoolean(additionalProperties.get(STRING_ENUMS).toString());
             additionalProperties.put("stringEnums", this.stringEnums);
-            if (this.stringEnums) {
-                enumSuffix = "";
-                classEnumSeparator = "";
-            }
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
