@@ -149,7 +149,7 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testBodyWithQueryParams
      */
-    default Mono<ResponseEntity<Void>> testBodyWithQueryParams(String query,
+    default Mono<ResponseEntity<Void>> testBodyWithQueryParams( query,
         Mono<User> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
@@ -203,20 +203,20 @@ public interface FakeApiDelegate {
      *         or User not found (status code 404)
      * @see FakeApi#testEndpointParameters
      */
-    default Mono<ResponseEntity<Void>> testEndpointParameters(BigDecimal number,
-        Double _double,
-        String patternWithoutDelimiter,
-        byte[] _byte,
-        Integer integer,
-        Integer int32,
-        Long int64,
-        Float _float,
-        String string,
+    default Mono<ResponseEntity<Void>> testEndpointParameters( number,
+         _double,
+         patternWithoutDelimiter,
+         _byte,
+         integer,
+         int32,
+         int64,
+         _float,
+         string,
         Flux<Part> binary,
-        LocalDate date,
-        OffsetDateTime dateTime,
-        String password,
-        String paramCallback,
+         date,
+         dateTime,
+         password,
+         paramCallback,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -240,14 +240,14 @@ public interface FakeApiDelegate {
      *         or Not found (status code 404)
      * @see FakeApi#testEnumParameters
      */
-    default Mono<ResponseEntity<Void>> testEnumParameters(List<String> enumHeaderStringArray,
-        String enumHeaderString,
-        List<String> enumQueryStringArray,
-        String enumQueryString,
-        Integer enumQueryInteger,
-        Double enumQueryDouble,
-        List<String> enumFormStringArray,
-        String enumFormString,
+    default Mono<ResponseEntity<Void>> testEnumParameters(List<EnumHeaderStringArrayEnum> enumHeaderStringArray,
+        EnumHeaderStringEnum enumHeaderString,
+        List<EnumQueryStringArrayEnum> enumQueryStringArray,
+        EnumQueryStringEnum enumQueryString,
+        EnumQueryIntegerEnum enumQueryInteger,
+        EnumQueryDoubleEnum enumQueryDouble,
+        List<EnumFormStringArrayEnum> enumFormStringArray,
+        EnumFormStringEnum enumFormString,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -268,12 +268,12 @@ public interface FakeApiDelegate {
      * @return Someting wrong (status code 400)
      * @see FakeApi#testGroupParameters
      */
-    default Mono<ResponseEntity<Void>> testGroupParameters(Integer requiredStringGroup,
-        Boolean requiredBooleanGroup,
-        Long requiredInt64Group,
-        Integer stringGroup,
-        Boolean booleanGroup,
-        Long int64Group,
+    default Mono<ResponseEntity<Void>> testGroupParameters( requiredStringGroup,
+         requiredBooleanGroup,
+         requiredInt64Group,
+         stringGroup,
+         booleanGroup,
+         int64Group,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -304,8 +304,8 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#testJsonFormData
      */
-    default Mono<ResponseEntity<Void>> testJsonFormData(String param,
-        String param2,
+    default Mono<ResponseEntity<Void>> testJsonFormData( param,
+         param2,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -325,11 +325,11 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testQueryParameterCollectionFormat
      */
-    default Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(List<String> pipe,
-        List<String> ioutil,
-        List<String> http,
-        List<String> url,
-        List<String> context,
+    default Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat( pipe,
+         ioutil,
+         http,
+         url,
+         context,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -346,9 +346,9 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#uploadFileWithRequiredFile
      */
-    default Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(Long petId,
+    default Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile( petId,
         Flux<Part> requiredFile,
-        String additionalMetadata,
+         additionalMetadata,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

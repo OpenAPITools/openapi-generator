@@ -50,6 +50,8 @@ public class TypeHolderDefault   {
    * @return stringItem
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "string_item", required = true)
   public String getStringItem() {
     return stringItem;
@@ -69,6 +71,8 @@ public class TypeHolderDefault   {
    * @return numberItem
   */
   @NotNull @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "number_item", required = true)
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -88,6 +92,8 @@ public class TypeHolderDefault   {
    * @return integerItem
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "integer_item", required = true)
   public Integer getIntegerItem() {
     return integerItem;
@@ -107,6 +113,8 @@ public class TypeHolderDefault   {
    * @return boolItem
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "bool_item", required = true)
   public Boolean getBoolItem() {
     return boolItem;
@@ -131,6 +139,8 @@ public class TypeHolderDefault   {
    * @return arrayItem
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "array_item", required = true)
   public List<Integer> getArrayItem() {
     return arrayItem;

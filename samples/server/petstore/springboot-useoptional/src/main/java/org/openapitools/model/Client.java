@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 public class Client   {
 
   @JsonProperty("client")
-  private String client;
+  private Optional<String> client;
 
   public Client client(String client) {
     this.client = client;
@@ -35,12 +35,14 @@ public class Client   {
    * @return client
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getClient() {
-    return client;
+  public Optional<String> getClient() {
+    return Optional.ofNullable(client);
   }
 
-  public void setClient(String client) {
+  public void setClient(Optional<String> client) {
     this.client = client;
   }
 

@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 public class NumberOnly   {
 
   @JsonProperty("JustNumber")
-  private BigDecimal justNumber;
+  private Optional<BigDecimal> justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
@@ -36,12 +36,14 @@ public class NumberOnly   {
    * @return justNumber
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public BigDecimal getJustNumber() {
-    return justNumber;
+  public Optional<BigDecimal> getJustNumber() {
+    return Optional.ofNullable(justNumber);
   }
 
-  public void setJustNumber(BigDecimal justNumber) {
+  public void setJustNumber(Optional<BigDecimal> justNumber) {
     this.justNumber = justNumber;
   }
 

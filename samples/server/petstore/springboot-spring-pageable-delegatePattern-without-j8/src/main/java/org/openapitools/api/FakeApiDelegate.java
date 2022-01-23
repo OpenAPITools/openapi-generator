@@ -94,7 +94,7 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testBodyWithQueryParams
      */
-    ResponseEntity<Void> testBodyWithQueryParams(String query,
+    ResponseEntity<Void> testBodyWithQueryParams( query,
         User body);
 
     /**
@@ -129,20 +129,20 @@ public interface FakeApiDelegate {
      *         or User not found (status code 404)
      * @see FakeApi#testEndpointParameters
      */
-    ResponseEntity<Void> testEndpointParameters(BigDecimal number,
-        Double _double,
-        String patternWithoutDelimiter,
-        byte[] _byte,
-        Integer integer,
-        Integer int32,
-        Long int64,
-        Float _float,
-        String string,
+    ResponseEntity<Void> testEndpointParameters( number,
+         _double,
+         patternWithoutDelimiter,
+         _byte,
+         integer,
+         int32,
+         int64,
+         _float,
+         string,
         MultipartFile binary,
-        LocalDate date,
-        OffsetDateTime dateTime,
-        String password,
-        String paramCallback);
+         date,
+         dateTime,
+         password,
+         paramCallback);
 
     /**
      * GET /fake : To test enum parameters
@@ -160,14 +160,14 @@ public interface FakeApiDelegate {
      *         or Not found (status code 404)
      * @see FakeApi#testEnumParameters
      */
-    ResponseEntity<Void> testEnumParameters(List<String> enumHeaderStringArray,
-        String enumHeaderString,
-        List<String> enumQueryStringArray,
-        String enumQueryString,
-        Integer enumQueryInteger,
-        Double enumQueryDouble,
-        List<String> enumFormStringArray,
-        String enumFormString);
+    ResponseEntity<Void> testEnumParameters(List<EnumHeaderStringArrayEnum> enumHeaderStringArray,
+        EnumHeaderStringEnum enumHeaderString,
+        List<EnumQueryStringArrayEnum> enumQueryStringArray,
+        EnumQueryStringEnum enumQueryString,
+        EnumQueryIntegerEnum enumQueryInteger,
+        EnumQueryDoubleEnum enumQueryDouble,
+        List<EnumFormStringArrayEnum> enumFormStringArray,
+        EnumFormStringEnum enumFormString);
 
     /**
      * DELETE /fake : Fake endpoint to test group parameters (optional)
@@ -182,12 +182,12 @@ public interface FakeApiDelegate {
      * @return Someting wrong (status code 400)
      * @see FakeApi#testGroupParameters
      */
-    ResponseEntity<Void> testGroupParameters(Integer requiredStringGroup,
-        Boolean requiredBooleanGroup,
-        Long requiredInt64Group,
-        Integer stringGroup,
-        Boolean booleanGroup,
-        Long int64Group);
+    ResponseEntity<Void> testGroupParameters( requiredStringGroup,
+         requiredBooleanGroup,
+         requiredInt64Group,
+         stringGroup,
+         booleanGroup,
+         int64Group);
 
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
@@ -206,8 +206,8 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#testJsonFormData
      */
-    ResponseEntity<Void> testJsonFormData(String param,
-        String param2);
+    ResponseEntity<Void> testJsonFormData( param,
+         param2);
 
     /**
      * PUT /fake/test-query-parameters
@@ -221,11 +221,11 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testQueryParameterCollectionFormat
      */
-    ResponseEntity<Void> testQueryParameterCollectionFormat(List<String> pipe,
-        List<String> ioutil,
-        List<String> http,
-        List<String> url,
-        List<String> context);
+    ResponseEntity<Void> testQueryParameterCollectionFormat( pipe,
+         ioutil,
+         http,
+         url,
+         context);
 
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
@@ -236,8 +236,8 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#uploadFileWithRequiredFile
      */
-    ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
+    ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile( petId,
         MultipartFile requiredFile,
-        String additionalMetadata);
+         additionalMetadata);
 
 }

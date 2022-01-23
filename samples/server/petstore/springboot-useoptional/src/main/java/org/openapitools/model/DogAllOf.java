@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 public class DogAllOf   {
 
   @JsonProperty("breed")
-  private String breed;
+  private Optional<String> breed;
 
   public DogAllOf breed(String breed) {
     this.breed = breed;
@@ -35,12 +35,14 @@ public class DogAllOf   {
    * @return breed
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getBreed() {
-    return breed;
+  public Optional<String> getBreed() {
+    return Optional.ofNullable(breed);
   }
 
-  public void setBreed(String breed) {
+  public void setBreed(Optional<String> breed) {
     this.breed = breed;
   }
 

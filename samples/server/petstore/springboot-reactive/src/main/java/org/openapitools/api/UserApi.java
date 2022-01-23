@@ -139,7 +139,7 @@ public interface UserApi {
         value = "/user/{username}"
     )
     default Mono<ResponseEntity<Void>> deleteUser(
-        @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username,
+        @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username")  username,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().deleteUser(username, exchange);
@@ -172,7 +172,7 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default Mono<ResponseEntity<User>> getUserByName(
-        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username,
+        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username")  username,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().getUserByName(username, exchange);
@@ -204,8 +204,8 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default Mono<ResponseEntity<String>> loginUser(
-        @NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password,
+        @NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true)  username,
+        @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true)  password,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().loginUser(username, password, exchange);
@@ -261,7 +261,7 @@ public interface UserApi {
         value = "/user/{username}"
     )
     default Mono<ResponseEntity<Void>> updateUser(
-        @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
+        @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username")  username,
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody Mono<User> body,
         @ApiIgnore final ServerWebExchange exchange
     ) {

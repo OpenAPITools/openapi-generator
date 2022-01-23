@@ -23,13 +23,13 @@ import javax.annotation.Generated;
 public class OuterComposite   {
 
   @JsonProperty("my_number")
-  private BigDecimal myNumber;
+  private Optional<BigDecimal> myNumber;
 
   @JsonProperty("my_string")
-  private String myString;
+  private Optional<String> myString;
 
   @JsonProperty("my_boolean")
-  private Boolean myBoolean;
+  private Optional<Boolean> myBoolean;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
@@ -41,12 +41,14 @@ public class OuterComposite   {
    * @return myNumber
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "my_number", required = false)
-  public BigDecimal getMyNumber() {
-    return myNumber;
+  public Optional<BigDecimal> getMyNumber() {
+    return Optional.ofNullable(myNumber);
   }
 
-  public void setMyNumber(BigDecimal myNumber) {
+  public void setMyNumber(Optional<BigDecimal> myNumber) {
     this.myNumber = myNumber;
   }
 
@@ -60,12 +62,14 @@ public class OuterComposite   {
    * @return myString
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "my_string", required = false)
-  public String getMyString() {
-    return myString;
+  public Optional<String> getMyString() {
+    return Optional.ofNullable(myString);
   }
 
-  public void setMyString(String myString) {
+  public void setMyString(Optional<String> myString) {
     this.myString = myString;
   }
 
@@ -79,12 +83,14 @@ public class OuterComposite   {
    * @return myBoolean
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "my_boolean", required = false)
-  public Boolean getMyBoolean() {
-    return myBoolean;
+  public Optional<Boolean> getMyBoolean() {
+    return Optional.ofNullable(myBoolean);
   }
 
-  public void setMyBoolean(Boolean myBoolean) {
+  public void setMyBoolean(Optional<Boolean> myBoolean) {
     this.myBoolean = myBoolean;
   }
 

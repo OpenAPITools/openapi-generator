@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 public class File   {
 
   @JsonProperty("sourceURI")
-  private String sourceURI;
+  private Optional<String> sourceURI;
 
   public File sourceURI(String sourceURI) {
     this.sourceURI = sourceURI;
@@ -35,12 +35,14 @@ public class File   {
    * @return sourceURI
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "sourceURI", description = "Test capitalization", required = false)
-  public String getSourceURI() {
-    return sourceURI;
+  public Optional<String> getSourceURI() {
+    return Optional.ofNullable(sourceURI);
   }
 
-  public void setSourceURI(String sourceURI) {
+  public void setSourceURI(Optional<String> sourceURI) {
     this.sourceURI = sourceURI;
   }
 

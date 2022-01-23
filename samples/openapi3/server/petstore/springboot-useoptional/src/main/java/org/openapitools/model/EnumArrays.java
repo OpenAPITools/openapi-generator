@@ -60,7 +60,7 @@ public class EnumArrays   {
   }
 
   @JsonProperty("just_symbol")
-  private JustSymbolEnum justSymbol;
+  private Optional<JustSymbolEnum> justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -99,7 +99,7 @@ public class EnumArrays   {
 
   @JsonProperty("array_enum")
   @Valid
-  private List<ArrayEnumEnum> arrayEnum = null;
+  private Optional<List<ArrayEnumEnum>> arrayEnum = null;
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -111,12 +111,14 @@ public class EnumArrays   {
    * @return justSymbol
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "just_symbol", required = false)
-  public JustSymbolEnum getJustSymbol() {
-    return justSymbol;
+  public Optional<JustSymbolEnum> getJustSymbol() {
+    return Optional.ofNullable(justSymbol);
   }
 
-  public void setJustSymbol(JustSymbolEnum justSymbol) {
+  public void setJustSymbol(Optional<JustSymbolEnum> justSymbol) {
     this.justSymbol = justSymbol;
   }
 
@@ -138,12 +140,14 @@ public class EnumArrays   {
    * @return arrayEnum
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "array_enum", required = false)
-  public List<ArrayEnumEnum> getArrayEnum() {
-    return arrayEnum;
+  public Optional<List<ArrayEnumEnum>> getArrayEnum() {
+    return Optional.ofNullable(arrayEnum);
   }
 
-  public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
+  public void setArrayEnum(Optional<List<ArrayEnumEnum>> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
 

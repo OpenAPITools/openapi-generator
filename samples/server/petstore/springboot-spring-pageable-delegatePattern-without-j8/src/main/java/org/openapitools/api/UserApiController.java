@@ -84,7 +84,7 @@ public class UserApiController implements UserApi {
      * @see UserApi#deleteUser
      */
     public ResponseEntity<Void> deleteUser(
-        @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
+        @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username")  username
     ) {
         return delegate.deleteUser(username);
     }
@@ -99,7 +99,7 @@ public class UserApiController implements UserApi {
      * @see UserApi#getUserByName
      */
     public ResponseEntity<User> getUserByName(
-        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
+        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username")  username
     ) {
         return delegate.getUserByName(username);
     }
@@ -114,8 +114,8 @@ public class UserApiController implements UserApi {
      * @see UserApi#loginUser
      */
     public ResponseEntity<String> loginUser(
-        @NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password
+        @NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true)  username,
+        @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true)  password
     ) {
         return delegate.loginUser(username, password);
     }
@@ -143,7 +143,7 @@ public class UserApiController implements UserApi {
      * @see UserApi#updateUser
      */
     public ResponseEntity<Void> updateUser(
-        @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
+        @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username")  username,
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body
     ) {
         return delegate.updateUser(username, body);

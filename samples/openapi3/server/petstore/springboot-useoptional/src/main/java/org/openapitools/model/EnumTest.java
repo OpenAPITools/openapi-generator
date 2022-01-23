@@ -61,7 +61,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_string")
-  private EnumStringEnum enumString;
+  private Optional<EnumStringEnum> enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -139,7 +139,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_integer")
-  private EnumIntegerEnum enumInteger;
+  private Optional<EnumIntegerEnum> enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -177,10 +177,10 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_number")
-  private EnumNumberEnum enumNumber;
+  private Optional<EnumNumberEnum> enumNumber;
 
   @JsonProperty("outerEnum")
-  private OuterEnum outerEnum;
+  private Optional<OuterEnum> outerEnum;
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -192,12 +192,14 @@ public class EnumTest   {
    * @return enumString
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "enum_string", required = false)
-  public EnumStringEnum getEnumString() {
-    return enumString;
+  public Optional<EnumStringEnum> getEnumString() {
+    return Optional.ofNullable(enumString);
   }
 
-  public void setEnumString(EnumStringEnum enumString) {
+  public void setEnumString(Optional<EnumStringEnum> enumString) {
     this.enumString = enumString;
   }
 
@@ -211,6 +213,8 @@ public class EnumTest   {
    * @return enumStringRequired
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "enum_string_required", required = true)
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -230,12 +234,14 @@ public class EnumTest   {
    * @return enumInteger
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "enum_integer", required = false)
-  public EnumIntegerEnum getEnumInteger() {
-    return enumInteger;
+  public Optional<EnumIntegerEnum> getEnumInteger() {
+    return Optional.ofNullable(enumInteger);
   }
 
-  public void setEnumInteger(EnumIntegerEnum enumInteger) {
+  public void setEnumInteger(Optional<EnumIntegerEnum> enumInteger) {
     this.enumInteger = enumInteger;
   }
 
@@ -249,12 +255,14 @@ public class EnumTest   {
    * @return enumNumber
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "enum_number", required = false)
-  public EnumNumberEnum getEnumNumber() {
-    return enumNumber;
+  public Optional<EnumNumberEnum> getEnumNumber() {
+    return Optional.ofNullable(enumNumber);
   }
 
-  public void setEnumNumber(EnumNumberEnum enumNumber) {
+  public void setEnumNumber(Optional<EnumNumberEnum> enumNumber) {
     this.enumNumber = enumNumber;
   }
 
@@ -268,12 +276,14 @@ public class EnumTest   {
    * @return outerEnum
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "outerEnum", required = false)
-  public OuterEnum getOuterEnum() {
-    return outerEnum;
+  public Optional<OuterEnum> getOuterEnum() {
+    return Optional.ofNullable(outerEnum);
   }
 
-  public void setOuterEnum(OuterEnum outerEnum) {
+  public void setOuterEnum(Optional<OuterEnum> outerEnum) {
     this.outerEnum = outerEnum;
   }
 

@@ -129,7 +129,7 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testBodyWithQueryParams
      */
-    default ResponseEntity<Void> testBodyWithQueryParams(String query,
+    default ResponseEntity<Void> testBodyWithQueryParams( query,
         User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -179,20 +179,20 @@ public interface FakeApiDelegate {
      *         or User not found (status code 404)
      * @see FakeApi#testEndpointParameters
      */
-    default ResponseEntity<Void> testEndpointParameters(BigDecimal number,
-        Double _double,
-        String patternWithoutDelimiter,
-        byte[] _byte,
-        Integer integer,
-        Integer int32,
-        Long int64,
-        Float _float,
-        String string,
+    default ResponseEntity<Void> testEndpointParameters( number,
+         _double,
+         patternWithoutDelimiter,
+         _byte,
+         integer,
+         int32,
+         int64,
+         _float,
+         string,
         MultipartFile binary,
-        LocalDate date,
-        OffsetDateTime dateTime,
-        String password,
-        String paramCallback) {
+         date,
+         dateTime,
+         password,
+         paramCallback) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -213,14 +213,14 @@ public interface FakeApiDelegate {
      *         or Not found (status code 404)
      * @see FakeApi#testEnumParameters
      */
-    default ResponseEntity<Void> testEnumParameters(List<String> enumHeaderStringArray,
-        String enumHeaderString,
-        List<String> enumQueryStringArray,
-        String enumQueryString,
-        Integer enumQueryInteger,
-        Double enumQueryDouble,
-        List<String> enumFormStringArray,
-        String enumFormString) {
+    default ResponseEntity<Void> testEnumParameters(List<EnumHeaderStringArrayEnum> enumHeaderStringArray,
+        EnumHeaderStringEnum enumHeaderString,
+        List<EnumQueryStringArrayEnum> enumQueryStringArray,
+        EnumQueryStringEnum enumQueryString,
+        EnumQueryIntegerEnum enumQueryInteger,
+        EnumQueryDoubleEnum enumQueryDouble,
+        List<EnumFormStringArrayEnum> enumFormStringArray,
+        EnumFormStringEnum enumFormString) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -238,12 +238,12 @@ public interface FakeApiDelegate {
      * @return Someting wrong (status code 400)
      * @see FakeApi#testGroupParameters
      */
-    default ResponseEntity<Void> testGroupParameters(Integer requiredStringGroup,
-        Boolean requiredBooleanGroup,
-        Long requiredInt64Group,
-        Integer stringGroup,
-        Boolean booleanGroup,
-        Long int64Group) {
+    default ResponseEntity<Void> testGroupParameters( requiredStringGroup,
+         requiredBooleanGroup,
+         requiredInt64Group,
+         stringGroup,
+         booleanGroup,
+         int64Group) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -268,8 +268,8 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#testJsonFormData
      */
-    default ResponseEntity<Void> testJsonFormData(String param,
-        String param2) {
+    default ResponseEntity<Void> testJsonFormData( param,
+         param2) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -286,11 +286,11 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testQueryParameterCollectionFormat
      */
-    default ResponseEntity<Void> testQueryParameterCollectionFormat(List<String> pipe,
-        List<String> ioutil,
-        List<String> http,
-        List<String> url,
-        List<String> context) {
+    default ResponseEntity<Void> testQueryParameterCollectionFormat( pipe,
+         ioutil,
+         http,
+         url,
+         context) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -304,9 +304,9 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#uploadFileWithRequiredFile
      */
-    default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
+    default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile( petId,
         MultipartFile requiredFile,
-        String additionalMetadata) {
+         additionalMetadata) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

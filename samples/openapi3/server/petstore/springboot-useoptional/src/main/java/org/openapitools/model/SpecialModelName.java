@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 public class SpecialModelName   {
 
   @JsonProperty("$special[property.name]")
-  private Long $specialPropertyName;
+  private Optional<Long> $specialPropertyName;
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
@@ -34,12 +34,14 @@ public class SpecialModelName   {
    * @return $specialPropertyName
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "$special[property.name]", required = false)
-  public Long get$SpecialPropertyName() {
-    return $specialPropertyName;
+  public Optional<Long> get$SpecialPropertyName() {
+    return Optional.ofNullable($specialPropertyName);
   }
 
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
+  public void set$SpecialPropertyName(Optional<Long> $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 

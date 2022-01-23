@@ -63,7 +63,7 @@ public class BigCatAllOf   {
   }
 
   @JsonProperty("kind")
-  private KindEnum kind;
+  private Optional<KindEnum> kind;
 
   public BigCatAllOf kind(KindEnum kind) {
     this.kind = kind;
@@ -75,12 +75,14 @@ public class BigCatAllOf   {
    * @return kind
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public KindEnum getKind() {
-    return kind;
+  public Optional<KindEnum> getKind() {
+    return Optional.ofNullable(kind);
   }
 
-  public void setKind(KindEnum kind) {
+  public void setKind(Optional<KindEnum> kind) {
     this.kind = kind;
   }
 

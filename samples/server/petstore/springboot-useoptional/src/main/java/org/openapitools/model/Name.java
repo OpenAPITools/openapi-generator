@@ -27,13 +27,13 @@ public class Name   {
   private Integer name;
 
   @JsonProperty("snake_case")
-  private Integer snakeCase;
+  private Optional<Integer> snakeCase;
 
   @JsonProperty("property")
-  private String property;
+  private Optional<String> property;
 
   @JsonProperty("123Number")
-  private Integer _123number;
+  private Optional<Integer> _123number;
 
   public Name name(Integer name) {
     this.name = name;
@@ -45,6 +45,8 @@ public class Name   {
    * @return name
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public Integer getName() {
     return name;
@@ -64,12 +66,14 @@ public class Name   {
    * @return snakeCase
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(readOnly = true, value = "")
-  public Integer getSnakeCase() {
-    return snakeCase;
+  public Optional<Integer> getSnakeCase() {
+    return Optional.ofNullable(snakeCase);
   }
 
-  public void setSnakeCase(Integer snakeCase) {
+  public void setSnakeCase(Optional<Integer> snakeCase) {
     this.snakeCase = snakeCase;
   }
 
@@ -83,12 +87,14 @@ public class Name   {
    * @return property
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getProperty() {
-    return property;
+  public Optional<String> getProperty() {
+    return Optional.ofNullable(property);
   }
 
-  public void setProperty(String property) {
+  public void setProperty(Optional<String> property) {
     this.property = property;
   }
 
@@ -102,12 +108,14 @@ public class Name   {
    * @return _123number
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(readOnly = true, value = "")
-  public Integer get123number() {
-    return _123number;
+  public Optional<Integer> get123number() {
+    return Optional.ofNullable(_123number);
   }
 
-  public void set123number(Integer _123number) {
+  public void set123number(Optional<Integer> _123number) {
     this._123number = _123number;
   }
 

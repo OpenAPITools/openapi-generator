@@ -38,8 +38,8 @@ public interface PetApiDelegate {
      *         or Invalid pet value (status code 400)
      * @see PetApi#deletePet
      */
-    ResponseEntity<Void> deletePet(Long petId,
-        String apiKey);
+    ResponseEntity<Void> deletePet( petId,
+         apiKey);
 
     /**
      * GET /pet/findByStatus : Finds Pets by status
@@ -50,7 +50,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    ResponseEntity<List<Pet>> findPetsByStatus(List<String> status, final Pageable pageable);
+    ResponseEntity<List<Pet>> findPetsByStatus(List<StatusEnum> status, final Pageable pageable);
 
     /**
      * GET /pet/findByTags : Finds Pets by tags
@@ -62,7 +62,7 @@ public interface PetApiDelegate {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
-    ResponseEntity<List<Pet>> findPetsByTags(List<String> tags, final Pageable pageable);
+    ResponseEntity<List<Pet>> findPetsByTags( tags, final Pageable pageable);
 
     /**
      * GET /pet/{petId} : Find pet by ID
@@ -74,7 +74,7 @@ public interface PetApiDelegate {
      *         or Pet not found (status code 404)
      * @see PetApi#getPetById
      */
-    ResponseEntity<Pet> getPetById(Long petId);
+    ResponseEntity<Pet> getPetById( petId);
 
     /**
      * PUT /pet : Update an existing pet
@@ -97,9 +97,9 @@ public interface PetApiDelegate {
      * @return Invalid input (status code 405)
      * @see PetApi#updatePetWithForm
      */
-    ResponseEntity<Void> updatePetWithForm(Long petId,
-        String name,
-        String status);
+    ResponseEntity<Void> updatePetWithForm( petId,
+         name,
+         status);
 
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
@@ -110,8 +110,8 @@ public interface PetApiDelegate {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    ResponseEntity<ModelApiResponse> uploadFile(Long petId,
-        String additionalMetadata,
+    ResponseEntity<ModelApiResponse> uploadFile( petId,
+         additionalMetadata,
         MultipartFile file);
 
 }

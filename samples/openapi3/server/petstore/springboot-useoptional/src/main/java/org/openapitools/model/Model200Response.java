@@ -23,10 +23,10 @@ import javax.annotation.Generated;
 public class Model200Response   {
 
   @JsonProperty("name")
-  private Integer name;
+  private Optional<Integer> name;
 
   @JsonProperty("class")
-  private String propertyClass;
+  private Optional<String> propertyClass;
 
   public Model200Response name(Integer name) {
     this.name = name;
@@ -38,12 +38,14 @@ public class Model200Response   {
    * @return name
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "name", required = false)
-  public Integer getName() {
-    return name;
+  public Optional<Integer> getName() {
+    return Optional.ofNullable(name);
   }
 
-  public void setName(Integer name) {
+  public void setName(Optional<Integer> name) {
     this.name = name;
   }
 
@@ -57,12 +59,14 @@ public class Model200Response   {
    * @return propertyClass
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "class", required = false)
-  public String getPropertyClass() {
-    return propertyClass;
+  public Optional<String> getPropertyClass() {
+    return Optional.ofNullable(propertyClass);
   }
 
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClass(Optional<String> propertyClass) {
     this.propertyClass = propertyClass;
   }
 

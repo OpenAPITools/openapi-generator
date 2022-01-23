@@ -25,7 +25,7 @@ public interface StoreApiDelegate {
      *         or Order not found (status code 404)
      * @see StoreApi#deleteOrder
      */
-    ResponseEntity<Void> deleteOrder(String orderId);
+    ResponseEntity<Void> deleteOrder( orderId);
 
     /**
      * GET /store/inventory : Returns pet inventories by status
@@ -46,7 +46,7 @@ public interface StoreApiDelegate {
      *         or Order not found (status code 404)
      * @see StoreApi#getOrderById
      */
-    ResponseEntity<Order> getOrderById(Long orderId);
+    ResponseEntity<Order> getOrderById( orderId);
 
     /**
      * POST /store/order : Place an order for a pet

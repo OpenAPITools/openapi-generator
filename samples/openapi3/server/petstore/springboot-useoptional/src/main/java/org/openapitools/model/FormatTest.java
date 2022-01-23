@@ -29,31 +29,31 @@ import javax.annotation.Generated;
 public class FormatTest   {
 
   @JsonProperty("integer")
-  private Integer integer;
+  private Optional<@Min(10) @Max(100) Integer> integer;
 
   @JsonProperty("int32")
-  private Integer int32;
+  private Optional<@Min(20) @Max(200) Integer> int32;
 
   @JsonProperty("int64")
-  private Long int64;
+  private Optional<Long> int64;
 
   @JsonProperty("number")
   private BigDecimal number;
 
   @JsonProperty("float")
-  private Float _float;
+  private Optional<@DecimalMin("54.3") @DecimalMax("987.6") Float> _float;
 
   @JsonProperty("double")
-  private Double _double;
+  private Optional<@DecimalMin("67.8") @DecimalMax("123.4") Double> _double;
 
   @JsonProperty("string")
-  private String string;
+  private Optional<@Pattern(regexp = "/[a-z]/i") String> string;
 
   @JsonProperty("byte")
   private byte[] _byte;
 
   @JsonProperty("binary")
-  private Resource binary;
+  private Optional<Resource> binary;
 
   @JsonProperty("date")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -61,16 +61,16 @@ public class FormatTest   {
 
   @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime dateTime;
+  private Optional<OffsetDateTime> dateTime;
 
   @JsonProperty("uuid")
-  private UUID uuid;
+  private Optional<UUID> uuid;
 
   @JsonProperty("password")
   private String password;
 
   @JsonProperty("BigDecimal")
-  private BigDecimal bigDecimal;
+  private Optional<BigDecimal> bigDecimal;
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;
@@ -84,12 +84,14 @@ public class FormatTest   {
    * @return integer
   */
   @Min(10) @Max(100) 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "integer", required = false)
-  public Integer getInteger() {
-    return integer;
+  public Optional<@Min(10) @Max(100) Integer> getInteger() {
+    return Optional.ofNullable(integer);
   }
 
-  public void setInteger(Integer integer) {
+  public void setInteger(Optional<@Min(10) @Max(100) Integer> integer) {
     this.integer = integer;
   }
 
@@ -105,12 +107,14 @@ public class FormatTest   {
    * @return int32
   */
   @Min(20) @Max(200) 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "int32", required = false)
-  public Integer getInt32() {
-    return int32;
+  public Optional<@Min(20) @Max(200) Integer> getInt32() {
+    return Optional.ofNullable(int32);
   }
 
-  public void setInt32(Integer int32) {
+  public void setInt32(Optional<@Min(20) @Max(200) Integer> int32) {
     this.int32 = int32;
   }
 
@@ -124,12 +128,14 @@ public class FormatTest   {
    * @return int64
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "int64", required = false)
-  public Long getInt64() {
-    return int64;
+  public Optional<Long> getInt64() {
+    return Optional.ofNullable(int64);
   }
 
-  public void setInt64(Long int64) {
+  public void setInt64(Optional<Long> int64) {
     this.int64 = int64;
   }
 
@@ -145,6 +151,8 @@ public class FormatTest   {
    * @return number
   */
   @NotNull @Valid @DecimalMin("32.1") @DecimalMax("543.2") 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "number", required = true)
   public BigDecimal getNumber() {
     return number;
@@ -166,12 +174,14 @@ public class FormatTest   {
    * @return _float
   */
   @DecimalMin("54.3") @DecimalMax("987.6") 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "float", required = false)
-  public Float getFloat() {
-    return _float;
+  public Optional<@DecimalMin("54.3") @DecimalMax("987.6") Float> getFloat() {
+    return Optional.ofNullable(_float);
   }
 
-  public void setFloat(Float _float) {
+  public void setFloat(Optional<@DecimalMin("54.3") @DecimalMax("987.6") Float> _float) {
     this._float = _float;
   }
 
@@ -187,12 +197,14 @@ public class FormatTest   {
    * @return _double
   */
   @DecimalMin("67.8") @DecimalMax("123.4") 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "double", required = false)
-  public Double getDouble() {
-    return _double;
+  public Optional<@DecimalMin("67.8") @DecimalMax("123.4") Double> getDouble() {
+    return Optional.ofNullable(_double);
   }
 
-  public void setDouble(Double _double) {
+  public void setDouble(Optional<@DecimalMin("67.8") @DecimalMax("123.4") Double> _double) {
     this._double = _double;
   }
 
@@ -206,12 +218,14 @@ public class FormatTest   {
    * @return string
   */
   @Pattern(regexp = "/[a-z]/i") 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "string", required = false)
-  public String getString() {
-    return string;
+  public Optional<@Pattern(regexp = "/[a-z]/i") String> getString() {
+    return Optional.ofNullable(string);
   }
 
-  public void setString(String string) {
+  public void setString(Optional<@Pattern(regexp = "/[a-z]/i") String> string) {
     this.string = string;
   }
 
@@ -225,6 +239,8 @@ public class FormatTest   {
    * @return _byte
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "byte", required = true)
   public byte[] getByte() {
     return _byte;
@@ -244,12 +260,14 @@ public class FormatTest   {
    * @return binary
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "binary", required = false)
-  public Resource getBinary() {
-    return binary;
+  public Optional<Resource> getBinary() {
+    return Optional.ofNullable(binary);
   }
 
-  public void setBinary(Resource binary) {
+  public void setBinary(Optional<Resource> binary) {
     this.binary = binary;
   }
 
@@ -263,6 +281,8 @@ public class FormatTest   {
    * @return date
   */
   @NotNull @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "date", required = true)
   public LocalDate getDate() {
     return date;
@@ -282,12 +302,14 @@ public class FormatTest   {
    * @return dateTime
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "dateTime", required = false)
-  public OffsetDateTime getDateTime() {
-    return dateTime;
+  public Optional<OffsetDateTime> getDateTime() {
+    return Optional.ofNullable(dateTime);
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(Optional<OffsetDateTime> dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -301,12 +323,14 @@ public class FormatTest   {
    * @return uuid
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "uuid", example = "72f98069-206d-4f12-9f12-3d1e525a8e84", required = false)
-  public UUID getUuid() {
-    return uuid;
+  public Optional<UUID> getUuid() {
+    return Optional.ofNullable(uuid);
   }
 
-  public void setUuid(UUID uuid) {
+  public void setUuid(Optional<UUID> uuid) {
     this.uuid = uuid;
   }
 
@@ -320,6 +344,8 @@ public class FormatTest   {
    * @return password
   */
   @NotNull @Size(min = 10, max = 64) 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "password", required = true)
   public String getPassword() {
     return password;
@@ -339,12 +365,14 @@ public class FormatTest   {
    * @return bigDecimal
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "BigDecimal", required = false)
-  public BigDecimal getBigDecimal() {
-    return bigDecimal;
+  public Optional<BigDecimal> getBigDecimal() {
+    return Optional.ofNullable(bigDecimal);
   }
 
-  public void setBigDecimal(BigDecimal bigDecimal) {
+  public void setBigDecimal(Optional<BigDecimal> bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
 

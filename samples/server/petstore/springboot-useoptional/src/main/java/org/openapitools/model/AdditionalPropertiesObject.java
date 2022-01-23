@@ -25,7 +25,7 @@ import javax.annotation.Generated;
 public class AdditionalPropertiesObject extends HashMap<String, Map>  {
 
   @JsonProperty("name")
-  private String name;
+  private Optional<String> name;
 
   public AdditionalPropertiesObject name(String name) {
     this.name = name;
@@ -37,12 +37,14 @@ public class AdditionalPropertiesObject extends HashMap<String, Map>  {
    * @return name
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getName() {
-    return name;
+  public Optional<String> getName() {
+    return Optional.ofNullable(name);
   }
 
-  public void setName(String name) {
+  public void setName(Optional<String> name) {
     this.name = name;
   }
 

@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 public class Cat extends Animal  {
 
   @JsonProperty("declawed")
-  private Boolean declawed;
+  private Optional<Boolean> declawed;
 
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
@@ -36,12 +36,14 @@ public class Cat extends Animal  {
    * @return declawed
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "declawed", required = false)
-  public Boolean getDeclawed() {
-    return declawed;
+  public Optional<Boolean> getDeclawed() {
+    return Optional.ofNullable(declawed);
   }
 
-  public void setDeclawed(Boolean declawed) {
+  public void setDeclawed(Optional<Boolean> declawed) {
     this.declawed = declawed;
   }
 

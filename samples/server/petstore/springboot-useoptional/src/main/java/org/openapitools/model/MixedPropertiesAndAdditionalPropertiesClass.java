@@ -30,15 +30,15 @@ import javax.annotation.Generated;
 public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   @JsonProperty("uuid")
-  private UUID uuid;
+  private Optional<UUID> uuid;
 
   @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime dateTime;
+  private Optional<OffsetDateTime> dateTime;
 
   @JsonProperty("map")
   @Valid
-  private Map<String, Animal> map = null;
+  private Optional<Map<String, Animal>> map = null;
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;
@@ -50,12 +50,14 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * @return uuid
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public UUID getUuid() {
-    return uuid;
+  public Optional<UUID> getUuid() {
+    return Optional.ofNullable(uuid);
   }
 
-  public void setUuid(UUID uuid) {
+  public void setUuid(Optional<UUID> uuid) {
     this.uuid = uuid;
   }
 
@@ -69,12 +71,14 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * @return dateTime
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public OffsetDateTime getDateTime() {
-    return dateTime;
+  public Optional<OffsetDateTime> getDateTime() {
+    return Optional.ofNullable(dateTime);
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(Optional<OffsetDateTime> dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -96,12 +100,14 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * @return map
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Map<String, Animal> getMap() {
-    return map;
+  public Optional<Map<String, Animal>> getMap() {
+    return Optional.ofNullable(map);
   }
 
-  public void setMap(Map<String, Animal> map) {
+  public void setMap(Optional<Map<String, Animal>> map) {
     this.map = map;
   }
 

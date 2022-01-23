@@ -23,22 +23,22 @@ import javax.annotation.Generated;
 public class Capitalization   {
 
   @JsonProperty("smallCamel")
-  private String smallCamel;
+  private Optional<String> smallCamel;
 
   @JsonProperty("CapitalCamel")
-  private String capitalCamel;
+  private Optional<String> capitalCamel;
 
   @JsonProperty("small_Snake")
-  private String smallSnake;
+  private Optional<String> smallSnake;
 
   @JsonProperty("Capital_Snake")
-  private String capitalSnake;
+  private Optional<String> capitalSnake;
 
   @JsonProperty("SCA_ETH_Flow_Points")
-  private String scAETHFlowPoints;
+  private Optional<String> scAETHFlowPoints;
 
   @JsonProperty("ATT_NAME")
-  private String ATT_NAME;
+  private Optional<String> ATT_NAME;
 
   public Capitalization smallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
@@ -50,12 +50,14 @@ public class Capitalization   {
    * @return smallCamel
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getSmallCamel() {
-    return smallCamel;
+  public Optional<String> getSmallCamel() {
+    return Optional.ofNullable(smallCamel);
   }
 
-  public void setSmallCamel(String smallCamel) {
+  public void setSmallCamel(Optional<String> smallCamel) {
     this.smallCamel = smallCamel;
   }
 
@@ -69,12 +71,14 @@ public class Capitalization   {
    * @return capitalCamel
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getCapitalCamel() {
-    return capitalCamel;
+  public Optional<String> getCapitalCamel() {
+    return Optional.ofNullable(capitalCamel);
   }
 
-  public void setCapitalCamel(String capitalCamel) {
+  public void setCapitalCamel(Optional<String> capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
 
@@ -88,12 +92,14 @@ public class Capitalization   {
    * @return smallSnake
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getSmallSnake() {
-    return smallSnake;
+  public Optional<String> getSmallSnake() {
+    return Optional.ofNullable(smallSnake);
   }
 
-  public void setSmallSnake(String smallSnake) {
+  public void setSmallSnake(Optional<String> smallSnake) {
     this.smallSnake = smallSnake;
   }
 
@@ -107,12 +113,14 @@ public class Capitalization   {
    * @return capitalSnake
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getCapitalSnake() {
-    return capitalSnake;
+  public Optional<String> getCapitalSnake() {
+    return Optional.ofNullable(capitalSnake);
   }
 
-  public void setCapitalSnake(String capitalSnake) {
+  public void setCapitalSnake(Optional<String> capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
 
@@ -126,12 +134,14 @@ public class Capitalization   {
    * @return scAETHFlowPoints
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getScAETHFlowPoints() {
-    return scAETHFlowPoints;
+  public Optional<String> getScAETHFlowPoints() {
+    return Optional.ofNullable(scAETHFlowPoints);
   }
 
-  public void setScAETHFlowPoints(String scAETHFlowPoints) {
+  public void setScAETHFlowPoints(Optional<String> scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
@@ -145,12 +155,14 @@ public class Capitalization   {
    * @return ATT_NAME
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "Name of the pet ")
-  public String getATTNAME() {
-    return ATT_NAME;
+  public Optional<String> getATTNAME() {
+    return Optional.ofNullable(ATT_NAME);
   }
 
-  public void setATTNAME(String ATT_NAME) {
+  public void setATTNAME(Optional<String> ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
 

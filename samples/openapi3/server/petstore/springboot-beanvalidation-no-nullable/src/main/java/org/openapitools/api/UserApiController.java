@@ -97,7 +97,7 @@ public class UserApiController implements UserApi {
      * @see UserApi#deleteUser
      */
     public ResponseEntity<Void> deleteUser(
-        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username")  username
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -113,7 +113,7 @@ public class UserApiController implements UserApi {
      * @see UserApi#getUserByName
      */
     public ResponseEntity<User> getUserByName(
-        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username")  username
     ) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -141,8 +141,8 @@ public class UserApiController implements UserApi {
      * @see UserApi#loginUser
      */
     public ResponseEntity<String> loginUser(
-        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "password", required = true) String password
+        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "username", required = true)  username,
+        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "password", required = true)  password
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -172,7 +172,7 @@ public class UserApiController implements UserApi {
      * @see UserApi#updateUser
      */
     public ResponseEntity<Void> updateUser(
-        @Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username,
+        @Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username")  username,
         @Parameter(name = "body", description = "Updated user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

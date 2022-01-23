@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 public class ClassModel   {
 
   @JsonProperty("_class")
-  private String propertyClass;
+  private Optional<String> propertyClass;
 
   public ClassModel propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
@@ -36,12 +36,14 @@ public class ClassModel   {
    * @return propertyClass
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getPropertyClass() {
-    return propertyClass;
+  public Optional<String> getPropertyClass() {
+    return Optional.ofNullable(propertyClass);
   }
 
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClass(Optional<String> propertyClass) {
     this.propertyClass = propertyClass;
   }
 

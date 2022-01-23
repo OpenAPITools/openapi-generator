@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 public class Category   {
 
   @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id;
 
   @JsonProperty("name")
   private String name = "default-name";
@@ -38,12 +38,14 @@ public class Category   {
    * @return id
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
+  public Optional<Long> getId() {
+    return Optional.ofNullable(id);
   }
 
-  public void setId(Long id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
@@ -57,6 +59,8 @@ public class Category   {
    * @return name
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public String getName() {
     return name;

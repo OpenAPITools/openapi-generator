@@ -209,7 +209,7 @@ public interface FakeApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> testBodyWithQueryParams(
-        @NotNull @Parameter(name = "query", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "query", required = true) String query,
+        @NotNull @Parameter(name = "query", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "query", required = true)  query,
         @Parameter(name = "body", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
     );
 
@@ -326,12 +326,12 @@ public interface FakeApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> testEnumParameters(
-        @Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)", schema = @Schema(description = "", allowableValues = { ">", "$" })) @RequestHeader(value = "enum_header_string_array", required = false) List<String> enumHeaderStringArray,
-        @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)", schema = @Schema(description = "", allowableValues = { "_abc", "-efg", "(xyz)" }, defaultValue = "-efg")) @RequestHeader(value = "enum_header_string", required = false) String enumHeaderString,
-        @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", schema = @Schema(description = "", allowableValues = { ">", "$" })) @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
-        @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", schema = @Schema(description = "", allowableValues = { "_abc", "-efg", "(xyz)" }, defaultValue = "-efg")) @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
-        @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", schema = @Schema(description = "", allowableValues = { "1", "-2" })) @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
-        @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", schema = @Schema(description = "", allowableValues = { "1.1", "-1.2" })) @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
+        @Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)", schema = @Schema(description = "", allowableValues = { ">", "$" })) @RequestHeader(value = "enum_header_string_array", required = false) List<EnumHeaderStringArrayEnum> enumHeaderStringArray,
+        @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)", schema = @Schema(description = "", allowableValues = { "_abc", "-efg", "(xyz)" }, defaultValue = "-efg")) @RequestHeader(value = "enum_header_string", required = false) EnumHeaderStringEnum enumHeaderString,
+        @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", schema = @Schema(description = "", allowableValues = { ">", "$" })) @Valid @RequestParam(value = "enum_query_string_array", required = false) List<EnumQueryStringArrayEnum> enumQueryStringArray,
+        @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", schema = @Schema(description = "", allowableValues = { "_abc", "-efg", "(xyz)" }, defaultValue = "-efg")) @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") EnumQueryStringEnum enumQueryString,
+        @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", schema = @Schema(description = "", allowableValues = { "1", "-2" })) @Valid @RequestParam(value = "enum_query_integer", required = false) EnumQueryIntegerEnum enumQueryInteger,
+        @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", schema = @Schema(description = "", allowableValues = { "1.1", "-1.2" })) @Valid @RequestParam(value = "enum_query_double", required = false) EnumQueryDoubleEnum enumQueryDouble,
         @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)", schema = @Schema(description = "", allowableValues = { ">", "$" })) @RequestParam(value="enum_form_string_array", required=false) List<String> enumFormStringArray,
         @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)", schema = @Schema(description = "", allowableValues = { "_abc", "-efg", "(xyz)" }, defaultValue = "-efg")) @RequestParam(value="enum_form_string", required=false) String enumFormString
     );
@@ -362,12 +362,12 @@ public interface FakeApi {
         value = "/fake"
     )
     ResponseEntity<Void> testGroupParameters(
-        @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
-        @Parameter(name = "required_boolean_group", description = "Required Boolean in group parameters", required = true, schema = @Schema(description = "")) @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
-        @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
-        @Parameter(name = "string_group", description = "String in group parameters", schema = @Schema(description = "")) @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,
-        @Parameter(name = "boolean_group", description = "Boolean in group parameters", schema = @Schema(description = "")) @RequestHeader(value = "boolean_group", required = false) Boolean booleanGroup,
-        @Parameter(name = "int64_group", description = "Integer in group parameters", schema = @Schema(description = "")) @Valid @RequestParam(value = "int64_group", required = false) Long int64Group
+        @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "required_string_group", required = true)  requiredStringGroup,
+        @Parameter(name = "required_boolean_group", description = "Required Boolean in group parameters", required = true, schema = @Schema(description = "")) @RequestHeader(value = "required_boolean_group", required = true)  requiredBooleanGroup,
+        @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "required_int64_group", required = true)  requiredInt64Group,
+        @Parameter(name = "string_group", description = "String in group parameters", schema = @Schema(description = "")) @Valid @RequestParam(value = "string_group", required = false)  stringGroup,
+        @Parameter(name = "boolean_group", description = "Boolean in group parameters", schema = @Schema(description = "")) @RequestHeader(value = "boolean_group", required = false)  booleanGroup,
+        @Parameter(name = "int64_group", description = "Integer in group parameters", schema = @Schema(description = "")) @Valid @RequestParam(value = "int64_group", required = false)  int64Group
     );
 
 
@@ -444,11 +444,11 @@ public interface FakeApi {
         value = "/fake/test-query-parameters"
     )
     ResponseEntity<Void> testQueryParameterCollectionFormat(
-        @NotNull @Parameter(name = "pipe", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull @Parameter(name = "ioutil", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,
-        @NotNull @Parameter(name = "http", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "http", required = true) List<String> http,
-        @NotNull @Parameter(name = "url", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "url", required = true) List<String> url,
-        @NotNull @Parameter(name = "context", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "context", required = true) List<String> context
+        @NotNull @Parameter(name = "pipe", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "pipe", required = true)  pipe,
+        @NotNull @Parameter(name = "ioutil", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "ioutil", required = true)  ioutil,
+        @NotNull @Parameter(name = "http", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "http", required = true)  http,
+        @NotNull @Parameter(name = "url", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "url", required = true)  url,
+        @NotNull @Parameter(name = "context", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "context", required = true)  context
     );
 
 }

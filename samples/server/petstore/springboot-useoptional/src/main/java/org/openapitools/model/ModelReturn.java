@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 public class ModelReturn   {
 
   @JsonProperty("return")
-  private Integer _return;
+  private Optional<Integer> _return;
 
   public ModelReturn _return(Integer _return) {
     this._return = _return;
@@ -36,12 +36,14 @@ public class ModelReturn   {
    * @return _return
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Integer getReturn() {
-    return _return;
+  public Optional<Integer> getReturn() {
+    return Optional.ofNullable(_return);
   }
 
-  public void setReturn(Integer _return) {
+  public void setReturn(Optional<Integer> _return) {
     this._return = _return;
   }
 

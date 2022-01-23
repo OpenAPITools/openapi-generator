@@ -52,10 +52,10 @@ public interface DefaultApi {
         value = "/thingy/{date}"
     )
     ResponseEntity<Void> get(
-        @ApiParam(value = "A date path parameter", required = true) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @NotNull @ApiParam(value = "A date-time query parameter", required = true) @Valid @RequestParam(value = "dateTime", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-        @ApiParam(value = "A date header parameter", required = true) @RequestHeader(value = "X-Order-Date", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate xOrderDate,
-        @ApiParam(value = "A date cookie parameter") @CookieValue("loginDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate loginDate
+        @ApiParam(value = "A date path parameter", required = true) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  date,
+        @NotNull @ApiParam(value = "A date-time query parameter", required = true) @Valid @RequestParam(value = "dateTime", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)  dateTime,
+        @ApiParam(value = "A date header parameter", required = true) @RequestHeader(value = "X-Order-Date", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  xOrderDate,
+        @ApiParam(value = "A date cookie parameter") @CookieValue("loginDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  loginDate
     );
 
 
@@ -82,7 +82,7 @@ public interface DefaultApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> updatePetWithForm(
-        @ApiParam(value = "A date path parameter", required = true) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @ApiParam(value = "A date path parameter", required = true) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  date,
         @ApiParam(value = "Updated last vist timestamp") @RequestParam(value="visitDate", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
     );
 

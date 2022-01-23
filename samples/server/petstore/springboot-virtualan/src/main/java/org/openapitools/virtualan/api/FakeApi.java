@@ -261,7 +261,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testBodyWithQueryParams(
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,
+        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true)  query,
         @ApiParam(value = "", required = true) @Valid @RequestBody User body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -403,12 +403,12 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default ResponseEntity<Void> testEnumParameters(
-        @ApiParam(value = "Header parameter enum test (string array)", allowableValues = ">, $") @RequestHeader(value = "enum_header_string_array", required = false) List<String> enumHeaderStringArray,
-        @ApiParam(value = "Header parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @RequestHeader(value = "enum_header_string", required = false) String enumHeaderString,
-        @ApiParam(value = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
-        @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
-        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
-        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
+        @ApiParam(value = "Header parameter enum test (string array)", allowableValues = ">, $") @RequestHeader(value = "enum_header_string_array", required = false) List<EnumHeaderStringArrayEnum> enumHeaderStringArray,
+        @ApiParam(value = "Header parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @RequestHeader(value = "enum_header_string", required = false) EnumHeaderStringEnum enumHeaderString,
+        @ApiParam(value = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<EnumQueryStringArrayEnum> enumQueryStringArray,
+        @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") EnumQueryStringEnum enumQueryString,
+        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) EnumQueryIntegerEnum enumQueryInteger,
+        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) EnumQueryDoubleEnum enumQueryDouble,
         @ApiParam(value = "Form parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
         @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestPart(value = "enum_form_string", required = false) String enumFormString
     ) {
@@ -444,12 +444,12 @@ public interface FakeApi {
         value = "/fake"
     )
     default ResponseEntity<Void> testGroupParameters(
-        @NotNull @ApiParam(value = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
-        @ApiParam(value = "Required Boolean in group parameters", required = true) @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
-        @NotNull @ApiParam(value = "Required Integer in group parameters", required = true) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
-        @ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,
-        @ApiParam(value = "Boolean in group parameters") @RequestHeader(value = "boolean_group", required = false) Boolean booleanGroup,
-        @ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Long int64Group
+        @NotNull @ApiParam(value = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true)  requiredStringGroup,
+        @ApiParam(value = "Required Boolean in group parameters", required = true) @RequestHeader(value = "required_boolean_group", required = true)  requiredBooleanGroup,
+        @NotNull @ApiParam(value = "Required Integer in group parameters", required = true) @Valid @RequestParam(value = "required_int64_group", required = true)  requiredInt64Group,
+        @ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false)  stringGroup,
+        @ApiParam(value = "Boolean in group parameters") @RequestHeader(value = "boolean_group", required = false)  booleanGroup,
+        @ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false)  int64Group
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -542,11 +542,11 @@ public interface FakeApi {
         value = "/fake/test-query-parameters"
     )
     default ResponseEntity<Void> testQueryParameterCollectionFormat(
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context
+        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "pipe", required = true)  pipe,
+        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "ioutil", required = true)  ioutil,
+        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true)  http,
+        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "url", required = true)  url,
+        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true)  context
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -585,7 +585,7 @@ public interface FakeApi {
         consumes = { "multipart/form-data" }
     )
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
-        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId")  petId,
         @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
     ) {

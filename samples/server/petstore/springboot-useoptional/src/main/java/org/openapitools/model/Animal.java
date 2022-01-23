@@ -34,7 +34,7 @@ public class Animal   {
   private String className;
 
   @JsonProperty("color")
-  private String color = "red";
+  private Optional<String> color = "red";
 
   public Animal className(String className) {
     this.className = className;
@@ -46,6 +46,8 @@ public class Animal   {
    * @return className
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public String getClassName() {
     return className;
@@ -65,12 +67,14 @@ public class Animal   {
    * @return color
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getColor() {
-    return color;
+  public Optional<String> getColor() {
+    return Optional.ofNullable(color);
   }
 
-  public void setColor(String color) {
+  public void setColor(Optional<String> color) {
     this.color = color;
   }
 

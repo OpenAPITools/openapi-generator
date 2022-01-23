@@ -28,7 +28,7 @@ public class MapTest   {
 
   @JsonProperty("map_map_of_string")
   @Valid
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  private Optional<Map<String, Map<String, String>>> mapMapOfString = null;
 
   /**
    * Gets or Sets inner
@@ -67,15 +67,15 @@ public class MapTest   {
 
   @JsonProperty("map_of_enum_string")
   @Valid
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  private Optional<Map<String, InnerEnum>> mapOfEnumString = null;
 
   @JsonProperty("direct_map")
   @Valid
-  private Map<String, Boolean> directMap = null;
+  private Optional<Map<String, Boolean>> directMap = null;
 
   @JsonProperty("indirect_map")
   @Valid
-  private Map<String, Boolean> indirectMap = null;
+  private Optional<Map<String, Boolean>> indirectMap = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -95,12 +95,14 @@ public class MapTest   {
    * @return mapMapOfString
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Map<String, Map<String, String>> getMapMapOfString() {
-    return mapMapOfString;
+  public Optional<Map<String, Map<String, String>>> getMapMapOfString() {
+    return Optional.ofNullable(mapMapOfString);
   }
 
-  public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+  public void setMapMapOfString(Optional<Map<String, Map<String, String>>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
@@ -122,12 +124,14 @@ public class MapTest   {
    * @return mapOfEnumString
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Map<String, InnerEnum> getMapOfEnumString() {
-    return mapOfEnumString;
+  public Optional<Map<String, InnerEnum>> getMapOfEnumString() {
+    return Optional.ofNullable(mapOfEnumString);
   }
 
-  public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+  public void setMapOfEnumString(Optional<Map<String, InnerEnum>> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
@@ -149,12 +153,14 @@ public class MapTest   {
    * @return directMap
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Map<String, Boolean> getDirectMap() {
-    return directMap;
+  public Optional<Map<String, Boolean>> getDirectMap() {
+    return Optional.ofNullable(directMap);
   }
 
-  public void setDirectMap(Map<String, Boolean> directMap) {
+  public void setDirectMap(Optional<Map<String, Boolean>> directMap) {
     this.directMap = directMap;
   }
 
@@ -176,12 +182,14 @@ public class MapTest   {
    * @return indirectMap
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Map<String, Boolean> getIndirectMap() {
-    return indirectMap;
+  public Optional<Map<String, Boolean>> getIndirectMap() {
+    return Optional.ofNullable(indirectMap);
   }
 
-  public void setIndirectMap(Map<String, Boolean> indirectMap) {
+  public void setIndirectMap(Optional<Map<String, Boolean>> indirectMap) {
     this.indirectMap = indirectMap;
   }
 

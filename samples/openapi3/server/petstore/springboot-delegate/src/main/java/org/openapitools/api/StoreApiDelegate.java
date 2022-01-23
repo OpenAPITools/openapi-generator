@@ -33,7 +33,7 @@ public interface StoreApiDelegate {
      *         or Order not found (status code 404)
      * @see StoreApi#deleteOrder
      */
-    default ResponseEntity<Void> deleteOrder(String orderId) {
+    default ResponseEntity<Void> deleteOrder( orderId) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -60,7 +60,7 @@ public interface StoreApiDelegate {
      *         or Order not found (status code 404)
      * @see StoreApi#getOrderById
      */
-    default ResponseEntity<Order> getOrderById(Long orderId) {
+    default ResponseEntity<Order> getOrderById( orderId) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

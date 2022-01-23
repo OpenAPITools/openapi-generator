@@ -23,13 +23,13 @@ import javax.annotation.Generated;
 public class ModelApiResponse   {
 
   @JsonProperty("code")
-  private Integer code;
+  private Optional<Integer> code;
 
   @JsonProperty("type")
-  private String type;
+  private Optional<String> type;
 
   @JsonProperty("message")
-  private String message;
+  private Optional<String> message;
 
   public ModelApiResponse code(Integer code) {
     this.code = code;
@@ -41,12 +41,14 @@ public class ModelApiResponse   {
    * @return code
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Integer getCode() {
-    return code;
+  public Optional<Integer> getCode() {
+    return Optional.ofNullable(code);
   }
 
-  public void setCode(Integer code) {
+  public void setCode(Optional<Integer> code) {
     this.code = code;
   }
 
@@ -60,12 +62,14 @@ public class ModelApiResponse   {
    * @return type
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getType() {
-    return type;
+  public Optional<String> getType() {
+    return Optional.ofNullable(type);
   }
 
-  public void setType(String type) {
+  public void setType(Optional<String> type) {
     this.type = type;
   }
 
@@ -79,12 +83,14 @@ public class ModelApiResponse   {
    * @return message
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getMessage() {
-    return message;
+  public Optional<String> getMessage() {
+    return Optional.ofNullable(message);
   }
 
-  public void setMessage(String message) {
+  public void setMessage(Optional<String> message) {
     this.message = message;
   }
 

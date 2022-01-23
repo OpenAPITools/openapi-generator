@@ -63,7 +63,7 @@ public interface StoreApi {
         value = "/store/order/{order_id}"
     )
     default ResponseEntity<Void> deleteOrder(
-        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("order_id") String orderId
+        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("order_id")  orderId
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -129,7 +129,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<Order> getOrderById(
-        @Min(1L) @Max(5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, schema = @Schema(description = "")) @PathVariable("order_id") Long orderId
+        @Min(1L) @Max(5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, schema = @Schema(description = "")) @PathVariable("order_id")  orderId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

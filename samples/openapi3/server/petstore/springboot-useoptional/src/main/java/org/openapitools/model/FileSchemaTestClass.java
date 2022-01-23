@@ -25,11 +25,11 @@ import javax.annotation.Generated;
 public class FileSchemaTestClass   {
 
   @JsonProperty("file")
-  private File file;
+  private Optional<File> file;
 
   @JsonProperty("files")
   @Valid
-  private List<File> files = null;
+  private Optional<List<File>> files = null;
 
   public FileSchemaTestClass file(File file) {
     this.file = file;
@@ -41,12 +41,14 @@ public class FileSchemaTestClass   {
    * @return file
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "file", required = false)
-  public File getFile() {
-    return file;
+  public Optional<File> getFile() {
+    return Optional.ofNullable(file);
   }
 
-  public void setFile(File file) {
+  public void setFile(Optional<File> file) {
     this.file = file;
   }
 
@@ -68,12 +70,14 @@ public class FileSchemaTestClass   {
    * @return files
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "files", required = false)
-  public List<File> getFiles() {
-    return files;
+  public Optional<List<File>> getFiles() {
+    return Optional.ofNullable(files);
   }
 
-  public void setFiles(List<File> files) {
+  public void setFiles(Optional<List<File>> files) {
     this.files = files;
   }
 

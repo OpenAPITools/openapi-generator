@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 public class ModelList   {
 
   @JsonProperty("123-list")
-  private String _123list;
+  private Optional<String> _123list;
 
   public ModelList _123list(String _123list) {
     this._123list = _123list;
@@ -34,12 +34,14 @@ public class ModelList   {
    * @return _123list
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "123-list", required = false)
-  public String get123list() {
-    return _123list;
+  public Optional<String> get123list() {
+    return Optional.ofNullable(_123list);
   }
 
-  public void set123list(String _123list) {
+  public void set123list(Optional<String> _123list) {
     this._123list = _123list;
   }
 

@@ -49,8 +49,8 @@ public interface PetApiDelegate {
      *         or Invalid pet value (status code 400)
      * @see PetApi#deletePet
      */
-    default ResponseEntity<Void> deletePet(Long petId,
-        String apiKey) {
+    default ResponseEntity<Void> deletePet( petId,
+         apiKey) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -64,7 +64,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    default ResponseEntity<List<Pet>> findPetsByStatus(List<String> status, final Pageable pageable) {
+    default ResponseEntity<List<Pet>> findPetsByStatus(List<StatusEnum> status, final Pageable pageable) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -93,7 +93,7 @@ public interface PetApiDelegate {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
-    default ResponseEntity<List<Pet>> findPetsByTags(List<String> tags, final Pageable pageable) {
+    default ResponseEntity<List<Pet>> findPetsByTags( tags, final Pageable pageable) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -122,7 +122,7 @@ public interface PetApiDelegate {
      *         or Pet not found (status code 404)
      * @see PetApi#getPetById
      */
-    default ResponseEntity<Pet> getPetById(Long petId) {
+    default ResponseEntity<Pet> getPetById( petId) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -165,9 +165,9 @@ public interface PetApiDelegate {
      * @return Invalid input (status code 405)
      * @see PetApi#updatePetWithForm
      */
-    default ResponseEntity<Void> updatePetWithForm(Long petId,
-        String name,
-        String status) {
+    default ResponseEntity<Void> updatePetWithForm( petId,
+         name,
+         status) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -181,8 +181,8 @@ public interface PetApiDelegate {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    default ResponseEntity<ModelApiResponse> uploadFile(Long petId,
-        String additionalMetadata,
+    default ResponseEntity<ModelApiResponse> uploadFile( petId,
+         additionalMetadata,
         MultipartFile file) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

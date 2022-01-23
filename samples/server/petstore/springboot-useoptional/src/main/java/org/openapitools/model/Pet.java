@@ -31,10 +31,10 @@ import javax.annotation.Generated;
 public class Pet   {
 
   @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id;
 
   @JsonProperty("category")
-  private Category category;
+  private Optional<Category> category;
 
   @JsonProperty("name")
   private String name;
@@ -45,7 +45,7 @@ public class Pet   {
 
   @JsonProperty("tags")
   @Valid
-  private List<Tag> tags = null;
+  private Optional<List<Tag>> tags = null;
 
   /**
    * pet status in the store
@@ -85,7 +85,7 @@ public class Pet   {
   }
 
   @JsonProperty("status")
-  private StatusEnum status;
+  private Optional<StatusEnum> status;
 
   public Pet id(Long id) {
     this.id = id;
@@ -97,12 +97,14 @@ public class Pet   {
    * @return id
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
+  public Optional<Long> getId() {
+    return Optional.ofNullable(id);
   }
 
-  public void setId(Long id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
@@ -116,12 +118,14 @@ public class Pet   {
    * @return category
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Category getCategory() {
-    return category;
+  public Optional<Category> getCategory() {
+    return Optional.ofNullable(category);
   }
 
-  public void setCategory(Category category) {
+  public void setCategory(Optional<Category> category) {
     this.category = category;
   }
 
@@ -135,6 +139,8 @@ public class Pet   {
    * @return name
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "doggie", required = true, value = "")
   public String getName() {
     return name;
@@ -159,6 +165,8 @@ public class Pet   {
    * @return photoUrls
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public Set<String> getPhotoUrls() {
     return photoUrls;
@@ -187,12 +195,14 @@ public class Pet   {
    * @return tags
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public List<Tag> getTags() {
-    return tags;
+  public Optional<List<Tag>> getTags() {
+    return Optional.ofNullable(tags);
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(Optional<List<Tag>> tags) {
     this.tags = tags;
   }
 
@@ -206,12 +216,14 @@ public class Pet   {
    * @return status
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "pet status in the store")
-  public StatusEnum getStatus() {
-    return status;
+  public Optional<StatusEnum> getStatus() {
+    return Optional.ofNullable(status);
   }
 
-  public void setStatus(StatusEnum status) {
+  public void setStatus(Optional<StatusEnum> status) {
     this.status = status;
   }
 

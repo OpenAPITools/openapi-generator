@@ -26,7 +26,7 @@ public class ArrayOfArrayOfNumberOnly   {
 
   @JsonProperty("ArrayArrayNumber")
   @Valid
-  private List<List<BigDecimal>> arrayArrayNumber = null;
+  private Optional<List<List<BigDecimal>>> arrayArrayNumber = null;
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
@@ -46,12 +46,14 @@ public class ArrayOfArrayOfNumberOnly   {
    * @return arrayArrayNumber
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "ArrayArrayNumber", required = false)
-  public List<List<BigDecimal>> getArrayArrayNumber() {
-    return arrayArrayNumber;
+  public Optional<List<List<BigDecimal>>> getArrayArrayNumber() {
+    return Optional.ofNullable(arrayArrayNumber);
   }
 
-  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public void setArrayArrayNumber(Optional<List<List<BigDecimal>>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 

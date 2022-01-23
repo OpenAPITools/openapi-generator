@@ -26,17 +26,17 @@ import javax.annotation.Generated;
 public class Order   {
 
   @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id;
 
   @JsonProperty("petId")
-  private Long petId;
+  private Optional<Long> petId;
 
   @JsonProperty("quantity")
-  private Integer quantity;
+  private Optional<Integer> quantity;
 
   @JsonProperty("shipDate")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime shipDate;
+  private Optional<OffsetDateTime> shipDate;
 
   /**
    * Order Status
@@ -76,10 +76,10 @@ public class Order   {
   }
 
   @JsonProperty("status")
-  private StatusEnum status;
+  private Optional<StatusEnum> status;
 
   @JsonProperty("complete")
-  private Boolean complete = false;
+  private Optional<Boolean> complete = false;
 
   public Order id(Long id) {
     this.id = id;
@@ -91,12 +91,14 @@ public class Order   {
    * @return id
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
+  public Optional<Long> getId() {
+    return Optional.ofNullable(id);
   }
 
-  public void setId(Long id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
@@ -110,12 +112,14 @@ public class Order   {
    * @return petId
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Long getPetId() {
-    return petId;
+  public Optional<Long> getPetId() {
+    return Optional.ofNullable(petId);
   }
 
-  public void setPetId(Long petId) {
+  public void setPetId(Optional<Long> petId) {
     this.petId = petId;
   }
 
@@ -129,12 +133,14 @@ public class Order   {
    * @return quantity
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Integer getQuantity() {
-    return quantity;
+  public Optional<Integer> getQuantity() {
+    return Optional.ofNullable(quantity);
   }
 
-  public void setQuantity(Integer quantity) {
+  public void setQuantity(Optional<Integer> quantity) {
     this.quantity = quantity;
   }
 
@@ -148,12 +154,14 @@ public class Order   {
    * @return shipDate
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public OffsetDateTime getShipDate() {
-    return shipDate;
+  public Optional<OffsetDateTime> getShipDate() {
+    return Optional.ofNullable(shipDate);
   }
 
-  public void setShipDate(OffsetDateTime shipDate) {
+  public void setShipDate(Optional<OffsetDateTime> shipDate) {
     this.shipDate = shipDate;
   }
 
@@ -167,12 +175,14 @@ public class Order   {
    * @return status
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "Order Status")
-  public StatusEnum getStatus() {
-    return status;
+  public Optional<StatusEnum> getStatus() {
+    return Optional.ofNullable(status);
   }
 
-  public void setStatus(StatusEnum status) {
+  public void setStatus(Optional<StatusEnum> status) {
     this.status = status;
   }
 
@@ -186,12 +196,14 @@ public class Order   {
    * @return complete
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Boolean getComplete() {
-    return complete;
+  public Optional<Boolean> getComplete() {
+    return Optional.ofNullable(complete);
   }
 
-  public void setComplete(Boolean complete) {
+  public void setComplete(Optional<Boolean> complete) {
     this.complete = complete;
   }
 

@@ -23,28 +23,28 @@ import javax.annotation.Generated;
 public class User   {
 
   @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id;
 
   @JsonProperty("username")
-  private String username;
+  private Optional<String> username;
 
   @JsonProperty("firstName")
-  private String firstName;
+  private Optional<String> firstName;
 
   @JsonProperty("lastName")
-  private String lastName;
+  private Optional<String> lastName;
 
   @JsonProperty("email")
-  private String email;
+  private Optional<String> email;
 
   @JsonProperty("password")
-  private String password;
+  private Optional<String> password;
 
   @JsonProperty("phone")
-  private String phone;
+  private Optional<String> phone;
 
   @JsonProperty("userStatus")
-  private Integer userStatus;
+  private Optional<Integer> userStatus;
 
   public User id(Long id) {
     this.id = id;
@@ -56,12 +56,14 @@ public class User   {
    * @return id
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
+  public Optional<Long> getId() {
+    return Optional.ofNullable(id);
   }
 
-  public void setId(Long id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
@@ -75,12 +77,14 @@ public class User   {
    * @return username
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getUsername() {
-    return username;
+  public Optional<String> getUsername() {
+    return Optional.ofNullable(username);
   }
 
-  public void setUsername(String username) {
+  public void setUsername(Optional<String> username) {
     this.username = username;
   }
 
@@ -94,12 +98,14 @@ public class User   {
    * @return firstName
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getFirstName() {
-    return firstName;
+  public Optional<String> getFirstName() {
+    return Optional.ofNullable(firstName);
   }
 
-  public void setFirstName(String firstName) {
+  public void setFirstName(Optional<String> firstName) {
     this.firstName = firstName;
   }
 
@@ -113,12 +119,14 @@ public class User   {
    * @return lastName
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getLastName() {
-    return lastName;
+  public Optional<String> getLastName() {
+    return Optional.ofNullable(lastName);
   }
 
-  public void setLastName(String lastName) {
+  public void setLastName(Optional<String> lastName) {
     this.lastName = lastName;
   }
 
@@ -132,12 +140,14 @@ public class User   {
    * @return email
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getEmail() {
-    return email;
+  public Optional<String> getEmail() {
+    return Optional.ofNullable(email);
   }
 
-  public void setEmail(String email) {
+  public void setEmail(Optional<String> email) {
     this.email = email;
   }
 
@@ -151,12 +161,14 @@ public class User   {
    * @return password
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getPassword() {
-    return password;
+  public Optional<String> getPassword() {
+    return Optional.ofNullable(password);
   }
 
-  public void setPassword(String password) {
+  public void setPassword(Optional<String> password) {
     this.password = password;
   }
 
@@ -170,12 +182,14 @@ public class User   {
    * @return phone
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public String getPhone() {
-    return phone;
+  public Optional<String> getPhone() {
+    return Optional.ofNullable(phone);
   }
 
-  public void setPhone(String phone) {
+  public void setPhone(Optional<String> phone) {
     this.phone = phone;
   }
 
@@ -189,12 +203,14 @@ public class User   {
    * @return userStatus
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "User Status")
-  public Integer getUserStatus() {
-    return userStatus;
+  public Optional<Integer> getUserStatus() {
+    return Optional.ofNullable(userStatus);
   }
 
-  public void setUserStatus(Integer userStatus) {
+  public void setUserStatus(Optional<Integer> userStatus) {
     this.userStatus = userStatus;
   }
 

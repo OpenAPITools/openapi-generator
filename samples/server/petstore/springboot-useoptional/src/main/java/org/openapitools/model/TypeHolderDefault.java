@@ -51,6 +51,8 @@ public class TypeHolderDefault   {
    * @return stringItem
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public String getStringItem() {
     return stringItem;
@@ -70,6 +72,8 @@ public class TypeHolderDefault   {
    * @return numberItem
   */
   @NotNull @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -89,6 +93,8 @@ public class TypeHolderDefault   {
    * @return integerItem
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public Integer getIntegerItem() {
     return integerItem;
@@ -108,6 +114,8 @@ public class TypeHolderDefault   {
    * @return boolItem
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public Boolean getBoolItem() {
     return boolItem;
@@ -132,6 +140,8 @@ public class TypeHolderDefault   {
    * @return arrayItem
   */
   @NotNull 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public List<Integer> getArrayItem() {
     return arrayItem;

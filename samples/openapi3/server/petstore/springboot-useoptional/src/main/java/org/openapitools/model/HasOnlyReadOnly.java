@@ -22,10 +22,10 @@ import javax.annotation.Generated;
 public class HasOnlyReadOnly   {
 
   @JsonProperty("bar")
-  private String bar;
+  private Optional<String> bar;
 
   @JsonProperty("foo")
-  private String foo;
+  private Optional<String> foo;
 
   public HasOnlyReadOnly bar(String bar) {
     this.bar = bar;
@@ -37,12 +37,14 @@ public class HasOnlyReadOnly   {
    * @return bar
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, required = false)
-  public String getBar() {
-    return bar;
+  public Optional<String> getBar() {
+    return Optional.ofNullable(bar);
   }
 
-  public void setBar(String bar) {
+  public void setBar(Optional<String> bar) {
     this.bar = bar;
   }
 
@@ -56,12 +58,14 @@ public class HasOnlyReadOnly   {
    * @return foo
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "foo", accessMode = Schema.AccessMode.READ_ONLY, required = false)
-  public String getFoo() {
-    return foo;
+  public Optional<String> getFoo() {
+    return Optional.ofNullable(foo);
   }
 
-  public void setFoo(String foo) {
+  public void setFoo(Optional<String> foo) {
     this.foo = foo;
   }
 

@@ -135,6 +135,10 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{#useBeanValidation}}
   {{>beanValidation}}
   {{/useBeanValidation}}
+  {{#useOptional}}
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
+  {{/useOptional}}
   {{#swagger2AnnotationLibrary}}
   @Schema(name = "{{{baseName}}}", {{#isReadOnly}}accessMode = Schema.AccessMode.READ_ONLY, {{/isReadOnly}}{{#example}}example = "{{{.}}}", {{/example}}{{#description}}description = "{{{.}}}", {{/description}}required = {{{required}}})
   {{/swagger2AnnotationLibrary}}
@@ -142,7 +146,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
   {{/swagger1AnnotationLibrary}}
   public {{>nullableDataType}} {{getter}}() {
-    return {{name}};
+    return {{^isNullable}}{{#useOptional}}{{^required}}Optional.ofNullable({{/required}}{{/useOptional}}{{/isNullable}}{{name}}{{^isNullable}}{{#useOptional}}{{^required}}){{/required}}{{/useOptional}}{{/isNullable}};
   }
 
   {{#vendorExtensions.x-setter-extra-annotation}}

@@ -27,7 +27,7 @@ public class ArrayOfNumberOnly   {
 
   @JsonProperty("ArrayNumber")
   @Valid
-  private List<BigDecimal> arrayNumber = null;
+  private Optional<List<BigDecimal>> arrayNumber = null;
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
@@ -47,12 +47,14 @@ public class ArrayOfNumberOnly   {
    * @return arrayNumber
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public List<BigDecimal> getArrayNumber() {
-    return arrayNumber;
+  public Optional<List<BigDecimal>> getArrayNumber() {
+    return Optional.ofNullable(arrayNumber);
   }
 
-  public void setArrayNumber(List<BigDecimal> arrayNumber) {
+  public void setArrayNumber(Optional<List<BigDecimal>> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
 

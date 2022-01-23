@@ -26,100 +26,100 @@ import javax.annotation.Generated;
 public class XmlItem   {
 
   @JsonProperty("attribute_string")
-  private String attributeString;
+  private Optional<String> attributeString;
 
   @JsonProperty("attribute_number")
-  private BigDecimal attributeNumber;
+  private Optional<BigDecimal> attributeNumber;
 
   @JsonProperty("attribute_integer")
-  private Integer attributeInteger;
+  private Optional<Integer> attributeInteger;
 
   @JsonProperty("attribute_boolean")
-  private Boolean attributeBoolean;
+  private Optional<Boolean> attributeBoolean;
 
   @JsonProperty("wrapped_array")
   @Valid
-  private List<Integer> wrappedArray = null;
+  private Optional<List<Integer>> wrappedArray = null;
 
   @JsonProperty("name_string")
-  private String nameString;
+  private Optional<String> nameString;
 
   @JsonProperty("name_number")
-  private BigDecimal nameNumber;
+  private Optional<BigDecimal> nameNumber;
 
   @JsonProperty("name_integer")
-  private Integer nameInteger;
+  private Optional<Integer> nameInteger;
 
   @JsonProperty("name_boolean")
-  private Boolean nameBoolean;
+  private Optional<Boolean> nameBoolean;
 
   @JsonProperty("name_array")
   @Valid
-  private List<Integer> nameArray = null;
+  private Optional<List<Integer>> nameArray = null;
 
   @JsonProperty("name_wrapped_array")
   @Valid
-  private List<Integer> nameWrappedArray = null;
+  private Optional<List<Integer>> nameWrappedArray = null;
 
   @JsonProperty("prefix_string")
-  private String prefixString;
+  private Optional<String> prefixString;
 
   @JsonProperty("prefix_number")
-  private BigDecimal prefixNumber;
+  private Optional<BigDecimal> prefixNumber;
 
   @JsonProperty("prefix_integer")
-  private Integer prefixInteger;
+  private Optional<Integer> prefixInteger;
 
   @JsonProperty("prefix_boolean")
-  private Boolean prefixBoolean;
+  private Optional<Boolean> prefixBoolean;
 
   @JsonProperty("prefix_array")
   @Valid
-  private List<Integer> prefixArray = null;
+  private Optional<List<Integer>> prefixArray = null;
 
   @JsonProperty("prefix_wrapped_array")
   @Valid
-  private List<Integer> prefixWrappedArray = null;
+  private Optional<List<Integer>> prefixWrappedArray = null;
 
   @JsonProperty("namespace_string")
-  private String namespaceString;
+  private Optional<String> namespaceString;
 
   @JsonProperty("namespace_number")
-  private BigDecimal namespaceNumber;
+  private Optional<BigDecimal> namespaceNumber;
 
   @JsonProperty("namespace_integer")
-  private Integer namespaceInteger;
+  private Optional<Integer> namespaceInteger;
 
   @JsonProperty("namespace_boolean")
-  private Boolean namespaceBoolean;
+  private Optional<Boolean> namespaceBoolean;
 
   @JsonProperty("namespace_array")
   @Valid
-  private List<Integer> namespaceArray = null;
+  private Optional<List<Integer>> namespaceArray = null;
 
   @JsonProperty("namespace_wrapped_array")
   @Valid
-  private List<Integer> namespaceWrappedArray = null;
+  private Optional<List<Integer>> namespaceWrappedArray = null;
 
   @JsonProperty("prefix_ns_string")
-  private String prefixNsString;
+  private Optional<String> prefixNsString;
 
   @JsonProperty("prefix_ns_number")
-  private BigDecimal prefixNsNumber;
+  private Optional<BigDecimal> prefixNsNumber;
 
   @JsonProperty("prefix_ns_integer")
-  private Integer prefixNsInteger;
+  private Optional<Integer> prefixNsInteger;
 
   @JsonProperty("prefix_ns_boolean")
-  private Boolean prefixNsBoolean;
+  private Optional<Boolean> prefixNsBoolean;
 
   @JsonProperty("prefix_ns_array")
   @Valid
-  private List<Integer> prefixNsArray = null;
+  private Optional<List<Integer>> prefixNsArray = null;
 
   @JsonProperty("prefix_ns_wrapped_array")
   @Valid
-  private List<Integer> prefixNsWrappedArray = null;
+  private Optional<List<Integer>> prefixNsWrappedArray = null;
 
   public XmlItem attributeString(String attributeString) {
     this.attributeString = attributeString;
@@ -131,12 +131,14 @@ public class XmlItem   {
    * @return attributeString
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "string", value = "")
-  public String getAttributeString() {
-    return attributeString;
+  public Optional<String> getAttributeString() {
+    return Optional.ofNullable(attributeString);
   }
 
-  public void setAttributeString(String attributeString) {
+  public void setAttributeString(Optional<String> attributeString) {
     this.attributeString = attributeString;
   }
 
@@ -150,12 +152,14 @@ public class XmlItem   {
    * @return attributeNumber
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "1.234", value = "")
-  public BigDecimal getAttributeNumber() {
-    return attributeNumber;
+  public Optional<BigDecimal> getAttributeNumber() {
+    return Optional.ofNullable(attributeNumber);
   }
 
-  public void setAttributeNumber(BigDecimal attributeNumber) {
+  public void setAttributeNumber(Optional<BigDecimal> attributeNumber) {
     this.attributeNumber = attributeNumber;
   }
 
@@ -169,12 +173,14 @@ public class XmlItem   {
    * @return attributeInteger
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "-2", value = "")
-  public Integer getAttributeInteger() {
-    return attributeInteger;
+  public Optional<Integer> getAttributeInteger() {
+    return Optional.ofNullable(attributeInteger);
   }
 
-  public void setAttributeInteger(Integer attributeInteger) {
+  public void setAttributeInteger(Optional<Integer> attributeInteger) {
     this.attributeInteger = attributeInteger;
   }
 
@@ -188,12 +194,14 @@ public class XmlItem   {
    * @return attributeBoolean
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "true", value = "")
-  public Boolean getAttributeBoolean() {
-    return attributeBoolean;
+  public Optional<Boolean> getAttributeBoolean() {
+    return Optional.ofNullable(attributeBoolean);
   }
 
-  public void setAttributeBoolean(Boolean attributeBoolean) {
+  public void setAttributeBoolean(Optional<Boolean> attributeBoolean) {
     this.attributeBoolean = attributeBoolean;
   }
 
@@ -215,12 +223,14 @@ public class XmlItem   {
    * @return wrappedArray
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public List<Integer> getWrappedArray() {
-    return wrappedArray;
+  public Optional<List<Integer>> getWrappedArray() {
+    return Optional.ofNullable(wrappedArray);
   }
 
-  public void setWrappedArray(List<Integer> wrappedArray) {
+  public void setWrappedArray(Optional<List<Integer>> wrappedArray) {
     this.wrappedArray = wrappedArray;
   }
 
@@ -234,12 +244,14 @@ public class XmlItem   {
    * @return nameString
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "string", value = "")
-  public String getNameString() {
-    return nameString;
+  public Optional<String> getNameString() {
+    return Optional.ofNullable(nameString);
   }
 
-  public void setNameString(String nameString) {
+  public void setNameString(Optional<String> nameString) {
     this.nameString = nameString;
   }
 
@@ -253,12 +265,14 @@ public class XmlItem   {
    * @return nameNumber
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "1.234", value = "")
-  public BigDecimal getNameNumber() {
-    return nameNumber;
+  public Optional<BigDecimal> getNameNumber() {
+    return Optional.ofNullable(nameNumber);
   }
 
-  public void setNameNumber(BigDecimal nameNumber) {
+  public void setNameNumber(Optional<BigDecimal> nameNumber) {
     this.nameNumber = nameNumber;
   }
 
@@ -272,12 +286,14 @@ public class XmlItem   {
    * @return nameInteger
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "-2", value = "")
-  public Integer getNameInteger() {
-    return nameInteger;
+  public Optional<Integer> getNameInteger() {
+    return Optional.ofNullable(nameInteger);
   }
 
-  public void setNameInteger(Integer nameInteger) {
+  public void setNameInteger(Optional<Integer> nameInteger) {
     this.nameInteger = nameInteger;
   }
 
@@ -291,12 +307,14 @@ public class XmlItem   {
    * @return nameBoolean
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "true", value = "")
-  public Boolean getNameBoolean() {
-    return nameBoolean;
+  public Optional<Boolean> getNameBoolean() {
+    return Optional.ofNullable(nameBoolean);
   }
 
-  public void setNameBoolean(Boolean nameBoolean) {
+  public void setNameBoolean(Optional<Boolean> nameBoolean) {
     this.nameBoolean = nameBoolean;
   }
 
@@ -318,12 +336,14 @@ public class XmlItem   {
    * @return nameArray
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public List<Integer> getNameArray() {
-    return nameArray;
+  public Optional<List<Integer>> getNameArray() {
+    return Optional.ofNullable(nameArray);
   }
 
-  public void setNameArray(List<Integer> nameArray) {
+  public void setNameArray(Optional<List<Integer>> nameArray) {
     this.nameArray = nameArray;
   }
 
@@ -345,12 +365,14 @@ public class XmlItem   {
    * @return nameWrappedArray
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public List<Integer> getNameWrappedArray() {
-    return nameWrappedArray;
+  public Optional<List<Integer>> getNameWrappedArray() {
+    return Optional.ofNullable(nameWrappedArray);
   }
 
-  public void setNameWrappedArray(List<Integer> nameWrappedArray) {
+  public void setNameWrappedArray(Optional<List<Integer>> nameWrappedArray) {
     this.nameWrappedArray = nameWrappedArray;
   }
 
@@ -364,12 +386,14 @@ public class XmlItem   {
    * @return prefixString
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "string", value = "")
-  public String getPrefixString() {
-    return prefixString;
+  public Optional<String> getPrefixString() {
+    return Optional.ofNullable(prefixString);
   }
 
-  public void setPrefixString(String prefixString) {
+  public void setPrefixString(Optional<String> prefixString) {
     this.prefixString = prefixString;
   }
 
@@ -383,12 +407,14 @@ public class XmlItem   {
    * @return prefixNumber
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "1.234", value = "")
-  public BigDecimal getPrefixNumber() {
-    return prefixNumber;
+  public Optional<BigDecimal> getPrefixNumber() {
+    return Optional.ofNullable(prefixNumber);
   }
 
-  public void setPrefixNumber(BigDecimal prefixNumber) {
+  public void setPrefixNumber(Optional<BigDecimal> prefixNumber) {
     this.prefixNumber = prefixNumber;
   }
 
@@ -402,12 +428,14 @@ public class XmlItem   {
    * @return prefixInteger
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "-2", value = "")
-  public Integer getPrefixInteger() {
-    return prefixInteger;
+  public Optional<Integer> getPrefixInteger() {
+    return Optional.ofNullable(prefixInteger);
   }
 
-  public void setPrefixInteger(Integer prefixInteger) {
+  public void setPrefixInteger(Optional<Integer> prefixInteger) {
     this.prefixInteger = prefixInteger;
   }
 
@@ -421,12 +449,14 @@ public class XmlItem   {
    * @return prefixBoolean
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "true", value = "")
-  public Boolean getPrefixBoolean() {
-    return prefixBoolean;
+  public Optional<Boolean> getPrefixBoolean() {
+    return Optional.ofNullable(prefixBoolean);
   }
 
-  public void setPrefixBoolean(Boolean prefixBoolean) {
+  public void setPrefixBoolean(Optional<Boolean> prefixBoolean) {
     this.prefixBoolean = prefixBoolean;
   }
 
@@ -448,12 +478,14 @@ public class XmlItem   {
    * @return prefixArray
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public List<Integer> getPrefixArray() {
-    return prefixArray;
+  public Optional<List<Integer>> getPrefixArray() {
+    return Optional.ofNullable(prefixArray);
   }
 
-  public void setPrefixArray(List<Integer> prefixArray) {
+  public void setPrefixArray(Optional<List<Integer>> prefixArray) {
     this.prefixArray = prefixArray;
   }
 
@@ -475,12 +507,14 @@ public class XmlItem   {
    * @return prefixWrappedArray
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public List<Integer> getPrefixWrappedArray() {
-    return prefixWrappedArray;
+  public Optional<List<Integer>> getPrefixWrappedArray() {
+    return Optional.ofNullable(prefixWrappedArray);
   }
 
-  public void setPrefixWrappedArray(List<Integer> prefixWrappedArray) {
+  public void setPrefixWrappedArray(Optional<List<Integer>> prefixWrappedArray) {
     this.prefixWrappedArray = prefixWrappedArray;
   }
 
@@ -494,12 +528,14 @@ public class XmlItem   {
    * @return namespaceString
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "string", value = "")
-  public String getNamespaceString() {
-    return namespaceString;
+  public Optional<String> getNamespaceString() {
+    return Optional.ofNullable(namespaceString);
   }
 
-  public void setNamespaceString(String namespaceString) {
+  public void setNamespaceString(Optional<String> namespaceString) {
     this.namespaceString = namespaceString;
   }
 
@@ -513,12 +549,14 @@ public class XmlItem   {
    * @return namespaceNumber
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "1.234", value = "")
-  public BigDecimal getNamespaceNumber() {
-    return namespaceNumber;
+  public Optional<BigDecimal> getNamespaceNumber() {
+    return Optional.ofNullable(namespaceNumber);
   }
 
-  public void setNamespaceNumber(BigDecimal namespaceNumber) {
+  public void setNamespaceNumber(Optional<BigDecimal> namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }
 
@@ -532,12 +570,14 @@ public class XmlItem   {
    * @return namespaceInteger
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "-2", value = "")
-  public Integer getNamespaceInteger() {
-    return namespaceInteger;
+  public Optional<Integer> getNamespaceInteger() {
+    return Optional.ofNullable(namespaceInteger);
   }
 
-  public void setNamespaceInteger(Integer namespaceInteger) {
+  public void setNamespaceInteger(Optional<Integer> namespaceInteger) {
     this.namespaceInteger = namespaceInteger;
   }
 
@@ -551,12 +591,14 @@ public class XmlItem   {
    * @return namespaceBoolean
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "true", value = "")
-  public Boolean getNamespaceBoolean() {
-    return namespaceBoolean;
+  public Optional<Boolean> getNamespaceBoolean() {
+    return Optional.ofNullable(namespaceBoolean);
   }
 
-  public void setNamespaceBoolean(Boolean namespaceBoolean) {
+  public void setNamespaceBoolean(Optional<Boolean> namespaceBoolean) {
     this.namespaceBoolean = namespaceBoolean;
   }
 
@@ -578,12 +620,14 @@ public class XmlItem   {
    * @return namespaceArray
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public List<Integer> getNamespaceArray() {
-    return namespaceArray;
+  public Optional<List<Integer>> getNamespaceArray() {
+    return Optional.ofNullable(namespaceArray);
   }
 
-  public void setNamespaceArray(List<Integer> namespaceArray) {
+  public void setNamespaceArray(Optional<List<Integer>> namespaceArray) {
     this.namespaceArray = namespaceArray;
   }
 
@@ -605,12 +649,14 @@ public class XmlItem   {
    * @return namespaceWrappedArray
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public List<Integer> getNamespaceWrappedArray() {
-    return namespaceWrappedArray;
+  public Optional<List<Integer>> getNamespaceWrappedArray() {
+    return Optional.ofNullable(namespaceWrappedArray);
   }
 
-  public void setNamespaceWrappedArray(List<Integer> namespaceWrappedArray) {
+  public void setNamespaceWrappedArray(Optional<List<Integer>> namespaceWrappedArray) {
     this.namespaceWrappedArray = namespaceWrappedArray;
   }
 
@@ -624,12 +670,14 @@ public class XmlItem   {
    * @return prefixNsString
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "string", value = "")
-  public String getPrefixNsString() {
-    return prefixNsString;
+  public Optional<String> getPrefixNsString() {
+    return Optional.ofNullable(prefixNsString);
   }
 
-  public void setPrefixNsString(String prefixNsString) {
+  public void setPrefixNsString(Optional<String> prefixNsString) {
     this.prefixNsString = prefixNsString;
   }
 
@@ -643,12 +691,14 @@ public class XmlItem   {
    * @return prefixNsNumber
   */
   @Valid 
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "1.234", value = "")
-  public BigDecimal getPrefixNsNumber() {
-    return prefixNsNumber;
+  public Optional<BigDecimal> getPrefixNsNumber() {
+    return Optional.ofNullable(prefixNsNumber);
   }
 
-  public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
+  public void setPrefixNsNumber(Optional<BigDecimal> prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }
 
@@ -662,12 +712,14 @@ public class XmlItem   {
    * @return prefixNsInteger
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "-2", value = "")
-  public Integer getPrefixNsInteger() {
-    return prefixNsInteger;
+  public Optional<Integer> getPrefixNsInteger() {
+    return Optional.ofNullable(prefixNsInteger);
   }
 
-  public void setPrefixNsInteger(Integer prefixNsInteger) {
+  public void setPrefixNsInteger(Optional<Integer> prefixNsInteger) {
     this.prefixNsInteger = prefixNsInteger;
   }
 
@@ -681,12 +733,14 @@ public class XmlItem   {
    * @return prefixNsBoolean
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(example = "true", value = "")
-  public Boolean getPrefixNsBoolean() {
-    return prefixNsBoolean;
+  public Optional<Boolean> getPrefixNsBoolean() {
+    return Optional.ofNullable(prefixNsBoolean);
   }
 
-  public void setPrefixNsBoolean(Boolean prefixNsBoolean) {
+  public void setPrefixNsBoolean(Optional<Boolean> prefixNsBoolean) {
     this.prefixNsBoolean = prefixNsBoolean;
   }
 
@@ -708,12 +762,14 @@ public class XmlItem   {
    * @return prefixNsArray
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public List<Integer> getPrefixNsArray() {
-    return prefixNsArray;
+  public Optional<List<Integer>> getPrefixNsArray() {
+    return Optional.ofNullable(prefixNsArray);
   }
 
-  public void setPrefixNsArray(List<Integer> prefixNsArray) {
+  public void setPrefixNsArray(Optional<List<Integer>> prefixNsArray) {
     this.prefixNsArray = prefixNsArray;
   }
 
@@ -735,12 +791,14 @@ public class XmlItem   {
    * @return prefixNsWrappedArray
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @ApiModelProperty(value = "")
-  public List<Integer> getPrefixNsWrappedArray() {
-    return prefixNsWrappedArray;
+  public Optional<List<Integer>> getPrefixNsWrappedArray() {
+    return Optional.ofNullable(prefixNsWrappedArray);
   }
 
-  public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
+  public void setPrefixNsWrappedArray(Optional<List<Integer>> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
 

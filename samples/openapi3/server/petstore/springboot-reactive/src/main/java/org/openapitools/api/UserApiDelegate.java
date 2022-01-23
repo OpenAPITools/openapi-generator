@@ -84,7 +84,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
-    default Mono<ResponseEntity<Void>> deleteUser(String username,
+    default Mono<ResponseEntity<Void>> deleteUser( username,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -101,7 +101,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    default Mono<ResponseEntity<User>> getUserByName(String username,
+    default Mono<ResponseEntity<User>> getUserByName( username,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -130,8 +130,8 @@ public interface UserApiDelegate {
      *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
-    default Mono<ResponseEntity<String>> loginUser(String username,
-        String password,
+    default Mono<ResponseEntity<String>> loginUser( username,
+         password,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -162,7 +162,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    default Mono<ResponseEntity<Void>> updateUser(String username,
+    default Mono<ResponseEntity<Void>> updateUser( username,
         Mono<User> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();

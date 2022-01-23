@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
 
   @JsonProperty("name")
-  private String name;
+  private Optional<String> name;
 
   public AdditionalPropertiesBoolean name(String name) {
     this.name = name;
@@ -36,12 +36,14 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
    * @return name
   */
   
+  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
+  @JsonIgnore
   @Schema(name = "name", required = false)
-  public String getName() {
-    return name;
+  public Optional<String> getName() {
+    return Optional.ofNullable(name);
   }
 
-  public void setName(String name) {
+  public void setName(Optional<String> name) {
     this.name = name;
   }
 
