@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;

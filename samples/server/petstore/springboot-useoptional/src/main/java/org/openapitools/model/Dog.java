@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
 import org.openapitools.model.DogAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;

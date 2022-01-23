@@ -7,6 +7,9 @@ import java.util.Objects;
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullable;
 {{/openApiNullable}}
+{{#useOptional}}
+import com.fasterxml.jackson.annotation.JsonIgnore;
+{{/useOptional}}
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
