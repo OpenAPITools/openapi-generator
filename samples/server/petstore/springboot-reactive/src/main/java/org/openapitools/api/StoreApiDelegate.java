@@ -38,7 +38,7 @@ public interface StoreApiDelegate {
      *         or Order not found (status code 404)
      * @see StoreApi#deleteOrder
      */
-    default Mono<ResponseEntity<Void>> deleteOrder( orderId,
+    default Mono<ResponseEntity<Void>> deleteOrder(String orderId,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -70,7 +70,7 @@ public interface StoreApiDelegate {
      *         or Order not found (status code 404)
      * @see StoreApi#getOrderById
      */
-    default Mono<ResponseEntity<Order>> getOrderById( orderId,
+    default Mono<ResponseEntity<Order>> getOrderById(Long orderId,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

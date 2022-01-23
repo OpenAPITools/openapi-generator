@@ -88,8 +88,8 @@ public interface PetApi {
         value = "/pet/{petId}"
     )
     ResponseEntity<Void> deletePet(
-        @Parameter(name = "petId", description = "Pet id to delete", required = true, schema = @Schema(description = "")) @PathVariable("petId")  petId,
-        @Parameter(name = "api_key", description = "", schema = @Schema(description = "")) @RequestHeader(value = "api_key", required = false)  apiKey
+        @Parameter(name = "petId", description = "Pet id to delete", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
+        @Parameter(name = "api_key", description = "", schema = @Schema(description = "")) @RequestHeader(value = "api_key", required = false) String apiKey
     );
 
 
@@ -151,7 +151,7 @@ public interface PetApi {
         produces = "application/json"
     )
     ResponseEntity<List<Pet>> findPetsByTags(
-        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "tags", required = true)  tags,
+        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "tags", required = true) List<String> tags,
         @ParameterObject final Pageable pageable
     );
 
@@ -184,7 +184,7 @@ public interface PetApi {
         produces = "application/json"
     )
     ResponseEntity<Pet> getPetById(
-        @Parameter(name = "petId", description = "ID of pet to return", required = true, schema = @Schema(description = "")) @PathVariable("petId")  petId
+        @Parameter(name = "petId", description = "ID of pet to return", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
     );
 
 
@@ -244,7 +244,7 @@ public interface PetApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> updatePetWithForm(
-        @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, schema = @Schema(description = "")) @PathVariable("petId")  petId,
+        @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
         @Parameter(name = "name", description = "Updated name of the pet", schema = @Schema(description = "")) @RequestParam(value="name", required=false) String name,
         @Parameter(name = "status", description = "Updated status of the pet", schema = @Schema(description = "")) @RequestParam(value="status", required=false) String status
     );
@@ -276,7 +276,7 @@ public interface PetApi {
         consumes = "multipart/form-data"
     )
     ResponseEntity<ModelApiResponse> uploadFile(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId")  petId,
+        @Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server", schema = @Schema(description = "")) @RequestParam(value="additionalMetadata", required=false) String additionalMetadata,
         @Parameter(name = "file", description = "file to upload", schema = @Schema(description = "")) @RequestParam("file") MultipartFile file
     );

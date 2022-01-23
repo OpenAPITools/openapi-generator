@@ -134,7 +134,7 @@ public interface UserApi {
         value = "/user/{username}"
     )
     default ResponseEntity<Void> deleteUser(
-        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username")  username
+        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
     ) {
         return getDelegate().deleteUser(username);
     }
@@ -164,7 +164,7 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<User> getUserByName(
-        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username")  username
+        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
     ) {
         return getDelegate().getUserByName(username);
     }
@@ -193,8 +193,8 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<String> loginUser(
-        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "username", required = true)  username,
-        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "password", required = true)  password
+        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "password", required = true) String password
     ) {
         return getDelegate().loginUser(username, password);
     }
@@ -247,7 +247,7 @@ public interface UserApi {
         value = "/user/{username}"
     )
     default ResponseEntity<Void> updateUser(
-        @Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username")  username,
+        @Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username,
         @Parameter(name = "body", description = "Updated user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
     ) {
         return getDelegate().updateUser(username, body);

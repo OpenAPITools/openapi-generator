@@ -60,12 +60,12 @@ public interface TestHeadersApi {
         produces = { "application/json" }
     )
     default ResponseEntity<TestResponse> headersTest(
-        @ApiParam(value = "", defaultValue = "11.2") @RequestHeader(value = "headerNumber", required = false)  headerNumber,
-        @ApiParam(value = "", defaultValue = "qwerty") @RequestHeader(value = "headerString", required = false)  headerString,
-        @ApiParam(value = "", defaultValue = "qwerty") @RequestHeader(value = "headerStringWrapped", required = false)  headerStringWrapped,
-        @ApiParam(value = "", defaultValue = "qwerty\"with quotes\" test") @RequestHeader(value = "headerStringQuotes", required = false)  headerStringQuotes,
-        @ApiParam(value = "", defaultValue = "qwerty\"with quotes\" test") @RequestHeader(value = "headerStringQuotesWrapped", required = false)  headerStringQuotesWrapped,
-        @ApiParam(value = "", defaultValue = "true") @RequestHeader(value = "headerBoolean", required = false)  headerBoolean
+        @ApiParam(value = "", defaultValue = "11.2") @RequestHeader(value = "headerNumber", required = false) BigDecimal headerNumber,
+        @ApiParam(value = "", defaultValue = "qwerty") @RequestHeader(value = "headerString", required = false) String headerString,
+        @ApiParam(value = "", defaultValue = "qwerty") @RequestHeader(value = "headerStringWrapped", required = false) String headerStringWrapped,
+        @ApiParam(value = "", defaultValue = "qwerty\"with quotes\" test") @RequestHeader(value = "headerStringQuotes", required = false) String headerStringQuotes,
+        @ApiParam(value = "", defaultValue = "qwerty\"with quotes\" test") @RequestHeader(value = "headerStringQuotesWrapped", required = false) String headerStringQuotesWrapped,
+        @ApiParam(value = "", defaultValue = "true") @RequestHeader(value = "headerBoolean", required = false) Boolean headerBoolean
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

@@ -56,10 +56,10 @@ public interface DefaultApi {
         value = "/thingy/{date}"
     )
     ResponseEntity<Void> get(
-        @Parameter(name = "date", description = "A date path parameter", required = true, schema = @Schema(description = "")) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  date,
-        @NotNull @Parameter(name = "dateTime", description = "A date-time query parameter", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "dateTime", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)  dateTime,
-        @Parameter(name = "X-Order-Date", description = "A date header parameter", required = true, schema = @Schema(description = "")) @RequestHeader(value = "X-Order-Date", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  xOrderDate,
-        @Parameter(name = "loginDate", description = "A date cookie parameter", schema = @Schema(description = "")) @CookieValue("loginDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  loginDate
+        @Parameter(name = "date", description = "A date path parameter", required = true, schema = @Schema(description = "")) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @NotNull @Parameter(name = "dateTime", description = "A date-time query parameter", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "dateTime", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+        @Parameter(name = "X-Order-Date", description = "A date header parameter", required = true, schema = @Schema(description = "")) @RequestHeader(value = "X-Order-Date", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate xOrderDate,
+        @Parameter(name = "loginDate", description = "A date cookie parameter", schema = @Schema(description = "")) @CookieValue("loginDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate loginDate
     );
 
 
@@ -83,7 +83,7 @@ public interface DefaultApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> updatePetWithForm(
-        @Parameter(name = "date", description = "A date path parameter", required = true, schema = @Schema(description = "")) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  date,
+        @Parameter(name = "date", description = "A date path parameter", required = true, schema = @Schema(description = "")) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @Parameter(name = "visitDate", description = "Updated last vist timestamp", schema = @Schema(description = "")) @RequestParam(value="visitDate", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
     );
 

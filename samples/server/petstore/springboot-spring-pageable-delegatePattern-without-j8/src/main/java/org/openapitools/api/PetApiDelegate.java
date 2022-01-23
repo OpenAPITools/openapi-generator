@@ -38,8 +38,8 @@ public interface PetApiDelegate {
      *         or Invalid pet value (status code 400)
      * @see PetApi#deletePet
      */
-    ResponseEntity<Void> deletePet( petId,
-         apiKey);
+    ResponseEntity<Void> deletePet(Long petId,
+        String apiKey);
 
     /**
      * GET /pet/findByStatus : Finds Pets by status
@@ -62,7 +62,7 @@ public interface PetApiDelegate {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
-    ResponseEntity<List<Pet>> findPetsByTags( tags, final Pageable pageable);
+    ResponseEntity<List<Pet>> findPetsByTags(List<String> tags, final Pageable pageable);
 
     /**
      * GET /pet/{petId} : Find pet by ID
@@ -74,7 +74,7 @@ public interface PetApiDelegate {
      *         or Pet not found (status code 404)
      * @see PetApi#getPetById
      */
-    ResponseEntity<Pet> getPetById( petId);
+    ResponseEntity<Pet> getPetById(Long petId);
 
     /**
      * PUT /pet : Update an existing pet
@@ -97,9 +97,9 @@ public interface PetApiDelegate {
      * @return Invalid input (status code 405)
      * @see PetApi#updatePetWithForm
      */
-    ResponseEntity<Void> updatePetWithForm( petId,
-         name,
-         status);
+    ResponseEntity<Void> updatePetWithForm(Long petId,
+        String name,
+        String status);
 
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
@@ -110,8 +110,8 @@ public interface PetApiDelegate {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    ResponseEntity<ModelApiResponse> uploadFile( petId,
-         additionalMetadata,
+    ResponseEntity<ModelApiResponse> uploadFile(Long petId,
+        String additionalMetadata,
         MultipartFile file);
 
 }

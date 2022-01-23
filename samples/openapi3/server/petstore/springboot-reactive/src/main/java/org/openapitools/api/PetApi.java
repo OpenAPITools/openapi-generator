@@ -98,8 +98,8 @@ public interface PetApi {
         value = "/pet/{petId}"
     )
     default Mono<ResponseEntity<Void>> deletePet(
-        @Parameter(name = "petId", description = "Pet id to delete", required = true, schema = @Schema(description = "")) @PathVariable("petId")  petId,
-        @Parameter(name = "api_key", description = "", schema = @Schema(description = "")) @RequestHeader(value = "api_key", required = false)  apiKey,
+        @Parameter(name = "petId", description = "Pet id to delete", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
+        @Parameter(name = "api_key", description = "", schema = @Schema(description = "")) @RequestHeader(value = "api_key", required = false) String apiKey,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().deletePet(petId, apiKey, exchange);
@@ -166,7 +166,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(
-        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "tags", required = true)  tags,
+        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "tags", required = true) Set<String> tags,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().findPetsByTags(tags, exchange);
@@ -201,7 +201,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default Mono<ResponseEntity<Pet>> getPetById(
-        @Parameter(name = "petId", description = "ID of pet to return", required = true, schema = @Schema(description = "")) @PathVariable("petId")  petId,
+        @Parameter(name = "petId", description = "ID of pet to return", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().getPetById(petId, exchange);
@@ -269,7 +269,7 @@ public interface PetApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default Mono<ResponseEntity<Void>> updatePetWithForm(
-        @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, schema = @Schema(description = "")) @PathVariable("petId")  petId,
+        @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
         @Parameter(name = "name", description = "Updated name of the pet", schema = @Schema(description = "")) @Valid @RequestPart(value = "name", required = false) String name,
         @Parameter(name = "status", description = "Updated status of the pet", schema = @Schema(description = "")) @Valid @RequestPart(value = "status", required = false) String status,
         @Parameter(hidden = true) final ServerWebExchange exchange
@@ -304,7 +304,7 @@ public interface PetApi {
         consumes = { "multipart/form-data" }
     )
     default Mono<ResponseEntity<ModelApiResponse>> uploadFile(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId")  petId,
+        @Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server", schema = @Schema(description = "")) @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
         @Parameter(name = "file", description = "file to upload", schema = @Schema(description = "")) @RequestPart(value = "file", required = false) Flux<Part> file,
         @Parameter(hidden = true) final ServerWebExchange exchange

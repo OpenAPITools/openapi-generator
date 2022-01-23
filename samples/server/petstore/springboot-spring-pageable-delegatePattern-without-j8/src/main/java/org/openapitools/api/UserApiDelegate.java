@@ -54,7 +54,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
-    ResponseEntity<Void> deleteUser( username);
+    ResponseEntity<Void> deleteUser(String username);
 
     /**
      * GET /user/{username} : Get user by user name
@@ -65,7 +65,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    ResponseEntity<User> getUserByName( username);
+    ResponseEntity<User> getUserByName(String username);
 
     /**
      * GET /user/login : Logs user into the system
@@ -76,8 +76,8 @@ public interface UserApiDelegate {
      *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
-    ResponseEntity<String> loginUser( username,
-         password);
+    ResponseEntity<String> loginUser(String username,
+        String password);
 
     /**
      * GET /user/logout : Logs out current logged in user session
@@ -97,7 +97,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    ResponseEntity<Void> updateUser( username,
+    ResponseEntity<Void> updateUser(String username,
         User body);
 
 }

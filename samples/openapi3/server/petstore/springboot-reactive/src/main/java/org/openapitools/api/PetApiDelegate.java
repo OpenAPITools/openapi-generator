@@ -55,8 +55,8 @@ public interface PetApiDelegate {
      *         or Invalid pet value (status code 400)
      * @see PetApi#deletePet
      */
-    default Mono<ResponseEntity<Void>> deletePet( petId,
-         apiKey,
+    default Mono<ResponseEntity<Void>> deletePet(Long petId,
+        String apiKey,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -103,7 +103,7 @@ public interface PetApiDelegate {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
-    default Mono<ResponseEntity<Flux<Pet>>> findPetsByTags( tags,
+    default Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(Set<String> tags,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -133,7 +133,7 @@ public interface PetApiDelegate {
      *         or Pet not found (status code 404)
      * @see PetApi#getPetById
      */
-    default Mono<ResponseEntity<Pet>> getPetById( petId,
+    default Mono<ResponseEntity<Pet>> getPetById(Long petId,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -180,9 +180,9 @@ public interface PetApiDelegate {
      * @return Invalid input (status code 405)
      * @see PetApi#updatePetWithForm
      */
-    default Mono<ResponseEntity<Void>> updatePetWithForm( petId,
-         name,
-         status,
+    default Mono<ResponseEntity<Void>> updatePetWithForm(Long petId,
+        String name,
+        String status,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -199,8 +199,8 @@ public interface PetApiDelegate {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    default Mono<ResponseEntity<ModelApiResponse>> uploadFile( petId,
-         additionalMetadata,
+    default Mono<ResponseEntity<ModelApiResponse>> uploadFile(Long petId,
+        String additionalMetadata,
         Flux<Part> file,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();

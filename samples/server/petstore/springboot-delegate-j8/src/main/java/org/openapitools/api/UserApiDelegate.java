@@ -71,7 +71,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
-    default ResponseEntity<Void> deleteUser( username) {
+    default ResponseEntity<Void> deleteUser(String username) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -85,7 +85,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    default ResponseEntity<User> getUserByName( username) {
+    default ResponseEntity<User> getUserByName(String username) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -113,8 +113,8 @@ public interface UserApiDelegate {
      *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
-    default ResponseEntity<String> loginUser( username,
-         password) {
+    default ResponseEntity<String> loginUser(String username,
+        String password) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -140,7 +140,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    default ResponseEntity<Void> updateUser( username,
+    default ResponseEntity<Void> updateUser(String username,
         User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

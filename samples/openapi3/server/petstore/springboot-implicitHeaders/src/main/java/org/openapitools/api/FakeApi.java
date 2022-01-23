@@ -255,7 +255,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testBodyWithQueryParams(
-        @NotNull @Parameter(name = "query", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "query", required = true)  query,
+        @NotNull @Parameter(name = "query", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "query", required = true) String query,
         @Parameter(name = "body", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -435,10 +435,10 @@ public interface FakeApi {
         value = "/fake"
     )
     default ResponseEntity<Void> testGroupParameters(
-        @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "required_string_group", required = true)  requiredStringGroup,
-        @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "required_int64_group", required = true)  requiredInt64Group,
-        @Parameter(name = "string_group", description = "String in group parameters", schema = @Schema(description = "")) @Valid @RequestParam(value = "string_group", required = false)  stringGroup,
-        @Parameter(name = "int64_group", description = "Integer in group parameters", schema = @Schema(description = "")) @Valid @RequestParam(value = "int64_group", required = false)  int64Group
+        @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
+        @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
+        @Parameter(name = "string_group", description = "String in group parameters", schema = @Schema(description = "")) @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,
+        @Parameter(name = "int64_group", description = "Integer in group parameters", schema = @Schema(description = "")) @Valid @RequestParam(value = "int64_group", required = false) Long int64Group
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -530,11 +530,11 @@ public interface FakeApi {
         value = "/fake/test-query-parameters"
     )
     default ResponseEntity<Void> testQueryParameterCollectionFormat(
-        @NotNull @Parameter(name = "pipe", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "pipe", required = true)  pipe,
-        @NotNull @Parameter(name = "ioutil", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "ioutil", required = true)  ioutil,
-        @NotNull @Parameter(name = "http", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "http", required = true)  http,
-        @NotNull @Parameter(name = "url", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "url", required = true)  url,
-        @NotNull @Parameter(name = "context", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "context", required = true)  context
+        @NotNull @Parameter(name = "pipe", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
+        @NotNull @Parameter(name = "ioutil", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,
+        @NotNull @Parameter(name = "http", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "http", required = true) List<String> http,
+        @NotNull @Parameter(name = "url", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "url", required = true) List<String> url,
+        @NotNull @Parameter(name = "context", description = "", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "context", required = true) List<String> context
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -569,7 +569,7 @@ public interface FakeApi {
         consumes = { "multipart/form-data" }
     )
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId")  petId,
+        @Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
         @Parameter(name = "requiredFile", description = "file to upload", required = true, schema = @Schema(description = "")) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server", schema = @Schema(description = "")) @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
     ) {

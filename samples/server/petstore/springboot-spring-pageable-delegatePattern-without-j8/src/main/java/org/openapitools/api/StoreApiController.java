@@ -43,7 +43,7 @@ public class StoreApiController implements StoreApi {
      * @see StoreApi#deleteOrder
      */
     public ResponseEntity<Void> deleteOrder(
-        @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id")  orderId
+        @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId
     ) {
         return delegate.deleteOrder(orderId);
     }
@@ -72,7 +72,7 @@ public class StoreApiController implements StoreApi {
      * @see StoreApi#getOrderById
      */
     public ResponseEntity<Order> getOrderById(
-        @Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id")  orderId
+        @Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId
     ) {
         return delegate.getOrderById(orderId);
     }
