@@ -7,17 +7,5 @@
 export type {{classname}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}}
 {{/isBoolean}}
 
-{{^isBoolean}}
-export enum {{classname}} {
-{{#allowableValues}}
-{{#enumVars}}
-    {{#enumDescription}}
-    /**
-    * {{.}}
-    */
-    {{/enumDescription}}
-    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
-{{/enumVars}}
-{{/allowableValues}}
-}
+{{^isBoolean}}{{^stringEnums}}{{>modelObjectEnum}}{{/stringEnums}}{{#stringEnums}}{{>modelStringEnum}}{{/stringEnums}}
 {{/isBoolean}}
