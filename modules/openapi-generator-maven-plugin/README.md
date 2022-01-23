@@ -116,12 +116,12 @@ For configuration options documented as a **map** above, the key/value options m
 ```
 
 This configuration node location will match that of the plugin configuration examples at the top of this document and in the section below. Here, `option` matches in option name in the first column in the table from the previous section.
-The `key` and `value` text are any values you'd like to provide for that option. As an example, to configure `globalProperties` to match the `--global-property models=User,Pet` example from our [Selective Generation](https://openapi-generator.tech/docs/customization#selective-generation) documentation, see below.
+The `key` and `value` text are any values you'd like to provide for that option. As an example, to configure `globalProperties` to match the `--global-property models=User:Pet` example from our [Selective Generation](https://openapi-generator.tech/docs/customization#selective-generation) documentation, see below.
 
 ```xml
 <configuration>
     <globalProperties>
-       <models>User,Pet</models>
+       <models>User:Pet</models>
     </globalProperties>
 </configuration>
 ```
@@ -131,7 +131,7 @@ Not that some of these environment variable options may overwrite or conflict wi
 ```xml
 <configuration>
     <generateModels>true</generateModels>
-    <modelsToGenerate>User,Pet</modelsToGenerate>
+    <modelsToGenerate>User:Pet</modelsToGenerate>
 </configuration>
 ```
 
