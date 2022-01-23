@@ -10,6 +10,7 @@ title: Documentation for the cpp-restbed-server Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | C++ | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a C++ API Server with Restbed (https://github.com/Corvusoft/restbed). | |
 
 ## CONFIG OPTIONS

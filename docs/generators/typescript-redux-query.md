@@ -10,6 +10,7 @@ title: Documentation for the typescript-redux-query Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Typescript | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a TypeScript client library using redux-query API (beta). | |
 
 ## CONFIG OPTIONS

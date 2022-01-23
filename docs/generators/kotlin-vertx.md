@@ -10,6 +10,7 @@ title: Documentation for the kotlin-vertx Generator
 | generator stability | BETA | |
 | generator type | SERVER | |
 | generator language | Kotlin | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a kotlin-vertx server. | |
 
 ## CONFIG OPTIONS

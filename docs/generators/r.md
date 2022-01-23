@@ -10,6 +10,7 @@ title: Documentation for the r Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | R | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a R client library (beta). | |
 
 ## CONFIG OPTIONS

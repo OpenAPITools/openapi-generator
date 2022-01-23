@@ -10,6 +10,7 @@ title: Documentation for the aspnetcore Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | C# | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates an ASP.NET Core Web API server. | |
 
 ## CONFIG OPTIONS

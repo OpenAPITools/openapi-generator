@@ -10,6 +10,7 @@ title: Documentation for the groovy Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Groovy | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Groovy API client. | |
 
 ## CONFIG OPTIONS
