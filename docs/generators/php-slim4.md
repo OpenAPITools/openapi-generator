@@ -10,6 +10,7 @@ title: Documentation for the php-slim4 Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | PHP | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a PHP Slim 4 Framework server library(with Mock server). | |
 
 ## CONFIG OPTIONS

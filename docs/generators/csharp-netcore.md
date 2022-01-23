@@ -10,6 +10,7 @@ title: Documentation for the csharp-netcore Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | C# | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a C# client library (.NET Standard, .NET Core). | |
 
 ## CONFIG OPTIONS

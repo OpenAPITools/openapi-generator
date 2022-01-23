@@ -10,6 +10,7 @@ title: Documentation for the jaxrs-cxf-cdi Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Java JAXRS Server according to JAXRS 2.0 specification, assuming an Apache CXF runtime and a Java EE runtime with CDI enabled. | |
 
 ## CONFIG OPTIONS

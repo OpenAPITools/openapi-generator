@@ -10,6 +10,7 @@ title: Documentation for the java-inflector Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Java Inflector Server application. | |
 
 ## CONFIG OPTIONS

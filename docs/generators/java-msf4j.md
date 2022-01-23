@@ -10,6 +10,7 @@ title: Documentation for the java-msf4j Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Java Micro Service based on WSO2 Microservices Framework for Java (MSF4J) | |
 
 ## CONFIG OPTIONS

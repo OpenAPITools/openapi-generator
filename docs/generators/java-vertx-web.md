@@ -10,6 +10,7 @@ title: Documentation for the java-vertx-web Generator
 | generator stability | BETA | |
 | generator type | SERVER | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Java Vert.x-Web Server (beta). | |
 
 ## CONFIG OPTIONS

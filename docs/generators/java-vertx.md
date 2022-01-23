@@ -10,6 +10,7 @@ title: Documentation for the java-vertx Generator
 | generator stability | DEPRECATED | |
 | generator type | SERVER | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a java-Vert.X Server library. | |
 
 ## CONFIG OPTIONS

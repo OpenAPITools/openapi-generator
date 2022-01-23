@@ -10,6 +10,7 @@ title: Documentation for the rust Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Rust | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Rust client library (beta). | |
 
 ## CONFIG OPTIONS

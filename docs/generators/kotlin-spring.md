@@ -10,6 +10,7 @@ title: Documentation for the kotlin-spring Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Kotlin | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Kotlin Spring application. | |
 
 ## CONFIG OPTIONS

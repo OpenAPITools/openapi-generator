@@ -10,6 +10,7 @@ title: Documentation for the jaxrs-spec Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Java JAXRS Server according to JAXRS 2.0 specification. | |
 
 ## CONFIG OPTIONS

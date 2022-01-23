@@ -10,6 +10,7 @@ title: Documentation for the jaxrs-jersey Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Java JAXRS Server application based on Jersey framework. | |
 
 ## CONFIG OPTIONS

@@ -10,6 +10,7 @@ title: Documentation for the java-pkmst Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a PKMST SpringBoot Server application using the SpringFox integration. Also enables EurekaServerClient / Zipkin / Spring-Boot admin | |
 
 ## CONFIG OPTIONS

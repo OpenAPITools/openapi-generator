@@ -10,6 +10,7 @@ title: Documentation for the jaxrs-resteasy-eap Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Java JAXRS-Resteasy Server application. | |
 
 ## CONFIG OPTIONS
