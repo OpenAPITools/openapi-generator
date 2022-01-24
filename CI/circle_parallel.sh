@@ -61,7 +61,23 @@ elif [ "$NODE_INDEX" = "3" ]; then
   pyenv install 3.6.3
   pyenv install 2.7.14
   pyenv global 3.6.3
-  python3 --version
+
+  # install openssl 1.1.1 and python 3.9
+  wget --no-check-certificate https://www.openssl.org/source/openssl-1.1.1g.tar.gz
+  tar zxvf openssl-1.1.1g.tar.gz
+  cd openssl-1.1.1g
+  ./config --prefix=/home/circleci/openssl --openssldir=/home/circleci/openssl no-ssl2
+  make
+  make test
+  make install
+  cd ..
+  export PATH=$HOME/openssl/bin:$PATH
+  export LD_LIBRARY_PATH=$HOME/openssl/lib
+  export LC_ALL="en_US.UTF-8"
+  export LDFLAGS="-L /home/circleci/openssl/lib -Wl,-rpath,/home/circleci/openssl/lib"
+  which openssl
+  openssl version
+  CPPFLAGS=-I$HOME/openssl/include LDFLAGS=-L$HOME/openssl/lib SSH=$HOME/openssl pyenv install -v 3.9.0
 
   # Install node@stable (for angular 6)
   set +e
