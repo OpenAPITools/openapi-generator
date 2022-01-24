@@ -160,6 +160,8 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
             result = (String) extensions.get(VEN_CONTAINER_DATA_TYPE);
         } else if (useModernSyntax && (ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p))) {
             result = "array";
+        } else if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+            result = p.getType();
         } else {
             result = super.getTypeDeclaration(p);
         }

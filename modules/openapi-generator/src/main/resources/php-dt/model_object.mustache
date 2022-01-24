@@ -16,7 +16,7 @@ class {{classname}}
 }}{{^internal.fromParameters}}{{>model_normal_var}}{{/internal.fromParameters
 }}{{/vendorExtensions
 }}{{^vendorExtensions}}{{>model_normal_var}}{{/vendorExtensions
-}}     * @var {{dataType}}{{^required}}|null{{/required}}
+}}     * @var {{^isReferenceToEnum}}{{dataType}}{{/isReferenceToEnum}}{{#isReferenceToEnum}}{{referencedEnumDataType}}{{/isReferenceToEnum}}{{^required}}|null{{/required}}
      */
     public ${{name}};
 

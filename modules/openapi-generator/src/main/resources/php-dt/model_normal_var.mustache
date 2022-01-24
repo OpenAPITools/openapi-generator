@@ -14,12 +14,17 @@
 }}     * @DTA\Strategy(name="DateTime")
      * @DTA\Validator(name="Date", options={"format": \DateTime::RFC3339})
 {{/isDateTime
+}}{{#isReferenceToEnum
+}}     * @DTA\Validator(name="Scalar", options={"type":"{{referencedEnumDataType}}"})
+{{/isReferenceToEnum
 }}{{^isPrimitiveType
 }}{{^isDate
 }}{{^isDateTime
+}}{{^isReferenceToEnum
 }}     * @DTA\Strategy(name="Object", options={"type":{{dataType}}::class})
      * @DTA\Validator(name="TypeCompliant", options={"type":{{dataType}}::class})
-{{/isDateTime
+{{/isReferenceToEnum
+}}{{/isDateTime
 }}{{/isDate
 }}{{/isPrimitiveType
 }}{{/isContainer

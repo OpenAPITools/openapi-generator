@@ -40,6 +40,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String dataType;
     public String datatypeWithEnum;
     public String dataFormat;
+    public String referencedEnumDataType;
     /**
      * The name of this property in the OpenAPI schema.
      */
@@ -149,6 +150,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isArray;
     public boolean isMap;
     public boolean isEnum;
+    public boolean isReferenceToEnum;
     public boolean isReadOnly;
     public boolean isWriteOnly;
     public boolean isNullable;
@@ -832,6 +834,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", dataType='").append(dataType).append('\'');
         sb.append(", datatypeWithEnum='").append(datatypeWithEnum).append('\'');
         sb.append(", dataFormat='").append(dataFormat).append('\'');
+        sb.append(", referencedEnumDataType='").append(referencedEnumDataType).append('\'');
         sb.append(", name='").append(name).append('\'');
         sb.append(", min='").append(min).append('\'');
         sb.append(", max='").append(max).append('\'');
@@ -879,6 +882,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isArray=").append(isArray);
         sb.append(", isMap=").append(isMap);
         sb.append(", isEnum=").append(isEnum);
+        sb.append(", isReferenceToEnum=").append(isReferenceToEnum);
         sb.append(", isReadOnly=").append(isReadOnly);
         sb.append(", isWriteOnly=").append(isWriteOnly);
         sb.append(", isNullable=").append(isNullable);
@@ -957,6 +961,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isArray == that.isArray &&
                 isMap == that.isMap &&
                 isEnum == that.isEnum &&
+                isReferenceToEnum == that.isReferenceToEnum &&
                 isReadOnly == that.isReadOnly &&
                 isWriteOnly == that.isWriteOnly &&
                 isNullable == that.isNullable &&
@@ -983,6 +988,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(dataType, that.dataType) &&
                 Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
                 Objects.equals(dataFormat, that.dataFormat) &&
+                Objects.equals(referencedEnumDataType, that.referencedEnumDataType) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(min, that.min) &&
                 Objects.equals(max, that.max) &&
@@ -1023,14 +1029,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public int hashCode() {
 
         return Objects.hash(openApiType, baseName, complexType, getter, setter, description,
-                dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
+                dataType, datatypeWithEnum, referencedEnumDataType, dataFormat, name, min, max, defaultValue,
                 defaultValueWithParam, baseType, containerType, title, unescapedDescription,
                 maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
                 exclusiveMinimum, exclusiveMaximum, required, deprecated,
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
-                isArray, isMap, isEnum, isReadOnly, isWriteOnly, isNullable, isShort, isUnboundedInteger,
+                isArray, isMap, isEnum, isReferenceToEnum, isReadOnly, isWriteOnly, isNullable, isShort, isUnboundedInteger,
                 isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues,
                 items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,

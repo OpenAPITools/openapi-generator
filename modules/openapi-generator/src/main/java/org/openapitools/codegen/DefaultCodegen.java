@@ -3520,6 +3520,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         //Referenced enum case:
         if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+            property.isReferenceToEnum = true;
+            property.referencedEnumDataType = referencedSchema.getType();
             List<Object> _enum = referencedSchema.getEnum();
 
             Map<String, Object> allowableValues = new HashMap<>();
