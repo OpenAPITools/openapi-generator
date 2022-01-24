@@ -62,23 +62,6 @@ elif [ "$NODE_INDEX" = "3" ]; then
   pyenv install 2.7.14
   pyenv global 3.6.3
 
-  # install openssl 1.1.1 and python 3.9
-  wget --no-check-certificate https://www.openssl.org/source/openssl-1.1.1g.tar.gz
-  tar zxvf openssl-1.1.1g.tar.gz
-  cd openssl-1.1.1g
-  ./config --prefix=/home/circleci/openssl --openssldir=/home/circleci/openssl no-ssl2
-  make
-  make test
-  make install
-  cd ..
-  export PATH=$HOME/openssl/bin:$PATH
-  export LD_LIBRARY_PATH=$HOME/openssl/lib
-  export LC_ALL="en_US.UTF-8"
-  export LDFLAGS="-L /home/circleci/openssl/lib -Wl,-rpath,/home/circleci/openssl/lib"
-  which openssl
-  openssl version
-  CPPFLAGS=-I$HOME/openssl/include LDFLAGS=-L$HOME/openssl/lib SSH=$HOME/openssl pyenv install -v 3.9.0
-
   # Install node@stable (for angular 6)
   set +e
   curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
@@ -95,6 +78,12 @@ elif [ "$NODE_INDEX" = "3" ]; then
   echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+
+elif [ "$NODE_INDEX" = "4" ]; then
+
+  echo "Running node $NODE_INDEX to test 'samples.circleci.node3' defined in pom.xml ..."
+
+  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node4 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
