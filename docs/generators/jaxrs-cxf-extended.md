@@ -10,6 +10,7 @@ title: Documentation for the jaxrs-cxf-extended Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Extends jaxrs-cxf with options to generate a functional mock server. | |
 
 ## CONFIG OPTIONS

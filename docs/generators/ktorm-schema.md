@@ -10,6 +10,7 @@ title: Documentation for the ktorm-schema Generator
 | generator stability | BETA | |
 | generator type | SCHEMA | |
 | generator language | Ktorm | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a kotlin-ktorm schema (beta) | |
 
 ## CONFIG OPTIONS

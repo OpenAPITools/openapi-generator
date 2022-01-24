@@ -10,6 +10,7 @@ title: Documentation for the scala-akka Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Scala | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Scala client library (beta) base on Akka/Spray. | |
 
 ## CONFIG OPTIONS

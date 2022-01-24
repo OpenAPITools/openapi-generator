@@ -10,6 +10,7 @@ title: Documentation for the go-echo-server Generator
 | generator stability | BETA | |
 | generator type | SERVER | |
 | generator language | Go | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a go-echo server. (Beta) | |
 
 ## CONFIG OPTIONS

@@ -9,6 +9,7 @@ title: Documentation for the markdown Generator
 | generator name | markdown | pass this to the generate command after -g |
 | generator stability | BETA | |
 | generator type | DOCUMENTATION | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a markdown documentation. | |
 
 ## CONFIG OPTIONS

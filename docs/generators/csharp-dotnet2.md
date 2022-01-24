@@ -10,6 +10,7 @@ title: Documentation for the csharp-dotnet2 Generator
 | generator stability | DEPRECATED | |
 | generator type | CLIENT | |
 | generator language | C# | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a C# .Net 2.0 client library (beta). | |
 
 ## CONFIG OPTIONS

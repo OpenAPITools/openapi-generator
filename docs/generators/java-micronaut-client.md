@@ -10,6 +10,7 @@ title: Documentation for the java-micronaut-client Generator
 | generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Java Micronaut Client. | |
 
 ## CONFIG OPTIONS

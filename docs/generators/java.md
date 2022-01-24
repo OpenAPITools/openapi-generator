@@ -10,6 +10,7 @@ title: Documentation for the java Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Java client library (HTTP lib: Jersey (1.x, 2.x), Retrofit (2.x), OpenFeign (10.x) and more. | |
 
 ## CONFIG OPTIONS

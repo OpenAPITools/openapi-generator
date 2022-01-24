@@ -10,6 +10,7 @@ title: Documentation for the jaxrs-cxf-client Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Java JAXRS Client based on Apache CXF framework. | |
 
 ## CONFIG OPTIONS

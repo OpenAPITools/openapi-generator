@@ -5,8 +5,10 @@
  */
 package org.openapitools.api;
 
+import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import org.springframework.core.io.Resource;
 import java.util.Set;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "pet", description = "the pet API")
 public interface PetApi {
@@ -61,7 +65,7 @@ public interface PetApi {
     )
     default Mono<ResponseEntity<Void>> addPet(
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> body,
-         final ServerWebExchange exchange
+        @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().addPet(body, exchange);
     }
@@ -98,7 +102,7 @@ public interface PetApi {
     default Mono<ResponseEntity<Void>> deletePet(
         @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey,
-         final ServerWebExchange exchange
+        @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().deletePet(petId, apiKey, exchange);
     }
@@ -137,7 +141,7 @@ public interface PetApi {
     )
     default Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(
         @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status,
-         final ServerWebExchange exchange
+        @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().findPetsByStatus(status, exchange);
     }
@@ -177,7 +181,7 @@ public interface PetApi {
     )
     default Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(
         @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) Set<String> tags,
-         final ServerWebExchange exchange
+        @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().findPetsByTags(tags, exchange);
     }
@@ -214,7 +218,7 @@ public interface PetApi {
     )
     default Mono<ResponseEntity<Pet>> getPetById(
         @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId,
-         final ServerWebExchange exchange
+        @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().getPetById(petId, exchange);
     }
@@ -254,7 +258,7 @@ public interface PetApi {
     )
     default Mono<ResponseEntity<Void>> updatePet(
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> body,
-         final ServerWebExchange exchange
+        @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().updatePet(body, exchange);
     }
@@ -292,7 +296,7 @@ public interface PetApi {
         @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name,
         @ApiParam(value = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status,
-         final ServerWebExchange exchange
+        @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().updatePetWithForm(petId, name, status, exchange);
     }
@@ -332,7 +336,7 @@ public interface PetApi {
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
         @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) Flux<Part> file,
-         final ServerWebExchange exchange
+        @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().uploadFile(petId, additionalMetadata, file, exchange);
     }

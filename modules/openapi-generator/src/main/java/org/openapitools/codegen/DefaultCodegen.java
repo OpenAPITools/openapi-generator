@@ -1595,8 +1595,6 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("array", "List");
         typeMapping.put("set", "Set");
         typeMapping.put("map", "Map");
-        typeMapping.put("List", "List");
-        typeMapping.put("Set", "Set");
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("string", "String");
         typeMapping.put("int", "Integer");
@@ -4851,10 +4849,13 @@ public class DefaultCodegen implements CodegenConfig {
                     // This scheme may have to be changed when it is officially registered with IANA.
                     cs.isHttpSignature = true;
                     once(LOGGER).warn("Security scheme 'HTTP signature' is a draft IETF RFC and subject to change.");
+                } else {
+                    once(LOGGER).warn("Unknown scheme `{}` found in the HTTP security definition.", securityScheme.getScheme());
                 }
                 codegenSecurities.add(cs);
             } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
                 final OAuthFlows flows = securityScheme.getFlows();
+                boolean isFlowEmpty = true;
                 if (securityScheme.getFlows() == null) {
                     throw new RuntimeException("missing oauth flow in " + key);
                 }
@@ -4864,6 +4865,7 @@ public class DefaultCodegen implements CodegenConfig {
                     cs.isPassword = true;
                     cs.flow = "password";
                     codegenSecurities.add(cs);
+                    isFlowEmpty = false;
                 }
                 if (flows.getImplicit() != null) {
                     final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
@@ -4871,6 +4873,7 @@ public class DefaultCodegen implements CodegenConfig {
                     cs.isImplicit = true;
                     cs.flow = "implicit";
                     codegenSecurities.add(cs);
+                    isFlowEmpty = false;
                 }
                 if (flows.getClientCredentials() != null) {
                     final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
@@ -4878,6 +4881,7 @@ public class DefaultCodegen implements CodegenConfig {
                     cs.isApplication = true;
                     cs.flow = "application";
                     codegenSecurities.add(cs);
+                    isFlowEmpty = false;
                 }
                 if (flows.getAuthorizationCode() != null) {
                     final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
@@ -4885,7 +4889,14 @@ public class DefaultCodegen implements CodegenConfig {
                     cs.isCode = true;
                     cs.flow = "accessCode";
                     codegenSecurities.add(cs);
+                    isFlowEmpty = false;
                 }
+
+                if (isFlowEmpty) {
+                    once(LOGGER).error("Invalid flow definition defined in the security scheme: {}", flows);
+                }
+            } else {
+                once(LOGGER).error("Unknown type `{}` found in the security definition `{}`.", securityScheme.getType(), securityScheme.getName());
             }
         }
 
@@ -7371,6 +7382,11 @@ public class DefaultCodegen implements CodegenConfig {
             i += 1;
         }
         return xOf;
+    }
+
+    @Override
+    public String defaultTemplatingEngine() {
+        return "mustache";
     }
 
     @Override

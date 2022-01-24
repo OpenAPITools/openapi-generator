@@ -10,6 +10,7 @@ title: Documentation for the nim Generator
 | generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | Nim | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a nim client (beta). | |
 
 ## CONFIG OPTIONS

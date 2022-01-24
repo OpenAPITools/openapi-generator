@@ -23,12 +23,16 @@ type Fruit struct {
 
 // AppleAsFruit is a convenience function that returns Apple wrapped in Fruit
 func AppleAsFruit(v *Apple) Fruit {
-	return Fruit{ Apple: v}
+	return Fruit{
+		Apple: v,
+	}
 }
 
 // BananaAsFruit is a convenience function that returns Banana wrapped in Fruit
 func BananaAsFruit(v *Banana) Fruit {
-	return Fruit{ Banana: v}
+	return Fruit{
+		Banana: v,
+	}
 }
 
 
@@ -37,7 +41,7 @@ func (dst *Fruit) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
 	// try to unmarshal data into Apple
-	err = json.Unmarshal(data, &dst.Apple)
+	err = newStrictDecoder(data).Decode(&dst.Apple)
 	if err == nil {
 		jsonApple, _ := json.Marshal(dst.Apple)
 		if string(jsonApple) == "{}" { // empty struct
@@ -50,7 +54,7 @@ func (dst *Fruit) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal data into Banana
-	err = json.Unmarshal(data, &dst.Banana)
+	err = newStrictDecoder(data).Decode(&dst.Banana)
 	if err == nil {
 		jsonBanana, _ := json.Marshal(dst.Banana)
 		if string(jsonBanana) == "{}" { // empty struct
@@ -90,6 +94,9 @@ func (src Fruit) MarshalJSON() ([]byte, error) {
 
 // Get the actual instance
 func (obj *Fruit) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
+	}
 	if obj.Apple != nil {
 		return obj.Apple
 	}

@@ -10,6 +10,7 @@ title: Documentation for the cpp-tiny Generator
 | generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | C++ | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a C++ Arduino REST API client. | |
 
 ## CONFIG OPTIONS

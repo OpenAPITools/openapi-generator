@@ -10,6 +10,7 @@ title: Documentation for the elixir Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Elixir | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates an elixir client library (alpha). | |
 
 ## CONFIG OPTIONS

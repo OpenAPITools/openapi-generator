@@ -5,6 +5,7 @@
  */
 package org.openapitools.api;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,7 +29,9 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "Default", description = "the Default API")
 public interface DefaultApi {
@@ -43,8 +46,7 @@ public interface DefaultApi {
      * @return OK (status code 200)
      */
     @Operation(
-        summary = "",
-        tags = {  },
+        operationId = "get",
         responses = {
             @ApiResponse(responseCode = "200", description = "OK")
         }
@@ -54,10 +56,10 @@ public interface DefaultApi {
         value = "/thingy/{date}"
     )
     ResponseEntity<Void> get(
-        @Parameter(name = "date", description = "A date path parameter", required = true, schema = @Schema(description = "")) @PathVariable("date") @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate date,
-        @NotNull @Parameter(name = "dateTime", description = "A date-time query parameter", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "dateTime", required = true) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-        @Parameter(name = "X-Order-Date", description = "A date header parameter", required = true, schema = @Schema(description = "")) @RequestHeader(value = "X-Order-Date", required = true) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate xOrderDate,
-        @Parameter(name = "loginDate", description = "A date cookie parameter", schema = @Schema(description = "")) @CookieValue("loginDate") @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate loginDate
+        @Parameter(name = "date", description = "A date path parameter", required = true, schema = @Schema(description = "")) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @NotNull @Parameter(name = "dateTime", description = "A date-time query parameter", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "dateTime", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+        @Parameter(name = "X-Order-Date", description = "A date header parameter", required = true, schema = @Schema(description = "")) @RequestHeader(value = "X-Order-Date", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate xOrderDate,
+        @Parameter(name = "loginDate", description = "A date cookie parameter", schema = @Schema(description = "")) @CookieValue("loginDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate loginDate
     );
 
 
@@ -70,8 +72,7 @@ public interface DefaultApi {
      * @return Invalid input (status code 405)
      */
     @Operation(
-        summary = "",
-        tags = {  },
+        operationId = "updatePetWithForm",
         responses = {
             @ApiResponse(responseCode = "405", description = "Invalid input")
         }
@@ -82,8 +83,8 @@ public interface DefaultApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> updatePetWithForm(
-        @Parameter(name = "date", description = "A date path parameter", required = true, schema = @Schema(description = "")) @PathVariable("date") @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate date,
-        @Parameter(name = "visitDate", description = "Updated last vist timestamp", schema = @Schema(description = "")) @RequestParam(value="visitDate", required=false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
+        @Parameter(name = "date", description = "A date path parameter", required = true, schema = @Schema(description = "")) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @Parameter(name = "visitDate", description = "Updated last vist timestamp", schema = @Schema(description = "")) @RequestParam(value="visitDate", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
     );
 
 }
