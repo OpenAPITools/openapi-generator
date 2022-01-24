@@ -1285,7 +1285,6 @@
                 <!-- clients -->
                 <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/python_disallowAdditionalPropertiesIfNotPresent</module>
-                <module>samples/openapi3/client/petstore/python</module>
                 <!--<module>samples/openapi3/client/petstore/python-legacy</module>-->
                 <!-- TODO comment out below when the test for typescript-nestjs is ready
                 <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
@@ -1314,6 +1313,21 @@
                 <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/client/petstore/javascript-promise-es6</module>
+            </modules>
+        </profile>
+        <!-- node 4 tests in CircleCI -->
+        <profile>
+            <id>samples.circleci.node4</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.circleci.node4</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- python clients which don't need the server running -->
+                <module>samples/openapi3/client/petstore/python</module>
+                <module>samples/openapi3/client/petstore/python-experimental</module>
             </modules>
         </profile>
         <!-- other tests in CircleCI -->
