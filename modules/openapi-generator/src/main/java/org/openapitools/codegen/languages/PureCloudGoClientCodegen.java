@@ -2,6 +2,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
@@ -12,29 +13,22 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
-import java.sql.SQLOutput;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PureCloudGoClientCodegen extends GoClientCodegen {
     private static String OPERATION_ID_PROPERTY_NAME = "x-purecloud-method-name";
-
     protected Logger LOGGER = LoggerFactory.getLogger(PureCloudGoClientCodegen.class);
 
     public PureCloudGoClientCodegen() {
         super();
-
         // Use default templates
         embeddedTemplateDir = templateDir = "go";
-
         supportingFiles.add(new SupportingFile("Makefile.mustache", "", "Makefile"));
-
-
         // Go type for arbitrary objects
         // Mainly used for API types of Map<string, Object>, which are objects with additional properties of type object
         typeMapping.put("object", "interface{}");
-
         typeMapping.put("LocalDateTime", "time.Time");
     }
 
@@ -59,7 +53,6 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
                 return operationId;
             }
         }
-
         return super.getOrGenerateOperationId(operation, path, httpMethod);
     }
 
@@ -104,59 +97,44 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
             name = camelize(name);
             name = escapeReservedWord(name);
         }
-
         // replace non-alphanumeric with underscore
         name = name.replaceAll("[^a-zA-Z0-9]", "_");
-
         // camelize (lower first character) the variable name
         // pet_id => PetId
         name = camelize(name);
-
         // Full strip
         name = name.replaceAll("[^a-zA-Z0-9]", "");
-
-//        // Escape invalid names
-//        if (isReservedWord(name) || name.matches("^\\d.*")) {
-//            System.out.println("IS RESERVED KEYWORD");
-//            System.out.println(name);
-//            name = escapeReservedWord(name);
-//        }
-
         return name;
     }
 
     @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+    public String getTypeDeclaration(Schema s) {
+        if (ModelUtils.isArraySchema(s)) {
+            ArraySchema arraySchema = (ArraySchema) s;
+            Schema inner = arraySchema.getItems();
             return "[]" + getTypeDeclaration(inner);
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
-
+        } else if (ModelUtils.isMapSchema(s)) {
+            MapSchema mapSchema = (MapSchema) s;
+            Schema inner = (Schema) mapSchema.getAdditionalProperties();
             if (inner.getType() == "object") {
-                // Prevent ``map[s`tring]map[string]interface{}` when map value type is object
-                return getSchemaType(p) + "[string]interface{}";
+                // Prevent `map[string]map[string]interface{}` when map value type is object
+                return getSchemaType(s) + "[string]interface{}";
             } else {
-                return getSchemaType(p) + "[string]" + getTypeDeclaration(inner);
+                return getSchemaType(s) + "[string]" + getTypeDeclaration(inner);
             }
         }
-
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
-        String swaggerType = getSchemaType(p);
+        String swaggerType = getSchemaType(s);
         if (typeMapping.containsKey(swaggerType)) {
             return typeMapping.get(swaggerType);
         }
-
         if (typeMapping.containsValue(swaggerType)) {
             return swaggerType;
         }
-
         if (languageSpecificPrimitives.contains(swaggerType)) {
             return swaggerType;
         }
-
         return toModelName(swaggerType);
     }
 
@@ -165,8 +143,6 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         objs = super.postProcessAllModels(objs);
-
-
         // Index all CodegenModels by model name.
         for (Map.Entry<String, Object> entry : objs.entrySet()) {
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
@@ -182,18 +158,17 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
         return objs;
     }
 
-    // NOTE: NEVER USED
-//    @Override
-//    protected void postProcessProperty(CodegenProperty property) {
-//        super.postProcessProperty(property);
-//        if (property == null) return;
-//        // Override for custom swagger format: local-date-time
-//        // This is a datatype that contains a date and time, but no timezone
-//        if (property.datatype.equals("time.Time") && property.isString != null && property.isString) {
-//            property.isDateTime = true;
-//            property.vendorExtensions.put("x-local-date-time", "true");
-//        }
-//    }
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+        if (property == null) return;
+        // Override for custom swagger format: local-date-time
+        // This is a datatype that contains a date and time, but no timezone
+        if (property.dataType.equals("time.Time") && property.isString && property.isString) {
+            property.isDateTime = true;
+            property.vendorExtensions.put("x-local-date-time", "true");
+        }
+    }
 
     private void markRecursiveProperties(CodegenModel cm, CodegenProperty[] lineage) {
         if (cm == null) return;
@@ -218,8 +193,9 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-        if (objs == null) return objs;
-
+        if (objs == null) {
+            return objs;
+        }
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");

@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -25,15 +26,12 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
-import java.sql.SQLOutput;
 import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class GoClientCodegen extends AbstractGoCodegen {
-
     static Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
-
     protected String packageName = "swagger";
     protected String packageVersion = "1.0.0";
     protected String majorVersion = "v1";
@@ -57,13 +55,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
         outputFolder = "generated-code/go";
         modelTemplateFiles.put("model.mustache", ".go");
         apiTemplateFiles.put("api.mustache", ".go");
-
         // The OOTB doc templates suck. Using hosted auto-docs instead.
-//        modelDocTemplateFiles.put("model_doc.mustache", ".md");
-//        apiDocTemplateFiles.put("api_doc.mustache", ".md");
-
+        // modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        // apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "go";
-
         setReservedWordsLowerCase(
                 Arrays.asList(
                         "break", "default", "func", "interface", "select",
@@ -73,14 +68,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         "continue", "for", "import", "return", "var", "error", "ApiResponse")
                 // Added "error" as it's used so frequently that it may as well be a keyword
         );
-
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array")
         );
-
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "string",
                         "bool",
@@ -97,9 +90,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         "rune",
                         "byte")
         );
-
         instantiationTypes.clear();
-
         typeMapping.clear();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
@@ -118,12 +109,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("URI", "string");
-
         importMapping = new HashMap<String, String>();
         importMapping.put("time.Time", "time");
         importMapping.put("*os.File", "os");
         importMapping.put("os", "io/ioutil");
-
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Go package name (convention: lowercase).")
                 .defaultValue("swagger"));
@@ -136,36 +125,26 @@ public class GoClientCodegen extends AbstractGoCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        }
-        else {
+        } else {
             setPackageName("swagger");
         }
-
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        }
-        else {
+        } else {
             setPackageVersion("1.0.0");
         }
-
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
-
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
-
         if (additionalProperties.containsKey(CodegenConstants.MAJOR_VERSION)) {
             setMajorVersion((String) additionalProperties.get(CodegenConstants.MAJOR_VERSION));
         }
-
         additionalProperties.put(CodegenConstants.MAJOR_VERSION, majorVersion);
-
         modelPackage = packageName;
         apiPackage = packageName;
-
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("configuration.mustache", "/platformclientv2", "configuration.go"));
@@ -207,19 +186,17 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_");
-
-        // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
+        // if it's all upper case, do nothing
+        if (name.matches("^[A-Z_]*$")) {
             return name;
-
+        }
         // camelize (lower first character) the variable name
         // pet_id => PetId
         name = camelize(name);
-
         // for reserved word or word starting with number, append _
-        if(isReservedWord(name) || name.matches("^\\d.*"))
+        if(isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
-
+        }
         return name;
     }
 
@@ -246,19 +223,15 @@ public class GoClientCodegen extends AbstractGoCodegen {
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
-
         if (!StringUtils.isEmpty(modelNameSuffix)) {
             name = name + "_" + modelNameSuffix;
         }
-
         name = sanitizeName(name);
-
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
-
         return underscore(name);
     }
 
@@ -266,12 +239,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
         // e.g. PetApi.go => pet_api.go
         return underscore(name) + "_api";
     }
-
-
 
     /**
      * Overrides postProcessParameter to add a vendor extension "x-exportParamName".
@@ -282,18 +252,14 @@ public class GoClientCodegen extends AbstractGoCodegen {
      */
     @Override
     public void postProcessParameter(CodegenParameter parameter){
-
         // Give the base class a chance to process
         super.postProcessParameter(parameter);
-
         char firstChar = parameter.paramName.charAt(0);
-
         if (Character.isUpperCase(firstChar)) {
             // First char is already uppercase, just use paramName.
             parameter.vendorExtensions.put("x-exportParamName", parameter.paramName);
 
         }
-
         // It's a lowercase first char, let's convert it to uppercase
         StringBuilder sb = new StringBuilder(parameter.paramName);
         sb.setCharAt(0, Character.toUpperCase(firstChar));
@@ -322,34 +288,29 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     @Override
-    public String getTypeDeclaration(Schema p) {
-        if(ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+    public String getTypeDeclaration(Schema s) {
+        if(ModelUtils.isArraySchema(s)) {
+            ArraySchema arraySchema = (ArraySchema) s;
+            Schema inner = arraySchema.getItems();
             return "[]" + getTypeDeclaration(inner);
-        }
-        else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
-
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(inner);
+        } else if (ModelUtils.isMapSchema(s)) {
+            MapSchema mapSchema = (MapSchema) s;
+            Schema inner = (Schema) mapSchema.getAdditionalProperties();
+            return getSchemaType(s) + "[string]" + getTypeDeclaration(inner);
         }
         //return super.getTypeDeclaration(p);
-
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
-        String swaggerType = getSchemaType(p);
+        String swaggerType = getSchemaType(s);
         if (typeMapping.containsKey(swaggerType)) {
             return typeMapping.get(swaggerType);
         }
-
         if(typeMapping.containsValue(swaggerType)) {
             return swaggerType;
         }
-
         if(languageSpecificPrimitives.contains(swaggerType)) {
             return swaggerType;
         }
-
         return toModelName(swaggerType);
     }
 
@@ -374,7 +335,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
-
         return camelize(operationId);
     }
 
@@ -388,17 +348,17 @@ public class GoClientCodegen extends AbstractGoCodegen {
             // http method verb conversion (e.g. PUT => Put)
             operation.httpMethod = camelize(operation.httpMethod.toLowerCase());
         }
-
         // remove model imports to avoid error
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        if (imports == null)
+        if (imports == null) {
             return objs;
-
+        }
         Iterator<Map<String, String>> iterator = imports.iterator();
         while (iterator.hasNext()) {
             String _import = iterator.next().get("import");
-            if (_import.startsWith(apiPackage()))
+            if (_import.startsWith(apiPackage())) {
                 iterator.remove();
+            }
         }
         // if the return type is not primitive, import encoding/json
         for (CodegenOperation operation : operations) {
@@ -409,12 +369,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 break; //just need to import once
             }
         }
-
         // recursivly add import for mapping one type to multipe imports
         List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
-        if (recursiveImports == null)
+        if (recursiveImports == null) {
             return objs;
-
+        }
         ListIterator<Map<String, String>> listIterator = imports.listIterator();
         while (listIterator.hasNext()) {
             String _import = listIterator.next().get("import");
@@ -426,7 +385,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 listIterator.add(newImportMap);
             }
         }
-
         return objs;
     }
 
@@ -438,15 +396,15 @@ public class GoClientCodegen extends AbstractGoCodegen {
         Iterator<Map<String, String>> iterator = imports.iterator();
         while (iterator.hasNext()) {
             String _import = iterator.next().get("import");
-            if (_import.startsWith(prefix))
+            if (_import.startsWith(prefix)) {
                 iterator.remove();
+            }
         }
-
         // recursivly add import for mapping one type to multipe imports
         List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
-        if (recursiveImports == null)
+        if (recursiveImports == null) {
             return objs;
-
+        }
         ListIterator<Map<String, String>> listIterator = imports.listIterator();
         while (listIterator.hasNext()) {
             String _import = listIterator.next().get("import");
@@ -458,7 +416,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 listIterator.add(newImportMap);
             }
         }
-
         return objs;
     }
 
