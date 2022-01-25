@@ -145,7 +145,6 @@ export class RequestContext {
     public setHeaderParam(key: string, value: string): void  {
         this.headers[key] = value;
     }
-
 }
 
 export interface ResponseBody {

@@ -125,7 +125,7 @@ export class RequestContext {
     public setHeaderParam(key: string, value: string): void  {
         this.headers[key] = value;
     }
-
+    
     public setAgent(agent: http.Agent | https.Agent) {
         this.agent = agent;
     }
