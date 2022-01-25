@@ -10,16 +10,22 @@
 package petstoreserver
 
 import (
+    "net/http"
 	"reflect"
 )
 
-// Response return a ImplResponse struct filled
-func Response(code int, body interface{}) ImplResponse {
-	return ImplResponse {
+// Response returns a ImplResponse struct filled
+func Response(code int, body interface{}, opts ...ResponseOpt) ImplResponse {
+	res := ImplResponse {
 		Code: code,
-		Headers: nil,
 		Body: body,
 	}
+
+	for _, f := range opts {
+		f(&res)
+	}
+
+	return res
 }
 
 // ResponseWithHeaders return a ImplResponse struct filled, including headers
@@ -30,6 +36,34 @@ func ResponseWithHeaders(code int, headers map[string][]string, body interface{}
 		Body: body,
 	}
 }
+
+type ResponseOpt func(r *ImplResponse)
+
+// WithCookie adds a cookie to the response.
+func WithCookie(c *http.Cookie) ResponseOpt {
+	return func(r *ImplResponse) {
+		r.Cookies = append(r.Cookies, c)
+	}
+}
+
+// WithHeader sets a header in the response.
+func WithHeader(name, value string) ResponseOpt {
+	return func(r *ImplResponse) {
+		if r.Headers == nil {
+			r.Headers = make(map[string][]string)
+		}
+		r.Headers[name] = []string{value}
+	}
+}
+
+// WithAddedHeader adds a header value to the response.
+func WithAddedHeader(name, value string) ResponseOpt {
+	return func(r *ImplResponse) {
+		if r.Headers == nil {
+			r.Headers = make(map[string][]string)
+		}
+		r.Headers[name] = append(r.Headers[name], value)
+	}
 
 // IsZeroValue checks if the val is the zero-ed value.
 func IsZeroValue(val interface{}) bool {

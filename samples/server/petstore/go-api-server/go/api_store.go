@@ -89,8 +89,7 @@ func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // GetInventory - Returns pet inventories by status
@@ -102,8 +101,7 @@ func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // GetOrderById - Find purchase order by ID
@@ -122,8 +120,7 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // PlaceOrder - Place an order for a pet
@@ -146,6 +143,5 @@ func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }

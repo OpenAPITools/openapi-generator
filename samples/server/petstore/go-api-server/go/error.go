@@ -51,12 +51,12 @@ type ErrorHandler func(w http.ResponseWriter, r *http.Request, err error, result
 func DefaultErrorHandler(w http.ResponseWriter, r *http.Request, err error, result *ImplResponse) {
 	if _, ok := err.(*ParsingError); ok {
 		// Handle parsing errors
-		EncodeJSONResponse(err.Error(), func(i int) *int { return &i }(http.StatusBadRequest), map[string][]string{}, w)
+		EncodeJSONImplResponse(w, ImplResponse{Code: http.StatusBadRequest, Headers: map[string][]string{}, Cookies: nil, Body: err.Error()})
 	} else if _, ok := err.(*RequiredError); ok {
 		// Handle missing required errors
-		EncodeJSONResponse(err.Error(), func(i int) *int { return &i }(http.StatusUnprocessableEntity), map[string][]string{}, w)
+		EncodeJSONImplResponse(w, ImplResponse{Code: http.StatusUnprocessableEntity, Headers: map[string][]string{}, Cookies: nil, Body: err.Error()})
 	} else {
 		// Handle all other errors
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		EncodeJSONImplResponse(w, ImplResponse{Code: result.Code, Headers: map[string][]string{}, Cookies: nil, Body: err.Error()})
 	}
 }

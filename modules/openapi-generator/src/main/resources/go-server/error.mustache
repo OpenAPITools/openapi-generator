@@ -43,12 +43,12 @@ type ErrorHandler func(w http.ResponseWriter, r *http.Request, err error, result
 func DefaultErrorHandler(w http.ResponseWriter, r *http.Request, err error, result *ImplResponse) {
 	if _, ok := err.(*ParsingError); ok {
 		// Handle parsing errors
-		EncodeJSONResponse(err.Error(), func(i int) *int { return &i }(http.StatusBadRequest),{{#addResponseHeaders}} map[string][]string{},{{/addResponseHeaders}} w)
+		EncodeJSONImplResponse(w, ImplResponse{Code: http.StatusBadRequest,{{#addResponseHeaders}} Headers: map[string][]string{},{{/addResponseHeaders}} Cookies: nil, Body: err.Error()})
 	} else if _, ok := err.(*RequiredError); ok {
 		// Handle missing required errors
-		EncodeJSONResponse(err.Error(), func(i int) *int { return &i }(http.StatusUnprocessableEntity),{{#addResponseHeaders}} map[string][]string{},{{/addResponseHeaders}} w)
+		EncodeJSONImplResponse(w, ImplResponse{Code: http.StatusUnprocessableEntity,{{#addResponseHeaders}} Headers: map[string][]string{},{{/addResponseHeaders}} Cookies: nil, Body: err.Error()})
 	} else {
 		// Handle all other errors
-		EncodeJSONResponse(err.Error(), &result.Code,{{#addResponseHeaders}} result.Headers,{{/addResponseHeaders}} w)
+		EncodeJSONImplResponse(w, ImplResponse{Code: result.Code,{{#addResponseHeaders}} Headers: map[string][]string{},{{/addResponseHeaders}} Cookies: nil, Body: err.Error()})
 	}
 }

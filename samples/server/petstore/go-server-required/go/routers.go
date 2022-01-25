@@ -55,7 +55,9 @@ func NewRouter(routers ...Router) chi.Router {
 	return router
 }
 
-// EncodeJSONResponse uses the json encoder to write an interface to the http response with an optional status code
+// EncodeJSONResponse uses the json encoder to write an interface to the http response with an optional status code.
+//
+// Deprecated: Use EncodeJSONImplResponse instead.
 func EncodeJSONResponse(i interface{}, status *int, headers map[string][]string, w http.ResponseWriter) error {
 	wHeader := w.Header()
 	if headers != nil {
@@ -73,6 +75,31 @@ func EncodeJSONResponse(i interface{}, status *int, headers map[string][]string,
 	}
 
 	return json.NewEncoder(w).Encode(i)
+}
+
+// EncodeJSONImplResponse writes the ImplResponse to the http.ResponseWriter as JSON.
+func EncodeJSONImplResponse(w http.ResponseWriter, impl ImplResponse) error {
+	hs := w.Header()
+	if impl.Headers != nil {
+		for key, values := range impl.Headers {
+			for _, value := range values {
+				hs.Add(key, value)
+			}
+		}
+	}
+	hs.Set("Content-Type", "application/json; charset=UTF-8")
+
+	for _, c := range impl.Cookies {
+		http.SetCookie(w, c)
+	}
+
+	if impl.Code != 0 {
+		w.WriteHeader(impl.Code)
+	} else {
+		w.WriteHeader(http.StatusOK)
+	}
+
+	return json.NewEncoder(w).Encode(impl.Body)
 }
 
 // ReadFormFileToTempFile reads file data from a request form and writes it to a temporary file

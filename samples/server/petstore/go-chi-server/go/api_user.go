@@ -121,8 +121,7 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
@@ -147,8 +146,7 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
@@ -173,8 +171,7 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // DeleteUser - Delete user
@@ -188,8 +185,7 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // GetUserByName - Get user by user name
@@ -203,8 +199,7 @@ func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // LoginUser - Logs user into the system
@@ -219,8 +214,7 @@ func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // LogoutUser - Logs out current logged in user session
@@ -232,8 +226,7 @@ func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // UpdateUser - Updated user
@@ -258,6 +251,5 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
