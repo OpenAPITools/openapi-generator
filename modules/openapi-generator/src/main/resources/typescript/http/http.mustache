@@ -3,6 +3,8 @@
 // TODO: evaluate if we can easily get rid of this library
 import * as FormData from "form-data";
 import { URLSearchParams } from 'url';
+import * as http from 'http';
+import * as https from 'https';
 {{/node}}
 {{/platforms}}
 {{#platforms}}
@@ -13,8 +15,6 @@ import * as URLParse from "url-parse";
 {{/deno}}
 {{/platforms}}
 import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
-import * as http from 'http';
-import * as https from 'https';
 
 {{#platforms}}
 {{^deno}}
@@ -115,7 +115,11 @@ export class RequestContext {
     private headers: { [key: string]: string } = {};
     private body: RequestBody = undefined;
     private url: URLParse;
+    {{#platforms}}
+    {{#node}}
     private agent: http.Agent | https.Agent | undefined = undefined;
+    {{/node}}
+    {{/platforms}}
 
     /**
      * Creates the request context using a http method and request resource url
@@ -189,6 +193,8 @@ export class RequestContext {
         this.headers[key] = value;
     }
 
+    {{#platforms}}
+    {{#node}}
     public setAgent(agent: http.Agent | https.Agent) {
         this.agent = agent;
     }
@@ -196,6 +202,8 @@ export class RequestContext {
     public getAgent(): http.Agent | https.Agent | undefined {
         return this.agent;
     }
+    {{#node}}
+    {{#platforms}}
 }
 
 export interface ResponseBody {
