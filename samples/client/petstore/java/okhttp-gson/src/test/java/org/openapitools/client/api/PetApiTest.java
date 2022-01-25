@@ -35,14 +35,11 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.model.*;
 import org.openapitools.client.model.Pet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** API tests for PetApi */
 public class PetApiTest {
 
     private PetApi api = new PetApi();
-    private final Logger LOG = LoggerFactory.getLogger(PetApiTest.class);
     // In the circle.yml file, /etc/host is configured with an entry to resolve petstore.swagger.io
     // to 127.0.0.1
     private static String basePath = "http://petstore.swagger.io:80/v2";
@@ -379,7 +376,6 @@ public class PetApiTest {
             fetched = api.getPetById(fetched.getId());
             fail("expected an error");
         } catch (ApiException e) {
-            LOG.info("Code: {}. Message: {}", e.getCode(), e.getMessage());
             assertEquals(404, e.getCode());
         }
     }

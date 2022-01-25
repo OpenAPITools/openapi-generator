@@ -50,10 +50,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.openapitools.client.auth.Authentication;
-import org.openapitools.client.auth.HttpBasicAuth;
-import org.openapitools.client.auth.HttpBearerAuth;
-import org.openapitools.client.auth.ApiKeyAuth;
+import org.openapitools.client.auth.*;
 
 /**
  * <p>ApiClient class.</p>
@@ -570,7 +567,6 @@ public class ApiClient {
         httpClient = httpClient.newBuilder().writeTimeout(writeTimeout, TimeUnit.MILLISECONDS).build();
         return this;
     }
-
 
     /**
      * Format the given parameter object into string.

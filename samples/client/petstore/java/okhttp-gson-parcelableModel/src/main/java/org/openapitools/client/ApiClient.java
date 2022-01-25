@@ -24,8 +24,6 @@ import okio.Okio;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
-import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
-import org.apache.oltu.oauth2.common.message.types.GrantType;
 
 import javax.net.ssl.*;
 import java.io.File;
@@ -52,13 +50,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.openapitools.client.auth.Authentication;
-import org.openapitools.client.auth.HttpBasicAuth;
-import org.openapitools.client.auth.HttpBearerAuth;
-import org.openapitools.client.auth.ApiKeyAuth;
-import org.openapitools.client.auth.OAuth;
-import org.openapitools.client.auth.RetryingOAuth;
-import org.openapitools.client.auth.OAuthFlow;
+import org.openapitools.client.auth.*;
 
 /**
  * <p>ApiClient class.</p>
@@ -153,35 +145,36 @@ public class ApiClient {
     }
 
     /**
-     * Constructor for ApiClient to support access token retry on 401/403 configured with base path, client ID, secret, and additional parameters
-     *
-     * @param basePath base path
-     * @param clientId client ID
-     * @param clientSecret client secret
-     * @param parameters a {@link java.util.Map} of parameters
+     * * Constructor for ApiClient configured with base path, client ID, secret, and additional parameters
      */
     public ApiClient(String basePath, String clientId, String clientSecret, Map<String, String> parameters) {
+        this(basePath, clientId, clientSecret, null, null, parameters);
+    }
+
+    /*
+     * Constructor for ApiClient to support access token retry on 401/403 configured with base path, client ID, secret, and additional parameters
+     */
+    public ApiClient(String basePath, String clientId, String clientSecret, String scope, String callbackUrl, Map<String, String> parameters) {
         init();
         if (basePath != null) {
             this.basePath = basePath;
         }
 
-        String tokenUrl = "";
-        if (!"".equals(tokenUrl) && !URI.create(tokenUrl).isAbsolute()) {
-            URI uri = URI.create(getBasePath());
-            tokenUrl = uri.getScheme() + ":" +
-                (uri.getAuthority() != null ? "//" + uri.getAuthority() : "") +
-                tokenUrl;
-            if (!URI.create(tokenUrl).isAbsolute()) {
-                throw new IllegalArgumentException("OAuth2 token URL must be an absolute URL");
-            }
+        initHttpClient();
+
+        switch(OAuthFlow.implicit) {
+            case accessCode:
+                authentications.put("petstore_auth", new OAuthAuthorizationCodeGrant(clientId, clientSecret, scope, getAuthorizationUrl(), getTokenUrl(), callbackUrl, getRefreshUrl(), parameters, this.httpClient));
+                break;
+            case password:
+                authentications.put("petstore_auth", new OAuthPasswordGrant(clientId, clientSecret, scope, getTokenUrl(), getRefreshUrl(), this.httpClient));
+                break;
+            case application:
+                authentications.put("petstore_auth", new OAuthClientCredentialsGrant(clientId, clientSecret, scope, getTokenUrl(), this.httpClient));
+                break;
+            default:
+                throw new IllegalArgumentException("OAuth flow not implemented");
         }
-        RetryingOAuth retryingOAuth = new RetryingOAuth(tokenUrl, clientId, OAuthFlow.implicit, clientSecret, parameters);
-        authentications.put(
-                "petstore_auth",
-                retryingOAuth
-        );
-        initHttpClient(Collections.<Interceptor>singletonList(retryingOAuth));
         // Setup authentications (key: authentication name, value: authentication).
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
@@ -190,6 +183,45 @@ public class ApiClient {
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
+
+        private String getTokenUrl() {
+            try {
+                return getAbsoluteUrl("");
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("OAuth2 token URL must be an absolute URL");
+            }
+        }
+
+        private String getAuthorizationUrl() {
+            try {
+                return getAbsoluteUrl("http://petstore.swagger.io/api/oauth/dialog");
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("OAuth2 authorization URL must be an absolute URL");
+            }
+        }
+
+        private String getRefreshUrl() {
+            try {
+                return getAbsoluteUrl("");
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("OAuth2 authorization URL must be an absolute URL");
+            }
+        }
+
+        private String getAbsoluteUrl(String url) throws IllegalArgumentException {
+            if (!"".equals(url) && !URI.create(url).isAbsolute()) {
+                URI uri = URI.create(getBasePath());
+                String absoluteUrl = uri.getScheme() + ":" +
+                        (uri.getAuthority() != null ? "//" + uri.getAuthority() : "") +
+                        url;
+                if (!URI.create(absoluteUrl).isAbsolute()) {
+                    throw new IllegalArgumentException("Unable to obtain an absolute URL");
+                }
+                return absoluteUrl;
+            } else {
+                return url;
+            }
+        }
 
     private void initHttpClient() {
         initHttpClient(Collections.<Interceptor>emptyList());
@@ -657,21 +689,6 @@ public class ApiClient {
     public ApiClient setWriteTimeout(int writeTimeout) {
         httpClient = httpClient.newBuilder().writeTimeout(writeTimeout, TimeUnit.MILLISECONDS).build();
         return this;
-    }
-
-    /**
-     * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
-     *
-     * @return Token request builder
-     */
-    public TokenRequestBuilder getTokenEndPoint() {
-        for (Authentication apiAuth : authentications.values()) {
-            if (apiAuth instanceof RetryingOAuth) {
-                RetryingOAuth retryingOAuth = (RetryingOAuth) apiAuth;
-                return retryingOAuth.getTokenRequestBuilder();
-            }
-        }
-        return null;
     }
 
     /**
