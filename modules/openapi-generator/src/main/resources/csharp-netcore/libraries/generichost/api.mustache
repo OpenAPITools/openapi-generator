@@ -256,11 +256,11 @@ namespace {{packageName}}.{{apiPackage}}
                     request.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));{{/required}}{{^required}}
                     
                     if ({{paramName}} != null)
-                        request.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));{{/required}}{{/headerParams}}
+                        request.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));{{/required}}{{/headerParams}}{{#formParams}}{{#-first}}
 
                     MultipartContent multipartContent = new MultipartContent();
 
-                    request.Content = multipartContent;{{#formParams}}{{#-first}}
+                    request.Content = multipartContent;
                     
                     List<KeyValuePair<string{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}, string{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}>> formParams = new List<KeyValuePair<string{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}, string{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}>>();
 
@@ -275,14 +275,14 @@ namespace {{packageName}}.{{apiPackage}}
                     
                     if ({{paramName}} != null)
                         multipartContent.Add(new StreamContent({{paramName}}));{{/required}}{{/isFile}}{{/formParams}}{{#bodyParam}}
-                        
+                    
                     if (({{paramName}} as object) is System.IO.Stream stream)
                         request.Content = new StreamContent(stream);
                     else
                         request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{paramName}}, ClientUtils.JsonSerializerSettings));{{/bodyParam}}{{#authMethods}}{{#-first}}
 
                     List<TokenBase> tokens = new List<TokenBase>();{{/-first}}{{#isApiKey}}
-                        
+                    
                     ApiKeyToken apiKey = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
                     
                     tokens.Add(apiKey);{{#isKeyInHeader}}
@@ -293,6 +293,8 @@ namespace {{packageName}}.{{apiPackage}}
                     
                     apiKey.UseInCookie(request, parseQueryString, "{{keyParamName}}");{{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}
                     
+                    uriBuilder.Query = parseQueryString.ToString();
+
     {{! below line must be after any UseInQuery calls, but before using the HttpSignatureToken}}
                     request.RequestUri = uriBuilder.Uri;{{#authMethods}}{{#isBasicBasic}}
 
@@ -322,7 +324,7 @@ namespace {{packageName}}.{{apiPackage}}
 
                     signatureToken.UseInHeader(request, requestBody, cancellationToken);{{/isHttpSignature}}{{/authMethods}}{{#consumes}}{{#-first}}
                     
-                    string[] contentTypes = new string[] { 
+                    string[] contentTypes = new string[] {
                         {{/-first}}"{{{mediaType}}}"{{^-last}},
                         {{/-last}}{{#-last}} 
                     };{{/-last}}{{/consumes}}{{#consumes}}{{#-first}}
