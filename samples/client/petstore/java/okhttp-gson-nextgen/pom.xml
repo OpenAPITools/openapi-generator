@@ -156,8 +156,14 @@
                     </execution>
                 </executions>
                 <configuration>
-                                 <failOnWarnings>true</failOnWarnings>
-
+                    <doclint>none</doclint>
+                    <tags>
+                        <tag>
+                            <name>http.response.details</name>
+                            <placement>a</placement>
+                            <head>Http Response Details:</head>
+                        </tag>
+                    </tags>
                 </configuration>
             </plugin>
             <plugin>
