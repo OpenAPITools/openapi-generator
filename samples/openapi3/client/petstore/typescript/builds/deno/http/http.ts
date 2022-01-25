@@ -1,6 +1,4 @@
 import { Observable, from } from '../rxjsStub.ts';
-import * as http from 'http';
-import * as https from 'https';
 
 
 /**
@@ -75,7 +73,6 @@ export class RequestContext {
     private headers: { [key: string]: string } = {};
     private body: RequestBody = undefined;
     private url: URLParse;
-    private agent: http.Agent | https.Agent | undefined = undefined;
 
     /**
      * Creates the request context using a http method and request resource url
@@ -149,13 +146,6 @@ export class RequestContext {
         this.headers[key] = value;
     }
 
-    public setAgent(agent: http.Agent | https.Agent) {
-        this.agent = agent;
-    }
-
-    public getAgent(): http.Agent | https.Agent | undefined {
-        return this.agent;
-    }
 }
 
 export interface ResponseBody {

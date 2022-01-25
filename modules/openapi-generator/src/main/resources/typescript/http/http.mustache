@@ -202,8 +202,8 @@ export class RequestContext {
     public getAgent(): http.Agent | https.Agent | undefined {
         return this.agent;
     }
-    {{#node}}
-    {{#platforms}}
+    {{/node}}
+    {{/platforms}}
 }
 
 export interface ResponseBody {
