@@ -1419,6 +1419,7 @@ testing composed schemas at inline locations
 ```python
 import petstore_api
 from petstore_api.api import fake_api
+from petstore_api.model.unknownbasetype import UNKNOWNBASETYPE
 from petstore_api.model.composition_in_property import CompositionInProperty
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -1439,7 +1440,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         some_prop=,
     ),
     }
-    body = None
+    body = 
     try:
         # testing composed schemas at inline locations
         api_response = api_instance.inline_composition(
@@ -1454,7 +1455,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-body | typing.Union[SchemaForRequestBodyApplicationJson, Unset] | optional, default is unset |
+body | typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyMultipartFormData, Unset] | optional, default is unset |
 query_params | RequestQueryParams | |
 content_type | str | optional, default is 'application/json' | Selects the schema and serialization of the request body
 accept_content_types | typing.Tuple[str] | default is ('application/json', ) | Tells the server the content type(s) that are accepted by the client
@@ -1466,9 +1467,18 @@ skip_deserialization | bool | default is False | when True, headers and body wil
 
 #### SchemaForRequestBodyApplicationJson
 
-Type | Description | Notes
-------------- | ------------- | -------------
-typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+#### Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
+
+#### SchemaForRequestBodyMultipartFormData
+
+#### Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**someProp** | **object** |  | [optional] 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 ### query_params
 #### RequestQueryParams

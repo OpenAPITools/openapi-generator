@@ -1459,7 +1459,16 @@ paths:
       requestBody:
         content:
           application/json:
-            schema: {}
+            schema:
+              allOf:
+                - {}
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                someProp:
+                  allOf:
+                    - {}
       responses:
         200:
           description: success

@@ -57,6 +57,7 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaEnumMaker
 )
 
+from petstore_api.model.unknownbasetype import UNKNOWNBASETYPE
 from petstore_api.model.composition_in_property import CompositionInProperty
 
 # query params
@@ -191,13 +192,113 @@ request_query_composition_in_property = api_client.QueryParameter(
     explode=True,
 )
 # body param
-SchemaForRequestBodyApplicationJson = AnyTypeSchema
 
 
-request_body_body = api_client.RequestBody(
+class SchemaForRequestBodyApplicationJson(
+    ComposedSchema
+):
+
+    @classmethod
+    @property
+    def _composed_schemas(cls):
+        # we need this here to make our import statements work
+        # we must store _composed_schemas in here so the code is only run
+        # when we invoke this method. If we kept this at the class
+        # level we would get an error because the class level
+        # code would be run when this module is imported, and these composed
+        # classes don't exist yet because their module has not finished
+        # loading
+        allOf_0 = AnyTypeSchema
+        return {
+            'allOf': [
+                allOf_0,
+            ],
+            'oneOf': [
+            ],
+            'anyOf': [
+            ],
+        }
+
+    def __new__(
+        cls,
+        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        **kwargs: typing.Type[Schema],
+    ) -> 'SchemaForRequestBodyApplicationJson':
+        return super().__new__(
+            cls,
+            *args,
+            _instantiation_metadata=_instantiation_metadata,
+            **kwargs,
+        )
+
+
+class SchemaForRequestBodyMultipartFormData(
+    DictSchema
+):
+    
+    
+    class someProp(
+        ComposedSchema
+    ):
+    
+        @classmethod
+        @property
+        def _composed_schemas(cls):
+            # we need this here to make our import statements work
+            # we must store _composed_schemas in here so the code is only run
+            # when we invoke this method. If we kept this at the class
+            # level we would get an error because the class level
+            # code would be run when this module is imported, and these composed
+            # classes don't exist yet because their module has not finished
+            # loading
+            allOf_0 = AnyTypeSchema
+            return {
+                'allOf': [
+                    allOf_0,
+                ],
+                'oneOf': [
+                ],
+                'anyOf': [
+                ],
+            }
+    
+        def __new__(
+            cls,
+            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            **kwargs: typing.Type[Schema],
+        ) -> 'someProp':
+            return super().__new__(
+                cls,
+                *args,
+                _instantiation_metadata=_instantiation_metadata,
+                **kwargs,
+            )
+
+
+    def __new__(
+        cls,
+        *args: typing.Union[dict, frozendict, ],
+        someProp: typing.Union[someProp, Unset] = unset,
+        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        **kwargs: typing.Type[Schema],
+    ) -> 'SchemaForRequestBodyMultipartFormData':
+        return super().__new__(
+            cls,
+            *args,
+            someProp=someProp,
+            _instantiation_metadata=_instantiation_metadata,
+            **kwargs,
+        )
+
+
+request_body_unknown_base_type = api_client.RequestBody(
     content={
         'application/json': api_client.MediaType(
             schema=SchemaForRequestBodyApplicationJson),
+        'multipart/form-data': api_client.MediaType(
+            schema=SchemaForRequestBodyMultipartFormData),
     },
 )
 _path = '/fake/inlineComposition/'
@@ -233,7 +334,7 @@ class InlineComposition(api_client.Api):
 
     def inline_composition(
         self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, Unset] = unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson, SchemaForRequestBodyMultipartFormData, Unset] = unset,
         query_params: RequestQueryParams = frozendict(),
         content_type: str = 'application/json',
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -272,7 +373,7 @@ class InlineComposition(api_client.Api):
         _fields = None
         _body = None
         if body is not unset:
-            serialized_data = request_body_body.serialize(body, content_type)
+            serialized_data = request_body_unknown_base_type.serialize(body, content_type)
             _headers.add('Content-Type', content_type)
             if 'fields' in serialized_data:
                 _fields = serialized_data['fields']
