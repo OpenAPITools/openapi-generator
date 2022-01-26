@@ -223,6 +223,7 @@ Class | Method | HTTP request | Description
  - [ObjectModelWithRefProps](docs/ObjectModelWithRefProps.md)
  - [ObjectWithDecimalProperties](docs/ObjectWithDecimalProperties.md)
  - [ObjectWithDifficultlyNamedProps](docs/ObjectWithDifficultlyNamedProps.md)
+ - [ObjectWithInlineCompositionProperty](docs/ObjectWithInlineCompositionProperty.md)
  - [ObjectWithValidations](docs/ObjectWithValidations.md)
  - [Order](docs/Order.md)
  - [ParentPet](docs/ParentPet.md)

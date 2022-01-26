@@ -2682,3 +2682,9 @@ components:
           format: number
         cost:
           $ref: '#/components/schemas/Money'
+    ObjectWithInlineCompositionProperty:
+      type: object
+      properties:
+        someProp:
+          allOf:
+            - {}
