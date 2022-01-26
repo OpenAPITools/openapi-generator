@@ -13,32 +13,35 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-
-
-@JsonTypeName("$special[model.name]")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class SpecialModelName  implements Serializable {
+/**
+ * Must be named &#x60;File&#x60; for test.
+ **/
+@ApiModel(description = "Must be named `File` for test.")
+@JsonTypeName("File")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ModelFile  implements Serializable {
   
-  private @Valid Long $specialPropertyName;
+  private @Valid String sourceURI;
 
   /**
+   * Test capitalization
    **/
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+  public ModelFile sourceURI(String sourceURI) {
+    this.sourceURI = sourceURI;
     return this;
   }
 
   
 
   
-  @ApiModelProperty(value = "")
-  @JsonProperty("$special[property.name]")
-  public Long get$SpecialPropertyName() {
-    return $specialPropertyName;
+  @ApiModelProperty(value = "Test capitalization")
+  @JsonProperty("sourceURI")
+  public String getSourceURI() {
+    return sourceURI;
   }
 
-  @JsonProperty("$special[property.name]")
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+  @JsonProperty("sourceURI")
+  public void setSourceURI(String sourceURI) {
+    this.sourceURI = sourceURI;
   }
 
 
@@ -50,21 +53,21 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelName $specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
+    ModelFile _file = (ModelFile) o;
+    return Objects.equals(this.sourceURI, _file.sourceURI);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash($specialPropertyName);
+    return Objects.hash(sourceURI);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SpecialModelName {\n");
+    sb.append("class ModelFile {\n");
     
-    sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
+    sb.append("    sourceURI: ").append(toIndentedString(sourceURI)).append("\n");
     sb.append("}");
     return sb.toString();
   }

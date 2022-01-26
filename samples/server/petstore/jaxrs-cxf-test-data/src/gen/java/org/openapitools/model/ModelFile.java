@@ -10,35 +10,38 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 /**
- * Model for testing reserved words
+ * Must be named `File` for test.
  */
-@ApiModel(description="Model for testing reserved words")
+@ApiModel(description="Must be named `File` for test.")
 
-public class ModelReturn  {
+public class ModelFile  {
   
-  @ApiModelProperty(value = "")
-  private Integer _return;
  /**
-  * Get _return
-  * @return _return
+  * Test capitalization
   */
-  @JsonProperty("return")
-  public Integer getReturn() {
-    return _return;
+  @ApiModelProperty(value = "Test capitalization")
+  private String sourceURI;
+ /**
+  * Test capitalization
+  * @return sourceURI
+  */
+  @JsonProperty("sourceURI")
+  public String getSourceURI() {
+    return sourceURI;
   }
 
   /**
-   * Sets the <code>_return</code> property.
+   * Sets the <code>sourceURI</code> property.
    */
- public void setReturn(Integer _return) {
-    this._return = _return;
+ public void setSourceURI(String sourceURI) {
+    this.sourceURI = sourceURI;
   }
 
   /**
-   * Sets the <code>_return</code> property.
+   * Sets the <code>sourceURI</code> property.
    */
-  public ModelReturn _return(Integer _return) {
-    this._return = _return;
+  public ModelFile sourceURI(String sourceURI) {
+    this.sourceURI = sourceURI;
     return this;
   }
 
@@ -46,9 +49,9 @@ public class ModelReturn  {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ModelReturn {\n");
+    sb.append("class ModelFile {\n");
     
-    sb.append("    _return: ").append(toIndentedString(_return)).append("\n");
+    sb.append("    sourceURI: ").append(toIndentedString(sourceURI)).append("\n");
     sb.append("}");
     return sb.toString();
   }
