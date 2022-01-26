@@ -60,7 +60,7 @@ namespace {{modelPackage}}
         public {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
         {{^isEnum}}
-        public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
+        public {{{dataType}}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
         {{^-last}}
 
