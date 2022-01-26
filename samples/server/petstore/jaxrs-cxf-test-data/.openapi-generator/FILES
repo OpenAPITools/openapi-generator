@@ -64,7 +64,6 @@ src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java
 src/main/java/org/openapitools/api/impl/StoreApiServiceImpl.java
 src/main/java/org/openapitools/api/impl/UserApiServiceImpl.java
 src/main/resources/ApplicationContext.xml
-src/main/resources/test-data.json
 src/main/webapp/WEB-INF/context.xml
 src/main/webapp/WEB-INF/web.xml
 src/test/java/org/openapitools/api/SpringBootApplication.java
