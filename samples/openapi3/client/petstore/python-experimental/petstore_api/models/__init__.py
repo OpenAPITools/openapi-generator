@@ -49,6 +49,7 @@ from petstore_api.model.composed_number import ComposedNumber
 from petstore_api.model.composed_object import ComposedObject
 from petstore_api.model.composed_one_of_different_types import ComposedOneOfDifferentTypes
 from petstore_api.model.composed_string import ComposedString
+from petstore_api.model.composition_in_property import CompositionInProperty
 from petstore_api.model.currency import Currency
 from petstore_api.model.danish_pig import DanishPig
 from petstore_api.model.date_time_test import DateTimeTest
