@@ -31,7 +31,7 @@
         <version.mockito>2.1.0-beta.124</version.mockito>
         <version.undertow>1.4.0.Final</version.undertow>
         <version.jsonpath>2.2.0</version.jsonpath>
-        <version.httpclient>4.5.2</version.httpclient>
+        <version.httpclient>4.5.13</version.httpclient>
         <version.httpasyncclient>4.1.2</version.httpasyncclient>
         <version.swagger>1.5.10</version.swagger>
     </properties>
