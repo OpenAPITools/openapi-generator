@@ -15,15 +15,15 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@JsonTypeName("$special[model.name]")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class SpecialModelName  implements Serializable {
+@JsonTypeName("List")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ModelList  implements Serializable {
   
-  private @Valid Long $specialPropertyName;
+  private @Valid String _123list;
 
   /**
    **/
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+  public ModelList _123list(String _123list) {
+    this._123list = _123list;
     return this;
   }
 
@@ -31,14 +31,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   
   @ApiModelProperty(value = "")
-  @JsonProperty("$special[property.name]")
-  public Long get$SpecialPropertyName() {
-    return $specialPropertyName;
+  @JsonProperty("123-list")
+  public String get123list() {
+    return _123list;
   }
 
-  @JsonProperty("$special[property.name]")
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+  @JsonProperty("123-list")
+  public void set123list(String _123list) {
+    this._123list = _123list;
   }
 
 
@@ -50,21 +50,21 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelName $specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
+    ModelList _list = (ModelList) o;
+    return Objects.equals(this._123list, _list._123list);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash($specialPropertyName);
+    return Objects.hash(_123list);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SpecialModelName {\n");
+    sb.append("class ModelList {\n");
     
-    sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
+    sb.append("    _123list: ").append(toIndentedString(_123list)).append("\n");
     sb.append("}");
     return sb.toString();
   }

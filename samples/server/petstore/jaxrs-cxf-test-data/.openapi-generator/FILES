@@ -40,6 +40,8 @@ src/gen/java/org/openapitools/model/MapTest.java
 src/gen/java/org/openapitools/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/gen/java/org/openapitools/model/Model200Response.java
 src/gen/java/org/openapitools/model/ModelApiResponse.java
+src/gen/java/org/openapitools/model/ModelFile.java
+src/gen/java/org/openapitools/model/ModelList.java
 src/gen/java/org/openapitools/model/ModelReturn.java
 src/gen/java/org/openapitools/model/Name.java
 src/gen/java/org/openapitools/model/NumberOnly.java
@@ -62,6 +64,7 @@ src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java
 src/main/java/org/openapitools/api/impl/StoreApiServiceImpl.java
 src/main/java/org/openapitools/api/impl/UserApiServiceImpl.java
 src/main/resources/ApplicationContext.xml
+src/main/resources/test-data.json
 src/main/webapp/WEB-INF/context.xml
 src/main/webapp/WEB-INF/web.xml
 src/test/java/org/openapitools/api/SpringBootApplication.java
