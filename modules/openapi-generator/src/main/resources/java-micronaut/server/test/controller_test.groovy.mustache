@@ -1,0 +1,185 @@
+package {{package}}
+
+{{#imports}}
+import {{import}}
+{{/imports}}
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import io.micronaut.http.client.HttpClient
+import io.micronaut.http.client.annotation.Client
+import io.micronaut.runtime.server.EmbeddedServer
+import io.micronaut.http.HttpStatus
+import io.micronaut.http.HttpRequest
+import io.micronaut.http.MutableHttpRequest;
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.MediaType
+import io.micronaut.http.uri.UriTemplate
+import io.micronaut.http.cookie.Cookie
+import io.micronaut.http.client.multipart.MultipartBody
+import io.micronaut.core.type.Argument
+import jakarta.inject.Inject
+import spock.lang.Specification
+import spock.lang.Ignore
+import reactor.core.publisher.Mono
+import java.io.File
+import java.io.FileReader
+
+
+/**
+ * Controller tests for {{classname}}
+ */
+@MicronautTest
+class {{classname}}Spec extends Specification {
+
+    @Inject
+    EmbeddedServer server
+
+    @Inject
+    @Client('${context-path}')
+    HttpClient client
+
+    @Inject
+    {{classname}} controller
+
+    {{#operations}}
+    {{#operation}}
+    /**
+     * This test is used to validate the implementation of {{operationId}}() method
+     *
+     * The method should: {{summary}}
+     {{#notes}}
+     *
+     * {{notes}}
+     {{/notes}}
+     *
+     * TODO fill in the parameters and test return value.
+     */
+        {{^generateControllerFromExamples}}
+    @Ignore("Not Implemented")
+        {{/generateControllerFromExamples}}
+    def '{{operationId}}() method test'() {
+        given:
+        {{#allParams}}
+        {{{dataType}}} {{paramName}} = {{{vendorExtensions.groovyExample}}}
+        {{/allParams}}
+
+        when:
+        {{#returnType}}{{{returnType}}} result = {{/returnType}}controller.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).block()
+
+        then:
+        {{^generateControllerFromExamples}}
+        true
+        {{/generateControllerFromExamples}}
+        {{#generateControllerFromExamples}}
+            {{^returnType}}
+        true
+            {{/returnType}}
+            {{#returnType}}
+        result == {{{vendorExtensions.groovyExample}}}
+            {{/returnType}}
+        {{/generateControllerFromExamples}}
+    }
+
+    /**
+     * This test is used to check that the api available to client through
+     * '{{{path}}}' to the features of {{operationId}}() works as desired.
+     *
+     * TODO fill in the request parameters and test response.
+     */
+        {{^generateControllerFromExamples}}
+    @Ignore("Not Implemented")
+        {{/generateControllerFromExamples}}
+    def '{{operationId}}() test with client through path {{{path}}}'() {
+        given:
+        {{!Create the body}}
+        {{#bodyParam}}
+        {{{dataType}}} body = {{{vendorExtensions.groovyExample}}}
+        {{/bodyParam}}
+        {{#formParams.0}}
+        var form = [
+            // Fill in the body form parameters
+            {{#formParams}}
+                {{^isFile}}
+            '{{{baseName}}}': {{{vendorExtensions.groovyExample}}}{{^-last}},{{/-last}}
+                {{/isFile}}
+                {{#isFile}}
+            '{{{baseName}}}': new FileReader(File.createTempFile('test', '.tmp')){{^-last}},{{/-last}}
+                {{/isFile}}
+            {{/formParams}}
+        ]
+        {{/formParams.0}}
+        {{#isMultipart}}
+            {{^formParams}}
+        var body = MultipartBody.builder() // Create multipart body
+                {{#bodyParams}}
+                    {{^isFile}}
+            .addPart('{{{baseName}}}', {{{vendorExtensions.groovyExample}}}{{^isString}}.toString(){{/isString}})
+                    {{/isFile}}
+                    {{#isFile}}
+                        {{#contentType}}
+            .addPart('{{{baseName}}}', 'filename', MediaType.of('{{{contentType}}}'), File.createTempFile('test', '.tmp'))
+                        {{/contentType}}
+                        {{^contentType}}
+            .addPart('{{{baseName}}}', 'filename', File.createTempFile('test', '.tmp'))
+                        {{/contentType}}
+                    {{/isFile}}
+                {{/bodyParams}}
+            .build()
+            {{/formParams}}
+        {{/isMultipart}}
+        {{!Create the uri with path variables}}
+        var uri = UriTemplate.of('{{{path}}}').expand({{^pathParams}}[:]{{/pathParams}}{{#pathParams.0}}[
+            // Fill in the path variables
+        {{#pathParams}}
+            '{{{baseName}}}': {{{vendorExtensions.groovyExample}}}{{^-last}},{{/-last}}
+        {{/pathParams}}
+        ]{{/pathParams.0}})
+        {{!Create the request with body and uri}}
+        MutableHttpRequest request = HttpRequest.{{httpMethod}}{{#vendorExtensions.methodAllowsBody}}{{#bodyParam}}(uri, body){{/bodyParam}}{{#isMultipart}}{{^formParams}}(uri, body){{/formParams}}{{/isMultipart}}{{#formParams.0}}(uri, form){{/formParams.0}}{{^bodyParam}}{{^isMultipart}}{{^formParams}}(uri, null){{/formParams}}{{/isMultipart}}{{/bodyParam}}{{/vendorExtensions.methodAllowsBody}}{{^vendorExtensions.methodAllowsBody}}(uri){{/vendorExtensions.methodAllowsBody}}
+        {{!Fill in all the request parameters}}
+        {{#vendorExtensions.x-contentType}}
+            .contentType('{{vendorExtensions.x-contentType}}')
+        {{/vendorExtensions.x-contentType}}
+        {{#vendorExtensions.x-accepts}}
+            .accept('{{vendorExtensions.x-accepts}}')
+        {{/vendorExtensions.x-accepts}}
+        {{#headerParams}}
+            .header('{{{baseName}}}', {{{vendorExtensions.groovyExample}}}{{^isString}}.toString(){{/isString}})
+        {{/headerParams}}
+        {{#cookieParams}}
+            .cookie(Cookie.of('{{{baseName}}}', {{{vendorExtensions.groovyExample}}}))
+        {{/cookieParams}}
+        {{!Fill in the query parameters}}
+        {{#queryParams.0}}
+        request.getParameters()
+            {{#queryParams}}
+                {{#isCollectionFormatMulti}}
+            .add('{{{baseName}}}', {{{vendorExtensions.groovyExample}}}) // The query format should be multi
+                {{/isCollectionFormatMulti}}
+                {{#isDeepObject}}
+            .add('{{{baseName}}}[property]', 'value') // The query format should be deep-object
+                {{/isDeepObject}}
+                {{^isCollectionFormatMulti}}
+                    {{^isDeepObject}}
+            .add('{{{baseName}}}', {{{vendorExtensions.groovyExample}}}{{^isString}}.toString(){{/isString}}){{#collectionFormat}} // The query parameter format should be {{collectionFormat}}{{/collectionFormat}}
+                    {{/isDeepObject}}
+                {{/isCollectionFormatMulti}}
+            {{/queryParams}}
+        {{/queryParams.0}}
+
+        when:
+        HttpResponse response = client.toBlocking().exchange(request{{#returnType}}, {{#returnContainer}}Argument.of({{#isArray}}List{{/isArray}}{{#isMap}}Map{{/isMap}}.class, {{#isMap}}String.class, {{/isMap}}{{{returnBaseType}}}.class){{/returnContainer}}{{^returnContainer}}{{{returnType}}}.class{{/returnContainer}}{{/returnType}});{{^returnType}} // To retrieve body you must specify required type (e.g. Map.class) as second argument {{/returnType}}
+
+        then:
+        response.status() == HttpStatus.OK
+        {{#generateControllerFromExamples}}
+            {{#returnType}}
+                {{#vendorExtensions.example}}
+        response.body() == {{{vendorExtensions.groovyExample}}}
+                {{/vendorExtensions.example}}
+            {{/returnType}}
+        {{/generateControllerFromExamples}}
+    }
+
+    {{/operation}}
+    {{/operations}}
+}
