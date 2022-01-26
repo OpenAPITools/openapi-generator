@@ -66,6 +66,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
 |test|Specify which test tool to generate files for|<dl><dt>**junit**</dt><dd>Use JUnit as test tool</dd><dt>**spock**</dt><dd>Use Spock as test tool</dd></dl>|junit|
+|testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|Client service name| |null|
 |useAuth|Whether to import authorization and to annotate controller methods accordingly| |true|
 |useBeanValidation|Use BeanValidation API annotations| |true|
