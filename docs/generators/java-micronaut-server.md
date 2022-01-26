@@ -10,6 +10,7 @@ title: Documentation for the java-micronaut-server Generator
 | generator stability | BETA | |
 | generator type | SERVER | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Java Micronaut Server. | |
 
 ## CONFIG OPTIONS
