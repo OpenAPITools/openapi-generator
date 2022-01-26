@@ -303,7 +303,105 @@ request_body_unknown_base_type = api_client.RequestBody(
 )
 _path = '/fake/inlineComposition/'
 _method = 'POST'
-SchemaFor200ResponseBodyApplicationJson = AnyTypeSchema
+
+
+class SchemaFor200ResponseBodyApplicationJson(
+    ComposedSchema
+):
+
+    @classmethod
+    @property
+    def _composed_schemas(cls):
+        # we need this here to make our import statements work
+        # we must store _composed_schemas in here so the code is only run
+        # when we invoke this method. If we kept this at the class
+        # level we would get an error because the class level
+        # code would be run when this module is imported, and these composed
+        # classes don't exist yet because their module has not finished
+        # loading
+        allOf_0 = AnyTypeSchema
+        return {
+            'allOf': [
+                allOf_0,
+            ],
+            'oneOf': [
+            ],
+            'anyOf': [
+            ],
+        }
+
+    def __new__(
+        cls,
+        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        **kwargs: typing.Type[Schema],
+    ) -> 'SchemaFor200ResponseBodyApplicationJson':
+        return super().__new__(
+            cls,
+            *args,
+            _instantiation_metadata=_instantiation_metadata,
+            **kwargs,
+        )
+
+
+class SchemaFor200ResponseBodyMultipartFormData(
+    DictSchema
+):
+    
+    
+    class someProp(
+        ComposedSchema
+    ):
+    
+        @classmethod
+        @property
+        def _composed_schemas(cls):
+            # we need this here to make our import statements work
+            # we must store _composed_schemas in here so the code is only run
+            # when we invoke this method. If we kept this at the class
+            # level we would get an error because the class level
+            # code would be run when this module is imported, and these composed
+            # classes don't exist yet because their module has not finished
+            # loading
+            allOf_0 = AnyTypeSchema
+            return {
+                'allOf': [
+                    allOf_0,
+                ],
+                'oneOf': [
+                ],
+                'anyOf': [
+                ],
+            }
+    
+        def __new__(
+            cls,
+            *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
+            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            **kwargs: typing.Type[Schema],
+        ) -> 'someProp':
+            return super().__new__(
+                cls,
+                *args,
+                _instantiation_metadata=_instantiation_metadata,
+                **kwargs,
+            )
+
+
+    def __new__(
+        cls,
+        *args: typing.Union[dict, frozendict, ],
+        someProp: typing.Union[someProp, Unset] = unset,
+        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        **kwargs: typing.Type[Schema],
+    ) -> 'SchemaFor200ResponseBodyMultipartFormData':
+        return super().__new__(
+            cls,
+            *args,
+            someProp=someProp,
+            _instantiation_metadata=_instantiation_metadata,
+            **kwargs,
+        )
 
 
 @dataclass
@@ -311,6 +409,7 @@ class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
         SchemaFor200ResponseBodyApplicationJson,
+        SchemaFor200ResponseBodyMultipartFormData,
     ]
     headers: Unset = unset
 
@@ -320,6 +419,8 @@ _response_for_200 = api_client.OpenApiResponse(
     content={
         'application/json': api_client.MediaType(
             schema=SchemaFor200ResponseBodyApplicationJson),
+        'multipart/form-data': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyMultipartFormData),
     },
 )
 _status_code_to_response = {
@@ -327,6 +428,7 @@ _status_code_to_response = {
 }
 _all_accept_content_types = (
     'application/json',
+    'multipart/form-data',
 )
 
 
