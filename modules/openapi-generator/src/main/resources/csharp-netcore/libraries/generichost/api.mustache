@@ -289,11 +289,13 @@ namespace {{packageName}}.{{apiPackage}}
                     
                     apiKey.UseInHeader(request, "{{keyParamName}}");{{/isKeyInHeader}}{{#isKeyInQuery}}
                     
-                    apiKey.UseInQuery(request, uriBuilder, parseQueryString, "{{keyParamName}}");{{/isKeyInQuery}}{{#isKeyInCookie}}
+                    apiKey.UseInQuery(request, uriBuilder, parseQueryString, "{{keyParamName}}");
                     
-                    apiKey.UseInCookie(request, parseQueryString, "{{keyParamName}}");{{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}
+                    uriBuilder.Query = parseQueryString.ToString();{{/isKeyInQuery}}{{#isKeyInCookie}}
                     
-                    uriBuilder.Query = parseQueryString.ToString();
+                    apiKey.UseInCookie(request, parseQueryString, "{{keyParamName}}");
+                    
+                    uriBuilder.Query = parseQueryString.ToString();{{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}
 
     {{! below line must be after any UseInQuery calls, but before using the HttpSignatureToken}}
                     request.RequestUri = uriBuilder.Uri;{{#authMethods}}{{#isBasicBasic}}
