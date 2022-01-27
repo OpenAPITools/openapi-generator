@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.Maps;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
@@ -182,7 +181,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 " Required to generate a full package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. If not provided, using the version from the OpenAPI specification file.").defaultValue(this.getNpmVersion()));
         this.cliOptions.add(CliOption.newBoolean(SNAPSHOT,
-                "When setting this property to true, the version will be suffixed with -SNAPSHOT." + this.SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
+                "When setting this property to true, the version will be suffixed with -SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
                 false));
         this.cliOptions.add(new CliOption(NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_DESC).defaultValue(String.valueOf(this.getNullSafeAdditionalProps())));
     }
@@ -270,10 +269,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return name.contains("&");
     }
 
-    private Map<String,String> toImportMap(String... names){
-        Map<String,String> result = Maps.newHashMap();
-        for(String name: names){
-            if(needToImport(name)){
+    private Map<String,String> toImportMap(String... names) {
+        Map<String,String> result = new HashMap<>();
+        for(final String name : names) {
+            if(needToImport(name)) {
                 result.put(toModelImport(name), name);
             }
         }
@@ -546,7 +545,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "'" + (String) p.getDefault() + "'";
+                return "'" + escapeText((String) p.getDefault()) + "'";
             }
             return UNDEFINED_VALUE;
         } else {
@@ -897,7 +896,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
         // only process files with ts extension
         if ("ts".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = tsPostProcessFile + " " + file.toString();
+            String command = tsPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -957,4 +956,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return schemaType;
         }).distinct().collect(Collectors.toList());
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.TYPESCRIPT; }
 }

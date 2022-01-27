@@ -585,7 +585,7 @@ final BuiltList<String> enumQueryStringArray = ; // BuiltList<String> | Query pa
 final String enumQueryString = enumQueryString_example; // String | Query parameter enum test (string)
 final int enumQueryInteger = 56; // int | Query parameter enum test (double)
 final double enumQueryDouble = 1.2; // double | Query parameter enum test (double)
-final BuiltList<String> enumFormStringArray = enumFormStringArray_example; // BuiltList<String> | Form parameter enum test (string array)
+final BuiltList<String> enumFormStringArray = ; // BuiltList<String> | Form parameter enum test (string array)
 final String enumFormString = enumFormString_example; // String | Form parameter enum test (string)
 
 try {

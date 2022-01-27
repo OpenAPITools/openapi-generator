@@ -112,8 +112,8 @@ namespace Example
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(config);
-            var petId = 789;  // long | Pet id to delete
-            var apiKey = apiKey_example;  // string |  (optional) 
+            var petId = 789L;  // long | Pet id to delete
+            var apiKey = "apiKey_example";  // string |  (optional) 
 
             try
             {
@@ -187,7 +187,7 @@ namespace Example
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(config);
-            var status = status_example;  // List<string> | Status values that need to be considered for filter
+            var status = new List<string>(); // List<string> | Status values that need to be considered for filter
 
             try
             {
@@ -210,7 +210,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | **List&lt;string&gt;**| Status values that need to be considered for filter | 
+ **status** | [**List&lt;string&gt;**](string.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -339,7 +339,7 @@ namespace Example
             // config.AddApiKeyPrefix("api_key", "Bearer");
 
             var apiInstance = new PetApi(config);
-            var petId = 789;  // long | ID of pet to return
+            var petId = 789L;  // long | ID of pet to return
 
             try
             {
@@ -486,9 +486,9 @@ namespace Example
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(config);
-            var petId = 789;  // long | ID of pet that needs to be updated
-            var name = name_example;  // string | Updated name of the pet (optional) 
-            var status = status_example;  // string | Updated status of the pet (optional) 
+            var petId = 789L;  // long | ID of pet that needs to be updated
+            var name = "name_example";  // string | Updated name of the pet (optional) 
+            var status = "status_example";  // string | Updated status of the pet (optional) 
 
             try
             {
@@ -561,9 +561,9 @@ namespace Example
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(config);
-            var petId = 789;  // long | ID of pet to update
-            var additionalMetadata = additionalMetadata_example;  // string | Additional data to pass to server (optional) 
-            var file = BINARY_DATA_HERE;  // System.IO.Stream | file to upload (optional) 
+            var petId = 789L;  // long | ID of pet to update
+            var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
+            var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload (optional) 
 
             try
             {
@@ -637,9 +637,9 @@ namespace Example
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(config);
-            var petId = 789;  // long | ID of pet to update
-            var requiredFile = BINARY_DATA_HERE;  // System.IO.Stream | file to upload
-            var additionalMetadata = additionalMetadata_example;  // string | Additional data to pass to server (optional) 
+            var petId = 789L;  // long | ID of pet to update
+            var requiredFile = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload
+            var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
 
             try
             {

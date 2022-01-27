@@ -50,6 +50,6 @@ public class RFC3339DateFormat extends DateFormat {
 
   @Override
   public Object clone() {
-    return this;
+    return super.clone();
   }
 }

@@ -43,6 +43,8 @@ public class SpecialModelName {
   public static final String JSON_PROPERTY_SPECIAL_MODEL_NAME = "_special_model.name_";
   private String specialModelName;
 
+  public SpecialModelName() { 
+  }
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;

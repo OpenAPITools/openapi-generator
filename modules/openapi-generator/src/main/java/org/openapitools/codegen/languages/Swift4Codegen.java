@@ -790,7 +790,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public String toEnumValue(String value, String datatype) {
         // for string, array of string
         if ("String".equals(datatype) || "[String]".equals(datatype) || "[String:String]".equals(datatype)) {
-            return "\"" + String.valueOf(value) + "\"";
+            return "\"" + value + "\"";
         } else {
             return String.valueOf(value);
         }
@@ -963,7 +963,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         }
         // only process files with swift extension
         if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = swiftPostProcessFile + " " + file.toString();
+            String command = swiftPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -1091,4 +1091,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         example += ")";
         return example;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SWIFT; }
 }

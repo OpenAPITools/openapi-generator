@@ -37,7 +37,7 @@ public class Dog extends Animal implements Parcelable {
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
-  public Dog() {
+  public Dog() { 
     super();
     this.className = this.getClass().getSimpleName();
   }

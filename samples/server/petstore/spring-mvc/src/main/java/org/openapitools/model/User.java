@@ -1,21 +1,29 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class User   {
+
   @JsonProperty("id")
   private Long id;
 
@@ -49,9 +57,8 @@ public class User   {
    * Get id
    * @return id
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Long getId() {
     return id;
   }
@@ -69,9 +76,8 @@ public class User   {
    * Get username
    * @return username
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getUsername() {
     return username;
   }
@@ -89,9 +95,8 @@ public class User   {
    * Get firstName
    * @return firstName
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getFirstName() {
     return firstName;
   }
@@ -109,9 +114,8 @@ public class User   {
    * Get lastName
    * @return lastName
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getLastName() {
     return lastName;
   }
@@ -129,9 +133,8 @@ public class User   {
    * Get email
    * @return email
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getEmail() {
     return email;
   }
@@ -149,9 +152,8 @@ public class User   {
    * Get password
    * @return password
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getPassword() {
     return password;
   }
@@ -169,9 +171,8 @@ public class User   {
    * Get phone
    * @return phone
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getPhone() {
     return phone;
   }
@@ -189,9 +190,8 @@ public class User   {
    * User Status
    * @return userStatus
   */
+  
   @ApiModelProperty(value = "User Status")
-
-
   public Integer getUserStatus() {
     return userStatus;
   }
@@ -199,7 +199,6 @@ public class User   {
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -229,7 +228,6 @@ public class User   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");

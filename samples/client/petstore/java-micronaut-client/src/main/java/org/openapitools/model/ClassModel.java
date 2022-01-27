@@ -34,67 +34,69 @@ import javax.annotation.Generated;
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
 @Introspected
 public class ClassModel {
-  public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
-  private String propertyClass;
+    public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
+    private String propertyClass;
 
-  public ClassModel propertyClass(String propertyClass) {
-    this.propertyClass = propertyClass;
-    return this;
-  }
-
-  /**
-   * Get propertyClass
-   * @return propertyClass
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public String getPropertyClass() {
-    return propertyClass;
-  }
-
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPropertyClass(String propertyClass) {
-    this.propertyClass = propertyClass;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public ClassModel() {
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+    public ClassModel propertyClass(String propertyClass) {
+        this.propertyClass = propertyClass;
+        return this;
     }
-    ClassModel classModel = (ClassModel) o;
-    return Objects.equals(this.propertyClass, classModel.propertyClass);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(propertyClass);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ClassModel {\n");
-    sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    /**
+     * Get propertyClass
+     * @return propertyClass
+     **/
+    @Nullable
+    @ApiModelProperty(value = "")
+    @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public String getPropertyClass() {
+        return propertyClass;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public void setPropertyClass(String propertyClass) {
+        this.propertyClass = propertyClass;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ClassModel classModel = (ClassModel) o;
+        return Objects.equals(this.propertyClass, classModel.propertyClass);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(propertyClass);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class ClassModel {\n");
+        sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
 
 }

@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -44,6 +45,8 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
   @XmlElement(name = "name")
   private String name;
 
+  public AdditionalPropertiesObject() { 
+  }
 
   public AdditionalPropertiesObject name(String name) {
     

@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -12,11 +13,17 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
+
+import java.util.*;
+import javax.annotation.Generated;
+
 /**
  * TypeHolderDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderDefault   {
+
   @JsonProperty("string_item")
   private String stringItem = "what";
 
@@ -42,10 +49,8 @@ public class TypeHolderDefault   {
    * Get stringItem
    * @return stringItem
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public String getStringItem() {
     return stringItem;
   }
@@ -63,11 +68,8 @@ public class TypeHolderDefault   {
    * Get numberItem
    * @return numberItem
   */
+  @NotNull @Valid 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -85,10 +87,8 @@ public class TypeHolderDefault   {
    * Get integerItem
    * @return integerItem
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -106,10 +106,8 @@ public class TypeHolderDefault   {
    * Get boolItem
    * @return boolItem
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -132,10 +130,8 @@ public class TypeHolderDefault   {
    * Get arrayItem
    * @return arrayItem
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
@@ -143,7 +139,6 @@ public class TypeHolderDefault   {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -170,7 +165,6 @@ public class TypeHolderDefault   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TypeHolderDefault {\n");
-    
     sb.append("    stringItem: ").append(toIndentedString(stringItem)).append("\n");
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
     sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");

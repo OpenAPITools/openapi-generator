@@ -1,7 +1,7 @@
 package org.openapitools.codegen.scala;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.ScalaSttpClientCodegen;
 

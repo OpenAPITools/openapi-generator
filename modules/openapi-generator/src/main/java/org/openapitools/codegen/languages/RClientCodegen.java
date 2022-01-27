@@ -133,6 +133,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("number", "numeric");
         typeMapping.put("float", "numeric");
         typeMapping.put("double", "numeric");
+        typeMapping.put("decimal", "numeric");
         typeMapping.put("boolean", "character");
         typeMapping.put("string", "character");
         typeMapping.put("UUID", "character");
@@ -737,7 +738,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     return "\"" + codegenProperty.example + "\"";
                 } else {
                     if (Boolean.TRUE.equals(codegenProperty.isEnum)) { // enum
-                        return "\"" + String.valueOf(((List<Object>) codegenProperty.allowableValues.get("values")).get(0)) + "\"";
+                        return "\"" + ((List<Object>) codegenProperty.allowableValues.get("values")).get(0) + "\"";
                     } else {
                         return "\"" + codegenProperty.name + "_example\"";
                     }
@@ -795,4 +796,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         System.out.println("################################################################################");
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.R; }
 }

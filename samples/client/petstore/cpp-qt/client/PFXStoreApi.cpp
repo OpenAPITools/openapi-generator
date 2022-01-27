@@ -118,9 +118,15 @@ int PFXStoreApi::addServerConfiguration(const QString &operation, const QUrl &ur
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
 void PFXStoreApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
         setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
     }
+#else
+    for (auto &e : _serverIndices.keys()) {
+        setServerIndex(e, addServerConfiguration(e, url, description, variables));
+    }
+#endif
 }
 
 /**
@@ -240,7 +246,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -292,7 +298,7 @@ void PFXStoreApi::getInventory() {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -364,7 +370,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -417,7 +423,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -452,4 +458,53 @@ void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
+void PFXStoreApi::tokenAvailable(){
+  
+    oauthToken token; 
+    switch (_OauthMethod) {
+    case 1: //implicit flow
+        token = _implicitFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _implicitFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 2: //authorization flow
+        token = _authFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _authFlow.removeToken(_latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 3: //client credentials flow
+        token = _credentialFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _credentialFlow.removeToken(_latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 4: //resource owner password flow
+        token = _passwordFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _credentialFlow.removeToken(_latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    default:
+        qDebug() << "No Oauth method set!";
+        break;
+    }
+}
 } // namespace test_namespace

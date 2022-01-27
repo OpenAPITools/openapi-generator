@@ -1,22 +1,30 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-@ApiModel(description = "Model for testing model with \"_class\" property")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
+@ApiModel(description = "Model for testing model with \"_class\" property")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ClassModel   {
+
   @JsonProperty("_class")
   private String propertyClass;
 
@@ -29,9 +37,8 @@ public class ClassModel   {
    * Get propertyClass
    * @return propertyClass
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getPropertyClass() {
     return propertyClass;
   }
@@ -39,7 +46,6 @@ public class ClassModel   {
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -62,7 +68,6 @@ public class ClassModel   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ClassModel {\n");
-    
     sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -1,0 +1,28 @@
+# coding: utf-8
+
+# flake8: noqa
+
+{{>partial_header}}
+
+__version__ = "{{packageVersion}}"
+
+# import ApiClient
+from {{packageName}}.api_client import ApiClient
+
+# import Configuration
+from {{packageName}}.configuration import Configuration
+{{#if hasHttpSignatureMethods}}
+from {{packageName}}.signing import HttpSigningConfiguration
+{{/if}}
+
+# import exceptions
+from {{packageName}}.exceptions import OpenApiException
+from {{packageName}}.exceptions import ApiAttributeError
+from {{packageName}}.exceptions import ApiTypeError
+from {{packageName}}.exceptions import ApiValueError
+from {{packageName}}.exceptions import ApiKeyError
+from {{packageName}}.exceptions import ApiException
+{{#if recursionLimit}}
+
+__import__('sys').setrecursionlimit({{recursionLimit}})
+{{/if}}

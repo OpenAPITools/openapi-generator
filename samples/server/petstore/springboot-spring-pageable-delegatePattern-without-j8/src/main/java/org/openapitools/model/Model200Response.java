@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,12 +10,18 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
+
+import java.util.*;
+import javax.annotation.Generated;
+
 /**
  * Model for testing model name starting with number
  */
+
 @ApiModel(description = "Model for testing model name starting with number")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Model200Response   {
+
   @JsonProperty("name")
   private Integer name;
 
@@ -30,9 +37,8 @@ public class Model200Response   {
    * Get name
    * @return name
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Integer getName() {
     return name;
   }
@@ -50,9 +56,8 @@ public class Model200Response   {
    * Get propertyClass
    * @return propertyClass
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getPropertyClass() {
     return propertyClass;
   }
@@ -60,7 +65,6 @@ public class Model200Response   {
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -84,7 +88,6 @@ public class Model200Response   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Model200Response {\n");
-    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
     sb.append("}");

@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,11 +10,17 @@ import java.math.BigDecimal;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
+
+import java.util.*;
+import javax.annotation.Generated;
+
 /**
  * OuterComposite
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class OuterComposite   {
+
   @JsonProperty("my_number")
   private BigDecimal myNumber;
 
@@ -32,10 +39,8 @@ public class OuterComposite   {
    * Get myNumber
    * @return myNumber
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -53,9 +58,8 @@ public class OuterComposite   {
    * Get myString
    * @return myString
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getMyString() {
     return myString;
   }
@@ -73,9 +77,8 @@ public class OuterComposite   {
    * Get myBoolean
    * @return myBoolean
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Boolean getMyBoolean() {
     return myBoolean;
   }
@@ -83,7 +86,6 @@ public class OuterComposite   {
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -108,7 +110,6 @@ public class OuterComposite   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class OuterComposite {\n");
-    
     sb.append("    myNumber: ").append(toIndentedString(myNumber)).append("\n");
     sb.append("    myString: ").append(toIndentedString(myString)).append("\n");
     sb.append("    myBoolean: ").append(toIndentedString(myBoolean)).append("\n");

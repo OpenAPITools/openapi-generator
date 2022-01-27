@@ -14,6 +14,7 @@ import okhttp3.MultipartBody
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
+import okhttp3.internal.EMPTY_REQUEST
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -24,7 +25,6 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
-import java.util.Date
 import java.util.Locale
 import com.google.gson.reflect.TypeToken
 
@@ -43,6 +43,7 @@ open class ApiClient(val baseUrl: String) {
         var username: String? = null
         var password: String? = null
         var accessToken: String? = null
+        const val baseUrlKey = "org.openapitools.client.baseUrl"
 
         @JvmStatic
         val client: OkHttpClient by lazy {
@@ -103,9 +104,15 @@ open class ApiClient(val baseUrl: String) {
                     }
                 }.build()
             }
-            mediaType == JsonMediaType -> Serializer.gson.toJson(content, T::class.java).toRequestBody(
-                mediaType.toMediaTypeOrNull()
-            )
+            mediaType.startsWith("application/") && mediaType.endsWith("json") ->
+                if (content == null) {
+                    EMPTY_REQUEST
+                } else {
+                    Serializer.gson.toJson(content, T::class.java)
+                        .toRequestBody(
+                            mediaType.toMediaTypeOrNull()
+                        )
+                }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
@@ -128,8 +135,9 @@ open class ApiClient(val baseUrl: String) {
             out.close()
             return f as T
         }
-        return when(mediaType) {
-            JsonMediaType -> Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType())
+        return when {
+        mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
+                Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType())
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -151,7 +159,7 @@ open class ApiClient(val baseUrl: String) {
         }
     }
 
-    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
+    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiResponse<T?> {
         val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
 
         // take authMethod from operation
@@ -176,11 +184,11 @@ open class ApiClient(val baseUrl: String) {
         }
         val headers = requestConfig.headers
 
-        if(headers[ContentType] ?: "" == "") {
+        if(headers[ContentType].isNullOrEmpty()) {
             throw kotlin.IllegalStateException("Missing Content-Type header. This is required.")
         }
 
-        if(headers[Accept] ?: "" == "") {
+        if(headers[Accept].isNullOrEmpty()) {
             throw kotlin.IllegalStateException("Missing Accept header. This is required.")
         }
 
@@ -238,7 +246,7 @@ open class ApiClient(val baseUrl: String) {
         null -> ""
         is Array<*> -> toMultiValue(value, "csv").toString()
         is Iterable<*> -> toMultiValue(value, "csv").toString()
-        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime, is Date ->
+        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime ->
             parseDateToQueryString(value)
         else -> value.toString()
     }

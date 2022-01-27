@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,11 +9,17 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
+
+import java.util.*;
+import javax.annotation.Generated;
+
 /**
  * Capitalization
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Capitalization   {
+
   @JsonProperty("smallCamel")
   private String smallCamel;
 
@@ -40,9 +47,8 @@ public class Capitalization   {
    * Get smallCamel
    * @return smallCamel
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getSmallCamel() {
     return smallCamel;
   }
@@ -60,9 +66,8 @@ public class Capitalization   {
    * Get capitalCamel
    * @return capitalCamel
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getCapitalCamel() {
     return capitalCamel;
   }
@@ -80,9 +85,8 @@ public class Capitalization   {
    * Get smallSnake
    * @return smallSnake
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getSmallSnake() {
     return smallSnake;
   }
@@ -100,9 +104,8 @@ public class Capitalization   {
    * Get capitalSnake
    * @return capitalSnake
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getCapitalSnake() {
     return capitalSnake;
   }
@@ -120,9 +123,8 @@ public class Capitalization   {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
@@ -140,9 +142,8 @@ public class Capitalization   {
    * Name of the pet 
    * @return ATT_NAME
   */
+  
   @ApiModelProperty(value = "Name of the pet ")
-
-
   public String getATTNAME() {
     return ATT_NAME;
   }
@@ -150,7 +151,6 @@ public class Capitalization   {
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -178,7 +178,6 @@ public class Capitalization   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Capitalization {\n");
-    
     sb.append("    smallCamel: ").append(toIndentedString(smallCamel)).append("\n");
     sb.append("    capitalCamel: ").append(toIndentedString(capitalCamel)).append("\n");
     sb.append("    smallSnake: ").append(toIndentedString(smallSnake)).append("\n");

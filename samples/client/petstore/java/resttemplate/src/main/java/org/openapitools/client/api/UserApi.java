@@ -2,6 +2,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
+import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import java.util.Collections;

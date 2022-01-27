@@ -34,6 +34,10 @@ import java.util.Map;
 import java.util.Set;
 
 public interface CodegenConfig {
+    String getFilesMetadataFilename();
+
+    String getVersionMetadataFilename();
+
     GeneratorMetadata getGeneratorMetadata();
 
     CodegenType getTag();
@@ -300,4 +304,14 @@ public interface CodegenConfig {
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
 
     Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings);
+
+    public String defaultTemplatingEngine();
+
+    public GeneratorLanguage generatorLanguage();
+
+    /*
+    the version of the language that the generator implements
+    For python 3.9.0, generatorLanguageVersion would be "3.9.0"
+    */
+    public String generatorLanguageVersion();
 }

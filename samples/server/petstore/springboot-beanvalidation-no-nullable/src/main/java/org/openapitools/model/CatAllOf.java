@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,11 +9,17 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
+
+import java.util.*;
+import javax.annotation.Generated;
+
 /**
  * CatAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CatAllOf   {
+
   @JsonProperty("declawed")
   private Boolean declawed;
 
@@ -25,9 +32,8 @@ public class CatAllOf   {
    * Get declawed
    * @return declawed
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Boolean getDeclawed() {
     return declawed;
   }
@@ -35,7 +41,6 @@ public class CatAllOf   {
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -58,7 +63,6 @@ public class CatAllOf   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CatAllOf {\n");
-    
     sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
     sb.append("}");
     return sb.toString();

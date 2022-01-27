@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,12 +10,18 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
+
+import java.util.*;
+import javax.annotation.Generated;
+
 /**
  * Model for testing model name same as property name
  */
+
 @ApiModel(description = "Model for testing model name same as property name")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Name   {
+
   @JsonProperty("name")
   private Integer name;
 
@@ -36,10 +43,8 @@ public class Name   {
    * Get name
    * @return name
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public Integer getName() {
     return name;
   }
@@ -57,9 +62,8 @@ public class Name   {
    * Get snakeCase
    * @return snakeCase
   */
+  
   @ApiModelProperty(readOnly = true, value = "")
-
-
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -77,9 +81,8 @@ public class Name   {
    * Get property
    * @return property
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getProperty() {
     return property;
   }
@@ -97,9 +100,8 @@ public class Name   {
    * Get _123number
    * @return _123number
   */
+  
   @ApiModelProperty(readOnly = true, value = "")
-
-
   public Integer get123number() {
     return _123number;
   }
@@ -107,7 +109,6 @@ public class Name   {
   public void set123number(Integer _123number) {
     this._123number = _123number;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -133,7 +134,6 @@ public class Name   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Name {\n");
-    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
     sb.append("    property: ").append(toIndentedString(property)).append("\n");

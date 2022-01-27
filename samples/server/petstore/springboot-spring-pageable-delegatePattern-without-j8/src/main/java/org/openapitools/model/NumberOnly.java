@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -10,11 +11,17 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
+
+import java.util.*;
+import javax.annotation.Generated;
+
 /**
  * NumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class NumberOnly   {
+
   @JsonProperty("JustNumber")
   private BigDecimal justNumber;
 
@@ -27,10 +34,8 @@ public class NumberOnly   {
    * Get justNumber
    * @return justNumber
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public BigDecimal getJustNumber() {
     return justNumber;
   }
@@ -38,7 +43,6 @@ public class NumberOnly   {
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -61,7 +65,6 @@ public class NumberOnly   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NumberOnly {\n");
-    
     sb.append("    justNumber: ").append(toIndentedString(justNumber)).append("\n");
     sb.append("}");
     return sb.toString();

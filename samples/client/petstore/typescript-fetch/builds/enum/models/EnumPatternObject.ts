@@ -18,11 +18,13 @@ import {
     NumberEnumFromJSON,
     NumberEnumFromJSONTyped,
     NumberEnumToJSON,
+} from './NumberEnum';
+import {
     StringEnum,
     StringEnumFromJSON,
     StringEnumFromJSONTyped,
     StringEnumToJSON,
-} from './';
+} from './StringEnum';
 
 /**
  * 

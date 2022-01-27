@@ -153,6 +153,8 @@ public class XmlItem {
   public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   private List<Integer> prefixNsWrappedArray = null;
 
+  public XmlItem() { 
+  }
 
   public XmlItem attributeString(String attributeString) {
     this.attributeString = attributeString;

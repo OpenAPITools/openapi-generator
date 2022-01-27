@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,11 +10,17 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
+
+import java.util.*;
+import javax.annotation.Generated;
+
 /**
  * HasOnlyReadOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class HasOnlyReadOnly   {
+
   @JsonProperty("bar")
   private String bar;
 
@@ -29,9 +36,8 @@ public class HasOnlyReadOnly   {
    * Get bar
    * @return bar
   */
+  
   @ApiModelProperty(readOnly = true, value = "")
-
-
   public String getBar() {
     return bar;
   }
@@ -49,9 +55,8 @@ public class HasOnlyReadOnly   {
    * Get foo
    * @return foo
   */
+  
   @ApiModelProperty(readOnly = true, value = "")
-
-
   public String getFoo() {
     return foo;
   }
@@ -59,7 +64,6 @@ public class HasOnlyReadOnly   {
   public void setFoo(String foo) {
     this.foo = foo;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -83,7 +87,6 @@ public class HasOnlyReadOnly   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class HasOnlyReadOnly {\n");
-    
     sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
     sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
     sb.append("}");

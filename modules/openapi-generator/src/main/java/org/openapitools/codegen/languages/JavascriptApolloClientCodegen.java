@@ -49,7 +49,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
     public static final String EMIT_JS_DOC = "emitJSDoc";
     public static final String NPM_REPOSITORY = "npmRepository";
 
-    final String[][] JAVASCRIPT_SUPPORTING_FILES = new String[][]{
+    final String[][] JAVASCRIPT_SUPPORTING_FILES = {
             new String[]{"package.mustache", "package.json"},
             // new String[]{"index.mustache", "src/index.js", },
             // new String[]{"ApiClient.mustache", "src/ApiClient.js"},
@@ -59,7 +59,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             new String[]{"travis.yml", ".travis.yml"}
     };
 
-    final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = new String[][]{
+    final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = {
             new String[]{"package.mustache", "package.json"},
             // new String[]{"index.mustache", "src/index.js"},
             // new String[]{"ApiClient.mustache", "src/ApiClient.js"},
@@ -132,10 +132,10 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
                         "prototype", "String", "toString", "undefined", "valueOf")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("String", "Boolean", "Number", "Array", "Object", "Date", "File", "Blob")
         );
-        defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
+        defaultIncludes = new HashSet<>(languageSpecificPrimitives);
 
         instantiationTypes.put("array", "Array");
         instantiationTypes.put("list", "Array");
@@ -1127,7 +1127,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = jsPostProcessFile + " " + file.toString();
+            String command = jsPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
@@ -1143,4 +1143,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }
