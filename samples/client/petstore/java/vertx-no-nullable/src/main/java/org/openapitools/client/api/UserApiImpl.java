@@ -1,5 +1,6 @@
 package org.openapitools.client.api;
 
+import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import io.vertx.core.AsyncResult;

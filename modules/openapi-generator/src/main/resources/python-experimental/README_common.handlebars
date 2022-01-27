@@ -1,0 +1,111 @@
+```python
+{{#with apiInfo}}{{#each apis}}{{#unless hasMore}}{{#if hasHttpSignatureMethods}}import datetime{{/if}}{{/unless}}{{/each}}{{/with}}
+import time
+import {{{packageName}}}
+from pprint import pprint
+{{#with apiInfo}}
+{{#each apis}}
+{{#if @first}}
+from {{packageName}}.{{apiPackage}} import {{classFilename}}
+{{#each imports}}
+{{{import}}}
+{{/each}}
+{{#with operations}}
+{{#each operation}}
+{{#if @first}}
+{{> doc_auth_partial}}
+
+# Enter a context with an instance of the API client
+with {{{packageName}}}.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = {{classFilename}}.{{{classname}}}(api_client)
+    {{#each allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{#unless required}} (optional){{/unless}}{{#if defaultValue}} (default to {{{.}}}){{/if}}
+    {{/each}}
+
+    try:
+    {{#if summary}}    # {{{summary}}}
+    {{/if}}    {{#if returnType}}api_response = {{/if}}api_instance.{{{operationId}}}({{#each allParams}}{{#if required}}{{paramName}}{{/if}}{{#unless required}}{{paramName}}={{paramName}}{{/unless}}{{#if hasMore}}, {{/if}}{{/each}}){{#if returnType}}
+        pprint(api_response){{/if}}
+    except {{{packageName}}}.ApiException as e:
+        print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
+{{/if}}
+{{/each}}
+{{/with}}
+{{/if}}
+{{/each}}
+{{/with}}
+```
+
+## Documentation for API Endpoints
+
+All URIs are relative to *{{basePath}}*
+
+Class | Method | HTTP request | Description
+------------ | ------------- | ------------- | -------------
+{{#with apiInfo}}{{#each apis}}{{#with operations}}{{#each operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#if summary}}{{summary}}{{/if}}
+{{/each}}{{/with}}{{/each}}{{/with}}
+
+## Documentation For Models
+
+{{#each models}}{{#with model}} - [{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
+{{/with}}{{/each}}
+
+## Documentation For Authorization
+
+{{#unless authMethods}}
+ All endpoints do not require authorization.
+{{/unless}}
+{{#each authMethods}}
+{{#if @last}} Authentication schemes defined for the API:{{/if}}
+## {{{name}}}
+
+{{#if isApiKey}}
+- **Type**: API key
+- **API key parameter name**: {{{keyParamName}}}
+- **Location**: {{#if isKeyInQuery}}URL query string{{/if}}{{#if isKeyInHeader}}HTTP header{{/if}}
+{{/if}}
+{{#if isBasic}}
+{{#if isBasicBasic}}
+- **Type**: HTTP basic authentication
+{{/if}}
+{{#if isBasicBearer}}
+- **Type**: Bearer authentication{{#if bearerFormat}} ({{{bearerFormat}}}){{/if}}
+{{/if}}
+{{#if isHttpSignature}}
+- **Type**: HTTP signature authentication
+{{/if}}
+{{/if}}
+{{#if isOAuth}}
+- **Type**: OAuth
+- **Flow**: {{{flow}}}
+- **Authorization URL**: {{{authorizationUrl}}}
+- **Scopes**: {{#unless scopes}}N/A{{/unless}}
+{{#each scopes}} - **{{{scope}}}**: {{{description}}}
+{{/each}}
+{{/if}}
+
+{{/each}}
+
+## Author
+
+{{#with apiInfo}}{{#each apis}}{{#unless hasMore}}{{infoEmail}}
+{{/unless}}{{/each}}{{/with}}
+
+## Notes for Large OpenAPI documents
+If the OpenAPI document is large, imports in {{{packageName}}}.apis and {{{packageName}}}.models may fail with a
+RecursionError indicating the maximum recursion limit has been exceeded. In that case, there are a couple of solutions:
+
+Solution 1:
+Use specific imports for apis and models like:
+- `from {{{packageName}}}.{{apiPackage}}.default_api import DefaultApi`
+- `from {{{packageName}}}.{{modelPackage}}.pet import Pet`
+
+Solution 1:
+Before importing the package, adjust the maximum recursion limit as shown below:
+```
+import sys
+sys.setrecursionlimit(1500)
+import {{{packageName}}}
+from {{{packageName}}}.apis import *
+from {{{packageName}}}.models import *
+```

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.OffsetDateTime;
@@ -14,20 +15,23 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * FileSchemaTestClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FileSchemaTestClass   {
+
   @JsonProperty("file")
-  private java.io.File file;
+  private File file;
 
   @JsonProperty("files")
   @Valid
-  private List<java.io.File> files = null;
+  private List<File> files = null;
 
-  public FileSchemaTestClass file(java.io.File file) {
+  public FileSchemaTestClass file(File file) {
     this.file = file;
     return this;
   }
@@ -36,24 +40,22 @@ public class FileSchemaTestClass   {
    * Get file
    * @return file
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
-  public java.io.File getFile() {
+  public File getFile() {
     return file;
   }
 
-  public void setFile(java.io.File file) {
+  public void setFile(File file) {
     this.file = file;
   }
 
-  public FileSchemaTestClass files(List<java.io.File> files) {
+  public FileSchemaTestClass files(List<File> files) {
     this.files = files;
     return this;
   }
 
-  public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
+  public FileSchemaTestClass addFilesItem(File filesItem) {
     if (this.files == null) {
       this.files = new ArrayList<>();
     }
@@ -65,18 +67,15 @@ public class FileSchemaTestClass   {
    * Get files
    * @return files
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
-  public List<java.io.File> getFiles() {
+  public List<File> getFiles() {
     return files;
   }
 
-  public void setFiles(List<java.io.File> files) {
+  public void setFiles(List<File> files) {
     this.files = files;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -100,7 +99,6 @@ public class FileSchemaTestClass   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
-    
     sb.append("    file: ").append(toIndentedString(file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");

@@ -41,133 +41,135 @@ import javax.annotation.Generated;
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
 @Introspected
 public class MixedPropertiesAndAdditionalPropertiesClass {
-  public static final String JSON_PROPERTY_UUID = "uuid";
-  private UUID uuid;
+    public static final String JSON_PROPERTY_UUID = "uuid";
+    private UUID uuid;
 
-  public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
-  private LocalDateTime dateTime;
+    public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+    private LocalDateTime dateTime;
 
-  public static final String JSON_PROPERTY_MAP = "map";
-  private Map<String, Animal> map = null;
+    public static final String JSON_PROPERTY_MAP = "map";
+    private Map<String, Animal> map = null;
 
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    this.uuid = uuid;
-    return this;
-  }
-
-  /**
-   * Get uuid
-   * @return uuid
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_UUID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public UUID getUuid() {
-    return uuid;
-  }
-
-  @JsonProperty(JSON_PROPERTY_UUID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
-  }
-
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(LocalDateTime dateTime) {
-    this.dateTime = dateTime;
-    return this;
-  }
-
-  /**
-   * Get dateTime
-   * @return dateTime
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
-  public LocalDateTime getDateTime() {
-    return dateTime;
-  }
-
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
-  public void setDateTime(LocalDateTime dateTime) {
-    this.dateTime = dateTime;
-  }
-
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
-    this.map = map;
-    return this;
-  }
-
-  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
-    if (this.map == null) {
-      this.map = new HashMap<String, Animal>();
+    public MixedPropertiesAndAdditionalPropertiesClass() {
     }
-    this.map.put(key, mapItem);
-    return this;
-  }
-
-  /**
-   * Get map
-   * @return map
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_MAP)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public Map<String, Animal> getMap() {
-    return map;
-  }
-
-  @JsonProperty(JSON_PROPERTY_MAP)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMap(Map<String, Animal> map) {
-    this.map = map;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
+        this.uuid = uuid;
+        return this;
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    /**
+     * Get uuid
+     * @return uuid
+     **/
+    @Nullable
+    @ApiModelProperty(value = "")
+    @JsonProperty(JSON_PROPERTY_UUID)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public UUID getUuid() {
+        return uuid;
     }
-    MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
-    return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
-        Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
-        Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(uuid, dateTime, map);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    map: ").append(toIndentedString(map)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    @JsonProperty(JSON_PROPERTY_UUID)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
-    return o.toString().replace("\n", "\n    ");
+
+    public MixedPropertiesAndAdditionalPropertiesClass dateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+        return this;
+    }
+
+    /**
+     * Get dateTime
+     * @return dateTime
+     **/
+    @Nullable
+    @ApiModelProperty(value = "")
+    @JsonProperty(JSON_PROPERTY_DATE_TIME)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
+       public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    @JsonProperty(JSON_PROPERTY_DATE_TIME)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
+       public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+        this.map = map;
+        return this;
+    }
+
+    public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
+        if (this.map == null) {
+            this.map = new HashMap<String, Animal>();
+        }
+        this.map.put(key, mapItem);
+        return this;
   }
+
+    /**
+     * Get map
+     * @return map
+     **/
+    @Nullable
+    @ApiModelProperty(value = "")
+    @JsonProperty(JSON_PROPERTY_MAP)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public Map<String, Animal> getMap() {
+        return map;
+    }
+
+    @JsonProperty(JSON_PROPERTY_MAP)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public void setMap(Map<String, Animal> map) {
+        this.map = map;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
+        return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
+            Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
+            Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid, dateTime, map);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
+        sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+        sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+        sb.append("    map: ").append(toIndentedString(map)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
 
 }
