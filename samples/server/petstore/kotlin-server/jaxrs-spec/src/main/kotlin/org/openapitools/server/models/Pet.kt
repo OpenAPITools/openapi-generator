@@ -28,17 +28,29 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Pet (
 
+
+    @JsonProperty("name")
     val name: kotlin.String,
 
+
+    @JsonProperty("photoUrls")
     val photoUrls: kotlin.collections.List<kotlin.String>,
 
+
+    @JsonProperty("id")
     val id: kotlin.Long? = null,
 
+
+    @JsonProperty("category")
     val category: Category? = null,
 
+
+    @JsonProperty("tags")
     val tags: kotlin.collections.List<Tag>? = null,
 
     /* pet status in the store */
+
+    @JsonProperty("status")
     val status: Pet.Status? = null
 
 ) {

@@ -22,8 +22,12 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Category (
 
+
+    @JsonProperty("id")
     val id: kotlin.Long? = null,
 
+
+    @JsonProperty("name")
     val name: kotlin.String? = null
 
 )

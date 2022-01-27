@@ -2,5 +2,5 @@
     /* {{{.}}} */
 {{/description}}
 
-@JsonProperty("{{{baseName}}}")
+    @JsonProperty("{{{baseName}}}")
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}    {{>modelMutable}} {{{name}}}: {{#isEnum}}{{classname}}.{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}
