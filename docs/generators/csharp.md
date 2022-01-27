@@ -10,6 +10,7 @@ title: Documentation for the csharp Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | C# | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a CSharp client library. | |
 
 ## CONFIG OPTIONS

@@ -44,6 +44,22 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayArrayNumber = arrayArrayNumber;
   }
 
+  public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
+    if (this.arrayArrayNumber == null) {
+      this.arrayArrayNumber = new ArrayList<List<BigDecimal>>();
+    }
+
+    this.arrayArrayNumber.add(arrayArrayNumberItem);
+    return this;
+  }
+
+  public ArrayOfArrayOfNumberOnly removeArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
+    if (arrayArrayNumberItem != null && this.arrayArrayNumber != null) {
+      this.arrayArrayNumber.remove(arrayArrayNumberItem);
+    }
+
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

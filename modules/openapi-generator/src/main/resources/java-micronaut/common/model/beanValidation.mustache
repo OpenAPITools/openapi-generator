@@ -1,0 +1,52 @@
+{{#useBeanValidation}}{{!
+validate all pojos and enums
+}}{{^isContainer}}{{#isModel}}    @Valid
+{{/isModel}}{{/isContainer}}{{!
+nullable & nonnull
+}}{{#required}}{{#isNullable}}    @Nullable
+{{/isNullable}}{{^isNullable}}    @NotNull
+{{/isNullable}}{{/required}}{{^required}}    @Nullable
+{{/required}}{{!
+pattern
+}}{{#pattern}}{{^isByteArray}}    @Pattern(regexp="{{{pattern}}}")
+{{/isByteArray}}{{/pattern}}{{!
+both minLength && maxLength
+}}{{#minLength}}{{#maxLength}}    @Size(min={{minLength}}, max={{maxLength}})
+{{/maxLength}}{{/minLength}}{{!
+just minLength
+}}{{#minLength}}{{^maxLength}}    @Size(min={{minLength}})
+{{/maxLength}}{{/minLength}}{{!
+just maxLength
+}}{{^minLength}}{{#maxLength}}    @Size(max={{maxLength}})
+{{/maxLength}}{{/minLength}}{{!
+@Size: both minItems && maxItems
+}}{{#minItems}}{{#maxItems}}    @Size(min={{minItems}}, max={{maxItems}})
+{{/maxItems}}{{/minItems}}{{!
+@Size: just minItems
+}}{{#minItems}}{{^maxItems}}    @Size(min={{minItems}})
+{{/maxItems}}{{/minItems}}{{!
+@Size: just maxItems
+}}{{^minItems}}{{#maxItems}}    @Size(max={{maxItems}})
+{{/maxItems}}{{/minItems}}{{!
+@Email
+}}{{#isEmail}}    @Email
+{{/isEmail}}{{!
+check for integer or long / all others=decimal type with @Decimal*
+isInteger set
+}}{{#isInteger}}{{#minimum}}    @Min({{minimum}})
+{{/minimum}}{{#maximum}}    @Max({{maximum}})
+{{/maximum}}{{/isInteger}}{{!
+isLong set
+}}{{#isLong}}{{#minimum}}    @Min({{minimum}}L)
+{{/minimum}}{{#maximum}}    @Max({{maximum}}L)
+{{/maximum}}{{/isLong}}{{!
+Not Integer, not Long => we have a decimal value!
+}}{{^isInteger}}{{^isLong}}{{!
+minimum for decimal value
+}}{{#minimum}}    @DecimalMin({{#exclusiveMinimum}}value={{/exclusiveMinimum}}"{{minimum}}"{{#exclusiveMinimum}}, inclusive=false{{/exclusiveMinimum}})
+{{/minimum}}{{!
+maximal for decimal value
+}}{{#maximum}}    @DecimalMax({{#exclusiveMaximum}}value={{/exclusiveMaximum}}"{{maximum}}"{{#exclusiveMaximum}}, inclusive=false{{/exclusiveMaximum}})
+{{/maximum}}{{!
+close decimal values
+}}{{/isLong}}{{/isInteger}}{{/useBeanValidation}}

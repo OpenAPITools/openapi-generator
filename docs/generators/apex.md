@@ -10,6 +10,7 @@ title: Documentation for the apex Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Apex | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates an Apex API client library. | |
 
 ## CONFIG OPTIONS

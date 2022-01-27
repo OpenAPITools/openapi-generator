@@ -10,6 +10,7 @@ title: Documentation for the scala-sttp Generator
 | generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | Scala | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Scala client library (beta) based on Sttp. | |
 
 ## CONFIG OPTIONS

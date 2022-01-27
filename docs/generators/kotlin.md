@@ -10,6 +10,7 @@ title: Documentation for the kotlin Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Kotlin | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Kotlin client. | |
 
 ## CONFIG OPTIONS

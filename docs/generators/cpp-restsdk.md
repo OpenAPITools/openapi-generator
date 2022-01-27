@@ -10,6 +10,7 @@ title: Documentation for the cpp-restsdk Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | C++ | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a C++ API client with C++ REST SDK (https://github.com/Microsoft/cpprestsdk). | |
 
 ## CONFIG OPTIONS
