@@ -11,8 +11,11 @@
  * Do not edit the class manually.
  */
 
-import { Observable, of } from 'rxjs';
-import { ajax, AjaxRequest, AjaxResponse } from 'rxjs/ajax';
+import { of } from 'rxjs';
+import type { Observable } from 'rxjs';
+import { ajax } from 'rxjs/ajax';
+import type {  AjaxResponse, AjaxRequest } from 'rxjs/ajax';
+
 import { map, concatMap } from 'rxjs/operators';
 import { servers } from './servers';
 
@@ -107,7 +110,6 @@ export class BaseAPI {
             responseType: responseType ?? 'json',
         };
     }
-
     private rxjsRequest = (params: RequestArgs): Observable<AjaxResponse> =>
         of(params).pipe(
             map((request) => {
@@ -153,7 +155,8 @@ export type HttpHeaders = { [key: string]: string };
 export type HttpQuery = Partial<{ [key: string]: string | number | null | boolean | Array<string | number | null | boolean> }>; // partial is needed for strict mode
 export type HttpBody = Json | FormData;
 
-export interface RequestOpts extends AjaxRequest {
+export interface RequestOpts extends   AjaxRequest {
+    // TODO: replace custom 'query' prop with 'queryParams'
     query?: HttpQuery; // additional prop
     // the following props have improved types over AjaxRequest
     method: HttpMethod;
@@ -169,7 +172,6 @@ export interface ResponseOpts {
 export interface OperationOpts {
     responseOpts?: ResponseOpts;
 }
-
 // AjaxResponse with typed response
 export interface RawAjaxResponse<T> extends AjaxResponse {
     response: T;
@@ -188,10 +190,10 @@ const queryString = (params: HttpQuery): string => Object.entries(params)
 export const querystring = queryString;
 
 /**
- * @deprecated
- */
+* @deprecated
+*/
 export const throwIfRequired = (params: {[key: string]: any}, key: string, nickname: string) => {
-    if (!params || params[key] == null) {
+    if (!params || params[key] == null) {
         throw new RequiredError(`Required parameter ${key} was null or undefined when calling ${nickname}.`);
     }
 };

@@ -11,9 +11,10 @@
  * Do not edit the class manually.
  */
 
-import { Observable } from 'rxjs';
+import type { Observable } from 'rxjs';
 import { BaseAPI, HttpHeaders, HttpQuery, throwIfNullOrUndefined, encodeURI, OperationOpts, RawAjaxResponse } from '../runtime';
-import {
+
+import type {
     User,
 } from '../models';
 
