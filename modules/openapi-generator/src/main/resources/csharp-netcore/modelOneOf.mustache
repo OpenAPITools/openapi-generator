@@ -6,7 +6,7 @@
     [DataContract(Name = "{{{name}}}")]
     {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
     {
-{{#isNullable}}
+        {{#isNullable}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
@@ -15,8 +15,10 @@
             this.IsNullable = true;
             this.SchemaType= "oneOf";
         }
-{{/isNullable}}
-{{#composedSchemas.oneOf}}{{^isNull}}
+
+        {{/isNullable}}
+        {{#composedSchemas.oneOf}}
+        {{^isNull}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class
         /// with the <see cref="{{dataType}}" /> class
@@ -28,7 +30,9 @@
             this.SchemaType= "oneOf";
             this.ActualInstance = actualInstance{{^model.isNullable}}{{^isPrimitiveType}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isPrimitiveType}}{{#isPrimitiveType}}{{#isArray}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isArray}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isFreeFormObject}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isFreeFormObject}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isString}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isString}}{{/isPrimitiveType}}{{/model.isNullable}};
         }
-{{/isNull}}{{/composedSchemas.oneOf}}
+
+        {{/isNull}}
+        {{/composedSchemas.oneOf}}
 
         private Object _actualInstance;
 
@@ -55,7 +59,8 @@
                 }
             }
         }
-        {{#composedSchemas.oneOf}}{{^isNull}}
+        {{#composedSchemas.oneOf}}
+        {{^isNull}}
 
         /// <summary>
         /// Get the actual instance of `{{dataType}}`. If the actual instance is not `{{dataType}}`,
@@ -65,7 +70,9 @@
         public {{{dataType}}} Get{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}{{#isArray}}{{#lambda.titlecase}}{{{dataFormat}}}{{/lambda.titlecase}}{{/isArray}}()
         {
             return ({{{dataType}}})this.ActualInstance;
-        }{{/isNull}}{{/composedSchemas.oneOf}}
+        }
+        {{/isNull}}
+        {{/composedSchemas.oneOf}}
 
         /// <summary>
         /// Returns the string presentation of the object
