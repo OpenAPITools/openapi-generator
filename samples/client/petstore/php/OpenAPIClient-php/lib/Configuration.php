@@ -114,6 +114,13 @@ class Configuration
     protected $tempFolderPath;
 
     /**
+     * Holds any extra request options you want to send
+     *
+     * @var array
+     */
+    protected $options = [];
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -519,5 +526,27 @@ class Configuration
         }
 
         return $url;
+    }
+
+    /**
+     * Set extra request options
+     *
+     * @param array $options
+     * @return $this
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+        return $this;
+    }
+
+    /**
+     * Get extra request options
+     *
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }
