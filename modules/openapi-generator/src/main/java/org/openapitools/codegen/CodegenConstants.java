@@ -35,6 +35,8 @@ public class CodegenConstants {
     public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
 
+    public static final String API_NAME = "apiName";
+
     public static final String API_PACKAGE = "apiPackage";
     public static final String API_PACKAGE_DESC = "package for generated api classes";
 
