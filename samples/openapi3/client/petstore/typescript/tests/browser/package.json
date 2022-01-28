@@ -1,0 +1,17 @@
+{
+  "name": "typescript-test",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "test": "web-test-runner dist/**/*.test.js"
+  },
+  "dependencies": {
+    "@esm-bundle/chai": "^4.3.4-fix.0",
+    "@web/test-runner": "^0.13.26",
+    "ts-petstore-client": "file:../../builds/browser"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.4"
+  }
+}
