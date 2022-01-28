@@ -621,15 +621,15 @@ class ApiClient(object):
             return
 
         if request_auth:
-            self._apply_auth_params(headers, queries, request_auth)
+            self._apply_auth_params(headers, queries, resource_path, method, body, request_auth)
             return
 
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
-                self._apply_auth_params(headers, queries, auth_setting)
+                self._apply_auth_params(headers, queries, resource_path, method, body, auth_setting)
 
-    def _apply_auth_params(self, headers, queries, auth_setting):
+    def _apply_auth_params(self, headers, queries, resource_path, method, body, auth_setting):
         if auth_setting['in'] == 'cookie':
             headers['Cookie'] = auth_setting['value']
         elif auth_setting['in'] == 'header':
