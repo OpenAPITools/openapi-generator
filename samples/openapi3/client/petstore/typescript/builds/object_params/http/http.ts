@@ -5,7 +5,7 @@ import * as http from 'http';
 import * as https from 'https';
 // typings of url-parse are incorrect...
 // @ts-ignore
-import * as URLParse from "url-parse";
+import URLParse from 'url-parse';
 import { Observable, from } from '../rxjsStub';
 
 export * from './isomorphic-fetch';
@@ -125,7 +125,7 @@ export class RequestContext {
     public setHeaderParam(key: string, value: string): void  {
         this.headers[key] = value;
     }
-    
+
     public setAgent(agent: http.Agent | https.Agent) {
         this.agent = agent;
     }
