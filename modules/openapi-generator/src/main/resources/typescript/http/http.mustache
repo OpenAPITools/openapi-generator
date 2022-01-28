@@ -11,7 +11,7 @@ import * as https from 'https';
 {{^deno}}
 // typings of url-parse are incorrect...
 // @ts-ignore
-import * as URLParse from "url-parse";
+import URLParse from 'url-parse';
 {{/deno}}
 {{/platforms}}
 import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
@@ -194,7 +194,7 @@ export class RequestContext {
     }
     {{#platforms}}
     {{#node}}
-    
+
     public setAgent(agent: http.Agent | https.Agent) {
         this.agent = agent;
     }
