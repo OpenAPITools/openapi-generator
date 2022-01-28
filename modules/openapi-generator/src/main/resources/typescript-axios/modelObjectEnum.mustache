@@ -1,4 +1,4 @@
-export const {{classname}}{{enumName}} = {
+export const {{classname}} = {
 {{#allowableValues}}
   {{#enumVars}}
     {{#enumDescription}}
@@ -11,4 +11,4 @@ export const {{classname}}{{enumName}} = {
 {{/allowableValues}}
 } as const;
 
-export type {{classname}}{{enumName}} = typeof {{classname}}{{enumName}}[keyof typeof {{classname}}{{enumName}}];
+export type {{classname}} = typeof {{classname}}[keyof typeof {{classname}}];
