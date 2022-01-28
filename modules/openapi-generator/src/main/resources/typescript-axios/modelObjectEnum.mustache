@@ -1,13 +1,13 @@
 export const {{classname}} = {
 {{#allowableValues}}
-  {{#enumVars}}
+    {{#enumVars}}
     {{#enumDescription}}
-      /**
-      * {{.}}
-      */
+    /**
+    * {{.}}
+    */
     {{/enumDescription}}
     {{{name}}}: {{{value}}}{{^-last}},{{/-last}}
-  {{/enumVars}}
+    {{/enumVars}}
 {{/allowableValues}}
 } as const;
 
