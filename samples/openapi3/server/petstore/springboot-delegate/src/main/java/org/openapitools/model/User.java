@@ -12,12 +12,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class User   {
+
   @JsonProperty("id")
   private Long id;
 
@@ -51,9 +54,8 @@ public class User   {
    * Get id
    * @return id
   */
-  @Schema(name = "id", defaultValue = "")
-
-
+  
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -71,9 +73,8 @@ public class User   {
    * Get username
    * @return username
   */
-  @Schema(name = "username", defaultValue = "")
-
-
+  
+  @Schema(name = "username", required = false)
   public String getUsername() {
     return username;
   }
@@ -91,9 +92,8 @@ public class User   {
    * Get firstName
    * @return firstName
   */
-  @Schema(name = "firstName", defaultValue = "")
-
-
+  
+  @Schema(name = "firstName", required = false)
   public String getFirstName() {
     return firstName;
   }
@@ -111,9 +111,8 @@ public class User   {
    * Get lastName
    * @return lastName
   */
-  @Schema(name = "lastName", defaultValue = "")
-
-
+  
+  @Schema(name = "lastName", required = false)
   public String getLastName() {
     return lastName;
   }
@@ -131,9 +130,8 @@ public class User   {
    * Get email
    * @return email
   */
-  @Schema(name = "email", defaultValue = "")
-
-
+  
+  @Schema(name = "email", required = false)
   public String getEmail() {
     return email;
   }
@@ -151,9 +149,8 @@ public class User   {
    * Get password
    * @return password
   */
-  @Schema(name = "password", defaultValue = "")
-
-
+  
+  @Schema(name = "password", required = false)
   public String getPassword() {
     return password;
   }
@@ -171,9 +168,8 @@ public class User   {
    * Get phone
    * @return phone
   */
-  @Schema(name = "phone", defaultValue = "")
-
-
+  
+  @Schema(name = "phone", required = false)
   public String getPhone() {
     return phone;
   }
@@ -191,9 +187,8 @@ public class User   {
    * User Status
    * @return userStatus
   */
-  @Schema(name = "userStatus", defaultValue = "User Status")
-
-
+  
+  @Schema(name = "userStatus", description = "User Status", required = false)
   public Integer getUserStatus() {
     return userStatus;
   }
@@ -201,7 +196,6 @@ public class User   {
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -231,7 +225,6 @@ public class User   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");

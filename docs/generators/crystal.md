@@ -10,6 +10,7 @@ title: Documentation for the crystal Generator
 | generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | Crystal | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Crystal client library (beta). | |
 
 ## CONFIG OPTIONS

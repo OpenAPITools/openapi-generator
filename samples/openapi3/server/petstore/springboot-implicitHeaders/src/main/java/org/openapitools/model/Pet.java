@@ -20,12 +20,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet   {
+
   @JsonProperty("id")
   private Long id;
 
@@ -92,9 +95,8 @@ public class Pet   {
    * Get id
    * @return id
   */
-  @Schema(name = "id", defaultValue = "")
-
-
+  
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -112,10 +114,8 @@ public class Pet   {
    * Get category
    * @return category
   */
-  @Schema(name = "category", defaultValue = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "category", required = false)
   public Category getCategory() {
     return category;
   }
@@ -133,10 +133,8 @@ public class Pet   {
    * Get name
    * @return name
   */
-  @Schema(name = "name", example = "doggie", required = true, defaultValue = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "name", example = "doggie", required = true)
   public String getName() {
     return name;
   }
@@ -159,10 +157,8 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
   */
-  @Schema(name = "photoUrls", required = true, defaultValue = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "photoUrls", required = true)
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -189,10 +185,8 @@ public class Pet   {
    * Get tags
    * @return tags
   */
-  @Schema(name = "tags", defaultValue = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "tags", required = false)
   public List<Tag> getTags() {
     return tags;
   }
@@ -210,9 +204,8 @@ public class Pet   {
    * pet status in the store
    * @return status
   */
-  @Schema(name = "status", defaultValue = "pet status in the store")
-
-
+  
+  @Schema(name = "status", description = "pet status in the store", required = false)
   public StatusEnum getStatus() {
     return status;
   }
@@ -220,7 +213,6 @@ public class Pet   {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -248,7 +240,6 @@ public class Pet   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pet {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

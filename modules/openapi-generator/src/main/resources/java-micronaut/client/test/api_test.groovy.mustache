@@ -1,0 +1,48 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import spock.lang.Specification
+import jakarta.inject.Inject
+import reactor.core.publisher.Mono
+{{^fullJavaUtil}}
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.List
+import java.util.Map
+{{/fullJavaUtil}}
+
+
+/**
+ * API tests for {{classname}}
+ */
+@MicronautTest
+class {{classname}}Spec extends Specification {
+
+    @Inject
+    {{classname}} api
+
+    {{#operations}}{{#operation}}
+    /**
+     * {{summary}}
+     {{#notes}}
+     *
+     * {{notes}}
+     {{/notes}}
+     */
+    void '{{operationId}}() test'() {
+        given:
+        {{#allParams}}
+        {{{dataType}}} {{paramName}} = null
+        {{/allParams}}
+        // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).block()
+        // {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} asyncResponse = api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+
+        expect:
+        true
+        // TODO: test validations
+    }
+
+    {{/operation}}{{/operations}}
+}

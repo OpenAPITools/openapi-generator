@@ -13,12 +13,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * EnumArrays
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class EnumArrays   {
+
   /**
    * Gets or Sets justSymbol
    */
@@ -105,9 +108,8 @@ public class EnumArrays   {
    * Get justSymbol
    * @return justSymbol
   */
-  @Schema(name = "justSymbol", defaultValue = "")
-
-
+  
+  @Schema(name = "just_symbol", required = false)
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -133,9 +135,8 @@ public class EnumArrays   {
    * Get arrayEnum
    * @return arrayEnum
   */
-  @Schema(name = "arrayEnum", defaultValue = "")
-
-
+  
+  @Schema(name = "array_enum", required = false)
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
@@ -143,7 +144,6 @@ public class EnumArrays   {
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -167,7 +167,6 @@ public class EnumArrays   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EnumArrays {\n");
-    
     sb.append("    justSymbol: ").append(toIndentedString(justSymbol)).append("\n");
     sb.append("    arrayEnum: ").append(toIndentedString(arrayEnum)).append("\n");
     sb.append("}");

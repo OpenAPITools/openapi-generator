@@ -10,6 +10,7 @@ title: Documentation for the swift4-deprecated Generator
 | generator stability | DEPRECATED | |
 | generator type | CLIENT | |
 | generator language | Swift | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Swift 4.x client library (Deprecated and will be removed in 5.x releases. Please use `swift5` instead.) | |
 
 ## CONFIG OPTIONS

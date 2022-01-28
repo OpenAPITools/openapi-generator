@@ -1,0 +1,46 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import spock.lang.Specification
+import jakarta.inject.Inject
+{{#fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+/**
+ * Model tests for {{classname}}
+ */
+@MicronautTest
+public class {{classname}}Spec extends Specification {
+    {{#models}}
+    {{#model}}
+    {{^vendorExtensions.x-is-one-of-interface}}
+    {{^isEnum}}
+    private final {{classname}} model = null
+
+    {{/isEnum}}
+    /**
+     * Model tests for {{classname}}
+     */
+    void '{{classname}} test'() {
+        // TODO: test {{classname}}
+    }
+
+    {{#allVars}}
+    /**
+     * Test the property '{{name}}'
+     */
+    void '{{classname}} property {{name}} test'() {
+        // TODO: test {{name}} property of {{classname}}
+    }
+
+    {{/allVars}}
+    {{/vendorExtensions.x-is-one-of-interface}}
+    {{/model}}
+    {{/models}}
+}

@@ -10,6 +10,7 @@ title: Documentation for the ada-server Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Ada | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates an Ada server implementation (beta). | |
 
 ## CONFIG OPTIONS

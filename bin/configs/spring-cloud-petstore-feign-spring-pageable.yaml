@@ -4,5 +4,6 @@ library: spring-cloud
 inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-spring-pageable.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  documentationProvider: springfox
   artifactId: spring-cloud-spring-pageable
   hideGenerationTimestamp: 'true'

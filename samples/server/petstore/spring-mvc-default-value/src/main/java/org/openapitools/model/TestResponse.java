@@ -14,12 +14,15 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * TestResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TestResponse   {
+
   @JsonProperty("id")
   private Integer id;
 
@@ -41,10 +44,8 @@ public class TestResponse   {
    * Get id
    * @return id
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public Integer getId() {
     return id;
   }
@@ -62,10 +63,8 @@ public class TestResponse   {
    * Get stringField
    * @return stringField
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public String getStringField() {
     return stringField;
   }
@@ -83,11 +82,8 @@ public class TestResponse   {
    * Get numberField
    * @return numberField
   */
+  @NotNull @Valid 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
   public BigDecimal getNumberField() {
     return numberField;
   }
@@ -105,10 +101,8 @@ public class TestResponse   {
    * Get booleanField
    * @return booleanField
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public Boolean getBooleanField() {
     return booleanField;
   }
@@ -116,7 +110,6 @@ public class TestResponse   {
   public void setBooleanField(Boolean booleanField) {
     this.booleanField = booleanField;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -142,7 +135,6 @@ public class TestResponse   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TestResponse {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    stringField: ").append(toIndentedString(stringField)).append("\n");
     sb.append("    numberField: ").append(toIndentedString(numberField)).append("\n");

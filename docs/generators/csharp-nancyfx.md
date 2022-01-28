@@ -10,6 +10,7 @@ title: Documentation for the csharp-nancyfx Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | C# | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a C# NancyFX Web API server. | |
 
 ## CONFIG OPTIONS

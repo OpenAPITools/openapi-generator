@@ -451,6 +451,14 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
         @Override
         public boolean equals(Object o) {
+            if (o == null) {
+                return false;
+            }
+
+            if (this.getClass() != o.getClass()) {
+                return false;
+            }
+
             boolean result = super.equals(o);
             JavaPlayFrameworkCodegen.ExtendedCodegenSecurity that = (JavaPlayFrameworkCodegen.ExtendedCodegenSecurity) o;
             return result &&
