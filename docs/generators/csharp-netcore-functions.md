@@ -7,7 +7,10 @@ title: Documentation for the csharp-netcore-functions Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | csharp-netcore-functions | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | SERVER | |
+| generator language | C# | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a csharp server. | |
 
 ## CONFIG OPTIONS

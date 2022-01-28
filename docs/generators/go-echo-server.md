@@ -7,7 +7,10 @@ title: Documentation for the go-echo-server Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | go-echo-server | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | SERVER | |
+| generator language | Go | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a go-echo server. (Beta) | |
 
 ## CONFIG OPTIONS

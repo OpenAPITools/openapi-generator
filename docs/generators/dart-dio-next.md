@@ -7,7 +7,10 @@ title: Documentation for the dart-dio-next Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | dart-dio-next | pass this to the generate command after -g |
+| generator stability | EXPERIMENTAL | |
 | generator type | CLIENT | |
+| generator language | Dart | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Dart Dio client library with null-safety. | |
 
 ## CONFIG OPTIONS

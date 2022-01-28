@@ -7,7 +7,10 @@ title: Documentation for the apex Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | apex | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Apex | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates an Apex API client library. | |
 
 ## CONFIG OPTIONS

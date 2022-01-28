@@ -7,7 +7,9 @@ title: Documentation for the cwiki Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | cwiki | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | DOCUMENTATION | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates confluence wiki markup. | |
 
 ## CONFIG OPTIONS

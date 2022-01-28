@@ -7,7 +7,10 @@ title: Documentation for the scalatra Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | scalatra | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
+| generator language | Scala | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Scala server application with Scalatra. | |
 
 ## CONFIG OPTIONS

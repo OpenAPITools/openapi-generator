@@ -19,7 +19,7 @@ type InlineObject2 struct {
 	// Form parameter enum test (string array)
 	EnumFormStringArray *[]string `json:"enum_form_string_array,omitempty"`
 	// Form parameter enum test (string)
-	EnumFormString *string `json:"enum_form_string,omitempty"`
+	EnumFormString       *string `json:"enum_form_string,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -179,5 +179,3 @@ func (v *NullableInlineObject2) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

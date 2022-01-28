@@ -7,7 +7,10 @@ title: Documentation for the haskell-yesod Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | haskell-yesod | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | SERVER | |
+| generator language | Haskell | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a haskell-yesod server. | |
 
 ## CONFIG OPTIONS

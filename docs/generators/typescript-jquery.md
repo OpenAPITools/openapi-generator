@@ -7,7 +7,10 @@ title: Documentation for the typescript-jquery Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | typescript-jquery | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Typescript | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a TypeScript jquery client library. | |
 
 ## CONFIG OPTIONS

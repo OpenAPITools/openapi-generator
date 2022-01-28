@@ -736,6 +736,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-micronaut-server</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/java-micronaut-server</module>
+            </modules>
+        </profile>
+        <profile>
             <id>java-msf4j-server</id>
             <activation>
                 <property>
@@ -1179,6 +1191,7 @@
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
                 <!-- servers -->
+                <module>samples/server/petstore/java-camel</module>
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
                 <module>samples/server/petstore/jaxrs-spec-interface</module>
@@ -1246,15 +1259,18 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/spring-mvc-default-value</module>
-                <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
-                <!-- servers -->
+                <!-- clients -->
                 <module>samples/client/petstore/spring-cloud</module>
                 <module>samples/openapi3/client/petstore/spring-cloud</module>
                 <module>samples/client/petstore/spring-cloud-date-time</module>
                 <module>samples/openapi3/client/petstore/spring-cloud-date-time</module>
+                <module>samples/client/petstore/spring-stubs</module>
+                <module>samples/openapi3/client/petstore/spring-stubs</module>
+                <!-- servers -->
+                <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/server/petstore/spring-mvc-default-value</module>
+                <module>samples/server/petstore/spring-mvc-j8-async</module>
+                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
                 <module>samples/server/petstore/springboot</module>
                 <module>samples/openapi3/server/petstore/springboot</module>
                 <module>samples/server/petstore/springboot-beanvalidation</module>
@@ -1281,7 +1297,7 @@
                 <!-- clients -->
                 <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/python_disallowAdditionalPropertiesIfNotPresent</module>
-                <module>samples/openapi3/client/petstore/python</module>
+                <!--<module>samples/openapi3/client/petstore/python-legacy</module>-->
                 <!-- TODO comment out below when the test for typescript-nestjs is ready
                 <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
                 <!-- comment out due to error `npm run build`
@@ -1311,6 +1327,21 @@
                 <module>samples/client/petstore/javascript-promise-es6</module>
             </modules>
         </profile>
+        <!-- node 4 tests in CircleCI -->
+        <profile>
+            <id>samples.circleci.node4</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.circleci.node4</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- python clients which don't need the server running -->
+                <module>samples/openapi3/client/petstore/python</module>
+                <module>samples/openapi3/client/petstore/python-experimental</module>
+            </modules>
+        </profile>
         <!-- other tests in CircleCI -->
         <profile>
             <id>samples.circleci.others</id>
@@ -1323,7 +1354,8 @@
             <modules>
                 <!-- clients -->
                 <!-- test java-related projects -->
-                <module>samples/client/petstore/groovy</module>
+                <!-- comment out below due to gradle no longer installed in circleci
+                <module>samples/client/petstore/groovy</module> -->
                 <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
@@ -1601,7 +1633,7 @@
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
-        <mockito.version>3.12.4</mockito.version>
+        <mockito.version>4.2.0</mockito.version>
         <pmd-plugin.version>3.12.0</pmd-plugin.version>
         <reflections.version>0.10</reflections.version>
         <rxgen.version>1.3</rxgen.version>

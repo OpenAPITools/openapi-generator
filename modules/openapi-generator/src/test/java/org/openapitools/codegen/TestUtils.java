@@ -5,8 +5,9 @@ import static org.testng.Assert.fail;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
 
-import com.github.javaparser.ParseProblemException;
-import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParserConfiguration;
+import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
@@ -150,13 +151,11 @@ public class TestUtils {
     }
 
     public static void assertValidJavaSourceCode(String javaSourceCode, String filename) {
-        try {
-            CompilationUnit compilation = StaticJavaParser.parse(javaSourceCode);
-            assertTrue(compilation.getTypes().size() > 0, "File: " + filename);
-        }
-        catch (ParseProblemException ex) {
-            fail("Java parse problem: " + filename, ex);
-        }
+        ParserConfiguration config = new ParserConfiguration();
+        config.setLanguageLevel(ParserConfiguration.LanguageLevel.JAVA_11);
+        JavaParser parser = new JavaParser(config);
+        ParseResult<CompilationUnit> parseResult = parser.parse(javaSourceCode);
+        assertTrue(parseResult.isSuccessful(), String.valueOf(parseResult.getProblems()));
     }
 
     public static void assertFileContains(Path path, String... lines) {

@@ -7,7 +7,10 @@ title: Documentation for the go Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | go | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Go | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Go client library. | |
 
 ## CONFIG OPTIONS

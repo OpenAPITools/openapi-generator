@@ -48,6 +48,7 @@ from petstore_api.model.fake_post_inline_additional_properties_payload_array_dat
 from petstore_api.model.file import File
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from petstore_api.model.foo import Foo
+from petstore_api.model.foo_object import FooObject
 from petstore_api.model.format_test import FormatTest
 from petstore_api.model.fruit import Fruit
 from petstore_api.model.fruit_req import FruitReq

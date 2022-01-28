@@ -7,7 +7,10 @@ title: Documentation for the cpp-qt-client Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | cpp-qt-client | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | C++ | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Qt C++ client library. | |
 
 ## CONFIG OPTIONS

@@ -1,0 +1,63 @@
+# {{classname}}{{#description}}
+{{description}}{{/description}}
+
+All URIs are relative to `"{{contextPath}}"`
+
+The controller class is defined in **[{{classname}}.java](../../{{{apiFolder}}}/{{classname}}.java)**
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#operations}}
+    {{#operation}}
+[**{{operationId}}**](#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+    {{/operation}}
+{{/operations}}
+
+{{#operations}}
+    {{#operation}}
+<a name="{{operationId}}"></a>
+# **{{operationId}}**
+```java
+{{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{classname}}.{{nickname}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+```
+
+{{summary}}{{#notes}}
+
+{{notes}}{{/notes}}
+
+{{#allParams}}
+    {{#-last}}
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+{{#allParams}}
+**{{paramName}}** | {{^isPrimitiveType}}[**{{dataType}}**](../../{{modelDocPath}}/{{baseType}}.md){{/isPrimitiveType}}{{#isPrimitiveType}}`{{dataType}}`{{/isPrimitiveType}} | {{description}} |{{^required}} [optional parameter]{{/required}}{{#defaultValue}} [default to `{{defaultValue}}`]{{/defaultValue}}{{#allowableValues}} [enum: {{#values}}`{{{.}}}`{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+{{/allParams}}
+    {{/-last}}
+{{/allParams}}
+
+{{#returnType}}
+### Return type
+    {{#returnTypeIsPrimitive}}
+`{{returnType}}`
+    {{/returnTypeIsPrimitive}}
+    {{^returnTypeIsPrimitive}}
+[**{{returnType}}**](../../{{modelDocPath}}/{{returnBaseType}}.md)
+    {{/returnTypeIsPrimitive}}
+{{/returnType}}
+
+{{#authMethods}}
+    {{#-last}}
+### Authorization
+        {{#authMethods}}
+* **{{name}}**{{#scopes}}{{#-last}}, scopes: {{#scopes}}`{{{scope}}}`{{^-last}}, {{/-last}}{{/scopes}}{{/-last}}{{/scopes}}
+        {{/authMethods}}
+    {{/-last}}
+{{/authMethods}}
+
+### HTTP request headers
+ - **Accepts Content-Type**: {{#consumes}}`{{{mediaType}}}`{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Produces Content-Type**: {{#produces}}`{{{mediaType}}}`{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+    {{/operation}}
+{{/operations}}

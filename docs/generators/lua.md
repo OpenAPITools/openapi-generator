@@ -7,7 +7,10 @@ title: Documentation for the lua Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | lua | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | CLIENT | |
+| generator language | Lua | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Lua client library (beta). | |
 
 ## CONFIG OPTIONS

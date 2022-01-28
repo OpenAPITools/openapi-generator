@@ -7,7 +7,10 @@ title: Documentation for the fsharp-giraffe-server Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | fsharp-giraffe-server | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | SERVER | |
+| generator language | F# | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a F# Giraffe server (beta). | |
 
 ## CONFIG OPTIONS

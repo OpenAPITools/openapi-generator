@@ -26,9 +26,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 {{/withXml}}
 {{/jackson}}
-{{#oas3}}
+{{#swagger2AnnotationLibrary}}
 import io.swagger.v3.oas.annotations.media.Schema;
-{{/oas3}}
+{{/swagger2AnnotationLibrary}}
 
 {{#withXml}}
 import javax.xml.bind.annotation.*;
@@ -40,6 +40,7 @@ import org.springframework.hateoas.RepresentationModel;
 {{/parent}}
 
 import java.util.*;
+import javax.annotation.Generated;
 
 {{#models}}
 {{#model}}

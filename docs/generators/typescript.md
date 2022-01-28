@@ -7,7 +7,10 @@ title: Documentation for the typescript Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | typescript | pass this to the generate command after -g |
+| generator stability | EXPERIMENTAL | |
 | generator type | CLIENT | |
+| generator language | Typescript | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a TypeScript client library using Fetch API (beta). | |
 
 ## CONFIG OPTIONS

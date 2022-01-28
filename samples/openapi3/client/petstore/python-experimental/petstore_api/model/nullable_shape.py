@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -67,12 +68,6 @@ class NullableShape(
     Do not edit the class manually.
 
     The value may be a shape or the 'null' value. The 'nullable' attribute was introduced in OAS schema >= 3.0 and has been deprecated in OAS schema >= 3.1. For a nullable composed schema to work, one of its chosen oneOf schemas must be type null
-
-    Attributes:
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
-    _discriminator(cls) -> dict: the key is the required discriminator propertyName
-        the value is a dict mapping from a string name to the corresponding Schema class
     """
 
     @classmethod
@@ -110,10 +105,10 @@ class NullableShape(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, Decimal, None, list, tuple, bytes],
+        *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'NullableShape':
         return super().__new__(
             cls,
             *args,

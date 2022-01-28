@@ -7,7 +7,10 @@ title: Documentation for the typescript-inversify Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | typescript-inversify | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Typescript | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates Typescript services using Inversify IOC | |
 
 ## CONFIG OPTIONS

@@ -7,7 +7,11 @@ title: Documentation for the python Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | python | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Python | |
+| generator language version | >=3.6 | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Python client library. | |
 
 ## CONFIG OPTIONS

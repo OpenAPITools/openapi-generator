@@ -103,7 +103,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost";
             var apiInstance = new MultipartApi(config);
-            var file = BINARY_DATA_HERE;  // System.IO.Stream | a file
+            var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | a file
             var marker = new MultipartMixedMarker(); // MultipartMixedMarker |  (optional) 
 
             try
@@ -174,7 +174,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost";
             var apiInstance = new MultipartApi(config);
-            var file = BINARY_DATA_HERE;  // System.IO.Stream | One file (optional) 
+            var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | One file (optional) 
 
             try
             {

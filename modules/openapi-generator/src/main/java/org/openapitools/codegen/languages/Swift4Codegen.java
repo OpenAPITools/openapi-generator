@@ -1091,4 +1091,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         example += ")";
         return example;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SWIFT; }
 }

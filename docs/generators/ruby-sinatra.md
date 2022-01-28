@@ -7,7 +7,10 @@ title: Documentation for the ruby-sinatra Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | ruby-sinatra | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
+| generator language | Ruby | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Ruby Sinatra server library. | |
 
 ## CONFIG OPTIONS

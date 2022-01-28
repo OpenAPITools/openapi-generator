@@ -7,7 +7,10 @@ title: Documentation for the nim Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | nim | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | CLIENT | |
+| generator language | Nim | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a nim client (beta). | |
 
 ## CONFIG OPTIONS

@@ -7,7 +7,10 @@ title: Documentation for the kotlin-server-deprecated Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | kotlin-server-deprecated | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
 | generator type | SERVER | |
+| generator language | Kotlin | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Kotlin server (Ktor v1.1.3). IMPORTANT: this generator has been deprecated. Please migrate to `kotlin-server` which supports Ktor v1.5.2+. | |
 
 ## CONFIG OPTIONS

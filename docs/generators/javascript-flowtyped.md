@@ -7,7 +7,10 @@ title: Documentation for the javascript-flowtyped Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | javascript-flowtyped | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Javascript | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Javascript client library (beta) using Flow types and Fetch API. | |
 
 ## CONFIG OPTIONS

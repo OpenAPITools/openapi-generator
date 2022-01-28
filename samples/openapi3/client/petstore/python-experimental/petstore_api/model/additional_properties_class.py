@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -65,18 +66,6 @@ class AdditionalPropertiesClass(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    map_property (dict,): 
-    map_of_map_property (dict,): 
-    anytype_1 (): 
-    map_with_undeclared_properties_anytype_1 (dict,): 
-    map_with_undeclared_properties_anytype_2 (dict,): 
-    map_with_undeclared_properties_anytype_3 (dict,): 
-    empty_map (dict,): an object with no declared properties and no undeclared properties, hence it&#x27;s an empty map.
-    map_with_undeclared_properties_string (dict,): 
-    _additional_properties (Schema): the definition used for additional properties
-        that are not defined in _properties
     """
     
     
@@ -91,7 +80,7 @@ class AdditionalPropertiesClass(
             *args: typing.Union[dict, frozendict, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'map_property':
             return super().__new__(
                 cls,
                 *args,
@@ -116,7 +105,7 @@ class AdditionalPropertiesClass(
                 *args: typing.Union[dict, frozendict, ],
                 _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
                 **kwargs: typing.Type[Schema],
-            ):
+            ) -> '_additional_properties':
                 return super().__new__(
                     cls,
                     *args,
@@ -130,7 +119,7 @@ class AdditionalPropertiesClass(
             *args: typing.Union[dict, frozendict, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'map_of_map_property':
             return super().__new__(
                 cls,
                 *args,
@@ -153,7 +142,7 @@ class AdditionalPropertiesClass(
             cls,
             *args: typing.Union[dict, frozendict, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-        ):
+        ) -> 'empty_map':
             return super().__new__(
                 cls,
                 *args,
@@ -172,7 +161,7 @@ class AdditionalPropertiesClass(
             *args: typing.Union[dict, frozendict, ],
             _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
             **kwargs: typing.Type[Schema],
-        ):
+        ) -> 'map_with_undeclared_properties_string':
             return super().__new__(
                 cls,
                 *args,
@@ -194,7 +183,7 @@ class AdditionalPropertiesClass(
         map_with_undeclared_properties_string: typing.Union[map_with_undeclared_properties_string, Unset] = unset,
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Type[Schema],
-    ):
+    ) -> 'AdditionalPropertiesClass':
         return super().__new__(
             cls,
             *args,

@@ -6,7 +6,7 @@ from collections import defaultdict
 from datetime import date, datetime, timedelta  # noqa: F401
 from dataclasses import dataclass
 import functools
-from decimal import Decimal
+import decimal
 import io
 import os
 import re
@@ -112,12 +112,12 @@ class ValidatorBase:
         """Returns true if JSON schema validation is enabled for the specified
         validation keyword. This can be used to skip JSON schema structural validation
         as requested in the configuration.
-    
+
         Args:
             schema_keyword (string): the name of a JSON schema validation keyword.
             configuration (Configuration): the configuration class.
         """
-    
+
         return (configuration is None or
             not hasattr(configuration, '_disabled_client_side_validations') or
             schema_keyword not in configuration._disabled_client_side_validations)
@@ -256,7 +256,7 @@ class ValidatorBase:
                                       _instantiation_metadata.configuration) and 'multiple_of' in validations:
             multiple_of_values = validations['multiple_of']
             for multiple_of_value in multiple_of_values:
-                if (isinstance(input_values, Decimal) and
+                if (isinstance(input_values, decimal.Decimal) and
                         not (float(input_values) / multiple_of_value).is_integer()
                 ):
                     # Note 'multipleOf' will be as good as the floating point arithmetic.
@@ -327,7 +327,7 @@ class ValidatorBase:
             cls.__check_tuple_validations(validations, input_values, _instantiation_metadata)
         elif isinstance(input_values, frozendict):
             cls.__check_dict_validations(validations, input_values, _instantiation_metadata)
-        elif isinstance(input_values, Decimal):
+        elif isinstance(input_values, decimal.Decimal):
             cls.__check_numeric_validations(validations, input_values, _instantiation_metadata)
         try:
             return super()._validate_validations_pass(input_values, _instantiation_metadata)
@@ -424,7 +424,7 @@ class EnumMakerInterface(typing.Protocol):
     @property
     def _enum_value_to_name(
         cls
-    ) -> typing.Dict[typing.Union[str, Decimal, bool, none_type], str]:
+    ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
         pass
 
     @classmethod
@@ -435,13 +435,13 @@ class EnumMakerInterface(typing.Protocol):
         pass
 
 
-def _SchemaEnumMaker(enum_value_to_name: typing.Dict[typing.Union[str, Decimal, bool, none_type], str]) -> EnumMakerInterface:
+def _SchemaEnumMaker(enum_value_to_name: typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]) -> EnumMakerInterface:
     class SchemaEnumMaker(EnumMakerBase):
         @classmethod
         @property
         def _enum_value_to_name(
                 cls
-        ) -> typing.Dict[typing.Union[str, Decimal, bool, none_type], str]:
+        ) -> typing.Dict[typing.Union[str, decimal.Decimal, bool, none_type], str]:
             pass
             try:
                 super_enum_value_to_name = super()._enum_value_to_name
@@ -538,6 +538,10 @@ class StrBase:
     def as_datetime(self) -> datetime:
         raise Exception('not implemented')
 
+    @property
+    def as_decimal(self) -> decimal.Decimal:
+        raise Exception('not implemented')
+
 
 class CustomIsoparser(isoparser):
 
@@ -624,6 +628,39 @@ class DateTimeBase:
     def _validate(cls, *args, _instantiation_metadata: typing.Optional[InstantiationMetadata] = None):
         """
         DateTimeBase _validate
+        """
+        cls._validate_format(args[0], _instantiation_metadata=_instantiation_metadata)
+        return super()._validate(*args, _instantiation_metadata=_instantiation_metadata)
+
+
+class DecimalBase(StrBase):
+    """
+    A class for storing decimals that are sent over the wire as strings
+    These schemas must remain based on StrBase rather than NumberBase
+    because picking base classes must be deterministic
+    """
+
+    @property
+    @functools.cache
+    def as_decimal(self) -> decimal.Decimal:
+        return decimal.Decimal(self)
+
+    @classmethod
+    def _validate_format(cls, arg: typing.Optional[str], _instantiation_metadata: InstantiationMetadata):
+        if isinstance(arg, str):
+            try:
+                decimal.Decimal(arg)
+                return True
+            except decimal.InvalidOperation:
+                raise ApiValueError(
+                    "Value cannot be converted to a decimal. "
+                    "Invalid value '{}' for type decimal at {}".format(arg, _instantiation_metadata.path_to_item)
+                )
+
+    @classmethod
+    def _validate(cls, *args, _instantiation_metadata: typing.Optional[InstantiationMetadata] = None):
+        """
+        DecimalBase _validate
         """
         cls._validate_format(args[0], _instantiation_metadata=_instantiation_metadata)
         return super()._validate(*args, _instantiation_metadata=_instantiation_metadata)
@@ -1038,7 +1075,7 @@ class DictBase(Discriminable):
             return super().__getattribute__(name)
 
 
-inheritable_primitive_types_set = {Decimal, str, tuple, frozendict, FileIO, bytes}
+inheritable_primitive_types_set = {decimal.Decimal, str, tuple, frozendict, FileIO, bytes}
 
 
 class Schema:
@@ -1145,8 +1182,8 @@ class Schema:
             new_cls = get_new_class(cls_name, (cls, BoolBase, BoolClass))
         elif base_cls is str:
             new_cls = get_new_class(cls_name, (cls, StrBase, str))
-        elif base_cls is Decimal:
-            new_cls = get_new_class(cls_name, (cls, NumberBase, Decimal))
+        elif base_cls is decimal.Decimal:
+            new_cls = get_new_class(cls_name, (cls, NumberBase, decimal.Decimal))
         elif base_cls is tuple:
             new_cls =  get_new_class(cls_name, (cls, ListBase, tuple))
         elif base_cls is frozendict:
@@ -1168,7 +1205,7 @@ class Schema:
         - the returned instance is a serializable type (except for None, True, and False) which are enums
 
         Use cases:
-        1. inheritable type: string/Decimal/frozendict/tuple
+        1. inheritable type: string/decimal.Decimal/frozendict/tuple
         2. enum value cases: 'hi', 1 -> no base_class set because the enum includes the base class
         3. uninheritable type: True/False/None -> no base_class because the base class is not inheritable
             _enum_by_value will handle this use case
@@ -1308,7 +1345,7 @@ class Schema:
             return super(Schema, cls).__new__(cls, properties)
         """
         str = openapi str, date, and datetime
-        Decimal = openapi int and float
+        decimal.Decimal = openapi int and float
         FileIO = openapi binary type and the user inputs a file
         bytes = openapi binary type and the user inputs bytes
         """
@@ -1323,7 +1360,7 @@ class Schema:
             datetime,
             int,
             float,
-            Decimal,
+            decimal.Decimal,
             bool,
             None,
             'Schema',
@@ -1360,13 +1397,13 @@ class Schema:
     def __remove_unsets(kwargs):
         return {key: val for key, val in kwargs.items() if val is not unset}
 
-    def __new__(cls, *args: typing.Union[dict, frozendict, list, tuple, Decimal, float, int, str, date, datetime, bool, None, 'Schema'], _instantiation_metadata: typing.Optional[InstantiationMetadata] = None, **kwargs: typing.Union[dict, frozendict, list, tuple, Decimal, float, int, str, date, datetime, bool, None, 'Schema', Unset]):
+    def __new__(cls, *args: typing.Union[dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema'], _instantiation_metadata: typing.Optional[InstantiationMetadata] = None, **kwargs: typing.Union[dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema', Unset]):
         """
         Schema __new__
 
         Args:
-            args (int/float/Decimal/str/list/tuple/dict/frozendict/bool/None): the value
-            kwargs (str, int/float/Decimal/str/list/tuple/dict/frozendict/bool/None): dict values
+            args (int/float/decimal.Decimal/str/list/tuple/dict/frozendict/bool/None): the value
+            kwargs (str, int/float/decimal.Decimal/str/list/tuple/dict/frozendict/bool/None): dict values
             _instantiation_metadata: contains the needed from_server, configuration, path_to_item
         """
         kwargs = cls.__remove_unsets(kwargs)
@@ -1390,10 +1427,10 @@ class Schema:
     def __init__(
         self,
         *args: typing.Union[
-            dict, frozendict, list, tuple, Decimal, float, int, str, date, datetime, bool, None, 'Schema'],
+            dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema'],
         _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
         **kwargs: typing.Union[
-            dict, frozendict, list, tuple, Decimal, float, int, str, date, datetime, bool, None, 'Schema', Unset
+            dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, 'Schema', Unset
         ]
     ):
         """
@@ -1405,7 +1442,7 @@ class Schema:
         pass
 
 
-def cast_to_allowed_types(arg: typing.Union[str, date, datetime, int, float, None, dict, frozendict, list, tuple, bytes, Schema], from_server=False) -> typing.Union[str, bytes, int, float, None, frozendict, tuple, Schema]:
+def cast_to_allowed_types(arg: typing.Union[str, date, datetime, decimal.Decimal, int, float, None, dict, frozendict, list, tuple, bytes, Schema], from_server=False) -> typing.Union[str, bytes, decimal.Decimal, None, frozendict, tuple, Schema]:
     """
     from_server=False date, datetime -> str
     int, float -> Decimal
@@ -1422,16 +1459,16 @@ def cast_to_allowed_types(arg: typing.Union[str, date, datetime, int, float, Non
         because isinstance(True, int) is True
         """
         return arg
-    elif isinstance(arg, Decimal):
+    elif isinstance(arg, decimal.Decimal):
         return arg
     elif isinstance(arg, int):
-        return Decimal(arg)
+        return decimal.Decimal(arg)
     elif isinstance(arg, float):
-        decimal_from_float = Decimal(arg)
+        decimal_from_float = decimal.Decimal(arg)
         if decimal_from_float.as_integer_ratio()[1] == 1:
             # 9.0 -> Decimal('9.0')
             # 3.4028234663852886e+38 -> Decimal('340282346638528859811704183484516925440.0')
-            return Decimal(str(decimal_from_float)+'.0')
+            return decimal.Decimal(str(decimal_from_float)+'.0')
         return decimal_from_float
     elif isinstance(arg, str):
         return arg
@@ -1628,7 +1665,7 @@ class ComposedBase(Discriminable):
 
 # DictBase, ListBase, NumberBase, StrBase, BoolBase, NoneBase
 class ComposedSchema(
-    _SchemaTypeChecker(typing.Union[none_type, str, Decimal, bool, tuple, frozendict]),
+    _SchemaTypeChecker(typing.Union[none_type, str, decimal.Decimal, bool, tuple, frozendict]),
     ComposedBase,
     DictBase,
     ListBase,
@@ -1680,7 +1717,7 @@ class NoneSchema(
 
 
 class NumberSchema(
-    _SchemaTypeChecker(typing.Union[Decimal]),
+    _SchemaTypeChecker(typing.Union[decimal.Decimal]),
     NumberBase,
     Schema
 ):
@@ -1690,10 +1727,10 @@ class NumberSchema(
     """
 
     @classmethod
-    def _from_openapi_data(cls, arg: typing.Union[int, float, Decimal], _instantiation_metadata: typing.Optional[InstantiationMetadata] = None):
+    def _from_openapi_data(cls, arg: typing.Union[int, float, decimal.Decimal], _instantiation_metadata: typing.Optional[InstantiationMetadata] = None):
         return super()._from_openapi_data(arg, _instantiation_metadata=_instantiation_metadata)
 
-    def __new__(cls, arg: typing.Union[Decimal, int, float], **kwargs: typing.Union[InstantiationMetadata]):
+    def __new__(cls, arg: typing.Union[decimal.Decimal, int, float], **kwargs: typing.Union[InstantiationMetadata]):
         return super().__new__(cls, arg, **kwargs)
 
 
@@ -1707,8 +1744,8 @@ class IntBase(NumberBase):
             return self._as_int
 
     @classmethod
-    def _validate_format(cls, arg: typing.Optional[Decimal], _instantiation_metadata: InstantiationMetadata):
-        if isinstance(arg, Decimal):
+    def _validate_format(cls, arg: typing.Optional[decimal.Decimal], _instantiation_metadata: InstantiationMetadata):
+        if isinstance(arg, decimal.Decimal):
             exponent = arg.as_tuple().exponent
             if exponent != 0:
                 raise ApiValueError(
@@ -1731,14 +1768,14 @@ class IntSchema(IntBase, NumberSchema):
     def _from_openapi_data(cls, arg: int, _instantiation_metadata: typing.Optional[InstantiationMetadata] = None):
         return super()._from_openapi_data(arg, _instantiation_metadata=_instantiation_metadata)
 
-    def __new__(cls, arg: typing.Union[Decimal, int], **kwargs: typing.Union[InstantiationMetadata]):
+    def __new__(cls, arg: typing.Union[decimal.Decimal, int], **kwargs: typing.Union[InstantiationMetadata]):
         return super().__new__(cls, arg, **kwargs)
 
 
 class Int32Schema(
     _SchemaValidator(
-        inclusive_minimum=Decimal(-2147483648),
-        inclusive_maximum=Decimal(2147483647)
+        inclusive_minimum=decimal.Decimal(-2147483648),
+        inclusive_maximum=decimal.Decimal(2147483647)
     ),
     IntSchema
 ):
@@ -1746,8 +1783,8 @@ class Int32Schema(
 
 class Int64Schema(
     _SchemaValidator(
-        inclusive_minimum=Decimal(-9223372036854775808),
-        inclusive_maximum=Decimal(9223372036854775807)
+        inclusive_minimum=decimal.Decimal(-9223372036854775808),
+        inclusive_maximum=decimal.Decimal(9223372036854775807)
     ),
     IntSchema
 ):
@@ -1756,28 +1793,28 @@ class Int64Schema(
 
 class Float32Schema(
     _SchemaValidator(
-        inclusive_minimum=Decimal(-3.4028234663852886e+38),
-        inclusive_maximum=Decimal(3.4028234663852886e+38)
+        inclusive_minimum=decimal.Decimal(-3.4028234663852886e+38),
+        inclusive_maximum=decimal.Decimal(3.4028234663852886e+38)
     ),
     NumberSchema
 ):
 
     @classmethod
-    def _from_openapi_data(cls, arg: typing.Union[float, Decimal], _instantiation_metadata: typing.Optional[InstantiationMetadata] = None):
+    def _from_openapi_data(cls, arg: typing.Union[float, decimal.Decimal], _instantiation_metadata: typing.Optional[InstantiationMetadata] = None):
         # todo check format
         return super()._from_openapi_data(arg, _instantiation_metadata=_instantiation_metadata)
 
 
 class Float64Schema(
     _SchemaValidator(
-        inclusive_minimum=Decimal(-1.7976931348623157E+308),
-        inclusive_maximum=Decimal(1.7976931348623157E+308)
+        inclusive_minimum=decimal.Decimal(-1.7976931348623157E+308),
+        inclusive_maximum=decimal.Decimal(1.7976931348623157E+308)
     ),
     NumberSchema
 ):
 
     @classmethod
-    def _from_openapi_data(cls, arg: typing.Union[float, Decimal], _instantiation_metadata: typing.Optional[InstantiationMetadata] = None):
+    def _from_openapi_data(cls, arg: typing.Union[float, decimal.Decimal], _instantiation_metadata: typing.Optional[InstantiationMetadata] = None):
         # todo check format
         return super()._from_openapi_data(arg, _instantiation_metadata=_instantiation_metadata)
 
@@ -1811,6 +1848,20 @@ class DateSchema(DateBase, StrSchema):
 class DateTimeSchema(DateTimeBase, StrSchema):
 
     def __new__(cls, arg: typing.Union[str, datetime], **kwargs: typing.Union[InstantiationMetadata]):
+        return super().__new__(cls, arg, **kwargs)
+
+
+class DecimalSchema(DecimalBase, StrSchema):
+
+    def __new__(cls, arg: typing.Union[str], **kwargs: typing.Union[InstantiationMetadata]):
+        """
+        Note: Decimals may not be passed in because cast_to_allowed_types is only invoked once for payloads
+        which can be simple (str) or complex (dicts or lists with nested values)
+        Because casting is only done once and recursively casts all values prior to validation then for a potential
+        client side Decimal input if Decimal was accepted as an input in DecimalSchema then one would not know
+        if one was using it for a StrSchema (where it should be cast to str) or one is using it for NumberSchema
+        where it should stay as Decimal.
+        """
         return super().__new__(cls, arg, **kwargs)
 
 
@@ -1901,7 +1952,7 @@ class BoolSchema(
 
 class AnyTypeSchema(
     _SchemaTypeChecker(
-        typing.Union[frozendict, tuple, Decimal, str, bool, none_type, bytes, FileIO]
+        typing.Union[frozendict, tuple, decimal.Decimal, str, bool, none_type, bytes, FileIO]
     ),
     DictBase,
     ListBase,
@@ -1924,7 +1975,7 @@ class DictSchema(
     def _from_openapi_data(cls, arg: typing.Dict[str, typing.Any], _instantiation_metadata: typing.Optional[InstantiationMetadata] = None):
         return super()._from_openapi_data(arg, _instantiation_metadata=_instantiation_metadata)
 
-    def __new__(cls, *args: typing.Union[dict, frozendict], **kwargs: typing.Union[dict, frozendict, list, tuple, Decimal, float, int, str, date, datetime, bool, None, bytes, Schema, Unset, InstantiationMetadata]):
+    def __new__(cls, *args: typing.Union[dict, frozendict], **kwargs: typing.Union[dict, frozendict, list, tuple, decimal.Decimal, float, int, str, date, datetime, bool, None, bytes, Schema, Unset, InstantiationMetadata]):
         return super().__new__(cls, *args, **kwargs)
 
 

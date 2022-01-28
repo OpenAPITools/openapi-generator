@@ -7,7 +7,10 @@ title: Documentation for the kotlin Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | kotlin | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Kotlin | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Kotlin client. | |
 
 ## CONFIG OPTIONS

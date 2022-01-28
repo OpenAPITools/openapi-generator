@@ -294,7 +294,7 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
         list_ForEach(listEntry, {{classname}}->{{name}}) {
             free(listEntry->data);
         }
-        list_free({{classname}}->{{name}});
+        list_freeList({{classname}}->{{name}});
         {{classname}}->{{name}} = NULL;
     }
     {{/isPrimitiveType}}
@@ -303,7 +303,7 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
         list_ForEach(listEntry, {{classname}}->{{name}}) {
             {{complexType}}_free(listEntry->data);
         }
-        list_free({{classname}}->{{name}});
+        list_freeList({{classname}}->{{name}});
         {{classname}}->{{name}} = NULL;
     }
     {{/isPrimitiveType}}
@@ -316,7 +316,7 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
             free (localKeyValue->value);
             keyValuePair_free(localKeyValue);
         }
-        list_free({{classname}}->{{name}});
+        list_freeList({{classname}}->{{name}});
         {{classname}}->{{name}} = NULL;
     }
     {{/isMap}}
@@ -699,7 +699,7 @@ fail:
     if(!cJSON_IsArray({{{name}}})) {
         goto end;//primitive container
     }
-    {{{name}}}List = list_create();
+    {{{name}}}List = list_createList();
 
     cJSON_ArrayForEach({{{name}}}_local, {{{name}}})
     {
@@ -742,7 +742,7 @@ fail:
         goto end; //nonprimitive container
     }
 
-    {{{name}}}List = list_create();
+    {{{name}}}List = list_createList();
 
     cJSON_ArrayForEach({{{name}}}_local_nonprimitive,{{{name}}} )
     {
@@ -762,7 +762,7 @@ fail:
     if(!cJSON_IsObject({{{name}}})) {
         goto end;//primitive map container
     }
-    {{{name}}}List = list_create();
+    {{{name}}}List = list_createList();
     keyValuePair_t *localMapKeyPair;
     cJSON_ArrayForEach({{{name}}}_local_map, {{{name}}})
     {

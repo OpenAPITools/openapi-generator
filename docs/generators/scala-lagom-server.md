@@ -7,7 +7,10 @@ title: Documentation for the scala-lagom-server Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | scala-lagom-server | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
+| generator language | Scala | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Lagom API server (Beta) in scala | |
 
 ## CONFIG OPTIONS

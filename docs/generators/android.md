@@ -7,7 +7,10 @@ title: Documentation for the android Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | android | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates an Android client library. | |
 
 ## CONFIG OPTIONS

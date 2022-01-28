@@ -7,7 +7,10 @@ title: Documentation for the javascript-apollo Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | javascript-apollo | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | CLIENT | |
+| generator language | Javascript | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a JavaScript client library (beta) using Apollo RESTDatasource. | |
 
 ## CONFIG OPTIONS

@@ -7,7 +7,10 @@ title: Documentation for the elm Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | elm | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Elm | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates an Elm client library. | |
 
 ## CONFIG OPTIONS

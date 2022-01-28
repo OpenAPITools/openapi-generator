@@ -7,7 +7,10 @@ title: Documentation for the rust Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | rust | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Rust | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Rust client library (beta). | |
 
 ## CONFIG OPTIONS

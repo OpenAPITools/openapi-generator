@@ -7,7 +7,10 @@ title: Documentation for the powershell Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | powershell | pass this to the generate command after -g |
+| generator stability | BETA | |
 | generator type | CLIENT | |
+| generator language | PowerShell | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a PowerShell API client (beta) | |
 
 ## CONFIG OPTIONS

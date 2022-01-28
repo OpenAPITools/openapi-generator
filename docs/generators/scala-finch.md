@@ -7,7 +7,10 @@ title: Documentation for the scala-finch Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | scala-finch | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
+| generator language | Scala | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Scala server application with Finch. | |
 
 ## CONFIG OPTIONS

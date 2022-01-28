@@ -7,7 +7,9 @@ title: Documentation for the html2 Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | html2 | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | DOCUMENTATION | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a static HTML file. | |
 
 ## CONFIG OPTIONS

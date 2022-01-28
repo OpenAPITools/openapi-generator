@@ -7,7 +7,10 @@ title: Documentation for the jaxrs-cxf-extended Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | jaxrs-cxf-extended | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
+| generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Extends jaxrs-cxf with options to generate a functional mock server. | |
 
 ## CONFIG OPTIONS
@@ -70,6 +73,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |supportMultipleSpringServices|Support generation of Spring services from multiple specifications| |false|
 |testDataControlFile|JSON file to control test data generation| |null|
 |testDataFile|JSON file to contain generated test data| |null|
+|testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|a title describing the application| |OpenAPI Server|
 |useAnnotatedBasePath|Use @Path annotations for basePath| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
@@ -157,6 +161,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>else</li>
 <li>enum</li>
 <li>extends</li>
+<li>file</li>
 <li>final</li>
 <li>finally</li>
 <li>float</li>
@@ -168,6 +173,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>instanceof</li>
 <li>int</li>
 <li>interface</li>
+<li>list</li>
 <li>localreturntype</li>
 <li>localvaraccept</li>
 <li>localvaraccepts</li>

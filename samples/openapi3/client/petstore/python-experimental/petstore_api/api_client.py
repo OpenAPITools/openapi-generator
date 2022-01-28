@@ -29,7 +29,6 @@ from petstore_api import rest
 from petstore_api.configuration import Configuration
 from petstore_api.exceptions import ApiTypeError, ApiValueError
 from petstore_api.schemas import (
-    Decimal,
     NoneClass,
     BoolClass,
     Schema,

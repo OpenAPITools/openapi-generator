@@ -7,7 +7,10 @@ title: Documentation for the mysql-schema Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | mysql-schema | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SCHEMA | |
+| generator language | Mysql | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a MySQL schema based on the model or schema defined in the OpenAPI specification (v2, v3). | |
 
 ## CONFIG OPTIONS

@@ -7,7 +7,10 @@ title: Documentation for the swift5 Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | swift5 | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | Swift | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Swift 5.x client library. | |
 
 ## CONFIG OPTIONS

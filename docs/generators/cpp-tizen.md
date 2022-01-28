@@ -7,7 +7,10 @@ title: Documentation for the cpp-tizen Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | cpp-tizen | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
+| generator language | C++ | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Samsung Tizen C++ client library. | |
 
 ## CONFIG OPTIONS

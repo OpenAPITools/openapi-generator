@@ -15,7 +15,7 @@ import typing  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
-from decimal import Decimal  # noqa: F401
+import decimal  # noqa: F401
 from datetime import date, datetime  # noqa: F401
 from frozendict import frozendict  # noqa: F401
 
@@ -33,6 +33,7 @@ from petstore_api.schemas import (  # noqa: F401
     NumberSchema,
     DateSchema,
     DateTimeSchema,
+    DecimalSchema,
     BoolSchema,
     BinarySchema,
     NoneSchema,
@@ -68,11 +69,5 @@ class IntegerMin15(
     Ref: https://openapi-generator.tech
 
     Do not edit the class manually.
-
-    Attributes:
-    _validations (dict): the validations which apply to the current Schema
-         The value is a dict that stores validations for max_length, min_length, max_items,
-         min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
-         inclusive_minimum, and regex.
     """
     pass

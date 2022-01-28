@@ -7,7 +7,10 @@ title: Documentation for the cpp-pistache-server Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | cpp-pistache-server | pass this to the generate command after -g |
+| generator stability | STABLE | |
 | generator type | SERVER | |
+| generator language | C++ | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a C++ API server (based on Pistache) | |
 
 ## CONFIG OPTIONS

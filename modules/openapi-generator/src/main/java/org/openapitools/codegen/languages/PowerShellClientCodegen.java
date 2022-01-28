@@ -1538,4 +1538,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         System.out.println("# - OpenAPI Generator for PowerShell Developers      https://bit.ly/3qBWfRJ    #");
         System.out.println("################################################################################");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.POWERSHELL; }
 }
