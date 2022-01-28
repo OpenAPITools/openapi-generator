@@ -98,9 +98,9 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
-            if (apiKey !== undefined && apiKey !== null) {
-                localVarHeaderParameter['api_key'] = String(apiKey);
-            }
+              if (apiKey !== undefined && apiKey !== null) {
+                  localVarHeaderParameter['api_key'] = String(apiKey);
+              }
 
 
     
