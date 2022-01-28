@@ -1,8 +1,10 @@
 import { expect } from '@esm-bundle/chai';
-import { createConfiguration, PetApi, Tag, Pet, ApiException, RequiredError } from 'ts-petstore-client'
+import { ServerConfiguration, createConfiguration, PetApi, Tag, Pet, ApiException, RequiredError } from 'ts-petstore-client'
 import image from "./pet";
 
-const configuration = createConfiguration()
+const configuration = createConfiguration({
+    baseServer: new ServerConfiguration("http://localhost/v2", {}),
+})
 const petApi = new PetApi(configuration)
 
 function createTag() {
