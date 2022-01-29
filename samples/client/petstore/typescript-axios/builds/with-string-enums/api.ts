@@ -15,10 +15,6 @@
 
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
-// URLSearchParams not necessarily used
-// @ts-ignore
-import { URL, URLSearchParams } from 'url';
-import FormData from 'form-data'
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
@@ -113,13 +109,15 @@ export interface Order {
     'complete'?: boolean;
 }
 
-export const OrderStatusEnum = {
-    Placed: 'placed',
-    Approved: 'approved',
-    Delivered: 'delivered'
-} as const;
-
-export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
+/**
+    * @export
+    * @enum {string}
+    */
+export enum OrderStatusEnum {
+    Placed = 'placed',
+    Approved = 'approved',
+    Delivered = 'delivered'
+}
 
 /**
  * A pet for sale in the pet store
@@ -165,13 +163,15 @@ export interface Pet {
     'status'?: PetStatusEnum;
 }
 
-export const PetStatusEnum = {
-    Available: 'available',
-    Pending: 'pending',
-    Sold: 'sold'
-} as const;
-
-export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
+/**
+    * @export
+    * @enum {string}
+    */
+export enum PetStatusEnum {
+    Available = 'available',
+    Pending = 'pending',
+    Sold = 'sold'
+}
 
 /**
  * A tag for a pet
@@ -521,7 +521,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+            const localVarFormParams = new URLSearchParams();
 
             // authentication petstore_auth required
             // oauth required
@@ -529,20 +529,20 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
 
             if (name !== undefined) { 
-                localVarFormParams.append('name', name as any);
+                localVarFormParams.set('name', name as any);
             }
     
             if (status !== undefined) { 
-                localVarFormParams.append('status', status as any);
+                localVarFormParams.set('status', status as any);
             }
     
     
-            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...(localVarFormParams as any).getHeaders?.(), ...options.headers};
-            localVarRequestOptions.data = localVarFormParams;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams.toString();
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -593,7 +593,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...(localVarFormParams as any).getHeaders?.(), ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = localVarFormParams;
 
             return {
@@ -1025,11 +1025,13 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} [body] order placed for purchasing the pet
+         * @param {Order} body order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder: async (body?: Order, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        placeOrder: async (body: Order, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('placeOrder', 'body', body)
             const localVarPath = `/store/order`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1101,11 +1103,11 @@ export const StoreApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} [body] order placed for purchasing the pet
+         * @param {Order} body order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async placeOrder(body?: Order, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
+        async placeOrder(body: Order, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.placeOrder(body, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1151,11 +1153,11 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} [body] order placed for purchasing the pet
+         * @param {Order} body order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(body?: Order, options?: any): AxiosPromise<Order> {
+        placeOrder(body: Order, options?: any): AxiosPromise<Order> {
             return localVarFp.placeOrder(body, options).then((request) => request(axios, basePath));
         },
     };
@@ -1206,12 +1208,12 @@ export class StoreApi extends BaseAPI {
     /**
      * 
      * @summary Place an order for a pet
-     * @param {Order} [body] order placed for purchasing the pet
+     * @param {Order} body order placed for purchasing the pet
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public placeOrder(body?: Order, options?: AxiosRequestConfig) {
+    public placeOrder(body: Order, options?: AxiosRequestConfig) {
         return StoreApiFp(this.configuration).placeOrder(body, options).then((request) => request(this.axios, this.basePath));
     }
 }
