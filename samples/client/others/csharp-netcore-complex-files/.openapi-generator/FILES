@@ -9,7 +9,6 @@ docs/MultipartApi.md
 docs/MultipartMixedMarker.md
 docs/MultipartMixedStatus.md
 git_push.sh
-src/Org.OpenAPITools.Test/Model/MultipartMixedStatusTests.cs
 src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
 src/Org.OpenAPITools/Api/MultipartApi.cs
 src/Org.OpenAPITools/Client/ApiClient.cs
