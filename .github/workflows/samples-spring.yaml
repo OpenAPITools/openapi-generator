@@ -3,13 +3,13 @@ name: Samples Java Spring
 on:
   push:
     branches:
-      - 'spring*'
+      - 'spring**'
     paths:
       - 'samples/server/petstore/spring*/**'
       - 'samples/openapi3/server/petstore/spring*/**'
   pull_request:
     branches:
-      - 'spring*'
+      - 'spring**'
     paths:
       - 'samples/server/petstore/spring*/**'
       - 'samples/openapi3/server/petstore/spring*/**'
