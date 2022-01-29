@@ -322,20 +322,20 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default Mono<ResponseEntity<Void>> testEndpointParameters(
-        @ApiParam(value = "None", required = true) @Valid @RequestPart(value = "number", required = true) BigDecimal number,
-        @ApiParam(value = "None", required = true) @Valid @RequestPart(value = "double", required = true) Double _double,
-        @ApiParam(value = "None", required = true) @Valid @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-        @ApiParam(value = "None", required = true) @Valid @RequestPart(value = "byte", required = true) byte[] _byte,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "integer", required = false) Integer integer,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "int32", required = false) Integer int32,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "int64", required = false) Long int64,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "float", required = false) Float _float,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "string", required = false) String string,
+        @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "number", required = true) BigDecimal number,
+        @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "double", required = true) Double _double,
+        @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
+        @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "integer", required = false) Integer integer,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "int32", required = false) Integer int32,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "float", required = false) Float _float,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "string", required = false) String string,
         @ApiParam(value = "None") @RequestPart(value = "binary", required = false) Flux<Part> binary,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "password", required = false) String password,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "callback", required = false) String paramCallback,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "password", required = false) String password,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "callback", required = false) String paramCallback,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, exchange);
@@ -379,8 +379,8 @@ public interface FakeApi {
         @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
         @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
         @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
-        @ApiParam(value = "Form parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
-        @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestPart(value = "enum_form_string", required = false) String enumFormString,
+        @ApiParam(value = "Form parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
+        @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, exchange);
@@ -475,8 +475,8 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default Mono<ResponseEntity<Void>> testJsonFormData(
-        @ApiParam(value = "field1", required = true) @Valid @RequestPart(value = "param", required = true) String param,
-        @ApiParam(value = "field2", required = true) @Valid @RequestPart(value = "param2", required = true) String param2,
+        @ApiParam(value = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
+        @ApiParam(value = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().testJsonFormData(param, param2, exchange);
@@ -552,7 +552,7 @@ public interface FakeApi {
     default Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) Flux<Part> requiredFile,
-        @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
+        @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, exchange);
