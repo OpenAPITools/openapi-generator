@@ -144,7 +144,8 @@ class {{classname}}(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -221,7 +222,7 @@ class {{classname}}(object):
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isArray}}  # noqa: E501
 {{/queryParams}}
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 {{#headerParams}}
         if '{{paramName}}' in local_var_params:
             header_params['{{baseName}}'] = local_var_params['{{paramName}}']{{#isArray}}  # noqa: E501

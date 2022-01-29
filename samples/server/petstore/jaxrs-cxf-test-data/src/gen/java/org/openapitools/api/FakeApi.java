@@ -8,6 +8,7 @@ import org.openapitools.model.FileSchemaTestClass;
 import java.util.List;
 import org.joda.time.LocalDate;
 import java.util.Map;
+import org.openapitools.model.ModelFile;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
@@ -103,7 +104,7 @@ public interface FakeApi  {
     @ApiOperation(value = "", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })
-    public void testBodyWithQueryParams(@QueryParam("query") @NotNull  String query, @Valid User body);
+    public void testBodyWithQueryParams(@QueryParam("query") @NotNull String query, @Valid User body);
 
     /**
      * To test \&quot;client\&quot; model
@@ -148,7 +149,7 @@ public interface FakeApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid request"),
         @ApiResponse(code = 404, message = "Not found") })
-    public void testEnumParameters(@HeaderParam("enum_header_string_array")   List<String> enumHeaderStringArray, @HeaderParam("enum_header_string")   String enumHeaderString, @QueryParam("enum_query_string_array")  List<String> enumQueryStringArray, @QueryParam("enum_query_string")  @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer")  Integer enumQueryInteger, @QueryParam("enum_query_double")  Double enumQueryDouble, @Multipart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray, @Multipart(value = "enum_form_string", required = false)  String enumFormString);
+    public void testEnumParameters(@HeaderParam("enum_header_string_array")  List<String> enumHeaderStringArray, @HeaderParam("enum_header_string")  String enumHeaderString, @QueryParam("enum_query_string_array") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @QueryParam("enum_query_double") Double enumQueryDouble, @Multipart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray, @Multipart(value = "enum_form_string", required = false)  String enumFormString);
 
     /**
      * Fake endpoint to test group parameters (optional)
@@ -161,7 +162,7 @@ public interface FakeApi  {
     @ApiOperation(value = "Fake endpoint to test group parameters (optional)", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Someting wrong") })
-    public void testGroupParameters(@QueryParam("required_string_group") @NotNull  Integer requiredStringGroup, @HeaderParam("required_boolean_group")  @NotNull  Boolean requiredBooleanGroup, @QueryParam("required_int64_group") @NotNull  Long requiredInt64Group, @QueryParam("string_group")  Integer stringGroup, @HeaderParam("boolean_group")   Boolean booleanGroup, @QueryParam("int64_group")  Long int64Group);
+    public void testGroupParameters(@QueryParam("required_string_group") @NotNull Integer requiredStringGroup, @HeaderParam("required_boolean_group")  @NotNull Boolean requiredBooleanGroup, @QueryParam("required_int64_group") @NotNull Long requiredInt64Group, @QueryParam("string_group") Integer stringGroup, @HeaderParam("boolean_group")  Boolean booleanGroup, @QueryParam("int64_group") Long int64Group);
 
     /**
      * test inline additionalProperties
@@ -192,6 +193,5 @@ public interface FakeApi  {
     @ApiOperation(value = "", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })
-    public void testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull  List<String> pipe, @QueryParam("ioutil") @NotNull  List<String> ioutil, @QueryParam("http") @NotNull  List<String> http, @QueryParam("url") @NotNull  List<String> url, @QueryParam("context") @NotNull  List<String> context);
+    public void testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull List<String> pipe, @QueryParam("ioutil") @NotNull List<String> ioutil, @QueryParam("http") @NotNull List<String> http, @QueryParam("url") @NotNull List<String> url, @QueryParam("context") @NotNull List<String> context);
 }
-

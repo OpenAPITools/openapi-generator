@@ -1473,4 +1473,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     static boolean ContainsJsonMimeType(String mime) {
             return mime != null && CONTAINS_JSON_MIME_PATTERN.matcher(mime).matches();
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.HASKELL; }
 }

@@ -14,12 +14,13 @@ import org.springframework.http.codec.multipart.Part;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import javax.annotation.Generated;
 
 /**
  * A delegate to be called by the {@link FakeClassnameTestApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public interface FakeClassnameTestApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {

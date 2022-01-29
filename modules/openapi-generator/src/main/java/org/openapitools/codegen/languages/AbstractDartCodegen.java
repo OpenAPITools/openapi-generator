@@ -768,4 +768,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.DART; }
 }

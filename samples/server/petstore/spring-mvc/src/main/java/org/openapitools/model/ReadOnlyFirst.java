@@ -13,14 +13,17 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * ReadOnlyFirst
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ReadOnlyFirst   {
+
   @JsonProperty("bar")
   private String bar;
 
@@ -36,9 +39,8 @@ public class ReadOnlyFirst   {
    * Get bar
    * @return bar
   */
+  
   @ApiModelProperty(readOnly = true, value = "")
-
-
   public String getBar() {
     return bar;
   }
@@ -56,9 +58,8 @@ public class ReadOnlyFirst   {
    * Get baz
    * @return baz
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getBaz() {
     return baz;
   }
@@ -66,7 +67,6 @@ public class ReadOnlyFirst   {
   public void setBaz(String baz) {
     this.baz = baz;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -90,7 +90,6 @@ public class ReadOnlyFirst   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ReadOnlyFirst {\n");
-    
     sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
     sb.append("    baz: ").append(toIndentedString(baz)).append("\n");
     sb.append("}");

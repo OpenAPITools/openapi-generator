@@ -45,6 +45,7 @@ docs/FakePostInlineAdditionalPropertiesPayloadArrayData.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooObject.md
 docs/FormatTest.md
 docs/Fruit.md
 docs/FruitReq.md
@@ -158,6 +159,7 @@ petstore_api/model/fake_post_inline_additional_properties_payload_array_data.py
 petstore_api/model/file.py
 petstore_api/model/file_schema_test_class.py
 petstore_api/model/foo.py
+petstore_api/model/foo_object.py
 petstore_api/model/format_test.py
 petstore_api/model/fruit.py
 petstore_api/model/fruit_req.py

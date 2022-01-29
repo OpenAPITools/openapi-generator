@@ -820,4 +820,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         }
         return result;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ADA; }
 }
