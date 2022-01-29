@@ -517,6 +517,7 @@ public class SpringCodegenTest {
         // Check that api validates mixed multipart request
         final File multipartMixedApi = files.get("MultipartMixedApi.java");
         assertFileContains(multipartMixedApi.toPath(), "MultipartFile file",
+                "@Valid @RequestParam(value = \"status\", required = true)",
                 "@RequestPart(value = \"file\", required = true)",
                 "@Valid @RequestParam(value = \"marker\", required = false)");
     }
