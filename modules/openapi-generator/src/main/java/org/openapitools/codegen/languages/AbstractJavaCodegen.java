@@ -2052,4 +2052,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    @Override
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        if (additionalProperties.containsKey(JACKSON)) {
+            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+                Map<String, String> oneImport = new HashMap<>();
+                oneImport.put("import", importMapping.get(i));
+                if (!imports.contains(oneImport)) {
+                    imports.add(oneImport);
+                }
+            }
+        }
+    }
 }
