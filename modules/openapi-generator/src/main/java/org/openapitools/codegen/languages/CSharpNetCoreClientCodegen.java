@@ -240,7 +240,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         // CLI Switches
         addSwitch(CodegenConstants.NULLABLE_REFERENCE_TYPES,
-                CodegenConstants.NULLABLE_REFERENCE_TYPES_DESC,
+                CodegenConstants.NULLABLE_REFERENCE_TYPES_DESC + " Starting in .NET 6.0 the default is true.",
                 this.nullReferenceTypesFlag);
 
         addSwitch(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
@@ -655,11 +655,40 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         if (!netStandard) {
             setNetCoreProjectFileFlag(true);
-        }
 
-        if (additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
-            LOGGER.warn("{} is not supported in the .NET Standard generator.", CodegenConstants.GENERATE_PROPERTY_CHANGED);
-            additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
+            LOGGER.warn("NOT NETSTANDARD");
+
+            if (!additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES)){
+                LOGGER.warn("ADDITIONAL PROPS does not CONTAINS NRT!!!!");
+            } else{
+                LOGGER.warn("additional props contains nrt ");
+            }
+
+            if (!strategies.stream().anyMatch(s -> 
+                        s.equals(FrameworkStrategy.NETCOREAPP_2_0) ||
+                        s.equals(FrameworkStrategy.NETCOREAPP_2_1) ||
+                        s.equals(FrameworkStrategy.NETCOREAPP_3_0) ||
+                        s.equals(FrameworkStrategy.NETCOREAPP_3_1) ||
+                        s.equals(FrameworkStrategy.NET_5_0) ||
+                        s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))){
+                LOGGER.warn("its a new framework");
+            } else{
+                LOGGER.warn("its an old framework!");
+            }
+
+
+
+            if (!additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES) && !strategies.stream().anyMatch(s -> 
+                        s.equals(FrameworkStrategy.NETCOREAPP_2_0) ||
+                        s.equals(FrameworkStrategy.NETCOREAPP_2_1) ||
+                        s.equals(FrameworkStrategy.NETCOREAPP_3_0) ||
+                        s.equals(FrameworkStrategy.NETCOREAPP_3_1) ||
+                        s.equals(FrameworkStrategy.NET_5_0) ||
+                        s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))) {
+                // starting in .net 6.0, NRT is enabled by default. If not specified, lets enable NRT to match the framework's default
+                LOGGER.warn("hhhhhhhhhhhhhhhhhhhhhhhhhhhiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii!!!!!");
+                setNullableReferenceTypes(true);
+            }
         }
 
         final AtomicReference<Boolean> excludeTests = new AtomicReference<>();
