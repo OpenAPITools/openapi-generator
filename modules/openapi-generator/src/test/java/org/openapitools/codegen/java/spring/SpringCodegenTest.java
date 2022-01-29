@@ -518,7 +518,7 @@ public class SpringCodegenTest {
         final File multipartMixedApi = files.get("MultipartMixedApi.java");
         assertFileContains(multipartMixedApi.toPath(), "MultipartFile file",
                 "@RequestPart(value = \"file\", required = true)",
-                "@Valid @RequestPart(value = \"marker\", required = false)");
+                "@Valid @RequestParam(value = \"marker\", required = false)");
     }
 
     // Helper function, intended to reduce boilerplate
