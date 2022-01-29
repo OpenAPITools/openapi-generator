@@ -10,3 +10,4 @@ The underlying library integrating OpenAPI to Spring-MVC is [springfox](https://
 
 You can view the server in swagger-ui by pointing to
 http://localhost:8002/v2/
+
