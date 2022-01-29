@@ -294,6 +294,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         super.processOpts();
         useOneOfInterfaces = true;
+        legacyDiscriminatorBehavior = false;
+
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
         // TODO: add doc templates
@@ -1016,5 +1018,4 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void setUseOptional(boolean useOptional) {
         this.useOptional = useOptional;
     }
-
 }
