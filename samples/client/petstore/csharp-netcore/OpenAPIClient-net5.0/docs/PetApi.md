@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**AddPet**](PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 [**DeletePet**](PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
 [**FindPetsByStatus**](PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
+[**FindPetsByStatusWithFilter**](PetApi.md#findpetsbystatuswithfilter) | **GET** /pet/findByStatusWithFilter | Finds Pets by status
 [**FindPetsByTags**](PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
 [**GetPetById**](PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
 [**UpdatePet**](PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
@@ -211,6 +212,81 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **status** | [**List&lt;string&gt;**](string.md)| Status values that need to be considered for filter | 
+
+### Return type
+
+[**List&lt;Pet&gt;**](Pet.md)
+
+### Authorization
+
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+| **400** | Invalid status value |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="findpetsbystatuswithfilter"></a>
+# **FindPetsByStatusWithFilter**
+> List&lt;Pet&gt; FindPetsByStatusWithFilter (List<PetStatusFilter> status)
+
+Finds Pets by status
+
+Multiple status values can be provided with comma separated strings
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class FindPetsByStatusWithFilterExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            // Configure OAuth2 access token for authorization: petstore_auth
+            config.AccessToken = "YOUR_ACCESS_TOKEN";
+
+            var apiInstance = new PetApi(config);
+            var status = new List<PetStatusFilter>(); // List<PetStatusFilter> | Status values that need to be considered for filter
+
+            try
+            {
+                // Finds Pets by status
+                List<Pet> result = apiInstance.FindPetsByStatusWithFilter(status);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling PetApi.FindPetsByStatusWithFilter: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **status** | [**List&lt;PetStatusFilter&gt;**](PetStatusFilter.md)| Status values that need to be considered for filter | 
 
 ### Return type
 

@@ -136,6 +136,7 @@ Class | Method | HTTP request | Description
 *PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**DeletePet**](docs/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**FindPetsByStatus**](docs/PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
+*PetApi* | [**FindPetsByStatusWithFilter**](docs/PetApi.md#findpetsbystatuswithfilter) | **GET** /pet/findByStatusWithFilter | Finds Pets by status
 *PetApi* | [**FindPetsByTags**](docs/PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
 *PetApi* | [**GetPetById**](docs/PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
 *PetApi* | [**UpdatePet**](docs/PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
@@ -218,6 +219,7 @@ Class | Method | HTTP request | Description
  - [Model.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [Model.ParentPet](docs/ParentPet.md)
  - [Model.Pet](docs/Pet.md)
+ - [Model.PetStatusFilter](docs/PetStatusFilter.md)
  - [Model.Pig](docs/Pig.md)
  - [Model.Quadrilateral](docs/Quadrilateral.md)
  - [Model.QuadrilateralInterface](docs/QuadrilateralInterface.md)
