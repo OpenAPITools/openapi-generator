@@ -212,7 +212,7 @@ module Petstore
         raise ArgumentError.new("Missing the required parameter 'username' when calling UserApi.delete_user")
       end
       # resource path
-      local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode(username.to_s).gsub("%2F", "/"))
+      local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode_path(username.to_s).gsub("%2F", "/"))
 
       # query parameters
       query_params = Hash(String, String).new
@@ -267,7 +267,7 @@ module Petstore
         raise ArgumentError.new("Missing the required parameter 'username' when calling UserApi.get_user_by_name")
       end
       # resource path
-      local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode(username.to_s).gsub("%2F", "/"))
+      local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode_path(username.to_s).gsub("%2F", "/"))
 
       # query parameters
       query_params = Hash(String, String).new
@@ -451,7 +451,7 @@ module Petstore
         raise ArgumentError.new("Missing the required parameter 'user' when calling UserApi.update_user")
       end
       # resource path
-      local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode(username.to_s).gsub("%2F", "/"))
+      local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode_path(username.to_s).gsub("%2F", "/"))
 
       # query parameters
       query_params = Hash(String, String).new

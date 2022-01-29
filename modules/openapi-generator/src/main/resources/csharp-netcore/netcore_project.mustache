@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  <PropertyGroup>{{#useGenericHost}}
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo> <!-- setting GenerateAssemblyInfo to false causes this bug https://github.com/dotnet/project-system/issues/3934 -->{{/useGenericHost}}{{^useGenericHost}}
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo><!-- setting GenerateAssemblyInfo to false causes this bug https://github.com/dotnet/project-system/issues/3934 -->{{/useGenericHost}}
     <TargetFramework{{#multiTarget}}s{{/multiTarget}}>{{targetFramework}}</TargetFramework{{#multiTarget}}s{{/multiTarget}}>
     <AssemblyName>{{packageName}}</AssemblyName>
     <PackageId>{{packageName}}</PackageId>
@@ -33,6 +34,13 @@
       {{#useRestSharp}}
     <PackageReference Include="RestSharp" Version="106.13.0" />
       {{/useRestSharp}}
+      {{#useGenericHost}}
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+      {{#supportsRetry}}
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="5.0.1" />
+      {{/supportsRetry}}
+      {{/useGenericHost}}
       {{#supportsRetry}}
     <PackageReference Include="Polly" Version="7.2.2" />
       {{/supportsRetry}}
