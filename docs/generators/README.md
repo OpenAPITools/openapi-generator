@@ -69,7 +69,6 @@ The following generators are available:
 * [cpp-pistache-server](cpp-pistache-server.md)  
 * [cpp-qt5-qhttpengine-server](cpp-qt5-qhttpengine-server.md)  
 * [cpp-restbed-server](cpp-restbed-server.md)  
-* [csharp-nancyfx](csharp-nancyfx.md)  
 * [erlang-server](erlang-server.md)  
 * [fsharp-functions (beta)](fsharp-functions.md)  
 * [fsharp-giraffe-server (beta)](fsharp-giraffe-server.md)  
