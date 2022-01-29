@@ -68,6 +68,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETSTANDARD_1_6,
             FrameworkStrategy.NETSTANDARD_2_0,
             FrameworkStrategy.NETSTANDARD_2_1,
+            FrameworkStrategy.NETCOREAPP_2_0,
+            FrameworkStrategy.NETCOREAPP_2_1,
+            FrameworkStrategy.NETCOREAPP_3_0,
             FrameworkStrategy.NETCOREAPP_3_1,
             FrameworkStrategy.NETFRAMEWORK_4_7,
             FrameworkStrategy.NET_5_0,
@@ -1126,6 +1129,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0 compatible", "netcoreapp3.1") {
         };
         static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1 compatible", "netcoreapp3.1") {
+        };
+        static FrameworkStrategy NETCOREAPP_2_0 = new FrameworkStrategy("netcoreapp2.0", ".NET Core 2.0 compatible (deprecated)", "netcoreapp2.0", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NETCOREAPP_2_1 = new FrameworkStrategy("netcoreapp2.1", ".NET Core 2.1 compatible (deprecated)", "netcoreapp2.1", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NETCOREAPP_3_0 = new FrameworkStrategy("netcoreapp3.0", ".NET Core 3.0 compatible (deprecated)", "netcoreapp3.0", Boolean.FALSE) {
         };
         static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible", "netcoreapp3.1", Boolean.FALSE) {
         };
