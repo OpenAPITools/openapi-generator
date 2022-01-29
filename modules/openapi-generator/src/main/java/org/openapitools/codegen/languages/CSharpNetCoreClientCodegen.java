@@ -656,28 +656,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         if (!netStandard) {
             setNetCoreProjectFileFlag(true);
 
-            LOGGER.warn("NOT NETSTANDARD");
-
-            if (!additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES)){
-                LOGGER.warn("ADDITIONAL PROPS does not CONTAINS NRT!!!!");
-            } else{
-                LOGGER.warn("additional props contains nrt ");
-            }
-
-            if (!strategies.stream().anyMatch(s -> 
-                        s.equals(FrameworkStrategy.NETCOREAPP_2_0) ||
-                        s.equals(FrameworkStrategy.NETCOREAPP_2_1) ||
-                        s.equals(FrameworkStrategy.NETCOREAPP_3_0) ||
-                        s.equals(FrameworkStrategy.NETCOREAPP_3_1) ||
-                        s.equals(FrameworkStrategy.NET_5_0) ||
-                        s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))){
-                LOGGER.warn("its a new framework");
-            } else{
-                LOGGER.warn("its an old framework!");
-            }
-
-
-
             if (!additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES) && !strategies.stream().anyMatch(s -> 
                         s.equals(FrameworkStrategy.NETCOREAPP_2_0) ||
                         s.equals(FrameworkStrategy.NETCOREAPP_2_1) ||
@@ -686,7 +664,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                         s.equals(FrameworkStrategy.NET_5_0) ||
                         s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))) {
                 // starting in .net 6.0, NRT is enabled by default. If not specified, lets enable NRT to match the framework's default
-                LOGGER.warn("hhhhhhhhhhhhhhhhhhhhhhhhhhhiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii!!!!!");
                 setNullableReferenceTypes(true);
             }
         }
