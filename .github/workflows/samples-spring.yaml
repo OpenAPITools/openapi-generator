@@ -21,6 +21,14 @@ jobs:
       fail-fast: false
       matrix:
         sample:
+          # clients
+          - samples/client/petstore/spring-cloud
+          - samples/openapi3/client/petstore/spring-cloud
+          - samples/client/petstore/spring-cloud-date-time
+          - samples/openapi3/client/petstore/spring-cloud-date-time
+          - samples/client/petstore/spring-stubs
+          - samples/openapi3/client/petstore/spring-stubs
+          # servers
           - samples/server/petstore/spring-mvc
           - samples/server/petstore/spring-mvc-default-value
           - samples/server/petstore/spring-mvc-j8-async
