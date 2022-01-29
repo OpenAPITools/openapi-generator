@@ -4,7 +4,8 @@
     <AssemblyName>{{testPackageName}}</AssemblyName>
     <RootNamespace>{{testPackageName}}</RootNamespace>
     <TargetFramework{{#multiTarget}}s{{/multiTarget}}>{{testTargetFramework}}</TargetFramework{{#multiTarget}}s{{/multiTarget}}>
-    <IsPackable>false</IsPackable>
+    <IsPackable>false</IsPackable>{{#nullableReferenceTypes}}
+    <Nullable>annotations</Nullable>{{/nullableReferenceTypes}}
   </PropertyGroup>
 
   <ItemGroup>

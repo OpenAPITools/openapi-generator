@@ -79,16 +79,14 @@ export interface Dog {
     'breed'?: DogBreedEnum;
 }
 
-/**
-    * @export
-    * @enum {string}
-    */
-export enum DogBreedEnum {
-    Dingo = 'Dingo',
-    Husky = 'Husky',
-    Retriever = 'Retriever',
-    Shepherd = 'Shepherd'
-}
+export const DogBreedEnum = {
+    Dingo: 'Dingo',
+    Husky: 'Husky',
+    Retriever: 'Retriever',
+    Shepherd: 'Shepherd'
+} as const;
+
+export type DogBreedEnum = typeof DogBreedEnum[keyof typeof DogBreedEnum];
 
 /**
  * 
@@ -110,16 +108,14 @@ export interface DogAllOf {
     'breed'?: DogAllOfBreedEnum;
 }
 
-/**
-    * @export
-    * @enum {string}
-    */
-export enum DogAllOfBreedEnum {
-    Dingo = 'Dingo',
-    Husky = 'Husky',
-    Retriever = 'Retriever',
-    Shepherd = 'Shepherd'
-}
+export const DogAllOfBreedEnum = {
+    Dingo: 'Dingo',
+    Husky: 'Husky',
+    Retriever: 'Retriever',
+    Shepherd: 'Shepherd'
+} as const;
+
+export type DogAllOfBreedEnum = typeof DogAllOfBreedEnum[keyof typeof DogAllOfBreedEnum];
 
 /**
  * 
@@ -173,14 +169,12 @@ export interface PetByType {
     'hunts'?: boolean;
 }
 
-/**
-    * @export
-    * @enum {string}
-    */
-export enum PetByTypePetTypeEnum {
-    Cat = 'Cat',
-    Dog = 'Dog'
-}
+export const PetByTypePetTypeEnum = {
+    Cat: 'Cat',
+    Dog: 'Dog'
+} as const;
+
+export type PetByTypePetTypeEnum = typeof PetByTypePetTypeEnum[keyof typeof PetByTypePetTypeEnum];
 
 
 /**

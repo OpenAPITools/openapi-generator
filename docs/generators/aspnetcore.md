@@ -30,7 +30,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |licenseUrl|The URL of the license| |http://localhost|
 |modelClassModifier|Model Class Modifier can be nothing or partial| |partial|
 |newtonsoftVersion|Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+| |3.0.0|
-|nullableReferenceTypes|Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.0 or newer.| |false|
+|nullableReferenceTypes|Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.1 or newer.| |false|
 |operationIsAsync|Set methods to async or sync (default).| |false|
 |operationModifier|Operation Modifier can be virtual or abstract|<dl><dt>**virtual**</dt><dd>Keep method virtual</dd><dt>**abstract**</dt><dd>Make method abstract</dd></dl>|virtual|
 |operationResultTask|Set methods result to Task&lt;&gt;.| |false|
