@@ -64,7 +64,6 @@ The following generators are available:
 * [scala-httpclient-deprecated (deprecated)](generators/scala-httpclient-deprecated.md)  
 * [scala-sttp (beta)](generators/scala-sttp.md)  
 * [scalaz](generators/scalaz.md)  
-* [swift4-deprecated (deprecated)](generators/swift4-deprecated.md)  
 * [swift5](generators/swift5.md)  
 * [typescript (experimental)](generators/typescript.md)  
 * [typescript-angular](generators/typescript-angular.md)  
