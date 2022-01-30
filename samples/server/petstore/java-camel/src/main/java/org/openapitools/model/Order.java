@@ -31,7 +31,7 @@ import javax.annotation.Generated;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")
-public class Order   {
+public class Order {
 
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
