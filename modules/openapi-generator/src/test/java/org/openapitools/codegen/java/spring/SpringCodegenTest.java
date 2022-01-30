@@ -831,14 +831,14 @@ public class SpringCodegenTest {
     public void testTypeMappings() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.processOpts();
-        Assert.assertEquals(codegen.typeMapping().get("file"), "Resource");
+        Assert.assertEquals(codegen.typeMapping().get("file"), "org.springframework.core.io.Resource");
     }
 
     @Test
     public void testImportMappings() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.processOpts();
-        Assert.assertEquals(codegen.importMapping().get("Resource"), "org.springframework.core.io.Resource");
+        Assert.assertEquals(codegen.importMapping().get("org.springframework.core.io.Resource"), "org.springframework.core.io.Resource");
         Assert.assertEquals(codegen.importMapping().get("Pageable"), "org.springframework.data.domain.Pageable");
         Assert.assertEquals(codegen.importMapping().get("DateTimeFormat"), "org.springframework.format.annotation.DateTimeFormat");
         Assert.assertEquals(codegen.importMapping().get("ApiIgnore"), "springfox.documentation.annotations.ApiIgnore");
