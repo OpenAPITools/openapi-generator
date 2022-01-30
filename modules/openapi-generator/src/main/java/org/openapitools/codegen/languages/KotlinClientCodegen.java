@@ -440,8 +440,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         if (CollectionType.LIST.value.equals(collectionType)) {
-            typeMapping.put("array", "kotlin.collections.List");
-            typeMapping.put("list", "kotlin.collections.List");
+            if (isModelMutable()) {
+                typeMapping.put("array", "kotlin.collections.MutableList");
+                typeMapping.put("list", "kotlin.collections.MutableList");
+            } else {
+                typeMapping.put("array", "kotlin.collections.List");
+                typeMapping.put("list", "kotlin.collections.List");
+            }
             additionalProperties.put("isList", true);
         }
 
