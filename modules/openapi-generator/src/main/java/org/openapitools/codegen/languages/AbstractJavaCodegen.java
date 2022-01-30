@@ -1261,6 +1261,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (codegenModel.discriminator != null && additionalProperties.containsKey(JACKSON)) {
             codegenModel.imports.add("JsonSubTypes");
             codegenModel.imports.add("JsonTypeInfo");
+            codegenModel.imports.add("JsonTypeName");
         }
         if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
@@ -2055,7 +2056,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
         if (additionalProperties.containsKey(JACKSON)) {
-            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonTypeName")) {
                 Map<String, String> oneImport = new HashMap<>();
                 oneImport.put("import", importMapping.get(i));
                 if (!imports.contains(oneImport)) {
