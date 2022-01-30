@@ -26,7 +26,7 @@ import javax.annotation.Generated;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class AdditionalPropertiesClass   {
+public class AdditionalPropertiesClass {
 
   @JsonProperty("map_string")
   @Valid

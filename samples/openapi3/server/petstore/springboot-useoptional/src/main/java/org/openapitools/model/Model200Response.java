@@ -20,7 +20,7 @@ import javax.annotation.Generated;
 
 @Schema(name = "200_response", description = "Model for testing model name starting with number")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Model200Response   {
+public class Model200Response {
 
   @JsonProperty("name")
   private Integer name;

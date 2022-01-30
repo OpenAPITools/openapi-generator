@@ -29,7 +29,7 @@ import javax.annotation.Generated;
 
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class BigCat extends Cat  {
+public class BigCat extends Cat {
 
   /**
    * Gets or Sets kind

@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class BigCatAllOf   {
+public class BigCatAllOf {
 
   /**
    * Gets or Sets kind

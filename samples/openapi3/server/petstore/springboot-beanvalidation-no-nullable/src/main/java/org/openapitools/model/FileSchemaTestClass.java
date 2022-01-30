@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class FileSchemaTestClass   {
+public class FileSchemaTestClass {
 
   @JsonProperty("file")
   private File file;

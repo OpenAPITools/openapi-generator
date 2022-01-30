@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class OuterComposite   {
+public class OuterComposite {
 
   @JsonProperty("my_number")
   private BigDecimal myNumber;

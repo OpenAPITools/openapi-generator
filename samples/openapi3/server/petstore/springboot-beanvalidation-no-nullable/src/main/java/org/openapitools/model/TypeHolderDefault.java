@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class TypeHolderDefault   {
+public class TypeHolderDefault {
 
   @JsonProperty("string_item")
   private String stringItem = "what";

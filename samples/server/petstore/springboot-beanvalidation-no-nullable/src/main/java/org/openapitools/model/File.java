@@ -19,7 +19,7 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Must be named `File` for test.")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class File   {
+public class File {
 
   @JsonProperty("sourceURI")
   private String sourceURI;

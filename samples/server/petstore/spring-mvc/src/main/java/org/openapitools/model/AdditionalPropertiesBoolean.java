@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
+public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
 
   @JsonProperty("name")
   private String name;

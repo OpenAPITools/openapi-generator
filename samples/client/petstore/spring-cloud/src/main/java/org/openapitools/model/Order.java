@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "An order for a pets from the pet store")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Order   {
+public class Order {
 
   @JsonProperty("id")
   private Long id;

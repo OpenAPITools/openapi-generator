@@ -30,7 +30,7 @@ import javax.annotation.Generated;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Pet   {
+public class Pet {
 
   @JsonProperty("id")
   private Long id;

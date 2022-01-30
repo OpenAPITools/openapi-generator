@@ -18,7 +18,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class CatAllOf   {
+public class CatAllOf {
 
   @JsonProperty("declawed")
   private Boolean declawed;

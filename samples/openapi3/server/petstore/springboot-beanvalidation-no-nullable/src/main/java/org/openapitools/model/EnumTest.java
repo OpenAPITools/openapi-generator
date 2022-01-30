@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class EnumTest   {
+public class EnumTest {
 
   /**
    * Gets or Sets enumString

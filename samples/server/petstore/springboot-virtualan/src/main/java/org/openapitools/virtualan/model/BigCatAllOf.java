@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class BigCatAllOf   {
+public class BigCatAllOf {
 
   /**
    * Gets or Sets kind

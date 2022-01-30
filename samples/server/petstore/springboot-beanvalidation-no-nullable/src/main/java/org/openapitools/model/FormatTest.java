@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class FormatTest   {
+public class FormatTest {
 
   @JsonProperty("integer")
   private Integer integer;

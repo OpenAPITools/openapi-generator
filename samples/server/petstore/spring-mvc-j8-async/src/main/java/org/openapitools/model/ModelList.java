@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class ModelList   {
+public class ModelList {
 
   @JsonProperty("123-list")
   private String _123list;

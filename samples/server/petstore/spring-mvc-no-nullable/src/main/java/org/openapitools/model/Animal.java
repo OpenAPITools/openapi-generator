@@ -32,7 +32,7 @@ import javax.annotation.Generated;
 })
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Animal   {
+public class Animal {
 
   @JsonProperty("className")
   private String className;

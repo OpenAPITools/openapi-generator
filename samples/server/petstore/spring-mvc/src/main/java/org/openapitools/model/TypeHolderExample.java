@@ -25,7 +25,7 @@ import javax.annotation.Generated;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class TypeHolderExample   {
+public class TypeHolderExample {
 
   @JsonProperty("string_item")
   private String stringItem;
