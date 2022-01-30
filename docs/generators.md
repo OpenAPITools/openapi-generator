@@ -86,7 +86,7 @@ The following generators are available:
 * [cpp-pistache-server](generators/cpp-pistache-server.md)  
 * [cpp-qt-qhttpengine-server](generators/cpp-qt-qhttpengine-server.md)  
 * [cpp-restbed-server](generators/cpp-restbed-server.md)  
-* [csharp-nancyfx](generators/csharp-nancyfx.md)  
+* [csharp-nancyfx-deprecated (deprecated)](generators/csharp-nancyfx-deprecated.md)  
 * [csharp-netcore-functions (beta)](generators/csharp-netcore-functions.md)  
 * [erlang-server](generators/erlang-server.md)  
 * [fsharp-functions (beta)](generators/fsharp-functions.md)  

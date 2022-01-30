@@ -1,17 +1,17 @@
 ---
-title: Documentation for the csharp-nancyfx Generator
+title: Documentation for the csharp-nancyfx-deprecated Generator
 ---
 
 ## METADATA
 
 | Property | Value | Notes |
 | -------- | ----- | ----- |
-| generator name | csharp-nancyfx | pass this to the generate command after -g |
-| generator stability | STABLE | |
+| generator name | csharp-nancyfx-deprecated | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
 | generator type | SERVER | |
 | generator language | C# | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a C# NancyFX Web API server. | |
+| helpTxt | Generates a C# NancyFX Web API server (deprecated). | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
