@@ -23,7 +23,7 @@ dependencies {
     //TODO: swaggerFeature
     compile 'io.swagger:swagger-jaxrs:1.5.12'
 
-    testCompile     'junit:junit:4.13',
+    testCompile     'junit:junit:4.13.1',
                     'org.hamcrest:hamcrest-core:1.3'
 }
 

@@ -16,14 +16,17 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class BigCat extends Cat  {
+
   /**
    * Gets or Sets kind
    */
@@ -76,9 +79,8 @@ public enum KindEnum {
    * Get kind
    * @return kind
   */
+  
   @ApiModelProperty(value = "")
-
-
   public KindEnum getKind() {
     return kind;
   }
@@ -86,7 +88,6 @@ public enum KindEnum {
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }
-
 
   @Override
   public boolean equals(Object o) {

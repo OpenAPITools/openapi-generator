@@ -622,4 +622,9 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     @Override
     public void setHasMultipleTypes(boolean hasMultipleTypes) { this.hasMultipleTypes = hasMultipleTypes; }
+
+    @Override
+    public String getBaseType() {
+        return baseType;
+    }
 }

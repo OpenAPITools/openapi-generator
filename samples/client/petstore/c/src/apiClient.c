@@ -46,7 +46,7 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     apiClient->progress_data = NULL;
     apiClient->response_code = 0;
     if(apiKeys_api_key!= NULL) {
-        apiClient->apiKeys_api_key = list_create();
+        apiClient->apiKeys_api_key = list_createList();
         listEntry_t *listEntry = NULL;
         list_ForEach(listEntry, apiKeys_api_key) {
             keyValuePair_t *pair = listEntry->data;
@@ -80,7 +80,7 @@ void apiClient_free(apiClient_t *apiClient) {
             }
             keyValuePair_free(pair);
         }
-        list_free(apiClient->apiKeys_api_key);
+        list_freeList(apiClient->apiKeys_api_key);
     }
     if(apiClient->accessToken) {
         free(apiClient->accessToken);
@@ -447,7 +447,7 @@ void apiClient_invoke(apiClient_t    *apiClient,
 
         res = curl_easy_perform(handle);
 
-        curl_slist_free_all(headers);
+        curl_slist_freeList_all(headers);
 
         free(targetUrl);
 

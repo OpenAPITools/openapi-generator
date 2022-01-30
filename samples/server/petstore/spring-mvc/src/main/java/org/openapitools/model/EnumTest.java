@@ -15,14 +15,17 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * EnumTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class EnumTest   {
+
   /**
    * Gets or Sets enumString
    */
@@ -195,9 +198,8 @@ public enum EnumNumberEnum {
    * Get enumString
    * @return enumString
   */
+  
   @ApiModelProperty(value = "")
-
-
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -215,10 +217,8 @@ public enum EnumNumberEnum {
    * Get enumStringRequired
    * @return enumStringRequired
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -236,9 +236,8 @@ public enum EnumNumberEnum {
    * Get enumInteger
    * @return enumInteger
   */
+  
   @ApiModelProperty(value = "")
-
-
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -256,9 +255,8 @@ public enum EnumNumberEnum {
    * Get enumNumber
    * @return enumNumber
   */
+  
   @ApiModelProperty(value = "")
-
-
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -276,10 +274,8 @@ public enum EnumNumberEnum {
    * Get outerEnum
    * @return outerEnum
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
@@ -287,7 +283,6 @@ public enum EnumNumberEnum {
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -314,7 +309,6 @@ public enum EnumNumberEnum {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EnumTest {\n");
-    
     sb.append("    enumString: ").append(toIndentedString(enumString)).append("\n");
     sb.append("    enumStringRequired: ").append(toIndentedString(enumStringRequired)).append("\n");
     sb.append("    enumInteger: ").append(toIndentedString(enumInteger)).append("\n");

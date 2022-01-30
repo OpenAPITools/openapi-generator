@@ -11,7 +11,9 @@ export NODE_ENV=test
 
 function cleanup {
   # Show logs of 'petstore.swagger' container to troubleshoot Unit Test failures, if any.
-  docker logs petstore.swagger # container name specified in circle.yml
+  if [ "$NODE_INDEX" != "4" ]; then
+    docker logs petstore.swagger # container name specified in circle.yml
+  fi
 }
 
 trap cleanup EXIT
@@ -59,8 +61,8 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #sudo make altinstall
   pyenv install --list 
   pyenv install 3.6.3
+  pyenv install 2.7.14
   pyenv global 3.6.3
-  python3 --version
 
   # Install node@stable (for angular 6)
   set +e
@@ -78,6 +80,20 @@ elif [ "$NODE_INDEX" = "3" ]; then
   echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+
+elif [ "$NODE_INDEX" = "4" ]; then
+
+  echo "Running node $NODE_INDEX to test 'samples.circleci.node4' defined in pom.xml ..."
+
+  # install maven and java so we can use them to run our tests
+  apt-get update && apt-get install -y default-jdk maven sudo
+  java -version
+  export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
+  echo $JAVA_HOME
+  # show os version
+  uname -a
+
+  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node4 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."

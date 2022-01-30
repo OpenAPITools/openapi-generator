@@ -19,9 +19,6 @@ import org.threeten.bp.format.DateTimeFormatter;
 {{/threetenbp}}
 import retrofit2.Converter;
 import retrofit2.Retrofit;
-{{#useRxJava}}
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-{{/useRxJava}}
 {{#useRxJava2}}
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 {{/useRxJava2}}
@@ -157,9 +154,6 @@ public class ApiClient {
     adapterBuilder = new Retrofit
       .Builder()
       .baseUrl(baseUrl)
-      {{#useRxJava}}
-      .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-      {{/useRxJava}}
       {{#useRxJava2}}
       .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
       {{/useRxJava2}}

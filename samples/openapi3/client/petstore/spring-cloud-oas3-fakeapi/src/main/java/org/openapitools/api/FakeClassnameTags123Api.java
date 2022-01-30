@@ -27,7 +27,9 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "FakeClassnameTags123", description = "the FakeClassnameTags123 API")
 public interface FakeClassnameTags123Api {
@@ -40,6 +42,7 @@ public interface FakeClassnameTags123Api {
      * @return successful operation (status code 200)
      */
     @Operation(
+        operationId = "testClassname",
         summary = "To test class name in snake case",
         tags = { "fake_classname_tags 123#$%^" },
         responses = {

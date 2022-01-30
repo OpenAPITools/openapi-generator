@@ -44,7 +44,7 @@ public class PetApiImpl implements PetApi {
         return Future.failedFuture(new HttpStatusException(501));
     }
 
-    public Future<ApiResponse<ModelApiResponse>> uploadFile(Long petId, FileUpload file) {
+    public Future<ApiResponse<ModelApiResponse>> uploadFile(Long petId, FileUpload _file) {
         return Future.failedFuture(new HttpStatusException(501));
     }
 

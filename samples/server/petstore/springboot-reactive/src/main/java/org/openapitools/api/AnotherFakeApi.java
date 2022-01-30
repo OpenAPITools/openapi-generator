@@ -5,6 +5,7 @@
  */
 package org.openapitools.api;
 
+import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.Client;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "another-fake", description = "the another-fake API")
 public interface AnotherFakeApi {
@@ -54,7 +57,7 @@ public interface AnotherFakeApi {
     )
     default Mono<ResponseEntity<Client>> call123testSpecialTags(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody Mono<Client> body,
-         final ServerWebExchange exchange
+        @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().call123testSpecialTags(body, exchange);
     }

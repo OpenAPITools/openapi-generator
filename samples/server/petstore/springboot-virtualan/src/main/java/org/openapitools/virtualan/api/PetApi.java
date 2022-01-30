@@ -7,6 +7,7 @@ package org.openapitools.virtualan.api;
 
 import org.openapitools.virtualan.model.ModelApiResponse;
 import org.openapitools.virtualan.model.Pet;
+import org.springframework.core.io.Resource;
 import java.util.Set;
 import io.swagger.annotations.*;
 import io.virtualan.annotation.ApiVirtual;
@@ -24,7 +25,9 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "pet", description = "the pet API")
 @VirtualService

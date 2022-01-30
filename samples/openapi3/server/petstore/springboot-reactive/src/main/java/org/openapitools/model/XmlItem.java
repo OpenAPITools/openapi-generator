@@ -15,12 +15,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * XmlItem
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class XmlItem   {
+
   @JsonProperty("attribute_string")
   private String attributeString;
 
@@ -126,9 +129,8 @@ public class XmlItem   {
    * Get attributeString
    * @return attributeString
   */
-  @Schema(name = "attributeString", example = "string", defaultValue = "")
-
-
+  
+  @Schema(name = "attribute_string", example = "string", required = false)
   public String getAttributeString() {
     return attributeString;
   }
@@ -146,10 +148,8 @@ public class XmlItem   {
    * Get attributeNumber
    * @return attributeNumber
   */
-  @Schema(name = "attributeNumber", example = "1.234", defaultValue = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "attribute_number", example = "1.234", required = false)
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
@@ -167,9 +167,8 @@ public class XmlItem   {
    * Get attributeInteger
    * @return attributeInteger
   */
-  @Schema(name = "attributeInteger", example = "-2", defaultValue = "")
-
-
+  
+  @Schema(name = "attribute_integer", example = "-2", required = false)
   public Integer getAttributeInteger() {
     return attributeInteger;
   }
@@ -187,9 +186,8 @@ public class XmlItem   {
    * Get attributeBoolean
    * @return attributeBoolean
   */
-  @Schema(name = "attributeBoolean", example = "true", defaultValue = "")
-
-
+  
+  @Schema(name = "attribute_boolean", example = "true", required = false)
   public Boolean getAttributeBoolean() {
     return attributeBoolean;
   }
@@ -215,9 +213,8 @@ public class XmlItem   {
    * Get wrappedArray
    * @return wrappedArray
   */
-  @Schema(name = "wrappedArray", defaultValue = "")
-
-
+  
+  @Schema(name = "wrapped_array", required = false)
   public List<Integer> getWrappedArray() {
     return wrappedArray;
   }
@@ -235,9 +232,8 @@ public class XmlItem   {
    * Get nameString
    * @return nameString
   */
-  @Schema(name = "nameString", example = "string", defaultValue = "")
-
-
+  
+  @Schema(name = "name_string", example = "string", required = false)
   public String getNameString() {
     return nameString;
   }
@@ -255,10 +251,8 @@ public class XmlItem   {
    * Get nameNumber
    * @return nameNumber
   */
-  @Schema(name = "nameNumber", example = "1.234", defaultValue = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "name_number", example = "1.234", required = false)
   public BigDecimal getNameNumber() {
     return nameNumber;
   }
@@ -276,9 +270,8 @@ public class XmlItem   {
    * Get nameInteger
    * @return nameInteger
   */
-  @Schema(name = "nameInteger", example = "-2", defaultValue = "")
-
-
+  
+  @Schema(name = "name_integer", example = "-2", required = false)
   public Integer getNameInteger() {
     return nameInteger;
   }
@@ -296,9 +289,8 @@ public class XmlItem   {
    * Get nameBoolean
    * @return nameBoolean
   */
-  @Schema(name = "nameBoolean", example = "true", defaultValue = "")
-
-
+  
+  @Schema(name = "name_boolean", example = "true", required = false)
   public Boolean getNameBoolean() {
     return nameBoolean;
   }
@@ -324,9 +316,8 @@ public class XmlItem   {
    * Get nameArray
    * @return nameArray
   */
-  @Schema(name = "nameArray", defaultValue = "")
-
-
+  
+  @Schema(name = "name_array", required = false)
   public List<Integer> getNameArray() {
     return nameArray;
   }
@@ -352,9 +343,8 @@ public class XmlItem   {
    * Get nameWrappedArray
    * @return nameWrappedArray
   */
-  @Schema(name = "nameWrappedArray", defaultValue = "")
-
-
+  
+  @Schema(name = "name_wrapped_array", required = false)
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
   }
@@ -372,9 +362,8 @@ public class XmlItem   {
    * Get prefixString
    * @return prefixString
   */
-  @Schema(name = "prefixString", example = "string", defaultValue = "")
-
-
+  
+  @Schema(name = "prefix_string", example = "string", required = false)
   public String getPrefixString() {
     return prefixString;
   }
@@ -392,10 +381,8 @@ public class XmlItem   {
    * Get prefixNumber
    * @return prefixNumber
   */
-  @Schema(name = "prefixNumber", example = "1.234", defaultValue = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "prefix_number", example = "1.234", required = false)
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
@@ -413,9 +400,8 @@ public class XmlItem   {
    * Get prefixInteger
    * @return prefixInteger
   */
-  @Schema(name = "prefixInteger", example = "-2", defaultValue = "")
-
-
+  
+  @Schema(name = "prefix_integer", example = "-2", required = false)
   public Integer getPrefixInteger() {
     return prefixInteger;
   }
@@ -433,9 +419,8 @@ public class XmlItem   {
    * Get prefixBoolean
    * @return prefixBoolean
   */
-  @Schema(name = "prefixBoolean", example = "true", defaultValue = "")
-
-
+  
+  @Schema(name = "prefix_boolean", example = "true", required = false)
   public Boolean getPrefixBoolean() {
     return prefixBoolean;
   }
@@ -461,9 +446,8 @@ public class XmlItem   {
    * Get prefixArray
    * @return prefixArray
   */
-  @Schema(name = "prefixArray", defaultValue = "")
-
-
+  
+  @Schema(name = "prefix_array", required = false)
   public List<Integer> getPrefixArray() {
     return prefixArray;
   }
@@ -489,9 +473,8 @@ public class XmlItem   {
    * Get prefixWrappedArray
    * @return prefixWrappedArray
   */
-  @Schema(name = "prefixWrappedArray", defaultValue = "")
-
-
+  
+  @Schema(name = "prefix_wrapped_array", required = false)
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
   }
@@ -509,9 +492,8 @@ public class XmlItem   {
    * Get namespaceString
    * @return namespaceString
   */
-  @Schema(name = "namespaceString", example = "string", defaultValue = "")
-
-
+  
+  @Schema(name = "namespace_string", example = "string", required = false)
   public String getNamespaceString() {
     return namespaceString;
   }
@@ -529,10 +511,8 @@ public class XmlItem   {
    * Get namespaceNumber
    * @return namespaceNumber
   */
-  @Schema(name = "namespaceNumber", example = "1.234", defaultValue = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "namespace_number", example = "1.234", required = false)
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
@@ -550,9 +530,8 @@ public class XmlItem   {
    * Get namespaceInteger
    * @return namespaceInteger
   */
-  @Schema(name = "namespaceInteger", example = "-2", defaultValue = "")
-
-
+  
+  @Schema(name = "namespace_integer", example = "-2", required = false)
   public Integer getNamespaceInteger() {
     return namespaceInteger;
   }
@@ -570,9 +549,8 @@ public class XmlItem   {
    * Get namespaceBoolean
    * @return namespaceBoolean
   */
-  @Schema(name = "namespaceBoolean", example = "true", defaultValue = "")
-
-
+  
+  @Schema(name = "namespace_boolean", example = "true", required = false)
   public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
   }
@@ -598,9 +576,8 @@ public class XmlItem   {
    * Get namespaceArray
    * @return namespaceArray
   */
-  @Schema(name = "namespaceArray", defaultValue = "")
-
-
+  
+  @Schema(name = "namespace_array", required = false)
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
   }
@@ -626,9 +603,8 @@ public class XmlItem   {
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
   */
-  @Schema(name = "namespaceWrappedArray", defaultValue = "")
-
-
+  
+  @Schema(name = "namespace_wrapped_array", required = false)
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
   }
@@ -646,9 +622,8 @@ public class XmlItem   {
    * Get prefixNsString
    * @return prefixNsString
   */
-  @Schema(name = "prefixNsString", example = "string", defaultValue = "")
-
-
+  
+  @Schema(name = "prefix_ns_string", example = "string", required = false)
   public String getPrefixNsString() {
     return prefixNsString;
   }
@@ -666,10 +641,8 @@ public class XmlItem   {
    * Get prefixNsNumber
    * @return prefixNsNumber
   */
-  @Schema(name = "prefixNsNumber", example = "1.234", defaultValue = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "prefix_ns_number", example = "1.234", required = false)
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }
@@ -687,9 +660,8 @@ public class XmlItem   {
    * Get prefixNsInteger
    * @return prefixNsInteger
   */
-  @Schema(name = "prefixNsInteger", example = "-2", defaultValue = "")
-
-
+  
+  @Schema(name = "prefix_ns_integer", example = "-2", required = false)
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
   }
@@ -707,9 +679,8 @@ public class XmlItem   {
    * Get prefixNsBoolean
    * @return prefixNsBoolean
   */
-  @Schema(name = "prefixNsBoolean", example = "true", defaultValue = "")
-
-
+  
+  @Schema(name = "prefix_ns_boolean", example = "true", required = false)
   public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
   }
@@ -735,9 +706,8 @@ public class XmlItem   {
    * Get prefixNsArray
    * @return prefixNsArray
   */
-  @Schema(name = "prefixNsArray", defaultValue = "")
-
-
+  
+  @Schema(name = "prefix_ns_array", required = false)
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
   }
@@ -763,9 +733,8 @@ public class XmlItem   {
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
   */
-  @Schema(name = "prefixNsWrappedArray", defaultValue = "")
-
-
+  
+  @Schema(name = "prefix_ns_wrapped_array", required = false)
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
   }
@@ -773,7 +742,6 @@ public class XmlItem   {
   public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -824,7 +792,6 @@ public class XmlItem   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class XmlItem {\n");
-    
     sb.append("    attributeString: ").append(toIndentedString(attributeString)).append("\n");
     sb.append("    attributeNumber: ").append(toIndentedString(attributeNumber)).append("\n");
     sb.append("    attributeInteger: ").append(toIndentedString(attributeInteger)).append("\n");

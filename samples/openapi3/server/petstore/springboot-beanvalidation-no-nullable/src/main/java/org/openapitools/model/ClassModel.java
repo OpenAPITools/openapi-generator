@@ -10,13 +10,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-@Schema(name = "ClassModel",description = "Model for testing model with \"_class\" property")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Schema(name = "ClassModel", description = "Model for testing model with \"_class\" property")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ClassModel   {
+
   @JsonProperty("_class")
   private String propertyClass;
 
@@ -29,9 +32,8 @@ public class ClassModel   {
    * Get propertyClass
    * @return propertyClass
   */
-  @Schema(name = "propertyClass", defaultValue = "")
-
-
+  
+  @Schema(name = "_class", required = false)
   public String getPropertyClass() {
     return propertyClass;
   }
@@ -39,7 +41,6 @@ public class ClassModel   {
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -62,7 +63,6 @@ public class ClassModel   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ClassModel {\n");
-    
     sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
     sb.append("}");
     return sb.toString();

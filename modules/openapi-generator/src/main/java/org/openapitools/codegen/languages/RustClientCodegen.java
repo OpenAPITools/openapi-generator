@@ -690,4 +690,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             return null;
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUST; }
 }

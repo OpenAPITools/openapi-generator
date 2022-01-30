@@ -1,8 +1,19 @@
 ---
-title: Config Options for eiffel
-sidebar_label: eiffel
+title: Documentation for the eiffel Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | eiffel | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Eiffel | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a Eiffel client library (beta). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
