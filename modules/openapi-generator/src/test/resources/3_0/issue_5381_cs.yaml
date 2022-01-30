@@ -103,6 +103,24 @@ components:
           type: string
       allOf:
         - $ref: '#/components/schemas/EntityRef'
+    Bar:
+      type: object
+      properties:
+        barPropA:
+          type: string
+        fooPropB:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+    BarRef:
+      type: object
+      discriminator:
+        propertyName: '@type'
+      properties:
+        barRefPropA:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/EntityRef'
 
   requestBodies:
     Foo:
