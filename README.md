@@ -876,6 +876,7 @@ Here is a list of template creators:
    * C# (.NET 2.0): @who
    * C# (.NET Standard 1.3 ): @Gronsak
    * C# (.NET 4.5 refactored): @jimschubert [:heart:](https://www.patreon.com/jimschubert)
+   * C# (GenericHost): @devhl-labs
    * C# (HttpClient): @Blackclaws 
    * Clojure: @xhh
    * Crystal: @wing328
