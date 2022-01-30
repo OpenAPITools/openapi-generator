@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.model.BigCat;
+import org.openapitools.model.Cat;
+import org.openapitools.model.Dog;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,8 +26,9 @@ import javax.annotation.Generated;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
-  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
+  @JsonSubTypes.Type(value = Dog.class, name = "Dog")
 })
+
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Animal   {
 

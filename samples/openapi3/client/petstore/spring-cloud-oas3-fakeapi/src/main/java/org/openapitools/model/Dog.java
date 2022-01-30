@@ -4,6 +4,9 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.model.Animal;
 import org.openapitools.model.DogAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -19,6 +22,7 @@ import javax.annotation.Generated;
 /**
  * Dog
  */
+
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Dog extends Animal  {
