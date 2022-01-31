@@ -654,9 +654,21 @@ public class DefaultCodegenTest {
         Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\\/"), "/");
     }
 
+    /**
+     * Substitutability dictates that any subtype of DefaultCodegen ought to be able to pass
+     * the tests applying to DefaultCodegen.
+     * This method provides a hook for permitting other test suites to extend this test suite
+     * such that it is applied to subtypes of DefaultCodegen.
+     * At the time of writing I fully expect many of the derivatives to break the contract
+     * but this hook is provided nonetheless for those generators that do respect this constraint.
+     * */
+    protected DefaultCodegen subject() {
+        return new DefaultCodegen();
+    }
+
     @Test
     public void updateCodegenPropertyEnum() {
-        final DefaultCodegen codegen = new DefaultCodegen();
+        final DefaultCodegen codegen = subject();
         CodegenProperty array = codegenPropertyWithArrayOfIntegerValues();
 
         codegen.updateCodegenPropertyEnum(array);

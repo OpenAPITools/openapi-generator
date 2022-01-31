@@ -80,6 +80,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         typeMapping.put("integer", "int");
         typeMapping.put("float", "float");
         typeMapping.put("number", "float");
+        typeMapping.put("decimal", "float");
         typeMapping.put("long", "int");
         typeMapping.put("double", "float");
         typeMapping.put("array", "list");
@@ -626,6 +627,17 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return type;
     }
 
+    /*
+     * override as it needs to correlate with the "typeMapping" that are numeric so these numbers
+     * don't end up as quoted values in the generated file.
+     */
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("int".equalsIgnoreCase(datatype) || "float".equalsIgnoreCase(datatype)) {
+            return value;
+        }
+        return super.toEnumValue(value, datatype);
+    }
 
     @Override
     public String toModelName(String name) {

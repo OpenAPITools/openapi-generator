@@ -1,0 +1,248 @@
+openapi: 3.0.0
+info:
+  description: This spec is mainly for testing enum functionality
+  version: 1.0.0
+  title: OpenAPI Enums
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /enums:
+    get:
+      tags:
+        - fake
+      summary: To test enum parameters
+      description: To test enum parameters
+      operationId: enums
+      parameters:
+        - name: enum_header_string_array
+          in: header
+          description: Header parameter enum test (string array)
+          schema:
+            type: array
+            items:
+              type: string
+              default: $
+              enum:
+                - '>'
+                - $
+        - name: enum_header_string
+          in: header
+          description: Header parameter enum test (string)
+          schema:
+            type: string
+            enum:
+              - _abc
+              - '-efg'
+              - (xyz)
+            default: '-efg'
+        - name: enum_query_string_array
+          in: query
+          description: Query parameter enum test (string array)
+          schema:
+            type: array
+            items:
+              type: string
+              default: $
+              enum:
+                - '>'
+                - $
+        - name: enum_query_string
+          in: query
+          description: Query parameter enum test (string)
+          schema:
+            type: string
+            enum:
+              - _abc
+              - '-efg'
+              - (xyz)
+            default: '-efg'
+        - name: enum_query_integer
+          in: query
+          description: Query parameter enum test (double)
+          schema:
+            type: integer
+            format: int32
+            enum:
+              - 1
+              - -2
+        - name: enum_query_double
+          in: query
+          description: Query parameter enum test (double)
+          schema:
+            type: number
+            format: double
+            enum:
+              - 1.1
+              - -1.2
+            example: 1.1
+      responses:
+        '400':
+          description: Invalid request
+        '404':
+          description: Not found
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                enum_form_string_array:
+                  description: Form parameter enum test (string array)
+                  type: array
+                  items:
+                    type: string
+                    default: $
+                    enum:
+                      - '>'
+                      - $
+                enum_form_string:
+                  description: Form parameter enum test (string)
+                  type: string
+                  enum:
+                    - _abc
+                    - '-efg'
+                    - (xyz)
+                  default: '-efg'
+  /enum-object:
+    post:
+      tags:
+        - fake
+      description: Test serialization of enum (int) properties with examples
+      operationId: enum_object
+      responses:
+        '200':
+          description: Output enum (int)
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EnumCornucopia'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnumCornucopia'
+components:
+  schemas:
+    EnumCornucopia:
+      type: object
+      required:
+        - enum_string_required
+      properties:
+        decimal:
+          type: string
+          format: number
+          example: 123.455
+        enum_string:
+          type: string
+          enum:
+            - UPPER
+            - lower
+            - ''
+        enum_string_required:
+          type: string
+          enum:
+            - UPPER
+            - lower
+            - ''
+        enum_integer:
+          type: integer
+          format: int32
+          enum:
+            - 1
+            - -1
+          example: 1
+        enum_number:
+          type: number
+          format: double
+          enum:
+            - 1.1
+            - -1.2
+          example: -1.2
+        outerEnum:
+          $ref: '#/components/schemas/OuterEnum'
+        outerEnumInteger:
+          $ref: '#/components/schemas/OuterEnumInteger'
+        outerEnumDefaultValue:
+          $ref: '#/components/schemas/OuterEnumDefaultValue'
+        outerEnumIntegerDefaultValue:
+          $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
+        outerEnumNumber:
+          $ref: '#/components/schemas/OuterEnumNumber'
+        outerEnumStrange:
+          $ref: '#/components/schemas/OuterEnumStrange'
+    EnumMap:
+      type: object
+      properties:
+        map_of_enum_string:
+          type: object
+          additionalProperties:
+            type: string
+            enum:
+              - UPPER
+              - lower
+    EnumArrays:
+      type: object
+      properties:
+        just_symbol:
+          type: string
+          enum:
+            - '>='
+            - $
+        array_enum:
+          type: array
+          items:
+            type: string
+            enum:
+              - fish
+              - crab
+    OuterEnumStrange:
+      type: string
+      default: '-efg'
+      enum:
+        - _abc
+        - '-efg'
+        - (xyz)
+        - with Spaces
+    OuterEnum:
+      nullable: true
+      type: string
+      enum:
+        - placed
+        - approved
+        - delivered
+    OuterEnumInteger:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      example: 2
+    OuterEnumDefaultValue:
+      type: string
+      enum:
+      - placed
+      - approved
+      - delivered
+      default: placed
+    OuterEnumIntegerDefaultValue:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      default: 0
+    OuterEnumNumber:
+      type: number
+      enum:
+      - 0
+      - 1.1
+      - 2.2
+    OuterEnumStringNumber:
+      type: string
+      format: number
+      enum:
+      - 0
+      - 1
+      - 2.2

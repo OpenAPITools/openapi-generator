@@ -13,11 +13,14 @@ import java.util.Objects;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.DefaultCodegenTest;
 import org.openapitools.codegen.languages.AbstractPythonConnexionServerCodegen;
+import org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class AbstractPythonConnexionServerCodegenTest {
+public class AbstractPythonConnexionServerCodegenTest extends DefaultCodegenTest  {
 
     /**
      * Passing "description" as first param to succinctly identify the significance of test parameters.
@@ -144,4 +147,8 @@ public class AbstractPythonConnexionServerCodegenTest {
         return StringUtils.join(nodes, File.separatorChar);
     }
 
+    @Override
+    protected DefaultCodegen subject() {
+        return new PythonFlaskConnexionServerCodegen();
+    }
 }

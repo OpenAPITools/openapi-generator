@@ -1,0 +1,4 @@
+generatorName: python-flask
+outputDir: samples/server/petstore/python-flask-enum_example
+inputSpec: modules/openapi-generator/src/test/resources/3_0/enum_examples.yaml
+templateDir: modules/openapi-generator/src/main/resources/python-flask
