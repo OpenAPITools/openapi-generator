@@ -9,7 +9,6 @@ import org.openapitools.model.ModelApiResponse;
 import org.springframework.data.domain.Pageable;
 import org.springdoc.api.annotations.ParameterObject;
 import org.openapitools.model.Pet;
-import org.springframework.core.io.Resource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
