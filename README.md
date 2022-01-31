@@ -9,7 +9,7 @@
 
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`5.4.x`):
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`6.0.x`):
 [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
@@ -832,6 +832,9 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2021-10-17 - [Generate a TypeScript HTTP Client From An OpenAPI Spec In DotNET 5](https://richardwillis.info/blog/generate-a-type-script-http-client-from-an-open-api-spec-in-dot-net-5) by [Richard Willis](https://github.com/badsyntax)
 - 2021-11-06 - [スタートアップの開発で意識したこと](https://zenn.dev/woo_noo/articles/5cb09f8e2899ae782ad1) by [woo-noo](https://zenn.dev/woo_noo)
 - 2021-11-09 - [Effective Software Development using OpenAPI Generator](https://apexlabs.ai/post/effective-software-development-using-openapi-generator) by Ajil Oomme
+- 2021-12-07 - [An Introduction to OpenAPI](https://betterprogramming.pub/4-use-cases-of-openapi-which-are-good-to-know-1a041f4ad71e) by [Na'aman Hirschfeld](https://naamanhirschfeld.medium.com/)
+- 2021-01-02 - [Towards a secure API client generator for IoT devices](https://arxiv.org/abs/2201.00270) by Anders Aaen Springborg, Martin Kaldahl Andersen, Kaare Holland Hattel, Michele Albano
+
 
 ## [6 - About Us](#table-of-contents)
 
