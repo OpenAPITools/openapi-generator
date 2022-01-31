@@ -1,4 +1,0 @@
-generatorName: python-flask
-outputDir: samples/server/petstore/python-flask-with-fake-endpoints-models-for-testing-with-http-signature
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
-templateDir: modules/openapi-generator/src/main/resources/python-flask
