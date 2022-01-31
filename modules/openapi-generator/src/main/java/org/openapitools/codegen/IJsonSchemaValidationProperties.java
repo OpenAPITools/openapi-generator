@@ -99,6 +99,10 @@ public interface IJsonSchemaValidationProperties {
 
     void setIsUnboundedInteger(boolean isUnboundedInteger);
 
+    boolean getIsPrimitiveType();
+
+    void setIsPrimitiveType(boolean isPrimitiveType);
+
     CodegenProperty getAdditionalProperties();
 
     void setAdditionalProperties(CodegenProperty additionalProperties);

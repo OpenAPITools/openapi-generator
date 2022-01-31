@@ -585,6 +585,8 @@ public class JavaClientCodegenTest {
         generator.setGenerateMetadata(false);
         List<File> files = generator.opts(clientOptInput).generate();
 
+        validateJavaSourceFiles(files);
+
         Assert.assertEquals(files.size(), 1);
         files.forEach(File::deleteOnExit);
     }
@@ -677,6 +679,8 @@ public class JavaClientCodegenTest {
         generator.setGenerateMetadata(false);
         List<File> files = generator.opts(clientOptInput).generate();
         files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
 
         Assert.assertEquals(files.size(), 1);
         TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/ParentType.java");
@@ -920,6 +924,7 @@ public class JavaClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
+        validateJavaSourceFiles(files);
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
         TestUtils.assertFileContains(defaultApi,
@@ -968,6 +973,7 @@ public class JavaClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
+        validateJavaSourceFiles(files);
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
         TestUtils.assertFileContains(defaultApi,
@@ -1046,6 +1052,7 @@ public class JavaClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
+        validateJavaSourceFiles(files);
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
         TestUtils.assertFileContains(defaultApi,
@@ -1174,6 +1181,7 @@ public class JavaClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
+        validateJavaSourceFiles(files);
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
         TestUtils.assertFileContains(defaultApi,
@@ -1244,6 +1252,8 @@ public class JavaClientCodegenTest {
         final List<File> files = generator.opts(configurator.toClientOptInput())
                 .generate();
         files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
 
         final Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
         TestUtils.assertFileContains(defaultApi, "value instanceof Map");

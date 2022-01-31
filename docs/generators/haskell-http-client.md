@@ -10,6 +10,7 @@ title: Documentation for the haskell-http-client Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Haskell | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Haskell http-client library. | |
 
 ## CONFIG OPTIONS

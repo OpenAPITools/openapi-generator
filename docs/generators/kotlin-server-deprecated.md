@@ -10,6 +10,7 @@ title: Documentation for the kotlin-server-deprecated Generator
 | generator stability | DEPRECATED | |
 | generator type | SERVER | |
 | generator language | Kotlin | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Kotlin server (Ktor v1.1.3). IMPORTANT: this generator has been deprecated. Please migrate to `kotlin-server` which supports Ktor v1.5.2+. | |
 
 ## CONFIG OPTIONS
@@ -78,6 +79,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>kotlin.String</li>
 <li>kotlin.collections.List</li>
 <li>kotlin.collections.Map</li>
+<li>kotlin.collections.MutableList</li>
+<li>kotlin.collections.MutableMap</li>
+<li>kotlin.collections.MutableSet</li>
 <li>kotlin.collections.Set</li>
 </ul>
 

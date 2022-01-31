@@ -1,0 +1,72 @@
+{{>common/licenseInfo}}
+package {{invokerPackage}}.auth;
+
+import io.micronaut.aop.MethodInvocationContext;
+import io.micronaut.core.annotation.AnnotationValue;
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.util.CollectionUtils;
+import io.micronaut.core.util.StringUtils;
+import io.micronaut.http.MutableHttpRequest;
+import io.micronaut.http.client.bind.AnnotatedClientRequestBinder;
+import io.micronaut.http.client.bind.ClientRequestUriContext;
+import jakarta.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.Generated;
+
+
+{{>common/generatedAnnotation}}
+@Singleton
+public class AuthorizationBinder implements AnnotatedClientRequestBinder<Authorization> {
+
+    public static final CharSequence AUTHORIZATION_NAMES  = "micronaut.security.AUTHORIZATION_NAMES";
+
+    @NonNull
+    @Override
+    public Class<Authorization> getAnnotationType() {
+        return Authorization.class;
+    }
+
+    @Override
+    public void bind(@NonNull MethodInvocationContext<Object, Object> context,
+                     @NonNull ClientRequestUriContext uriContext,
+                     @NonNull MutableHttpRequest<?> request
+    ) {
+        List<AnnotationValue<Authorization>> annotations = context.getAnnotationMetadata()
+                .getAnnotationValuesByType(Authorization.class);
+
+        if (CollectionUtils.isNotEmpty(annotations)) {
+            List<String> authorizationNames = new ArrayList<>();
+            for (AnnotationValue<Authorization> annotation: annotations) {
+                annotation.get("name", String.class)
+                        .filter(StringUtils::isNotEmpty)
+                        .ifPresent(v -> authorizationNames.add(configurationName(v)));
+            }
+            request.setAttribute(AUTHORIZATION_NAMES, authorizationNames);
+        }
+    }
+
+    private String configurationName(String name) {
+        StringBuilder result = new StringBuilder();
+
+        boolean wasCapital = false;
+        for (int i = 0; i < name.length(); ++i) {
+            char c = name.charAt(i);
+            if (c == '_') {
+                result.append('-');
+                wasCapital = true;
+            } else if (Character.isUpperCase(c)) {
+                if (wasCapital) {
+                    result.append(Character.toLowerCase(c));
+                } else {
+                    result.append('-');
+                    result.append(Character.toLowerCase(c));
+                }
+                wasCapital = true;
+            } else {
+                result.append(c);
+            }
+        }
+        return result.toString();
+    }
+}

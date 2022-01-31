@@ -9,7 +9,6 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
-import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import org.springframework.http.HttpStatus;

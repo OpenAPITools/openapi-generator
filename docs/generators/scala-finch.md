@@ -10,6 +10,7 @@ title: Documentation for the scala-finch Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Scala | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Scala server application with Finch. | |
 
 ## CONFIG OPTIONS

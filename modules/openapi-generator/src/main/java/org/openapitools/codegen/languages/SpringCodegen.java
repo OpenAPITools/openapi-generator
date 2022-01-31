@@ -404,8 +404,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
 
-        typeMapping.put("file", "Resource");
-        importMapping.put("Resource", "org.springframework.core.io.Resource");
+        typeMapping.put("file", "org.springframework.core.io.Resource");
+        importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
         importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");

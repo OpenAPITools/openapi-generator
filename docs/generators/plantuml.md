@@ -9,6 +9,7 @@ title: Documentation for the plantuml Generator
 | generator name | plantuml | pass this to the generate command after -g |
 | generator stability | BETA | |
 | generator type | DOCUMENTATION | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a plantuml documentation. | |
 
 ## CONFIG OPTIONS

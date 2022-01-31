@@ -361,22 +361,18 @@ export interface EnumArrays {
     'array_enum'?: Array<EnumArraysArrayEnumEnum>;
 }
 
-/**
-    * @export
-    * @enum {string}
-    */
-export enum EnumArraysJustSymbolEnum {
-    GreaterThanOrEqualTo = '>=',
-    Dollar = '$'
-}
-/**
-    * @export
-    * @enum {string}
-    */
-export enum EnumArraysArrayEnumEnum {
-    Fish = 'fish',
-    Crab = 'crab'
-}
+export const EnumArraysJustSymbolEnum = {
+    GreaterThanOrEqualTo: '>=',
+    Dollar: '$'
+} as const;
+
+export type EnumArraysJustSymbolEnum = typeof EnumArraysJustSymbolEnum[keyof typeof EnumArraysJustSymbolEnum];
+export const EnumArraysArrayEnumEnum = {
+    Fish: 'fish',
+    Crab: 'crab'
+} as const;
+
+export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeof EnumArraysArrayEnumEnum];
 
 /**
  * 
@@ -384,11 +380,14 @@ export enum EnumArraysArrayEnumEnum {
  * @enum {string}
  */
 
-export enum EnumClass {
-    Abc = '_abc',
-    Efg = '-efg',
-    Xyz = '(xyz)'
-}
+export const EnumClass = {
+    Abc: '_abc',
+    Efg: '-efg',
+    Xyz: '(xyz)'
+} as const;
+
+export type EnumClass = typeof EnumClass[keyof typeof EnumClass];
+
 
 /**
  * 
@@ -446,40 +445,32 @@ export interface EnumTest {
     'outerEnumIntegerDefaultValue'?: OuterEnumIntegerDefaultValue;
 }
 
-/**
-    * @export
-    * @enum {string}
-    */
-export enum EnumTestEnumStringEnum {
-    Upper = 'UPPER',
-    Lower = 'lower',
-    Empty = ''
-}
-/**
-    * @export
-    * @enum {string}
-    */
-export enum EnumTestEnumStringRequiredEnum {
-    Upper = 'UPPER',
-    Lower = 'lower',
-    Empty = ''
-}
-/**
-    * @export
-    * @enum {string}
-    */
-export enum EnumTestEnumIntegerEnum {
-    NUMBER_1 = 1,
-    NUMBER_MINUS_1 = -1
-}
-/**
-    * @export
-    * @enum {string}
-    */
-export enum EnumTestEnumNumberEnum {
-    NUMBER_1_DOT_1 = 1.1,
-    NUMBER_MINUS_1_DOT_2 = -1.2
-}
+export const EnumTestEnumStringEnum = {
+    Upper: 'UPPER',
+    Lower: 'lower',
+    Empty: ''
+} as const;
+
+export type EnumTestEnumStringEnum = typeof EnumTestEnumStringEnum[keyof typeof EnumTestEnumStringEnum];
+export const EnumTestEnumStringRequiredEnum = {
+    Upper: 'UPPER',
+    Lower: 'lower',
+    Empty: ''
+} as const;
+
+export type EnumTestEnumStringRequiredEnum = typeof EnumTestEnumStringRequiredEnum[keyof typeof EnumTestEnumStringRequiredEnum];
+export const EnumTestEnumIntegerEnum = {
+    NUMBER_1: 1,
+    NUMBER_MINUS_1: -1
+} as const;
+
+export type EnumTestEnumIntegerEnum = typeof EnumTestEnumIntegerEnum[keyof typeof EnumTestEnumIntegerEnum];
+export const EnumTestEnumNumberEnum = {
+    NUMBER_1_DOT_1: 1.1,
+    NUMBER_MINUS_1_DOT_2: -1.2
+} as const;
+
+export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof EnumTestEnumNumberEnum];
 
 /**
  * 
@@ -743,14 +734,12 @@ export interface MapTest {
     'indirect_map'?: { [key: string]: boolean; };
 }
 
-/**
-    * @export
-    * @enum {string}
-    */
-export enum MapTestMapOfEnumStringEnum {
-    Upper = 'UPPER',
-    Lower = 'lower'
-}
+export const MapTestMapOfEnumStringEnum = {
+    Upper: 'UPPER',
+    Lower: 'lower'
+} as const;
+
+export type MapTestMapOfEnumStringEnum = typeof MapTestMapOfEnumStringEnum[keyof typeof MapTestMapOfEnumStringEnum];
 
 /**
  * 
@@ -978,15 +967,13 @@ export interface Order {
     'complete'?: boolean;
 }
 
-/**
-    * @export
-    * @enum {string}
-    */
-export enum OrderStatusEnum {
-    Placed = 'placed',
-    Approved = 'approved',
-    Delivered = 'delivered'
-}
+export const OrderStatusEnum = {
+    Placed: 'placed',
+    Approved: 'approved',
+    Delivered: 'delivered'
+} as const;
+
+export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
 /**
  * 
@@ -1019,11 +1006,14 @@ export interface OuterComposite {
  * @enum {string}
  */
 
-export enum OuterEnum {
-    Placed = 'placed',
-    Approved = 'approved',
-    Delivered = 'delivered'
-}
+export const OuterEnum = {
+    Placed: 'placed',
+    Approved: 'approved',
+    Delivered: 'delivered'
+} as const;
+
+export type OuterEnum = typeof OuterEnum[keyof typeof OuterEnum];
+
 
 /**
  * 
@@ -1031,11 +1021,14 @@ export enum OuterEnum {
  * @enum {string}
  */
 
-export enum OuterEnumDefaultValue {
-    Placed = 'placed',
-    Approved = 'approved',
-    Delivered = 'delivered'
-}
+export const OuterEnumDefaultValue = {
+    Placed: 'placed',
+    Approved: 'approved',
+    Delivered: 'delivered'
+} as const;
+
+export type OuterEnumDefaultValue = typeof OuterEnumDefaultValue[keyof typeof OuterEnumDefaultValue];
+
 
 /**
  * 
@@ -1043,11 +1036,14 @@ export enum OuterEnumDefaultValue {
  * @enum {string}
  */
 
-export enum OuterEnumInteger {
-    NUMBER_0 = 0,
-    NUMBER_1 = 1,
-    NUMBER_2 = 2
-}
+export const OuterEnumInteger = {
+    NUMBER_0: 0,
+    NUMBER_1: 1,
+    NUMBER_2: 2
+} as const;
+
+export type OuterEnumInteger = typeof OuterEnumInteger[keyof typeof OuterEnumInteger];
+
 
 /**
  * 
@@ -1055,11 +1051,14 @@ export enum OuterEnumInteger {
  * @enum {string}
  */
 
-export enum OuterEnumIntegerDefaultValue {
-    NUMBER_0 = 0,
-    NUMBER_1 = 1,
-    NUMBER_2 = 2
-}
+export const OuterEnumIntegerDefaultValue = {
+    NUMBER_0: 0,
+    NUMBER_1: 1,
+    NUMBER_2: 2
+} as const;
+
+export type OuterEnumIntegerDefaultValue = typeof OuterEnumIntegerDefaultValue[keyof typeof OuterEnumIntegerDefaultValue];
+
 
 /**
  * 
@@ -1106,15 +1105,13 @@ export interface Pet {
     'status'?: PetStatusEnum;
 }
 
-/**
-    * @export
-    * @enum {string}
-    */
-export enum PetStatusEnum {
-    Available = 'available',
-    Pending = 'pending',
-    Sold = 'sold'
-}
+export const PetStatusEnum = {
+    Available: 'available',
+    Pending: 'pending',
+    Sold: 'sold'
+} as const;
+
+export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
 /**
  * 
@@ -1353,15 +1350,13 @@ export interface Zebra {
     'className': string;
 }
 
-/**
-    * @export
-    * @enum {string}
-    */
-export enum ZebraTypeEnum {
-    Plains = 'plains',
-    Mountain = 'mountain',
-    Grevys = 'grevys'
-}
+export const ZebraTypeEnum = {
+    Plains: 'plains',
+    Mountain: 'mountain',
+    Grevys: 'grevys'
+} as const;
+
+export type ZebraTypeEnum = typeof ZebraTypeEnum[keyof typeof ZebraTypeEnum];
 
 
 /**

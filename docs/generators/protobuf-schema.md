@@ -10,6 +10,7 @@ title: Documentation for the protobuf-schema Generator
 | generator stability | BETA | |
 | generator type | SCHEMA | |
 | generator language | Protocol Buffers (Protobuf) | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates gRPC and protocol buffer schema files (beta) | |
 
 ## CONFIG OPTIONS
