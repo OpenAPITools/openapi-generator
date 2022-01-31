@@ -10,6 +10,7 @@ title: Documentation for the haskell Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Haskell | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Haskell server and client library. | |
 
 ## CONFIG OPTIONS

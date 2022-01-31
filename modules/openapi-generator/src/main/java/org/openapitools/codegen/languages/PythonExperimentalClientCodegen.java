@@ -2087,5 +2087,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     }
 
     @Override
+    public String defaultTemplatingEngine() {
+        return "handlebars";
+    }
+
+    @Override
     public String generatorLanguageVersion() { return ">=3.9"; };
 }

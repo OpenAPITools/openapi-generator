@@ -10,6 +10,7 @@ title: Documentation for the erlang-proper Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Erlang | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates an Erlang library with PropEr generators (beta). | |
 
 ## CONFIG OPTIONS

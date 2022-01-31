@@ -10,6 +10,7 @@ title: Documentation for the mysql-schema Generator
 | generator stability | STABLE | |
 | generator type | SCHEMA | |
 | generator language | Mysql | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a MySQL schema based on the model or schema defined in the OpenAPI specification (v2, v3). | |
 
 ## CONFIG OPTIONS

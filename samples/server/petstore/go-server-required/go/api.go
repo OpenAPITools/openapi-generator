@@ -57,7 +57,7 @@ type UserApiRouter interface {
 
 // PetApiServicer defines the api actions for the PetApi service
 // This interface intended to stay up to date with the openapi yaml used to generate it,
-// while the service implementation can ignored with the .openapi-generator-ignore file
+// while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type PetApiServicer interface { 
 	AddPet(context.Context, Pet) (ImplResponse, error)
@@ -74,7 +74,7 @@ type PetApiServicer interface {
 
 // StoreApiServicer defines the api actions for the StoreApi service
 // This interface intended to stay up to date with the openapi yaml used to generate it,
-// while the service implementation can ignored with the .openapi-generator-ignore file
+// while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type StoreApiServicer interface { 
 	DeleteOrder(context.Context, string) (ImplResponse, error)
@@ -86,7 +86,7 @@ type StoreApiServicer interface {
 
 // UserApiServicer defines the api actions for the UserApi service
 // This interface intended to stay up to date with the openapi yaml used to generate it,
-// while the service implementation can ignored with the .openapi-generator-ignore file
+// while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type UserApiServicer interface { 
 	CreateUser(context.Context, User) (ImplResponse, error)

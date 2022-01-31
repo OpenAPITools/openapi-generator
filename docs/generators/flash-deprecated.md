@@ -10,6 +10,7 @@ title: Documentation for the flash-deprecated Generator
 | generator stability | DEPRECATED | |
 | generator type | CLIENT | |
 | generator language | Flash | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Flash (ActionScript) client library (beta). IMPORTANT: this generator has been deprecated in v5.x | |
 
 ## CONFIG OPTIONS

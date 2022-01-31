@@ -216,5 +216,6 @@ jobs:
             ${{ runner.os }}-test-gradle-plugin-
       - name: Run tests
         run: |
+          mvn --no-snapshot-updates --batch-mode --quiet install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=error
           (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
           (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)

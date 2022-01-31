@@ -10,6 +10,7 @@ title: Documentation for the php-lumen Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | PHP | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a PHP Lumen server library. | |
 
 ## CONFIG OPTIONS

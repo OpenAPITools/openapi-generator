@@ -10,6 +10,7 @@ title: Documentation for the ruby-on-rails Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Ruby | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Ruby on Rails (v5) server library. | |
 
 ## CONFIG OPTIONS

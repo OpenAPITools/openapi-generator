@@ -10,6 +10,7 @@ title: Documentation for the javascript Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Javascript | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a JavaScript client library. | |
 
 ## CONFIG OPTIONS

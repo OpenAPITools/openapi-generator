@@ -10,6 +10,7 @@ title: Documentation for the ada Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Ada | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates an Ada client implementation (beta). | |
 
 ## CONFIG OPTIONS

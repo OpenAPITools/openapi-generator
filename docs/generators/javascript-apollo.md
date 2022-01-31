@@ -10,6 +10,7 @@ title: Documentation for the javascript-apollo Generator
 | generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | Javascript | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a JavaScript client library (beta) using Apollo RESTDatasource. | |
 
 ## CONFIG OPTIONS

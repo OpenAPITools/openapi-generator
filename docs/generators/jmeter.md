@@ -10,6 +10,7 @@ title: Documentation for the jmeter Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a JMeter .jmx file. | |
 
 ## CONFIG OPTIONS
