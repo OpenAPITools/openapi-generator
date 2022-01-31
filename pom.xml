@@ -925,6 +925,18 @@
             </modules>
         </profile>
         <profile>
+            <id>typescript-client-tests-browser</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/typescript/tests/browser</module>
+            </modules>
+        </profile>
+        <profile>
             <id>typescript-fetch-client-tests-default</id>
             <activation>
                 <property>
@@ -1205,6 +1217,8 @@
                 <!-- comment out due to failure in travis ci
                 <module>samples/openapi3/client/petstore/typescript/tests/inversify</module>
                 <module>samples/openapi3/client/petstore/typescript/tests/deno</module>-->
+                <module>samples/openapi3/client/petstore/typescript/builds/browser</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/browser</module>
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
