@@ -1230,6 +1230,7 @@
                 <module>samples/openapi3/server/petstore/springboot</module>
                 <module>samples/server/petstore/springboot-beanvalidation</module>
 		<module>samples/server/petstore/springboot-useoptional</module>
+
                 <module>samples/openapi3/server/petstore/springboot-nullable</module>
                 <module>samples/openapi3/server/petstore/springboot-nullable-disabled</module>
                 <module>samples/openapi3/server/petstore/springboot-useoptional</module>
