@@ -20,7 +20,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func createXmlItem(xmlItem: XmlItem, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func createXmlItem(xmlItem: XmlItem, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return createXmlItemWithRequestBuilder(xmlItem: xmlItem).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -63,7 +63,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func fakeOuterBooleanSerialize(body: Bool? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Bool?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func fakeOuterBooleanSerialize(body: Bool? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Bool?, _ error: Error?) -> Void)) -> RequestTask {
         return fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -105,7 +105,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: OuterComposite?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: OuterComposite?, _ error: Error?) -> Void)) -> RequestTask {
         return fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -147,7 +147,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func fakeOuterNumberSerialize(body: Double? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Double?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func fakeOuterNumberSerialize(body: Double? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Double?, _ error: Error?) -> Void)) -> RequestTask {
         return fakeOuterNumberSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -189,7 +189,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func fakeOuterStringSerialize(body: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func fakeOuterStringSerialize(body: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) -> RequestTask {
         return fakeOuterStringSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -231,7 +231,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func testBodyWithFileSchema(body: FileSchemaTestClass, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func testBodyWithFileSchema(body: FileSchemaTestClass, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return testBodyWithFileSchemaWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -274,7 +274,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func testBodyWithQueryParams(query: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func testBodyWithQueryParams(query: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -320,7 +320,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func testClientModel(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func testClientModel(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) -> RequestTask {
         return testClientModelWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -377,7 +377,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -529,7 +529,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -554,7 +554,7 @@ open class FakeAPI {
      - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
      - returns: RequestBuilder<Void> 
      */
-    open class func testEnumParametersWithRequestBuilder(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> RequestBuilder<Void> {
+    open class func testEnumParametersWithRequestBuilder(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> RequestBuilder<Void> {
         let localVariablePath = "/fake"
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
@@ -599,7 +599,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -655,7 +655,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func testInlineAdditionalProperties(param: [String: String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func testInlineAdditionalProperties(param: [String: String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -699,7 +699,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func testJsonFormData(param: String, param2: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func testJsonFormData(param: String, param2: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -752,7 +752,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func testQueryParameterCollectionFormat(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func testQueryParameterCollectionFormat(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return testQueryParameterCollectionFormatWithRequestBuilder(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context).execute(apiResponseQueue) { result in
             switch result {
             case .success:

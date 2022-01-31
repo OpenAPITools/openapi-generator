@@ -104,10 +104,10 @@ public class KotlinModelCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/NonUniqueArray.kt"),
                 codegen instanceof KotlinVertxServerCodegen
                         ? "var array: kotlin.Array<kotlin.String>"
-                        : "var array: kotlin.collections.List<kotlin.String>"
+                        : "var array: kotlin.collections.MutableList<kotlin.String>"
         );
 
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/UniqueArray.kt"),
-                "var array: kotlin.collections.Set<kotlin.String>");
+                "var array: kotlin.collections.MutableSet<kotlin.String>");
     }
 }

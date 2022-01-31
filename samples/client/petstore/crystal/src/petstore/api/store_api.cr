@@ -39,7 +39,7 @@ module Petstore
         raise ArgumentError.new("Missing the required parameter 'order_id' when calling StoreApi.delete_order")
       end
       # resource path
-      local_var_path = "/store/order/{orderId}".sub("{" + "orderId" + "}", URI.encode(order_id.to_s).gsub("%2F", "/"))
+      local_var_path = "/store/order/{orderId}".sub("{" + "orderId" + "}", URI.encode_path(order_id.to_s).gsub("%2F", "/"))
 
       # query parameters
       query_params = Hash(String, String).new
@@ -157,7 +157,7 @@ module Petstore
       end
 
       # resource path
-      local_var_path = "/store/order/{orderId}".sub("{" + "orderId" + "}", URI.encode(order_id.to_s).gsub("%2F", "/"))
+      local_var_path = "/store/order/{orderId}".sub("{" + "orderId" + "}", URI.encode_path(order_id.to_s).gsub("%2F", "/"))
 
       # query parameters
       query_params = Hash(String, String).new

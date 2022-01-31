@@ -10,8 +10,13 @@ import org.openapitools.codegen.utils.StringUtils;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashSet;
 
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.testng.Assert.assertEquals;
 
 @SuppressWarnings("rawtypes")
@@ -51,7 +56,8 @@ public class KotlinReservedWordsTest {
                 {"while"},
                 {"open"},
                 {"external"},
-                {"internal"}
+                {"internal"},
+                {"value"}
         };
     }
 
@@ -128,4 +134,32 @@ public class KotlinReservedWordsTest {
         assertEquals(property.baseName, reservedWord);
     }
 
+    @Test
+    public void reservedWordsInGeneratedCode() throws Exception {
+        String baseApiPackage = "/org/openapitools/client/apis/";
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile(); //may be move to /build
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_11304_kotlin_backticks_reserved_words.yaml");
+
+        KotlinClientCodegen codegen = new KotlinClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        File resultSourcePath = new File(output, "src/main/kotlin");
+
+        assertFileContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "DefaultApi.kt"),
+               "fun test(`value`: kotlin.String) : Unit {",
+               "fun testWithHttpInfo(`value`: kotlin.String) : ApiResponse<Unit?> {",
+               "fun testRequestConfig(`value`: kotlin.String) : RequestConfig<Unit> {"
+        );
+
+        assertFileNotContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "DefaultApi.kt"),
+                "&#x60;"
+        );
+    }
 }

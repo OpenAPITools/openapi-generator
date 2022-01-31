@@ -15,12 +15,15 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * TypeHolderExample
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderExample   {
+
   @JsonProperty("string_item")
   private String stringItem;
 
@@ -49,10 +52,8 @@ public class TypeHolderExample   {
    * Get stringItem
    * @return stringItem
   */
+  @NotNull 
   @ApiModelProperty(example = "what", required = true, value = "")
-  @NotNull
-
-
   public String getStringItem() {
     return stringItem;
   }
@@ -70,11 +71,8 @@ public class TypeHolderExample   {
    * Get numberItem
    * @return numberItem
   */
+  @NotNull @Valid 
   @ApiModelProperty(example = "1.234", required = true, value = "")
-  @NotNull
-
-  @Valid
-
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -92,10 +90,8 @@ public class TypeHolderExample   {
    * Get floatItem
    * @return floatItem
   */
+  @NotNull 
   @ApiModelProperty(example = "1.234", required = true, value = "")
-  @NotNull
-
-
   public Float getFloatItem() {
     return floatItem;
   }
@@ -113,10 +109,8 @@ public class TypeHolderExample   {
    * Get integerItem
    * @return integerItem
   */
+  @NotNull 
   @ApiModelProperty(example = "-2", required = true, value = "")
-  @NotNull
-
-
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -134,10 +128,8 @@ public class TypeHolderExample   {
    * Get boolItem
    * @return boolItem
   */
+  @NotNull 
   @ApiModelProperty(example = "true", required = true, value = "")
-  @NotNull
-
-
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -163,10 +155,8 @@ public class TypeHolderExample   {
    * Get arrayItem
    * @return arrayItem
   */
+  @NotNull 
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
-  @NotNull
-
-
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
@@ -174,7 +164,6 @@ public class TypeHolderExample   {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -202,7 +191,6 @@ public class TypeHolderExample   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TypeHolderExample {\n");
-    
     sb.append("    stringItem: ").append(toIndentedString(stringItem)).append("\n");
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
     sb.append("    floatItem: ").append(toIndentedString(floatItem)).append("\n");

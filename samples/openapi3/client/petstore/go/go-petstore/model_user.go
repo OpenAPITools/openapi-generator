@@ -26,7 +26,7 @@ type User struct {
 	// User Status
 	UserStatus *int32 `json:"userStatus,omitempty"`
 	// test code generation for objects Value must be a map of strings to values. It cannot be the 'null' value.
-	ArbitraryObject *map[string]interface{} `json:"arbitraryObject,omitempty"`
+	ArbitraryObject map[string]interface{} `json:"arbitraryObject,omitempty"`
 	// test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.
 	ArbitraryNullableObject map[string]interface{} `json:"arbitraryNullableObject,omitempty"`
 	// test code generation for any type Value can be any type - string, number, boolean, array or object.
@@ -317,12 +317,12 @@ func (o *User) GetArbitraryObject() map[string]interface{} {
 		var ret map[string]interface{}
 		return ret
 	}
-	return *o.ArbitraryObject
+	return o.ArbitraryObject
 }
 
 // GetArbitraryObjectOk returns a tuple with the ArbitraryObject field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetArbitraryObjectOk() (*map[string]interface{}, bool) {
+func (o *User) GetArbitraryObjectOk() (map[string]interface{}, bool) {
 	if o == nil || o.ArbitraryObject == nil {
 		return nil, false
 	}
@@ -340,7 +340,7 @@ func (o *User) HasArbitraryObject() bool {
 
 // SetArbitraryObject gets a reference to the given map[string]interface{} and assigns it to the ArbitraryObject field.
 func (o *User) SetArbitraryObject(v map[string]interface{}) {
-	o.ArbitraryObject = &v
+	o.ArbitraryObject = v
 }
 
 // GetArbitraryNullableObject returns the ArbitraryNullableObject field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -355,11 +355,11 @@ func (o *User) GetArbitraryNullableObject() map[string]interface{} {
 // GetArbitraryNullableObjectOk returns a tuple with the ArbitraryNullableObject field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *User) GetArbitraryNullableObjectOk() (*map[string]interface{}, bool) {
+func (o *User) GetArbitraryNullableObjectOk() (map[string]interface{}, bool) {
 	if o == nil || o.ArbitraryNullableObject == nil {
 		return nil, false
 	}
-	return &o.ArbitraryNullableObject, true
+	return o.ArbitraryNullableObject, true
 }
 
 // HasArbitraryNullableObject returns a boolean if a field has been set.

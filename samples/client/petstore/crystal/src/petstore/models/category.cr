@@ -16,11 +16,12 @@ module Petstore
   class Category
     include JSON::Serializable
 
-    @[JSON::Field(key: "id", type: Int64)]
-    property id : Int64
+    # Optional properties
+    @[JSON::Field(key: "id", type: Int64?, nillable: true, emit_null: false)]
+    property id : Int64?
 
-    @[JSON::Field(key: "name", type: String)]
-    property name : String
+    @[JSON::Field(key: "name", type: String?, nillable: true, emit_null: false)]
+    property name : String?
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
@@ -60,7 +61,7 @@ module Petstore
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
-      return true if self.equal?(o)
+      return true if self.same?(o)
       self.class == o.class &&
           id == o.id &&
           name == o.name

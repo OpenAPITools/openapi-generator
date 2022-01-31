@@ -25,7 +25,6 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
-import java.util.Date
 import java.util.Locale
 import com.google.gson.reflect.TypeToken
 
@@ -105,7 +104,7 @@ open class ApiClient(val baseUrl: String) {
                     }
                 }.build()
             }
-            mediaType == JsonMediaType -> {
+            mediaType.startsWith("application/") && mediaType.endsWith("json") ->
                 if (content == null) {
                     EMPTY_REQUEST
                 } else {
@@ -114,7 +113,6 @@ open class ApiClient(val baseUrl: String) {
                             mediaType.toMediaTypeOrNull()
                         )
                 }
-            }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
@@ -137,8 +135,9 @@ open class ApiClient(val baseUrl: String) {
             out.close()
             return f as T
         }
-        return when(mediaType) {
-            JsonMediaType -> Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType())
+        return when {
+        mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
+                Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType())
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -160,7 +159,7 @@ open class ApiClient(val baseUrl: String) {
         }
     }
 
-    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
+    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiResponse<T?> {
         val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
 
         // take authMethod from operation
@@ -185,11 +184,11 @@ open class ApiClient(val baseUrl: String) {
         }
         val headers = requestConfig.headers
 
-        if(headers[ContentType] ?: "" == "") {
+        if(headers[ContentType].isNullOrEmpty()) {
             throw kotlin.IllegalStateException("Missing Content-Type header. This is required.")
         }
 
-        if(headers[Accept] ?: "" == "") {
+        if(headers[Accept].isNullOrEmpty()) {
             throw kotlin.IllegalStateException("Missing Accept header. This is required.")
         }
 
@@ -247,7 +246,7 @@ open class ApiClient(val baseUrl: String) {
         null -> ""
         is Array<*> -> toMultiValue(value, "csv").toString()
         is Iterable<*> -> toMultiValue(value, "csv").toString()
-        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime, is Date ->
+        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime ->
             parseDateToQueryString(value)
         else -> value.toString()
     }

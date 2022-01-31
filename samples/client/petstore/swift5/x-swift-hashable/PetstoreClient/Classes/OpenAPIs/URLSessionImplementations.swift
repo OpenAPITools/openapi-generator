@@ -100,7 +100,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     }
 
     @discardableResult
-    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> URLSessionTask? {
+    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let urlSession = createURLSession()
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
@@ -172,14 +172,14 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
             dataTask.resume()
 
-            return dataTask
+            requestTask.set(task: dataTask)
         } catch {
             apiResponseQueue.async {
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
-
-            return nil
         }
+
+        return requestTask
     }
 
     fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
@@ -200,60 +200,12 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         }
 
         switch T.self {
-        case is String.Type:
-
-            let body = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
-
-            completion(.success(Response<T>(response: httpResponse, body: body as? T)))
-
-        case is URL.Type:
-            do {
-
-                guard error == nil else {
-                    throw DownloadException.responseFailed
-                }
-
-                guard let data = data else {
-                    throw DownloadException.responseDataMissing
-                }
-
-                let fileManager = FileManager.default
-                let cachesDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-                let requestURL = try getURL(from: urlRequest)
-
-                var requestPath = try getPath(from: requestURL)
-
-                if let headerFileName = getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
-                    requestPath = requestPath.appending("/\(headerFileName)")
-                } else {
-                    requestPath = requestPath.appending("/tmp.PetstoreClient.\(UUID().uuidString)")
-                }
-
-                let filePath = cachesDirectory.appendingPathComponent(requestPath)
-                let directoryPath = filePath.deletingLastPathComponent().path
-
-                try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
-                try data.write(to: filePath, options: .atomic)
-
-                completion(.success(Response(response: httpResponse, body: filePath as? T)))
-
-            } catch let requestParserError as DownloadException {
-                completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
-            } catch {
-                completion(.failure(ErrorResponse.error(400, data, response, error)))
-            }
-
         case is Void.Type:
 
-            completion(.success(Response(response: httpResponse, body: nil)))
-
-        case is Data.Type:
-
-            completion(.success(Response(response: httpResponse, body: data as? T)))
+            completion(.success(Response(response: httpResponse, body: () as! T)))
 
         default:
-
-            completion(.success(Response(response: httpResponse, body: data as? T)))
+            fatalError("Unsupported Response Body Type - \(String(describing: T.self))")
         }
 
     }
@@ -345,7 +297,7 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
 
             let body = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
 
-            completion(.success(Response<T>(response: httpResponse, body: body as? T)))
+            completion(.success(Response<T>(response: httpResponse, body: body as! T)))
 
         case is URL.Type:
             do {
@@ -376,7 +328,7 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
                 try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
                 try data.write(to: filePath, options: .atomic)
 
-                completion(.success(Response(response: httpResponse, body: filePath as? T)))
+                completion(.success(Response(response: httpResponse, body: filePath as! T)))
 
             } catch let requestParserError as DownloadException {
                 completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
@@ -386,11 +338,11 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
 
         case is Void.Type:
 
-            completion(.success(Response(response: httpResponse, body: nil)))
+            completion(.success(Response(response: httpResponse, body: () as! T)))
 
         case is Data.Type:
 
-            completion(.success(Response(response: httpResponse, body: data as? T)))
+            completion(.success(Response(response: httpResponse, body: data as! T)))
 
         default:
 
@@ -524,6 +476,15 @@ private class FormDataEncoding: ParameterEncoding {
                         data: data
                     )
                 }
+
+            case let data as Data:
+
+                urlRequest = configureDataUploadRequest(
+                    urlRequest: urlRequest,
+                    boundary: boundary,
+                    name: key,
+                    data: data
+                )
 
             default:
                 fatalError("Unprocessable value \(value) with key \(key)")

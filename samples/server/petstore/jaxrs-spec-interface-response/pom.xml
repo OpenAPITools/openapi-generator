@@ -5,6 +5,8 @@
   <packaging>jar</packaging>
   <name>jaxrs-spec-interface-response-petstore-server</name>
   <version>1.0.0</version>
+
+
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
@@ -36,9 +38,9 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
-      <version>2.1.1</version>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
+      <version>${jakarta.ws.rs-version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -71,14 +73,16 @@
     </dependency>
     <!-- Bean Validation API support -->
     <dependency>
-        <groupId>javax.validation</groupId>
-        <artifactId>validation-api</artifactId>
-        <version>1.1.0.Final</version>
+        <groupId>jakarta.validation</groupId>
+        <artifactId>jakarta.validation-api</artifactId>
+        <version>${beanvalidation-version}</version>
         <scope>provided</scope>
     </dependency>
   </dependencies>
   <properties>
     <jackson-version>2.9.9</jackson-version>
     <junit-version>4.13.1</junit-version>
+	<beanvalidation-version>2.0.2</beanvalidation-version>
+    <jakarta.ws.rs-version>2.1.6</jakarta.ws.rs-version>
   </properties>
 </project>

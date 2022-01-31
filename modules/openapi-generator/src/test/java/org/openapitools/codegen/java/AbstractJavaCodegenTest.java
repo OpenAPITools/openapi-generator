@@ -56,9 +56,9 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void toModelNameShouldUseProvidedMapping() throws Exception {
+    public void toModelNameShouldNotUseProvidedMapping() throws Exception {
         fakeJavaCodegen.importMapping().put("json_myclass", "com.test.MyClass");
-        Assert.assertEquals(fakeJavaCodegen.toModelName("json_myclass"), "com.test.MyClass");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("json_myclass"), "JsonMyclass");
     }
 
     @Test
@@ -351,6 +351,24 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void apiTestFileFolderDirect() {
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOutputTestFolder("/User/open.api.tools");
+        codegen.setTestFolder("test.folder");
+        codegen.setApiPackage("org.openapitools.codegen.api");
+        Assert.assertEquals(codegen.apiTestFileFolder(), "/User/open.api.tools/test.folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+    }
+
+    @Test
+    public void modelTestFileFolderDirect() {
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOutputTestFolder("/User/open.api.tools");
+        codegen.setTestFolder("test.folder");
+        codegen.setModelPackage("org.openapitools.codegen.model");
+        Assert.assertEquals(codegen.modelTestFileFolder(), "/User/open.api.tools/test.folder/org/openapitools/codegen/model".replace('/', File.separatorChar));
+    }
+
+    @Test
     public void modelFileFolder() {
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.setOutputDir("/User/open.api.tools");
@@ -583,7 +601,7 @@ public class AbstractJavaCodegenTest {
         codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("MyStringType", new StringSchema())));
         Schema<?> schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/MyStringType"));
         String defaultValue = codegen.getTypeDeclaration(schema);
-        Assert.assertEquals(defaultValue, "List<com.example.foo>");
+        Assert.assertEquals(defaultValue, "List<MyStringType>");
     }
 
     @Test

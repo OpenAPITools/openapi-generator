@@ -22,10 +22,10 @@ open class AnotherFakeAPI {
      */
     open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            let task = call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let requestTask = call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    observer.onNext(response.body!)
+                    observer.onNext(response.body)
                 case let .failure(error):
                     observer.onError(error)
                 }
@@ -33,7 +33,7 @@ open class AnotherFakeAPI {
             }
             
             return Disposables.create {
-                task?.cancel()
+                requestTask.cancel()
             }
         }
     }

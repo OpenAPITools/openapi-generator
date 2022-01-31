@@ -4,6 +4,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.EncodingUtils;
 import org.openapitools.client.model.ApiResponse;
 
+import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;
