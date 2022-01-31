@@ -78,16 +78,16 @@ public class RetryingOAuth extends OAuth implements Interceptor {
      */
     public void setFlow(OAuthFlow flow) {
         switch(flow) {
-            case accessCode:
+            case ACCESS_CODE:
                 tokenRequestBuilder.setGrantType(GrantType.AUTHORIZATION_CODE);
                 break;
-            case implicit:
+            case IMPLICIT:
                 tokenRequestBuilder.setGrantType(GrantType.IMPLICIT);
                 break;
-            case password:
+            case PASSWORD:
                 tokenRequestBuilder.setGrantType(GrantType.PASSWORD);
                 break;
-            case application:
+            case APPLICATION:
                 tokenRequestBuilder.setGrantType(GrantType.CLIENT_CREDENTIALS);
                 break;
             default:

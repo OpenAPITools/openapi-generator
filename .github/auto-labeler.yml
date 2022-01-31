@@ -62,9 +62,6 @@ labels:
       - '\s*?-[gl] erlang(-.*)?-client\s*?'
       - '\s*?\[erlang-proper\]\s*?'
       - '\s*?-[gl] erlang-proper\s*?'
-    'Client: Flash/ActionScript':
-      - '\s*?\[flash\]\s*?'
-      - '\s*?-[gl] flash(?!-)\b'
     'Client: Go':
       - '\s*?\[go\]\s*?'
       - '\s*?-[gl] go(?!-)\b'
