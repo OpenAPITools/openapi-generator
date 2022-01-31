@@ -11,6 +11,10 @@
   ],
   "license": "Unlicense",
   "main": "./dist/index.js",
+  "type": "commonjs",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "typings": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
