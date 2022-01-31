@@ -1,8 +1,19 @@
 ---
-title: Config Options for scalaz
-sidebar_label: scalaz
+title: Documentation for the scalaz Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | scalaz | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Scala | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a Scalaz client library (beta) that uses http4s | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

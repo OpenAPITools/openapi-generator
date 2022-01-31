@@ -1,8 +1,19 @@
 ---
-title: Config Options for kotlin-server-deprecated
-sidebar_label: kotlin-server-deprecated
+title: Documentation for the kotlin-server-deprecated Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | kotlin-server-deprecated | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
+| generator type | SERVER | |
+| generator language | Kotlin | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a Kotlin server (Ktor v1.1.3). IMPORTANT: this generator has been deprecated. Please migrate to `kotlin-server` which supports Ktor v1.5.2+. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -68,6 +79,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>kotlin.String</li>
 <li>kotlin.collections.List</li>
 <li>kotlin.collections.Map</li>
+<li>kotlin.collections.MutableList</li>
+<li>kotlin.collections.MutableMap</li>
+<li>kotlin.collections.MutableSet</li>
 <li>kotlin.collections.Set</li>
 </ul>
 

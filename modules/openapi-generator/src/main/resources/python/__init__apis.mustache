@@ -9,7 +9,7 @@
 # raise a `RecursionError`.
 # In order to avoid this, import only the API that you directly need like:
 #
-#   from {{packagename}}.api.{{classVarName}} import {{classname}}
+#   from {{packagename}}.api.{{classFilename}} import {{classname}}
 #
 # or import this package, but before doing it, use:
 #
@@ -18,6 +18,6 @@
 
 # Import APIs into API package:
 {{/-first}}
-from {{apiPackage}}.{{classVarName}} import {{classname}}
+from {{apiPackage}}.{{classFilename}} import {{classname}}
 {{/apis}}
 {{/apiInfo}}

@@ -3,18 +3,18 @@ package org.openapitools.api;
 import java.util.List;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.model.User;
-import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Generated;
 
 /**
  * A delegate to be called by the {@link UserApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public interface UserApiDelegate {
 
     /**

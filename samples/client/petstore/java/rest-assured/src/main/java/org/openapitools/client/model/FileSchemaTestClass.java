@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.ModelFile;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -36,48 +37,48 @@ import org.hibernate.validator.constraints.*;
 public class FileSchemaTestClass {
   public static final String SERIALIZED_NAME_FILE = "file";
   @SerializedName(SERIALIZED_NAME_FILE)
-  private java.io.File file;
+  private ModelFile _file;
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<java.io.File> files = null;
+  private List<ModelFile> files = null;
 
   public FileSchemaTestClass() { 
   }
 
-  public FileSchemaTestClass file(java.io.File file) {
+  public FileSchemaTestClass _file(ModelFile _file) {
     
-    this.file = file;
+    this._file = _file;
     return this;
   }
 
    /**
-   * Get file
-   * @return file
+   * Get _file
+   * @return _file
   **/
   @javax.annotation.Nullable
   @Valid
   @ApiModelProperty(value = "")
 
-  public java.io.File getFile() {
-    return file;
+  public ModelFile getFile() {
+    return _file;
   }
 
 
-  public void setFile(java.io.File file) {
-    this.file = file;
+  public void setFile(ModelFile _file) {
+    this._file = _file;
   }
 
 
-  public FileSchemaTestClass files(List<java.io.File> files) {
+  public FileSchemaTestClass files(List<ModelFile> files) {
     
     this.files = files;
     return this;
   }
 
-  public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
+  public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
     if (this.files == null) {
-      this.files = new ArrayList<java.io.File>();
+      this.files = new ArrayList<ModelFile>();
     }
     this.files.add(filesItem);
     return this;
@@ -91,12 +92,12 @@ public class FileSchemaTestClass {
   @Valid
   @ApiModelProperty(value = "")
 
-  public List<java.io.File> getFiles() {
+  public List<ModelFile> getFiles() {
     return files;
   }
 
 
-  public void setFiles(List<java.io.File> files) {
+  public void setFiles(List<ModelFile> files) {
     this.files = files;
   }
 
@@ -110,20 +111,20 @@ public class FileSchemaTestClass {
       return false;
     }
     FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(this.file, fileSchemaTestClass.file) &&
+    return Objects.equals(this._file, fileSchemaTestClass._file) &&
         Objects.equals(this.files, fileSchemaTestClass.files);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(file, files);
+    return Objects.hash(_file, files);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
-    sb.append("    file: ").append(toIndentedString(file)).append("\n");
+    sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");
     return sb.toString();

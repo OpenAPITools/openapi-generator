@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ApiResponse: Codable, Hashable {
+public struct ApiResponse: Codable, JSONEncodable, Hashable {
 
     public var code: Int?
     public var type: String?

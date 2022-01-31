@@ -239,17 +239,9 @@ public class CodegenOperation {
     /**
      * Check if body param is allowed for the request method
      *
-     * @return true request method is DELETE, PUT, PATCH or POST; false otherwise
-     */
-    public boolean isBodyAllowed() {
-        return Arrays.asList("DELETE","PUT", "PATCH", "POST").contains(httpMethod.toUpperCase(Locale.ROOT));
-    }
-    /**
-     * Check if the request method is PUT or PATCH or POST
-     *
      * @return true request method is PUT, PATCH or POST; false otherwise
      */
-    public boolean isMethodPutOrPatchOrPost() {
+    public boolean isBodyAllowed() {
         return Arrays.asList("PUT", "PATCH", "POST").contains(httpMethod.toUpperCase(Locale.ROOT));
     }
 

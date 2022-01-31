@@ -43,6 +43,7 @@ src/main/java/org/openapitools/model/DogAllOf.java
 src/main/java/org/openapitools/model/EnumArrays.java
 src/main/java/org/openapitools/model/EnumClass.java
 src/main/java/org/openapitools/model/EnumTest.java
+src/main/java/org/openapitools/model/File.java
 src/main/java/org/openapitools/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/model/FormatTest.java
 src/main/java/org/openapitools/model/HasOnlyReadOnly.java
@@ -50,6 +51,7 @@ src/main/java/org/openapitools/model/MapTest.java
 src/main/java/org/openapitools/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/main/java/org/openapitools/model/Model200Response.java
 src/main/java/org/openapitools/model/ModelApiResponse.java
+src/main/java/org/openapitools/model/ModelList.java
 src/main/java/org/openapitools/model/ModelReturn.java
 src/main/java/org/openapitools/model/Name.java
 src/main/java/org/openapitools/model/NumberOnly.java

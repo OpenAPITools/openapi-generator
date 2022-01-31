@@ -1,5 +1,7 @@
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -112,12 +114,13 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         setReservedWordsLowerCase(reservedWordsList);
 
         // These types return isPrimitive=true in templates
-        languageSpecificPrimitives = new HashSet<>(5);
-        languageSpecificPrimitives.add("String");
-        languageSpecificPrimitives.add("bool");
-        languageSpecificPrimitives.add("int");
-        languageSpecificPrimitives.add("num");
-        languageSpecificPrimitives.add("double");
+        languageSpecificPrimitives = Sets.newHashSet(
+                "String",
+                "bool",
+                "int",
+                "num",
+                "double"
+        );
 
         typeMapping = new HashMap<>();
         typeMapping.put("Array", "List");
@@ -148,17 +151,18 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         typeMapping.put("AnyType", "Object");
 
         // Data types of the above values which are automatically imported
-        defaultIncludes = new HashSet<>();
-        defaultIncludes.add("String");
-        defaultIncludes.add("bool");
-        defaultIncludes.add("int");
-        defaultIncludes.add("num");
-        defaultIncludes.add("double");
-        defaultIncludes.add("List");
-        defaultIncludes.add("Set");
-        defaultIncludes.add("Map");
-        defaultIncludes.add("DateTime");
-        defaultIncludes.add("Object");
+        defaultIncludes = Sets.newHashSet(
+                "String",
+                "bool",
+                "int",
+                "num",
+                "double",
+                "List",
+                "Set",
+                "Map",
+                "DateTime",
+                "Object"
+        );
 
         imports.put("String", "dart:core");
         imports.put("bool", "dart:core");
@@ -768,4 +772,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.DART; }
 }

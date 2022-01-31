@@ -1,13 +1,13 @@
 {{>header}}
 {{>part_of}}
 class OAuth implements Authentication {
-  OAuth({this.accessToken});
+  OAuth({this.accessToken = ''});
 
   String accessToken;
 
   @override
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
-    if (accessToken != null) {
+    if (accessToken.isNotEmpty) {
       headerParams['Authorization'] = 'Bearer $accessToken';
     }
   }

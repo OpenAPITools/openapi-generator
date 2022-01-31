@@ -1,0 +1,18 @@
+context-path: "/v2/"
+
+micronaut:
+    application:
+        name: petstore-micronaut-server
+    server:
+        port: 8080
+    security:
+        # authentication: bearer | cookie | session | idtoken
+
+jackson:
+    serialization:
+        writeEnumsUsingToString: true
+        writeDatesAsTimestamps: false
+    deserialization:
+        readEnumsUsingToString: true
+        failOnUnknownProperties: false
+        failOnInvalidSubtype: false

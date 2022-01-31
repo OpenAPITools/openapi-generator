@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -15,14 +16,17 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Order
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Order   {
+
   @JsonProperty("id")
   private Long id;
 
@@ -33,7 +37,7 @@ public class Order   {
   private Integer quantity;
 
   @JsonProperty("shipDate")
-  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime shipDate;
 
   /**
@@ -89,9 +93,8 @@ public enum StatusEnum {
    * Get id
    * @return id
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Long getId() {
     return id;
   }
@@ -109,9 +112,8 @@ public enum StatusEnum {
    * Get petId
    * @return petId
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Long getPetId() {
     return petId;
   }
@@ -129,9 +131,8 @@ public enum StatusEnum {
    * Get quantity
    * @return quantity
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Integer getQuantity() {
     return quantity;
   }
@@ -149,10 +150,8 @@ public enum StatusEnum {
    * Get shipDate
    * @return shipDate
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -170,9 +169,8 @@ public enum StatusEnum {
    * Order Status
    * @return status
   */
+  
   @ApiModelProperty(value = "Order Status")
-
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -190,9 +188,8 @@ public enum StatusEnum {
    * Get complete
    * @return complete
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Boolean getComplete() {
     return complete;
   }
@@ -200,7 +197,6 @@ public enum StatusEnum {
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -228,7 +224,6 @@ public enum StatusEnum {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Order {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");

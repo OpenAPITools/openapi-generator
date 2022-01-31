@@ -251,7 +251,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var body = 8.14;  // decimal? | Input number as post body (optional) 
+            var body = 8.14D;  // decimal? | Input number as post body (optional) 
 
             try
             {
@@ -321,7 +321,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var body = body_example;  // string | Input string as post body (optional) 
+            var body = "body_example";  // string | Input string as post body (optional) 
 
             try
             {
@@ -523,7 +523,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var query = query_example;  // string | 
+            var query = "query_example";  // string | 
             var user = new User(); // User | 
 
             try
@@ -669,20 +669,20 @@ namespace Example
             config.Password = "YOUR_PASSWORD";
 
             var apiInstance = new FakeApi(config);
-            var number = 8.14;  // decimal | None
+            var number = 8.14D;  // decimal | None
             var _double = 1.2D;  // double | None
-            var patternWithoutDelimiter = patternWithoutDelimiter_example;  // string | None
-            var _byte = BYTE_ARRAY_DATA_HERE;  // byte[] | None
+            var patternWithoutDelimiter = "patternWithoutDelimiter_example";  // string | None
+            var _byte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
             var integer = 56;  // int? | None (optional) 
             var int32 = 56;  // int? | None (optional) 
-            var int64 = 789;  // long? | None (optional) 
+            var int64 = 789L;  // long? | None (optional) 
             var _float = 3.4F;  // float? | None (optional) 
-            var _string = _string_example;  // string | None (optional) 
-            var binary = BINARY_DATA_HERE;  // System.IO.Stream | None (optional) 
-            var date = 2013-10-20;  // DateTime? | None (optional) 
-            var dateTime = 2013-10-20T19:20:30+01:00;  // DateTime? | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
-            var password = password_example;  // string | None (optional) 
-            var callback = callback_example;  // string | None (optional) 
+            var _string = "_string_example";  // string | None (optional) 
+            var binary = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | None (optional) 
+            var date = DateTime.Parse("2013-10-20");  // DateTime? | None (optional) 
+            var dateTime = DateTime.Parse(""2010-02-01T10:20:10.111110+01:00"");  // DateTime? | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
+            var password = "password_example";  // string | None (optional) 
+            var callback = "callback_example";  // string | None (optional) 
 
             try
             {
@@ -767,13 +767,13 @@ namespace Example
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
             var enumHeaderStringArray = new List<string>(); // List<string> | Header parameter enum test (string array) (optional) 
-            var enumHeaderString = enumHeaderString_example;  // string | Header parameter enum test (string) (optional)  (default to -efg)
+            var enumHeaderString = "_abc";  // string | Header parameter enum test (string) (optional)  (default to -efg)
             var enumQueryStringArray = new List<string>(); // List<string> | Query parameter enum test (string array) (optional) 
-            var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
-            var enumQueryInteger = 56;  // int? | Query parameter enum test (double) (optional) 
-            var enumQueryDouble = 1.2D;  // double? | Query parameter enum test (double) (optional) 
+            var enumQueryString = "_abc";  // string | Query parameter enum test (string) (optional)  (default to -efg)
+            var enumQueryInteger = 1;  // int? | Query parameter enum test (double) (optional) 
+            var enumQueryDouble = 1.1D;  // double? | Query parameter enum test (double) (optional) 
             var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
-            var enumFormString = enumFormString_example;  // string | Form parameter enum test (string) (optional)  (default to -efg)
+            var enumFormString = "_abc";  // string | Form parameter enum test (string) (optional)  (default to -efg)
 
             try
             {
@@ -856,10 +856,10 @@ namespace Example
             var apiInstance = new FakeApi(config);
             var requiredStringGroup = 56;  // int | Required String in group parameters
             var requiredBooleanGroup = true;  // bool | Required Boolean in group parameters
-            var requiredInt64Group = 789;  // long | Required Integer in group parameters
+            var requiredInt64Group = 789L;  // long | Required Integer in group parameters
             var stringGroup = 56;  // int? | String in group parameters (optional) 
             var booleanGroup = true;  // bool? | Boolean in group parameters (optional) 
-            var int64Group = 789;  // long? | Integer in group parameters (optional) 
+            var int64Group = 789L;  // long? | Integer in group parameters (optional) 
 
             try
             {
@@ -1000,8 +1000,8 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var param = param_example;  // string | field1
-            var param2 = param2_example;  // string | field2
+            var param = "param_example";  // string | field1
+            var param2 = "param2_example";  // string | field2
 
             try
             {

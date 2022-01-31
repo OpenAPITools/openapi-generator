@@ -32,6 +32,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -58,12 +64,6 @@ import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.samskivert.mustache.Mustache;
-
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
@@ -89,7 +89,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String OPENAPI_DOCKET_CONFIG = "swaggerDocketConfig";
     public static final String API_FIRST = "apiFirst";
-    public static final String OAS3 = "oas3";
     public static final String SPRING_CONTROLLER = "useSpringController";
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
@@ -122,7 +121,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
     protected boolean useSpringController = false;
-    protected boolean oas3 = false;
 
     public SpringCodegen() {
         super();
@@ -198,7 +196,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
         cliOptions
                 .add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
-        cliOptions.add(CliOption.newBoolean(OAS3, "Use OAS 3 Swagger annotations instead of OAS 2 annotations", oas3));
         cliOptions.add(CliOption.newBoolean(SPRING_CONTROLLER, "Annotate the generated API as a Spring Controller", useSpringController));
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING,
                 "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).",
@@ -240,13 +237,39 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public void processOpts() {
+    public DocumentationProvider defaultDocumentationProvider() {
+        return DocumentationProvider.SPRINGDOC;
+    }
 
+    public List<DocumentationProvider> supportedDocumentationProvider() {
+        List<DocumentationProvider> supportedProviders = new ArrayList<>();
+        supportedProviders.add(DocumentationProvider.NONE);
+        supportedProviders.add(DocumentationProvider.SOURCE);
+        supportedProviders.add(DocumentationProvider.SPRINGFOX);
+        supportedProviders.add(DocumentationProvider.SPRINGDOC);
+        return supportedProviders;
+    }
+
+    @Override
+    public List<AnnotationLibrary> supportedAnnotationLibraries() {
+        List<AnnotationLibrary> supportedLibraries = new ArrayList<>();
+        supportedLibraries.add(AnnotationLibrary.NONE);
+        supportedLibraries.add(AnnotationLibrary.SWAGGER1);
+        supportedLibraries.add(AnnotationLibrary.SWAGGER2);
+        return supportedLibraries;
+    }
+
+    @Override
+    public void processOpts() {
         final List<Pair<String, String>> configOptions = additionalProperties.entrySet().stream()
                 .filter(e -> !Arrays.asList(API_FIRST, "hideGenerationTimestamp").contains(e.getKey()))
                 .filter(e -> cliOptions.stream().map(CliOption::getOpt).anyMatch(opt -> opt.equals(e.getKey())))
                 .map(e -> Pair.of(e.getKey(), e.getValue().toString())).collect(Collectors.toList());
         additionalProperties.put("configOptions", configOptions);
+
+        // TODO remove "file" from reserved word list as feign client doesn't support using `baseName`
+        // as the parameter name yet
+        reservedWords.remove("file");
 
         // Process java8 option before common java ones to change the default
         // dateLibrary to java8.
@@ -371,11 +394,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         writePropertyBack(SPRING_CONTROLLER, useSpringController);
 
-        if (additionalProperties.containsKey(OAS3)) {
-            this.setOas3(convertPropertyToBoolean(OAS3));
-        }
-        writePropertyBack(OAS3, oas3);
-
         if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
             this.setReturnSuccessCode(Boolean.parseBoolean(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
         }
@@ -388,6 +406,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
+        importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
+        importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
+        importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
+        importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
 
         if (useOptional) {
             writePropertyBack(USE_OPTIONAL, useOptional);
@@ -511,15 +533,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         } else if (async) {
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
-
-        // Springfox cannot be used with oas3 or apiFirst or reactive. So, write the property back after determining
-        // whether it should be enabled or not.
-        boolean useSpringFox = false;
-        if (!apiFirst && !reactive && !oas3) {
-            useSpringFox = true;
-            additionalProperties.put("useSpringfox", true);
-        }
-        writePropertyBack("useSpringfox", useSpringFox);
 
         // Some well-known Spring or Spring-Cloud response wrappers
         if (isNotEmpty(responseWrapper)) {
@@ -879,10 +892,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.useSpringController = useSpringController;
     }
 
-    public void setOas3(boolean oas3) {
-        this.oas3 = oas3;
-    }
-
     public void setReturnSuccessCode(boolean returnSuccessCode) {
         this.returnSuccessCode = returnSuccessCode;
     }
@@ -894,6 +903,11 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+
+        // add org.springframework.format.annotation.DateTimeFormat when needed
+        if (property.isDate || property.isDateTime) {
+            model.imports.add("DateTimeFormat");
+        }
 
         if ("null".equals(property.example)) {
             property.example = null;
@@ -921,6 +935,49 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (model.getVendorExtensions().containsKey("x-jackson-optional-nullable-helpers")) {
             model.imports.add("Arrays");
         }
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
+        if (getAnnotationLibrary() != AnnotationLibrary.SWAGGER1) {
+            // remove swagger imports
+            codegenModel.imports.remove("ApiModelProperty");
+            codegenModel.imports.remove("ApiModel");
+        }
+        return codegenModel;
+    }
+
+    /*
+     * Add dynamic imports based on the parameters and vendor extensions of an operation.
+     * The imports are expanded by the mustache {{import}} tag available to model and api
+     * templates.
+     */
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+
+        // add org.springframework.format.annotation.DateTimeFormat when needed
+        codegenOperation.allParams.stream().filter(p -> p.isDate || p.isDateTime).findFirst()
+            .ifPresent(p -> codegenOperation.imports.add("DateTimeFormat"));
+
+        // add org.springframework.data.domain.Pageable import when needed
+        if (codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
+            codegenOperation.imports.add("Pageable");
+            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                codegenOperation.imports.add("ApiIgnore");
+            }
+            if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
+                codegenOperation.imports.add("ParameterObject");
+            }
+        }
+
+        if (reactive) {
+            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                codegenOperation.imports.add("ApiIgnore");
+            }
+        }
+        return codegenOperation;
     }
 
     @Override

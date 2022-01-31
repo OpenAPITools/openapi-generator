@@ -13,14 +13,17 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * DogAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class DogAllOf   {
+
   @JsonProperty("breed")
   private String breed;
 
@@ -33,9 +36,8 @@ public class DogAllOf   {
    * Get breed
    * @return breed
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getBreed() {
     return breed;
   }
@@ -43,7 +45,6 @@ public class DogAllOf   {
   public void setBreed(String breed) {
     this.breed = breed;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -66,7 +67,6 @@ public class DogAllOf   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class DogAllOf {\n");
-    
     sb.append("    breed: ").append(toIndentedString(breed)).append("\n");
     sb.append("}");
     return sb.toString();

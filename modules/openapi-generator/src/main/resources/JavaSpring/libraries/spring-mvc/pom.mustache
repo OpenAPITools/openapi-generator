@@ -147,7 +147,7 @@
             <artifactId>jakarta.xml.bind-api</artifactId>
             <version>${jakarta.xml.bind-version}</version>
         </dependency>
-        {{#useSpringfox}}
+        {{#springFoxDocumentationProvider}}
         <!--SpringFox dependencies-->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -165,8 +165,8 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-version}</version>
         </dependency>
-        {{/useSpringfox}}
-        {{^useSpringfox}}
+        {{/springFoxDocumentationProvider}}
+        {{^springFoxDocumentationProvider}}
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -187,14 +187,14 @@
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>2.1.2</version>
+            <version>${swagger-core-version}</version>
         </dependency>
         {{/oas3}}
         {{^oas3}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>1.5.14</version>
+          <version>${swagger-core-version}</version>
         </dependency>
         {{/oas3}}
         <!-- @Nullable annotation -->
@@ -208,7 +208,7 @@
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>${jackson-version}</version>
         </dependency>
-        {{/useSpringfox}}
+        {{/springFoxDocumentationProvider}}
         {{#withXml}}
         <!-- XML processing: Jackson -->
         <dependency>
@@ -289,12 +289,12 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
-    	<jakarta.xml.bind-version>2.3.3</jakarta.xml.bind-version>
+    	  <jakarta.xml.bind-version>2.3.3</jakarta.xml.bind-version>
         <jetty-version>9.2.15.v20160210</jetty-version>
         <slf4j-version>1.7.21</slf4j-version>
         <junit-version>4.13.1</junit-version>
         <servlet-api-version>4.0.4</servlet-api-version>
-        <springfox-version>2.8.0</springfox-version>
+        <springfox-version>2.9.2</springfox-version>
         <jackson-version>2.9.9</jackson-version>
         <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>
 {{#useBeanValidation}}
@@ -305,5 +305,6 @@
         <jackson-databind-nullable-version>0.2.2</jackson-databind-nullable-version>
         {{/openApiNullable}}
         <jackson-databind-version>2.9.8</jackson-databind-version>
+        <swagger-core-version>{{#oas3}}2.1.11{{/oas3}}{{^oas3}}1.6.3{{/oas3}}</swagger-core-version>
     </properties>
 </project>

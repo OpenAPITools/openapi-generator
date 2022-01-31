@@ -624,6 +624,14 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsPrimitiveType() { return isPrimitiveType; }
+
+    @Override
+    public void setIsPrimitiveType(boolean isPrimitiveType)  {
+        this.isPrimitiveType = isPrimitiveType;
+    }
+
+    @Override
     public CodegenProperty getAdditionalProperties() { return additionalProperties; }
 
     @Override
@@ -755,6 +763,11 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     public void setContent(LinkedHashMap<String, CodegenMediaType> content) {
         this.content = content;
+    }
+
+    @Override
+    public String getBaseType() {
+        return baseType;
     }
 }
 
