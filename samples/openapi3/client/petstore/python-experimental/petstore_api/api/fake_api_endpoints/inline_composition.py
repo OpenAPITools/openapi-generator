@@ -76,7 +76,28 @@ class CompositionAtRootSchema(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        allOf_0 = AnyTypeSchema
+        
+        
+        class allOf_0(
+            _SchemaValidator(
+                min_properties=1,
+            ),
+            DictSchema
+        ):
+        
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict, ],
+                _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+                **kwargs: typing.Type[Schema],
+            ) -> 'allOf_0':
+                return super().__new__(
+                    cls,
+                    *args,
+                    _instantiation_metadata=_instantiation_metadata,
+                    **kwargs,
+                )
         return {
             'allOf': [
                 allOf_0,
@@ -120,7 +141,28 @@ class CompositionInPropertySchema(
             # code would be run when this module is imported, and these composed
             # classes don't exist yet because their module has not finished
             # loading
-            allOf_0 = AnyTypeSchema
+            
+            
+            class allOf_0(
+                _SchemaValidator(
+                    min_properties=1,
+                ),
+                DictSchema
+            ):
+            
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict, ],
+                    _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+                    **kwargs: typing.Type[Schema],
+                ) -> 'allOf_0':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _instantiation_metadata=_instantiation_metadata,
+                        **kwargs,
+                    )
             return {
                 'allOf': [
                     allOf_0,
@@ -207,7 +249,28 @@ class SchemaForRequestBodyApplicationJson(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        allOf_0 = AnyTypeSchema
+        
+        
+        class allOf_0(
+            _SchemaValidator(
+                min_properties=1,
+            ),
+            DictSchema
+        ):
+        
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict, ],
+                _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+                **kwargs: typing.Type[Schema],
+            ) -> 'allOf_0':
+                return super().__new__(
+                    cls,
+                    *args,
+                    _instantiation_metadata=_instantiation_metadata,
+                    **kwargs,
+                )
         return {
             'allOf': [
                 allOf_0,
@@ -251,7 +314,28 @@ class SchemaForRequestBodyMultipartFormData(
             # code would be run when this module is imported, and these composed
             # classes don't exist yet because their module has not finished
             # loading
-            allOf_0 = AnyTypeSchema
+            
+            
+            class allOf_0(
+                _SchemaValidator(
+                    min_properties=1,
+                ),
+                DictSchema
+            ):
+            
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict, ],
+                    _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+                    **kwargs: typing.Type[Schema],
+                ) -> 'allOf_0':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _instantiation_metadata=_instantiation_metadata,
+                        **kwargs,
+                    )
             return {
                 'allOf': [
                     allOf_0,
@@ -318,7 +402,28 @@ class SchemaFor200ResponseBodyApplicationJson(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        allOf_0 = AnyTypeSchema
+        
+        
+        class allOf_0(
+            _SchemaValidator(
+                min_properties=1,
+            ),
+            DictSchema
+        ):
+        
+        
+            def __new__(
+                cls,
+                *args: typing.Union[dict, frozendict, ],
+                _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+                **kwargs: typing.Type[Schema],
+            ) -> 'allOf_0':
+                return super().__new__(
+                    cls,
+                    *args,
+                    _instantiation_metadata=_instantiation_metadata,
+                    **kwargs,
+                )
         return {
             'allOf': [
                 allOf_0,
@@ -362,7 +467,28 @@ class SchemaFor200ResponseBodyMultipartFormData(
             # code would be run when this module is imported, and these composed
             # classes don't exist yet because their module has not finished
             # loading
-            allOf_0 = AnyTypeSchema
+            
+            
+            class allOf_0(
+                _SchemaValidator(
+                    min_properties=1,
+                ),
+                DictSchema
+            ):
+            
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict, ],
+                    _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+                    **kwargs: typing.Type[Schema],
+                ) -> 'allOf_0':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _instantiation_metadata=_instantiation_metadata,
+                        **kwargs,
+                    )
             return {
                 'allOf': [
                     allOf_0,
