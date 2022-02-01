@@ -31,9 +31,12 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
+use InvalidArgumentException;
+use RuntimeException;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -123,7 +126,7 @@ class StoreApi
      * @param  string $order_id ID of the order that needs to be deleted (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function deleteOrder($order_id)
@@ -139,7 +142,7 @@ class StoreApi
      * @param  string $order_id ID of the order that needs to be deleted (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteOrderWithHttpInfo($order_id)
@@ -197,8 +200,8 @@ class StoreApi
      *
      * @param  string $order_id ID of the order that needs to be deleted (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function deleteOrderAsync($order_id)
     {
@@ -217,8 +220,8 @@ class StoreApi
      *
      * @param  string $order_id ID of the order that needs to be deleted (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function deleteOrderAsyncWithHttpInfo($order_id)
     {
@@ -253,8 +256,8 @@ class StoreApi
      *
      * @param  string $order_id ID of the order that needs to be deleted (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function deleteOrderRequest($order_id)
     {
@@ -309,14 +312,14 @@ class StoreApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -332,8 +335,8 @@ class StoreApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -348,7 +351,7 @@ class StoreApi
      *
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array<string,int>
      */
     public function getInventory()
@@ -364,7 +367,7 @@ class StoreApi
      *
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of array<string,int>, HTTP status code, HTTP response headers (array of strings)
      */
     public function getInventoryWithHttpInfo()
@@ -455,8 +458,8 @@ class StoreApi
      * Returns pet inventories by status
      *
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function getInventoryAsync()
     {
@@ -474,8 +477,8 @@ class StoreApi
      * Returns pet inventories by status
      *
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function getInventoryAsyncWithHttpInfo()
     {
@@ -519,8 +522,8 @@ class StoreApi
      * Create request for operation 'getInventory'
      *
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function getInventoryRequest()
     {
@@ -561,14 +564,14 @@ class StoreApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -589,8 +592,8 @@ class StoreApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -606,7 +609,7 @@ class StoreApi
      * @param  int $order_id ID of pet that needs to be fetched (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\Order
      */
     public function getOrderById($order_id)
@@ -623,7 +626,7 @@ class StoreApi
      * @param  int $order_id ID of pet that needs to be fetched (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      */
     public function getOrderByIdWithHttpInfo($order_id)
@@ -715,8 +718,8 @@ class StoreApi
      *
      * @param  int $order_id ID of pet that needs to be fetched (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function getOrderByIdAsync($order_id)
     {
@@ -735,8 +738,8 @@ class StoreApi
      *
      * @param  int $order_id ID of pet that needs to be fetched (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function getOrderByIdAsyncWithHttpInfo($order_id)
     {
@@ -781,8 +784,8 @@ class StoreApi
      *
      * @param  int $order_id ID of pet that needs to be fetched (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function getOrderByIdRequest($order_id)
     {
@@ -844,14 +847,14 @@ class StoreApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -867,8 +870,8 @@ class StoreApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -884,7 +887,7 @@ class StoreApi
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\Order
      */
     public function placeOrder($order)
@@ -901,7 +904,7 @@ class StoreApi
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      */
     public function placeOrderWithHttpInfo($order)
@@ -993,8 +996,8 @@ class StoreApi
      *
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function placeOrderAsync($order)
     {
@@ -1013,8 +1016,8 @@ class StoreApi
      *
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function placeOrderAsyncWithHttpInfo($order)
     {
@@ -1059,8 +1062,8 @@ class StoreApi
      *
      * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function placeOrderRequest($order)
     {
@@ -1096,7 +1099,7 @@ class StoreApi
         // for model (json/xml)
         if (isset($order)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($order));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($order));
             } else {
                 $httpBody = $order;
             }
@@ -1113,14 +1116,14 @@ class StoreApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -1136,8 +1139,8 @@ class StoreApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -1148,7 +1151,7 @@ class StoreApi
     /**
      * Create http client option
      *
-     * @throws \RuntimeException on file opening failure
+     * @throws RuntimeException on file opening failure
      * @return array of http client options
      */
     protected function createHttpClientOption()

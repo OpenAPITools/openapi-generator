@@ -31,9 +31,12 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
+use InvalidArgumentException;
+use RuntimeException;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -122,7 +125,7 @@ class FakeApi
      *
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\HealthCheckResult
      */
     public function fakeHealthGet()
@@ -138,7 +141,7 @@ class FakeApi
      *
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\HealthCheckResult, HTTP status code, HTTP response headers (array of strings)
      */
     public function fakeHealthGetWithHttpInfo()
@@ -229,8 +232,8 @@ class FakeApi
      * Health check endpoint
      *
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function fakeHealthGetAsync()
     {
@@ -248,8 +251,8 @@ class FakeApi
      * Health check endpoint
      *
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function fakeHealthGetAsyncWithHttpInfo()
     {
@@ -293,8 +296,8 @@ class FakeApi
      * Create request for operation 'fakeHealthGet'
      *
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function fakeHealthGetRequest()
     {
@@ -335,14 +338,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -358,8 +361,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -377,7 +380,7 @@ class FakeApi
      * @param  string $header_1 header parameter (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function fakeHttpSignatureTest($pet, $query_1 = null, $header_1 = null)
@@ -395,7 +398,7 @@ class FakeApi
      * @param  string $header_1 header parameter (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function fakeHttpSignatureTestWithHttpInfo($pet, $query_1 = null, $header_1 = null)
@@ -455,8 +458,8 @@ class FakeApi
      * @param  string $query_1 query parameter (optional)
      * @param  string $header_1 header parameter (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function fakeHttpSignatureTestAsync($pet, $query_1 = null, $header_1 = null)
     {
@@ -477,8 +480,8 @@ class FakeApi
      * @param  string $query_1 query parameter (optional)
      * @param  string $header_1 header parameter (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function fakeHttpSignatureTestAsyncWithHttpInfo($pet, $query_1 = null, $header_1 = null)
     {
@@ -515,8 +518,8 @@ class FakeApi
      * @param  string $query_1 query parameter (optional)
      * @param  string $header_1 header parameter (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function fakeHttpSignatureTestRequest($pet, $query_1 = null, $header_1 = null)
     {
@@ -567,7 +570,7 @@ class FakeApi
         // for model (json/xml)
         if (isset($pet)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($pet));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($pet));
             } else {
                 $httpBody = $pet;
             }
@@ -584,14 +587,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -607,8 +610,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -622,7 +625,7 @@ class FakeApi
      * @param  bool $body Input boolean as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return bool
      */
     public function fakeOuterBooleanSerialize($body = null)
@@ -637,7 +640,7 @@ class FakeApi
      * @param  bool $body Input boolean as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of bool, HTTP status code, HTTP response headers (array of strings)
      */
     public function fakeOuterBooleanSerializeWithHttpInfo($body = null)
@@ -727,8 +730,8 @@ class FakeApi
      *
      * @param  bool $body Input boolean as post body (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function fakeOuterBooleanSerializeAsync($body = null)
     {
@@ -745,8 +748,8 @@ class FakeApi
      *
      * @param  bool $body Input boolean as post body (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function fakeOuterBooleanSerializeAsyncWithHttpInfo($body = null)
     {
@@ -791,8 +794,8 @@ class FakeApi
      *
      * @param  bool $body Input boolean as post body (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function fakeOuterBooleanSerializeRequest($body = null)
     {
@@ -822,7 +825,7 @@ class FakeApi
         // for model (json/xml)
         if (isset($body)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($body));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($body));
             } else {
                 $httpBody = $body;
             }
@@ -839,14 +842,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -862,8 +865,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -877,7 +880,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\OuterComposite
      */
     public function fakeOuterCompositeSerialize($outer_composite = null)
@@ -892,7 +895,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\OuterComposite, HTTP status code, HTTP response headers (array of strings)
      */
     public function fakeOuterCompositeSerializeWithHttpInfo($outer_composite = null)
@@ -982,8 +985,8 @@ class FakeApi
      *
      * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function fakeOuterCompositeSerializeAsync($outer_composite = null)
     {
@@ -1000,8 +1003,8 @@ class FakeApi
      *
      * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function fakeOuterCompositeSerializeAsyncWithHttpInfo($outer_composite = null)
     {
@@ -1046,8 +1049,8 @@ class FakeApi
      *
      * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function fakeOuterCompositeSerializeRequest($outer_composite = null)
     {
@@ -1077,7 +1080,7 @@ class FakeApi
         // for model (json/xml)
         if (isset($outer_composite)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($outer_composite));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($outer_composite));
             } else {
                 $httpBody = $outer_composite;
             }
@@ -1094,14 +1097,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -1117,8 +1120,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -1132,7 +1135,7 @@ class FakeApi
      * @param  float $body Input number as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return float
      */
     public function fakeOuterNumberSerialize($body = null)
@@ -1147,7 +1150,7 @@ class FakeApi
      * @param  float $body Input number as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of float, HTTP status code, HTTP response headers (array of strings)
      */
     public function fakeOuterNumberSerializeWithHttpInfo($body = null)
@@ -1237,8 +1240,8 @@ class FakeApi
      *
      * @param  float $body Input number as post body (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function fakeOuterNumberSerializeAsync($body = null)
     {
@@ -1255,8 +1258,8 @@ class FakeApi
      *
      * @param  float $body Input number as post body (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function fakeOuterNumberSerializeAsyncWithHttpInfo($body = null)
     {
@@ -1301,8 +1304,8 @@ class FakeApi
      *
      * @param  float $body Input number as post body (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function fakeOuterNumberSerializeRequest($body = null)
     {
@@ -1332,7 +1335,7 @@ class FakeApi
         // for model (json/xml)
         if (isset($body)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($body));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($body));
             } else {
                 $httpBody = $body;
             }
@@ -1349,14 +1352,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -1372,8 +1375,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -1387,7 +1390,7 @@ class FakeApi
      * @param  string $body Input string as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return string
      */
     public function fakeOuterStringSerialize($body = null)
@@ -1402,7 +1405,7 @@ class FakeApi
      * @param  string $body Input string as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function fakeOuterStringSerializeWithHttpInfo($body = null)
@@ -1492,8 +1495,8 @@ class FakeApi
      *
      * @param  string $body Input string as post body (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function fakeOuterStringSerializeAsync($body = null)
     {
@@ -1510,8 +1513,8 @@ class FakeApi
      *
      * @param  string $body Input string as post body (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function fakeOuterStringSerializeAsyncWithHttpInfo($body = null)
     {
@@ -1556,8 +1559,8 @@ class FakeApi
      *
      * @param  string $body Input string as post body (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function fakeOuterStringSerializeRequest($body = null)
     {
@@ -1587,7 +1590,7 @@ class FakeApi
         // for model (json/xml)
         if (isset($body)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($body));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($body));
             } else {
                 $httpBody = $body;
             }
@@ -1604,14 +1607,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -1627,8 +1630,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -1642,7 +1645,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property Input enum (int) as post body (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\OuterObjectWithEnumProperty
      */
     public function fakePropertyEnumIntegerSerialize($outer_object_with_enum_property)
@@ -1657,7 +1660,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property Input enum (int) as post body (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\OuterObjectWithEnumProperty, HTTP status code, HTTP response headers (array of strings)
      */
     public function fakePropertyEnumIntegerSerializeWithHttpInfo($outer_object_with_enum_property)
@@ -1747,8 +1750,8 @@ class FakeApi
      *
      * @param  \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property Input enum (int) as post body (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function fakePropertyEnumIntegerSerializeAsync($outer_object_with_enum_property)
     {
@@ -1765,8 +1768,8 @@ class FakeApi
      *
      * @param  \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property Input enum (int) as post body (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function fakePropertyEnumIntegerSerializeAsyncWithHttpInfo($outer_object_with_enum_property)
     {
@@ -1811,8 +1814,8 @@ class FakeApi
      *
      * @param  \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property Input enum (int) as post body (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function fakePropertyEnumIntegerSerializeRequest($outer_object_with_enum_property)
     {
@@ -1848,7 +1851,7 @@ class FakeApi
         // for model (json/xml)
         if (isset($outer_object_with_enum_property)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($outer_object_with_enum_property));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($outer_object_with_enum_property));
             } else {
                 $httpBody = $outer_object_with_enum_property;
             }
@@ -1865,14 +1868,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -1888,8 +1891,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -1903,7 +1906,7 @@ class FakeApi
      * @param  \SplFileObject $body image to upload (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function testBodyWithBinary($body)
@@ -1917,7 +1920,7 @@ class FakeApi
      * @param  \SplFileObject $body image to upload (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testBodyWithBinaryWithHttpInfo($body)
@@ -1973,8 +1976,8 @@ class FakeApi
      *
      * @param  \SplFileObject $body image to upload (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testBodyWithBinaryAsync($body)
     {
@@ -1991,8 +1994,8 @@ class FakeApi
      *
      * @param  \SplFileObject $body image to upload (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testBodyWithBinaryAsyncWithHttpInfo($body)
     {
@@ -2027,8 +2030,8 @@ class FakeApi
      *
      * @param  \SplFileObject $body image to upload (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function testBodyWithBinaryRequest($body)
     {
@@ -2064,7 +2067,7 @@ class FakeApi
         // for model (json/xml)
         if (isset($body)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($body));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($body));
             } else {
                 $httpBody = $body;
             }
@@ -2081,14 +2084,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -2104,8 +2107,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -2119,7 +2122,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class file_schema_test_class (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function testBodyWithFileSchema($file_schema_test_class)
@@ -2133,7 +2136,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testBodyWithFileSchemaWithHttpInfo($file_schema_test_class)
@@ -2189,8 +2192,8 @@ class FakeApi
      *
      * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testBodyWithFileSchemaAsync($file_schema_test_class)
     {
@@ -2207,8 +2210,8 @@ class FakeApi
      *
      * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testBodyWithFileSchemaAsyncWithHttpInfo($file_schema_test_class)
     {
@@ -2243,8 +2246,8 @@ class FakeApi
      *
      * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function testBodyWithFileSchemaRequest($file_schema_test_class)
     {
@@ -2280,7 +2283,7 @@ class FakeApi
         // for model (json/xml)
         if (isset($file_schema_test_class)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($file_schema_test_class));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($file_schema_test_class));
             } else {
                 $httpBody = $file_schema_test_class;
             }
@@ -2297,14 +2300,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -2320,8 +2323,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -2336,7 +2339,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\User $user user (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function testBodyWithQueryParams($query, $user)
@@ -2351,7 +2354,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\User $user (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testBodyWithQueryParamsWithHttpInfo($query, $user)
@@ -2408,8 +2411,8 @@ class FakeApi
      * @param  string $query (required)
      * @param  \OpenAPI\Client\Model\User $user (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testBodyWithQueryParamsAsync($query, $user)
     {
@@ -2427,8 +2430,8 @@ class FakeApi
      * @param  string $query (required)
      * @param  \OpenAPI\Client\Model\User $user (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testBodyWithQueryParamsAsyncWithHttpInfo($query, $user)
     {
@@ -2464,8 +2467,8 @@ class FakeApi
      * @param  string $query (required)
      * @param  \OpenAPI\Client\Model\User $user (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function testBodyWithQueryParamsRequest($query, $user)
     {
@@ -2518,7 +2521,7 @@ class FakeApi
         // for model (json/xml)
         if (isset($user)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($user));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($user));
             } else {
                 $httpBody = $user;
             }
@@ -2535,14 +2538,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -2558,8 +2561,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -2575,7 +2578,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\Client
      */
     public function testClientModel($client)
@@ -2592,7 +2595,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
      */
     public function testClientModelWithHttpInfo($client)
@@ -2684,8 +2687,8 @@ class FakeApi
      *
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testClientModelAsync($client)
     {
@@ -2704,8 +2707,8 @@ class FakeApi
      *
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testClientModelAsyncWithHttpInfo($client)
     {
@@ -2750,8 +2753,8 @@ class FakeApi
      *
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function testClientModelRequest($client)
     {
@@ -2787,7 +2790,7 @@ class FakeApi
         // for model (json/xml)
         if (isset($client)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($client));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($client));
             } else {
                 $httpBody = $client;
             }
@@ -2804,14 +2807,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -2827,8 +2830,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'PATCH',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -2857,7 +2860,7 @@ class FakeApi
      * @param  string $callback None (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
@@ -2886,7 +2889,7 @@ class FakeApi
      * @param  string $callback None (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testEndpointParametersWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
@@ -2957,8 +2960,8 @@ class FakeApi
      * @param  string $password None (optional)
      * @param  string $callback None (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testEndpointParametersAsync($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
@@ -2990,8 +2993,8 @@ class FakeApi
      * @param  string $password None (optional)
      * @param  string $callback None (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testEndpointParametersAsyncWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
@@ -3039,8 +3042,8 @@ class FakeApi
      * @param  string $password None (optional)
      * @param  string $callback None (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
@@ -3216,14 +3219,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -3243,8 +3246,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -3267,7 +3270,7 @@ class FakeApi
      * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function testEnumParameters($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
@@ -3290,7 +3293,7 @@ class FakeApi
      * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testEnumParametersWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
@@ -3355,8 +3358,8 @@ class FakeApi
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
      * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testEnumParametersAsync($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
@@ -3382,8 +3385,8 @@ class FakeApi
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
      * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testEnumParametersAsyncWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
@@ -3425,8 +3428,8 @@ class FakeApi
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
      * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function testEnumParametersRequest($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
@@ -3530,14 +3533,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -3553,8 +3556,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -3577,7 +3580,7 @@ class FakeApi
      * @param  int $int64_group Integer in group parameters (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function testGroupParameters($associative_array)
@@ -3600,7 +3603,7 @@ class FakeApi
      * @param  int $int64_group Integer in group parameters (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testGroupParametersWithHttpInfo($associative_array)
@@ -3665,8 +3668,8 @@ class FakeApi
      * @param  bool $boolean_group Boolean in group parameters (optional)
      * @param  int $int64_group Integer in group parameters (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testGroupParametersAsync($associative_array)
     {
@@ -3692,8 +3695,8 @@ class FakeApi
      * @param  bool $boolean_group Boolean in group parameters (optional)
      * @param  int $int64_group Integer in group parameters (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testGroupParametersAsyncWithHttpInfo($associative_array)
     {
@@ -3735,8 +3738,8 @@ class FakeApi
      * @param  bool $boolean_group Boolean in group parameters (optional)
      * @param  int $int64_group Integer in group parameters (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function testGroupParametersRequest($associative_array)
     {
@@ -3855,14 +3858,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -3882,8 +3885,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -3899,7 +3902,7 @@ class FakeApi
      * @param  array<string,string> $request_body request body (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function testInlineAdditionalProperties($request_body)
@@ -3915,7 +3918,7 @@ class FakeApi
      * @param  array<string,string> $request_body request body (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testInlineAdditionalPropertiesWithHttpInfo($request_body)
@@ -3973,8 +3976,8 @@ class FakeApi
      *
      * @param  array<string,string> $request_body request body (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testInlineAdditionalPropertiesAsync($request_body)
     {
@@ -3993,8 +3996,8 @@ class FakeApi
      *
      * @param  array<string,string> $request_body request body (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testInlineAdditionalPropertiesAsyncWithHttpInfo($request_body)
     {
@@ -4029,8 +4032,8 @@ class FakeApi
      *
      * @param  array<string,string> $request_body request body (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function testInlineAdditionalPropertiesRequest($request_body)
     {
@@ -4066,7 +4069,7 @@ class FakeApi
         // for model (json/xml)
         if (isset($request_body)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($request_body));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($request_body));
             } else {
                 $httpBody = $request_body;
             }
@@ -4083,14 +4086,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -4106,8 +4109,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -4124,7 +4127,7 @@ class FakeApi
      * @param  string $param2 field2 (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function testJsonFormData($param, $param2)
@@ -4141,7 +4144,7 @@ class FakeApi
      * @param  string $param2 field2 (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testJsonFormDataWithHttpInfo($param, $param2)
@@ -4200,8 +4203,8 @@ class FakeApi
      * @param  string $param field1 (required)
      * @param  string $param2 field2 (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testJsonFormDataAsync($param, $param2)
     {
@@ -4221,8 +4224,8 @@ class FakeApi
      * @param  string $param field1 (required)
      * @param  string $param2 field2 (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testJsonFormDataAsyncWithHttpInfo($param, $param2)
     {
@@ -4258,8 +4261,8 @@ class FakeApi
      * @param  string $param field1 (required)
      * @param  string $param2 field2 (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function testJsonFormDataRequest($param, $param2)
     {
@@ -4320,14 +4323,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -4343,8 +4346,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -4364,7 +4367,7 @@ class FakeApi
      * @param  array<string,string> $language language (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null)
@@ -4384,7 +4387,7 @@ class FakeApi
      * @param  array<string,string> $language (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testQueryParameterCollectionFormatWithHttpInfo($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null)
@@ -4446,8 +4449,8 @@ class FakeApi
      * @param  string $allow_empty (required)
      * @param  array<string,string> $language (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testQueryParameterCollectionFormatAsync($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null)
     {
@@ -4470,8 +4473,8 @@ class FakeApi
      * @param  string $allow_empty (required)
      * @param  array<string,string> $language (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testQueryParameterCollectionFormatAsyncWithHttpInfo($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null)
     {
@@ -4512,8 +4515,8 @@ class FakeApi
      * @param  string $allow_empty (required)
      * @param  array<string,string> $language (optional)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null)
     {
@@ -4651,14 +4654,14 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -4674,8 +4677,8 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -4686,7 +4689,7 @@ class FakeApi
     /**
      * Create http client option
      *
-     * @throws \RuntimeException on file opening failure
+     * @throws RuntimeException on file opening failure
      * @return array of http client options
      */
     protected function createHttpClientOption()
