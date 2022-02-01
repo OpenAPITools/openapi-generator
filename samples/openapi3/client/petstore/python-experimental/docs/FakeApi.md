@@ -1419,7 +1419,6 @@ testing composed schemas at inline locations
 ```python
 import petstore_api
 from petstore_api.api import fake_api
-from petstore_api.model.unknownbasetype import UNKNOWNBASETYPE
 from petstore_api.model.composition_in_property import CompositionInProperty
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
