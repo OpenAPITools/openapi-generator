@@ -132,9 +132,9 @@ public interface {{classname}} {
         {{#summary}}
         summary = "{{{.}}}",
         {{/summary}}
-        {{#vendorExtensions.x-tags}}
+        {{#vendorExtensions.x-tags.size}}
         tags = { {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
-        {{/vendorExtensions.x-tags}}
+        {{/vendorExtensions.x-tags.size}}
         responses = {
             {{#responses}}
             @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = @Content(mediaType = "application/json", schema = @Schema(implementation =  {{{baseType}}}.class)){{/baseType}}){{^-last}},{{/-last}}
