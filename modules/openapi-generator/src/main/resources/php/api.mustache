@@ -22,9 +22,12 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
+use InvalidArgumentException;
+use RuntimeException;
 use {{invokerPackage}}\ApiException;
 use {{invokerPackage}}\Configuration;
 use {{invokerPackage}}\HeaderSelector;
@@ -136,7 +139,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/allParams}}
      *
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return {{#returnType}}{{#responses}}{{#dataType}}{{^-first}}|{{/-first}}{{/dataType}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}void{{/returnType}}
     {{#isDeprecated}}
      * @deprecated
@@ -177,7 +180,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/allParams}}
      *
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of {{#returnType}}{{#responses}}{{#dataType}}{{^-first}}|{{/-first}}{{/dataType}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
     {{#isDeprecated}}
      * @deprecated
@@ -311,8 +314,8 @@ use {{invokerPackage}}\ObjectSerializer;
      * @param  {{{dataType}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
@@ -355,8 +358,8 @@ use {{invokerPackage}}\ObjectSerializer;
      * @param  {{{dataType}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
@@ -424,8 +427,8 @@ use {{invokerPackage}}\ObjectSerializer;
      * @param  {{{dataType}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
@@ -587,7 +590,7 @@ use {{invokerPackage}}\ObjectSerializer;
         {{#bodyParams}}
         if (isset(${{paramName}})) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization(${{paramName}}));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization(${{paramName}}));
             } else {
                 $httpBody = ${{paramName}};
             }
@@ -608,14 +611,14 @@ use {{invokerPackage}}\ObjectSerializer;
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -668,8 +671,8 @@ use {{invokerPackage}}\ObjectSerializer;
         $operationHost = $operationHosts[$this->hostIndex];
 
         {{/servers.0}}
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             '{{httpMethod}}',
             {{^servers.0}}$this->config->getHost(){{/servers.0}}{{#servers.0}}$operationHost{{/servers.0}} . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -681,7 +684,7 @@ use {{invokerPackage}}\ObjectSerializer;
     /**
      * Create http client option
      *
-     * @throws \RuntimeException on file opening failure
+     * @throws RuntimeException on file opening failure
      * @return array of http client options
      */
     protected function createHttpClientOption()
