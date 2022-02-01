@@ -583,7 +583,7 @@ class TestFakeApi(unittest.TestCase):
                 'compositionAtRoot': single_char_str,
                 'compositionInProperty': {'someProp': single_char_str}
             },
-            accept_content_types=tuple('application/json',)
+            accept_content_types=('application/json',)
         )
 
 
