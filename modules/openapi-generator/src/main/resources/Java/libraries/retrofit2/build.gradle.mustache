@@ -118,21 +118,10 @@ ext {
     jackson_databind_nullable_version = "0.2.2"
     {{/openApiNullable}}
     jakarta_annotation_version = "1.3.5"
-    {{#play24}}
-    play_version = "2.4.11"
-    {{/play24}}
-    {{#play25}}
-    play_version = "2.5.14"
-    {{/play25}}
-    {{#play26}}
     play_version = "2.6.7"
-    {{/play26}}
     {{/usePlayWS}}
     swagger_annotations_version = "1.5.22"
     junit_version = "4.13.1"
-    {{#useRxJava}}
-    rx_java_version = "1.3.0"
-    {{/useRxJava}}
     {{#useRxJava2}}
     rx_java_version = "2.1.1"
     {{/useRxJava2}}
@@ -152,10 +141,6 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    {{#useRxJava}}
-    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
-    implementation "io.reactivex:rxjava:$rx_java_version"
-    {{/useRxJava}}
     {{#useRxJava2}}
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
@@ -177,13 +162,8 @@ dependencies {
     implementation "org.threeten:threetenbp:$threetenbp_version"
     {{/threetenbp}}
     {{#usePlayWS}}
-    {{#play26}}
     implementation "com.typesafe.play:play-ahc-ws_2.12:$play_version"
     implementation "jakarta.validation:jakarta.validation-api:2.0.2"
-    {{/play26}}
-    {{^play26}}
-    implementation "com.typesafe.play:play-java-ws_2.11:$play_version"
-    {{/play26}}
     implementation "com.squareup.retrofit2:converter-jackson:$retrofit_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"

@@ -10,6 +10,7 @@ title: Documentation for the powershell Generator
 | generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | PowerShell | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a PowerShell API client (beta) | |
 
 ## CONFIG OPTIONS

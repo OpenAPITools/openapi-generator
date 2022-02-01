@@ -10,6 +10,7 @@ title: Documentation for the dart-dio Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Dart | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Dart Dio client library. | |
 
 ## CONFIG OPTIONS

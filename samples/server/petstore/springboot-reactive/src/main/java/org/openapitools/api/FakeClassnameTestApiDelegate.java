@@ -1,5 +1,6 @@
 package org.openapitools.api;
 
+import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.Client;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

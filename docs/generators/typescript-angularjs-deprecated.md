@@ -10,6 +10,7 @@ title: Documentation for the typescript-angularjs-deprecated Generator
 | generator stability | DEPRECATED | |
 | generator type | CLIENT | |
 | generator language | Typescript | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a TypeScript AngularJS client library. This generator has been deprecated and will be removed in the future release. | |
 
 ## CONFIG OPTIONS

@@ -10,6 +10,7 @@ title: Documentation for the ocaml Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | OCaml | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates an OCaml client library (beta). | |
 
 ## CONFIG OPTIONS

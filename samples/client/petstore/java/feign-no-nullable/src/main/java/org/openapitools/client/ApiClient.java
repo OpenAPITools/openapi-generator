@@ -67,7 +67,7 @@ public class ApiClient {
       } else if ("http_basic_test".equals(authName)) {
         auth = new HttpBasicAuth();
       } else if ("petstore_auth".equals(authName)) {
-        auth = buildOauthRequestInterceptor(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+        auth = buildOauthRequestInterceptor(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
@@ -137,9 +137,9 @@ public class ApiClient {
 
   private RequestInterceptor buildOauthRequestInterceptor(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
     switch (flow) {
-      case password:
+      case PASSWORD:
         return new OauthPasswordGrant(tokenUrl, scopes);
-      case application:
+      case APPLICATION:
         return new OauthClientCredentialsGrant(authorizationUrl, tokenUrl, scopes);
       default:
         throw new RuntimeException("Oauth flow \"" + flow + "\" is not implemented");

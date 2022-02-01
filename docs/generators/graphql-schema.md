@@ -10,6 +10,7 @@ title: Documentation for the graphql-schema Generator
 | generator stability | STABLE | |
 | generator type | SCHEMA | |
 | generator language | GraphQL | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates GraphQL schema files (beta) | |
 
 ## CONFIG OPTIONS

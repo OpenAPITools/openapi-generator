@@ -10,6 +10,7 @@ title: Documentation for the typescript-nestjs Generator
 | generator stability | EXPERIMENTAL | |
 | generator type | CLIENT | |
 | generator language | Typescript | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a TypeScript Nestjs 6.x client library. | |
 
 ## CONFIG OPTIONS

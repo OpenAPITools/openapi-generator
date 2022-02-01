@@ -46,7 +46,7 @@ func New{{classname}}Controller(s {{classname}}Servicer, opts ...{{classname}}Op
 	return controller
 }
 
-// Routes returns all of the api route for the {{classname}}Controller
+// Routes returns all the api routes for the {{classname}}Controller
 func (c *{{classname}}Controller) Routes() Routes {
 	return Routes{ {{#operations}}{{#operation}}
 		{
@@ -130,10 +130,33 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{/isBoolean}}
+	{{#isArray}}
+	{{#items.isLong}}
+	{{paramName}}Param, err := parseInt64ArrayParameter(query.Get("{{baseName}}"), ",", {{required}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/items.isLong}}
+	{{#items.isInteger}}
+	{{paramName}}Param, err := parseInt32ArrayParameter(query.Get("{{baseName}}"), ",", {{required}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/items.isInteger}}
+	{{^items.isLong}}
+	{{^items.isInteger}}
+	{{paramName}}Param := strings.Split(query.Get("{{baseName}}"), ",")
+	{{/items.isInteger}}
+	{{/items.isLong}}
+	{{/isArray}}
 	{{^isLong}}
 	{{^isInteger}}
 	{{^isBoolean}}
-	{{paramName}}Param := {{#isArray}}strings.Split({{/isArray}}query.Get("{{baseName}}"){{#isArray}}, ","){{/isArray}}
+	{{^isArray}}
+	{{paramName}}Param := query.Get("{{baseName}}")
+	{{/isArray}}
 	{{/isBoolean}}
 	{{/isInteger}}
 	{{/isLong}}
