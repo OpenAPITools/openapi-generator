@@ -10,6 +10,7 @@ title: Documentation for the scala-lagom-server Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Scala | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Lagom API server (Beta) in scala | |
 
 ## CONFIG OPTIONS

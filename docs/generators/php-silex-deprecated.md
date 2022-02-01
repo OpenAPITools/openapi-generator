@@ -10,6 +10,7 @@ title: Documentation for the php-silex-deprecated Generator
 | generator stability | DEPRECATED | |
 | generator type | SERVER | |
 | generator language | PHP | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a PHP Silex server library. IMPORTANT NOTE: this generator is no longer actively maintained. | |
 
 ## CONFIG OPTIONS

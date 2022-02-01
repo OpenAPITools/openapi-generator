@@ -10,6 +10,7 @@ title: Documentation for the kotlin-spring Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Kotlin | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Kotlin Spring application. | |
 
 ## CONFIG OPTIONS
@@ -88,6 +89,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>kotlin.String</li>
 <li>kotlin.collections.List</li>
 <li>kotlin.collections.Map</li>
+<li>kotlin.collections.MutableList</li>
+<li>kotlin.collections.MutableMap</li>
+<li>kotlin.collections.MutableSet</li>
 <li>kotlin.collections.Set</li>
 </ul>
 

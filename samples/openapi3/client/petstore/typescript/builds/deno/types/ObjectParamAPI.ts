@@ -244,7 +244,7 @@ export class ObjectStoreApi {
      * Returns pet inventories by status
      * @param param the request object
      */
-    public getInventory(param: StoreApiGetInventoryRequest, options?: Configuration): Promise<{ [key: string]: number; }> {
+    public getInventory(param: StoreApiGetInventoryRequest = {}, options?: Configuration): Promise<{ [key: string]: number; }> {
         return this.api.getInventory( options).toPromise();
     }
 
@@ -409,7 +409,7 @@ export class ObjectUserApi {
      * Logs out current logged in user session
      * @param param the request object
      */
-    public logoutUser(param: UserApiLogoutUserRequest, options?: Configuration): Promise<void> {
+    public logoutUser(param: UserApiLogoutUserRequest = {}, options?: Configuration): Promise<void> {
         return this.api.logoutUser( options).toPromise();
     }
 

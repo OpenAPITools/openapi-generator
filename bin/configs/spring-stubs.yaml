@@ -3,6 +3,7 @@ outputDir: samples/client/petstore/spring-stubs
 inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  documentationProvider: springfox
   artifactId: spring-stubs
   interfaceOnly: "true"
   singleContentTypes: "true"

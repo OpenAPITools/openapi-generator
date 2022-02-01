@@ -10,6 +10,7 @@ title: Documentation for the erlang-client Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Erlang | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates an Erlang client library (beta). | |
 
 ## CONFIG OPTIONS

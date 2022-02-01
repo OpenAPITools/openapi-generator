@@ -10,6 +10,7 @@ title: Documentation for the clojure Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Clojure | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Clojure client library. | |
 
 ## CONFIG OPTIONS
