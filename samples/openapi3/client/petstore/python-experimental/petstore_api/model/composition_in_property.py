@@ -87,24 +87,11 @@ class CompositionInProperty(
             
             class allOf_0(
                 _SchemaValidator(
-                    min_properties=1,
+                    min_length=1,
                 ),
-                DictSchema
+                StrSchema
             ):
-            
-            
-                def __new__(
-                    cls,
-                    *args: typing.Union[dict, frozendict, ],
-                    _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
-                    **kwargs: typing.Type[Schema],
-                ) -> 'allOf_0':
-                    return super().__new__(
-                        cls,
-                        *args,
-                        _instantiation_metadata=_instantiation_metadata,
-                        **kwargs,
-                    )
+                pass
             return {
                 'allOf': [
                     allOf_0,

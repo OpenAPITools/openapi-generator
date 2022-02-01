@@ -570,6 +570,23 @@ class TestFakeApi(unittest.TestCase):
             )
             self.assertEqual(api_response.body, response_json)
 
+    def test_inline_composition(self):
+        """Test case for inline_composition
+
+        testing composed schemas at inline locations  # noqa: E501
+        """
+        single_char_str = 'a'
+        endpoint = self.api.inline_composition
+        response = endpoint(
+            body=single_char_str,
+            query_params={
+                'compositionAtRoot': single_char_str,
+                'compositionInProperty': {'someProp': single_char_str}
+            },
+            accept_content_types=tuple('application/json',)
+        )
+
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1447,8 +1447,8 @@ paths:
           in: query
           schema:
             allOf:
-              - type: object
-                minProperties: 1
+              - type: string
+                minLength: 1
         - name: compositionInProperty
           in: query
           schema:
@@ -1456,23 +1456,23 @@ paths:
             properties:
               someProp:
                 allOf:
-                  - type: object
-                    minProperties: 1
+                  - type: string
+                    minLength: 1
       requestBody:
         content:
           application/json:
             schema:
               allOf:
-                - type: object
-                  minProperties: 1
+                - type: string
+                  minLength: 1
           multipart/form-data:
             schema:
               type: object
               properties:
                 someProp:
                   allOf:
-                    - type: object
-                      minProperties: 1
+                    - type: string
+                      minLength: 1
       responses:
         200:
           description: success
@@ -1480,16 +1480,16 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - type: object
-                    minProperties: 1
+                  - type: string
+                    minLength: 1
             multipart/form-data:
               schema:
                 type: object
                 properties:
                   someProp:
                     allOf:
-                      - type: object
-                        minProperties: 1
+                      - type: string
+                        minLength: 1
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2741,5 +2741,5 @@ components:
       properties:
         someProp:
           allOf:
-            - type: object
-              minProperties: 1
+            - type: string
+              minLength: 1

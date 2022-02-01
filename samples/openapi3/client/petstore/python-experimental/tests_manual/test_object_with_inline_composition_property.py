@@ -20,13 +20,13 @@ class TestObjectWithInlineCompositionProperty(unittest.TestCase):
 
     def test_ObjectWithInlineCompositionProperty(self):
         """Test ObjectWithInlineCompositionProperty"""
-        model = ObjectWithInlineCompositionProperty(someProp={'key': 'value'})
+        model = ObjectWithInlineCompositionProperty(someProp='a')
         self.assertTrue(isinstance(model.someProp, ObjectWithInlineCompositionProperty.someProp))
-        self.assertTrue(isinstance(model.someProp, schemas.DictSchema))
+        self.assertTrue(isinstance(model.someProp, schemas.StrSchema))
 
-        # error thrown on too few properties
+        # error thrown on length < 1
         with self.assertRaises(exceptions.ApiValueError):
-            ObjectWithInlineCompositionProperty(someProp={})
+            ObjectWithInlineCompositionProperty(someProp='')
 
 
 if __name__ == '__main__':
