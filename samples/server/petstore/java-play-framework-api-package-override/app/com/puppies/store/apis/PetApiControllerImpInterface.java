@@ -133,12 +133,12 @@ public abstract class PetApiControllerImpInterface {
 
     public abstract void updatePetWithForm(Http.Request request, Long petId, String name, String status) throws Exception;
 
-    public Result uploadFileHttp(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception {
+    public Result uploadFileHttp(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> _file) throws Exception {
         if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
             return unauthorized();
         }
 
-        ModelApiResponse obj = uploadFile(request, petId, additionalMetadata, file);
+        ModelApiResponse obj = uploadFile(request, petId, additionalMetadata, _file);
 
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -150,6 +150,6 @@ public abstract class PetApiControllerImpInterface {
 
     }
 
-    public abstract ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception;
+    public abstract ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> _file) throws Exception;
 
 }

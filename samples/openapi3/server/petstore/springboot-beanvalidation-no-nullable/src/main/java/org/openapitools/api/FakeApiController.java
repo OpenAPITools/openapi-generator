@@ -2,6 +2,7 @@ package org.openapitools.api;
 
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import java.util.Map;
@@ -17,6 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,14 +38,16 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class FakeApiController implements FakeApi {
 
     private final NativeWebRequest request;
 
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     public FakeApiController(NativeWebRequest request) {
         this.request = request;
     }
@@ -215,8 +220,8 @@ public class FakeApiController implements FakeApi {
         @Parameter(name = "float", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "float", required = false) Float _float,
         @Parameter(name = "string", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "string", required = false) String string,
         @Parameter(name = "binary", description = "None", schema = @Schema(description = "")) @RequestPart(value = "binary", required = false) MultipartFile binary,
-        @Parameter(name = "date", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "date", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate date,
-        @Parameter(name = "dateTime", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "dateTime", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+        @Parameter(name = "date", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @Parameter(name = "dateTime", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
         @Parameter(name = "password", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "password", required = false) String password,
         @Parameter(name = "callback", description = "None", schema = @Schema(description = "")) @Valid @RequestPart(value = "callback", required = false) String paramCallback
     ) {

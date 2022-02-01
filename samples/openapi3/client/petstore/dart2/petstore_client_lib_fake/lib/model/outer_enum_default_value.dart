@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -19,7 +19,7 @@ class OuterEnumDefaultValue {
   final String value;
 
   @override
-  String toString() => value ?? '';
+  String toString() => value;
 
   String toJson() => value;
 
@@ -34,13 +34,20 @@ class OuterEnumDefaultValue {
     delivered,
   ];
 
-  static OuterEnumDefaultValue fromJson(dynamic value) =>
-    OuterEnumDefaultValueTypeTransformer().decode(value);
+  static OuterEnumDefaultValue? fromJson(dynamic value) => OuterEnumDefaultValueTypeTransformer().decode(value);
 
-  static List<OuterEnumDefaultValue> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(OuterEnumDefaultValue.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <OuterEnumDefaultValue>[];
+  static List<OuterEnumDefaultValue>? listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <OuterEnumDefaultValue>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = OuterEnumDefaultValue.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnumDefaultValue] to String,
@@ -60,14 +67,14 @@ class OuterEnumDefaultValueTypeTransformer {
   ///
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
-  OuterEnumDefaultValue decode(dynamic data, {bool allowNull}) {
+  OuterEnumDefaultValue? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data.toString()) {
         case r'placed': return OuterEnumDefaultValue.placed;
         case r'approved': return OuterEnumDefaultValue.approved;
         case r'delivered': return OuterEnumDefaultValue.delivered;
         default:
-          if (allowNull == false) {
+          if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
           }
       }
@@ -76,6 +83,6 @@ class OuterEnumDefaultValueTypeTransformer {
   }
 
   /// Singleton [OuterEnumDefaultValueTypeTransformer] instance.
-  static OuterEnumDefaultValueTypeTransformer _instance;
+  static OuterEnumDefaultValueTypeTransformer? _instance;
 }
 

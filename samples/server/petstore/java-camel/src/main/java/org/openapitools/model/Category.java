@@ -16,15 +16,20 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.*;
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * A category for a pet
  */
-@Schema(name = "Category",description = "A category for a pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")@JacksonXmlRootElement(localName = "Category")
+
+@Schema(name = "Category", description = "A category for a pet")
+@JacksonXmlRootElement(localName = "Category")
 @XmlRootElement(name = "Category")
 @XmlAccessorType(XmlAccessType.FIELD)
+
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")
 public class Category   {
+
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   private Long id;
@@ -42,9 +47,8 @@ public class Category   {
    * Get id
    * @return id
   */
-  @Schema(name = "id", defaultValue = "")
-
-
+  
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -62,9 +66,8 @@ public class Category   {
    * Get name
    * @return name
   */
-  @Schema(name = "name", defaultValue = "")
-
-@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
+  @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
+  @Schema(name = "name", required = false)
   public String getName() {
     return name;
   }
@@ -72,7 +75,6 @@ public class Category   {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -96,7 +98,6 @@ public class Category   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Category {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");

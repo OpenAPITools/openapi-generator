@@ -10,6 +10,7 @@ title: Documentation for the php-laravel Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | PHP | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a PHP laravel server library. | |
 
 ## CONFIG OPTIONS

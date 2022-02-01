@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -14,13 +15,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * An order for a pets from the pet store
  */
-@Schema(name = "Order",description = "An order for a pets from the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Schema(name = "Order", description = "An order for a pets from the pet store")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Order   {
+
   @JsonProperty("id")
   private Long id;
 
@@ -31,7 +35,7 @@ public class Order   {
   private Integer quantity;
 
   @JsonProperty("shipDate")
-  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime shipDate;
 
   /**
@@ -86,9 +90,8 @@ public class Order   {
    * Get id
    * @return id
   */
-  @Schema(name = "id", defaultValue = "")
-
-
+  
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -106,9 +109,8 @@ public class Order   {
    * Get petId
    * @return petId
   */
-  @Schema(name = "petId", defaultValue = "")
-
-
+  
+  @Schema(name = "petId", required = false)
   public Long getPetId() {
     return petId;
   }
@@ -126,9 +128,8 @@ public class Order   {
    * Get quantity
    * @return quantity
   */
-  @Schema(name = "quantity", defaultValue = "")
-
-
+  
+  @Schema(name = "quantity", required = false)
   public Integer getQuantity() {
     return quantity;
   }
@@ -146,10 +147,8 @@ public class Order   {
    * Get shipDate
    * @return shipDate
   */
-  @Schema(name = "shipDate", defaultValue = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "shipDate", required = false)
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -167,9 +166,8 @@ public class Order   {
    * Order Status
    * @return status
   */
-  @Schema(name = "status", defaultValue = "Order Status")
-
-
+  
+  @Schema(name = "status", description = "Order Status", required = false)
   public StatusEnum getStatus() {
     return status;
   }
@@ -187,9 +185,8 @@ public class Order   {
    * Get complete
    * @return complete
   */
-  @Schema(name = "complete", defaultValue = "")
-
-
+  
+  @Schema(name = "complete", required = false)
   public Boolean getComplete() {
     return complete;
   }
@@ -197,7 +194,6 @@ public class Order   {
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -225,7 +221,6 @@ public class Order   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Order {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");

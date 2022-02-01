@@ -2,9 +2,6 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-{{#vendorExtensions.x-spring-paginated}}
-import org.springframework.data.domain.Pageable;
-{{/vendorExtensions.x-spring-paginated}}
 {{#jdk8}}
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,6 +31,7 @@ import java.util.Optional;
 {{#async}}
 import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture{{/jdk8}};
 {{/async}}
+import javax.annotation.Generated;
 
 {{#operations}}
 /**
@@ -72,7 +70,7 @@ public interface {{classname}}Delegate {
      */
     {{#jdk8-default-interface}}default {{/jdk8-default-interface}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{^isFile}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{{dataType}}}{{/reactive}}{{#reactive}}{{^isArray}}Mono<{{{dataType}}}>{{/isArray}}{{#isArray}}Flux<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{/isFile}}{{#isFile}}{{#isArray}}List<{{/isArray}}{{#reactive}}Flux<Part>{{/reactive}}{{^reactive}}MultipartFile{{/reactive}}{{#isArray}}>{{/isArray}}{{/isFile}} {{paramName}}{{^-last}},
         {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}},
-        {{/hasParams}}ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}, final org.springframework.data.domain.Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{#unhandledException}} throws Exception{{/unhandledException}}{{^jdk8-default-interface}};{{/jdk8-default-interface}}{{#jdk8-default-interface}} {
+        {{/hasParams}}ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}, final Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{#unhandledException}} throws Exception{{/unhandledException}}{{^jdk8-default-interface}};{{/jdk8-default-interface}}{{#jdk8-default-interface}} {
         {{>methodBody}}
     }{{/jdk8-default-interface}}
 

@@ -10,6 +10,7 @@ title: Documentation for the php Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | PHP | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a PHP client library. | |
 
 ## CONFIG OPTIONS
