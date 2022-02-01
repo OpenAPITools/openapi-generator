@@ -9,6 +9,7 @@
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         {{#springFoxDocumentationProvider}}
         <springfox.version>2.9.2</springfox.version>
         {{/springFoxDocumentationProvider}}

@@ -187,6 +187,7 @@
         </repository>
     </repositories>
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-core-version>1.5.22</swagger-core-version>
         <jackson-version>2.11.2</jackson-version>
         <jetty-version>9.2.9.v20150224</jetty-version>
