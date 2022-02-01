@@ -808,7 +808,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void shouldGenerateOneTagAttributeForMultipleTags_Regression1464() throws IOException {
+    public void shouldGenerateOneTagAttributeForMultipleTags_Regression11464() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
