@@ -163,6 +163,15 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         typeMapping.put("UUID", "utility::string_t");
         typeMapping.put("URI", "utility::string_t");
         typeMapping.put("ByteArray", "utility::string_t");
+
+        super.importMapping = new HashMap<>();
+        importMapping.put("std::vector", "#include <vector>");
+        importMapping.put("std::map", "#include <map>");
+        importMapping.put("std::string", "#include <string>");
+        importMapping.put("HttpContent", "#include \"HttpContent.h\"");
+        importMapping.put("Object", "#include \"Object.h\"");
+        importMapping.put("utility::string_t", "#include <cpprest/details/basic_types.h>");
+        importMapping.put("utility::datetime", "#include <cpprest/details/basic_types.h>");
     }
 
     @Override
@@ -199,13 +208,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         additionalProperties.put("defaultInclude", defaultInclude);
         additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);
 
-        importMapping.put("std::vector", "#include <vector>");
-        importMapping.put("std::map", "#include <map>");
-        importMapping.put("std::string", "#include <string>");
         importMapping.put("HttpContent", "#include \"" + packageName + "/" + "HttpContent.h\"");
         importMapping.put("Object", "#include \"" + packageName + "/" + "Object.h\"");
-        importMapping.put("utility::string_t", "#include <cpprest/details/basic_types.h>");
-        importMapping.put("utility::datetime", "#include <cpprest/details/basic_types.h>");
 
         supportingFiles.add(new SupportingFile("modelbase-header.mustache", getHeaderFolder(), "ModelBase.h"));
         supportingFiles.add(new SupportingFile("modelbase-source.mustache", getSourceFolder(), "ModelBase.cpp"));
