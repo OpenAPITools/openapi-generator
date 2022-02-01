@@ -10,6 +10,7 @@ title: Documentation for the scala-gatling Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Scala | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a gatling simulation library (beta). | |
 
 ## CONFIG OPTIONS

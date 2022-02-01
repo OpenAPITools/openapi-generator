@@ -10,6 +10,7 @@ title: Documentation for the php-slim-deprecated Generator
 | generator stability | DEPRECATED | |
 | generator type | SERVER | |
 | generator language | PHP | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a PHP Slim Framework server library. IMPORTANT NOTE: this generator (Slim 3.x)  is no longer actively maintained so please use 'php-slim4' generator instead. | |
 
 ## CONFIG OPTIONS

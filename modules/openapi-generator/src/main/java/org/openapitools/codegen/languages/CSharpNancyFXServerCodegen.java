@@ -23,6 +23,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -86,6 +88,10 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
                 )
         );
 
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
+
         outputFolder = "generated-code" + File.separator + getName();
         apiTemplateFiles.put("api.mustache", ".cs");
 
@@ -127,12 +133,12 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getName() {
-        return "csharp-nancyfx";
+        return "csharp-nancyfx-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a C# NancyFX Web API server.";
+        return "Generates a C# NancyFX Web API server (deprecated).";
     }
 
     @Override

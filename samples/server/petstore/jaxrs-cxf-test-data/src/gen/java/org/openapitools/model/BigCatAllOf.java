@@ -6,27 +6,18 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class BigCatAllOf  {
   
-@XmlType(name="KindEnum")
-@XmlEnum(String.class)
 public enum KindEnum {
 
-    @XmlEnumValue("lions") @JsonProperty("lions") LIONS(String.valueOf("lions")), 
-    @XmlEnumValue("tigers") @JsonProperty("tigers") TIGERS(String.valueOf("tigers")), 
-    @XmlEnumValue("leopards") @JsonProperty("leopards") LEOPARDS(String.valueOf("leopards")), 
-    @XmlEnumValue("jaguars") @JsonProperty("jaguars") JAGUARS(String.valueOf("jaguars"));
+    @JsonProperty("lions") LIONS(String.valueOf("lions")),
+    @JsonProperty("tigers") TIGERS(String.valueOf("tigers")),
+    @JsonProperty("leopards") LEOPARDS(String.valueOf("leopards")),
+    @JsonProperty("jaguars") JAGUARS(String.valueOf("jaguars"));
 
     private String value;
 
@@ -67,7 +58,7 @@ public enum KindEnum {
   /**
    * Sets the <code>kind</code> property.
    */
-  public void setKind(KindEnum kind) {
+ public void setKind(KindEnum kind) {
     this.kind = kind;
   }
 

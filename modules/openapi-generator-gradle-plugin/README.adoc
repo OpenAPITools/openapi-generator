@@ -398,7 +398,7 @@ openApiGenerate {
     // other settings omitted
     globalProperties = [
         apis: "",
-        models: "User,Pet"
+        models: "User:Pet"
     ]
 }
 ----
