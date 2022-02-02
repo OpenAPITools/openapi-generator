@@ -16,10 +16,10 @@ paths:
             application/json:
               schema:
                 type: string
-  /multible:
+  /multiple:
     get:
-      summary: Multible Tags
-      operationId: get_multible_tags
+      summary: Multiple Tags
+      operationId: get_multiple_tags
       tags:
         - tag1
         - tag2

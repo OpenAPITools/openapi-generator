@@ -835,8 +835,8 @@ public class SpringCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SingleApi.java"),
             "summary = \"Single Tag\", tags = { \"tag1\" }, responses = {");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/MultibleApi.java"),
-            "summary = \"Multible Tags\", tags = { \"tag1\", \"tag2\" }, responses = {");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/MultipleApi.java"),
+            "summary = \"Multiple Tags\", tags = { \"tag1\", \"tag2\" }, responses = {");
     }
 
 }
