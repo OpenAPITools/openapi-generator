@@ -149,7 +149,9 @@ public interface {{classname}} {
     {{/swagger2AnnotationLibrary}}
     {{#swagger1AnnotationLibrary}}
     @ApiOperation(
+        {{#vendorExtensions.x-tags.size}}
         tags = { {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
+        {{/vendorExtensions.x-tags.size}}
         value = "{{{summary}}}",
         nickname = "{{{operationId}}}",
         notes = "{{{notes}}}"{{#returnBaseType}},

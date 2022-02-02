@@ -24,10 +24,13 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import java.util.function.Consumer;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
@@ -807,8 +810,8 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.importMapping().get("ParameterObject"), "org.springdoc.api.annotations.ParameterObject");
     }
 
-    @Test
-    public void shouldGenerateOneTagAttributeForMultipleTags_Regression11464() throws IOException {
+    @Test(dataProvider = "documentationProviders")
+    public void shouldGenerateOneTagAttributeForMultipleTags_Regression11464(String documentProvider, Consumer<String> assertFunction) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -818,7 +821,7 @@ public class SpringCodegenTest {
 
         SpringCodegen codegen = new SpringCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
-
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, documentProvider);
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
         input.config(codegen);
@@ -833,10 +836,29 @@ public class SpringCodegenTest {
 
         generator.opts(input).generate();
 
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SingleApi.java"),
-            "summary = \"Single Tag\", tags = { \"tag1\" }, responses = {");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/MultipleApi.java"),
-            "summary = \"Multiple Tags\", tags = { \"tag1\", \"tag2\" }, responses = {");
+        assertFunction.accept(outputPath);
+    }
+
+    @DataProvider
+    public Object[][] documentationProviders() {
+        return new Object[][] {
+            { DocumentationProviderFeatures.DocumentationProvider.SPRINGDOC.name(), (Consumer<String>) outputPath -> {
+                assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/NoneApi.java"),
+                    "@Operation( operationId = \"getNone\", summary = \"No Tag\", responses = {");
+                assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SingleApi.java"),
+                    "@Operation( operationId = \"getSingleTag\", summary = \"Single Tag\", tags = { \"tag1\" }, responses = {");
+                assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/MultipleApi.java"),
+                    "@Operation( operationId = \"getMultipleTags\", summary = \"Multiple Tags\", tags = { \"tag1\", \"tag2\" }, responses = {");
+            }},
+            { DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name(), (Consumer<String>) outputPath -> {
+                assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/NoneApi.java"),
+                    "@ApiOperation( value = \"No Tag\", nickname = \"getNone\", notes = \"\", response = ");
+                assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SingleApi.java"),
+                    "@ApiOperation( tags = { \"tag1\" }, value = \"Single Tag\", nickname = \"getSingleTag\", notes = \"\", response = ");
+                assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/MultipleApi.java"),
+                    "@ApiOperation( tags = { \"tag1\", \"tag2\" }, value = \"Multiple Tags\", nickname = \"getMultipleTags\", notes = \"\", response = ");
+            }},
+        };
     }
 
 }
