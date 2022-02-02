@@ -21,6 +21,7 @@ import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 {{/performBeanValidation}}
 {{#jackson}}
+import com.fasterxml.jackson.annotation.JsonTypeName;
 {{#withXml}}
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
