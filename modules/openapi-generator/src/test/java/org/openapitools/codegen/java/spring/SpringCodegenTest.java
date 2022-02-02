@@ -810,7 +810,7 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.importMapping().get("ParameterObject"), "org.springdoc.api.annotations.ParameterObject");
     }
 
-    @Test(dataProvider = "documentationProviders")
+    @Test(dataProvider = "issue11464TestCases")
     public void shouldGenerateOneTagAttributeForMultipleTags_Regression11464(String documentProvider, Consumer<String> assertFunction) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -840,7 +840,7 @@ public class SpringCodegenTest {
     }
 
     @DataProvider
-    public Object[][] documentationProviders() {
+    public Object[][] issue11464TestCases() {
         return new Object[][] {
             { DocumentationProviderFeatures.DocumentationProvider.SPRINGDOC.name(), (Consumer<String>) outputPath -> {
                 assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/NoneApi.java"),
