@@ -45,7 +45,6 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.groupingBy;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
 import static org.testng.Assert.assertEquals;
