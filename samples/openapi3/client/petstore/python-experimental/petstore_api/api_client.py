@@ -781,6 +781,11 @@ class OpenApiResponse:
         else:
             return response.data
 
+    def __deserialize_multipart_form_data(
+        self, response: urllib3.HTTPResponse
+    ) -> typing.Any:
+        raise NotImplementedError()
+
     def deserialize(self, response: urllib3.HTTPResponse, configuration: Configuration) -> ApiResponse:
         content_type = response.getheader('content-type')
         deserialized_body = unset
@@ -790,6 +795,8 @@ class OpenApiResponse:
                 body_data = self.__deserialize_json(response)
             elif content_type == 'application/octet-stream':
                 body_data = self.__deserialize_application_octet_stream(response)
+            elif content_type == 'multipart/form-data':
+                body_data = self.__deserialize_multipart_form_data(response)
             else:
                 raise NotImplementedError('Deserialization of {} has not yet been implemented'.format(content_type))
             body_schema = self.content[content_type].schema

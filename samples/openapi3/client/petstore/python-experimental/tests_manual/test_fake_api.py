@@ -18,6 +18,7 @@ from unittest.mock import patch
 
 import urllib3
 from urllib3._collections import HTTPHeaderDict
+from urllib3.filepost import encode_multipart_formdata
 
 import petstore_api
 from petstore_api import api_client, schemas
@@ -67,6 +68,7 @@ class TestFakeApi(unittest.TestCase):
         fields: typing.Optional[tuple[api_client.RequestField, ...]] = None,
         accept_content_type: str = 'application/json',
         stream: bool = False,
+        query_params: typing.Optional[typing.Tuple[typing.Tuple[str, str], ...]] = None
     ):
         mock_request.assert_called_with(
             'POST',
@@ -79,7 +81,7 @@ class TestFakeApi(unittest.TestCase):
                 }
             ),
             body=body,
-            query_params=None,
+            query_params=query_params,
             fields=fields,
             stream=stream,
             timeout=None,
@@ -576,15 +578,69 @@ class TestFakeApi(unittest.TestCase):
         testing composed schemas at inline locations  # noqa: E501
         """
         single_char_str = 'a'
-        endpoint = self.api.inline_composition
-        response = endpoint(
-            body=single_char_str,
-            query_params={
-                'compositionAtRoot': single_char_str,
-                'compositionInProperty': {'someProp': single_char_str}
-            },
-            accept_content_types=('application/json',)
-        )
+        json_bytes = self.__json_bytes(single_char_str)
+
+        # tx and rx json with composition at root level of schema for request + response body
+        content_type = 'application/json'
+        with patch.object(RESTClientObject, 'request') as mock_request:
+            mock_request.return_value = self.__response(
+                json_bytes
+            )
+            api_response = self.api.inline_composition(
+                body=single_char_str,
+                query_params={
+                    'compositionAtRoot': single_char_str,
+                    'compositionInProperty': {'someProp': single_char_str}
+                },
+                accept_content_types=(content_type,)
+            )
+            self.__assert_request_called_with(
+                mock_request,
+                'http://petstore.swagger.io:80/v2/fake/inlineComposition/',
+                accept_content_type=content_type,
+                content_type=content_type,
+                query_params=(('compositionAtRoot', 'a'), ('someProp', 'a')),
+                body=json_bytes
+            )
+            self.assertEqual(api_response.body, single_char_str)
+            self.assertTrue(isinstance(api_response.body, schemas.StrSchema))
+
+        # tx and rx json with composition at property level of schema for request + response body
+        content_type = 'multipart/form-data'
+        with patch.object(RESTClientObject, 'request') as mock_request:
+            # TODO figure out what receiving fields looks like in a response
+            response_body, response_content_type = encode_multipart_formdata(fields={'someProp': single_char_str})
+            mock_request.return_value = self.__response(
+                response_body,
+                content_type=response_content_type
+            )
+            api_response = self.api.inline_composition(
+                body={'someProp': single_char_str},
+                query_params={
+                    'compositionAtRoot': single_char_str,
+                    'compositionInProperty': {'someProp': single_char_str}
+                },
+                content_type=content_type,
+                accept_content_types=(content_type,)
+            )
+            self.__assert_request_called_with(
+                mock_request,
+                'http://petstore.swagger.io:80/v2/fake/inlineComposition/',
+                accept_content_type=content_type,
+                content_type=content_type,
+                query_params=(('compositionAtRoot', 'a'), ('someProp', 'a')),
+                fields=(
+                    api_client.RequestField(
+                        name='someProp',
+                        data=single_char_str,
+                        headers={'Content-Type': 'text/plain'}
+                    ),
+                ),
+            )
+            self.assertEqual(api_response.body, single_char_str)
+            self.assertTrue(isinstance(api_response.body, schemas.StrSchema))
+
+
 
 
 
