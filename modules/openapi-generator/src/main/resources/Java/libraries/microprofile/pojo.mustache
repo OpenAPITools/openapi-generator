@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 {{/withXml}}
 {{^withXml}}
 import java.lang.reflect.Type;
+{{#jsonb}}
 import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.json.bind.annotation.JsonbTypeSerializer;
 import javax.json.bind.serializer.DeserializationContext;
@@ -21,6 +22,13 @@ import javax.json.bind.annotation.JsonbProperty;
 {{#vendorExtensions.x-has-readonly-properties}}
 import javax.json.bind.annotation.JsonbCreator;
 {{/vendorExtensions.x-has-readonly-properties}}
+{{/jsonb}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonProperty;
+{{#vendorExtensions.x-has-readonly-properties}}
+import com.fasterxml.jackson.annotation.JsonCreator;
+{{/vendorExtensions.x-has-readonly-properties}}
+{{/jackson}}
 {{/withXml}}
 
 {{#withXml}}
@@ -50,7 +58,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#serializableM
   **/
 {{/description}}
   {{^withXml}}
+  {{#jsonb}}
   @JsonbProperty("{{baseName}}")
+  {{/jsonb}}
+  {{#jackson}}
+  @JsonProperty("{{baseName}}")
+  {{/jackson}}
   {{/withXml}}
 {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
@@ -63,10 +76,10 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#serializableM
   public {{classname}}() {
   }
 
-  @JsonbCreator
+  {{#jsonb}}@JsonbCreator{{/jsonb}}{{#jackson}}@JsonCreator{{/jackson}}
   public {{classname}}(
   {{#readOnlyVars}}
-    @JsonbProperty("{{baseName}}") {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
+    {{#jsonb}}@JsonbProperty("{{baseName}}"){{/jsonb}}{{#jackson}}@JsonProperty("{{baseName}}"){{/jackson}} {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
   {{/readOnlyVars}}
   ) {
   {{#readOnlyVars}}

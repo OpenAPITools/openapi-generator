@@ -61,6 +61,7 @@ from petstore_api.schemas import (  # noqa: F401
     _SchemaEnumMaker
 )
 
+from petstore_api.model.unknownbasetype import UNKNOWNBASETYPE
 from petstore_api.model.composition_in_property import CompositionInProperty
 
 # query params
@@ -328,7 +329,7 @@ class SchemaForRequestBodyMultipartFormData(
         )
 
 
-request_body_any_type = api_client.RequestBody(
+request_body_unknown_base_type = api_client.RequestBody(
     content={
         'application/json': api_client.MediaType(
             schema=SchemaForRequestBodyApplicationJson),
@@ -526,7 +527,7 @@ class InlineComposition(api_client.Api):
         _fields = None
         _body = None
         if body is not unset:
-            serialized_data = request_body_any_type.serialize(body, content_type)
+            serialized_data = request_body_unknown_base_type.serialize(body, content_type)
             _headers.add('Content-Type', content_type)
             if 'fields' in serialized_data:
                 _fields = serialized_data['fields']

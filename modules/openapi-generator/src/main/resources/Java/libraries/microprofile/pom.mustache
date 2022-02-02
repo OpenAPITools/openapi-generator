@@ -166,6 +166,13 @@
         <version>${jakarta-annotation-version}</version>
         <scope>provided</scope>
     </dependency>
+{{#microprofileMutiny}}
+	<dependency>
+		<groupId>io.smallrye.reactive</groupId>
+		<artifactId>mutiny</artifactId>
+		<version>${mutiny.version}</version>
+	</dependency>
+{{/microprofileMutiny}}
   </dependencies>
   <repositories>
     <repository>
@@ -196,5 +203,8 @@
     <jakarta.ws.rs-version>2.1.6</jakarta.ws.rs-version>
     <jakarta.xml.bind-version>2.3.3</jakarta.xml.bind-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+{{#microprofileMutiny}}
+	<mutiny.version>1.2.0</mutiny.version>
+{{/microprofileMutiny}}
   </properties>
 </project>

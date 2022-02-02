@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { Set } from './Set';
 import { HttpFile } from '../http/http';
 
 export class Response {

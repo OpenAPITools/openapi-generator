@@ -1,6 +1,5 @@
 package apimodels;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -94,7 +94,6 @@ src/main/java/org/openapitools/client/auth/OAuth.java
 src/main/java/org/openapitools/client/auth/OAuthFlow.java
 src/main/java/org/openapitools/client/auth/OAuthOkHttpClient.java
 src/main/java/org/openapitools/client/auth/RetryingOAuth.java
-src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesAnyType.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesArray.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesBoolean.java

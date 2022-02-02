@@ -9,7 +9,7 @@ info:
   version: 1.0.0
 servers:
 - description: petstore server
-  url: "http://{server}.swagger.io:{port}/v2"
+  url: http://{server}.swagger.io:{port}/v2
   variables:
     server:
       default: petstore
@@ -23,7 +23,7 @@ servers:
       - "80"
       - "8080"
 - description: The local server
-  url: "https://localhost:8080/{version}"
+  url: https://localhost:8080/{version}
   variables:
     version:
       default: v2

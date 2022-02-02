@@ -1970,14 +1970,14 @@
       "format_test" : {
         "properties" : {
           "integer" : {
-            "maximum" : 100,
-            "minimum" : 10,
+            "maximum" : 1E+2,
+            "minimum" : 1E+1,
             "type" : "integer"
           },
           "int32" : {
             "format" : "int32",
-            "maximum" : 200,
-            "minimum" : 20,
+            "maximum" : 2E+2,
+            "minimum" : 2E+1,
             "type" : "integer"
           },
           "int64" : {
