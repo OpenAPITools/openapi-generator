@@ -143,7 +143,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 "any",
                 "File",
                 "Error",
-                "Map"
+                "Map",
+                "Set"
         ));
 
         languageGenericTypes = new HashSet<>(Arrays.asList(
