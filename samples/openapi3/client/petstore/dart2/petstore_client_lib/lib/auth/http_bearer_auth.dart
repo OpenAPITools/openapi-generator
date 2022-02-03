@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -21,19 +21,29 @@ class HttpBearerAuth implements Authentication {
 
   set accessToken(dynamic accessToken) {
     if (accessToken is! String && accessToken is! HttpBearerAuthProvider) {
-      throw ArgumentError('Type of Bearer accessToken should be a String or a String Function().');
+      throw ArgumentError('accessToken value must be either a String or a String Function().');
     }
     _accessToken = accessToken;
   }
 
   @override
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
+    if (_accessToken == null) {
+      return;
+    }
+
+    String accessToken;
+
     if (_accessToken is String) {
-      headerParams['Authorization'] = 'Bearer $_accessToken';
+      accessToken = _accessToken;
     } else if (_accessToken is HttpBearerAuthProvider) {
-      headerParams['Authorization'] = 'Bearer ${_accessToken()}';
+      accessToken = _accessToken!();
     } else {
-      throw ArgumentError('Type of Bearer accessToken should be a String or a String Function().');
+      return;
+    }
+
+    if (accessToken.isNotEmpty) {
+      headerParams['Authorization'] = 'Bearer $accessToken';
     }
   }
 }

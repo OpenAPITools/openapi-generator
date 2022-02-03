@@ -146,12 +146,6 @@
       ]
     },
     {
-      "input": "dart-jaguar-petstore.sh",
-      "matches": [
-        "Client: Dart"
-      ]
-    },
-    {
       "input": "dart-dio-petstore.sh",
       "matches": [
         "Client: Dart"
@@ -221,12 +215,6 @@
       "input": "scala-finch-petstore-server.sh",
       "matches": [
         "Server: Scala"
-      ]
-    },
-    {
-      "input": "flash-petstore.sh",
-      "matches": [
-        "Client: Flash/ActionScript"
       ]
     },
     {
@@ -720,18 +708,6 @@
       "input": "mysql-schema-petstore.sh",
       "matches": [
         "Schema: MySQL"
-      ]
-    },
-    {
-      "input": "nancyfx-petstore-server-async.sh",
-      "matches": [
-        "Server: C-Sharp"
-      ]
-    },
-    {
-      "input": "nancyfx-petstore-server.sh",
-      "matches": [
-        "Server: C-Sharp"
       ]
     },
     {
