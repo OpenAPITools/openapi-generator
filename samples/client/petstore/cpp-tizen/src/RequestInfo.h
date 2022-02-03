@@ -45,7 +45,7 @@ public:
 
 	~RequestInfo()
 	{
-		curl_slist_free_all(headerList);
+		curl_slist_freeList_all(headerList);
 		if (this->p_chunk) {
 			if((this->p_chunk)->memory) {
 				free((this->p_chunk)->memory);

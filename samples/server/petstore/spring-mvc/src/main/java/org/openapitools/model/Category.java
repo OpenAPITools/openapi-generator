@@ -13,14 +13,17 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Category
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Category   {
+
   @JsonProperty("id")
   private Long id;
 
@@ -36,9 +39,8 @@ public class Category   {
    * Get id
    * @return id
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Long getId() {
     return id;
   }
@@ -56,10 +58,8 @@ public class Category   {
    * Get name
    * @return name
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public String getName() {
     return name;
   }
@@ -67,7 +67,6 @@ public class Category   {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -91,7 +90,6 @@ public class Category   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Category {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");

@@ -34,7 +34,6 @@ docs/EnumTest.md
 docs/EquilateralTriangle.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
-docs/FileSchemaTestClass.md
 docs/Foo.md
 docs/FormatTest.md
 docs/Fruit.md
@@ -50,6 +49,8 @@ docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/ModelApiResponse.md
+docs/ModelFile.md
+docs/ModelList.md
 docs/ModelReturn.md
 docs/Name.md
 docs/NullableClass.md
@@ -65,6 +66,7 @@ docs/OuterEnumIntegerDefaultValue.md
 docs/ParentPet.md
 docs/Pet.md
 docs/PetApi.md
+docs/PetWithRequiredTags.md
 docs/Pig.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
@@ -147,7 +149,6 @@ src/main/java/org/openapitools/client/model/EnumArrays.java
 src/main/java/org/openapitools/client/model/EnumClass.java
 src/main/java/org/openapitools/client/model/EnumTest.java
 src/main/java/org/openapitools/client/model/EquilateralTriangle.java
-src/main/java/org/openapitools/client/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/client/model/Foo.java
 src/main/java/org/openapitools/client/model/FormatTest.java
 src/main/java/org/openapitools/client/model/Fruit.java
@@ -163,6 +164,8 @@ src/main/java/org/openapitools/client/model/MapTest.java
 src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Model200Response.java
 src/main/java/org/openapitools/client/model/ModelApiResponse.java
+src/main/java/org/openapitools/client/model/ModelFile.java
+src/main/java/org/openapitools/client/model/ModelList.java
 src/main/java/org/openapitools/client/model/ModelReturn.java
 src/main/java/org/openapitools/client/model/Name.java
 src/main/java/org/openapitools/client/model/NullableClass.java
@@ -177,6 +180,7 @@ src/main/java/org/openapitools/client/model/OuterEnumInteger.java
 src/main/java/org/openapitools/client/model/OuterEnumIntegerDefaultValue.java
 src/main/java/org/openapitools/client/model/ParentPet.java
 src/main/java/org/openapitools/client/model/Pet.java
+src/main/java/org/openapitools/client/model/PetWithRequiredTags.java
 src/main/java/org/openapitools/client/model/Pig.java
 src/main/java/org/openapitools/client/model/Quadrilateral.java
 src/main/java/org/openapitools/client/model/QuadrilateralInterface.java

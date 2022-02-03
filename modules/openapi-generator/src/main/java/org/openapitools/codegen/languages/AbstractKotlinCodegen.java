@@ -91,8 +91,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "kotlin.String",
                 "kotlin.Array",
                 "kotlin.collections.List",
+                "kotlin.collections.MutableList",
                 "kotlin.collections.Map",
-                "kotlin.collections.Set"
+                "kotlin.collections.MutableMap",
+                "kotlin.collections.Set",
+                "kotlin.collections.MutableSet"
         ));
 
         // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
@@ -184,8 +187,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "kotlin.Char",
                 "kotlin.Array",
                 "kotlin.collections.List",
+                "kotlin.collections.MutableList",
                 "kotlin.collections.Set",
-                "kotlin.collections.Map"
+                "kotlin.collections.MutableSet",
+                "kotlin.collections.Map",
+                "kotlin.collections.MutableMap"
         ));
 
         typeMapping = new HashMap<>();
@@ -416,6 +422,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
+        if (additionalProperties.containsKey(MODEL_MUTABLE)) {
+            additionalProperties.put(MODEL_MUTABLE, Boolean.parseBoolean(additionalProperties.get(MODEL_MUTABLE).toString()));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
             setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
         }
@@ -475,6 +485,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
             this.setParcelizeModels(convertPropertyToBooleanAndWriteBack(CodegenConstants.PARCELIZE_MODELS));
         } else {
@@ -495,6 +509,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
+
+        if (isModelMutable()) {
+            typeMapping.put("list", "kotlin.collections.MutableList");
+            typeMapping.put("set", "kotlin.collections.MutableSet");
+            typeMapping.put("map", "kotlin.collections.MutableMap");
+        }
+    }
+
+    protected boolean isModelMutable() {
+        return Boolean.TRUE.equals(additionalProperties.get(MODEL_MUTABLE));
     }
 
     public void setArtifactId(String artifactId) {
@@ -1016,4 +1040,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         return null;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.KOTLIN; }
 }

@@ -27,5 +27,5 @@ public abstract class PetApiService {
     public abstract Response getPetById(Long petId,SecurityContext securityContext) throws NotFoundException;
     public abstract Response updatePet(Pet pet,SecurityContext securityContext) throws NotFoundException;
     public abstract Response updatePetWithForm(Long petId,String name,String status,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response uploadFile(Long petId,String additionalMetadata,FormDataBodyPart fileBodypart,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response uploadFile(Long petId,String additionalMetadata,FormDataBodyPart _fileBodypart,SecurityContext securityContext) throws NotFoundException;
 }

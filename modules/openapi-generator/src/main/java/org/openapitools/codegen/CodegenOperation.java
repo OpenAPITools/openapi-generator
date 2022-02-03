@@ -66,7 +66,11 @@ public class CodegenOperation {
      *
      * @return true if parameter exists, false otherwise
      */
-    private static boolean nonempty(List<?> params) {
+    private static boolean nonEmpty(List<?> params) {
+        return params != null && params.size() > 0;
+    }
+
+    private static boolean nonEmpty(Map<?, ?> params) {
         return params != null && params.size() > 0;
     }
 
@@ -76,7 +80,7 @@ public class CodegenOperation {
      * @return true if body parameter exists, false otherwise
      */
     public boolean getHasBodyParam() {
-        return nonempty(bodyParams);
+        return nonEmpty(bodyParams);
     }
 
     /**
@@ -85,7 +89,7 @@ public class CodegenOperation {
      * @return true if query parameter exists, false otherwise
      */
     public boolean getHasQueryParams() {
-        return nonempty(queryParams);
+        return nonEmpty(queryParams);
     }
 
     /**
@@ -103,7 +107,7 @@ public class CodegenOperation {
      * @return true if header parameter exists, false otherwise
      */
     public boolean getHasHeaderParams() {
-        return nonempty(headerParams);
+        return nonEmpty(headerParams);
     }
 
     /**
@@ -112,7 +116,7 @@ public class CodegenOperation {
      * @return true if path parameter exists, false otherwise
      */
     public boolean getHasPathParams() {
-        return nonempty(pathParams);
+        return nonEmpty(pathParams);
     }
 
     /**
@@ -121,7 +125,7 @@ public class CodegenOperation {
      * @return true if any form parameter exists, false otherwise
      */
     public boolean getHasFormParams() {
-        return nonempty(formParams);
+        return nonEmpty(formParams);
     }
 
     /**
@@ -139,7 +143,7 @@ public class CodegenOperation {
      * @return true if any cookie parameter exists, false otherwise
      */
     public boolean getHasCookieParams() {
-        return nonempty(cookieParams);
+        return nonEmpty(cookieParams);
     }
 
     /**
@@ -148,7 +152,7 @@ public class CodegenOperation {
      * @return true if any optional parameter exists, false otherwise
      */
     public boolean getHasOptionalParams() {
-        return nonempty(optionalParams);
+        return nonEmpty(optionalParams);
     }
 
     /**
@@ -157,7 +161,7 @@ public class CodegenOperation {
      * @return true if any optional parameter exists, false otherwise
      */
     public boolean getHasRequiredParams() {
-        return nonempty(requiredParams);
+        return nonEmpty(requiredParams);
     }
 
     /**
@@ -166,7 +170,7 @@ public class CodegenOperation {
      * @return true if header response exists, false otherwise
      */
     public boolean getHasResponseHeaders() {
-        return nonempty(responseHeaders);
+        return nonEmpty(responseHeaders);
     }
 
     /**
@@ -175,7 +179,7 @@ public class CodegenOperation {
      * @return true if examples parameter exists, false otherwise
      */
     public boolean getHasExamples() {
-        return nonempty(examples);
+        return nonEmpty(examples);
     }
 
     /**
@@ -185,6 +189,15 @@ public class CodegenOperation {
      */
     public boolean getHasDefaultResponse() {
         return responses.stream().filter(response -> response.isDefault).findFirst().isPresent();
+    }
+
+    /**
+     * Check if there's at least one vendor extension
+     *
+     * @return true if vendor extensions exists, false otherwise
+     */
+    public boolean getHasVendorExtensions() {
+        return nonEmpty(vendorExtensions);
     }
 
     /**
@@ -226,17 +239,9 @@ public class CodegenOperation {
     /**
      * Check if body param is allowed for the request method
      *
-     * @return true request method is DELETE, PUT, PATCH or POST; false otherwise
-     */
-    public boolean isBodyAllowed() {
-        return Arrays.asList("DELETE","PUT", "PATCH", "POST").contains(httpMethod.toUpperCase(Locale.ROOT));
-    }
-    /**
-     * Check if the request method is PUT or PATCH or POST
-     *
      * @return true request method is PUT, PATCH or POST; false otherwise
      */
-    public boolean isMethodPutOrPatchOrPost() {
+    public boolean isBodyAllowed() {
         return Arrays.asList("PUT", "PATCH", "POST").contains(httpMethod.toUpperCase(Locale.ROOT));
     }
 
