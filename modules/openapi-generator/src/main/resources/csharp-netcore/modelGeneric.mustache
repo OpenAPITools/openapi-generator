@@ -36,7 +36,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        // public {{#complexType}}{{{complexType}}}{{#isNullable}}{{nrt?}}{{/isNullable}}{{/complexType}}{{^complexType}}{{#isNullable}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/isNullable}}{{^isNullable}}{{{datatypeWithEnum}}}{{/isNullable}}{{/complexType}} {{name}} { get; set; } // a
+        // public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; }
         public {{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{name}} { get; set; } // a
         {{#isReadOnly}}
 
@@ -56,7 +56,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        // public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; } // b
+        // public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; }
         public {{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{name}} { get; set; } // b
 
         /// <summary>
@@ -206,7 +206,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        // public {{#isNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}}{{/isNullable}}{{^isNullable}}{{{dataType}}}{{/isNullable}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; } // c
+        // public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
         public {{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; } // c
 
         {{#isReadOnly}}
