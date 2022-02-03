@@ -21,6 +21,8 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -33,6 +35,9 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -247,10 +252,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC,
                 this.hideGenerationTimestamp);
 
-        addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
-                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC,
-                this.sortParamsByRequiredFlag);
-
         addSwitch(CodegenConstants.USE_DATETIME_OFFSET,
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 this.useDateTimeOffsetFlag);
@@ -393,6 +394,37 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 }
             }
         }
+
+        Comparator<CodegenProperty> comparatorByDefaultValue = new Comparator<CodegenProperty>() {
+        @Override
+            public int compare(CodegenProperty one, CodegenProperty another) {
+                if (one.defaultValue == another.defaultValue) 
+                    return 0;
+                else if (Boolean.FALSE.equals(one.defaultValue)) 
+                    return -1;
+                else 
+                    return 1;
+            }
+        };
+
+        Comparator<CodegenProperty> comparatorByRequired = new Comparator<CodegenProperty>() {
+            @Override
+            public int compare(CodegenProperty one, CodegenProperty another) {
+                if (one.required == another.required) 
+                    return 0;
+                else if (Boolean.TRUE.equals(one.required))
+                    return -1;
+                else 
+                    return 1;
+            }
+        };
+
+        Collections.sort(codegenModel.vars, comparatorByDefaultValue);
+        Collections.sort(codegenModel.vars, comparatorByRequired);
+        Collections.sort(codegenModel.allVars, comparatorByDefaultValue);
+        Collections.sort(codegenModel.allVars, comparatorByRequired);
+        Collections.sort(codegenModel.readWriteVars, comparatorByDefaultValue);
+        Collections.sort(codegenModel.readWriteVars, comparatorByRequired);
 
         return codegenModel;
     }
@@ -598,6 +630,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         if (GENERICHOST.equals(getLibrary())){
             setLibrary(GENERICHOST);
             additionalProperties.put("useGenericHost", true);
+            // all c# libraries should be doing this, but we only do it here to avoid breaking changes
+            this.setSortModelPropertiesByRequiredFlag(true);
         } else if (RESTSHARP.equals(getLibrary())) {
             additionalProperties.put("useRestSharp", true);
             needsCustomHttpMethod = true;
@@ -731,6 +765,44 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         addTestInstructions();
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path,
+                                          String httpMethod,
+                                          Operation operation,
+                                          List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+
+        if (!GENERICHOST.equals(getLibrary())){
+            return op;
+        }
+
+        Collections.sort(op.allParams, new Comparator<CodegenParameter>() {
+            @Override
+            public int compare(CodegenParameter one, CodegenParameter another) {
+                if (one.defaultValue == another.defaultValue)
+                    return 0;
+                else if (Boolean.FALSE.equals(one.defaultValue))
+                    return -1;
+                else
+                    return 1;
+            }
+        });
+
+        Collections.sort(op.allParams, new Comparator<CodegenParameter>() {
+            @Override
+            public int compare(CodegenParameter one, CodegenParameter another) {
+                if (one.required == another.required)
+                    return 0;
+                else if (Boolean.TRUE.equals(one.required))
+                    return -1;
+                else
+                    return 1;
+            }
+        });
+
+        return op;
     }
 
     private void addTestInstructions(){

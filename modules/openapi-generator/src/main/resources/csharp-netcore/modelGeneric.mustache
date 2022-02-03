@@ -36,7 +36,8 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; }
+        // public {{#complexType}}{{{complexType}}}{{#isNullable}}{{nrt?}}{{/isNullable}}{{/complexType}}{{^complexType}}{{#isNullable}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/isNullable}}{{^isNullable}}{{{datatypeWithEnum}}}{{/isNullable}}{{/complexType}} {{name}} { get; set; } // a
+        public {{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{name}} { get; set; } // a
         {{#isReadOnly}}
 
         /// <summary>
@@ -55,8 +56,8 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; }
-
+        // public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; } // b
+        public {{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{name}} { get; set; } // b
 
         /// <summary>
         /// Returns false as {{name}} should not be serialized given that it's read-only.
@@ -123,7 +124,8 @@
     {{#hasOnlyReadOnly}}
         [JsonConstructorAttribute]
     {{/hasOnlyReadOnly}}
-        public {{classname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#defaultValue}}{{^isDateTime}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default({{{datatypeWithEnum}}}){{/isDateTime}}{{/defaultValue}}{{^defaultValue}}default({{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}}){{/defaultValue}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
+        // public {{classname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#defaultValue}}{{^isDateTime}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default({{{datatypeWithEnum}}}){{/isDateTime}}{{/defaultValue}}{{^defaultValue}}default({{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}}){{/defaultValue}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
+        public {{classname}}({{#readWriteVars}}{{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#defaultValue}} = {{^isDateTime}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^required}}{{^defaultValue}} = default{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
         {
             {{#vars}}
             {{^isInherited}}
@@ -204,7 +206,8 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+        // public {{#isNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}}{{/isNullable}}{{^isNullable}}{{{dataType}}}{{/isNullable}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; } // c
+        public {{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; } // c
 
         {{#isReadOnly}}
         /// <summary>
@@ -226,8 +229,8 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{dataType}}} {{name}} { get; private set; }
-
+        // public {{{dataType}}} {{name}} { get; private set; }
+        public {{#isNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}}{{/isNullable}}{{^isNullable}}{{{dataType}}}{{/isNullable}} {{name}} { get; private set; } // d
         /// <summary>
         /// Returns false as {{name}} should not be serialized given that it's read-only.
         /// </summary>
@@ -245,7 +248,8 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{dataType}}} {{name}}
+        // public {{{dataType}}} {{name}}
+        public {{#required}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}}{{/required}}{{^required}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}}{{/required}} {{name}}
         {
             get{ return _{{name}};}
             set
