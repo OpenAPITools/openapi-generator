@@ -1352,7 +1352,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     public String toExampleValue(Schema schema, Object objExample) {
         String modelName = getModelName(schema);
-        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0);
+        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0, new ArrayList<>());
     }
 
     private Boolean simpleStringSchema(Schema schema) {
@@ -1398,9 +1398,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      *                    ModelName( line 0
      *                        some_property='some_property_example' line 1
      *                    ) line 2
+     * @param includedSchemas schemas already included in this example - for cycle detection.
      * @return the string example
      */
-    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine) {
+    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, List<Schema> includedSchemas) {
+        if (includedSchemas.stream().filter(s->schema.equals(s)).count() > 1) {
+            return "";
+        }
+        includedSchemas.add(schema);
         final String indentionConst = "    ";
         String currentIndentation = "";
         String closingIndentation = "";
@@ -1433,7 +1438,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 return fullPrefix + "None" + closeChars;
             }
             String refModelName = getModelName(schema);
-            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine);
+            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, includedSchemas);
         } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
@@ -1531,8 +1536,12 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
-            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1) + ",\n" + closingIndentation + "]" + closeChars;
-            return example;
+            String itemExample = toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, includedSchemas);
+            if (StringUtils.isEmpty(itemExample)) {
+                return fullPrefix + "[]";
+            } else {
+                return fullPrefix + "[" + "\n" + itemExample + "\n" + closingIndentation + "]" + closeChars;
+            }
         } else if (ModelUtils.isMapSchema(schema)) {
             if (modelName == null) {
                 fullPrefix += "dict(";
@@ -1553,7 +1562,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     addPropPrefix = ensureQuotes(key) + ": ";
                 }
                 String addPropsModelName = getModelName(addPropsSchema);
-                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1) + ",\n" + closingIndentation + closeChars;
+                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, includedSchemas) + ",\n" + closingIndentation + closeChars;
             } else {
                 example = fullPrefix + closeChars;
             }
@@ -1576,7 +1585,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     return fullPrefix + closeChars;
                 }
             }
-            return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation);
+            return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, includedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) {
             // TODO add examples for composed schema models without discriminators
 
@@ -1590,7 +1599,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     CodegenProperty cp = new CodegenProperty();
                     cp.setName(disc.getPropertyName());
                     cp.setExample(discPropNameValue);
-                    return exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation);
+                    return exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, includedSchemas);
                 } else {
                     return fullPrefix + closeChars;
                 }
@@ -1603,7 +1612,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return example;
     }
 
-    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation) {
+    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, List<Schema> includedSchemas) {
         Map<String, Schema> requiredAndOptionalProps = schema.getProperties();
         if (requiredAndOptionalProps == null || requiredAndOptionalProps.isEmpty()) {
             return fullPrefix + closeChars;
@@ -1623,7 +1632,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 propModelName = getModelName(propSchema);
                 propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
             }
-            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1) + ",\n";
+            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1, includedSchemas) + ",\n";
         }
         // TODO handle additionalProperties also
         example += closingIndentation + closeChars;

@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -43,6 +44,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     protected String packageName = "openapi_client";
     protected String packageVersion = "1.0.0";
     protected String projectName; // for setup.py, e.g. petstore-api
+    protected Set<Schema> visitedSchemas = new HashSet<>();
 
     public AbstractPythonCodegen() {
         super();
@@ -292,7 +294,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return toExampleValueRecursive(schema, new ArrayList<>(), 5);
     }
 
-    private String toExampleValueRecursive(Schema schema, List<String> includedSchemas, int indentation) {
+    private String toExampleValueRecursive(Schema schema, List<Schema> includedSchemas, int indentation) {
+        if (includedSchemas.stream().filter(s->schema.equals(s)).count() > 1) {
+            return "";
+        }
         String indentationString = "";
         for (int i = 0; i < indentation; i++) indentationString += "    ";
         String example = null;
@@ -347,7 +352,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         refSchema.setTitle(ref);
                     }
                     if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
-                        includedSchemas.add(schema.getTitle());
+                        includedSchemas.add(schema);
                     }
                     return toExampleValueRecursive(refSchema, includedSchemas, indentation);
                 }
@@ -412,13 +417,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             example = "True";
         } else if (ModelUtils.isArraySchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
-                includedSchemas.add(schema.getTitle());
+                includedSchemas.add(schema);
             }
             ArraySchema arrayschema = (ArraySchema) schema;
             example = "[\n" + indentationString + toExampleValueRecursive(arrayschema.getItems(), includedSchemas, indentation + 1) + "\n" + indentationString + "]";
         } else if (ModelUtils.isMapSchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
-                includedSchemas.add(schema.getTitle());
+                includedSchemas.add(schema);
             }
             Object additionalObject = schema.getAdditionalProperties();
             if (additionalObject instanceof Schema) {
@@ -464,13 +469,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 if (toExclude != null && reqs.contains(toExclude)) {
                     reqs.remove(toExclude);
                 }
-                for (String toRemove : includedSchemas) {
+                for (String toRemove : includedSchemas.stream().map(Schema::getTitle).collect(Collectors.toList())) {
                     if (reqs.contains(toRemove)) {
                         reqs.remove(toRemove);
                     }
                 }
                 if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
-                    includedSchemas.add(schema.getTitle());
+                    includedSchemas.add(schema);
                 }
                 if (null != schema.getRequired()) for (Object toAdd : schema.getRequired()) {
                     reqs.add((String) toAdd);
