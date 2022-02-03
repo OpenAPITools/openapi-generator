@@ -266,7 +266,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         snapShotVersionOptions.put("false", "Use a Release Version");
         snapShotVersion.setEnum(snapShotVersionOptions);
         cliOptions.add(snapShotVersion);
-        cliOptions.add(CliOption.newString(TEST_OUTPUT, "Set output folder for models and APIs tests").defaultValue(DEFAULT_TEST_FOLDER));
+        cliOptions.add(CliOption.newString(TEST_OUTPUT, "Set output folder for models and APIs tests"));
 
         if (null != defaultDocumentationProvider()) {
             CliOption documentationProviderCliOption = new CliOption(DOCUMENTATION_PROVIDER,

@@ -42,6 +42,7 @@ import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 import io.swagger.v3.parser.util.ClasspathHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -98,6 +99,13 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "output", property = "openapi.generator.maven.plugin.output",
             defaultValue = "${project.build.directory}/generated-sources/openapi")
     private File output;
+
+    /**
+     * Location of the output directory.
+     */
+    @Parameter(name = "testOutput", property = "openapi.generator.maven.plugin.testOutput",
+            defaultValue = "${project.build.directory}/generated-test-sources/openapi")
+    private File testOutput;
 
     /**
      * Location of the OpenAPI spec, as URL or file.
@@ -437,6 +445,9 @@ public class CodeGenMojo extends AbstractMojo {
         this.buildContext = buildContext;
     }
 
+    @Parameter(defaultValue = "${session}")
+    private MavenSession session;
+
     @Override
     public void execute() throws MojoExecutionException {
         File inputSpecFile = new File(inputSpec);
@@ -551,6 +562,11 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             configurator.setOutputDir(output.getAbsolutePath());
+            if (isTestOutputDistinct()) {
+                configurator.addAdditionalProperty("testOutput", testOutput.getAbsolutePath());
+            } else {
+                configurator.addAdditionalProperty("testOutput", output.getAbsolutePath());
+            }
 
             if (isNotEmpty(auth)) {
                 configurator.setAuth(auth);
@@ -905,5 +921,18 @@ public class CodeGenMojo extends AbstractMojo {
                 configAdditionalProperties.put(key, Boolean.FALSE);
             }
         }
+    }
+
+    private boolean isTestOutputDistinct() {
+        String v = session.getCurrentProject().getBuild().getDirectory();
+
+        File defaultOutput = new File(v,"/generated-sources/openapi");
+        File defaultTestOutput = new File(v,"/generated-test-sources/openapi");
+
+        if (defaultOutput.getAbsolutePath().equals(output.getAbsolutePath()) ||
+            !defaultTestOutput.getAbsolutePath().equals(testOutput.getAbsolutePath())) {
+            return true;
+        }
+        return false;
     }
 }
