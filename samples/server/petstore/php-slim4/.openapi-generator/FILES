@@ -2,11 +2,14 @@
 README.md
 composer.json
 config/.htaccess
-config/dev/example.inc.php
-config/prod/example.inc.php
+config/dev/default.inc.php
+config/prod/default.inc.php
 lib/Api/AbstractPetApi.php
 lib/Api/AbstractStoreApi.php
 lib/Api/AbstractUserApi.php
+lib/App/RegisterDependencies.php
+lib/App/RegisterMiddlewares.php
+lib/App/RegisterRoutes.php
 lib/Auth/AbstractAuthenticator.php
 lib/BaseModel.php
 lib/Model/ApiResponse.php
@@ -15,7 +18,6 @@ lib/Model/Order.php
 lib/Model/Pet.php
 lib/Model/Tag.php
 lib/Model/User.php
-lib/SlimRouter.php
 phpcs.xml.dist
 phpunit.xml.dist
 public/.htaccess

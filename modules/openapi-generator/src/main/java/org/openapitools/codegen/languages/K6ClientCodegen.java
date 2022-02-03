@@ -46,16 +46,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -1041,7 +1032,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             Map<?, ?> respExtensions = (Map<?, ?>) resp.getExtensions().get(X_OPERATION_RESPONSE);
             Entry<?, ?> entry = respExtensions.entrySet().stream().findFirst().orElse(null);
 
-            if (entry.getKey().equals(X_OPERATION_RESPONSE_HIDE)) {
+            if (entry != null && entry.getKey().equals(X_OPERATION_RESPONSE_HIDE)) {
                 return Boolean.parseBoolean(String.valueOf(entry.getValue()));
             }
         }
@@ -1155,4 +1146,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.K_SIX; }
 }

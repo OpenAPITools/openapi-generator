@@ -3,5 +3,6 @@ outputDir: samples/server/petstore/spring-mvc-default-value
 inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_8535.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  documentationProvider: springfox
   hideGenerationTimestamp: "true"
   artifactId: spring-mvc-default-value

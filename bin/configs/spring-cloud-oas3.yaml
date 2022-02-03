@@ -1,0 +1,12 @@
+generatorName: spring
+library: spring-cloud
+outputDir: samples/openapi3/client/petstore/spring-cloud
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  groupId: org.openapitools.openapi3
+  documentationProvider: springdoc
+  artifactId: spring-cloud-oas3
+  interfaceOnly: "true"
+  singleContentTypes: "true"
+  hideGenerationTimestamp: "true"

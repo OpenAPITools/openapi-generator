@@ -1,0 +1,46 @@
+{{#if composedSchemas}}
+{{> model_templates/schema_composed_or_anytype }}
+{{/if}}
+{{#unless composedSchemas}}
+    {{#if getHasMultipleTypes}}
+{{> model_templates/schema_composed_or_anytype }}
+    {{else}}
+        {{#or isMap isArray isAnyType}}
+            {{#if isMap}}
+                {{#or hasVars hasValidation hasRequiredVars getHasDiscriminatorWithNonEmptyMapping}}
+{{> model_templates/schema_dict }}
+                {{else}}
+                    {{#if additionalPropertiesIsAnyType}}
+{{> model_templates/var_equals_cls }}
+                    {{else}}
+{{> model_templates/schema_dict }}
+                    {{/if}}
+                {{/or}}
+            {{/if}}
+            {{#if isArray}}
+                {{#or hasItems hasValidation}}
+{{> model_templates/schema_list }}
+                {{else}}
+{{> model_templates/var_equals_cls }}
+                {{/or}}
+            {{/if}}
+            {{#if isAnyType}}
+                {{#or isEnum hasVars hasValidation hasRequiredVars getHasDiscriminatorWithNonEmptyMapping items}}
+{{> model_templates/schema_composed_or_anytype }}
+                {{else}}
+{{> model_templates/var_equals_cls }}
+                {{/or}}
+            {{/if}}
+        {{else}}
+            {{#or isEnum hasValidation}}
+{{> model_templates/schema_simple }}
+            {{else}}
+{{> model_templates/var_equals_cls }}
+            {{/or}}
+        {{/or}}
+        {{#if nameInSnakeCase}}
+locals()['{{baseName}}'] = {{name}}
+del locals()['{{name}}']
+        {{/if}}
+    {{/if}}
+{{/unless}}

@@ -421,12 +421,12 @@ public class PetApi {
      * <p><b>200</b> - successful operation
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param _file file to upload (optional)
      * @return ModelApiResponse
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws RestClientException {
-        return uploadFileWithHttpInfo(petId, additionalMetadata, file).getBody();
+    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File _file) throws RestClientException {
+        return uploadFileWithHttpInfo(petId, additionalMetadata, _file).getBody();
     }
 
     /**
@@ -435,11 +435,11 @@ public class PetApi {
      * <p><b>200</b> - successful operation
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param _file file to upload (optional)
      * @return ResponseEntity&lt;ModelApiResponse&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws RestClientException {
+    public ResponseEntity<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws RestClientException {
         Object postBody = null;
         
         // verify the required parameter 'petId' is set
@@ -458,8 +458,8 @@ public class PetApi {
 
         if (additionalMetadata != null)
             formParams.add("additionalMetadata", additionalMetadata);
-        if (file != null)
-            formParams.add("file", new FileSystemResource(file));
+        if (_file != null)
+            formParams.add("file", new FileSystemResource(_file));
 
         final String[] localVarAccepts = { 
             "application/json"

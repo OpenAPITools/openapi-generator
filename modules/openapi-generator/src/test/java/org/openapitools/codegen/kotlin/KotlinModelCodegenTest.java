@@ -9,7 +9,6 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinClientCodegen;
 import org.openapitools.codegen.languages.KotlinServerCodegen;
-import org.openapitools.codegen.languages.KotlinServerDeprecatedCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.openapitools.codegen.languages.KotlinVertxServerCodegen;
 import org.testng.annotations.DataProvider;
@@ -29,7 +28,6 @@ public class KotlinModelCodegenTest {
         return new Object[][]{
                 {new KotlinClientCodegen()},
                 {new KotlinServerCodegen()},
-                {new KotlinServerDeprecatedCodegen()},
                 {new KotlinSpringServerCodegen()},
                 {new KotlinVertxServerCodegen()},
         };
@@ -90,7 +88,7 @@ public class KotlinModelCodegenTest {
         String outputPath = generateModels(codegen, "src/test/resources/3_0/issue_9848.yaml", false);
 
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/NonUniqueArray.kt"),
-                codegen instanceof KotlinVertxServerCodegen || codegen instanceof KotlinServerDeprecatedCodegen
+                codegen instanceof KotlinVertxServerCodegen
                         ? "val array: kotlin.Array<kotlin.String>"
                         : "val array: kotlin.collections.List<kotlin.String>"
         );
@@ -104,12 +102,12 @@ public class KotlinModelCodegenTest {
         String outputPath = generateModels(codegen, "src/test/resources/3_0/issue_9848.yaml", true);
 
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/NonUniqueArray.kt"),
-                codegen instanceof KotlinVertxServerCodegen || codegen instanceof KotlinServerDeprecatedCodegen
+                codegen instanceof KotlinVertxServerCodegen
                         ? "var array: kotlin.Array<kotlin.String>"
-                        : "var array: kotlin.collections.List<kotlin.String>"
+                        : "var array: kotlin.collections.MutableList<kotlin.String>"
         );
 
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/UniqueArray.kt"),
-                "var array: kotlin.collections.Set<kotlin.String>");
+                "var array: kotlin.collections.MutableSet<kotlin.String>");
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-internal struct MapTest: Codable, Hashable {
+internal struct MapTest: Codable, JSONEncodable, Hashable {
 
     internal enum MapOfEnumString: String, Codable, CaseIterable {
         case upper = "UPPER"

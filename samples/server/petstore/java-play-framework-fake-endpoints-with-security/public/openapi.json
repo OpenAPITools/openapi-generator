@@ -1,0 +1,377 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "description" : "This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.",
+    "license" : {
+      "name" : "Apache-2.0",
+      "url" : "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "title" : "OpenAPI Petstore",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "http://petstore.swagger.io/v2"
+  } ],
+  "tags" : [ {
+    "description" : "Everything about your Pets",
+    "name" : "pet"
+  }, {
+    "description" : "Access to Petstore orders",
+    "name" : "store"
+  }, {
+    "description" : "Operations about user",
+    "name" : "user"
+  } ],
+  "paths" : {
+    "/pet" : {
+      "post" : {
+        "operationId" : "addPet",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Pet"
+              }
+            },
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Pet"
+              }
+            }
+          },
+          "description" : "Pet object that needs to be added to the store",
+          "required" : true
+        },
+        "responses" : {
+          "405" : {
+            "content" : { },
+            "description" : "Invalid input"
+          }
+        },
+        "security" : [ {
+          "petstore_token" : [ "base" ]
+        } ],
+        "summary" : "Add a new pet to the store",
+        "tags" : [ "pet" ],
+        "x-codegen-request-body-name" : "body",
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      },
+      "put" : {
+        "operationId" : "updatePet",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Pet"
+              }
+            },
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Pet"
+              }
+            }
+          },
+          "description" : "Pet object that needs to be added to the store",
+          "required" : true
+        },
+        "responses" : {
+          "400" : {
+            "content" : { },
+            "description" : "Invalid ID supplied"
+          },
+          "404" : {
+            "content" : { },
+            "description" : "Pet not found"
+          },
+          "405" : {
+            "content" : { },
+            "description" : "Validation exception"
+          }
+        },
+        "security" : [ {
+          "petstore_auth" : [ "write:pets", "read:pets" ]
+        } ],
+        "summary" : "Update an existing pet",
+        "tags" : [ "pet" ],
+        "x-codegen-request-body-name" : "body",
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/pet/findByStatus" : {
+      "get" : {
+        "description" : "Multiple status values can be provided with comma separated strings",
+        "operationId" : "findPetsByStatus",
+        "parameters" : [ {
+          "description" : "Status values that need to be considered for filter",
+          "explode" : false,
+          "in" : "query",
+          "name" : "status",
+          "required" : true,
+          "schema" : {
+            "items" : {
+              "default" : "available",
+              "enum" : [ "available", "pending", "sold" ],
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/xml" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/Pet"
+                  },
+                  "type" : "array"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/Pet"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "successful operation"
+          },
+          "400" : {
+            "content" : { },
+            "description" : "Invalid status value"
+          }
+        },
+        "summary" : "Finds Pets by status",
+        "tags" : [ "pet" ],
+        "x-accepts" : "application/json"
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Order" : {
+        "description" : "An order for a pets from the pet store",
+        "properties" : {
+          "id" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "petId" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "quantity" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "shipDate" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "status" : {
+            "description" : "Order Status",
+            "enum" : [ "placed", "approved", "delivered" ],
+            "type" : "string"
+          },
+          "complete" : {
+            "default" : false,
+            "type" : "boolean"
+          }
+        },
+        "title" : "Pet Order",
+        "type" : "object",
+        "xml" : {
+          "name" : "Order"
+        }
+      },
+      "Category" : {
+        "description" : "A category for a pet",
+        "example" : {
+          "name" : "name",
+          "id" : 6
+        },
+        "properties" : {
+          "id" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        },
+        "title" : "Pet category",
+        "type" : "object",
+        "xml" : {
+          "name" : "Category"
+        }
+      },
+      "User" : {
+        "description" : "A User who is purchasing from the pet store",
+        "properties" : {
+          "id" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "username" : {
+            "type" : "string"
+          },
+          "firstName" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "userStatus" : {
+            "description" : "User Status",
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "title" : "a User",
+        "type" : "object",
+        "xml" : {
+          "name" : "User"
+        }
+      },
+      "Tag" : {
+        "description" : "A tag for a pet",
+        "example" : {
+          "name" : "name",
+          "id" : 1
+        },
+        "properties" : {
+          "id" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        },
+        "title" : "Pet Tag",
+        "type" : "object",
+        "xml" : {
+          "name" : "Tag"
+        }
+      },
+      "Pet" : {
+        "description" : "A pet for sale in the pet store",
+        "example" : {
+          "photoUrls" : [ "photoUrls", "photoUrls" ],
+          "name" : "doggie",
+          "id" : 0,
+          "category" : {
+            "name" : "name",
+            "id" : 6
+          },
+          "tags" : [ {
+            "name" : "name",
+            "id" : 1
+          }, {
+            "name" : "name",
+            "id" : 1
+          } ],
+          "status" : "available"
+        },
+        "properties" : {
+          "id" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "category" : {
+            "$ref" : "#/components/schemas/Category"
+          },
+          "name" : {
+            "example" : "doggie",
+            "type" : "string"
+          },
+          "photoUrls" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array",
+            "xml" : {
+              "name" : "photoUrl",
+              "wrapped" : true
+            }
+          },
+          "tags" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Tag"
+            },
+            "type" : "array",
+            "xml" : {
+              "name" : "tag",
+              "wrapped" : true
+            }
+          },
+          "status" : {
+            "description" : "pet status in the store",
+            "enum" : [ "available", "pending", "sold" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "name", "photoUrls" ],
+        "title" : "a Pet",
+        "type" : "object",
+        "xml" : {
+          "name" : "Pet"
+        }
+      },
+      "ApiResponse" : {
+        "description" : "Describes the result of uploading an image resource",
+        "properties" : {
+          "code" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        },
+        "title" : "An uploaded response",
+        "type" : "object"
+      }
+    },
+    "securitySchemes" : {
+      "petstore_token" : {
+        "description" : "security definition for using keycloak authentification with control site.",
+        "flows" : {
+          "authorizationCode" : {
+            "authorizationUrl" : "https://keycloak-dev.business.stingray.com/auth/realms/CSLocal/protocol/openid-connect/auth",
+            "scopes" : {
+              "base" : "not sure if we will be using scopes, at least in the beginning, but since we need to specify one...."
+            },
+            "tokenUrl" : "https://keycloak-dev.business.stingray.com/auth/realms/CSLocal/protocol/openid-connect/token"
+          }
+        },
+        "type" : "oauth2",
+        "x-jwksUrl" : "https://keycloak-dev.business.stingray.com/auth/realms/CSLocal/protocol/openid-connect/certs",
+        "x-tokenIntrospectUrl" : "https://keycloak-dev.business.stingray.com/auth/realms/CSLocal/protocol/openid-connect/token/introspect"
+      },
+      "api_key" : {
+        "in" : "header",
+        "name" : "api_key",
+        "type" : "apiKey"
+      }
+    }
+  },
+  "x-original-swagger-version" : "2.0"
+}

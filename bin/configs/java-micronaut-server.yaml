@@ -1,0 +1,10 @@
+generatorName: java-micronaut-server
+outputDir: samples/server/petstore/java-micronaut-server/
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+additionalProperties:
+  artifactId: petstore-micronaut-server
+  hideGenerationTimestamp: "true"
+  build: "all"
+  test: "spock"
+  requiredPropertiesInConstructor: "true"
+  useAuth: "false"
