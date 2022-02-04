@@ -1328,12 +1328,12 @@ class Schema:
     @classmethod
     def _get_new_instance_without_conversion(cls, arg, _instantiation_metadata):
         # PATH 2 - we have a Dynamic class and we are making an instance of it
-        if issubclass(cls, tuple):
-            items = cls._get_items(arg, _instantiation_metadata=_instantiation_metadata)
-            return super(Schema, cls).__new__(cls, items)
-        elif issubclass(cls, frozendict):
+        if issubclass(cls, frozendict):
             properties = cls._get_properties(arg, _instantiation_metadata=_instantiation_metadata)
             return super(Schema, cls).__new__(cls, properties)
+        elif issubclass(cls, tuple):
+            items = cls._get_items(arg, _instantiation_metadata=_instantiation_metadata)
+            return super(Schema, cls).__new__(cls, items)
         """
         str = openapi str, date, and datetime
         decimal.Decimal = openapi int and float
