@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -82,7 +82,7 @@ class ApiResponse(
         code: typing.Union[code, Unset] = unset,
         type: typing.Union[type, Unset] = unset,
         message: typing.Union[message, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'ApiResponse':
         return super().__new__(
@@ -91,6 +91,6 @@ class ApiResponse(
             code=code,
             type=type,
             message=message,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )
