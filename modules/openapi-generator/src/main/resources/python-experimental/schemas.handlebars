@@ -58,8 +58,12 @@ def update(d: dict, u: dict):
     Adds u to d
     Where each dict is defaultdict(set)
     """
+    if not u:
+        return d
     for k, v in u.items():
-        d[k] = d[k].union(v)
+        if not v:
+            continue
+        d[k] = d[k] | v
     return d
 
 
