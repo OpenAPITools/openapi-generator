@@ -1620,7 +1620,7 @@
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <swagger-core.version>2.1.12</swagger-core.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
-        <swagger-parser.version>2.0.26</swagger-parser.version>
+        <swagger-parser.version>2.0.29</swagger-parser.version>
         <testng.version>7.3.0</testng.version>
         <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
         <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>
