@@ -210,7 +210,6 @@ class ValidatorBase:
         if (cls.__is_json_validation_enabled('uniqueItems', _instantiation_metadata.configuration) and
                 'unique_items' in validations and validations['unique_items'] and input_values):
             unique_items = []
-            # print(validations)
             for item in input_values:
                 if item not in unique_items:
                     unique_items.append(item)
@@ -1063,11 +1062,9 @@ class DictBase(Discriminable):
                 return self[name]
             except KeyError as ex:
                 raise AttributeError(str(ex))
-        # print(('non-frozendict __getattr__', name))
         return super().__getattr__(self, name)
 
     def __getattribute__(self, name):
-        # print(('__getattribute__', name))
         # if an attribute does exist (for example as a class property but not as an instance method)
         try:
             return self[name]
@@ -1268,9 +1265,6 @@ class Schema:
         _instantiation_metadata.path_to_schemas and
         _instantiation_metadata.path_to_item in _instantiation_metadata.path_to_schemas):
             chosen_new_cls = _instantiation_metadata.path_to_schemas[_instantiation_metadata.path_to_item]
-            # print('leaving __get_new_cls early for cls {} because path_to_schemas exists'.format(cls))
-            # print(_instantiation_metadata.path_to_item)
-            # print(chosen_new_cls)
             return chosen_new_cls
         """
         Dict property + List Item Assignment Use cases:
@@ -1286,8 +1280,6 @@ class Schema:
             because value is of the correct type, and validation was run earlier when the instance was created
         """
         _path_to_schemas = cls._validate(arg, _instantiation_metadata=_instantiation_metadata)
-        from pprint import pprint
-        pprint(dict(_path_to_schemas))
         # loop through it make a new class for each entry
         for path, schema_classes in _path_to_schemas.items():
             enum_schema = any(
@@ -1318,7 +1310,6 @@ class Schema:
                 continue
 
             # Use case: value is None, True, False, or an enum value
-            # print('choosing enum class for path {} in arg {}'.format(path, arg))
             value = arg
             for key in path[1:]:
                 value = value[key]
