@@ -778,9 +778,8 @@ class ListBase:
         cls_item_cls = getattr(cls, '_items', AnyTypeSchema)
         for i, value in enumerate(list_items):
             item_path_to_item = _instantiation_metadata.path_to_item+(i,)
-            if item_path_to_item in _instantiation_metadata.path_to_schemas:
-                item_cls = _instantiation_metadata.path_to_schemas[item_path_to_item]
-            else:
+            item_cls = _instantiation_metadata.path_to_schemas.get(item_path_to_item)
+            if item_cls is None:
                 item_cls = cls_item_cls
 
             if isinstance(value, item_cls):
@@ -933,7 +932,6 @@ class DictBase(Discriminable):
             )
             other_path_to_schemas = schema._validate(value, _instantiation_metadata=arg_instantiation_metadata)
             update(path_to_schemas, other_path_to_schemas)
-            _instantiation_metadata.path_to_schemas.update(arg_instantiation_metadata.path_to_schemas)
         return path_to_schemas
 
     @classmethod
