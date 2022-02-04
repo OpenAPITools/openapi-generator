@@ -782,17 +782,15 @@ class ListBase:
             if isinstance(value, item_cls):
                 cast_items.append(value)
                 continue
+
             item_instantiation_metadata = InstantiationMetadata(
                 configuration=_instantiation_metadata.configuration,
                 from_server=_instantiation_metadata.from_server,
                 path_to_item=item_path_to_item,
                 path_to_schemas=_instantiation_metadata.path_to_schemas,
             )
-
-            if _instantiation_metadata.from_server:
-                new_value = item_cls._from_openapi_data(value, _instantiation_metadata=item_instantiation_metadata)
-            else:
-                new_value = item_cls(value, _instantiation_metadata=item_instantiation_metadata)
+            new_value = item_cls._get_new_instance_without_conversion(
+                value, _instantiation_metadata=item_instantiation_metadata)
             cast_items.append(new_value)
 
         return cast_items
@@ -1044,10 +1042,8 @@ class DictBase(Discriminable):
                 path_to_item=property_path_to_item,
                 path_to_schemas=_instantiation_metadata.path_to_schemas,
             )
-            if _instantiation_metadata.from_server:
-                new_value = property_cls._from_openapi_data(value, _instantiation_metadata=prop_instantiation_metadata)
-            else:
-                new_value = property_cls(value, _instantiation_metadata=prop_instantiation_metadata)
+            new_value = property_cls._get_new_instance_without_conversion(
+                value, _instantiation_metadata=prop_instantiation_metadata)
             dict_items[property_name_js] = new_value
         return dict_items
 
@@ -1326,7 +1322,7 @@ class Schema:
         return _instantiation_metadata.path_to_schemas[_instantiation_metadata.path_to_item]
 
     @classmethod
-    def __get_new_instance_without_conversion(cls, arg, _instantiation_metadata):
+    def _get_new_instance_without_conversion(cls, arg, _instantiation_metadata):
         # PATH 2 - we have a Dynamic class and we are making an instance of it
         if issubclass(cls, tuple):
             items = cls._get_items(arg, _instantiation_metadata=_instantiation_metadata)
@@ -1372,7 +1368,7 @@ class Schema:
                 'from_server must be True in this code path, if you need it to be False, use cls()'
             )
         new_cls = cls.__get_new_cls(arg, _instantiation_metadata)
-        new_inst = new_cls.__get_new_instance_without_conversion(arg, _instantiation_metadata)
+        new_inst = new_cls._get_new_instance_without_conversion(arg, _instantiation_metadata)
         return new_inst
 
     @staticmethod
@@ -1413,7 +1409,7 @@ class Schema:
             )
         arg = cast_to_allowed_types(arg, from_server=_instantiation_metadata.from_server)
         new_cls = cls.__get_new_cls(arg, _instantiation_metadata)
-        return new_cls.__get_new_instance_without_conversion(arg, _instantiation_metadata)
+        return new_cls._get_new_instance_without_conversion(arg, _instantiation_metadata)
 
     def __init__(
         self,
