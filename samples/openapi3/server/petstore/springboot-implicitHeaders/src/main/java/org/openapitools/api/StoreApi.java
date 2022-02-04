@@ -81,7 +81,7 @@ public interface StoreApi {
         summary = "Returns pet inventories by status",
         tags = { "store" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Map.class)))
+            @ApiResponse(responseCode = "200", description = "successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation =  Map.class)) } )
         },
         security = {
             @SecurityRequirement(name = "api_key")
@@ -116,7 +116,7 @@ public interface StoreApi {
         summary = "Find purchase order by ID",
         tags = { "store" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Order.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = { @Content(mediaType = "application/xml", schema = @Schema(implementation =  Order.class)),@Content(mediaType = "application/json", schema = @Schema(implementation =  Order.class)) } ),
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "Order not found")
         }
@@ -162,7 +162,7 @@ public interface StoreApi {
         summary = "Place an order for a pet",
         tags = { "store" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Order.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = { @Content(mediaType = "application/xml", schema = @Schema(implementation =  Order.class)),@Content(mediaType = "application/json", schema = @Schema(implementation =  Order.class)) } ),
             @ApiResponse(responseCode = "400", description = "Invalid Order")
         }
     )

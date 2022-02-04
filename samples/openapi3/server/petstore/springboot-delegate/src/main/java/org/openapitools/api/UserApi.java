@@ -153,7 +153,7 @@ public interface UserApi {
         summary = "Get user by user name",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  User.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = { @Content(mediaType = "application/xml", schema = @Schema(implementation =  User.class)),@Content(mediaType = "application/json", schema = @Schema(implementation =  User.class)) } ),
             @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
             @ApiResponse(responseCode = "404", description = "User not found")
         }
@@ -183,7 +183,7 @@ public interface UserApi {
         summary = "Logs user into the system",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  String.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = { @Content(mediaType = "application/xml", schema = @Schema(implementation =  String.class)),@Content(mediaType = "application/json", schema = @Schema(implementation =  String.class)) } ),
             @ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
         }
     )

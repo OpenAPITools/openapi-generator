@@ -82,7 +82,7 @@ public interface FakeApi {
         operationId = "fakeOuterBooleanSerialize",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Output boolean", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Boolean.class)))
+            @ApiResponse(responseCode = "200", description = "Output boolean", content = { @Content(mediaType = "*/*", schema = @Schema(implementation =  Boolean.class)) } )
         }
     )
     @RequestMapping(
@@ -108,7 +108,7 @@ public interface FakeApi {
         operationId = "fakeOuterCompositeSerialize",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Output composite", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  OuterComposite.class)))
+            @ApiResponse(responseCode = "200", description = "Output composite", content = { @Content(mediaType = "*/*", schema = @Schema(implementation =  OuterComposite.class)) } )
         }
     )
     @RequestMapping(
@@ -134,7 +134,7 @@ public interface FakeApi {
         operationId = "fakeOuterNumberSerialize",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Output number", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  BigDecimal.class)))
+            @ApiResponse(responseCode = "200", description = "Output number", content = { @Content(mediaType = "*/*", schema = @Schema(implementation =  BigDecimal.class)) } )
         }
     )
     @RequestMapping(
@@ -160,7 +160,7 @@ public interface FakeApi {
         operationId = "fakeOuterStringSerialize",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Output string", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  String.class)))
+            @ApiResponse(responseCode = "200", description = "Output string", content = { @Content(mediaType = "*/*", schema = @Schema(implementation =  String.class)) } )
         }
     )
     @RequestMapping(
@@ -240,7 +240,7 @@ public interface FakeApi {
         summary = "To test \"client\" model",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Client.class)))
+            @ApiResponse(responseCode = "200", description = "successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation =  Client.class)) } )
         }
     )
     @RequestMapping(
@@ -493,7 +493,7 @@ public interface FakeApi {
         summary = "uploads an image (required)",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  ModelApiResponse.class)))
+            @ApiResponse(responseCode = "200", description = "successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation =  ModelApiResponse.class)) } )
         },
         security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })

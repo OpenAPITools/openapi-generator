@@ -50,7 +50,7 @@ public interface AnotherFakeApi {
         summary = "To test special tags",
         tags = { "$another-fake?" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Client.class)))
+            @ApiResponse(responseCode = "200", description = "successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation =  Client.class)) } )
         }
     )
     @Parameters({
