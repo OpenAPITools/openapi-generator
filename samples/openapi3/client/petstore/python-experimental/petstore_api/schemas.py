@@ -1446,16 +1446,16 @@ def cast_to_allowed_types(arg: typing.Union[str, date, datetime, decimal.Decimal
     int, float -> Decimal
     StrSchema will convert that to bytes and remember the encoding when we pass in str input
     """
-def cast_to_allowed_types(arg: typing.Union[str, date, datetime, decimal.Decimal, int, float, None, dict, frozendict, list, tuple, bytes, Schema], from_server=False) -> typing.Union[str, bytes, decimal.Decimal, None, frozendict, tuple, Schema]:
-    """
-    from_server=False date, datetime -> str
-    int, float -> Decimal
-    StrSchema will convert that to bytes and remember the encoding when we pass in str input
-    """
     if isinstance(arg, str):
         return arg
     elif type(arg) is dict or type(arg) is frozendict:
         return frozendict({key: cast_to_allowed_types(val) for key, val in arg.items()})
+    elif isinstance(arg, bool):
+        """
+        this check must come before isinstance(arg, (int, float))
+        because isinstance(True, int) is True
+        """
+        return arg
     elif isinstance(arg, float):
         decimal_from_float = decimal.Decimal(arg)
         if decimal_from_float.as_integer_ratio()[1] == 1:
@@ -1467,12 +1467,6 @@ def cast_to_allowed_types(arg: typing.Union[str, date, datetime, decimal.Decimal
         return tuple([cast_to_allowed_types(item) for item in arg])
     elif isinstance(arg, int):
         return decimal.Decimal(arg)
-    elif isinstance(arg, bool):
-        """
-        this check must come before isinstance(arg, (int, float))
-        because isinstance(True, int) is True
-        """
-        return arg
     elif arg is None:
         return arg
     elif isinstance(arg, (date, datetime)):
