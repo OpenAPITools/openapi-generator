@@ -1779,30 +1779,49 @@ class IntSchema(IntBase, NumberSchema):
         return super().__new__(cls, arg, **kwargs)
 
 
-class Int32Schema(
+class Int32Base(
     _SchemaValidator(
         inclusive_minimum=decimal.Decimal(-2147483648),
         inclusive_maximum=decimal.Decimal(2147483647)
     ),
+):
+    pass
+
+
+class Int32Schema(
+    Int32Base,
     IntSchema
 ):
     pass
 
-class Int64Schema(
+
+class Int64Base(
     _SchemaValidator(
         inclusive_minimum=decimal.Decimal(-9223372036854775808),
         inclusive_maximum=decimal.Decimal(9223372036854775807)
     ),
+):
+    pass
+
+
+class Int64Schema(
+    Int64Base,
     IntSchema
+):
+    pass
+
+
+class Float32Base(
+    _SchemaValidator(
+        inclusive_minimum=decimal.Decimal(-3.4028234663852886e+38),
+        inclusive_maximum=decimal.Decimal(3.4028234663852886e+38)
+    ),
 ):
     pass
 
 
 class Float32Schema(
-    _SchemaValidator(
-        inclusive_minimum=decimal.Decimal(-3.4028234663852886e+38),
-        inclusive_maximum=decimal.Decimal(3.4028234663852886e+38)
-    ),
+    Float32Base,
     NumberSchema
 ):
 
@@ -1812,11 +1831,17 @@ class Float32Schema(
         return super()._from_openapi_data(arg, _instantiation_metadata=_instantiation_metadata)
 
 
-class Float64Schema(
+class Float64Base(
     _SchemaValidator(
         inclusive_minimum=decimal.Decimal(-1.7976931348623157E+308),
         inclusive_maximum=decimal.Decimal(1.7976931348623157E+308)
     ),
+):
+    pass
+
+
+class Float64Schema(
+    Float64Base,
     NumberSchema
 ):
 
