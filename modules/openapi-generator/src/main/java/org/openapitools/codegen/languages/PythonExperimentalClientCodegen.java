@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
+import org.apache.commons.lang3.tuple.Triple;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
 import org.openapitools.codegen.templating.*;
@@ -1378,6 +1379,34 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return null;
     }
 
+    private class ContextAwareSchemaNode extends Triple<Schema, String, Schema> {
+
+        Schema from;
+        Schema to;
+        String path;
+
+        public ContextAwareSchemaNode(Schema from, String path, Schema to) {
+            this.from = from;
+            this.path = path;
+            this.to = to;
+        }
+
+        @Override
+        public io.swagger.v3.oas.models.media.Schema getLeft() {
+            return from;
+        }
+
+        @Override
+        public java.lang.String getMiddle() {
+            return path;
+        }
+
+        @Override
+        public io.swagger.v3.oas.models.media.Schema getRight() {
+            return to;
+        }
+    }
+
     /***
      * Recursively generates string examples for schemas
      *
@@ -1398,16 +1427,15 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      *                    ModelName( line 0
      *                        some_property='some_property_example' line 1
      *                    ) line 2
-     * @param includedSchemas are a list of schemas that we have moved through to get here. If the new schemas that we
-     *                        are looking at is in includedSchemas then we have hit a cycle.
+     * @param includedSchemas are a list of `ContextAwareSchemaNode`s that we have moved through to get here. If the
+     *                        last added `ContextAwareSchemaNode` is already in the list, then we are in a cycle, and
+     *                        all the schema type cases terminate their expression.
      * @return the string example
      */
-    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, List<Schema> includedSchemas) {
-        boolean cycleFound = includedSchemas.stream().filter(s->schema.equals(s)).count() > 1;
-        if (cycleFound) {
-            return "";
-        }
-        includedSchemas.add(schema);
+    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, List<ContextAwareSchemaNode> includedSchemas) {
+        boolean couldHaveCycle = null != schema.get$ref() || ModelUtils.isArraySchema(schema) || ModelUtils.isMapSchema(schema) || ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema);
+        // If we have seen the ContextAwareSchemaNode more than once before, we must be in a cycle.
+        boolean cycleFound = couldHaveCycle && includedSchemas.stream().anyMatch(s1->includedSchemas.stream().filter(s2 -> s1.equals(s2)).count() > 1);
         final String indentionConst = "    ";
         String currentIndentation = "";
         String closingIndentation = "";
@@ -1440,6 +1468,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 return fullPrefix + "None" + closeChars;
             }
             String refModelName = getModelName(schema);
+            includedSchemas.add(new ContextAwareSchemaNode(schema, ref, refSchema));
             return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, includedSchemas);
         } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
@@ -1538,8 +1567,9 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
+            includedSchemas.add(new ContextAwareSchemaNode(schema, "[]", itemSchema));
             String itemExample = toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, includedSchemas);
-            if (StringUtils.isEmpty(itemExample)) {
+            if (StringUtils.isEmpty(itemExample) || cycleFound) {
                 return fullPrefix + "[]";
             } else {
                 return fullPrefix + "[" + "\n" + itemExample + "\n" + closingIndentation + "]" + closeChars;
@@ -1551,7 +1581,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             }
             Object addPropsObj = schema.getAdditionalProperties();
             // TODO handle true case for additionalProperties
-            if (addPropsObj instanceof Schema) {
+            if (addPropsObj instanceof Schema && !cycleFound) {
                 Schema addPropsSchema = (Schema) addPropsObj;
                 String key = "key";
                 Object addPropsExample = getObjectExample(addPropsSchema);
@@ -1564,12 +1594,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     addPropPrefix = ensureQuotes(key) + ": ";
                 }
                 String addPropsModelName = getModelName(addPropsSchema);
+                includedSchemas.add(new ContextAwareSchemaNode(schema, "*", addPropsSchema));
                 example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, includedSchemas) + ",\n" + closingIndentation + closeChars;
             } else {
                 example = fullPrefix + closeChars;
             }
             return example;
-        } else if (ModelUtils.isObjectSchema(schema)) {
+        } else if (ModelUtils.isObjectSchema(schema) && !cycleFound) {
             if (modelName == null) {
                 fullPrefix += "dict(";
                 closeChars = ")";
@@ -1588,7 +1619,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 }
             }
             return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, includedSchemas);
-        } else if (ModelUtils.isComposedSchema(schema)) {
+        } else if (ModelUtils.isComposedSchema(schema) && !cycleFound) {
             // TODO add examples for composed schema models without discriminators
 
             CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
@@ -1614,7 +1645,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return example;
     }
 
-    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, List<Schema> includedSchemas) {
+    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, List<ContextAwareSchemaNode> includedSchemas) {
         Map<String, Schema> requiredAndOptionalProps = schema.getProperties();
         if (requiredAndOptionalProps == null || requiredAndOptionalProps.isEmpty()) {
             return fullPrefix + closeChars;
@@ -1634,6 +1665,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 propModelName = getModelName(propSchema);
                 propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
             }
+            includedSchemas.add(new ContextAwareSchemaNode(schema, propName, propSchema));
             example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1, includedSchemas) + ",\n";
         }
         // TODO handle additionalProperties also

@@ -37,6 +37,7 @@ import java.util.Map;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.PythonExperimentalClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -485,6 +486,22 @@ public class PythonClientTest {
             Path p = output.toPath().resolve(f);
             TestUtils.assertFileContains(p, "no_proxy");
         }
+    }
+
+    @Test(description = "tests RecursiveExampleValueWithCycle")
+    public void testRecursiveExampleValueWithCycle() throws Exception {
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7532.yaml");
+        final PythonExperimentalClientCodegen codegen = new PythonExperimentalClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        Schema tree = openAPI.getComponents().getSchemas().get("Tree");
+        String exampleValue = codegen.toExampleValue(tree, null);
+
+        String expectedValue = Resources.toString(
+                Resources.getResource("3_0/issue_7532_tree_example_value_expected.txt"),
+                StandardCharsets.UTF_8);
+        expectedValue = expectedValue.replaceAll("\\r\\n", "\n");
+        Assert.assertEquals(exampleValue.trim(), expectedValue.trim());
     }
 
 }

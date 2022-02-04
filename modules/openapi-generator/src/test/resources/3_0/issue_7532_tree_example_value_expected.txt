@@ -1,0 +1,13 @@
+dict(
+        id=1,
+        name="name_example",
+        description="description_example",
+        children=[
+            Tree(
+                id=1,
+                name="name_example",
+                description="description_example",
+                children=[],
+            )
+        ],
+    )
