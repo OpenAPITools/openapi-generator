@@ -44,7 +44,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     protected String packageName = "openapi_client";
     protected String packageVersion = "1.0.0";
     protected String projectName; // for setup.py, e.g. petstore-api
-    protected Set<Schema> visitedSchemas = new HashSet<>();
 
     public AbstractPythonCodegen() {
         super();
@@ -295,7 +294,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     private String toExampleValueRecursive(Schema schema, List<Schema> includedSchemas, int indentation) {
-        if (includedSchemas.stream().filter(s->schema.equals(s)).count() > 1) {
+        boolean cycleFound = includedSchemas.stream().filter(s->schema.equals(s)).count() > 1;
+        if (cycleFound) {
             return "";
         }
         String indentationString = "";

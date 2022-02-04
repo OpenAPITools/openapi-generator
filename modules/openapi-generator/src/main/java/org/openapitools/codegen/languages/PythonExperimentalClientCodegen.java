@@ -1398,11 +1398,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      *                    ModelName( line 0
      *                        some_property='some_property_example' line 1
      *                    ) line 2
-     * @param includedSchemas schemas already included in this example - for cycle detection.
+     * @param includedSchemas are a list of schemas that we have moved through to get here. If the new schemas that we
+     *                        are looking at is in includedSchemas then we have hit a cycle.
      * @return the string example
      */
     private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, List<Schema> includedSchemas) {
-        if (includedSchemas.stream().filter(s->schema.equals(s)).count() > 1) {
+        boolean cycleFound = includedSchemas.stream().filter(s->schema.equals(s)).count() > 1;
+        if (cycleFound) {
             return "";
         }
         includedSchemas.add(schema);
