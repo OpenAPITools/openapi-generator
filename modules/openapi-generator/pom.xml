@@ -429,6 +429,11 @@
             <version>3.19.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-symbol-solver-core</artifactId>
+            <version>3.24.0</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>

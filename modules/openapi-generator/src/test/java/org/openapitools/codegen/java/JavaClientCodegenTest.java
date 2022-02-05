@@ -21,8 +21,10 @@ import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,16 +44,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenSecurity;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.TestUtils;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
+import com.google.common.io.Resources;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
@@ -1287,5 +1286,35 @@ public class JavaClientCodegenTest {
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java"),
                 "public static String urlEncode(String s) { return URLEncoder.encode(s, UTF_8).replaceAll(\"\\\\+\", \"%20\"); }");
+    }
+
+    @Test(description = "tests JavaModelFromAST")
+    public void testJavaModelFromAST() throws IOException {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/java_ast_client_example.yaml");
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CompilationUnit cu = new CompilationUnit();
+        for (Map.Entry<String, Schema> entry: openAPI.getComponents().getSchemas().entrySet()){
+            CodegenModel model = codegen.fromModel(entry.getKey(), entry.getValue());
+            ClassOrInterfaceDeclaration cls = cu.addClass(model.classname);
+            for( CodegenProperty cgField : model.vars) {
+                FieldDeclaration field = cls.addField(cgField.dataType, cgField.name, Modifier.Keyword.PRIVATE);
+                field.createGetter();
+                field.createSetter();
+            }
+        }
+        LexicalPreservingPrinter.setup(cu);
+        StringWriter stringWriter = new StringWriter();
+        LexicalPreservingPrinter.print(cu, stringWriter);
+
+        String expectedValue = Resources.toString(
+                Resources.getResource("3_0/issue_8052_recursive_model_expected_value.txt"),
+                StandardCharsets.UTF_8);
+        expectedValue = expectedValue.replaceAll("\\r\\n", "\n");
+
+
+        Assert.assertEquals(stringWriter.toString(), expectedValue.trim());
+
     }
 }

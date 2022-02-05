@@ -1,0 +1,58 @@
+public class Polygon {
+
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private List<Side> sides;
+
+    public List<Side> getSides() {
+        return sides;
+    }
+
+    public void setSides(List<Side> sides) {
+        this.sides = sides;
+    }
+}
+
+public class Side {
+
+    private ValueWithUnits length;
+
+    public ValueWithUnits getLength() {
+        return length;
+    }
+
+    public void setLength(ValueWithUnits length) {
+        this.length = length;
+    }
+}
+
+public class ValueWithUnits {
+
+    private String unit;
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    private BigDecimal magnitude;
+
+    public BigDecimal getMagnitude() {
+        return magnitude;
+    }
+
+    public void setMagnitude(BigDecimal magnitude) {
+        this.magnitude = magnitude;
+    }
+}

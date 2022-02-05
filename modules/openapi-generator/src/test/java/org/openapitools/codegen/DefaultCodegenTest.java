@@ -17,7 +17,12 @@
 
 package org.openapitools.codegen;
 
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
 import com.google.common.collect.Sets;
+import com.google.common.io.Resources;
 import com.samskivert.mustache.Mustache.Lambda;
 
 import io.swagger.parser.OpenAPIParser;
@@ -36,6 +41,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.templating.mustache.LowercaseLambda;
@@ -47,6 +53,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
