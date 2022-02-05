@@ -48,6 +48,10 @@ components:
           $ref: '#/components/schemas/Tree'
         forest:
           $ref: '#/components/schemas/Forest'
+        additional:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Tree'
     Forest:
       type: object
       properties:

@@ -4,25 +4,12 @@ dict(
             name="name_example",
             description="description_example",
             children=[
-                Tree(
-                    id=1,
-                    name="name_example",
-                    description="description_example",
-                    children=[],
-                    parent=Tree(
-                        id=1,
-                        name="name_example",
-                        description="description_example",
-                        children=[],
-                        parent=Tree(),
-                        forest=Forest(
-                            trees=Tree(),
-                        ),
-                    ),
-                    forest=Forest(),
-                )
+                Tree()
             ],
             parent=Tree(),
             forest=Forest(),
+            additional=dict(
+                "key": Tree(),
+            ),
         ),
     )

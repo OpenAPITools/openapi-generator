@@ -52,6 +52,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -1379,34 +1380,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return null;
     }
 
-    private class ContextAwareSchemaNode extends Triple<Schema, String, Schema> {
-
-        Schema from;
-        Schema to;
-        String path;
-
-        public ContextAwareSchemaNode(Schema from, String path, Schema to) {
-            this.from = from;
-            this.path = path;
-            this.to = to;
-        }
-
-        @Override
-        public io.swagger.v3.oas.models.media.Schema getLeft() {
-            return from;
-        }
-
-        @Override
-        public java.lang.String getMiddle() {
-            return path;
-        }
-
-        @Override
-        public io.swagger.v3.oas.models.media.Schema getRight() {
-            return to;
-        }
-    }
-
     /***
      * Recursively generates string examples for schemas
      *
@@ -1427,15 +1400,17 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      *                    ModelName( line 0
      *                        some_property='some_property_example' line 1
      *                    ) line 2
-     * @param includedSchemas are a list of `ContextAwareSchemaNode`s that we have moved through to get here. If the
-     *                        last added `ContextAwareSchemaNode` is already in the list, then we are in a cycle, and
-     *                        all the schema type cases terminate their expression.
+     * @param includedSchemas are a list of schemas that we have moved through to get here. If the new schemas that we
+     *                        are looking at is in includedSchemas then we have hit a cycle.
      * @return the string example
      */
-    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, List<ContextAwareSchemaNode> includedSchemas) {
-        boolean couldHaveCycle = null != schema.get$ref() || ModelUtils.isArraySchema(schema) || ModelUtils.isMapSchema(schema) || ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema);
+    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, List<Schema> includedSchemas) {
+        boolean couldHaveCycle = includedSchemas.size() > 0 && potentiallySelfReferencingSchema(schema);
         // If we have seen the ContextAwareSchemaNode more than once before, we must be in a cycle.
-        boolean cycleFound = couldHaveCycle && includedSchemas.stream().filter(s -> s.equals(includedSchemas.get(includedSchemas.size()-1))).count() > 1;
+        boolean cycleFound = false;
+        if (couldHaveCycle) {
+            cycleFound = includedSchemas.subList(0, includedSchemas.size()-1).stream().anyMatch(s -> schema.equals(s));
+        }
         final String indentionConst = "    ";
         String currentIndentation = "";
         String closingIndentation = "";
@@ -1566,7 +1541,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
-            includedSchemas.add(new ContextAwareSchemaNode(schema, "[]", itemSchema));
+            includedSchemas.add(schema);
             String itemExample = toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, includedSchemas);
             if (StringUtils.isEmpty(itemExample) || cycleFound) {
                 return fullPrefix + "[]";
@@ -1593,7 +1568,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     addPropPrefix = ensureQuotes(key) + ": ";
                 }
                 String addPropsModelName = getModelName(addPropsSchema);
-                includedSchemas.add(new ContextAwareSchemaNode(schema, "*", addPropsSchema));
+                includedSchemas.add(schema);
                 example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, includedSchemas) + ",\n" + closingIndentation + closeChars;
             } else {
                 example = fullPrefix + closeChars;
@@ -1650,7 +1625,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return example;
     }
 
-    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, List<ContextAwareSchemaNode> includedSchemas) {
+    private boolean potentiallySelfReferencingSchema(Schema schema) {
+        return null != schema.get$ref() || ModelUtils.isArraySchema(schema) || ModelUtils.isMapSchema(schema) || ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema);
+    }
+
+    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, List<Schema> includedSchemas) {
         Map<String, Schema> requiredAndOptionalProps = schema.getProperties();
         if (requiredAndOptionalProps == null || requiredAndOptionalProps.isEmpty()) {
             return fullPrefix + closeChars;
@@ -1670,7 +1649,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 propModelName = getModelName(propSchema);
                 propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
             }
-            includedSchemas.add(new ContextAwareSchemaNode(schema, propName, propSchema));
+            includedSchemas.add(schema);
             example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1, includedSchemas) + ",\n";
         }
         // TODO handle additionalProperties also
