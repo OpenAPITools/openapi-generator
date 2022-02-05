@@ -494,7 +494,7 @@ public class PythonClientTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7532.yaml");
         final PythonExperimentalClientCodegen codegen = new PythonExperimentalClientCodegen();
         codegen.setOpenAPI(openAPI);
-        Schema tree = openAPI.getComponents().getSchemas().get("Tree");
+        Schema tree = openAPI.getComponents().getSchemas().get("Forest");
         String exampleValue = codegen.toExampleValue(tree, null);
 
         String expectedValue = Resources.toString(

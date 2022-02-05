@@ -1,21 +1,28 @@
 dict(
-        id=1,
-        name="name_example",
-        description="description_example",
-        children=[
-            Tree(
-                id=1,
-                name="name_example",
-                description="description_example",
-                children=[],
-                parent=Tree(
+        trees=Tree(
+            id=1,
+            name="name_example",
+            description="description_example",
+            children=[
+                Tree(
                     id=1,
                     name="name_example",
                     description="description_example",
                     children=[],
-                    parent=Tree(),
-                ),
-            )
-        ],
-        parent=Tree(),
+                    parent=Tree(
+                        id=1,
+                        name="name_example",
+                        description="description_example",
+                        children=[],
+                        parent=Tree(),
+                        forest=Forest(
+                            trees=Tree(),
+                        ),
+                    ),
+                    forest=Forest(),
+                )
+            ],
+            parent=Tree(),
+            forest=Forest(),
+        ),
     )

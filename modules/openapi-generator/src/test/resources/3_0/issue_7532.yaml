@@ -46,5 +46,12 @@ components:
             $ref: '#/components/schemas/Tree'
         parent:
           $ref: '#/components/schemas/Tree'
+        forest:
+          $ref: '#/components/schemas/Forest'
+    Forest:
+      type: object
+      properties:
+        trees:
+          $ref: '#/components/schemas/Tree'
 
 
