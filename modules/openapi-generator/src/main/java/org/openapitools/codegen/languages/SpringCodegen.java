@@ -425,7 +425,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 if (DocumentationProvider.SOURCE.equals(getDocumentationProvider()) || DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                     supportingFiles.add(new SupportingFile("swagger-ui.mustache", "src/main/resources/static", "swagger-ui.html"));
                 }
-                if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider()) && !reactive && !apiFirst) {
                     supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "SpringFoxConfiguration.java"));
@@ -448,6 +448,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("webMvcConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "WebMvcConfiguration.java"));
+
                 if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                     supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
@@ -456,6 +457,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "OpenAPIUiConfiguration.java"));
                 }
+
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "RFC3339DateFormat.java"));
