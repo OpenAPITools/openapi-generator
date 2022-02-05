@@ -40,7 +40,7 @@ import javax.annotation.Generated;
 @EnableWebMvc
 @PropertySource("classpath:application.properties")
 {{#springFoxDocumentationProvider}}
-@Import(OpenAPIDocumentationConfig.class)
+@Import(SpringFoxConfiguration.class)
 {{/springFoxDocumentationProvider}}
 public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {
   private static final String[] SERVLET_RESOURCE_LOCATIONS = { "/" };
