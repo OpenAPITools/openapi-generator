@@ -919,6 +919,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * With this customization, we ensure that when schemas are passed to getSchemaType
      * - if they have ref in them they are a model
      * - if they do not have ref in them they are not a model
+     * and code is also customized to allow anyType request body schemas
      *
      * @param codegenParameter the body parameter
      * @param name model schema ref key in components
@@ -936,7 +937,75 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 forceSimpleRef = true;
             }
         }
-        super.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, forceSimpleRef);
+
+        CodegenModel codegenModel = null;
+        if (StringUtils.isNotBlank(name)) {
+            schema.setName(name);
+            codegenModel = fromModel(name, schema);
+        }
+        if (codegenModel != null) {
+            codegenParameter.isModel = true;
+        }
+
+        if (codegenModel != null && (codegenModel.hasVars || forceSimpleRef)) {
+            if (StringUtils.isEmpty(bodyParameterName)) {
+                codegenParameter.baseName = codegenModel.classname;
+            } else {
+                codegenParameter.baseName = bodyParameterName;
+            }
+            codegenParameter.paramName = toParamName(codegenParameter.baseName);
+            codegenParameter.baseType = codegenModel.classname;
+            codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
+            codegenParameter.description = codegenModel.description;
+            codegenParameter.isNullable = codegenModel.isNullable;
+            imports.add(codegenParameter.baseType);
+        } else {
+            CodegenProperty codegenProperty = fromProperty("property", schema);
+
+            if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
+                List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
+                imports.addAll(parts);
+                String codegenModelName = codegenProperty.getComplexType();
+                codegenParameter.baseName = codegenModelName;
+                codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                codegenParameter.baseType = codegenParameter.baseName;
+                codegenParameter.dataType = getTypeDeclaration(codegenModelName);
+                codegenParameter.description = codegenProperty.getDescription();
+                codegenParameter.isNullable = codegenProperty.isNullable;
+            } else {
+                if (ModelUtils.isMapSchema(schema)) {// http body is map
+                    LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
+                } else if (codegenProperty != null) {
+                    String codegenModelName, codegenModelDescription;
+
+                    if (codegenModel != null) {
+                        codegenModelName = codegenModel.classname;
+                        codegenModelDescription = codegenModel.description;
+                    } else {
+                        codegenModelName = "anyType";
+                        codegenModelDescription = "";
+                    }
+
+                    if (StringUtils.isEmpty(bodyParameterName)) {
+                        codegenParameter.baseName = codegenModelName;
+                    } else {
+                        codegenParameter.baseName = bodyParameterName;
+                    }
+
+                    codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                    codegenParameter.baseType = codegenModelName;
+                    codegenParameter.dataType = getTypeDeclaration(codegenModelName);
+                    codegenParameter.description = codegenModelDescription;
+
+                    if (codegenProperty.complexType != null) {
+                        imports.add(codegenProperty.complexType);
+                    }
+                }
+            }
+
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
+        }
 
     }
 

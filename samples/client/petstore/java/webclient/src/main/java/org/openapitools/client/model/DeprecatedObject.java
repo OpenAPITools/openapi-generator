@@ -33,7 +33,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   DeprecatedObject.JSON_PROPERTY_NAME
 })
-@JsonTypeName("DeprecatedObject")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DeprecatedObject {
   public static final String JSON_PROPERTY_NAME = "name";
