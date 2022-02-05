@@ -57,7 +57,7 @@ public interface StoreApi {
         value = "/store/order/{order_id}"
     )
     ResponseEntity<Void> deleteOrder(
-        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("order_id") String orderId
+        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId
     );
 
 
@@ -72,7 +72,9 @@ public interface StoreApi {
         summary = "Returns pet inventories by status",
         tags = { "store" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Map.class)))
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class))
+            })
         },
         security = {
             @SecurityRequirement(name = "api_key")
@@ -102,7 +104,10 @@ public interface StoreApi {
         summary = "Find purchase order by ID",
         tags = { "store" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Order.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Order.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Order.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "Order not found")
         }
@@ -113,7 +118,7 @@ public interface StoreApi {
         produces = "application/json"
     )
     ResponseEntity<Order> getOrderById(
-        @Min(1L) @Max(5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, schema = @Schema(description = "")) @PathVariable("order_id") Long orderId
+        @Min(1L) @Max(5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId
     );
 
 
@@ -129,7 +134,10 @@ public interface StoreApi {
         summary = "Place an order for a pet",
         tags = { "store" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Order.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Order.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Order.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid Order")
         }
     )
@@ -139,7 +147,7 @@ public interface StoreApi {
         produces = "application/json"
     )
     ResponseEntity<Order> placeOrder(
-        @Parameter(name = "body", description = "order placed for purchasing the pet", required = true, schema = @Schema(description = "")) @Valid @RequestBody Order body
+        @Parameter(name = "body", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body
     );
 
 }
