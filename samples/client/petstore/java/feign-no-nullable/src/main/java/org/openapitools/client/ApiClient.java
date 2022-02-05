@@ -230,8 +230,8 @@ public class ApiClient {
 
   /**
    * Helper method to configure the client credentials for Oauth
-   * @param username Username
-   * @param password Password
+   * @param clientId Client ID
+   * @param clientSecret Client secret
    */
   public void setClientCredentials(String clientId, String clientSecret) {
     OauthClientCredentialsGrant authorization = getAuthorization(OauthClientCredentialsGrant.class);
@@ -242,6 +242,8 @@ public class ApiClient {
    * Helper method to configure the username/password for Oauth password grant
    * @param username Username
    * @param password Password
+   * @param clientId Client ID
+   * @param clientSecret Client secret
    */
   public void setOauthPassword(String username, String password, String clientId, String clientSecret) {
     OauthPasswordGrant apiAuthorization = getAuthorization(OauthPasswordGrant.class);
