@@ -317,9 +317,7 @@ with petstore_api.ApiClient(configuration) as api_client:
             source_uri="source_uri_example",
         ),
         files=[
-            File(
-                source_uri="source_uri_example",
-            )
+            File()
         ],
     )
     try:
