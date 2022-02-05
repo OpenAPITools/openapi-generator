@@ -439,6 +439,20 @@ public class PythonClientTest {
         Assert.assertEquals((int) model.getMinProperties(), 1);
     }
 
+    @Test(description = "tests RegexObjects")
+    public void testRegexObjects() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_11521.yaml");
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "DateTimeObject";
+        Schema modelSchema = ModelUtils.getSchema(openAPI, modelName);
+        final CodegenModel model = codegen.fromModel(modelName, modelSchema);
+        final CodegenProperty property1 = model.vars.get(0);
+        Assert.assertEquals(property1.baseName, "datetime");
+        Assert.assertEquals(property1.pattern, "/[\\d]{4}-[\\d]{2}-[\\d]{2}T[\\d]{1,2}:[\\d]{2}Z/");
+    }
+
     @Test(description = "tests RecursiveToExample")
     public void testRecursiveToExample() throws IOException {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8052_recursive_model.yaml");
