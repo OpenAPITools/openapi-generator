@@ -65,7 +65,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default ResponseEntity<Void> addPet(
-        @Parameter(name = "body", description = "Pet object that needs to be added to the store", required = true, schema = @Schema(description = "")) @Valid @RequestBody Pet body
+        @Parameter(name = "body", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -97,8 +97,8 @@ public interface PetApi {
         value = "/pet/{petId}"
     )
     default ResponseEntity<Void> deletePet(
-        @Parameter(name = "petId", description = "Pet id to delete", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
-        @Parameter(name = "api_key", description = "", schema = @Schema(description = "")) @RequestHeader(value = "api_key", required = false) Optional<String> apiKey
+        @Parameter(name = "petId", description = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
+        @Parameter(name = "api_key", description = "") @RequestHeader(value = "api_key", required = false) Optional<String> apiKey
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -134,7 +134,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, schema = @Schema(description = "", allowableValues = { "available", "pending", "sold" })) @Valid @RequestParam(value = "status", required = true) List<String> status
+        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true) @Valid @RequestParam(value = "status", required = true) List<String> status
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -185,7 +185,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<Set<Pet>> findPetsByTags(
-        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "tags", required = true) Set<String> tags
+        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) Set<String> tags
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -237,7 +237,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<Pet> getPetById(
-        @Parameter(name = "petId", description = "ID of pet to return", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+        @Parameter(name = "petId", description = "ID of pet to return", required = true) @PathVariable("petId") Long petId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -287,7 +287,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default ResponseEntity<Void> updatePet(
-        @Parameter(name = "body", description = "Pet object that needs to be added to the store", required = true, schema = @Schema(description = "")) @Valid @RequestBody Pet body
+        @Parameter(name = "body", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -319,9 +319,9 @@ public interface PetApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default ResponseEntity<Void> updatePetWithForm(
-        @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
-        @Parameter(name = "name", description = "Updated name of the pet", schema = @Schema(description = "")) @Valid @RequestPart(value = "name", required = false) String name,
-        @Parameter(name = "status", description = "Updated status of the pet", schema = @Schema(description = "")) @Valid @RequestPart(value = "status", required = false) String status
+        @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
+        @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name,
+        @Parameter(name = "status", description = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -356,9 +356,9 @@ public interface PetApi {
         consumes = { "multipart/form-data" }
     )
     default ResponseEntity<ModelApiResponse> uploadFile(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
-        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server", schema = @Schema(description = "")) @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
-        @Parameter(name = "file", description = "file to upload", schema = @Schema(description = "")) @RequestPart(value = "file", required = false) MultipartFile file
+        @Parameter(name = "petId", description = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
+        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
+        @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
