@@ -41,7 +41,6 @@ import javax.xml.bind.annotation.*;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "MixedPropertiesAndAdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)

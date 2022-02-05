@@ -167,10 +167,6 @@
         "title": "Config Options for erlang-server",
         "sidebar_label": "erlang-server"
       },
-      "generators/flash": {
-        "title": "Config Options for flash",
-        "sidebar_label": "flash"
-      },
       "generators/fsharp-functions": {
         "title": "Config Options for fsharp-functions",
         "sidebar_label": "fsharp-functions"

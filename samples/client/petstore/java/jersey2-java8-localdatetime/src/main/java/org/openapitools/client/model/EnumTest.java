@@ -39,6 +39,7 @@ import org.openapitools.client.JSON;
   EnumTest.JSON_PROPERTY_ENUM_NUMBER,
   EnumTest.JSON_PROPERTY_OUTER_ENUM
 })
+@JsonTypeName("Enum_Test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EnumTest {
   /**

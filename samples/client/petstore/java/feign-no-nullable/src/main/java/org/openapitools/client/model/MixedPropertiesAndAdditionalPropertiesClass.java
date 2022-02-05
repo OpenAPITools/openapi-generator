@@ -39,7 +39,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass {
