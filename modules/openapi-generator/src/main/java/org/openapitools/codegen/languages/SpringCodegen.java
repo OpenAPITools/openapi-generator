@@ -425,11 +425,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 if (DocumentationProvider.SOURCE.equals(getDocumentationProvider()) || DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                     supportingFiles.add(new SupportingFile("swagger-ui.mustache", "src/main/resources/static", "swagger-ui.html"));
                 }
-                if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider()) && !reactive && !apiFirst) {
-                    supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "SpringFoxConfiguration.java"));
-                }
                 // rename template to SpringBootApplication.mustache
                 supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
@@ -450,9 +445,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                         "WebMvcConfiguration.java"));
 
                 if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
-                    supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "SpringFoxConfiguration.java"));
                     supportingFiles.add(new SupportingFile("openapiUiConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "OpenAPIUiConfiguration.java"));
@@ -483,6 +475,11 @@ public class SpringCodegen extends AbstractJavaCodegen
                         "HomeController.java"));
                 supportingFiles.add(new SupportingFile("openapi.mustache",
                         ("src/main/resources").replace("/", java.io.File.separator), "openapi.yaml"));
+                if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider()) && !reactive && !apiFirst) {
+                    supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
+                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                        "SpringFoxConfiguration.java"));
+                }
             }
         }
 

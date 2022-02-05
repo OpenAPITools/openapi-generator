@@ -763,12 +763,14 @@ public class SpringCodegenTest {
     public void testConfigFileGeneration() {
 
         final SpringCodegen codegen = new SpringCodegen();
-
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
         codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, false);
         codegen.additionalProperties().put(SpringCodegen.SPRING_CLOUD_LIBRARY, "spring-cloud");
-        codegen.setDocumentationProvider(DocumentationProvider.SPRINGFOX);
+        codegen.additionalProperties().put(SpringCodegen.REACTIVE, false);
+        codegen.additionalProperties().put(SpringCodegen.API_FIRST, false);
 
         codegen.processOpts();
+
         final List<SupportingFile> supList = codegen.supportingFiles();
         String tmpFile;
         String desFile;
