@@ -15,7 +15,7 @@ class UpdateUserParameterData
      * @DTA\Data(subset="path", field="username")
      * @DTA\Strategy(subset="path", name="QueryStringScalar", options={"type":"string"})
      * @DTA\Validator(subset="path", name="QueryStringScalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
     public $username;
 

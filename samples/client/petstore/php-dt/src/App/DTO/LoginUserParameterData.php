@@ -15,7 +15,7 @@ class LoginUserParameterData
      * @DTA\Data(subset="query", field="password")
      * @DTA\Strategy(subset="query", name="QueryStringScalar", options={"type":"string"})
      * @DTA\Validator(subset="query", name="QueryStringScalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
     public $password;
 
@@ -25,7 +25,7 @@ class LoginUserParameterData
      * @DTA\Strategy(subset="query", name="QueryStringScalar", options={"type":"string"})
      * @DTA\Validator(subset="query", name="QueryStringScalar", options={"type":"string"})
      * @DTA\Validator(subset="query", name="Regex", options={"pattern":"/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/"})
-     * @var string|null
+     * @var string
      */
     public $username;
 

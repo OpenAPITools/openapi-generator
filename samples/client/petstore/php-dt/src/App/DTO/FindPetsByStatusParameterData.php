@@ -15,7 +15,7 @@ class FindPetsByStatusParameterData
      * @DTA\Data(subset="query", field="status")
      * @DTA\Strategy(subset="query", name="QueryStringScalarArray", options={"type":"string", "format":"csv"})
      * @DTA\Validator(subset="query", name="QueryStringScalarArray", options={"type":"string", "format":"csv"})
-     * @var string[]|null
+     * @var string[]
      */
     public $status;
 

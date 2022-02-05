@@ -15,7 +15,7 @@ class DeletePetParameterData
      * @DTA\Data(subset="path", field="petId")
      * @DTA\Strategy(subset="path", name="QueryStringScalar", options={"type":"int"})
      * @DTA\Validator(subset="path", name="QueryStringScalar", options={"type":"int"})
-     * @var int|null
+     * @var int
      */
     public $pet_id;
 

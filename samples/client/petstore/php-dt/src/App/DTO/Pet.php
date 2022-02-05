@@ -28,7 +28,7 @@ class Pet
     /**
      * @DTA\Data(field="name")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
     public $name;
 
@@ -36,7 +36,7 @@ class Pet
      * @DTA\Data(field="photoUrls")
      * @DTA\Strategy(name="Object", options={"type":\App\DTO\Collection32::class})
      * @DTA\Validator(name="TypeCompliant", options={"type":\App\DTO\Collection32::class})
-     * @var \App\DTO\Collection32|null
+     * @var \App\DTO\Collection32
      */
     public $photo_urls;
 
