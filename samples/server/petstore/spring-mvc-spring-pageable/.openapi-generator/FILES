@@ -16,6 +16,7 @@ src/main/java/org/openapitools/api/UserApiController.java
 src/main/java/org/openapitools/configuration/HomeController.java
 src/main/java/org/openapitools/configuration/OpenAPIUiConfiguration.java
 src/main/java/org/openapitools/configuration/RFC3339DateFormat.java
+src/main/java/org/openapitools/configuration/SpringFoxConfiguration.java
 src/main/java/org/openapitools/configuration/WebApplication.java
 src/main/java/org/openapitools/configuration/WebMvcConfiguration.java
 src/main/java/org/openapitools/model/AdditionalPropertiesAnyType.java

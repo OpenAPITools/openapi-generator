@@ -26,7 +26,7 @@ import javax.annotation.Generated;
 @ComponentScan(basePackages = {"org.openapitools.api", "org.openapitools.configuration"})
 @EnableWebMvc
 @PropertySource("classpath:application.properties")
-@Import(OpenAPIDocumentationConfig.class)
+@Import(SpringFoxConfiguration.class)
 public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {
   private static final String[] SERVLET_RESOURCE_LOCATIONS = { "/" };
 

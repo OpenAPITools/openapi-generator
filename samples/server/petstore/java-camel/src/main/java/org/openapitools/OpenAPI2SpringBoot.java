@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class OpenApiGeneratorApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OpenAPI2SpringBoot.class, args);
+        SpringApplication.run(OpenApiGeneratorApplication.class, args);
     }
 
     @Bean
