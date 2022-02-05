@@ -108,7 +108,10 @@ public interface PetApi {
         summary = "Finds Pets by status",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Pet.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid status value")
         },
         security = {
@@ -139,7 +142,10 @@ public interface PetApi {
         summary = "Finds Pets by tags",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Pet.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid tag value")
         },
         security = {
@@ -170,7 +176,10 @@ public interface PetApi {
         summary = "Find pet by ID",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Pet.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "Pet not found")
         },
@@ -265,7 +274,9 @@ public interface PetApi {
         summary = "uploads an image",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  ModelApiResponse.class)))
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class))
+            })
         },
         security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
@@ -297,7 +308,9 @@ public interface PetApi {
         summary = "uploads an image (required)",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  ModelApiResponse.class)))
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class))
+            })
         },
         security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })

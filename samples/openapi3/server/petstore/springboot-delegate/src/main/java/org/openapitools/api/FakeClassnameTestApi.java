@@ -46,7 +46,9 @@ public interface FakeClassnameTestApi {
         summary = "To test class name in snake case",
         tags = { "fake_classname_tags 123#$%^" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Client.class)))
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Client.class))
+            })
         },
         security = {
             @SecurityRequirement(name = "api_key_query")
