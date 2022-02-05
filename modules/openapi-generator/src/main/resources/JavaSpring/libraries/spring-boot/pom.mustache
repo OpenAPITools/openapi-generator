@@ -96,7 +96,7 @@
           <!--SpringDoc dependencies -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
+            <artifactId>springdoc-openapi-{{#reactive}}webflux-{{/reactive}}ui</artifactId>
             <version>${springdoc.version}</version>
         </dependency>
         {{/springDocDocumentationProvider}}
