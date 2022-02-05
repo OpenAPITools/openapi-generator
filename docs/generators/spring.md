@@ -78,7 +78,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
-|swaggerDocketConfig|Generate Spring OpenAPI Docket configuration class.| |false|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|server title name or client service name| |OpenAPI Spring|
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
