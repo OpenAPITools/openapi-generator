@@ -87,7 +87,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
-    public static final String OPENAPI_DOCKET_CONFIG = "swaggerDocketConfig";
     public static final String API_FIRST = "apiFirst";
     public static final String SPRING_CONTROLLER = "useSpringController";
     public static final String HATEOAS = "hateoas";
@@ -113,7 +112,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean useBeanValidation = true;
     protected boolean performBeanValidation = false;
     protected boolean implicitHeaders = false;
-    protected boolean openapiDocketConfig = false;
     protected boolean apiFirst = false;
     protected boolean useOptional = false;
     protected boolean virtualService = false;
@@ -186,8 +184,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS,
                 "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.",
                 implicitHeaders));
-        cliOptions.add(CliOption.newBoolean(OPENAPI_DOCKET_CONFIG,
-                "Generate Spring OpenAPI Docket configuration class.", openapiDocketConfig));
         cliOptions.add(CliOption.newBoolean(API_FIRST,
                 "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
         cliOptions
@@ -376,11 +372,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setImplicitHeaders(Boolean.parseBoolean(additionalProperties.get(IMPLICIT_HEADERS).toString()));
         }
 
-        if (additionalProperties.containsKey(OPENAPI_DOCKET_CONFIG)) {
-            this.setOpenapiDocketConfig(
-                    Boolean.parseBoolean(additionalProperties.get(OPENAPI_DOCKET_CONFIG).toString()));
-        }
-
         if (additionalProperties.containsKey(API_FIRST)) {
             this.setApiFirst(Boolean.parseBoolean(additionalProperties.get(API_FIRST).toString()));
         }
@@ -431,9 +422,21 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (!interfaceOnly) {
             if (SPRING_BOOT.equals(library)) {
+                if (DocumentationProvider.SOURCE.equals(getDocumentationProvider()) || DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                    supportingFiles.add(new SupportingFile("swagger-ui.mustache", "src/main/resources/static", "swagger-ui.html"));
+                }
+                if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                    supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
+                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                        "SpringFoxConfiguration.java"));
+                }
+                // rename template to SpringBootApplication.mustache
                 supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
-                        "OpenAPI2SpringBoot.java"));
+                        "OpenApiGeneratorApplication.java"));
+                supportingFiles.add(new SupportingFile("SpringBootTest.mustache",
+                    (testFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                    "OpenApiGeneratorApplicationTests.java"));
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
                         "RFC3339DateFormat.java"));
@@ -471,19 +474,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("homeController.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "HomeController.java"));
-                if (!reactive && !apiFirst && this.openapiDocketConfig) {
-                    supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
-                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                            "OpenAPIDocumentationConfig.java"));
-                } else {
-                    supportingFiles.add(new SupportingFile("openapi.mustache",
-                            ("src/main/resources").replace("/", java.io.File.separator), "openapi.yaml"));
-                }
+                supportingFiles.add(new SupportingFile("openapi.mustache",
+                        ("src/main/resources").replace("/", java.io.File.separator), "openapi.yaml"));
             }
-        } else if (openapiDocketConfig && !SPRING_CLOUD_LIBRARY.equals(library) && !reactive && !apiFirst) {
-            supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
-                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                    "OpenAPIDocumentationConfig.java"));
         }
 
         if (!SPRING_CLOUD_LIBRARY.equals(library)) {
@@ -874,10 +867,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setImplicitHeaders(boolean implicitHeaders) {
         this.implicitHeaders = implicitHeaders;
-    }
-
-    public void setOpenapiDocketConfig(boolean openapiDocketConfig) {
-        this.openapiDocketConfig = openapiDocketConfig;
     }
 
     public void setApiFirst(boolean apiFirst) {

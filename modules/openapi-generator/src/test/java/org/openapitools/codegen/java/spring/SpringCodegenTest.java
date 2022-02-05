@@ -27,6 +27,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DocumentationProvider;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -750,7 +751,7 @@ public class SpringCodegenTest {
     }
 
     /**define the destinationFilename*/
-    private final static String DESTINATIONFILE = "OpenAPIDocumentationConfig.java";
+    private final static String DESTINATIONFILE = "SpringFoxConfiguration.java";
     /**define the templateFile*/
     private final static String TEMPLATEFILE = "openapiDocumentationConfig.mustache";
 
@@ -765,9 +766,7 @@ public class SpringCodegenTest {
 
         codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, false);
         codegen.additionalProperties().put(SpringCodegen.SPRING_CLOUD_LIBRARY, "spring-cloud");
-        codegen.additionalProperties().put(SpringCodegen.OPENAPI_DOCKET_CONFIG, true);
-        codegen.additionalProperties().put(SpringCodegen.REACTIVE, false);
-        codegen.additionalProperties().put(SpringCodegen.API_FIRST, false);
+        codegen.setDocumentationProvider(DocumentationProvider.SPRINGFOX);
 
         codegen.processOpts();
         final List<SupportingFile> supList = codegen.supportingFiles();
