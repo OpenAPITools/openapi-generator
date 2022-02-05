@@ -57,7 +57,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     ResponseEntity<Void> addPet(
-        @Parameter(name = "body", description = "Pet object that needs to be added to the store", required = true, schema = @Schema(description = "")) @Valid @RequestBody Pet body
+        @Parameter(name = "body", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
     );
 
 
@@ -86,8 +86,8 @@ public interface PetApi {
         value = "/pet/{petId}"
     )
     ResponseEntity<Void> deletePet(
-        @Parameter(name = "petId", description = "Pet id to delete", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
-        @Parameter(name = "api_key", description = "", schema = @Schema(description = "")) @RequestHeader(value = "api_key", required = false) String apiKey
+        @Parameter(name = "petId", description = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
+        @Parameter(name = "api_key", description = "") @RequestHeader(value = "api_key", required = false) String apiKey
     );
 
 
@@ -104,7 +104,10 @@ public interface PetApi {
         summary = "Finds Pets by status",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Pet.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid status value")
         },
         security = {
@@ -117,7 +120,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, schema = @Schema(description = "", allowableValues = { "available", "pending", "sold" })) @Valid @RequestParam(value = "status", required = true) List<String> status
+        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true) @Valid @RequestParam(value = "status", required = true) List<String> status
     );
 
 
@@ -135,7 +138,10 @@ public interface PetApi {
         summary = "Finds Pets by tags",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Pet.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid tag value")
         },
         security = {
@@ -148,7 +154,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     ResponseEntity<Set<Pet>> findPetsByTags(
-        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "tags", required = true) Set<String> tags
+        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) Set<String> tags
     );
 
 
@@ -166,7 +172,10 @@ public interface PetApi {
         summary = "Find pet by ID",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Pet.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "Pet not found")
         },
@@ -180,7 +189,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     ResponseEntity<Pet> getPetById(
-        @Parameter(name = "petId", description = "ID of pet to return", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+        @Parameter(name = "petId", description = "ID of pet to return", required = true) @PathVariable("petId") Long petId
     );
 
 
@@ -213,7 +222,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     ResponseEntity<Void> updatePet(
-        @Parameter(name = "body", description = "Pet object that needs to be added to the store", required = true, schema = @Schema(description = "")) @Valid @RequestBody Pet body
+        @Parameter(name = "body", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
     );
 
 
@@ -242,9 +251,9 @@ public interface PetApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     ResponseEntity<Void> updatePetWithForm(
-        @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
-        @Parameter(name = "name", description = "Updated name of the pet", schema = @Schema(description = "")) @Valid @RequestPart(value = "name", required = false) String name,
-        @Parameter(name = "status", description = "Updated status of the pet", schema = @Schema(description = "")) @Valid @RequestPart(value = "status", required = false) String status
+        @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
+        @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name,
+        @Parameter(name = "status", description = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status
     );
 
 
@@ -261,7 +270,9 @@ public interface PetApi {
         summary = "uploads an image",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  ModelApiResponse.class)))
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class))
+            })
         },
         security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
@@ -274,9 +285,9 @@ public interface PetApi {
         consumes = { "multipart/form-data" }
     )
     ResponseEntity<ModelApiResponse> uploadFile(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId,
-        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server", schema = @Schema(description = "")) @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
-        @Parameter(name = "file", description = "file to upload", schema = @Schema(description = "")) @RequestPart(value = "file", required = false) MultipartFile file
+        @Parameter(name = "petId", description = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
+        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
+        @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     );
 
 }

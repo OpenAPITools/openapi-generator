@@ -39,7 +39,6 @@ import javax.xml.bind.annotation.*;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@JsonTypeName("Order")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)
