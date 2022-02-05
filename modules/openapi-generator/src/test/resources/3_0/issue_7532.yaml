@@ -44,3 +44,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Tree'
+        parent:
+          $ref: '#/components/schemas/Tree'
+
+

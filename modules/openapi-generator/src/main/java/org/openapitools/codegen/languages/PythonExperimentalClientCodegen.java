@@ -1435,7 +1435,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, List<ContextAwareSchemaNode> includedSchemas) {
         boolean couldHaveCycle = null != schema.get$ref() || ModelUtils.isArraySchema(schema) || ModelUtils.isMapSchema(schema) || ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema);
         // If we have seen the ContextAwareSchemaNode more than once before, we must be in a cycle.
-        boolean cycleFound = couldHaveCycle && includedSchemas.stream().anyMatch(s1->includedSchemas.stream().filter(s2 -> s1.equals(s2)).count() > 1);
+        boolean cycleFound = couldHaveCycle && includedSchemas.stream().filter(s -> s.equals(includedSchemas.get(includedSchemas.size()-1))).count() > 1;
         final String indentionConst = "    ";
         String currentIndentation = "";
         String closingIndentation = "";
@@ -1468,7 +1468,6 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 return fullPrefix + "None" + closeChars;
             }
             String refModelName = getModelName(schema);
-            includedSchemas.add(new ContextAwareSchemaNode(schema, ref, refSchema));
             return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, includedSchemas);
         } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
@@ -1600,10 +1599,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 example = fullPrefix + closeChars;
             }
             return example;
-        } else if (ModelUtils.isObjectSchema(schema) && !cycleFound) {
+        } else if (ModelUtils.isObjectSchema(schema)) {
             if (modelName == null) {
                 fullPrefix += "dict(";
                 closeChars = ")";
+            }
+            if (cycleFound) {
+                return fullPrefix + closeChars;
             }
             CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
             if (disc != null) {
@@ -1619,7 +1621,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 }
             }
             return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, includedSchemas);
-        } else if (ModelUtils.isComposedSchema(schema) && !cycleFound) {
+        } else if (ModelUtils.isComposedSchema(schema)) {
+            if (cycleFound) {
+                return fullPrefix + closeChars;
+            }
             // TODO add examples for composed schema models without discriminators
 
             CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);

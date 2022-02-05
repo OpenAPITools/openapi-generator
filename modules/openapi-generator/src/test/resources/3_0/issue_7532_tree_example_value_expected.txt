@@ -8,6 +8,14 @@ dict(
                 name="name_example",
                 description="description_example",
                 children=[],
+                parent=Tree(
+                    id=1,
+                    name="name_example",
+                    description="description_example",
+                    children=[],
+                    parent=Tree(),
+                ),
             )
         ],
+        parent=Tree(),
     )
