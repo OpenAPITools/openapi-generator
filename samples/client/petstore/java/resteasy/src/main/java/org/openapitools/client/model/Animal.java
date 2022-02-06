@@ -37,7 +37,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Animal.JSON_PROPERTY_CLASS_NAME,
   Animal.JSON_PROPERTY_COLOR
 })
-@JsonTypeName("Animal")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 @JsonSubTypes({

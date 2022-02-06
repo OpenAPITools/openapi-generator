@@ -10,6 +10,9 @@ import java.util.Collection;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public abstract class OAuth implements RequestInterceptor {
 
+  //https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.4
+  static final int LEEWAY_SENCONDS = 10;
+
   static final int MILLIS_PER_SECOND = 1000;
 
   public interface AccessTokenListener {
@@ -17,7 +20,7 @@ public abstract class OAuth implements RequestInterceptor {
   }
 
   private volatile String accessToken;
-  private Long expirationTimeMillis;
+  private Long expirationTimeSeconds;
   private AccessTokenListener accessTokenListener;
 
   protected OAuth20Service service;
@@ -39,6 +42,7 @@ public abstract class OAuth implements RequestInterceptor {
     }
     String accessToken = getAccessToken();
     if (accessToken != null) {
+      template.removeHeader("Authorization");
       template.header("Authorization", "Bearer " + accessToken);
     }
   }
@@ -73,7 +77,7 @@ public abstract class OAuth implements RequestInterceptor {
 
   public synchronized String getAccessToken() {
     // If first time, get the token
-    if (expirationTimeMillis == null || System.currentTimeMillis() >= expirationTimeMillis) {
+    if (expirationTimeSeconds == null || System.currentTimeMillis() >= expirationTimeSeconds) {
       updateAccessToken();
     }
     return accessToken;
@@ -86,7 +90,7 @@ public abstract class OAuth implements RequestInterceptor {
    */
   public synchronized void setAccessToken(String accessToken, Integer expiresIn) {
     this.accessToken = accessToken;
-    this.expirationTimeMillis = expiresIn == null ? null : System.currentTimeMillis() + expiresIn * MILLIS_PER_SECOND;
+    this.expirationTimeSeconds = expiresIn == null ? null : System.currentTimeMillis() / MILLIS_PER_SECOND + expiresIn - LEEWAY_SENCONDS;
   }
 
 }

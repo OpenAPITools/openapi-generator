@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -17,6 +18,7 @@ import javax.annotation.Generated;
  * BigCatAllOf
  */
 
+@JsonTypeName("BigCat_allOf")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class BigCatAllOf   {
 
