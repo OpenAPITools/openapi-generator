@@ -1,5 +1,7 @@
 <h1 align="center">OpenAPI Generator</h1>
 
+TESTING CI build
+
 
 <div align="center">
 
