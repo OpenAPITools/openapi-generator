@@ -31,7 +31,7 @@
           <!--SpringDoc dependencies -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
+            <artifactId>springdoc-openapi-webmvc-core</artifactId>
             <version>${springdoc.version}</version>
         </dependency>
         <!-- @Nullable annotation -->

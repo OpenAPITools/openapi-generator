@@ -16,12 +16,4 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @Controller
 public class HomeController {
 
-    @Bean
-    RouterFunction<ServerResponse> index() {
-        return route(
-            GET("/"),
-            req -> ServerResponse.temporaryRedirect(URI.create("swagger-ui.html")).build()
-        );
-    }
-
 }

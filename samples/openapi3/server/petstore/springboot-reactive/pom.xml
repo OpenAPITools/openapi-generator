@@ -37,7 +37,7 @@
           <!--SpringDoc dependencies -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webflux-ui</artifactId>
+            <artifactId>springdoc-openapi-webflux-core</artifactId>
             <version>${springdoc.version}</version>
         </dependency>
         <!-- @Nullable annotation -->
