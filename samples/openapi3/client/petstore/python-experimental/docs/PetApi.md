@@ -119,13 +119,13 @@ with petstore_api.ApiClient(configuration) as api_client:
         ),
         name="doggie",
         photo_urls=[
-            "photo_urls_example",
+            "photo_urls_example"
         ],
         tags=[
             Tag(
                 id=1,
                 name="name_example",
-            ),
+            )
         ],
         status="available",
     )
@@ -415,7 +415,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # example passing only required values which don't have defaults set
     query_params = {
         'status': [
-        "available",
+        "available"
     ],
     }
     try:
@@ -593,7 +593,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # example passing only required values which don't have defaults set
     query_params = {
         'tags': [
-        "tags_example",
+        "tags_example"
     ],
     }
     try:
@@ -898,13 +898,13 @@ with petstore_api.ApiClient(configuration) as api_client:
         ),
         name="doggie",
         photo_urls=[
-            "photo_urls_example",
+            "photo_urls_example"
         ],
         tags=[
             Tag(
                 id=1,
                 name="name_example",
-            ),
+            )
         ],
         status="available",
     )
