@@ -38,7 +38,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
-@JsonTypeName("TypeHolderDefault")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderDefault {

@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import javax.annotation.Generated;
  * ModelList
  */
 
+@JsonTypeName("List")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelList   {
 

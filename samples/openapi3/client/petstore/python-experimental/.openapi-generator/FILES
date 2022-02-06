@@ -41,6 +41,7 @@ docs/ComposedNumber.md
 docs/ComposedObject.md
 docs/ComposedOneOfDifferentTypes.md
 docs/ComposedString.md
+docs/CompositionInProperty.md
 docs/Currency.md
 docs/DanishPig.md
 docs/DateTimeTest.md
@@ -95,6 +96,7 @@ docs/ObjectInterface.md
 docs/ObjectModelWithRefProps.md
 docs/ObjectWithDecimalProperties.md
 docs/ObjectWithDifficultlyNamedProps.md
+docs/ObjectWithInlineCompositionProperty.md
 docs/ObjectWithValidations.md
 docs/Order.md
 docs/ParentPet.md
@@ -179,6 +181,7 @@ petstore_api/model/composed_number.py
 petstore_api/model/composed_object.py
 petstore_api/model/composed_one_of_different_types.py
 petstore_api/model/composed_string.py
+petstore_api/model/composition_in_property.py
 petstore_api/model/currency.py
 petstore_api/model/danish_pig.py
 petstore_api/model/date_time_test.py
@@ -230,6 +233,7 @@ petstore_api/model/object_interface.py
 petstore_api/model/object_model_with_ref_props.py
 petstore_api/model/object_with_decimal_properties.py
 petstore_api/model/object_with_difficultly_named_props.py
+petstore_api/model/object_with_inline_composition_property.py
 petstore_api/model/object_with_validations.py
 petstore_api/model/order.py
 petstore_api/model/parent_pet.py

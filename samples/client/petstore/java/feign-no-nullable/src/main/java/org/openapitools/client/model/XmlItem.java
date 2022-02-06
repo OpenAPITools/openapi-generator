@@ -62,7 +62,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   XmlItem.JSON_PROPERTY_PREFIX_NS_ARRAY,
   XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
 })
-@JsonTypeName("XmlItem")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class XmlItem {

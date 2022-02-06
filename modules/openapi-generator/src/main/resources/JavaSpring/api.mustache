@@ -137,7 +137,11 @@ public interface {{classname}} {
         {{/vendorExtensions.x-tags}}
         responses = {
             {{#responses}}
-            @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = @Content(mediaType = "application/json", schema = @Schema(implementation =  {{{baseType}}}.class)){{/baseType}}){{^-last}},{{/-last}}
+            @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = {
+                {{#produces}}
+                @Content(mediaType = "{{{mediaType}}}", schema = @Schema(implementation = {{{baseType}}}.class)){{^-last}},{{/-last}}
+                {{/produces}}
+            }{{/baseType}}){{^-last}},{{/-last}}
             {{/responses}}
         }{{#hasAuthMethods}},
         security = {

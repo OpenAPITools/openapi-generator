@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
@@ -19,6 +20,7 @@ import javax.annotation.Generated;
  * CatAllOf
  */
 
+@JsonTypeName("Cat_allOf")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CatAllOf   {
 

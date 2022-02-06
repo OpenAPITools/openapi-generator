@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Model for testing reserved words")
+@JsonTypeName("Return")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelReturn   {
 
