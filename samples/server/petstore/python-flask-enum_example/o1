@@ -122,7 +122,6 @@ paths:
                   - (xyz)
                   type: string
               type: object
-              x-body-name: body
       responses:
         "400":
           description: Invalid request
@@ -130,8 +129,6 @@ paths:
           description: Not found
       summary: To test enum parameters
       x-openapi-router-controller: openapi_server.controllers.default_controller
-      x-codegen-request-body-name: body
-      x-body-name: body
   /enum-post-form:
     post:
       description: Test serialization of enum properties with examples
@@ -145,7 +142,6 @@ paths:
         schema:
           $ref: '#/components/schemas/OuterEnumInteger'
         style: form
-      x-body-name: body
       requestBody:
         $ref: '#/components/requestBodies/inline_object_1'
         content:
@@ -170,7 +166,6 @@ paths:
                   - (xyz)
                   type: string
               type: object
-              x-body-name: body
         required: true
       responses:
         "200":
@@ -180,7 +175,6 @@ paths:
                 $ref: '#/components/schemas/EnumCornucopia'
           description: Output enum corncopia
       x-openapi-router-controller: openapi_server.controllers.default_controller
-      x-codegen-request-body-name: body
   /enum-post-json:
     post:
       description: Test serialization of enum properties with examples
@@ -208,10 +202,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/EnumCornucopia'
           description: Output enum corncopia
-      x-acodegen-request-body-name: enum_cornucopia3
       x-openapi-router-controller: openapi_server.controllers.default_controller
-      x-codegen-request-body-name: body
-      x-body-name: body
 components:
   requestBodies:
     inline_object_1:
@@ -373,7 +364,6 @@ components:
           - (xyz)
           type: string
       type: object
-      x-body-name: body
     inline_object_1:
       properties:
         enum_form_string_array:
@@ -394,4 +384,3 @@ components:
           - (xyz)
           type: string
       type: object
-      x-body-name: body

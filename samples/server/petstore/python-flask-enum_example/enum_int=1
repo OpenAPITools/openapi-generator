@@ -1,0 +1,31 @@
+Note: Unnecessary use of -X or --request, GET is already inferred.
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> GET /enum-get?enum_query_string_array= HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.58.0
+> Accept: */*
+> Content-Type: application/json
+> enum-header_string: _abc
+> enum-header-string-array: >
+> enum_header_string_array: $
+> 
+* HTTP 1.0, assume close after body
+< HTTP/1.0 400 BAD REQUEST
+< Content-Type: application/problem+json
+< Content-Length: 249
+< Server: Werkzeug/2.0.2 Python/3.6.9
+< Date: Tue, 01 Feb 2022 01:03:39 GMT
+< 
+{ [249 bytes data]
+100   249  100   249    0     0  83000      0 --:--:-- --:--:-- --:--:-- 83000
+* Closing connection 0
+{
+  "detail": "'' is not one of ['>', '$']\n\nFailed validating 'enum' in schema['items']:\n    {'default': '$', 'enum': ['>', '$'], 'type': 'string'}\n\nOn instance[0]:\n    ''",
+  "status": 400,
+  "title": "Bad Request",
+  "type": "about:blank"
+}

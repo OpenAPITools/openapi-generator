@@ -22,10 +22,10 @@ REQUIRES = [
 setup(
     name=NAME,
     version=VERSION,
-    description="OpenAPI Enums",
+    description="OpenAPI Enums Exemplar",
     author_email="",
     url="",
-    keywords=["OpenAPI", "OpenAPI Enums"],
+    keywords=["OpenAPI", "OpenAPI Enums Exemplar"],
     install_requires=REQUIRES,
     packages=find_packages(),
     package_data={'': ['openapi/openapi.yaml']},
@@ -33,7 +33,7 @@ setup(
     entry_points={
         'console_scripts': ['openapi_server=openapi_server.__main__:main']},
     long_description="""\
-    This spec is mainly for testing enum functionality
+    This spec is for testing all kinds of enum functionality and is generally applicable to any generator
     """
 )
 
