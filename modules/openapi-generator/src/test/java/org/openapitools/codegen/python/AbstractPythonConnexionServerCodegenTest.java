@@ -43,7 +43,7 @@ public class AbstractPythonConnexionServerCodegenTest extends DefaultCodegenTest
 
         Operation finalState = openAPI.getPaths().get("/enum-post-json").getPost();
         // legacy location that's incompatible with Connexion
-        Assert.assertTrue(finalState.getRequestBody().getContent().values().toArray(new MediaType[0])[0].getSchema().getExtensions().get("x-body-name").equals("overidden_body_param_name"));
+        Assert.assertTrue(finalState.getRequestBody().getExtensions().get("x-body-name").equals("overidden_body_param_name"));
         // new location
         Assert.assertTrue(finalState.getExtensions().get("x-body-name").equals("overidden_body_param_name"));
     }

@@ -72,23 +72,23 @@ def enum_post_form(enum_query_int, enum_form_string_array=None, enum_form_string
     return 'do some magic!'
 
 
-def enum_post_json(enum_query_int, body):  # noqa: E501
+def enum_post_json(enum_query_int, overidden_body_param_name):  # noqa: E501
     """enum_post_json
 
     Test serialization of enum properties with examples # noqa: E501
 
     :param enum_query_int: Query outer enum parameter
     :type enum_query_int: dict | bytes
-    :param body: 
-    :type body: dict | bytes
+    :param overidden_body_param_name: 
+    :type overidden_body_param_name: dict | bytes
 
     :rtype: EnumCornucopia
     """
     print("QueryParam enum_query_int=",str(enum_query_int))
     
-    print("BodyParam body=", str(body))
+    print("BodyParam body=", str(overidden_body_param_name))
     if connexion.request.is_json:
         print("Request JSON: ", connexion.request.get_json())
-        body = EnumCornucopia.from_dict(connexion.request.get_json())  # noqa: E501
-        print("Request JSON decoded : body=", body)
+        overidden_body_param_name = EnumCornucopia.from_dict(connexion.request.get_json())  # noqa: E501
+        print("Request JSON decoded : overidden_body_param_name=", overidden_body_param_name)
     return 'do some magic!'

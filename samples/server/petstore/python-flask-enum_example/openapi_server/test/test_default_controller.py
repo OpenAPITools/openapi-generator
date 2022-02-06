@@ -69,7 +69,7 @@ class TestDefaultController(BaseTestCase):
 
         
         """
-        body = {
+        overidden_body_param_name = {
   "enum_string_required" : "UPPER",
   "enum_integer" : 1,
   "outerEnumInteger" : 2,
@@ -85,7 +85,7 @@ class TestDefaultController(BaseTestCase):
             '/enum-post-json',
             method='POST',
             headers=headers,
-            data=json.dumps(body),
+            data=json.dumps(overidden_body_param_name),
             content_type='application/json',
             query_string=query_string)
         self.assert200(response,
