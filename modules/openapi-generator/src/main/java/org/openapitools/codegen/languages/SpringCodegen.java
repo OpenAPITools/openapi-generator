@@ -20,6 +20,12 @@ package org.openapitools.codegen.languages;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,13 +37,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
-
-import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -52,6 +51,7 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
+import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.meta.features.ParameterFeature;
@@ -65,7 +65,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SpringCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures {
+        implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures, SwaggerUIFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
 
     public static final String TITLE = "title";
@@ -119,6 +119,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
     protected boolean useSpringController = false;
+    protected boolean useSwaggerUI = false;
 
     public SpringCodegen() {
         super();
@@ -196,6 +197,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING,
                 "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).",
                 unhandledException));
+        cliOptions.add(CliOption.newBoolean(USE_SWAGGER_UI,
+            "Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies",
+            useSwaggerUI));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -389,6 +393,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setReturnSuccessCode(Boolean.parseBoolean(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
         }
 
+        if (additionalProperties.containsKey(USE_SWAGGER_UI)) {
+            this.setUseSwaggerUI(convertPropertyToBoolean(USE_SWAGGER_UI));
+        }
+        writePropertyBack(USE_SWAGGER_UI, useSwaggerUI);
+
         if (additionalProperties.containsKey(UNHANDLED_EXCEPTION_HANDLING)) {
             this.setUnhandledException(
                     Boolean.parseBoolean(additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING).toString()));
@@ -422,7 +431,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (!interfaceOnly) {
             if (SPRING_BOOT.equals(library)) {
-                if (DocumentationProvider.SOURCE.equals(getDocumentationProvider()) || DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                if (useSwaggerUI) {
                     supportingFiles.add(new SupportingFile("swagger-ui.mustache", "src/main/resources/static", "swagger-ui.html"));
                 }
                 // rename template to SpringBootApplication.mustache
@@ -1008,5 +1017,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void setUseOptional(boolean useOptional) {
         this.useOptional = useOptional;
+    }
+
+    @Override
+    public void setUseSwaggerUI(boolean useSwaggerUI) {
+        this.useSwaggerUI = useSwaggerUI;
     }
 }

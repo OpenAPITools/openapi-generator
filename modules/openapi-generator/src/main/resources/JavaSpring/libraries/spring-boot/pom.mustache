@@ -25,6 +25,9 @@
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
         {{/springFoxDocumentationProvider}}
+        {{#useSwaggerUI}}
+        <swagger-ui.version>4.4.1-1</swagger-ui.version>
+        {{/useSwaggerUI}}
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -94,11 +97,20 @@
         </dependency>
         {{#springDocDocumentationProvider}}
           <!--SpringDoc dependencies -->
+        {{#useSwaggerUI}}
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-{{#reactive}}webflux-{{/reactive}}ui</artifactId>
             <version>${springdoc.version}</version>
         </dependency>
+        {{/useSwaggerUI}}
+        {{^useSwaggerUI}}
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-core</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+        {{/useSwaggerUI}}
         {{/springDocDocumentationProvider}}
         {{#springFoxDocumentationProvider}}
         <!--SpringFox dependencies -->
@@ -107,27 +119,20 @@
             <artifactId>springfox-swagger2</artifactId>
             <version>${springfox.version}</version>
         </dependency>
-          <dependency>
+        {{/springFoxDocumentationProvider}}
+        {{#useSwaggerUI}}
+        {{^springDocDocumentationProvider}}
+        <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>swagger-ui</artifactId>
-            <version>4.4.1-1</version>
-          </dependency>
-          <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>webjars-locator-core</artifactId>
-          </dependency>
-        {{/springFoxDocumentationProvider}}
-        {{#sourceDocumentationProvider}}
-        <dependency>
-          <groupId>org.webjars</groupId>
-          <artifactId>swagger-ui</artifactId>
-          <version>4.4.1-1</version>
+            <version>${swagger-ui.version}</version>
         </dependency>
-          <dependency>
+        <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator-core</artifactId>
-          </dependency>
-        {{/sourceDocumentationProvider}}
+        </dependency>
+        {{/springDocDocumentationProvider}}
+        {{/useSwaggerUI}}
         {{^springFoxDocumentationProvider}}
         {{^springDocDocumentationProvider}}
         {{#swagger1AnnotationLibrary}}

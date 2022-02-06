@@ -11,10 +11,10 @@ import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.GetMapping;
 {{/sourceDocumentationProvider}}
-{{#springFoxDocumentationProvider}}
+{{#useSwaggerUI}}
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.GetMapping;
-{{/springFoxDocumentationProvider}}
+{{/useSwaggerUI}}
 {{#reactive}}
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -40,8 +40,8 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
  */
 @Controller
 public class HomeController {
-
 {{#sourceDocumentationProvider}}
+
     private static YAMLMapper yamlMapper = new YAMLMapper();
 
     @Value("classpath:/openapi.yaml")
@@ -65,22 +65,25 @@ public class HomeController {
     public Object openapiJson() throws IOException {
         return yamlMapper.readValue(openapiContent(), Object.class);
     }
+{{/sourceDocumentationProvider}}
+{{#useSwaggerUI}}
+{{^springDocDocumentationProvider}}
+
+{{#sourceDocumentationProvider}}
+    static final String API_DOCS_PATH = "/openapi.json";
+{{/sourceDocumentationProvider}}
+{{#springFoxDocumentationProvider}}
+    static final String API_DOCS_PATH = "/v2/api-docs";
+{{/springFoxDocumentationProvider}}
 
     @GetMapping(value = "/swagger-config.yaml", produces = "text/plain")
     @ResponseBody
     public String swaggerConfig() {
-        return "url: /openapi.json\n";
+        return "url: " + API_DOCS_PATH + "\n";
     }
-{{/sourceDocumentationProvider}}
-{{#springFoxDocumentationProvider}}
-    @GetMapping(value = "/swagger-config.yaml", produces = "text/plain")
-    @ResponseBody
-    public String swaggerConfig() {
-        return "url: /v2/api-docs\n";
-    }
-{{/springFoxDocumentationProvider}}
-{{^withoutDocumentationProvider}}
+{{/springDocDocumentationProvider}}
 {{#reactive}}
+
     @Bean
     RouterFunction<ServerResponse> index() {
         return route(
@@ -90,11 +93,12 @@ public class HomeController {
     }
 {{/reactive}}
 {{^reactive}}
+
     @RequestMapping("/")
     public String index() {
         return "redirect:swagger-ui.html";
     }
 {{/reactive}}
-{{/withoutDocumentationProvider}}
+{{/useSwaggerUI}}
 
 }
