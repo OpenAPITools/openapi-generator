@@ -93,6 +93,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
+    public static final String USE_RESPONSE_ENTITY = "useResponseEntity";
 
     public static final String OPEN_BRACE = "{";
     public static final String CLOSE_BRACE = "}";
@@ -121,6 +122,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
     protected boolean useSpringController = false;
+    protected boolean useResponseEntity = true;
 
     public SpringCodegen() {
         super();
@@ -200,6 +202,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING,
                 "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).",
                 unhandledException));
+        cliOptions.add(CliOption.newBoolean(USE_RESPONSE_ENTITY,
+                "Use ResponseEntity to wrap return values of generated API methods",
+                useResponseEntity));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -403,6 +408,12 @@ public class SpringCodegen extends AbstractJavaCodegen
                     Boolean.parseBoolean(additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING).toString()));
         }
         additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
+
+        if (additionalProperties.containsKey(USE_RESPONSE_ENTITY)) {
+            this.setUseResponseEntity(
+                    Boolean.parseBoolean(additionalProperties.get(USE_RESPONSE_ENTITY).toString()));
+        }
+        writePropertyBack(USE_RESPONSE_ENTITY, useResponseEntity);
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
@@ -898,6 +909,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setUnhandledException(boolean unhandledException) {
         this.unhandledException = unhandledException;
+    }
+
+    public void setUseResponseEntity(boolean useResponseEntity) {
+        this.useResponseEntity = useResponseEntity;
     }
 
     @Override
