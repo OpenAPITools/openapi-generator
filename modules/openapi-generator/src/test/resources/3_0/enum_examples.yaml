@@ -126,7 +126,7 @@ paths:
         example: 2
         schema:
           $ref: '#/components/schemas/OuterEnumInteger'
-      x-acodegen-request-body-name: overidden_body_param_name
+      x-codegen-request-body-name: overidden_body_param_name
       requestBody: 
         required: true
         content:

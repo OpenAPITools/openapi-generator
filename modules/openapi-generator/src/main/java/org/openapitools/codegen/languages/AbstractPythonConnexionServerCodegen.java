@@ -442,7 +442,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                             //  THIS DOESN'T WORK IN 2.10.0 AT LEAST - HAS TO BE IN THE SCHEMA INSTEAD
                             //  BUT AN EXTENSION IS NOT VALUE I/
                             //  F THE SCHEMA TYPE IS A $ref
-                            // body.addExtension("x-body-name", bodyParameterName);
+                            body.addExtension("x-body-name", bodyParameterName);
 
                             // new location of x-body-name as per connexion issue 1452
                             // and fix https://github.com/zalando/connexion/pull/1453
