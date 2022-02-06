@@ -1,15 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools.openapi3</groupId>
-    <artifactId>spring-boot-springdoc</artifactId>
+    <artifactId>springboot</artifactId>
     <packaging>jar</packaging>
-    <name>spring-boot-springdoc</name>
+    <name>springboot</name>
     <version>1.0.0-SNAPSHOT</version>
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <springdoc.version>1.6.4</springdoc.version>
         <swagger-ui.version>4.4.1-1</swagger-ui.version>
     </properties>
     <parent>
@@ -35,11 +34,14 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
         </dependency>
-          <!--SpringDoc dependencies -->
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc.version}</version>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>${swagger-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
         </dependency>
         <!-- @Nullable annotation -->
         <dependency>
