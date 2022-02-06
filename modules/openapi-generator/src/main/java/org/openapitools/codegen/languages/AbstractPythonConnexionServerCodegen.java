@@ -433,8 +433,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                             // Used by connexion
                             // TODO : NO IT'S NOT USD BY CONNEXIONS
                             //  THIS DOESN'T WORK IN 2.10.0 AT LEAST - HAS TO BE IN THE SCHEMA INSTEAD
-                            //  BUT AN EXTENSION IS NOT VALUE I/
-                            //  F THE SCHEMA TYPE IS A $ref
+                            //  BUT SADLY ONE CANNOT GET AN EXTENSION IN A SCHEMA IF TYPE IS A $ref
+                            //  AS ITS NOT LEGAL OAS.
+                            // It's useless but I'm not deleting - Retire this when connexions 1452 is merged
                             body.addExtension("x-body-name", bodyParameterName);
 
                         }
