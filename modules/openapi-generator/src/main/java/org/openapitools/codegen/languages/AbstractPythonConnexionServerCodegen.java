@@ -420,22 +420,15 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                                 operation.addExtension("x-codegen-request-body-name", bodyParameterName);
                             }
 
-                            // if found anywhere then push down the x-body-name to the schema where Connexions expects it to be
-                            // also push to where connexion will expect it after my patch
-                            final String bodyParamName = bodyParameterName;
-                            Content content = body.getContent();
-                            if (content != null) {
-                                content.forEach((k, v) -> {
-                                    Schema schema = v.getSchema();
-                                    if (schema != null) {
-                                        if (schema.getExtensions() == null || !schema.getExtensions().containsKey("x-body-name")) {
+                            // pushing down to the schema where connexions curretly expects it to be is pointless
+                            // because it's not a valid position to have a $ref schema wth extensions
+                            // so the serialisation drops the extension.
+                            // we have modified connexion to allow it alo also at the operation level
+                            // so inject that below instead.
 
-                                            // legacy Connexion expects it here but this isn't a legal position if this is a ref schema
-                                            schema.addExtension("x-body-name", bodyParamName);
-                                        }
-                                    }
-                                });
-                            }
+                            // new location of x-body-name as per connexion issue 1452
+                            // and fix https://github.com/zalando/connexion/pull/1453
+                            operation.addExtension("x-body-name", bodyParameterName);
 
                             // Used by connexion
                             // TODO : NO IT'S NOT USD BY CONNEXIONS
@@ -444,9 +437,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                             //  F THE SCHEMA TYPE IS A $ref
                             body.addExtension("x-body-name", bodyParameterName);
 
-                            // new location of x-body-name as per connexion issue 1452
-                            // and fix https://github.com/zalando/connexion/pull/1453
-                            operation.addExtension("x-body-name", bodyParameterName);
                         }
                     }
                 }
