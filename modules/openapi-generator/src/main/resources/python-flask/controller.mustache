@@ -58,6 +58,10 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
     :rtype: {{returnType}}{{^returnType}}None{{/returnType}}
     """
     {{#allParams}}
+    {{^isBodyParam}}{{^isHeaderParam}}print("{{#isQueryParam}}QueryParam{{/isQueryParam}}{{#isFormParam}}FormParam{{/isFormParam}}{{#isPathParam}}PathParam{{/isPathParam}}{{#isCookieParam}}CookieParam{{/isCookieParam}} {{paramName}}=",str({{paramName}})){{/isHeaderParam}}
+    {{#isHeaderParam}}print("HeaderParam {{paramName}}=",str(connexion.request.headers['{{paramName}}'])){{/isHeaderParam}}
+{{/isBodyParam}}
+{{#isBodyParam}}print("BodyParam body=", str({{paramName}}))
         {{^isContainer}}
             {{#isDate}}
     {{paramName}} = util.deserialize_date({{paramName}})
@@ -69,7 +73,9 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
                 {{^isFile}}
                     {{^isUuid}}
     if connexion.request.is_json:
+        print("Request JSON: ", connexion.request.get_json())
         {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}} {{.}}{{/dataType}}{{/baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
+        print("Request JSON decoded : {{paramName}}=", {{paramName}})
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
@@ -106,6 +112,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
                 {{/complexType}}
             {{/items}}
         {{/isMap}}
+    {{/isBodyParam}}
     {{/allParams}}
     return 'do some magic!'
 {{/operation}}

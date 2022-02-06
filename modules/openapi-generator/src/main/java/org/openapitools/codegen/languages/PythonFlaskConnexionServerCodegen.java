@@ -26,7 +26,7 @@ public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionSe
     private final Logger LOGGER = LoggerFactory.getLogger(PythonFlaskConnexionServerCodegen.class);
 
     public PythonFlaskConnexionServerCodegen() {
-        super("python-flask", false);
+        super("python-flask", true);
     }
 
     /**

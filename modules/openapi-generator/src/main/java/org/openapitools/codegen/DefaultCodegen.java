@@ -4404,6 +4404,9 @@ public class DefaultCodegen implements CodegenConfig {
         return c;
     }
 
+    /* TODO: this doesn't pull in the example value from enum $ref fields properly.
+    *  https://github.com/OpenAPITools/openapi-generator/issues/4300
+    */
     private void finishUpdatingParameter(CodegenParameter codegenParameter, Parameter parameter) {
         // default to UNKNOWN_PARAMETER_NAME if paramName is null
         if (codegenParameter.paramName == null) {
@@ -4479,6 +4482,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.baseName = parameter.getName();
         codegenParameter.description = escapeText(parameter.getDescription());
         codegenParameter.unescapedDescription = parameter.getDescription();
+        codegenParameter.example = parameter.getExample() != null ? parameter.getExample().toString() : null;  // TODO JOHN ADDED
         if (parameter.getRequired() != null) {
             codegenParameter.required = parameter.getRequired();
         }

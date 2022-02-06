@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -401,19 +402,51 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                                 }
                             }
                         }
+
+                        /* unless fixBodyName is set to true then generated code will be invalid.
+                         * Connexion default body param name is "body" but the default param name that
+                         * Openapi Generator will use if we don't do something is the name of the class.
+                         * So there would be a runtime error as the parameters of the controller method would not be satisfied
+                         * by connexion. Of course one could manually edit the generated code to refer to "body" instead
+                         * but better still if we just make the openapi generator use "body" explicitly unless overridden.
+                         */
                         RequestBody body = operation.getRequestBody();
                         if (fixBodyName && body != null) {
-                            if (body.getExtensions() == null || !body.getExtensions().containsKey("x-body-name")) {
-                                String bodyParameterName = "body";
-                                if (operation.getExtensions() != null && operation.getExtensions().containsKey("x-codegen-request-body-name")) {
-                                    bodyParameterName = (String) operation.getExtensions().get("x-codegen-request-body-name");
-                                } else {
-                                    // Used by code generator
-                                    operation.addExtension("x-codegen-request-body-name", bodyParameterName);
-                                }
-                                // Used by connexion
-                                body.addExtension("x-body-name", bodyParameterName);
+                            String bodyParameterName = "body";
+                            if (operation.getExtensions() != null && operation.getExtensions().containsKey("x-codegen-request-body-name")) {
+                                bodyParameterName = (String) operation.getExtensions().get("x-codegen-request-body-name");
+                            } else {
+                                // Used by code generator
+                                operation.addExtension("x-codegen-request-body-name", bodyParameterName);
                             }
+
+                            // if found anywhere then push down the x-body-name to the schema where Connexions expects it to be
+                            // also push to where connexion will expect it after my patch
+                            final String bodyParamName = bodyParameterName;
+                            Content content = body.getContent();
+                            if (content != null) {
+                                content.forEach((k, v) -> {
+                                    Schema schema = v.getSchema();
+                                    if (schema != null) {
+                                        if (schema.getExtensions() == null || !schema.getExtensions().containsKey("x-body-name")) {
+
+                                            // legacy Connexion expects it here but this isn't a legal position if this is a ref schema
+                                            schema.addExtension("x-body-name", bodyParamName);
+                                        }
+                                    }
+                                });
+                            }
+
+                            // Used by connexion
+                            // TODO : NO IT'S NOT USD BY CONNEXIONS
+                            //  THIS DOESN'T WORK IN 2.10.0 AT LEAST - HAS TO BE IN THE SCHEMA INSTEAD
+                            //  BUT AN EXTENSION IS NOT VALUE I/
+                            //  F THE SCHEMA TYPE IS A $ref
+                            // body.addExtension("x-body-name", bodyParameterName);
+
+                            // new location of x-body-name as per connexion issue 1452
+                            // and fix https://github.com/zalando/connexion/pull/1453
+                            operation.addExtension("x-body-name", bodyParameterName);
                         }
                     }
                 }

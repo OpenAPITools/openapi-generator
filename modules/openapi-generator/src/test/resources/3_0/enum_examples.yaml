@@ -1,23 +1,22 @@
 openapi: 3.0.0
 info:
-  description: This spec is mainly for testing enum functionality
+  description: This spec is for testing all kinds of enum functionality and is generally applicable to any generator
   version: 1.0.0
-  title: OpenAPI Enums
+  title: OpenAPI Enums Exemplar
   license:
     name: Apache-2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 paths:
-  /enums:
+  /enum-get:
     get:
-      tags:
-        - fake
       summary: To test enum parameters
       description: To test enum parameters
-      operationId: enums
+      operationId: enum_get
+      #  curl 'http://localhost:8080/enum-get?enum_query_string_array=>&enum_query_string_array=$&enum_query_string=_abc&enum_query_integer=1&enum_query_double=1.1'  -H 'Content-Type: application/x-www-form-urlencoded' -H 'enum-header_string: _abc'  -H 'enum-header-string-array: >' -H 'enum_header_string_array: $' -X GET -v -d 'enum_form_string=_abc' -d 'enum_form_string_array=>'
       parameters:
-        - name: enum_header_string_array
+        - name: enum-header_string-array
           in: header
-          description: Header parameter enum test (string array)
+          description: Header parameter  - HTTP convention for headers is hyphen NOT underscore but both are legal so we'll use both here deliberately to highlight what the processing does
           schema:
             type: array
             items:
@@ -26,9 +25,9 @@ paths:
               enum:
                 - '>'
                 - $
-        - name: enum_header_string
+        - name: enum-header_string
           in: header
-          description: Header parameter enum test (string)
+          description: Header parameter - HTTP convention for headers is hyphen NOT underscore but both are legal so we'll use both here deliberately to highlight what the processing does
           schema:
             type: string
             enum:
@@ -97,6 +96,7 @@ paths:
                       - '>'
                       - $
                 enum_form_string:
+                  # Doesn't seem that connexions passes form parameters to the handler function as args when method is a GET
                   description: Form parameter enum test (string)
                   type: string
                   enum:
@@ -104,25 +104,79 @@ paths:
                     - '-efg'
                     - (xyz)
                   default: '-efg'
-  /enum-object:
+  /enum-post-json:
     post:
-      tags:
-        - fake
-      description: Test serialization of enum (int) properties with examples
-      operationId: enum_object
+      description: Test serialization of enum properties with examples
+      operationId: enum_post_json
+      # curl http://localhost:8080/enum-post-json?enum_int=1  -H 'Content-Type: application/json'   -X POST -d '{ "enum_string_required": "lower",  "outerEnumIntegerDefaultValue": 1, "outerEnumNumber": 2.2, "outerEnumStrange": "with Spaces", "decimal": "123e4" }'
       responses:
         '200':
-          description: Output enum (int)
+          description: Output enum cornucopia
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/EnumCornucopia'
-      requestBody:
+      parameters:
+      - description: Query outer enum parameter 
+        in: query
+        name: enum_query_int
+        required: true
+        # TODO Code gen doesn't pick this example up nor the one in the referred type unfortunately - and the generated controller test is not valid code
+        # https://github.com/OpenAPITools/openapi-generator/issues/4300
+        example: 2
+        schema:
+          $ref: '#/components/schemas/OuterEnumInteger'
+      x-acodegen-request-body-name: overidden_body_param_name
+      requestBody: 
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EnumCornucopia'
+                $ref: '#/components/schemas/EnumCornucopia'
+  /enum-post-form:
+    post:
+      description: Test serialization of enum properties with examples
+      operationId: enum_post_form
+      # curl 'http://localhost:8080/enum-post-form?enum_int=2'  -H 'Content-Type: application/x-www-form-urlencoded'   -X POST -d enum_form_string=_abc -d enum_form_string_array=\$
+      responses:
+        '200':
+          description: Output enum corncopia
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EnumCornucopia'
+      parameters:
+      - description: Query outer enum parameter 
+        in: query
+        name: enum_query_int
+        required: true
+        schema:
+          $ref: '#/components/schemas/OuterEnumInteger'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                enum_form_string_array:
+                  description: Form parameter enum test (string array)
+                  type: array
+                  items:
+                    type: string
+                    default: $
+                    enum:
+                      - '>'
+                      - $
+                enum_form_string:
+                  # Doesn't seem that connexions passes form parameters to the handler function as args when method is a GET
+                  description: Form parameter enum test (string)
+                  type: string
+                  enum:
+                    - _abc
+                    - '-efg'
+                    - (xyz)
+                  default: '-efg'
 components:
   schemas:
     EnumCornucopia:
@@ -130,10 +184,6 @@ components:
       required:
         - enum_string_required
       properties:
-        decimal:
-          type: string
-          format: number
-          example: 123.455
         enum_string:
           type: string
           enum:
@@ -160,12 +210,12 @@ components:
             - 1.1
             - -1.2
           example: -1.2
-        outerEnum:
-          $ref: '#/components/schemas/OuterEnum'
+        outerEnumString:
+          $ref: '#/components/schemas/OuterEnumString'
         outerEnumInteger:
           $ref: '#/components/schemas/OuterEnumInteger'
-        outerEnumDefaultValue:
-          $ref: '#/components/schemas/OuterEnumDefaultValue'
+        outerEnumStringDefaultValue:
+          $ref: '#/components/schemas/OuterEnumStringDefaultValue'
         outerEnumIntegerDefaultValue:
           $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
         outerEnumNumber:
@@ -205,7 +255,7 @@ components:
         - '-efg'
         - (xyz)
         - with Spaces
-    OuterEnum:
+    OuterEnumString:
       nullable: true
       type: string
       enum:
@@ -219,7 +269,13 @@ components:
       - 1
       - 2
       example: 2
-    OuterEnumDefaultValue:
+    OuterEnumNumber:
+      type: number
+      enum:
+      - 0
+      - 1.1
+      - 2.2
+    OuterEnumStringDefaultValue:
       type: string
       enum:
       - placed
@@ -233,16 +289,4 @@ components:
       - 1
       - 2
       default: 0
-    OuterEnumNumber:
-      type: number
-      enum:
-      - 0
-      - 1.1
-      - 2.2
-    OuterEnumStringNumber:
-      type: string
-      format: number
-      enum:
-      - 0
-      - 1
-      - 2.2
+      

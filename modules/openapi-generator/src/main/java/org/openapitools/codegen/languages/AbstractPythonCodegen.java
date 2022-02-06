@@ -80,7 +80,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         typeMapping.put("integer", "int");
         typeMapping.put("float", "float");
         typeMapping.put("number", "float");
-        typeMapping.put("decimal", "float");
         typeMapping.put("long", "int");
         typeMapping.put("double", "float");
         typeMapping.put("array", "list");
@@ -502,11 +501,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
-        String example;
+        // if already got an example then don't overwrite it with fallback values
+        if (p.example != null) {
+            return;
+        }
 
-        if (p.defaultValue == null) {
-            example = p.example;
-        } else {
+        if (p.defaultValue != null) {
             p.example = p.defaultValue;
             return;
         }
@@ -516,6 +516,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             type = p.dataType;
         }
 
+        String example = null;
         if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = p.paramName + "_example";
@@ -550,6 +551,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             example = "'" + escapeText(example) + "'";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
+            // sadly, this approach fails for "enums" where the class is just a wrapper and the actual field type is a string or int
+            // so the code below will probably have a runtime error.
+
+            // TODO: we shoudn't include the package prefix because this class will have been imported - this code probably won't compile
             example = this.packageName + "." + type + "()";
         } else {
             LOGGER.warn("Type {} not handled properly in setParameterExampleValue", type);
