@@ -45,7 +45,11 @@ public class Example {
     try {
       apiInstance.addPet(body);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling PetApi#addPet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -107,7 +111,11 @@ public class Example {
     try {
       apiInstance.deletePet(petId, apiKey);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling PetApi#deletePet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -172,7 +180,11 @@ public class Example {
       List<Pet> result = apiInstance.findPetsByStatus(status);
       System.out.println(result);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling PetApi#findPetsByStatus");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -236,7 +248,11 @@ public class Example {
       Set<Pet> result = apiInstance.findPetsByTags(tags);
       System.out.println(result);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling PetApi#findPetsByTags");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -302,7 +318,11 @@ public class Example {
       Pet result = apiInstance.getPetById(petId);
       System.out.println(result);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling PetApi#getPetById");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -364,7 +384,11 @@ public class Example {
     try {
       apiInstance.updatePet(body);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling PetApi#updatePet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -429,7 +453,11 @@ public class Example {
     try {
       apiInstance.updatePetWithForm(petId, name, status);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling PetApi#updatePetWithForm");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -494,7 +522,11 @@ public class Example {
       ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, _file);
       System.out.println(result);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling PetApi#uploadFile");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -559,7 +591,11 @@ public class Example {
       ModelApiResponse result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
       System.out.println(result);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling PetApi#uploadFileWithRequiredFile");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }

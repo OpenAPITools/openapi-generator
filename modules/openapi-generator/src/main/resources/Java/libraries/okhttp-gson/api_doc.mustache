@@ -63,23 +63,11 @@ public class Example {
             .execute();{{/vendorExtensions.x-group-parameters}}{{#returnType}}
       System.out.println(result);{{/returnType}}
     } catch (ApiException e) {
-      {{=< >=}}
-      <#errorObjectSubtype>
-      <^-first>} else </-first>if (e.getErrorObject() instanceof <&.>) {
-        // do something here
-      <#-last>
-      } else {
-        // something else happened
-        System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");
-        System.err.println("Status code: " + e.getCode());
-        System.err.println("Reason: " + e.getResponseBody());
-        System.err.println("Response headers: " + e.getResponseHeaders());
-        e.printStackTrace();
-      }
-      </-last>
-      </errorObjectSubtype>
-      <={{ }}=>
-
+      System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }

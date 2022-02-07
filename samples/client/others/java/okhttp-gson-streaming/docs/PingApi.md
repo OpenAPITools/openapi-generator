@@ -33,7 +33,11 @@ public class Example {
       SomeObj result = apiInstance.postPing(someObj);
       System.out.println(result);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling PingApi#postPing");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }

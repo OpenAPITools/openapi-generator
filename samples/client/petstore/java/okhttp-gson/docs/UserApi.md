@@ -41,7 +41,11 @@ public class Example {
     try {
       apiInstance.createUser(user);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling UserApi#createUser");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -96,7 +100,11 @@ public class Example {
     try {
       apiInstance.createUsersWithArrayInput(user);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -151,7 +159,11 @@ public class Example {
     try {
       apiInstance.createUsersWithListInput(user);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling UserApi#createUsersWithListInput");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -208,7 +220,11 @@ public class Example {
     try {
       apiInstance.deleteUser(username);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling UserApi#deleteUser");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -265,7 +281,11 @@ public class Example {
       User result = apiInstance.getUserByName(username);
       System.out.println(result);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling UserApi#getUserByName");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -324,7 +344,11 @@ public class Example {
       String result = apiInstance.loginUser(username, password);
       System.out.println(result);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling UserApi#loginUser");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -380,7 +404,11 @@ public class Example {
     try {
       apiInstance.logoutUser();
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling UserApi#logoutUser");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -435,7 +463,11 @@ public class Example {
     try {
       apiInstance.updateUser(username, user);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling UserApi#updateUser");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }

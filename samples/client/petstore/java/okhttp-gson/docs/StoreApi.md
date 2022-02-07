@@ -37,7 +37,11 @@ public class Example {
     try {
       apiInstance.deleteOrder(orderId);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling StoreApi#deleteOrder");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -102,7 +106,11 @@ public class Example {
       Map<String, Integer> result = apiInstance.getInventory();
       System.out.println(result);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling StoreApi#getInventory");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -157,7 +165,11 @@ public class Example {
       Order result = apiInstance.getOrderById(orderId);
       System.out.println(result);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling StoreApi#getOrderById");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
@@ -215,7 +227,11 @@ public class Example {
       Order result = apiInstance.placeOrder(order);
       System.out.println(result);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling StoreApi#placeOrder");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
