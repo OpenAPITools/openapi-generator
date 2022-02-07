@@ -35,7 +35,7 @@ public interface DefaultApi {
      * @param date A date path parameter (required)
      * @param dateTime A date-time query parameter (required)
      * @param xOrderDate A date header parameter (required)
-     * @param loginDate A date cookie parameter (optional, default to Wed Jan 01 00:00:00 UTC 1975)
+     * @param loginDate A date cookie parameter (optional, default to 1975-01-01)
      * @return OK (status code 200)
      */
     @ApiOperation(
@@ -52,10 +52,10 @@ public interface DefaultApi {
         value = "/thingy/{date}"
     )
     ResponseEntity<Void> get(
-        @ApiParam(value = "A date path parameter", required = true, defaultValue = "Sat Jan 01 00:00:00 UTC 1972") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @ApiParam(value = "A date path parameter", required = true, defaultValue = "1972-01-01") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @NotNull @ApiParam(value = "A date-time query parameter", required = true, defaultValue = "1973-12-19T03:39:57-08:00") @Valid @RequestParam(value = "dateTime", required = true, defaultValue = "1973-12-19T03:39:57-08:00") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-        @ApiParam(value = "A date header parameter", required = true, defaultValue = "Tue Jan 01 00:00:00 UTC 1974") @RequestHeader(value = "X-Order-Date", required = true, defaultValue = "Tue Jan 01 00:00:00 UTC 1974") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate xOrderDate,
-        @ApiParam(value = "A date cookie parameter", defaultValue = "Wed Jan 01 00:00:00 UTC 1975") @CookieValue(name="loginDate", defaultValue = "Wed Jan 01 00:00:00 UTC 1975") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate loginDate
+        @ApiParam(value = "A date header parameter", required = true, defaultValue = "1974-01-01") @RequestHeader(value = "X-Order-Date", required = true, defaultValue = "1974-01-01") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate xOrderDate,
+        @ApiParam(value = "A date cookie parameter", defaultValue = "1975-01-01") @CookieValue(name="loginDate", defaultValue = "1975-01-01") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate loginDate
     );
 
 
@@ -64,7 +64,7 @@ public interface DefaultApi {
      * update with form data
      *
      * @param date A date path parameter (required)
-     * @param visitDate Updated last vist timestamp (optional, default to 1971-12-19T03:39:57-08:00)
+     * @param visitDate Updated last vist timestamp (optional, default to OffsetDateTime.parse(&quot;1971-12-19T11:39:57Z[UTC]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
      * @return Invalid input (status code 405)
      */
     @ApiOperation(
@@ -82,8 +82,8 @@ public interface DefaultApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> updatePetWithForm(
-        @ApiParam(value = "A date path parameter", required = true, defaultValue = "Thu Jan 01 00:00:00 UTC 1970") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @ApiParam(value = "Updated last vist timestamp", defaultValue = "1971-12-19T03:39:57-08:00") @RequestParam(value="visitDate", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
+        @ApiParam(value = "A date path parameter", required = true, defaultValue = "1970-01-01") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @ApiParam(value = "Updated last vist timestamp", defaultValue = "OffsetDateTime.parse("1971-12-19T11:39:57Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))") @RequestParam(value="visitDate", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
     );
 
 }
