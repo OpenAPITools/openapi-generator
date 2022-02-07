@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
   description: 'This spec is mainly for testing Petstore server and contains fake
     endpoints, models. Please do not use this for any other purpose. Special characters:
@@ -9,7 +9,30 @@ info:
   title: OpenAPI Petstore
   version: 1.0.0
 servers:
-- url: http://petstore.swagger.io:80/v2
+- description: petstore server
+  url: http://{server}.swagger.io:{port}/v2
+  variables:
+    server:
+      default: petstore
+      enum:
+      - petstore
+      - qa-petstore
+      - dev-petstore
+    port:
+      default: "80"
+      enum:
+      - "80"
+      - "8080"
+- description: The local server
+  url: https://localhost:8080/{version}
+  variables:
+    version:
+      default: v2
+      enum:
+      - v1
+      - v2
+- description: The local server without variables
+  url: https://127.0.0.1/no_variable
 tags:
 - description: Everything about your Pets
   name: pet
@@ -18,77 +41,65 @@ tags:
 - description: Operations about user
   name: user
 paths:
+  /foo:
+    get:
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_default'
+          description: response
+      x-accepts: application/json
   /pet:
     post:
       operationId: addPet
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Pet'
-        description: Pet object that needs to be added to the store
-        required: true
+        $ref: '#/components/requestBodies/Pet'
       responses:
-        "200":
-          content: {}
-          description: successful operation
         "405":
-          content: {}
           description: Invalid input
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
       summary: Add a new pet to the store
       tags:
       - pet
-      x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
     put:
       operationId: updatePet
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Pet'
-        description: Pet object that needs to be added to the store
-        required: true
+        $ref: '#/components/requestBodies/Pet'
       responses:
-        "200":
-          content: {}
-          description: successful operation
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Pet not found
         "405":
-          content: {}
           description: Validation exception
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
       summary: Update an existing pet
       tags:
       - pet
-      x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
+    servers:
+    - url: http://petstore.swagger.io/v2
+    - url: http://path-server-test.petstore.local/v2
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
       operationId: findPetsByStatus
       parameters:
-      - description: Status values that need to be considered for filter
+      - deprecated: true
+        description: Status values that need to be considered for filter
         explode: false
         in: query
         name: status
@@ -118,9 +129,9 @@ paths:
                 type: array
           description: successful operation
         "400":
-          content: {}
           description: Invalid status value
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -144,7 +155,6 @@ paths:
           items:
             type: string
           type: array
-          uniqueItems: true
         style: form
       responses:
         "200":
@@ -154,18 +164,16 @@ paths:
                 items:
                   $ref: '#/components/schemas/Pet'
                 type: array
-                uniqueItems: true
             application/json:
               schema:
                 items:
                   $ref: '#/components/schemas/Pet'
                 type: array
-                uniqueItems: true
           description: successful operation
         "400":
-          content: {}
           description: Invalid tag value
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -177,23 +185,24 @@ paths:
     delete:
       operationId: deletePet
       parameters:
-      - in: header
+      - explode: false
+        in: header
         name: api_key
+        required: false
         schema:
           type: string
+        style: simple
       - description: Pet id to delete
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
-        "200":
-          content: {}
-          description: successful operation
         "400":
-          content: {}
           description: Invalid pet value
       security:
       - petstore_auth:
@@ -208,12 +217,14 @@ paths:
       operationId: getPetById
       parameters:
       - description: ID of pet to return
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         "200":
           content:
@@ -225,10 +236,8 @@ paths:
                 $ref: '#/components/schemas/Pet'
           description: successful operation
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Pet not found
       security:
       - api_key: []
@@ -240,13 +249,16 @@ paths:
       operationId: updatePetWithForm
       parameters:
       - description: ID of pet that needs to be updated
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
+        $ref: '#/components/requestBodies/inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -257,9 +269,9 @@ paths:
                 status:
                   description: Updated status of the pet
                   type: string
+              type: object
       responses:
         "405":
-          content: {}
           description: Invalid input
       security:
       - petstore_auth:
@@ -275,13 +287,16 @@ paths:
       operationId: uploadFile
       parameters:
       - description: ID of pet to update
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
+        $ref: '#/components/requestBodies/inline_object_1'
         content:
           multipart/form-data:
             schema:
@@ -293,6 +308,7 @@ paths:
                   description: file to upload
                   format: binary
                   type: string
+              type: object
       responses:
         "200":
           content:
@@ -334,7 +350,7 @@ paths:
       operationId: placeOrder
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/Order'
         description: order placed for purchasing the pet
@@ -350,13 +366,11 @@ paths:
                 $ref: '#/components/schemas/Order'
           description: successful operation
         "400":
-          content: {}
           description: Invalid Order
       summary: Place an order for a pet
       tags:
       - store
-      x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-contentType: application/json
       x-accepts: application/json
   /store/order/{order_id}:
     delete:
@@ -365,17 +379,17 @@ paths:
       operationId: deleteOrder
       parameters:
       - description: ID of the order that needs to be deleted
+        explode: false
         in: path
         name: order_id
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Order not found
       summary: Delete purchase order by ID
       tags:
@@ -387,6 +401,7 @@ paths:
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
+        explode: false
         in: path
         name: order_id
         required: true
@@ -395,6 +410,7 @@ paths:
           maximum: 5
           minimum: 1
           type: integer
+        style: simple
       responses:
         "200":
           content:
@@ -406,10 +422,8 @@ paths:
                 $ref: '#/components/schemas/Order'
           description: successful operation
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Order not found
       summary: Find purchase order by ID
       tags:
@@ -421,81 +435,65 @@ paths:
       operationId: createUser
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/User'
         description: Created user object
         required: true
       responses:
         default:
-          content: {}
           description: successful operation
       summary: Create user
       tags:
       - user
-      x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-contentType: application/json
       x-accepts: application/json
   /user/createWithArray:
     post:
       operationId: createUsersWithArrayInput
       requestBody:
-        content:
-          '*/*':
-            schema:
-              items:
-                $ref: '#/components/schemas/User'
-              type: array
-        description: List of user object
-        required: true
+        $ref: '#/components/requestBodies/UserArray'
       responses:
         default:
-          content: {}
           description: successful operation
       summary: Creates list of users with given input array
       tags:
       - user
-      x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-contentType: application/json
       x-accepts: application/json
   /user/createWithList:
     post:
       operationId: createUsersWithListInput
       requestBody:
-        content:
-          '*/*':
-            schema:
-              items:
-                $ref: '#/components/schemas/User'
-              type: array
-        description: List of user object
-        required: true
+        $ref: '#/components/requestBodies/UserArray'
       responses:
         default:
-          content: {}
           description: successful operation
       summary: Creates list of users with given input array
       tags:
       - user
-      x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-contentType: application/json
       x-accepts: application/json
   /user/login:
     get:
       operationId: loginUser
       parameters:
       - description: The user name for login
+        explode: true
         in: query
         name: username
         required: true
         schema:
           type: string
+        style: form
       - description: The password for login in clear text
+        explode: true
         in: query
         name: password
         required: true
         schema:
           type: string
+        style: form
       responses:
         "200":
           content:
@@ -509,16 +507,19 @@ paths:
           headers:
             X-Rate-Limit:
               description: calls per hour allowed by the user
+              explode: false
               schema:
                 format: int32
                 type: integer
+              style: simple
             X-Expires-After:
               description: date in UTC when token expires
+              explode: false
               schema:
                 format: date-time
                 type: string
+              style: simple
         "400":
-          content: {}
           description: Invalid username/password supplied
       summary: Logs user into the system
       tags:
@@ -529,7 +530,6 @@ paths:
       operationId: logoutUser
       responses:
         default:
-          content: {}
           description: successful operation
       summary: Logs out current logged in user session
       tags:
@@ -541,17 +541,17 @@ paths:
       operationId: deleteUser
       parameters:
       - description: The name that needs to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "400":
-          content: {}
           description: Invalid username supplied
         "404":
-          content: {}
           description: User not found
       summary: Delete user
       tags:
@@ -561,11 +561,13 @@ paths:
       operationId: getUserByName
       parameters:
       - description: The name that needs to be fetched. Use user1 for testing.
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "200":
           content:
@@ -577,10 +579,8 @@ paths:
                 $ref: '#/components/schemas/User'
           description: successful operation
         "400":
-          content: {}
           description: Invalid username supplied
         "404":
-          content: {}
           description: User not found
       summary: Get user by user name
       tags:
@@ -591,42 +591,36 @@ paths:
       operationId: updateUser
       parameters:
       - description: name that need to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/User'
         description: Updated user object
         required: true
       responses:
         "400":
-          content: {}
           description: Invalid user supplied
         "404":
-          content: {}
           description: User not found
       summary: Updated user
       tags:
       - user
-      x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-contentType: application/json
       x-accepts: application/json
   /fake_classname_test:
     patch:
       description: To test class name in snake case
       operationId: testClassname
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Client'
-        description: client model
-        required: true
+        $ref: '#/components/requestBodies/Client'
       responses:
         "200":
           content:
@@ -639,7 +633,6 @@ paths:
       summary: To test class name in snake case
       tags:
       - fake_classname_tags 123#$%^
-      x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
   /fake:
@@ -648,44 +641,60 @@ paths:
       operationId: testGroupParameters
       parameters:
       - description: Required String in group parameters
+        explode: true
         in: query
         name: required_string_group
         required: true
         schema:
           type: integer
+        style: form
       - description: Required Boolean in group parameters
+        explode: false
         in: header
         name: required_boolean_group
         required: true
         schema:
           type: boolean
+        style: simple
       - description: Required Integer in group parameters
+        explode: true
         in: query
         name: required_int64_group
         required: true
         schema:
           format: int64
           type: integer
+        style: form
       - description: String in group parameters
+        explode: true
         in: query
         name: string_group
+        required: false
         schema:
           type: integer
+        style: form
       - description: Boolean in group parameters
+        explode: false
         in: header
         name: boolean_group
+        required: false
         schema:
           type: boolean
+        style: simple
       - description: Integer in group parameters
+        explode: true
         in: query
         name: int64_group
+        required: false
         schema:
           format: int64
           type: integer
+        style: form
       responses:
         "400":
-          content: {}
           description: Someting wrong
+      security:
+      - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)
       tags:
       - fake
@@ -699,6 +708,7 @@ paths:
         explode: false
         in: header
         name: enum_header_string_array
+        required: false
         schema:
           items:
             default: $
@@ -709,8 +719,10 @@ paths:
           type: array
         style: simple
       - description: Header parameter enum test (string)
+        explode: false
         in: header
         name: enum_header_string
+        required: false
         schema:
           default: -efg
           enum:
@@ -718,10 +730,12 @@ paths:
           - -efg
           - (xyz)
           type: string
+        style: simple
       - description: Query parameter enum test (string array)
-        explode: false
+        explode: true
         in: query
         name: enum_query_string_array
+        required: false
         schema:
           items:
             default: $
@@ -732,8 +746,10 @@ paths:
           type: array
         style: form
       - description: Query parameter enum test (string)
+        explode: true
         in: query
         name: enum_query_string
+        required: false
         schema:
           default: -efg
           enum:
@@ -741,25 +757,33 @@ paths:
           - -efg
           - (xyz)
           type: string
+        style: form
       - description: Query parameter enum test (double)
+        explode: true
         in: query
         name: enum_query_integer
+        required: false
         schema:
           enum:
           - 1
           - -2
           format: int32
           type: integer
+        style: form
       - description: Query parameter enum test (double)
+        explode: true
         in: query
         name: enum_query_double
+        required: false
         schema:
           enum:
           - 1.1
           - -1.2
           format: double
           type: number
+        style: form
       requestBody:
+        $ref: '#/components/requestBodies/inline_object_2'
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -781,12 +805,11 @@ paths:
                   - -efg
                   - (xyz)
                   type: string
+              type: object
       responses:
         "400":
-          content: {}
           description: Invalid request
         "404":
-          content: {}
           description: Not found
       summary: To test enum parameters
       tags:
@@ -797,12 +820,7 @@ paths:
       description: To test "client" model
       operationId: testClientModel
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Client'
-        description: client model
-        required: true
+        $ref: '#/components/requestBodies/Client'
       responses:
         "200":
           content:
@@ -813,24 +831,23 @@ paths:
       summary: To test "client" model
       tags:
       - fake
-      x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
     post:
-      description: |-
+      description: |
         Fake endpoint for testing various parameters
-         假端點
-         偽のエンドポイント
-         가짜 엔드 포인트
+        假端點
+        偽のエンドポイント
+        가짜 엔드 포인트
       operationId: testEndpointParameters
       requestBody:
+        $ref: '#/components/requestBodies/inline_object_3'
         content:
           application/x-www-form-urlencoded:
             schema:
               properties:
                 integer:
                   description: None
-                  format: int32
                   maximum: 100
                   minimum: 10
                   type: integer
@@ -881,7 +898,9 @@ paths:
                   format: date
                   type: string
                 dateTime:
+                  default: 2010-02-01T10:20:10.11111+01:00
                   description: None
+                  example: 2020-02-02T20:20:20.22222Z
                   format: date-time
                   type: string
                 password:
@@ -898,21 +917,19 @@ paths:
               - double
               - number
               - pattern_without_delimiter
-        required: true
+              type: object
       responses:
         "400":
-          content: {}
           description: Invalid username supplied
         "404":
-          content: {}
           description: User not found
       security:
       - http_basic_test: []
-      summary: |-
+      summary: |
         Fake endpoint for testing various parameters
-         假端點
-         偽のエンドポイント
-         가짜 엔드 포인트
+        假端點
+        偽のエンドポイント
+        가짜 엔드 포인트
       tags:
       - fake
       x-contentType: application/x-www-form-urlencoded
@@ -923,11 +940,10 @@ paths:
       operationId: fakeOuterNumberSerialize
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/OuterNumber'
         description: Input number as post body
-        required: false
       responses:
         "200":
           content:
@@ -937,8 +953,7 @@ paths:
           description: Output number
       tags:
       - fake
-      x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-contentType: application/json
       x-accepts: '*/*'
   /fake/outer/string:
     post:
@@ -946,11 +961,10 @@ paths:
       operationId: fakeOuterStringSerialize
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/OuterString'
         description: Input string as post body
-        required: false
       responses:
         "200":
           content:
@@ -960,8 +974,7 @@ paths:
           description: Output string
       tags:
       - fake
-      x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-contentType: application/json
       x-accepts: '*/*'
   /fake/outer/boolean:
     post:
@@ -969,11 +982,10 @@ paths:
       operationId: fakeOuterBooleanSerialize
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/OuterBoolean'
         description: Input boolean as post body
-        required: false
       responses:
         "200":
           content:
@@ -983,8 +995,7 @@ paths:
           description: Output boolean
       tags:
       - fake
-      x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-contentType: application/json
       x-accepts: '*/*'
   /fake/outer/composite:
     post:
@@ -992,11 +1003,10 @@ paths:
       operationId: fakeOuterCompositeSerialize
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/OuterComposite'
         description: Input composite as post body
-        required: false
       responses:
         "200":
           content:
@@ -1006,13 +1016,13 @@ paths:
           description: Output composite
       tags:
       - fake
-      x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-contentType: application/json
       x-accepts: '*/*'
   /fake/jsonFormData:
     get:
       operationId: testJsonFormData
       requestBody:
+        $ref: '#/components/requestBodies/inline_object_4'
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -1026,10 +1036,9 @@ paths:
               required:
               - param
               - param2
-        required: true
+              type: object
       responses:
         "200":
-          content: {}
           description: successful operation
       summary: test json serialization of form data
       tags:
@@ -1050,23 +1059,23 @@ paths:
         required: true
       responses:
         "200":
-          content: {}
           description: successful operation
       summary: test inline additionalProperties
       tags:
       - fake
-      x-codegen-request-body-name: param
       x-contentType: application/json
       x-accepts: application/json
   /fake/body-with-query-params:
     put:
       operationId: testBodyWithQueryParams
       parameters:
-      - in: query
+      - explode: true
+        in: query
         name: query
         required: true
         schema:
           type: string
+        style: form
       requestBody:
         content:
           application/json:
@@ -1075,60 +1084,17 @@ paths:
         required: true
       responses:
         "200":
-          content: {}
           description: Success
       tags:
       - fake
-      x-codegen-request-body-name: body
       x-contentType: application/json
-      x-accepts: application/json
-  /fake/create_xml_item:
-    post:
-      description: this route creates an XmlItem
-      operationId: createXmlItem
-      requestBody:
-        content:
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/XmlItem'
-          application/xml; charset=utf-8:
-            schema:
-              $ref: '#/components/schemas/XmlItem'
-          application/xml; charset=utf-16:
-            schema:
-              $ref: '#/components/schemas/XmlItem'
-          text/xml:
-            schema:
-              $ref: '#/components/schemas/XmlItem'
-          text/xml; charset=utf-8:
-            schema:
-              $ref: '#/components/schemas/XmlItem'
-          text/xml; charset=utf-16:
-            schema:
-              $ref: '#/components/schemas/XmlItem'
-        description: XmlItem Body
-        required: true
-      responses:
-        "200":
-          content: {}
-          description: successful operation
-      summary: creates an XmlItem
-      tags:
-      - fake
-      x-codegen-request-body-name: XmlItem
-      x-contentType: application/xml
       x-accepts: application/json
   /another-fake/dummy:
     patch:
       description: To test special tags and operation ID starting with number
       operationId: 123_test_@#$%_special_tags
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Client'
-        description: client model
-        required: true
+        $ref: '#/components/requestBodies/Client'
       responses:
         "200":
           content:
@@ -1139,7 +1105,6 @@ paths:
       summary: To test special tags
       tags:
       - $another-fake?
-      x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
   /fake/body-with-file-schema:
@@ -1155,11 +1120,9 @@ paths:
         required: true
       responses:
         "200":
-          content: {}
           description: Success
       tags:
       - fake
-      x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
   /fake/test-query-parameters:
@@ -1167,7 +1130,7 @@ paths:
       description: To test the collection format in query parameters
       operationId: testQueryParameterCollectionFormat
       parameters:
-      - explode: false
+      - explode: true
         in: query
         name: pipe
         required: true
@@ -1176,14 +1139,17 @@ paths:
             type: string
           type: array
         style: form
-      - in: query
+      - explode: false
+        in: query
         name: ioutil
         required: true
         schema:
           items:
             type: string
           type: array
-      - in: query
+        style: form
+      - explode: false
+        in: query
         name: http
         required: true
         schema:
@@ -1211,7 +1177,6 @@ paths:
         style: form
       responses:
         "200":
-          content: {}
           description: Success
       tags:
       - fake
@@ -1221,13 +1186,16 @@ paths:
       operationId: uploadFileWithRequiredFile
       parameters:
       - description: ID of pet to update
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
+        $ref: '#/components/requestBodies/inline_object_5'
         content:
           multipart/form-data:
             schema:
@@ -1241,7 +1209,7 @@ paths:
                   type: string
               required:
               - requiredFile
-        required: true
+              type: object
       responses:
         "200":
           content:
@@ -1258,14 +1226,116 @@ paths:
       - pet
       x-contentType: multipart/form-data
       x-accepts: application/json
+  /fake/health:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckResult'
+          description: The instance started successfully
+      summary: Health check endpoint
+      tags:
+      - fake
+      x-accepts: application/json
+  /fake/array-of-enums:
+    get:
+      operationId: getArrayOfEnums
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfEnums'
+          description: Got named array of enums
+      summary: Array of Enums
+      tags:
+      - fake
+      x-accepts: application/json
 components:
+  requestBodies:
+    UserArray:
+      content:
+        application/json:
+          examples:
+            simple-list:
+              description: Should not get into code examples
+              summary: Simple list example
+              value:
+              - username: foo
+              - username: bar
+          schema:
+            items:
+              $ref: '#/components/schemas/User'
+            type: array
+      description: List of user object
+      required: true
+    Client:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Client'
+      description: client model
+      required: true
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
+      required: true
+    inline_object:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/inline_object'
+    inline_object_1:
+      content:
+        multipart/form-data:
+          schema:
+            $ref: '#/components/schemas/inline_object_1'
+    inline_object_2:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/inline_object_2'
+    inline_object_3:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/inline_object_3'
+    inline_object_4:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/inline_object_4'
+    inline_object_5:
+      content:
+        multipart/form-data:
+          schema:
+            $ref: '#/components/schemas/inline_object_5'
   schemas:
+    Foo:
+      example:
+        bar: bar
+      properties:
+        bar:
+          default: bar
+          type: string
+      type: object
+    Bar:
+      default: bar
+      type: string
     Order:
       example:
         petId: 6
         quantity: 1
         id: 0
-        shipDate: 2000-01-23T04:56:07.000+00:00
+        shipDate: 2020-02-02T20:20:20.000222Z
         complete: false
         status: placed
       properties:
@@ -1279,6 +1349,7 @@ components:
           format: int32
           type: integer
         shipDate:
+          example: 2020-02-02T20:20:20.000222Z
           format: date-time
           type: string
         status:
@@ -1316,9 +1387,13 @@ components:
         lastName: lastName
         password: password
         userStatus: 6
+        objectWithNoDeclaredPropsNullable: '{}'
         phone: phone
+        objectWithNoDeclaredProps: '{}'
         id: 0
+        anyTypePropNullable: ""
         email: email
+        anyTypeProp: ""
         username: username
       properties:
         id:
@@ -1341,6 +1416,25 @@ components:
           description: User Status
           format: int32
           type: integer
+        objectWithNoDeclaredProps:
+          description: test code generation for objects Value must be a map of strings
+            to values. It cannot be the 'null' value.
+          type: object
+        objectWithNoDeclaredPropsNullable:
+          description: test code generation for nullable objects. Value must be a
+            map of strings to values or the 'null' value.
+          nullable: true
+          type: object
+        anyTypeProp:
+          description: test code generation for any type Here the 'type' attribute
+            is not specified, which means the value can be anything, including the
+            null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
+        anyTypePropNullable:
+          description: test code generation for any type Here the 'type' attribute
+            is not specified, which means the value can be anything, including the
+            null value, string, number, boolean, array or object. The 'nullable' attribute
+            does not change the allowed values.
+          nullable: true
       type: object
       xml:
         name: User
@@ -1387,7 +1481,6 @@ components:
           items:
             type: string
           type: array
-          uniqueItems: true
           xml:
             name: photoUrl
             wrapped: true
@@ -1425,21 +1518,12 @@ components:
         message:
           type: string
       type: object
-    $special[model.name]:
-      properties:
-        $special[property.name]:
-          format: int64
-          type: integer
-      type: object
-      xml:
-        name: $special[model.name]
     Return:
       description: Model for testing reserved words
       properties:
         return:
           format: int32
           type: integer
-      type: object
       xml:
         name: Return
     Name:
@@ -1459,7 +1543,6 @@ components:
           type: integer
       required:
       - name
-      type: object
       xml:
         name: Name
     "200_response":
@@ -1470,7 +1553,6 @@ components:
           type: integer
         class:
           type: string
-      type: object
       xml:
         name: Name
     ClassModel:
@@ -1478,7 +1560,6 @@ components:
       properties:
         _class:
           type: string
-      type: object
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
@@ -1486,11 +1567,12 @@ components:
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
+      - $ref: '#/components/schemas/Address'
       - $ref: '#/components/schemas/Cat_allOf'
-    BigCat:
-      allOf:
-      - $ref: '#/components/schemas/Cat'
-      - $ref: '#/components/schemas/BigCat_allOf'
+    Address:
+      additionalProperties:
+        type: integer
+      type: object
     Animal:
       discriminator:
         propertyName: className
@@ -1510,13 +1592,14 @@ components:
     format_test:
       properties:
         integer:
-          maximum: 1E+2
-          minimum: 1E+1
+          maximum: 100
+          minimum: 10
+          multipleOf: 2
           type: integer
         int32:
           format: int32
-          maximum: 2E+2
-          minimum: 2E+1
+          maximum: 200
+          minimum: 20
           type: integer
         int64:
           format: int64
@@ -1524,6 +1607,7 @@ components:
         number:
           maximum: 543.2
           minimum: 32.1
+          multipleOf: 32.5
           type: number
         float:
           format: float
@@ -1535,20 +1619,24 @@ components:
           maximum: 123.4
           minimum: 67.8
           type: number
+        decimal:
+          format: number
+          type: string
         string:
           pattern: /[a-z]/i
           type: string
         byte:
           format: byte
-          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
           type: string
         binary:
           format: binary
           type: string
         date:
+          example: 2020-02-02
           format: date
           type: string
         dateTime:
+          example: 2007-12-03T10:15:30+01:00
           format: date-time
           type: string
         uuid:
@@ -1560,8 +1648,14 @@ components:
           maxLength: 64
           minLength: 10
           type: string
-        BigDecimal:
-          format: number
+        pattern_with_digits:
+          description: A string that is a 10 digit number. Can have leading zeros.
+          pattern: ^\d{10}$
+          type: string
+        pattern_with_digits_and_delimiter:
+          description: A string starting with 'image_' (case insensitive) and one
+            to three digits following i.e. Image_01.
+          pattern: /^image_\d{1,3}$/i
           type: string
       required:
       - byte
@@ -1596,6 +1690,11 @@ components:
           - -1
           format: int32
           type: integer
+        enum_integer_only:
+          enum:
+          - 2
+          - -2
+          type: integer
         enum_number:
           enum:
           - 1.1
@@ -1604,117 +1703,45 @@ components:
           type: number
         outerEnum:
           $ref: '#/components/schemas/OuterEnum'
+        outerEnumInteger:
+          $ref: '#/components/schemas/OuterEnumInteger'
+        outerEnumDefaultValue:
+          $ref: '#/components/schemas/OuterEnumDefaultValue'
+        outerEnumIntegerDefaultValue:
+          $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
       required:
       - enum_string_required
       type: object
     AdditionalPropertiesClass:
       properties:
-        map_string:
+        map_property:
           additionalProperties:
             type: string
           type: object
-        map_number:
-          additionalProperties:
-            type: number
-          type: object
-        map_integer:
-          additionalProperties:
-            type: integer
-          type: object
-        map_boolean:
-          additionalProperties:
-            type: boolean
-          type: object
-        map_array_integer:
-          additionalProperties:
-            items:
-              type: integer
-            type: array
-          type: object
-        map_array_anytype:
-          additionalProperties:
-            items:
-              properties: {}
-              type: object
-            type: array
-          type: object
-        map_map_string:
+        map_of_map_property:
           additionalProperties:
             additionalProperties:
               type: string
             type: object
           type: object
-        map_map_anytype:
+        anytype_1: {}
+        map_with_undeclared_properties_anytype_1:
+          type: object
+        map_with_undeclared_properties_anytype_2:
+          properties: {}
+          type: object
+        map_with_undeclared_properties_anytype_3:
+          additionalProperties: true
+          type: object
+        empty_map:
+          additionalProperties: false
+          description: an object with no declared properties and no undeclared properties,
+            hence it's an empty map.
+          type: object
+        map_with_undeclared_properties_string:
           additionalProperties:
-            additionalProperties:
-              properties: {}
-              type: object
-            type: object
+            type: string
           type: object
-        anytype_1:
-          properties: {}
-          type: object
-        anytype_2:
-          type: object
-        anytype_3:
-          properties: {}
-          type: object
-      type: object
-    AdditionalPropertiesString:
-      additionalProperties:
-        type: string
-      properties:
-        name:
-          type: string
-      type: object
-    AdditionalPropertiesInteger:
-      additionalProperties:
-        type: integer
-      properties:
-        name:
-          type: string
-      type: object
-    AdditionalPropertiesNumber:
-      additionalProperties:
-        type: number
-      properties:
-        name:
-          type: string
-      type: object
-    AdditionalPropertiesBoolean:
-      additionalProperties:
-        type: boolean
-      properties:
-        name:
-          type: string
-      type: object
-    AdditionalPropertiesArray:
-      additionalProperties:
-        items:
-          properties: {}
-          type: object
-        type: array
-      properties:
-        name:
-          type: string
-      type: object
-    AdditionalPropertiesObject:
-      additionalProperties:
-        additionalProperties:
-          properties: {}
-          type: object
-        type: object
-      properties:
-        name:
-          type: string
-      type: object
-    AdditionalPropertiesAnyType:
-      additionalProperties:
-        properties: {}
-        type: object
-      properties:
-        name:
-          type: string
       type: object
     MixedPropertiesAndAdditionalPropertiesClass:
       properties:
@@ -1860,7 +1887,28 @@ components:
       - placed
       - approved
       - delivered
+      nullable: true
       type: string
+    OuterEnumInteger:
+      enum:
+      - 0
+      - 1
+      - 2
+      type: integer
+    OuterEnumDefaultValue:
+      default: placed
+      enum:
+      - placed
+      - approved
+      - delivered
+      type: string
+    OuterEnumIntegerDefaultValue:
+      default: 0
+      enum:
+      - 0
+      - 1
+      - 2
+      type: integer
     OuterComposite:
       example:
         my_string: my_string
@@ -1910,243 +1958,511 @@ components:
           description: Test capitalization
           type: string
       type: object
-    TypeHolderDefault:
+    _special_model.name_:
       properties:
-        string_item:
-          default: what
-          type: string
-        number_item:
-          type: number
-        integer_item:
+        $special[property.name]:
+          format: int64
           type: integer
-        bool_item:
-          default: true
-          type: boolean
-        array_item:
-          items:
-            type: integer
-          type: array
-      required:
-      - array_item
-      - bool_item
-      - integer_item
-      - number_item
-      - string_item
+        _special_model.name_:
+          type: string
+      xml:
+        name: $special[model.name]
+    HealthCheckResult:
+      description: Just a string to inform instance is up and running. Make it nullable
+        in hope to get it as pointer in generated model.
+      example:
+        NullableMessage: NullableMessage
+      properties:
+        NullableMessage:
+          nullable: true
+          type: string
       type: object
-    TypeHolderExample:
+    NullableClass:
+      additionalProperties:
+        nullable: true
+        type: object
       properties:
-        string_item:
-          example: what
-          type: string
-        number_item:
-          example: 1.234
-          type: number
-        float_item:
-          example: 1.234
-          format: float
-          type: number
-        integer_item:
-          example: -2
+        integer_prop:
+          nullable: true
           type: integer
-        bool_item:
-          example: true
+        number_prop:
+          nullable: true
+          type: number
+        boolean_prop:
+          nullable: true
           type: boolean
-        array_item:
-          example:
-          - 0
-          - 1
-          - 2
-          - 3
+        string_prop:
+          nullable: true
+          type: string
+        date_prop:
+          format: date
+          nullable: true
+          type: string
+        datetime_prop:
+          format: date-time
+          nullable: true
+          type: string
+        array_nullable_prop:
           items:
-            type: integer
+            type: object
+          nullable: true
           type: array
-      required:
-      - array_item
-      - bool_item
-      - float_item
-      - integer_item
-      - number_item
-      - string_item
+        array_and_items_nullable_prop:
+          items:
+            nullable: true
+            type: object
+          nullable: true
+          type: array
+        array_items_nullable:
+          items:
+            nullable: true
+            type: object
+          type: array
+        object_nullable_prop:
+          additionalProperties:
+            type: object
+          nullable: true
+          type: object
+        object_and_items_nullable_prop:
+          additionalProperties:
+            nullable: true
+            type: object
+          nullable: true
+          type: object
+        object_items_nullable:
+          additionalProperties:
+            nullable: true
+            type: object
+          type: object
       type: object
-    XmlItem:
+    fruit:
+      additionalProperties: false
+      oneOf:
+      - $ref: '#/components/schemas/apple'
+      - $ref: '#/components/schemas/banana'
       properties:
-        attribute_string:
-          example: string
+        color:
           type: string
-          xml:
-            attribute: true
-        attribute_number:
-          example: 1.234
-          type: number
-          xml:
-            attribute: true
-        attribute_integer:
-          example: -2
-          type: integer
-          xml:
-            attribute: true
-        attribute_boolean:
-          example: true
-          type: boolean
-          xml:
-            attribute: true
-        wrapped_array:
-          items:
-            type: integer
-          type: array
-          xml:
-            wrapped: true
-        name_string:
-          example: string
+    apple:
+      nullable: true
+      properties:
+        cultivar:
+          pattern: ^[a-zA-Z\s]*$
           type: string
-          xml:
-            name: xml_name_string
-        name_number:
-          example: 1.234
-          type: number
-          xml:
-            name: xml_name_number
-        name_integer:
-          example: -2
-          type: integer
-          xml:
-            name: xml_name_integer
-        name_boolean:
-          example: true
-          type: boolean
-          xml:
-            name: xml_name_boolean
-        name_array:
-          items:
-            type: integer
-            xml:
-              name: xml_name_array_item
-          type: array
-        name_wrapped_array:
-          items:
-            type: integer
-            xml:
-              name: xml_name_wrapped_array_item
-          type: array
-          xml:
-            name: xml_name_wrapped_array
-            wrapped: true
-        prefix_string:
-          example: string
+        origin:
+          pattern: /^[A-Z\s]*$/i
           type: string
-          xml:
-            prefix: ab
-        prefix_number:
-          example: 1.234
+      type: object
+    banana:
+      properties:
+        lengthCm:
           type: number
-          xml:
-            prefix: cd
-        prefix_integer:
-          example: -2
-          type: integer
-          xml:
-            prefix: ef
-        prefix_boolean:
-          example: true
+      type: object
+    mammal:
+      discriminator:
+        propertyName: className
+      oneOf:
+      - $ref: '#/components/schemas/whale'
+      - $ref: '#/components/schemas/zebra'
+      - $ref: '#/components/schemas/Pig'
+    whale:
+      properties:
+        hasBaleen:
           type: boolean
-          xml:
-            prefix: gh
-        prefix_array:
-          items:
-            type: integer
-            xml:
-              prefix: ij
-          type: array
-        prefix_wrapped_array:
-          items:
-            type: integer
-            xml:
-              prefix: mn
-          type: array
-          xml:
-            prefix: kl
-            wrapped: true
-        namespace_string:
-          example: string
+        hasTeeth:
+          type: boolean
+        className:
           type: string
-          xml:
-            namespace: http://a.com/schema
-        namespace_number:
-          example: 1.234
-          type: number
-          xml:
-            namespace: http://b.com/schema
-        namespace_integer:
-          example: -2
-          type: integer
-          xml:
-            namespace: http://c.com/schema
-        namespace_boolean:
-          example: true
-          type: boolean
-          xml:
-            namespace: http://d.com/schema
-        namespace_array:
-          items:
-            type: integer
-            xml:
-              namespace: http://e.com/schema
-          type: array
-        namespace_wrapped_array:
-          items:
-            type: integer
-            xml:
-              namespace: http://g.com/schema
-          type: array
-          xml:
-            namespace: http://f.com/schema
-            wrapped: true
-        prefix_ns_string:
-          example: string
+      required:
+      - className
+      type: object
+    zebra:
+      additionalProperties: true
+      properties:
+        type:
+          enum:
+          - plains
+          - mountain
+          - grevys
           type: string
-          xml:
-            namespace: http://a.com/schema
-            prefix: a
-        prefix_ns_number:
-          example: 1.234
-          type: number
-          xml:
-            namespace: http://b.com/schema
-            prefix: b
-        prefix_ns_integer:
-          example: -2
-          type: integer
-          xml:
-            namespace: http://c.com/schema
-            prefix: c
-        prefix_ns_boolean:
-          example: true
+        className:
+          type: string
+      required:
+      - className
+      type: object
+    Pig:
+      discriminator:
+        propertyName: className
+      oneOf:
+      - $ref: '#/components/schemas/BasquePig'
+      - $ref: '#/components/schemas/DanishPig'
+    BasquePig:
+      properties:
+        className:
+          type: string
+      required:
+      - className
+      type: object
+    DanishPig:
+      properties:
+        className:
+          type: string
+      required:
+      - className
+      type: object
+    gmFruit:
+      additionalProperties: false
+      anyOf:
+      - $ref: '#/components/schemas/apple'
+      - $ref: '#/components/schemas/banana'
+      properties:
+        color:
+          type: string
+    fruitReq:
+      additionalProperties: false
+      oneOf:
+      - type: "null"
+      - $ref: '#/components/schemas/appleReq'
+      - $ref: '#/components/schemas/bananaReq'
+    appleReq:
+      additionalProperties: false
+      properties:
+        cultivar:
+          type: string
+        mealy:
           type: boolean
-          xml:
-            namespace: http://d.com/schema
-            prefix: d
-        prefix_ns_array:
+      required:
+      - cultivar
+      type: object
+    bananaReq:
+      additionalProperties: false
+      properties:
+        lengthCm:
+          type: number
+        sweet:
+          type: boolean
+      required:
+      - lengthCm
+      type: object
+    Drawing:
+      additionalProperties:
+        $ref: '#/components/schemas/fruit'
+      properties:
+        mainShape:
+          $ref: '#/components/schemas/Shape'
+        shapeOrNull:
+          $ref: '#/components/schemas/ShapeOrNull'
+        nullableShape:
+          $ref: '#/components/schemas/NullableShape'
+        shapes:
           items:
-            type: integer
-            xml:
-              namespace: http://e.com/schema
-              prefix: e
+            $ref: '#/components/schemas/Shape'
           type: array
-        prefix_ns_wrapped_array:
+      type: object
+    Shape:
+      discriminator:
+        propertyName: shapeType
+      oneOf:
+      - $ref: '#/components/schemas/Triangle'
+      - $ref: '#/components/schemas/Quadrilateral'
+    ShapeOrNull:
+      description: The value may be a shape or the 'null' value. This is introduced
+        in OAS schema >= 3.1.
+      discriminator:
+        propertyName: shapeType
+      oneOf:
+      - type: "null"
+      - $ref: '#/components/schemas/Triangle'
+      - $ref: '#/components/schemas/Quadrilateral'
+    NullableShape:
+      description: The value may be a shape or the 'null' value. The 'nullable' attribute
+        was introduced in OAS schema >= 3.0 and has been deprecated in OAS schema
+        >= 3.1.
+      discriminator:
+        propertyName: shapeType
+      nullable: true
+      oneOf:
+      - $ref: '#/components/schemas/Triangle'
+      - $ref: '#/components/schemas/Quadrilateral'
+    ShapeInterface:
+      properties:
+        shapeType:
+          type: string
+      required:
+      - shapeType
+    TriangleInterface:
+      properties:
+        triangleType:
+          type: string
+      required:
+      - triangleType
+    Triangle:
+      discriminator:
+        propertyName: triangleType
+      oneOf:
+      - $ref: '#/components/schemas/EquilateralTriangle'
+      - $ref: '#/components/schemas/IsoscelesTriangle'
+      - $ref: '#/components/schemas/ScaleneTriangle'
+    EquilateralTriangle:
+      allOf:
+      - $ref: '#/components/schemas/ShapeInterface'
+      - $ref: '#/components/schemas/TriangleInterface'
+    IsoscelesTriangle:
+      additionalProperties: false
+      allOf:
+      - $ref: '#/components/schemas/ShapeInterface'
+      - $ref: '#/components/schemas/TriangleInterface'
+    ScaleneTriangle:
+      allOf:
+      - $ref: '#/components/schemas/ShapeInterface'
+      - $ref: '#/components/schemas/TriangleInterface'
+    QuadrilateralInterface:
+      properties:
+        quadrilateralType:
+          type: string
+      required:
+      - quadrilateralType
+    Quadrilateral:
+      discriminator:
+        propertyName: quadrilateralType
+      oneOf:
+      - $ref: '#/components/schemas/SimpleQuadrilateral'
+      - $ref: '#/components/schemas/ComplexQuadrilateral'
+    SimpleQuadrilateral:
+      allOf:
+      - $ref: '#/components/schemas/ShapeInterface'
+      - $ref: '#/components/schemas/QuadrilateralInterface'
+    ComplexQuadrilateral:
+      allOf:
+      - $ref: '#/components/schemas/ShapeInterface'
+      - $ref: '#/components/schemas/QuadrilateralInterface'
+    GrandparentAnimal:
+      discriminator:
+        propertyName: pet_type
+      properties:
+        pet_type:
+          type: string
+      required:
+      - pet_type
+      type: object
+    ParentPet:
+      allOf:
+      - $ref: '#/components/schemas/GrandparentAnimal'
+      type: object
+    ArrayOfEnums:
+      items:
+        $ref: '#/components/schemas/OuterEnum'
+      type: array
+    DateTimeTest:
+      default: 2010-01-01T10:10:10.000111+01:00
+      example: 2010-01-01T10:10:10.000111+01:00
+      format: date-time
+      type: string
+    DeprecatedObject:
+      deprecated: true
+      properties:
+        name:
+          type: string
+      type: object
+    ObjectWithDeprecatedFields:
+      properties:
+        uuid:
+          type: string
+        id:
+          deprecated: true
+          type: number
+        deprecatedRef:
+          $ref: '#/components/schemas/DeprecatedObject'
+        bars:
+          deprecated: true
           items:
-            type: integer
-            xml:
-              namespace: http://g.com/schema
-              prefix: g
+            $ref: '#/components/schemas/Bar'
+          type: array
+      type: object
+    PetWithRequiredTags:
+      properties:
+        id:
+          format: int64
+          type: integer
+          x-is-unique: true
+        category:
+          $ref: '#/components/schemas/Category'
+        name:
+          example: doggie
+          type: string
+        photoUrls:
+          items:
+            type: string
           type: array
           xml:
-            namespace: http://f.com/schema
-            prefix: f
+            name: photoUrl
             wrapped: true
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      - tags
       type: object
       xml:
-        namespace: http://a.com/schema
-        prefix: pre
+        name: Pet
+    inline_response_default:
+      example:
+        string:
+          bar: bar
+      properties:
+        string:
+          $ref: '#/components/schemas/Foo'
+      type: object
+    inline_object:
+      properties:
+        name:
+          description: Updated name of the pet
+          type: string
+        status:
+          description: Updated status of the pet
+          type: string
+      type: object
+    inline_object_1:
+      properties:
+        additionalMetadata:
+          description: Additional data to pass to server
+          type: string
+        file:
+          description: file to upload
+          format: binary
+          type: string
+      type: object
+    inline_object_2:
+      properties:
+        enum_form_string_array:
+          description: Form parameter enum test (string array)
+          items:
+            default: $
+            enum:
+            - '>'
+            - $
+            type: string
+          type: array
+        enum_form_string:
+          default: -efg
+          description: Form parameter enum test (string)
+          enum:
+          - _abc
+          - -efg
+          - (xyz)
+          type: string
+      type: object
+    inline_object_3:
+      properties:
+        integer:
+          description: None
+          maximum: 100
+          minimum: 10
+          type: integer
+        int32:
+          description: None
+          format: int32
+          maximum: 200
+          minimum: 20
+          type: integer
+        int64:
+          description: None
+          format: int64
+          type: integer
+        number:
+          description: None
+          maximum: 543.2
+          minimum: 32.1
+          type: number
+        float:
+          description: None
+          format: float
+          maximum: 987.6
+          type: number
+        double:
+          description: None
+          format: double
+          maximum: 123.4
+          minimum: 67.8
+          type: number
+        string:
+          description: None
+          pattern: /[a-z]/i
+          type: string
+        pattern_without_delimiter:
+          description: None
+          pattern: ^[A-Z].*
+          type: string
+        byte:
+          description: None
+          format: byte
+          type: string
+        binary:
+          description: None
+          format: binary
+          type: string
+        date:
+          description: None
+          format: date
+          type: string
+        dateTime:
+          default: 2010-02-01T10:20:10.11111+01:00
+          description: None
+          example: 2020-02-02T20:20:20.22222Z
+          format: date-time
+          type: string
+        password:
+          description: None
+          format: password
+          maxLength: 64
+          minLength: 10
+          type: string
+        callback:
+          description: None
+          type: string
+      required:
+      - byte
+      - double
+      - number
+      - pattern_without_delimiter
+      type: object
+    inline_object_4:
+      properties:
+        param:
+          description: field1
+          type: string
+        param2:
+          description: field2
+          type: string
+      required:
+      - param
+      - param2
+      type: object
+    inline_object_5:
+      properties:
+        additionalMetadata:
+          description: Additional data to pass to server
+          type: string
+        requiredFile:
+          description: file to upload
+          format: binary
+          type: string
+      required:
+      - requiredFile
+      type: object
     Dog_allOf:
       properties:
         breed:
@@ -2156,16 +2472,6 @@ components:
       properties:
         declawed:
           type: boolean
-      type: object
-    BigCat_allOf:
-      properties:
-        kind:
-          enum:
-          - lions
-          - tigers
-          - leopards
-          - jaguars
-          type: string
       type: object
   securitySchemes:
     petstore_auth:
@@ -2187,5 +2493,11 @@ components:
     http_basic_test:
       scheme: basic
       type: http
-x-original-swagger-version: "2.0"
+    bearer_test:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+    http_signature_test:
+      scheme: signature
+      type: http
 

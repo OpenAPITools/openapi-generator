@@ -27,7 +27,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
-import org.openapitools.client.model.Client;
+import org.openapitools.client.model.InlineResponseDefault;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -36,14 +36,16 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.GenericType;
 
-public class FakeClassnameTags123Api {
+public class DefaultApi {
     private ApiClient localVarApiClient;
+    private int localHostIndex;
+    private String localCustomBaseUrl;
 
-    public FakeClassnameTags123Api() {
+    public DefaultApi() {
         this(Configuration.getDefaultApiClient());
     }
 
-    public FakeClassnameTags123Api(ApiClient apiClient) {
+    public DefaultApi(ApiClient apiClient) {
         this.localVarApiClient = apiClient;
     }
 
@@ -55,23 +57,51 @@ public class FakeClassnameTags123Api {
         this.localVarApiClient = apiClient;
     }
 
+    public int getHostIndex() {
+        return localHostIndex;
+    }
+
+    public void setHostIndex(int hostIndex) {
+        this.localHostIndex = hostIndex;
+    }
+
+    public String getCustomBaseUrl() {
+        return localCustomBaseUrl;
+    }
+
+    public void setCustomBaseUrl(String customBaseUrl) {
+        this.localCustomBaseUrl = customBaseUrl;
+    }
+
     /**
-     * Build call for testClassname
-     * @param client client model (required)
+     * Build call for fooGet
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testClassnameCall(Client client, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = client;
+    public okhttp3.Call fooGetCall(final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/fake_classname_test";
+        String localVarPath = "/foo";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -88,89 +118,81 @@ public class FakeClassnameTags123Api {
         }
 
         final String[] localVarContentTypes = {
-            "application/json"
+            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "api_key_query" };
-        return localVarApiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testClassnameValidateBeforeCall(Client client, final ApiCallback _callback) throws ApiException {
-        
-        // verify the required parameter 'client' is set
-        if (client == null) {
-            throw new ApiException("Missing the required parameter 'client' when calling testClassname(Async)");
-        }
+    private okhttp3.Call fooGetValidateBeforeCall(final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call localVarCall = testClassnameCall(client, _callback);
+        okhttp3.Call localVarCall = fooGetCall(_callback);
         return localVarCall;
 
     }
 
     /**
-     * To test class name in snake case
-     * To test class name in snake case
-     * @param client client model (required)
-     * @return Client
+     * 
+     * 
+     * @return InlineResponseDefault
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
      */
-    public Client testClassname(Client client) throws ApiException {
-        ApiResponse<Client> localVarResp = testClassnameWithHttpInfo(client);
+    public InlineResponseDefault fooGet() throws ApiException {
+        ApiResponse<InlineResponseDefault> localVarResp = fooGetWithHttpInfo();
         return localVarResp.getData();
     }
 
     /**
-     * To test class name in snake case
-     * To test class name in snake case
-     * @param client client model (required)
-     * @return ApiResponse&lt;Client&gt;
+     * 
+     * 
+     * @return ApiResponse&lt;InlineResponseDefault&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Client> testClassnameWithHttpInfo(Client client) throws ApiException {
-        okhttp3.Call localVarCall = testClassnameValidateBeforeCall(client, null);
+    public ApiResponse<InlineResponseDefault> fooGetWithHttpInfo() throws ApiException {
+        okhttp3.Call localVarCall = fooGetValidateBeforeCall(null);
         try {
-            Type localVarReturnType = new TypeToken<Client>(){}.getType();
+            Type localVarReturnType = new TypeToken<InlineResponseDefault>(){}.getType();
             return localVarApiClient.execute(localVarCall, localVarReturnType);
         } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Client>(){}.getType()));
-            e.setErrorObjectType(new GenericType<Client>(){});
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<InlineResponseDefault>(){}.getType()));
+            e.setErrorObjectType(new GenericType<InlineResponseDefault>(){});
             throw e;
         }
     }
 
     /**
-     * To test class name in snake case (asynchronously)
-     * To test class name in snake case
-     * @param client client model (required)
+     *  (asynchronously)
+     * 
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+        <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testClassnameAsync(Client client, final ApiCallback<Client> _callback) throws ApiException {
+    public okhttp3.Call fooGetAsync(final ApiCallback<InlineResponseDefault> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = testClassnameValidateBeforeCall(client, _callback);
-        Type localVarReturnType = new TypeToken<Client>(){}.getType();
+        okhttp3.Call localVarCall = fooGetValidateBeforeCall(_callback);
+        Type localVarReturnType = new TypeToken<InlineResponseDefault>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }

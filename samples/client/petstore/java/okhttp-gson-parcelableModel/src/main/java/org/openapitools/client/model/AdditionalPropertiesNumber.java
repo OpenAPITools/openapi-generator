@@ -29,6 +29,25 @@ import java.util.Map;
 import android.os.Parcelable;
 import android.os.Parcel;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.openapitools.client.JSON;
+
 /**
  * AdditionalPropertiesNumber
  */
@@ -127,5 +146,89 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
       return new AdditionalPropertiesNumber[size];
     }
   };
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("name");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to AdditionalPropertiesNumber
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (AdditionalPropertiesNumber.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesNumber is not found in the empty JSON string", AdditionalPropertiesNumber.openapiRequiredFields.toString()));
+        }
+      }
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!AdditionalPropertiesNumber.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AdditionalPropertiesNumber` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!AdditionalPropertiesNumber.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'AdditionalPropertiesNumber' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<AdditionalPropertiesNumber> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(AdditionalPropertiesNumber.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<AdditionalPropertiesNumber>() {
+           @Override
+           public void write(JsonWriter out, AdditionalPropertiesNumber value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public AdditionalPropertiesNumber read(JsonReader in) throws IOException {
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
+           }
+
+       }.nullSafe();
+    }
+  }
+
+ /**
+  * Create an instance of AdditionalPropertiesNumber given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of AdditionalPropertiesNumber
+  * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesNumber
+  */
+  public static AdditionalPropertiesNumber fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, AdditionalPropertiesNumber.class);
+  }
+
+ /**
+  * Convert an instance of AdditionalPropertiesNumber to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 
