@@ -1015,6 +1015,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (defaultValue == null) {
             return null;
         }
+        if  (defaultValue instanceof Date) {
+            Date date = (Date) schema.getDefault();
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            return localDate.toString();
+        }
         // escape quotes
         return defaultValue.toString().replace("\"", "\\\"");
     }
