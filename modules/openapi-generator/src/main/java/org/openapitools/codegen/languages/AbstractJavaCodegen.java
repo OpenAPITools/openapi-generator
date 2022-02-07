@@ -981,7 +981,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     return String.format(Locale.ROOT, localDate.toString(), "");
                 } else if (schema.getDefault() instanceof java.time.OffsetDateTime) {
-                    return ((java.time.OffsetDateTime) schema.getDefault()).toString();
+                    return "OffsetDateTime.parse(\"" +  String.format(Locale.ROOT, ((java.time.OffsetDateTime) schema.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))";
                 } else {
                     _default = (String) schema.getDefault();
                 }
