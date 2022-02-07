@@ -34,6 +34,7 @@ docs/EnumTest.md
 docs/EquilateralTriangle.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
+docs/FileSchemaTestClass.md
 docs/Foo.md
 docs/FormatTest.md
 docs/Fruit.md
@@ -149,6 +150,7 @@ src/main/java/org/openapitools/client/model/EnumArrays.java
 src/main/java/org/openapitools/client/model/EnumClass.java
 src/main/java/org/openapitools/client/model/EnumTest.java
 src/main/java/org/openapitools/client/model/EquilateralTriangle.java
+src/main/java/org/openapitools/client/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/client/model/Foo.java
 src/main/java/org/openapitools/client/model/FormatTest.java
 src/main/java/org/openapitools/client/model/Fruit.java
@@ -197,3 +199,4 @@ src/main/java/org/openapitools/client/model/TriangleInterface.java
 src/main/java/org/openapitools/client/model/User.java
 src/main/java/org/openapitools/client/model/Whale.java
 src/main/java/org/openapitools/client/model/Zebra.java
+src/test/java/org/openapitools/client/model/FileSchemaTestClassTest.java
