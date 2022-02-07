@@ -35,11 +35,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.io.InputStream;
+import javax.ws.rs.core.GenericType;
 
 public class PingApi {
     private ApiClient localVarApiClient;
-    private int localHostIndex;
-    private String localCustomBaseUrl;
 
     public PingApi() {
         this(Configuration.getDefaultApiClient());
@@ -57,22 +56,6 @@ public class PingApi {
         this.localVarApiClient = apiClient;
     }
 
-    public int getHostIndex() {
-        return localHostIndex;
-    }
-
-    public void setHostIndex(int hostIndex) {
-        this.localHostIndex = hostIndex;
-    }
-
-    public String getCustomBaseUrl() {
-        return localCustomBaseUrl;
-    }
-
-    public void setCustomBaseUrl(String customBaseUrl) {
-        this.localCustomBaseUrl = customBaseUrl;
-    }
-
     /**
      * Build call for postPing
      * @param someObj  (optional)
@@ -86,20 +69,6 @@ public class PingApi {
      </table>
      */
     public okhttp3.Call postPingCall(SomeObj someObj, final ApiCallback _callback) throws ApiException {
-        String basePath = null;
-
-        // Operation Servers
-        String[] localBasePaths = new String[] {  };
-
-        // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
-        } else {
-            basePath = null;
-        }
-
         Object localVarPostBody = someObj;
 
         // create path and map variables
@@ -128,7 +97,7 @@ public class PingApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -171,8 +140,14 @@ public class PingApi {
      */
     public InputStream postPingWithHttpInfo(SomeObj someObj) throws ApiException {
         okhttp3.Call localVarCall = postPingValidateBeforeCall(someObj, null);
-        Type localVarReturnType = new TypeToken<SomeObj>(){}.getType();
-        return localVarApiClient.executeStream(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<SomeObj>(){}.getType();
+            return localVarApiClient.executeStream(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<SomeObj>(){}.getType()));
+            e.setErrorObjectType(new GenericType<SomeObj>(){});
+            throw e;
+        }
     }
     
     /**

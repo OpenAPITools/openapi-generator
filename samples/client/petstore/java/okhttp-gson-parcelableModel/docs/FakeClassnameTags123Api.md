@@ -42,11 +42,7 @@ public class Example {
       Client result = apiInstance.testClassname(body);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeClassnameTags123Api#testClassname");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }

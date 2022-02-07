@@ -34,11 +34,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.GenericType;
 
 public class StoreApi {
     private ApiClient localVarApiClient;
-    private int localHostIndex;
-    private String localCustomBaseUrl;
 
     public StoreApi() {
         this(Configuration.getDefaultApiClient());
@@ -56,22 +55,6 @@ public class StoreApi {
         this.localVarApiClient = apiClient;
     }
 
-    public int getHostIndex() {
-        return localHostIndex;
-    }
-
-    public void setHostIndex(int hostIndex) {
-        this.localHostIndex = hostIndex;
-    }
-
-    public String getCustomBaseUrl() {
-        return localCustomBaseUrl;
-    }
-
-    public void setCustomBaseUrl(String customBaseUrl) {
-        this.localCustomBaseUrl = customBaseUrl;
-    }
-
     /**
      * Build call for deleteOrder
      * @param orderId ID of the order that needs to be deleted (required)
@@ -86,20 +69,6 @@ public class StoreApi {
      </table>
      */
     public okhttp3.Call deleteOrderCall(String orderId, final ApiCallback _callback) throws ApiException {
-        String basePath = null;
-
-        // Operation Servers
-        String[] localBasePaths = new String[] {  };
-
-        // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
-        } else {
-            basePath = null;
-        }
-
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -129,7 +98,7 @@ public class StoreApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -212,20 +181,6 @@ public class StoreApi {
      </table>
      */
     public okhttp3.Call getInventoryCall(final ApiCallback _callback) throws ApiException {
-        String basePath = null;
-
-        // Operation Servers
-        String[] localBasePaths = new String[] {  };
-
-        // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
-        } else {
-            basePath = null;
-        }
-
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -254,7 +209,7 @@ public class StoreApi {
         }
 
         String[] localVarAuthNames = new String[] { "api_key" };
-        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -295,8 +250,14 @@ public class StoreApi {
      */
     public ApiResponse<Map<String, Integer>> getInventoryWithHttpInfo() throws ApiException {
         okhttp3.Call localVarCall = getInventoryValidateBeforeCall(null);
-        Type localVarReturnType = new TypeToken<Map<String, Integer>>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<Map<String, Integer>>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Map<String, Integer>>(){}.getType()));
+            e.setErrorObjectType(new GenericType<Map<String, Integer>>(){});
+            throw e;
+        }
     }
 
     /**
@@ -333,20 +294,6 @@ public class StoreApi {
      </table>
      */
     public okhttp3.Call getOrderByIdCall(Long orderId, final ApiCallback _callback) throws ApiException {
-        String basePath = null;
-
-        // Operation Servers
-        String[] localBasePaths = new String[] {  };
-
-        // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
-        } else {
-            basePath = null;
-        }
-
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -376,7 +323,7 @@ public class StoreApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -428,8 +375,14 @@ public class StoreApi {
      */
     public ApiResponse<Order> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
         okhttp3.Call localVarCall = getOrderByIdValidateBeforeCall(orderId, null);
-        Type localVarReturnType = new TypeToken<Order>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<Order>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Order>(){}.getType()));
+            e.setErrorObjectType(new GenericType<Order>(){});
+            throw e;
+        }
     }
 
     /**
@@ -456,7 +409,7 @@ public class StoreApi {
     }
     /**
      * Build call for placeOrder
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -467,22 +420,8 @@ public class StoreApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call placeOrderCall(Order body, final ApiCallback _callback) throws ApiException {
-        String basePath = null;
-
-        // Operation Servers
-        String[] localBasePaths = new String[] {  };
-
-        // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
-        } else {
-            basePath = null;
-        }
-
-        Object localVarPostBody = body;
+    public okhttp3.Call placeOrderCall(Order order, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = order;
 
         // create path and map variables
         String localVarPath = "/store/order";
@@ -502,7 +441,7 @@ public class StoreApi {
         }
 
         final String[] localVarContentTypes = {
-            
+            "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -510,19 +449,19 @@ public class StoreApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call placeOrderValidateBeforeCall(Order body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call placeOrderValidateBeforeCall(Order order, final ApiCallback _callback) throws ApiException {
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling placeOrder(Async)");
+        // verify the required parameter 'order' is set
+        if (order == null) {
+            throw new ApiException("Missing the required parameter 'order' when calling placeOrder(Async)");
         }
         
 
-        okhttp3.Call localVarCall = placeOrderCall(body, _callback);
+        okhttp3.Call localVarCall = placeOrderCall(order, _callback);
         return localVarCall;
 
     }
@@ -530,7 +469,7 @@ public class StoreApi {
     /**
      * Place an order for a pet
      * 
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @return Order
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -540,15 +479,15 @@ public class StoreApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public Order placeOrder(Order body) throws ApiException {
-        ApiResponse<Order> localVarResp = placeOrderWithHttpInfo(body);
+    public Order placeOrder(Order order) throws ApiException {
+        ApiResponse<Order> localVarResp = placeOrderWithHttpInfo(order);
         return localVarResp.getData();
     }
 
     /**
      * Place an order for a pet
      * 
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @return ApiResponse&lt;Order&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -558,16 +497,22 @@ public class StoreApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Order> placeOrderWithHttpInfo(Order body) throws ApiException {
-        okhttp3.Call localVarCall = placeOrderValidateBeforeCall(body, null);
-        Type localVarReturnType = new TypeToken<Order>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<Order> placeOrderWithHttpInfo(Order order) throws ApiException {
+        okhttp3.Call localVarCall = placeOrderValidateBeforeCall(order, null);
+        try {
+            Type localVarReturnType = new TypeToken<Order>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Order>(){}.getType()));
+            e.setErrorObjectType(new GenericType<Order>(){});
+            throw e;
+        }
     }
 
     /**
      * Place an order for a pet (asynchronously)
      * 
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -578,9 +523,9 @@ public class StoreApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call placeOrderAsync(Order body, final ApiCallback<Order> _callback) throws ApiException {
+    public okhttp3.Call placeOrderAsync(Order order, final ApiCallback<Order> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = placeOrderValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = placeOrderValidateBeforeCall(order, _callback);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

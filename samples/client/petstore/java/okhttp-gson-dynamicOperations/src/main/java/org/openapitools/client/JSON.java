@@ -27,7 +27,6 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
-import org.openapitools.client.model.*;
 import okio.ByteString;
 
 import java.io.IOException;
@@ -41,54 +40,60 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
 
+/*
+ * A JSON utility class
+ *
+ * NOTE: in the future, this class may be converted to static, which may break
+ *       backward-compatibility
+ */
 public class JSON {
-    private Gson gson;
-    private boolean isLenientOnJson = false;
-    private DateTypeAdapter dateTypeAdapter = new DateTypeAdapter();
-    private SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
-    private OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
-    private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
-    private ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
+    private static Gson gson;
+    private static boolean isLenientOnJson = false;
+    private static DateTypeAdapter dateTypeAdapter = new DateTypeAdapter();
+    private static SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
+    private static OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
+    private static LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
+    private static ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
 
     @SuppressWarnings("unchecked")
     public static GsonBuilder createGson() {
         GsonFireBuilder fireBuilder = new GsonFireBuilder()
-                .registerTypeSelector(Animal.class, new TypeSelector<Animal>() {
+                .registerTypeSelector(org.openapitools.client.model.Animal.class, new TypeSelector<org.openapitools.client.model.Animal>() {
                     @Override
-                    public Class<? extends Animal> getClassForElement(JsonElement readElement) {
+                    public Class<? extends org.openapitools.client.model.Animal> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
-                        classByDiscriminatorValue.put("BigCat", BigCat.class);
-                        classByDiscriminatorValue.put("Cat", Cat.class);
-                        classByDiscriminatorValue.put("Dog", Dog.class);
-                        classByDiscriminatorValue.put("Animal", Animal.class);
+                        classByDiscriminatorValue.put("BigCat", org.openapitools.client.model.BigCat.class);
+                        classByDiscriminatorValue.put("Cat", org.openapitools.client.model.Cat.class);
+                        classByDiscriminatorValue.put("Dog", org.openapitools.client.model.Dog.class);
+                        classByDiscriminatorValue.put("Animal", org.openapitools.client.model.Animal.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
                     }
           })
-                .registerTypeSelector(BigCat.class, new TypeSelector<BigCat>() {
+                .registerTypeSelector(org.openapitools.client.model.BigCat.class, new TypeSelector<org.openapitools.client.model.BigCat>() {
                     @Override
-                    public Class<? extends BigCat> getClassForElement(JsonElement readElement) {
+                    public Class<? extends org.openapitools.client.model.BigCat> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
-                        classByDiscriminatorValue.put("BigCat", BigCat.class);
+                        classByDiscriminatorValue.put("BigCat", org.openapitools.client.model.BigCat.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
                     }
           })
-                .registerTypeSelector(Cat.class, new TypeSelector<Cat>() {
+                .registerTypeSelector(org.openapitools.client.model.Cat.class, new TypeSelector<org.openapitools.client.model.Cat>() {
                     @Override
-                    public Class<? extends Cat> getClassForElement(JsonElement readElement) {
+                    public Class<? extends org.openapitools.client.model.Cat> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
-                        classByDiscriminatorValue.put("BigCat", BigCat.class);
-                        classByDiscriminatorValue.put("Cat", Cat.class);
+                        classByDiscriminatorValue.put("BigCat", org.openapitools.client.model.BigCat.class);
+                        classByDiscriminatorValue.put("Cat", org.openapitools.client.model.Cat.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
                     }
           })
-                .registerTypeSelector(Dog.class, new TypeSelector<Dog>() {
+                .registerTypeSelector(org.openapitools.client.model.Dog.class, new TypeSelector<org.openapitools.client.model.Dog>() {
                     @Override
-                    public Class<? extends Dog> getClassForElement(JsonElement readElement) {
+                    public Class<? extends org.openapitools.client.model.Dog> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
-                        classByDiscriminatorValue.put("Dog", Dog.class);
+                        classByDiscriminatorValue.put("Dog", org.openapitools.client.model.Dog.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
                     }
@@ -121,13 +126,57 @@ public class JSON {
         return clazz;
     }
 
-    public JSON() {
+    {
         gson = createGson()
             .registerTypeAdapter(Date.class, dateTypeAdapter)
             .registerTypeAdapter(java.sql.Date.class, sqlDateTypeAdapter)
             .registerTypeAdapter(OffsetDateTime.class, offsetDateTimeTypeAdapter)
             .registerTypeAdapter(LocalDate.class, localDateTypeAdapter)
             .registerTypeAdapter(byte[].class, byteArrayAdapter)
+            .registerTypeAdapterFactory(new org.openapitools.client.model.AdditionalPropertiesAnyType.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.AdditionalPropertiesArray.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.AdditionalPropertiesBoolean.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.AdditionalPropertiesClass.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.AdditionalPropertiesInteger.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.AdditionalPropertiesNumber.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.AdditionalPropertiesObject.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.AdditionalPropertiesString.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfArrayOfNumberOnly.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfNumberOnly.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ArrayTest.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.BigCat.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.BigCatAllOf.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Capitalization.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.CatAllOf.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Category.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ClassModel.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Client.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Dog.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.DogAllOf.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.EnumArrays.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.EnumTest.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.FileSchemaTestClass.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.FormatTest.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.HasOnlyReadOnly.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.MapTest.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Model200Response.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ModelApiResponse.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ModelFile.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ModelList.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ModelReturn.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Name.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.NumberOnly.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Order.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.OuterComposite.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Pet.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ReadOnlyFirst.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.SpecialModelName.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Tag.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.TypeHolderDefault.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.TypeHolderExample.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.User.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.XmlItem.CustomTypeAdapterFactory())
             .create();
     }
 
@@ -136,7 +185,7 @@ public class JSON {
      *
      * @return Gson
      */
-    public Gson getGson() {
+    public static Gson getGson() {
         return gson;
     }
 
@@ -144,23 +193,13 @@ public class JSON {
      * Set Gson.
      *
      * @param gson Gson
-     * @return JSON
      */
-    public JSON setGson(Gson gson) {
-        this.gson = gson;
-        return this;
+    public static void setGson(Gson gson) {
+        JSON.gson = gson;
     }
 
-    /**
-     * Configure the parser to be liberal in what it accepts.
-     *
-     * @param lenientOnJson Set it to true to ignore some syntax errors
-     * @return JSON
-     * @see <a href="https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html">https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html</a>
-     */
-    public JSON setLenientOnJson(boolean lenientOnJson) {
+    public static void setLenientOnJson(boolean lenientOnJson) {
         isLenientOnJson = lenientOnJson;
-        return this;
     }
 
     /**
@@ -169,7 +208,7 @@ public class JSON {
      * @param obj Object
      * @return String representation of the JSON
      */
-    public String serialize(Object obj) {
+    public static String serialize(Object obj) {
         return gson.toJson(obj);
     }
 
@@ -182,11 +221,11 @@ public class JSON {
      * @return The deserialized Java object
      */
     @SuppressWarnings("unchecked")
-    public <T> T deserialize(String body, Type returnType) {
+    public static <T> T deserialize(String body, Type returnType) {
         try {
             if (isLenientOnJson) {
                 JsonReader jsonReader = new JsonReader(new StringReader(body));
-                // see https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html
+                // see https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/stream/JsonReader.html#setLenient(boolean)
                 jsonReader.setLenient(true);
                 return gson.fromJson(jsonReader, returnType);
             } else {
@@ -206,7 +245,7 @@ public class JSON {
     /**
      * Gson TypeAdapter for Byte Array type
      */
-    public class ByteArrayAdapter extends TypeAdapter<byte[]> {
+    public static class ByteArrayAdapter extends TypeAdapter<byte[]> {
 
         @Override
         public void write(JsonWriter out, byte[] value) throws IOException {
@@ -278,7 +317,7 @@ public class JSON {
     /**
      * Gson TypeAdapter for JSR310 LocalDate type
      */
-    public class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
+    public static class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
 
         private DateTimeFormatter formatter;
 
@@ -316,14 +355,12 @@ public class JSON {
         }
     }
 
-    public JSON setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
+    public static void setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
         offsetDateTimeTypeAdapter.setFormat(dateFormat);
-        return this;
     }
 
-    public JSON setLocalDateFormat(DateTimeFormatter dateFormat) {
+    public static void setLocalDateFormat(DateTimeFormatter dateFormat) {
         localDateTypeAdapter.setFormat(dateFormat);
-        return this;
     }
 
     /**
@@ -437,14 +474,11 @@ public class JSON {
         }
     }
 
-    public JSON setDateFormat(DateFormat dateFormat) {
+    public static void setDateFormat(DateFormat dateFormat) {
         dateTypeAdapter.setFormat(dateFormat);
-        return this;
     }
 
-    public JSON setSqlDateFormat(DateFormat dateFormat) {
+    public static void setSqlDateFormat(DateFormat dateFormat) {
         sqlDateTypeAdapter.setFormat(dateFormat);
-        return this;
     }
-
 }

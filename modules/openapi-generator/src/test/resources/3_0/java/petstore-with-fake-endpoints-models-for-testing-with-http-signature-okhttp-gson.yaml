@@ -979,23 +979,23 @@ paths:
                 $ref: '#/components/schemas/Client'
       requestBody:
         $ref: '#/components/requestBodies/Client'
-  /fake/body-with-file-schema:
-    put:
-      tags:
-        - fake
-      description: >-
-        For this test, the body for this request much reference a schema named
-        `File`.
-      operationId: testBodyWithFileSchema
-      responses:
-        '200':
-          description: Success
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FileSchemaTestClass'
-        required: true
+#  /fake/body-with-file-schema:
+#    put:
+#      tags:
+#        - fake
+#      description: >-
+#        For this test, the body for this request much reference a schema named
+#        `File`.
+#      operationId: testBodyWithFileSchema
+#      responses:
+#        '200':
+#          description: Success
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/FileSchemaTestClass'
+#        required: true
   /fake/test-query-parameters:
     put:
       tags:
@@ -1778,15 +1778,15 @@ components:
     StringBooleanMap:
       additionalProperties:
         type: boolean
-    FileSchemaTestClass:
-      type: object
-      properties:
-        file:
-          $ref: '#/components/schemas/File'
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/File'
+#    FileSchemaTestClass:
+#      type: object
+#      properties:
+#        file:
+#          $ref: '#/components/schemas/File'
+#        files:
+#          type: array
+#          items:
+#            $ref: '#/components/schemas/File'
     File:
       type: object
       description: Must be named `File` for test.

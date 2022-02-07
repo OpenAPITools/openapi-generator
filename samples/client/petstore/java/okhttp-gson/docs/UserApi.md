@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createUser"></a>
 # **createUser**
-> createUser(body)
+> createUser(user)
 
 Create user
 
@@ -37,15 +37,11 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     UserApi apiInstance = new UserApi(defaultClient);
-    User body = new User(); // User | Created user object
+    User user = new User(); // User | Created user object
     try {
-      apiInstance.createUser(body);
+      apiInstance.createUser(user);
     } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#createUser");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -55,7 +51,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object |
+ **user** | [**User**](User.md)| Created user object |
 
 ### Return type
 
@@ -67,7 +63,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 ### HTTP response details
@@ -77,7 +73,7 @@ No authorization required
 
 <a name="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(body)
+> createUsersWithArrayInput(user)
 
 Creates list of users with given input array
 
@@ -96,15 +92,11 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     UserApi apiInstance = new UserApi(defaultClient);
-    List<User> body = Arrays.asList(); // List<User> | List of user object
+    List<User> user = Arrays.asList(); // List<User> | List of user object
     try {
-      apiInstance.createUsersWithArrayInput(body);
+      apiInstance.createUsersWithArrayInput(user);
     } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -114,7 +106,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object |
+ **user** | [**List&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 
@@ -126,7 +118,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 ### HTTP response details
@@ -136,7 +128,7 @@ No authorization required
 
 <a name="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> createUsersWithListInput(body)
+> createUsersWithListInput(user)
 
 Creates list of users with given input array
 
@@ -155,15 +147,11 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     UserApi apiInstance = new UserApi(defaultClient);
-    List<User> body = Arrays.asList(); // List<User> | List of user object
+    List<User> user = Arrays.asList(); // List<User> | List of user object
     try {
-      apiInstance.createUsersWithListInput(body);
+      apiInstance.createUsersWithListInput(user);
     } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#createUsersWithListInput");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -173,7 +161,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object |
+ **user** | [**List&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 
@@ -185,7 +173,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 ### HTTP response details
@@ -220,11 +208,7 @@ public class Example {
     try {
       apiInstance.deleteUser(username);
     } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#deleteUser");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -281,11 +265,7 @@ public class Example {
       User result = apiInstance.getUserByName(username);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#getUserByName");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -344,11 +324,7 @@ public class Example {
       String result = apiInstance.loginUser(username, password);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#loginUser");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -404,11 +380,7 @@ public class Example {
     try {
       apiInstance.logoutUser();
     } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#logoutUser");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -437,7 +409,7 @@ No authorization required
 
 <a name="updateUser"></a>
 # **updateUser**
-> updateUser(username, body)
+> updateUser(username, user)
 
 Updated user
 
@@ -459,15 +431,11 @@ public class Example {
 
     UserApi apiInstance = new UserApi(defaultClient);
     String username = "username_example"; // String | name that need to be deleted
-    User body = new User(); // User | Updated user object
+    User user = new User(); // User | Updated user object
     try {
-      apiInstance.updateUser(username, body);
+      apiInstance.updateUser(username, user);
     } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#updateUser");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+
     }
   }
 }
@@ -478,7 +446,7 @@ public class Example {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted |
- **body** | [**User**](User.md)| Updated user object |
+ **user** | [**User**](User.md)| Updated user object |
 
 ### Return type
 
@@ -490,7 +458,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 ### HTTP response details
