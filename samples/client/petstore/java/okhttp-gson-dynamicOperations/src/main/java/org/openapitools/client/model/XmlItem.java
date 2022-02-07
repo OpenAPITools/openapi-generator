@@ -27,6 +27,25 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.openapitools.client.JSON;
+
 /**
  * XmlItem
  */
@@ -983,5 +1002,117 @@ public class XmlItem {
     return o.toString().replace("\n", "\n    ");
   }
 
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("attribute_string");
+    openapiFields.add("attribute_number");
+    openapiFields.add("attribute_integer");
+    openapiFields.add("attribute_boolean");
+    openapiFields.add("wrapped_array");
+    openapiFields.add("name_string");
+    openapiFields.add("name_number");
+    openapiFields.add("name_integer");
+    openapiFields.add("name_boolean");
+    openapiFields.add("name_array");
+    openapiFields.add("name_wrapped_array");
+    openapiFields.add("prefix_string");
+    openapiFields.add("prefix_number");
+    openapiFields.add("prefix_integer");
+    openapiFields.add("prefix_boolean");
+    openapiFields.add("prefix_array");
+    openapiFields.add("prefix_wrapped_array");
+    openapiFields.add("namespace_string");
+    openapiFields.add("namespace_number");
+    openapiFields.add("namespace_integer");
+    openapiFields.add("namespace_boolean");
+    openapiFields.add("namespace_array");
+    openapiFields.add("namespace_wrapped_array");
+    openapiFields.add("prefix_ns_string");
+    openapiFields.add("prefix_ns_number");
+    openapiFields.add("prefix_ns_integer");
+    openapiFields.add("prefix_ns_boolean");
+    openapiFields.add("prefix_ns_array");
+    openapiFields.add("prefix_ns_wrapped_array");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to XmlItem
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (XmlItem.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in XmlItem is not found in the empty JSON string", XmlItem.openapiRequiredFields.toString()));
+        }
+      }
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!XmlItem.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `XmlItem` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!XmlItem.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'XmlItem' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<XmlItem> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(XmlItem.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<XmlItem>() {
+           @Override
+           public void write(JsonWriter out, XmlItem value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public XmlItem read(JsonReader in) throws IOException {
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
+           }
+
+       }.nullSafe();
+    }
+  }
+
+ /**
+  * Create an instance of XmlItem given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of XmlItem
+  * @throws IOException if the JSON string is invalid with respect to XmlItem
+  */
+  public static XmlItem fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, XmlItem.class);
+  }
+
+ /**
+  * Convert an instance of XmlItem to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 
