@@ -29,6 +29,25 @@ import java.util.UUID;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.openapitools.client.JSON;
+
 /**
  * FormatTest
  */
@@ -58,6 +77,10 @@ public class FormatTest {
   @SerializedName(SERIALIZED_NAME_DOUBLE)
   private Double _double;
 
+  public static final String SERIALIZED_NAME_DECIMAL = "decimal";
+  @SerializedName(SERIALIZED_NAME_DECIMAL)
+  private BigDecimal decimal;
+
   public static final String SERIALIZED_NAME_STRING = "string";
   @SerializedName(SERIALIZED_NAME_STRING)
   private String string;
@@ -86,9 +109,13 @@ public class FormatTest {
   @SerializedName(SERIALIZED_NAME_PASSWORD)
   private String password;
 
-  public static final String SERIALIZED_NAME_BIG_DECIMAL = "BigDecimal";
-  @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
-  private BigDecimal bigDecimal;
+  public static final String SERIALIZED_NAME_PATTERN_WITH_DIGITS = "pattern_with_digits";
+  @SerializedName(SERIALIZED_NAME_PATTERN_WITH_DIGITS)
+  private String patternWithDigits;
+
+  public static final String SERIALIZED_NAME_PATTERN_WITH_DIGITS_AND_DELIMITER = "pattern_with_digits_and_delimiter";
+  @SerializedName(SERIALIZED_NAME_PATTERN_WITH_DIGITS_AND_DELIMITER)
+  private String patternWithDigitsAndDelimiter;
 
   public FormatTest() { 
   }
@@ -241,6 +268,29 @@ public class FormatTest {
   }
 
 
+  public FormatTest decimal(BigDecimal decimal) {
+    
+    this.decimal = decimal;
+    return this;
+  }
+
+   /**
+   * Get decimal
+   * @return decimal
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
+
+  public BigDecimal getDecimal() {
+    return decimal;
+  }
+
+
+  public void setDecimal(BigDecimal decimal) {
+    this.decimal = decimal;
+  }
+
+
   public FormatTest string(String string) {
     
     this.string = string;
@@ -321,7 +371,7 @@ public class FormatTest {
    * @return date
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "Sun Feb 02 00:00:00 UTC 2020", required = true, value = "")
 
   public LocalDate getDate() {
     return date;
@@ -344,7 +394,7 @@ public class FormatTest {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "2007-12-03T10:15:30+01:00", value = "")
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -402,26 +452,49 @@ public class FormatTest {
   }
 
 
-  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+  public FormatTest patternWithDigits(String patternWithDigits) {
     
-    this.bigDecimal = bigDecimal;
+    this.patternWithDigits = patternWithDigits;
     return this;
   }
 
    /**
-   * Get bigDecimal
-   * @return bigDecimal
+   * A string that is a 10 digit number. Can have leading zeros.
+   * @return patternWithDigits
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "A string that is a 10 digit number. Can have leading zeros.")
 
-  public BigDecimal getBigDecimal() {
-    return bigDecimal;
+  public String getPatternWithDigits() {
+    return patternWithDigits;
   }
 
 
-  public void setBigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public void setPatternWithDigits(String patternWithDigits) {
+    this.patternWithDigits = patternWithDigits;
+  }
+
+
+  public FormatTest patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+    return this;
+  }
+
+   /**
+   * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
+   * @return patternWithDigitsAndDelimiter
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
+
+  public String getPatternWithDigitsAndDelimiter() {
+    return patternWithDigitsAndDelimiter;
+  }
+
+
+  public void setPatternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
 
 
@@ -440,6 +513,7 @@ public class FormatTest {
         Objects.equals(this.number, formatTest.number) &&
         Objects.equals(this._float, formatTest._float) &&
         Objects.equals(this._double, formatTest._double) &&
+        Objects.equals(this.decimal, formatTest.decimal) &&
         Objects.equals(this.string, formatTest.string) &&
         Arrays.equals(this._byte, formatTest._byte) &&
         Objects.equals(this.binary, formatTest.binary) &&
@@ -447,12 +521,13 @@ public class FormatTest {
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
         Objects.equals(this.password, formatTest.password) &&
-        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
+        Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
+        Objects.equals(this.patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
+    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
   @Override
@@ -465,6 +540,7 @@ public class FormatTest {
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
     sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
+    sb.append("    decimal: ").append(toIndentedString(decimal)).append("\n");
     sb.append("    string: ").append(toIndentedString(string)).append("\n");
     sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
@@ -472,7 +548,8 @@ public class FormatTest {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
+    sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
+    sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -488,5 +565,115 @@ public class FormatTest {
     return o.toString().replace("\n", "\n    ");
   }
 
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("integer");
+    openapiFields.add("int32");
+    openapiFields.add("int64");
+    openapiFields.add("number");
+    openapiFields.add("float");
+    openapiFields.add("double");
+    openapiFields.add("decimal");
+    openapiFields.add("string");
+    openapiFields.add("byte");
+    openapiFields.add("binary");
+    openapiFields.add("date");
+    openapiFields.add("dateTime");
+    openapiFields.add("uuid");
+    openapiFields.add("password");
+    openapiFields.add("pattern_with_digits");
+    openapiFields.add("pattern_with_digits_and_delimiter");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields.add("number");
+    openapiRequiredFields.add("byte");
+    openapiRequiredFields.add("date");
+    openapiRequiredFields.add("password");
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to FormatTest
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (FormatTest.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in FormatTest is not found in the empty JSON string", FormatTest.openapiRequiredFields.toString()));
+        }
+      }
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!FormatTest.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `FormatTest` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
+
+      // check to make sure all required properties/fields are present in the JSON string
+      for (String requiredField : FormatTest.openapiRequiredFields) {
+        if (jsonObj.get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
+        }
+      }
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!FormatTest.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'FormatTest' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<FormatTest> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(FormatTest.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<FormatTest>() {
+           @Override
+           public void write(JsonWriter out, FormatTest value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public FormatTest read(JsonReader in) throws IOException {
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
+           }
+
+       }.nullSafe();
+    }
+  }
+
+ /**
+  * Create an instance of FormatTest given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of FormatTest
+  * @throws IOException if the JSON string is invalid with respect to FormatTest
+  */
+  public static FormatTest fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, FormatTest.class);
+  }
+
+ /**
+  * Convert an instance of FormatTest to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 
