@@ -201,10 +201,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             "Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies",
             useSwaggerUI));
 
-        supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
-        supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
+        supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
+        supportedLibraries.put(SPRING_MVC_LIBRARY,
+            "Spring-MVC Server application using the SpringFox integration. Deprecated (for removal); use spring-boot instead.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
-                "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
+            "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
         setLibrary(SPRING_BOOT);
         final CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC)
                 .defaultValue(SPRING_BOOT);
@@ -293,6 +294,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         super.processOpts();
+
+        if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+            LOGGER.warn("The springfox documentation provider is deprecated for removal. Use the springdoc provider instead.");
+        }
+        if (SPRING_MVC_LIBRARY.equals(library)) {
+            LOGGER.warn("The spring-mvc library is deprecated for removal. Use the spring-boot library instead.");
+        }
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
