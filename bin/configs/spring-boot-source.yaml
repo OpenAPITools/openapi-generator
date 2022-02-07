@@ -5,7 +5,6 @@ templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
   groupId: org.openapitools.openapi3
   documentationProvider: source
-  useSwaggerUI: true
   artifactId: springboot
   snapshotVersion: "true"
   hideGenerationTimestamp: "true"

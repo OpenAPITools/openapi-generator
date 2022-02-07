@@ -119,7 +119,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
     protected boolean useSpringController = false;
-    protected boolean useSwaggerUI = false;
+    protected boolean useSwaggerUI = true;
 
     public SpringCodegen() {
         super();
