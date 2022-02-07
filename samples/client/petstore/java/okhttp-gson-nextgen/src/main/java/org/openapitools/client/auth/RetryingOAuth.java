@@ -28,22 +28,31 @@ public class RetryingOAuth extends OAuth implements Interceptor {
 
     private TokenRequestBuilder tokenRequestBuilder;
 
+    /**
+     * @param client An OkHttp client
+     * @param tokenRequestBuilder A token request builder
+     */
     public RetryingOAuth(OkHttpClient client, TokenRequestBuilder tokenRequestBuilder) {
         this.oAuthClient = new OAuthClient(new OAuthOkHttpClient(client));
         this.tokenRequestBuilder = tokenRequestBuilder;
     }
 
+    /**
+     * @param tokenRequestBuilder A token request builder
+     */
     public RetryingOAuth(TokenRequestBuilder tokenRequestBuilder) {
         this(new OkHttpClient(), tokenRequestBuilder);
     }
 
     /**
-    @param tokenUrl The token URL to be used for this OAuth2 flow.
-        Applicable to the following OAuth2 flows: "password", "clientCredentials" and "authorizationCode".
-        The value must be an absolute URL.
-    @param clientId The OAuth2 client ID for the "clientCredentials" flow.
-    @param clientSecret The OAuth2 client secret for the "clientCredentials" flow.
-    */
+     * @param tokenUrl The token URL to be used for this OAuth2 flow.
+     *   Applicable to the following OAuth2 flows: "password", "clientCredentials" and "authorizationCode".
+     *   The value must be an absolute URL.
+     * @param clientId The OAuth2 client ID for the "clientCredentials" flow.
+     * @param flow OAuth flow.
+     * @param clientSecret The OAuth2 client secret for the "clientCredentials" flow.
+     * @param parameters A map of string.
+     */
     public RetryingOAuth(
             String tokenUrl,
             String clientId,
@@ -62,18 +71,23 @@ public class RetryingOAuth extends OAuth implements Interceptor {
         }
     }
 
+    /**
+     * Set the OAuth flow
+     *
+     * @param flow The OAuth flow.
+     */
     public void setFlow(OAuthFlow flow) {
         switch(flow) {
-            case accessCode:
+            case ACCESS_CODE:
                 tokenRequestBuilder.setGrantType(GrantType.AUTHORIZATION_CODE);
                 break;
-            case implicit:
+            case IMPLICIT:
                 tokenRequestBuilder.setGrantType(GrantType.IMPLICIT);
                 break;
-            case password:
+            case PASSWORD:
                 tokenRequestBuilder.setGrantType(GrantType.PASSWORD);
                 break;
-            case application:
+            case APPLICATION:
                 tokenRequestBuilder.setGrantType(GrantType.CLIENT_CREDENTIALS);
                 break;
             default:
@@ -147,8 +161,12 @@ public class RetryingOAuth extends OAuth implements Interceptor {
         }
     }
 
-    /*
+    /**
      * Returns true if the access token has been updated
+     *
+     * @param requestAccessToken the request access token
+     * @return True if the update is successful
+     * @throws java.io.IOException If fail to update the access token
      */
     public synchronized boolean updateAccessToken(String requestAccessToken) throws IOException {
         if (getAccessToken() == null || getAccessToken().equals(requestAccessToken)) {
@@ -165,10 +183,21 @@ public class RetryingOAuth extends OAuth implements Interceptor {
         return getAccessToken() == null || !getAccessToken().equals(requestAccessToken);
     }
 
+    /**
+     * Gets the token request builder
+     *
+     * @return A token request builder
+     * @throws java.io.IOException If fail to update the access token
+     */
     public TokenRequestBuilder getTokenRequestBuilder() {
         return tokenRequestBuilder;
     }
 
+    /**
+     * Sets the token request builder
+     *
+     * @param tokenRequestBuilder Token request builder
+     */
     public void setTokenRequestBuilder(TokenRequestBuilder tokenRequestBuilder) {
         this.tokenRequestBuilder = tokenRequestBuilder;
     }

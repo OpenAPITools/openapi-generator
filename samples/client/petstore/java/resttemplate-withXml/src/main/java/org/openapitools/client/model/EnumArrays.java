@@ -36,7 +36,6 @@ import javax.xml.bind.annotation.*;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-@JsonTypeName("EnumArrays")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "EnumArrays")
 @XmlAccessorType(XmlAccessType.FIELD)

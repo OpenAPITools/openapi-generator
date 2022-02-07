@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 
 import java.util.*;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * CodegenModel represents a schema object in a OpenAPI document.
@@ -64,7 +65,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String defaultValue;
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
-    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isDate, isDateTime, isDecimal, isShort, isUnboundedInteger, isBoolean;
+    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isDate, isDateTime, isDecimal, isShort, isUnboundedInteger, isPrimitiveType, isBoolean;
     private boolean additionalPropertiesIsAnyType;
     public List<CodegenProperty> vars = new ArrayList<>(); // all properties (without parent's properties)
     public List<CodegenProperty> allVars = new ArrayList<>(); // all properties (with parent's properties)
@@ -240,7 +241,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * @return true if the classname property is sanitized
      */
     public boolean getIsClassnameSanitized() {
-        return !classname.equals(name);
+        return !StringUtils.equals(classname, name);
     }
 
     public String getClassname() {
@@ -635,6 +636,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public void setIsUnboundedInteger(boolean isUnboundedInteger)   {
         this.isUnboundedInteger = isUnboundedInteger;
+    }
+
+    @Override
+    public boolean getIsPrimitiveType() { return isPrimitiveType; }
+
+    @Override
+    public void setIsPrimitiveType(boolean isPrimitiveType)  {
+        this.isPrimitiveType = isPrimitiveType;
     }
 
     @Override

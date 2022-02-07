@@ -35,7 +35,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@JsonTypeName("Name")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";

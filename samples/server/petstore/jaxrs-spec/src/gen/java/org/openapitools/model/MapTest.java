@@ -80,6 +80,22 @@ public enum InnerEnum {
     this.mapMapOfString = mapMapOfString;
   }
 
+  public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
+    if (this.mapMapOfString == null) {
+      this.mapMapOfString = new HashMap<String, Map<String, String>>();
+    }
+
+    this.mapMapOfString.put(key, mapMapOfStringItem);
+    return this;
+  }
+
+  public MapTest removeMapMapOfStringItem(Map<String, String> mapMapOfStringItem) {
+    if (mapMapOfStringItem != null && this.mapMapOfString != null) {
+      this.mapMapOfString.remove(mapMapOfStringItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
@@ -101,6 +117,22 @@ public enum InnerEnum {
     this.mapOfEnumString = mapOfEnumString;
   }
 
+  public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
+    if (this.mapOfEnumString == null) {
+      this.mapOfEnumString = new HashMap<String, InnerEnum>();
+    }
+
+    this.mapOfEnumString.put(key, mapOfEnumStringItem);
+    return this;
+  }
+
+  public MapTest removeMapOfEnumStringItem(InnerEnum mapOfEnumStringItem) {
+    if (mapOfEnumStringItem != null && this.mapOfEnumString != null) {
+      this.mapOfEnumString.remove(mapOfEnumStringItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public MapTest directMap(Map<String, Boolean> directMap) {
@@ -122,6 +154,22 @@ public enum InnerEnum {
     this.directMap = directMap;
   }
 
+  public MapTest putDirectMapItem(String key, Boolean directMapItem) {
+    if (this.directMap == null) {
+      this.directMap = new HashMap<String, Boolean>();
+    }
+
+    this.directMap.put(key, directMapItem);
+    return this;
+  }
+
+  public MapTest removeDirectMapItem(Boolean directMapItem) {
+    if (directMapItem != null && this.directMap != null) {
+      this.directMap.remove(directMapItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
@@ -143,6 +191,22 @@ public enum InnerEnum {
     this.indirectMap = indirectMap;
   }
 
+  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
+    if (this.indirectMap == null) {
+      this.indirectMap = new HashMap<String, Boolean>();
+    }
+
+    this.indirectMap.put(key, indirectMapItem);
+    return this;
+  }
+
+  public MapTest removeIndirectMapItem(Boolean indirectMapItem) {
+    if (indirectMapItem != null && this.indirectMap != null) {
+      this.indirectMap.remove(indirectMapItem);
+    }
+
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

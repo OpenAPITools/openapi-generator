@@ -43,7 +43,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@JsonTypeName("Pet")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Pet {

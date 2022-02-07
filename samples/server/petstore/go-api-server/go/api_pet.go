@@ -47,7 +47,7 @@ func NewPetApiController(s PetApiServicer, opts ...PetApiOption) Router {
 	return controller
 }
 
-// Routes returns all of the api route for the PetApiController
+// Routes returns all the api routes for the PetApiController
 func (c *PetApiController) Routes() Routes {
 	return Routes{ 
 		{

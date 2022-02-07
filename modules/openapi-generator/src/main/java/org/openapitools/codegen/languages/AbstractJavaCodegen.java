@@ -70,6 +70,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
     public static final String OPENAPI_NULLABLE = "openApiNullable";
     public static final String JACKSON = "jackson";
+    public static final String TEST_OUTPUT = "testOutput";
+
+    public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
 
     protected String dateLibrary = "threetenbp";
     protected boolean supportAsync = false;
@@ -113,6 +116,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
     protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
     protected boolean openApiNullable = true;
+    protected String outputTestFolder = "";
     protected DocumentationProvider documentationProvider;
     protected AnnotationLibrary annotationLibrary;
 
@@ -262,6 +266,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         snapShotVersionOptions.put("false", "Use a Release Version");
         snapShotVersion.setEnum(snapShotVersionOptions);
         cliOptions.add(snapShotVersion);
+        cliOptions.add(CliOption.newString(TEST_OUTPUT, "Set output folder for models and APIs tests").defaultValue(DEFAULT_TEST_FOLDER));
 
         if (null != defaultDocumentationProvider()) {
             CliOption documentationProviderCliOption = new CliOption(DOCUMENTATION_PROVIDER,
@@ -638,6 +643,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else if (dateLibrary.equals("legacy")) {
             additionalProperties.put("legacyDates", "true");
         }
+
+        if (additionalProperties.containsKey(TEST_OUTPUT)) {
+            setOutputTestFolder(additionalProperties.get(TEST_OUTPUT).toString());
+        }
     }
 
     @Override
@@ -697,12 +706,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String apiTestFileFolder() {
-        return (outputFolder + File.separator + testFolder + File.separator + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
+        return (outputTestFolder + File.separator + testFolder + File.separator + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
     }
 
     @Override
     public String modelTestFileFolder() {
-        return (outputFolder + File.separator + testFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
+        return (outputTestFolder + File.separator + testFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
     }
 
     @Override
@@ -1266,6 +1275,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        if (model.getIsClassnameSanitized() && additionalProperties.containsKey(JACKSON)) {
+            model.imports.add("JsonTypeName");
+        }
+
         if (serializeBigDecimalAsString) {
             if ("decimal".equals(property.baseType)) {
                 // we serialize BigDecimal as `string` to avoid precision loss
@@ -1811,6 +1824,25 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setOpenApiNullable(final boolean openApiNullable) {
         this.openApiNullable = openApiNullable;
+    }
+
+    @Override
+    public void setOutputDir(String dir) {
+        super.setOutputDir(dir);
+        if (this.outputTestFolder.isEmpty()) {
+            setOutputTestFolder(dir);
+        }
+    }
+
+    public String getOutputTestFolder() {
+        if (outputTestFolder.isEmpty()) {
+            return DEFAULT_TEST_FOLDER;
+        }
+        return outputTestFolder;
+    }
+
+    public void setOutputTestFolder(String outputTestFolder) {
+        this.outputTestFolder = outputTestFolder;
     }
 
     @Override
