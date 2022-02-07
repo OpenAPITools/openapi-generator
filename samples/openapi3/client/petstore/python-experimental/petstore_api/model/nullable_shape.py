@@ -81,6 +81,7 @@ class NullableShape(
             'shapeType': {
                 'Quadrilateral': Quadrilateral,
                 'Triangle': Triangle,
+                '': ERRORUNKNOWN,
             }
         }
 
@@ -94,14 +95,14 @@ class NullableShape(
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
-        oneOf_2 = NoneSchema
+        oneOf_2 = AnyTypeSchema
         return {
             'allOf': [
             ],
             'oneOf': [
                 Triangle,
                 Quadrilateral,
-                oneOf_2,
+                AnyTypeSchema,
             ],
             'anyOf': [
             ],
@@ -120,5 +121,6 @@ class NullableShape(
             **kwargs,
         )
 
+from petstore_api.model.errorunknown import ERRORUNKNOWN
 from petstore_api.model.quadrilateral import Quadrilateral
 from petstore_api.model.triangle import Triangle

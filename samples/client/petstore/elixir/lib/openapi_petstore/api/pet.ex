@@ -13,6 +13,7 @@ defmodule OpenapiPetstore.Api.Pet do
 
   @doc """
   Add a new pet to the store
+  
 
   ## Parameters
 
@@ -40,6 +41,7 @@ defmodule OpenapiPetstore.Api.Pet do
 
   @doc """
   Deletes a pet
+  
 
   ## Parameters
 
@@ -155,6 +157,7 @@ defmodule OpenapiPetstore.Api.Pet do
 
   @doc """
   Update an existing pet
+  
 
   ## Parameters
 
@@ -184,6 +187,7 @@ defmodule OpenapiPetstore.Api.Pet do
 
   @doc """
   Updates a pet in the store with form data
+  
 
   ## Parameters
 
@@ -218,6 +222,7 @@ defmodule OpenapiPetstore.Api.Pet do
 
   @doc """
   uploads an image
+  
 
   ## Parameters
 
@@ -251,6 +256,7 @@ defmodule OpenapiPetstore.Api.Pet do
 
   @doc """
   uploads an image (required)
+  
 
   ## Parameters
 

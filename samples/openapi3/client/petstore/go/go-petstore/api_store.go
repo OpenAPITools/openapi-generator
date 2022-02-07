@@ -72,6 +72,8 @@ type StoreApi interface {
 	/*
 	PlaceOrder Place an order for a pet
 
+	
+
 	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	 @return ApiPlaceOrderRequest
 	*/
@@ -420,6 +422,8 @@ func (r ApiPlaceOrderRequest) Execute() (*Order, *http.Response, error) {
 
 /*
 PlaceOrder Place an order for a pet
+
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiPlaceOrderRequest

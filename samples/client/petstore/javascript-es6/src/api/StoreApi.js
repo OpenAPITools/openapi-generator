@@ -166,6 +166,7 @@ export default class StoreApi {
 
     /**
      * Place an order for a pet
+     * 
      * @param {module:model/Order} order order placed for purchasing the pet
      * @param {module:api/StoreApi~placeOrderCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Order}

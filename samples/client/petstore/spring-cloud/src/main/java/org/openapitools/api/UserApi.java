@@ -60,6 +60,7 @@ public interface UserApi {
 
     /**
      * POST /user/createWithArray : Creates list of users with given input array
+     * 
      *
      * @param user List of user object (required)
      * @return successful operation (status code 200)
@@ -88,6 +89,7 @@ public interface UserApi {
 
     /**
      * POST /user/createWithList : Creates list of users with given input array
+     * 
      *
      * @param user List of user object (required)
      * @return successful operation (status code 200)
@@ -146,6 +148,7 @@ public interface UserApi {
 
     /**
      * GET /user/{username} : Get user by user name
+     * 
      *
      * @param username The name that needs to be fetched. Use user1 for testing. (required)
      * @return successful operation (status code 200)
@@ -176,6 +179,7 @@ public interface UserApi {
 
     /**
      * GET /user/login : Logs user into the system
+     * 
      *
      * @param username The user name for login (required)
      * @param password The password for login in clear text (required)
@@ -206,6 +210,7 @@ public interface UserApi {
 
     /**
      * GET /user/logout : Logs out current logged in user session
+     * 
      *
      * @return successful operation (status code 200)
      */

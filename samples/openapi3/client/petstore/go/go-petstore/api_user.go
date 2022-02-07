@@ -42,6 +42,8 @@ type UserApi interface {
 	/*
 	CreateUsersWithArrayInput Creates list of users with given input array
 
+	
+
 	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	 @return ApiCreateUsersWithArrayInputRequest
 	*/
@@ -52,6 +54,8 @@ type UserApi interface {
 
 	/*
 	CreateUsersWithListInput Creates list of users with given input array
+
+	
 
 	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	 @return ApiCreateUsersWithListInputRequest
@@ -78,6 +82,8 @@ type UserApi interface {
 	/*
 	GetUserByName Get user by user name
 
+	
+
 	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	 @param username The name that needs to be fetched. Use user1 for testing.
 	 @return ApiGetUserByNameRequest
@@ -91,6 +97,8 @@ type UserApi interface {
 	/*
 	LoginUser Logs user into the system
 
+	
+
 	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	 @return ApiLoginUserRequest
 	*/
@@ -102,6 +110,8 @@ type UserApi interface {
 
 	/*
 	LogoutUser Logs out current logged in user session
+
+	
 
 	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	 @return ApiLogoutUserRequest
@@ -248,6 +258,8 @@ func (r ApiCreateUsersWithArrayInputRequest) Execute() (*http.Response, error) {
 /*
 CreateUsersWithArrayInput Creates list of users with given input array
 
+
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateUsersWithArrayInputRequest
 */
@@ -345,6 +357,8 @@ func (r ApiCreateUsersWithListInputRequest) Execute() (*http.Response, error) {
 
 /*
 CreateUsersWithListInput Creates list of users with given input array
+
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateUsersWithListInputRequest
@@ -532,6 +546,8 @@ func (r ApiGetUserByNameRequest) Execute() (*User, *http.Response, error) {
 /*
 GetUserByName Get user by user name
 
+
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param username The name that needs to be fetched. Use user1 for testing.
  @return ApiGetUserByNameRequest
@@ -645,6 +661,8 @@ func (r ApiLoginUserRequest) Execute() (string, *http.Response, error) {
 /*
 LoginUser Logs user into the system
 
+
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiLoginUserRequest
 */
@@ -750,6 +768,8 @@ func (r ApiLogoutUserRequest) Execute() (*http.Response, error) {
 
 /*
 LogoutUser Logs out current logged in user session
+
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiLogoutUserRequest

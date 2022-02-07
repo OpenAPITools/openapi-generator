@@ -45,6 +45,8 @@ class UserApi(baseUrl: String) {
       .response(asJson[Unit])
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 0 :  (successful operation)
    * 
@@ -63,6 +65,8 @@ class UserApi(baseUrl: String) {
       .response(asJson[Unit])
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 0 :  (successful operation)
    * 
@@ -101,6 +105,8 @@ class UserApi(baseUrl: String) {
       .response(asJson[Unit])
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 200 : User (successful operation)
    *   code 400 :  (Invalid username supplied)
@@ -116,6 +122,8 @@ class UserApi(baseUrl: String) {
       .response(asJson[User])
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 200 : String (successful operation)
    *              Headers :
@@ -135,6 +143,8 @@ class UserApi(baseUrl: String) {
       .response(asJson[String])
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 0 :  (successful operation)
    * 

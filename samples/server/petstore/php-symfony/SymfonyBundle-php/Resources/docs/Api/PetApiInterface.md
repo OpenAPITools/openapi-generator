@@ -31,6 +31,8 @@ services:
 
 Add a new pet to the store
 
+
+
 ### Example Implementation
 ```php
 <?php
@@ -90,6 +92,8 @@ Name | Type | Description  | Notes
 > deletePet($petId, $apiKey)
 
 Deletes a pet
+
+
 
 ### Example Implementation
 ```php
@@ -338,6 +342,8 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
+
+
 ### Example Implementation
 ```php
 <?php
@@ -397,6 +403,8 @@ Name | Type | Description  | Notes
 > updatePetWithForm($petId, $name, $status)
 
 Updates a pet in the store with form data
+
+
 
 ### Example Implementation
 ```php
@@ -459,6 +467,8 @@ void (empty response body)
 > OpenAPI\Server\Model\ApiResponse uploadFile($petId, $additionalMetadata, $file)
 
 uploads an image
+
+
 
 ### Example Implementation
 ```php

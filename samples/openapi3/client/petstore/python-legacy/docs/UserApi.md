@@ -80,6 +80,8 @@ No authorization required
 
 Creates list of users with given input array
 
+
+
 ### Example
 
 ```python
@@ -138,6 +140,8 @@ No authorization required
 > create_users_with_list_input(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 
@@ -260,6 +264,8 @@ No authorization required
 
 Get user by user name
 
+
+
 ### Example
 
 ```python
@@ -321,6 +327,8 @@ No authorization required
 > str login_user(username, password)
 
 Logs user into the system
+
+
 
 ### Example
 
@@ -384,6 +392,8 @@ No authorization required
 > logout_user()
 
 Logs out current logged in user session
+
+
 
 ### Example
 

@@ -64,6 +64,7 @@ paths:
           description: not found
   /pet:
     post:
+      description: ""
       operationId: addPet
       requestBody:
         $ref: '#/components/requestBodies/Pet'
@@ -79,6 +80,7 @@ paths:
       tags:
       - pet
     put:
+      description: ""
       operationId: updatePet
       requestBody:
         $ref: '#/components/requestBodies/Pet'
@@ -188,6 +190,7 @@ paths:
       - pet
   /pet/{petId}:
     delete:
+      description: ""
       operationId: deletePet
       parameters:
       - explode: false
@@ -249,6 +252,7 @@ paths:
       tags:
       - pet
     post:
+      description: ""
       operationId: updatePetWithForm
       parameters:
       - description: ID of pet that needs to be updated
@@ -285,6 +289,7 @@ paths:
       - pet
   /pet/{petId}/uploadImage:
     post:
+      description: ""
       operationId: uploadFile
       parameters:
       - description: ID of pet to update
@@ -345,6 +350,7 @@ paths:
       - store
   /store/order:
     post:
+      description: ""
       operationId: placeOrder
       requestBody:
         content:
@@ -442,6 +448,7 @@ paths:
       - user
   /user/createWithArray:
     post:
+      description: ""
       operationId: createUsersWithArrayInput
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
@@ -453,6 +460,7 @@ paths:
       - user
   /user/createWithList:
     post:
+      description: ""
       operationId: createUsersWithListInput
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
@@ -464,6 +472,7 @@ paths:
       - user
   /user/login:
     get:
+      description: ""
       operationId: loginUser
       parameters:
       - description: The user name for login
@@ -514,6 +523,7 @@ paths:
       - user
   /user/logout:
     get:
+      description: ""
       operationId: logoutUser
       responses:
         default:
@@ -543,6 +553,7 @@ paths:
       tags:
       - user
     get:
+      description: ""
       operationId: getUserByName
       parameters:
       - description: The name that needs to be fetched. Use user1 for testing.
@@ -983,6 +994,7 @@ paths:
       - fake
   /fake/jsonFormData:
     get:
+      description: ""
       operationId: testJsonFormData
       requestBody:
         $ref: '#/components/requestBodies/inline_object_4'
@@ -1008,6 +1020,7 @@ paths:
       - fake
   /fake/inline-additionalProperties:
     post:
+      description: ""
       operationId: testInlineAdditionalProperties
       requestBody:
         content:
@@ -1172,6 +1185,7 @@ paths:
       - fake
   /fake/{petId}/uploadImageWithRequiredFile:
     post:
+      description: ""
       operationId: uploadFileWithRequiredFile
       parameters:
       - description: ID of pet to update

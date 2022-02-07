@@ -209,6 +209,7 @@ module Petstore
     end
 
     # Place an order for a pet
+    # 
     # @param order [Order] order placed for purchasing the pet
     # @param [Hash] opts the optional parameters
     # @return [Order]
@@ -218,6 +219,7 @@ module Petstore
     end
 
     # Place an order for a pet
+    # 
     # @param order [Order] order placed for purchasing the pet
     # @param [Hash] opts the optional parameters
     # @return [Array<(Order, Integer, Hash)>] Order data, response status code and response headers

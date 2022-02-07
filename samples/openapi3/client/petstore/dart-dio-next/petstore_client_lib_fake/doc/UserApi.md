@@ -66,6 +66,8 @@ No authorization required
 
 Creates list of users with given input array
 
+
+
 ### Example
 ```dart
 import 'package:openapi/api.dart';
@@ -105,6 +107,8 @@ No authorization required
 > createUsersWithListInput(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 ```dart
@@ -188,6 +192,8 @@ No authorization required
 
 Get user by user name
 
+
+
 ### Example
 ```dart
 import 'package:openapi/api.dart';
@@ -228,6 +234,8 @@ No authorization required
 > String loginUser(username, password)
 
 Logs user into the system
+
+
 
 ### Example
 ```dart
@@ -271,6 +279,8 @@ No authorization required
 > logoutUser()
 
 Logs out current logged in user session
+
+
 
 ### Example
 ```dart
