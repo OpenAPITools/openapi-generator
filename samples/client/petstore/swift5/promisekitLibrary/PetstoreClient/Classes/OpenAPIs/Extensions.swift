@@ -10,15 +10,41 @@ import AnyCodable
 #endif
 import PromiseKit
 
-extension Bool: JSONEncodable {}
-extension Float: JSONEncodable {}
-extension Int: JSONEncodable {}
-extension Int32: JSONEncodable {}
-extension Int64: JSONEncodable {}
-extension Double: JSONEncodable {}
-extension String: JSONEncodable {}
-extension URL: JSONEncodable {}
-extension UUID: JSONEncodable {}
+extension Bool: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension Float: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension Int: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension Int32: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension Int64: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension Double: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension String: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension URL: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+extension UUID: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
 
 extension RawRepresentable where RawValue: JSONEncodable {
     func encodeToJSON() -> Any { return self.rawValue }
