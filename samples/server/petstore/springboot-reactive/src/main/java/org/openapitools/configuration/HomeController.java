@@ -3,6 +3,8 @@ package org.openapitools.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import java.net.URI;
@@ -15,5 +17,21 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
  */
 @Controller
 public class HomeController {
+
+    static final String API_DOCS_PATH = "/v2/api-docs";
+
+    @GetMapping(value = "/swagger-config.yaml", produces = "text/plain")
+    @ResponseBody
+    public String swaggerConfig() {
+        return "url: " + API_DOCS_PATH + "\n";
+    }
+
+    @Bean
+    RouterFunction<ServerResponse> index() {
+        return route(
+            GET("/"),
+            req -> ServerResponse.temporaryRedirect(URI.create("swagger-ui.html")).build()
+        );
+    }
 
 }

@@ -18,4 +18,5 @@ src/main/java/org/openapitools/model/Tag.java
 src/main/java/org/openapitools/model/User.java
 src/main/resources/application.properties
 src/main/resources/openapi.yaml
+src/main/resources/static/swagger-ui.html
 src/test/java/org/openapitools/OpenApiGeneratorApplicationTests.java

@@ -10,7 +10,6 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <springdoc.version>1.6.4</springdoc.version>
-        <swagger-ui.version>4.4.1-1</swagger-ui.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -38,7 +37,7 @@
           <!--SpringDoc dependencies -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
+            <artifactId>springdoc-openapi-webmvc-core</artifactId>
             <version>${springdoc.version}</version>
         </dependency>
         <!-- @Nullable annotation -->

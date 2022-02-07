@@ -14,8 +14,4 @@ The specification is available to download using the following url:
 http://localhost:8080/v3/api-docs/
 
 Start your server as a simple java application
-
-You can view the api documentation in swagger-ui by pointing to
-http://localhost:8080/swagger-ui.html
-
 Change default port value in application.properties
