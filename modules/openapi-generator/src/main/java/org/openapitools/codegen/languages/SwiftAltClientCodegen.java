@@ -49,11 +49,13 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     private final Logger LOGGER = LoggerFactory.getLogger(SwiftAltClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
+    public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
     protected String projectName = "OpenAPIClient";
     protected String privateFolder = "Sources/Private";
     protected String sourceFolder = "Sources";
     protected String transportFolder = "OpenAPITransport";
     protected List<String> notCodableTypes = Arrays.asList("Any", "AnyObject", "[String: Any]", "[String: [String: Any]");
+    protected boolean mapFileBinaryToData = true;
 
     /**
      * Constructor for the swift alt language codegen module.
@@ -150,7 +152,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
                         "Array", "Dictionary", "Set", "OptionSet", "CountableRange", "CountableClosedRange",
 
                         // The following are commonly-used Foundation types
-                        "URL", "Data", "Codable", "Encodable", "Decodable",
+                        "URL", "Data", "Codable", "Encodable", "Decodable", "Result",
 
                         // The following are other words we want to reserve
                         "Void", "AnyObject", "Class", "dynamicType", "COLUMN", "FILE", "FUNCTION", "LINE"
@@ -175,8 +177,6 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("float", "Float");
         typeMapping.put("number", "Double");
         typeMapping.put("double", "Double");
-        typeMapping.put("file", "URL");
-        typeMapping.put("binary", "URL");
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "String");
@@ -193,7 +193,9 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
 
         cliOptions.add(new CliOption(PROJECT_NAME, "Project name in Xcode"));
         cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
+        cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_DATA,
+                "Map File and Binary to Data (default: true)")
+                .defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -239,6 +241,17 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
                 projectName + File.separator + privateFolder,
                 "OpenISO8601DateFormatter.swift"));
+        if (additionalProperties.containsKey(MAP_FILE_BINARY_TO_DATA)) {
+            mapFileBinaryToData = convertPropertyToBooleanAndWriteBack(MAP_FILE_BINARY_TO_DATA);
+        }
+        additionalProperties.put(MAP_FILE_BINARY_TO_DATA, mapFileBinaryToData);
+        if (mapFileBinaryToData) {
+            typeMapping.put("file", "Data");
+            typeMapping.put("binary", "Data");
+        } else {
+            typeMapping.put("file", "URL");
+            typeMapping.put("binary", "URL");
+        }
     }
 
     @Override
@@ -756,7 +769,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
         System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift alternative generator v0.6.0                                           #");
+        System.out.println("# swift alternative generator v0.7.0                                           #");
         System.out.println("################################################################################");
     }
 }

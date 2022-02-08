@@ -93,91 +93,140 @@ open class {{classname}} {
         - returns: AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {{description}}
         */
     open func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{vendorExtensions.x-swift-nested-enum-type}}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {
-        guard let baseURL = transport.baseURL ?? self.baseURL else {
-            return Fail(error: OpenAPITransportError.badURLError())
-                .eraseToAnyPublisher()
-        }
-        let path = "{{path}}"
-        {{#pathParams}}
-            .replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: "\({{paramName}})")
-        {{/pathParams}}
-        let url = baseURL.appendingPathComponent(path)
-        {{#hasQueryParams}}var{{/hasQueryParams}}{{^hasQueryParams}}let{{/hasQueryParams}} components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        {{#hasQueryParams}}
-        var queryItems: [URLQueryItem] = []
-        {{#queryParams}}
-        {{#required}}queryItems.append(URLQueryItem(name: "{{paramName}}", value: {{> toString}})){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { queryItems.append(URLQueryItem(name: "{{paramName}}", value: {{> toString}})) } {{/required}}
-        {{/queryParams}}
-        components?.queryItems = queryItems
-        {{/hasQueryParams}}
-        guard let requestURL = components?.url else {
-            return Fail(error: OpenAPITransportError.badURLError())
-                .eraseToAnyPublisher()
-        }
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = "{{httpMethod}}"
-        request.allHTTPHeaderFields = [{{^headerParams}}{{^hasFormParams}}
-            :{{/hasFormParams}}{{/headerParams}}{{#hasFormParams}}
-            "Content-Type": {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}},{{/hasFormParams}}{{#headerParams}}
-            "{{baseName}}": {{paramName}}{{^-last}}, {{/-last}}{{/headerParams}}
-        ].compactMapValues { $0 }
-        {{#hasBodyParam}}
-        {{#bodyParam}}
-        request.httpBody = try? encoder.encode({{paramName}})
-        if request.value(forHTTPHeaderField: "Content-Type") == nil {
+        return Result<URLRequest, Error> {
+            guard let baseURL = transport.baseURL ?? self.baseURL else {
+                throw OpenAPITransportError.badURLError()
+            }
+            let path = "{{path}}"
+            {{#pathParams}}
+                .replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: "\({{paramName}})")
+            {{/pathParams}}
+            let url = baseURL.appendingPathComponent(path)
+            {{#hasQueryParams}}var{{/hasQueryParams}}{{^hasQueryParams}}let{{/hasQueryParams}} components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+            {{#hasQueryParams}}
+            var queryItems: [URLQueryItem] = []
+            {{#queryParams}}
+            {{#required}}queryItems.append(URLQueryItem(name: "{{paramName}}", value: {{> toString}})){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { queryItems.append(URLQueryItem(name: "{{paramName}}", value: {{> toString}})) } {{/required}}
+            {{/queryParams}}
+            components?.queryItems = queryItems
+            {{/hasQueryParams}}
+            guard let requestURL = components?.url else {
+                throw OpenAPITransportError.badURLError()
+            }
+            var request = URLRequest(url: requestURL)
+            request.httpMethod = "{{httpMethod}}"
+            {{! Begin headers }}
+            {{#headerParams}}
+            {{#-last}}
+            request.allHTTPHeaderFields = [
+            {{/-last}}
+            {{/headerParams}}
+            {{#headerParams}}
+                "{{baseName}}": {{paramName}}{{^-last}}, {{/-last}}
+            {{/headerParams}}
+            {{#headerParams}}
+            {{#-last}}
+            ].compactMapValues { $0 }
+            {{/-last}}
+            {{/headerParams}}
+            {{! Begin body }}
+            {{#hasBodyParam}}
+            {{#bodyParam}}
+            request.httpBody = try encoder.encode({{paramName}})
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            {{/bodyParam}}
+            {{/hasBodyParam}}
+            {{! Begin multipart form }}
+            {{#hasFormParams}}
+            {{#isMultipart}}
+            let multipartBoundary = String(format: "Boundary+%08X%08X", arc4random(), arc4random())
+            var multipartData = Data()
+            {{#formParams}}
+            let {{paramName}}Header = "--\(multipartBoundary)\r\n"
+            {{#isFile}}
+                .appending("Content-Disposition:form-data; name=\"{{paramName}}\"; filename=\"{{paramName}}\"\r\n")
+            {{/isFile}}
+            {{^isFile}}
+                .appending("Content-Disposition:form-data; name=\"{{paramName}}\"\r\n")
+            {{/isFile}}
+            {{#contentType}}
+                .appending("Content-Type: {{{contentType}}}\r\n")
+            {{/contentType}}
+                .appending("\r\n")
+            if let {{paramName}}HeaderData = {{paramName}}Header.data(using: .utf8) {
+                multipartData.append({{paramName}}HeaderData)
+            }
+            {{#required}}multipartData.append({{> toData}}){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { multipartData.append({{> toData}}) }{{/required}}
+            {{^-last}}
+            if let separator = "\r\n".data(using: .utf8) {
+                multipartData.append(separator)
+            }
+            {{/-last}}
+            {{/formParams}}
+            if let footer = "\r\n--\(multipartBoundary)--\r\n".data(using: .utf8) {
+                multipartData.append(footer)
+            }
+            request.httpBody = multipartData
+            request.setValue("\(multipartData.count)", forHTTPHeaderField: "Content-Length")
+            request.setValue("multipart/form-data; boundary=\(multipartBoundary)", forHTTPHeaderField: "Content-Type")
+            {{/isMultipart}}
+            {{^isMultipart}}
+            {{! Begin form urlencoded }}
+            var formEncodedItems: [String] = []
+            {{#formParams}}
+            {{#required}}formEncodedItems.append("{{paramName}}=\({{> toString}})"){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { formEncodedItems.append("{{paramName}}=\({{> toString}})") } {{/required}}
+            {{/formParams}}
+            request.httpBody = formEncodedItems.joined(separator: "&").data(using: .utf8)
+            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            {{/isMultipart}}
+            {{/hasFormParams}}
+            return request
         }
-        {{/bodyParam}}
-        {{/hasBodyParam}}
-        {{#hasFormParams}}
-        var formEncodedItems: [String] = []
-        {{#formParams}}
-        {{#required}}formEncodedItems.append("{{paramName}}=\({{> toString}})"){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { formEncodedItems.append("{{paramName}}=\({{> toString}})") } {{/required}}
-        {{/formParams}}
-        request.httpBody = formEncodedItems.joined(separator: "&").data(using: .utf8)
-        {{/hasFormParams}}
-        let securitySchemes: [SecurityScheme] = [{{#authMethods}}{{#isBasicBearer}}.bearer{{/isBasicBearer}}{{/authMethods}}]
-        return transport.send(request: request, securitySchemes: securitySchemes)
-        {{#vendorExtensions.x-swift-custom-error-type}}
-            .mapError { transportError -> Error in 
-                {{#responses}}
-                {{#vendorExtensions.x-swift-has-custom-error-type}}
-                if transportError.statusCode == {{{code}}} {
-                    {{#dataType}}
-                    do {
-                        let error = try self.decoder.decode({{{dataType}}}.self, from: transportError.data)
-                        return {{{vendorExtensions.x-swift-custom-error-type}}}.code{{{code}}}Error(error)
-                    } catch {
-                        return error
+        .publisher
+        .flatMap { request -> AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> in 
+            let securitySchemes: [SecurityScheme] = [{{#authMethods}}{{#isBasicBearer}}.bearer{{/isBasicBearer}}{{/authMethods}}]
+            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            {{#vendorExtensions.x-swift-custom-error-type}}
+                .mapError { transportError -> Error in 
+                    {{#responses}}
+                    {{#vendorExtensions.x-swift-has-custom-error-type}}
+                    if transportError.statusCode == {{{code}}} {
+                        {{#dataType}}
+                        do {
+                            let error = try self.decoder.decode({{{dataType}}}.self, from: transportError.data)
+                            return {{{vendorExtensions.x-swift-custom-error-type}}}.code{{{code}}}Error(error)
+                        } catch {
+                            return error
+                        }
+                        {{/dataType}}
+                        {{^dataType}}
+                        return {{{vendorExtensions.x-swift-custom-error-type}}}.code{{{code}}}Error
+                        {{/dataType}}
                     }
-                    {{/dataType}}
-                    {{^dataType}}
-                    return {{{vendorExtensions.x-swift-custom-error-type}}}.code{{{code}}}Error
-                    {{/dataType}}
+                    {{/vendorExtensions.x-swift-has-custom-error-type}}
+                    {{/responses}}
+                    return transportError
                 }
-                {{/vendorExtensions.x-swift-has-custom-error-type}}
-                {{/responses}}
-                return transportError
-            }
-        {{/vendorExtensions.x-swift-custom-error-type}}
-            .tryMap { response in
-                {{#returnType}}
-                {{#vendorExtensions.x-swift-is-not-codable}}
-                if let object = try JSONSerialization.jsonObject(with: response.data, options: []) as? {{{returnType}}} {
-                    return object
-                } else {
-                    throw OpenAPITransportError.invalidResponseMappingError(data: response.data)
+            {{/vendorExtensions.x-swift-custom-error-type}}
+                .tryMap { response in
+                    {{#returnType}}
+                    {{#vendorExtensions.x-swift-is-not-codable}}
+                    if let object = try JSONSerialization.jsonObject(with: response.data, options: []) as? {{{returnType}}} {
+                        return object
+                    } else {
+                        throw OpenAPITransportError.invalidResponseMappingError(data: response.data)
+                    }
+                    {{/vendorExtensions.x-swift-is-not-codable}} 
+                    {{^vendorExtensions.x-swift-is-not-codable}} 
+                    try self.decoder.decode({{{returnType}}}.self, from: response.data)
+                    {{/vendorExtensions.x-swift-is-not-codable}} 
+                    {{/returnType}}
+                    {{^returnType}}
+                    return ()
+                    {{/returnType}}
                 }
-                {{/vendorExtensions.x-swift-is-not-codable}} 
-                {{^vendorExtensions.x-swift-is-not-codable}} 
-                try self.decoder.decode({{{returnType}}}.self, from: response.data)
-                {{/vendorExtensions.x-swift-is-not-codable}} 
-                {{/returnType}}
-                {{^returnType}}
-                return ()
-                {{/returnType}}
-            }
-            .eraseToAnyPublisher()
+                .eraseToAnyPublisher()
+        }.eraseToAnyPublisher()
     }
 {{/operation}}
 }
