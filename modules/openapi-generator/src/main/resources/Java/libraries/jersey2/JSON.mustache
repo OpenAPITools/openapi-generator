@@ -9,9 +9,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
-{{#java8}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-{{/java8}}
 {{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
@@ -44,9 +42,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     mapper.setDateFormat(new RFC3339DateFormat());
-    {{#java8}}
     mapper.registerModule(new JavaTimeModule());
-    {{/java8}}
     {{#joda}}
     mapper.registerModule(new JodaModule());
     {{/joda}}

@@ -17,9 +17,9 @@ class Pet {
     
     String name
     
-    List<String> photoUrls = new ArrayList<String>()
+    List<String> photoUrls = new ArrayList<>()
     
-    List<Tag> tags = new ArrayList<Tag>()
+    List<Tag> tags = new ArrayList<>()
     /* pet status in the store */
     String status
 }

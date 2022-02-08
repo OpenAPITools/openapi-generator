@@ -125,6 +125,7 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threetenbp_version"
     implementation "com.brsanthu:migbase64:2.2"
     implementation "com.github.scribejava:scribejava-core:$scribejava_version"

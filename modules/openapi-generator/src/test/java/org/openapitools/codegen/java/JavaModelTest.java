@@ -1315,7 +1315,6 @@ public class JavaModelTest {
         Assert.assertTrue(new File(inputSpec).exists());
 
         JavaClientCodegen config = new org.openapitools.codegen.languages.JavaClientCodegen();
-        config.setJava8Mode(true);
         config.setHideGenerationTimestamp(true);
         config.setOutputDir(output.getAbsolutePath());
 

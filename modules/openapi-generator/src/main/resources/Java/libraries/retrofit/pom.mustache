@@ -144,14 +144,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                {{#java8}}
                     <source>1.8</source>
                     <target>1.8</target>
-                {{/java8}}
-                {{^java8}}
-                    <source>1.7</source>
-                    <target>1.7</target>
-                {{/java8}}
                 </configuration>
             </plugin>
             <plugin>
@@ -160,12 +154,7 @@
                 <version>3.1.1</version>
                 <configuration>
                     <doclint>none</doclint>
-                    {{#java8}}
-                        <source>1.8</source>
-                    {{/java8}}
-                    {{^java8}}
-                        <source>1.7</source>
-                    {{/java8}}
+                    <source>1.8</source>
                 </configuration>
                 <executions>
                     <execution>
