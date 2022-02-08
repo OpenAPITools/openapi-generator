@@ -676,17 +676,20 @@ components:
         foo:
           type: string
       type: object
+      example: null
     AnyOfObject_anyOf:
       enum:
       - FOO
       - BAR
       type: string
+      example: null
     _12345AnyOfObject_anyOf:
       enum:
       - FOO
       - BAR
       - '*'
       type: string
+      example: null
   securitySchemes:
     authScheme:
       flows:

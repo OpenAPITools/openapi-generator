@@ -1599,7 +1599,7 @@
         <guava.version>30.1.1-jre</guava.version>
         <handlebars-java.version>4.2.1</handlebars-java.version>
         <jackson-threetenbp.version>2.10.0</jackson-threetenbp.version>
-        <jackson.version>2.10.2</jackson.version>
+        <jackson.version>2.12.1</jackson.version>
         <jacoco.version>0.8.7</jacoco.version>
         <jmustache.version>1.14</jmustache.version>
         <junit.version>4.13.2</junit.version>
@@ -1618,7 +1618,7 @@
         <slf4j.version>1.7.32</slf4j.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
-        <swagger-core.version>2.1.2</swagger-core.version>
+        <swagger-core.version>2.1.13</swagger-core.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
         <swagger-parser.version>2.0.30</swagger-parser.version>
         <testng.version>7.3.0</testng.version>

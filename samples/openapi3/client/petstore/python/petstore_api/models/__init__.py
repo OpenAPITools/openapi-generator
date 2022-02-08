@@ -59,6 +59,7 @@ from petstore_api.model.has_only_read_only import HasOnlyReadOnly
 from petstore_api.model.health_check_result import HealthCheckResult
 from petstore_api.model.inline_additional_properties_ref_payload import InlineAdditionalPropertiesRefPayload
 from petstore_api.model.inline_object6 import InlineObject6
+from petstore_api.model.inline_response200 import InlineResponse200
 from petstore_api.model.inline_response_default import InlineResponseDefault
 from petstore_api.model.integer_enum import IntegerEnum
 from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  description: This is a sample server Petstore server. For this sample, you can use
-    the api key `special-key` to test the authorization filters.
+  description: "This is a sample server Petstore server. For this sample, you can\
+    \ use the api key `special-key` to test the authorization filters."
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -119,8 +119,8 @@ paths:
   /pet/findByTags:
     get:
       deprecated: true
-      description: Multiple tags can be provided with comma separated strings. Use
-        tag1, tag2, tag3 for testing.
+      description: "Multiple tags can be provided with comma separated strings. Use\
+        \ tag1, tag2, tag3 for testing."
       operationId: findPetsByTags
       parameters:
       - description: Tags to filter by
@@ -454,7 +454,7 @@ paths:
         name: username
         required: true
         schema:
-          pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
+          pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
           type: string
         style: form
       - description: The password for login in clear text
@@ -674,7 +674,7 @@ components:
           format: int64
           type: integer
         name:
-          pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
+          pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
           type: string
       title: Pet category
       type: object

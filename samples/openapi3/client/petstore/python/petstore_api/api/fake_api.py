@@ -33,6 +33,7 @@ from petstore_api.model.gm_fruit_no_properties import GmFruitNoProperties
 from petstore_api.model.health_check_result import HealthCheckResult
 from petstore_api.model.inline_additional_properties_ref_payload import InlineAdditionalPropertiesRefPayload
 from petstore_api.model.inline_object6 import InlineObject6
+from petstore_api.model.inline_response200 import InlineResponse200
 from petstore_api.model.mammal import Mammal
 from petstore_api.model.number_with_validations import NumberWithValidations
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
@@ -583,7 +584,7 @@ class FakeApi(object):
         )
         self.post_inline_additional_properties_payload_endpoint = _Endpoint(
             settings={
-                'response_type': (InlineObject6,),
+                'response_type': (InlineResponse200,),
                 'auth': [],
                 'endpoint_path': '/fake/postInlineAdditionalPropertiesPayload',
                 'operation_id': 'post_inline_additional_properties_payload',
@@ -2549,7 +2550,7 @@ class FakeApi(object):
             async_req (bool): execute request asynchronously
 
         Returns:
-            InlineObject6
+            InlineResponse200
                 If the method is called asynchronously, returns the request
                 thread.
         """

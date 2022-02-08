@@ -56,6 +56,7 @@ docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/InlineAdditionalPropertiesRefPayload.md
 docs/InlineObject6.md
+docs/InlineResponse200.md
 docs/InlineResponseDefault.md
 docs/IntegerEnum.md
 docs/IntegerEnumOneValue.md
@@ -170,6 +171,7 @@ petstore_api/model/has_only_read_only.py
 petstore_api/model/health_check_result.py
 petstore_api/model/inline_additional_properties_ref_payload.py
 petstore_api/model/inline_object6.py
+petstore_api/model/inline_response200.py
 petstore_api/model/inline_response_default.py
 petstore_api/model/integer_enum.py
 petstore_api/model/integer_enum_one_value.py
