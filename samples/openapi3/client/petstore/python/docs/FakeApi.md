@@ -788,7 +788,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_inline_additional_properties_payload**
-> InlineResponse200 post_inline_additional_properties_payload()
+> InlineObject6 post_inline_additional_properties_payload()
 
 
 
@@ -799,7 +799,6 @@ No authorization required
 import time
 import petstore_api
 from petstore_api.api import fake_api
-from petstore_api.model.inline_response200 import InlineResponse200
 from petstore_api.model.inline_object6 import InlineObject6
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -841,7 +840,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InlineResponse200**](InlineResponse200.md)
+[**InlineObject6**](InlineObject6.md)
 
 ### Authorization
 

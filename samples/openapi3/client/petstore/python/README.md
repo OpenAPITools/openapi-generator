@@ -185,7 +185,6 @@ Class | Method | HTTP request | Description
  - [HealthCheckResult](docs/HealthCheckResult.md)
  - [InlineAdditionalPropertiesRefPayload](docs/InlineAdditionalPropertiesRefPayload.md)
  - [InlineObject6](docs/InlineObject6.md)
- - [InlineResponse200](docs/InlineResponse200.md)
  - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [IntegerEnum](docs/IntegerEnum.md)
  - [IntegerEnumOneValue](docs/IntegerEnumOneValue.md)

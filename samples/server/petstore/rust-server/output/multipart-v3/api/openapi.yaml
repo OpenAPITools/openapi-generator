@@ -133,5 +133,4 @@ components:
       required:
       - field_a
       type: object
-      example: null
 

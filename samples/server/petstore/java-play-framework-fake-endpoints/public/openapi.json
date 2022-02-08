@@ -2832,8 +2832,7 @@
             "type" : "string"
           }
         },
-        "type" : "object",
-        "example" : null
+        "type" : "object"
       },
       "Cat_allOf" : {
         "properties" : {
@@ -2841,8 +2840,7 @@
             "type" : "boolean"
           }
         },
-        "type" : "object",
-        "example" : null
+        "type" : "object"
       },
       "BigCat_allOf" : {
         "properties" : {
@@ -2851,8 +2849,7 @@
             "type" : "string"
           }
         },
-        "type" : "object",
-        "example" : null
+        "type" : "object"
       }
     },
     "securitySchemes" : {
