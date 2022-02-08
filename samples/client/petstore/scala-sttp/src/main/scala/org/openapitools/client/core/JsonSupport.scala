@@ -13,7 +13,7 @@ package org.openapitools.client.core
 
 import org.openapitools.client.model._
 import org.json4s._
-import sttp.client.json4s.SttpJson4sApi
+import sttp.client3.json4s.SttpJson4sApi
 import scala.reflect.ClassTag
 
 object JsonSupport extends SttpJson4sApi {
