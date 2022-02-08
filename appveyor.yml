@@ -50,10 +50,6 @@ build_script:
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-httpclient\Org.OpenAPITools.sln
   # build C# API client (generichost)
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-generichost-netstandard2.0\Org.OpenAPITools.sln
-  # build C# API client (generichost)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-generichost-net6.0\Org.OpenAPITools.sln
-  # build C# API client (generichost)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-generichost-net6.0-nrt\Org.OpenAPITools.sln
   # build C# API client (netcore)
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient\Org.OpenAPITools.sln
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCore\Org.OpenAPITools.sln
@@ -83,10 +79,6 @@ test_script:
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-httpclient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client (generichost)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-generichost-netstandard2.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-  # test c# API client (generichost)
-  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-generichost-net6.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-  # test c# API client (generichost)
-  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-generichost-net6.0-nrt\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client (netcore)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClientCore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
