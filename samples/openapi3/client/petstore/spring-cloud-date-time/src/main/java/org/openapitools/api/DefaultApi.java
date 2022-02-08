@@ -68,7 +68,7 @@ public interface DefaultApi {
      * update with form data
      *
      * @param date A date path parameter (required)
-     * @param visitDate Updated last vist timestamp (optional, default to OffsetDateTime.parse(&quot;1971-12-19T11:39:57Z[UTC]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
+     * @param visitDate Updated last vist timestamp (optional, default to 1971-12-19T03:39:57-08:00)
      * @return Invalid input (status code 405)
      */
     @Operation(

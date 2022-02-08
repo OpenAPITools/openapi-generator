@@ -64,7 +64,7 @@ public interface DefaultApi {
      * update with form data
      *
      * @param date A date path parameter (required)
-     * @param visitDate Updated last vist timestamp (optional, default to OffsetDateTime.parse(&quot;1971-12-19T11:39:57Z[UTC]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
+     * @param visitDate Updated last vist timestamp (optional, default to 1971-12-19T03:39:57-08:00)
      * @return Invalid input (status code 405)
      */
     @ApiOperation(
@@ -83,7 +83,7 @@ public interface DefaultApi {
     )
     ResponseEntity<Void> updatePetWithForm(
         @ApiParam(value = "A date path parameter", required = true, defaultValue = "1970-01-01") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @ApiParam(value = "Updated last vist timestamp", defaultValue = "OffsetDateTime.parse("1971-12-19T11:39:57Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))") @RequestParam(value="visitDate", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
+        @ApiParam(value = "Updated last vist timestamp", defaultValue = "1971-12-19T03:39:57-08:00") @RequestParam(value="visitDate", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
     );
 
 }
