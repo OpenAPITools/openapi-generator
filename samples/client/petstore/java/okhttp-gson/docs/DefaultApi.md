@@ -1,19 +1,17 @@
-# AnotherFakeApi
+# DefaultApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**call123testSpecialTags**](AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+[**fooGet**](DefaultApi.md#fooGet) | **GET** /foo | 
 
 
-<a name="call123testSpecialTags"></a>
-# **call123testSpecialTags**
-> Client call123testSpecialTags(client)
+<a name="fooGet"></a>
+# **fooGet**
+> InlineResponseDefault fooGet()
 
-To test special tags
 
-To test special tags and operation ID starting with number
 
 ### Example
 ```java
@@ -22,34 +20,34 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.models.*;
-import org.openapitools.client.api.AnotherFakeApi;
+import org.openapitools.client.api.DefaultApi;
 
 public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
-    AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
-    Client client = new Client(); // Client | client model
+    DefaultApi apiInstance = new DefaultApi(defaultClient);
     try {
-      Client result = apiInstance.call123testSpecialTags(client);
+      InlineResponseDefault result = apiInstance.fooGet();
       System.out.println(result);
     } catch (ApiException e) {
-
+      System.err.println("Exception when calling DefaultApi#fooGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
     }
   }
 }
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model |
+This endpoint does not need any parameter.
 
 ### Return type
 
-[**Client**](Client.md)
+[**InlineResponseDefault**](InlineResponseDefault.md)
 
 ### Authorization
 
@@ -57,11 +55,11 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  -  |
+**0** | response |  -  |
 

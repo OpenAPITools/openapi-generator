@@ -950,6 +950,7 @@ Here is a list of template creators:
    * C# ASP.NET Core 3.0: @A-Joshi
    * C# APS.NET Core 3.1: @phatcher
    * C# Azure functions: @Abrhm7786
+   * C# NancyFX: @mstefaniuk
    * C++ (Qt5 QHttpEngine): @etherealjoy
    * C++ Pistache: @sebymiano
    * C++ Restbed: @stkrwork
@@ -968,6 +969,7 @@ Here is a list of template creators:
    * Java Play Framework: @JFCote
    * Java PKMST: @anshu2185 @sanshuman @rkumar-pk @ninodpillai
    * Java Vert.x: @lwlee2608
+   * Java Micronaut: @andriy-dmytruk
    * JAX-RS RestEasy: @chameleon82
    * JAX-RS CXF: @hiveship
    * JAX-RS CXF (CDI): @nickcmaynard
@@ -975,6 +977,7 @@ Here is a list of template creators:
    * Kotlin: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * Kotlin (Spring Boot): @dr4ke616
    * Kotlin (Vertx): @Wooyme
+   * Kotlin (JAX-RS): @anttileppa
    * NodeJS Express: @YishTish
    * PHP Laravel: @renepardon
    * PHP Lumen: @abcsun

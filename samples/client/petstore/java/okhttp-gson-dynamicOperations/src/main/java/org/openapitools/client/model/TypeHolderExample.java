@@ -27,6 +27,25 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.openapitools.client.JSON;
+
 /**
  * TypeHolderExample
  */
@@ -249,5 +268,107 @@ public class TypeHolderExample {
     return o.toString().replace("\n", "\n    ");
   }
 
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("string_item");
+    openapiFields.add("number_item");
+    openapiFields.add("float_item");
+    openapiFields.add("integer_item");
+    openapiFields.add("bool_item");
+    openapiFields.add("array_item");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields.add("string_item");
+    openapiRequiredFields.add("number_item");
+    openapiRequiredFields.add("float_item");
+    openapiRequiredFields.add("integer_item");
+    openapiRequiredFields.add("bool_item");
+    openapiRequiredFields.add("array_item");
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to TypeHolderExample
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (TypeHolderExample.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in TypeHolderExample is not found in the empty JSON string", TypeHolderExample.openapiRequiredFields.toString()));
+        }
+      }
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!TypeHolderExample.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `TypeHolderExample` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
+
+      // check to make sure all required properties/fields are present in the JSON string
+      for (String requiredField : TypeHolderExample.openapiRequiredFields) {
+        if (jsonObj.get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
+        }
+      }
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!TypeHolderExample.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'TypeHolderExample' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<TypeHolderExample> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(TypeHolderExample.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<TypeHolderExample>() {
+           @Override
+           public void write(JsonWriter out, TypeHolderExample value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public TypeHolderExample read(JsonReader in) throws IOException {
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
+           }
+
+       }.nullSafe();
+    }
+  }
+
+ /**
+  * Create an instance of TypeHolderExample given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of TypeHolderExample
+  * @throws IOException if the JSON string is invalid with respect to TypeHolderExample
+  */
+  public static TypeHolderExample fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, TypeHolderExample.class);
+  }
+
+ /**
+  * Convert an instance of TypeHolderExample to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

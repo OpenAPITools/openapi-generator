@@ -97,7 +97,9 @@ public class ApiClient {
         // Setup authentications (key: authentication name, value: authentication).
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_basic_test", new HttpBasicAuth());
+        authentications.put("http_signature_test", new HttpBearerAuth("signature"));
         authentications.put("petstore_auth", new OAuth());
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
@@ -116,7 +118,9 @@ public class ApiClient {
         // Setup authentications (key: authentication name, value: authentication).
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_basic_test", new HttpBasicAuth());
+        authentications.put("http_signature_test", new HttpBearerAuth("signature"));
         authentications.put("petstore_auth", new OAuth());
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
@@ -185,7 +189,9 @@ public class ApiClient {
         // Setup authentications (key: authentication name, value: authentication).
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_basic_test", new HttpBasicAuth());
+        authentications.put("http_signature_test", new HttpBearerAuth("signature"));
 
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
@@ -427,6 +433,19 @@ public class ApiClient {
         return authentications.get(authName);
     }
 
+        /**
+        * Helper method to set access token for the first Bearer authentication.
+        * @param bearerToken Bearer token
+        */
+    public void setBearerToken(String bearerToken) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof HttpBearerAuth) {
+                ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+                return;
+            }
+        }
+        throw new RuntimeException("No Bearer authentication configured!");
+    }
 
     /**
      * Helper method to set username for the first HTTP basic authentication.
@@ -1170,6 +1189,7 @@ public class ApiClient {
     /**
      * Build HTTP call with the given options.
      *
+     * @param baseUrl The base URL
      * @param path The sub-path of the HTTP URL
      * @param method The request method, one of "GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH" and "DELETE"
      * @param queryParams The query parameters
@@ -1192,6 +1212,7 @@ public class ApiClient {
     /**
      * Build an HTTP request with the given options.
      *
+     * @param baseUrl The base URL
      * @param path The sub-path of the HTTP URL
      * @param method The request method, one of "GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH" and "DELETE"
      * @param queryParams The query parameters
@@ -1260,6 +1281,7 @@ public class ApiClient {
     /**
      * Build full URL by concatenating base path, the given sub path and query parameters.
      *
+     * @param baseUrl The base URL
      * @param path The sub path
      * @param queryParams The query parameters
      * @param collectionQueryParams The collection query parameters
@@ -1354,6 +1376,7 @@ public class ApiClient {
      * @param payload HTTP request body
      * @param method HTTP method
      * @param uri URI
+     * @throws org.openapitools.client.ApiException If fails to update the parameters
      */
     public void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams,
                                     Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException {

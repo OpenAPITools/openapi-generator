@@ -27,7 +27,6 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
-import org.openapitools.client.model.*;
 import okio.ByteString;
 
 import java.io.IOException;
@@ -41,56 +40,149 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
 
+/*
+ * A JSON utility class
+ *
+ * NOTE: in the future, this class may be converted to static, which may break
+ *       backward-compatibility
+ */
 public class JSON {
-    private Gson gson;
-    private boolean isLenientOnJson = false;
-    private DateTypeAdapter dateTypeAdapter = new DateTypeAdapter();
-    private SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
-    private OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
-    private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
-    private ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
+    private static Gson gson;
+    private static boolean isLenientOnJson = false;
+    private static DateTypeAdapter dateTypeAdapter = new DateTypeAdapter();
+    private static SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
+    private static OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
+    private static LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
+    private static ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
 
     @SuppressWarnings("unchecked")
     public static GsonBuilder createGson() {
         GsonFireBuilder fireBuilder = new GsonFireBuilder()
-                .registerTypeSelector(Animal.class, new TypeSelector<Animal>() {
+                .registerTypeSelector(org.openapitools.client.model.Animal.class, new TypeSelector<org.openapitools.client.model.Animal>() {
                     @Override
-                    public Class<? extends Animal> getClassForElement(JsonElement readElement) {
+                    public Class<? extends org.openapitools.client.model.Animal> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
-                        classByDiscriminatorValue.put("BigCat", BigCat.class);
-                        classByDiscriminatorValue.put("Cat", Cat.class);
-                        classByDiscriminatorValue.put("Dog", Dog.class);
-                        classByDiscriminatorValue.put("Animal", Animal.class);
+                        classByDiscriminatorValue.put("Cat", org.openapitools.client.model.Cat.class);
+                        classByDiscriminatorValue.put("Dog", org.openapitools.client.model.Dog.class);
+                        classByDiscriminatorValue.put("Animal", org.openapitools.client.model.Animal.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
                     }
           })
-                .registerTypeSelector(BigCat.class, new TypeSelector<BigCat>() {
+                .registerTypeSelector(org.openapitools.client.model.Cat.class, new TypeSelector<org.openapitools.client.model.Cat>() {
                     @Override
-                    public Class<? extends BigCat> getClassForElement(JsonElement readElement) {
+                    public Class<? extends org.openapitools.client.model.Cat> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
-                        classByDiscriminatorValue.put("BigCat", BigCat.class);
+                        classByDiscriminatorValue.put("Cat", org.openapitools.client.model.Cat.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
                     }
           })
-                .registerTypeSelector(Cat.class, new TypeSelector<Cat>() {
+                .registerTypeSelector(org.openapitools.client.model.Dog.class, new TypeSelector<org.openapitools.client.model.Dog>() {
                     @Override
-                    public Class<? extends Cat> getClassForElement(JsonElement readElement) {
+                    public Class<? extends org.openapitools.client.model.Dog> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
-                        classByDiscriminatorValue.put("BigCat", BigCat.class);
-                        classByDiscriminatorValue.put("Cat", Cat.class);
+                        classByDiscriminatorValue.put("Dog", org.openapitools.client.model.Dog.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
                     }
           })
-                .registerTypeSelector(Dog.class, new TypeSelector<Dog>() {
+                .registerTypeSelector(org.openapitools.client.model.GrandparentAnimal.class, new TypeSelector<org.openapitools.client.model.GrandparentAnimal>() {
                     @Override
-                    public Class<? extends Dog> getClassForElement(JsonElement readElement) {
+                    public Class<? extends org.openapitools.client.model.GrandparentAnimal> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
-                        classByDiscriminatorValue.put("Dog", Dog.class);
+                        classByDiscriminatorValue.put("ParentPet", org.openapitools.client.model.ParentPet.class);
+                        classByDiscriminatorValue.put("GrandparentAnimal", org.openapitools.client.model.GrandparentAnimal.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "pet_type"));
+                    }
+          })
+                .registerTypeSelector(org.openapitools.client.model.Mammal.class, new TypeSelector<org.openapitools.client.model.Mammal>() {
+                    @Override
+                    public Class<? extends org.openapitools.client.model.Mammal> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("Pig", org.openapitools.client.model.Pig.class);
+                        classByDiscriminatorValue.put("whale", org.openapitools.client.model.Whale.class);
+                        classByDiscriminatorValue.put("zebra", org.openapitools.client.model.Zebra.class);
+                        classByDiscriminatorValue.put("mammal", org.openapitools.client.model.Mammal.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
+                    }
+          })
+                .registerTypeSelector(org.openapitools.client.model.NullableShape.class, new TypeSelector<org.openapitools.client.model.NullableShape>() {
+                    @Override
+                    public Class<? extends org.openapitools.client.model.NullableShape> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("Quadrilateral", org.openapitools.client.model.Quadrilateral.class);
+                        classByDiscriminatorValue.put("Triangle", org.openapitools.client.model.Triangle.class);
+                        classByDiscriminatorValue.put("NullableShape", org.openapitools.client.model.NullableShape.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "shapeType"));
+                    }
+          })
+                .registerTypeSelector(org.openapitools.client.model.ParentPet.class, new TypeSelector<org.openapitools.client.model.ParentPet>() {
+                    @Override
+                    public Class<? extends org.openapitools.client.model.ParentPet> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("ParentPet", org.openapitools.client.model.ParentPet.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "pet_type"));
+                    }
+          })
+                .registerTypeSelector(org.openapitools.client.model.Pig.class, new TypeSelector<org.openapitools.client.model.Pig>() {
+                    @Override
+                    public Class<? extends org.openapitools.client.model.Pig> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("BasquePig", org.openapitools.client.model.BasquePig.class);
+                        classByDiscriminatorValue.put("DanishPig", org.openapitools.client.model.DanishPig.class);
+                        classByDiscriminatorValue.put("Pig", org.openapitools.client.model.Pig.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "className"));
+                    }
+          })
+                .registerTypeSelector(org.openapitools.client.model.Quadrilateral.class, new TypeSelector<org.openapitools.client.model.Quadrilateral>() {
+                    @Override
+                    public Class<? extends org.openapitools.client.model.Quadrilateral> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("ComplexQuadrilateral", org.openapitools.client.model.ComplexQuadrilateral.class);
+                        classByDiscriminatorValue.put("SimpleQuadrilateral", org.openapitools.client.model.SimpleQuadrilateral.class);
+                        classByDiscriminatorValue.put("Quadrilateral", org.openapitools.client.model.Quadrilateral.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "quadrilateralType"));
+                    }
+          })
+                .registerTypeSelector(org.openapitools.client.model.Shape.class, new TypeSelector<org.openapitools.client.model.Shape>() {
+                    @Override
+                    public Class<? extends org.openapitools.client.model.Shape> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("Quadrilateral", org.openapitools.client.model.Quadrilateral.class);
+                        classByDiscriminatorValue.put("Triangle", org.openapitools.client.model.Triangle.class);
+                        classByDiscriminatorValue.put("Shape", org.openapitools.client.model.Shape.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "shapeType"));
+                    }
+          })
+                .registerTypeSelector(org.openapitools.client.model.ShapeOrNull.class, new TypeSelector<org.openapitools.client.model.ShapeOrNull>() {
+                    @Override
+                    public Class<? extends org.openapitools.client.model.ShapeOrNull> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("Quadrilateral", org.openapitools.client.model.Quadrilateral.class);
+                        classByDiscriminatorValue.put("Triangle", org.openapitools.client.model.Triangle.class);
+                        classByDiscriminatorValue.put("ShapeOrNull", org.openapitools.client.model.ShapeOrNull.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "shapeType"));
+                    }
+          })
+                .registerTypeSelector(org.openapitools.client.model.Triangle.class, new TypeSelector<org.openapitools.client.model.Triangle>() {
+                    @Override
+                    public Class<? extends org.openapitools.client.model.Triangle> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("EquilateralTriangle", org.openapitools.client.model.EquilateralTriangle.class);
+                        classByDiscriminatorValue.put("IsoscelesTriangle", org.openapitools.client.model.IsoscelesTriangle.class);
+                        classByDiscriminatorValue.put("ScaleneTriangle", org.openapitools.client.model.ScaleneTriangle.class);
+                        classByDiscriminatorValue.put("Triangle", org.openapitools.client.model.Triangle.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "triangleType"));
                     }
           })
         ;
@@ -121,13 +213,81 @@ public class JSON {
         return clazz;
     }
 
-    public JSON() {
+    {
         gson = createGson()
             .registerTypeAdapter(Date.class, dateTypeAdapter)
             .registerTypeAdapter(java.sql.Date.class, sqlDateTypeAdapter)
             .registerTypeAdapter(OffsetDateTime.class, offsetDateTimeTypeAdapter)
             .registerTypeAdapter(LocalDate.class, localDateTypeAdapter)
             .registerTypeAdapter(byte[].class, byteArrayAdapter)
+            .registerTypeAdapterFactory(new org.openapitools.client.model.AdditionalPropertiesClass.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Apple.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.AppleReq.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfArrayOfNumberOnly.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ArrayOfNumberOnly.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ArrayTest.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Banana.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.BananaReq.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.BasquePig.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Capitalization.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Cat.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.CatAllOf.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Category.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ClassModel.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Client.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ComplexQuadrilateral.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.DanishPig.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.DeprecatedObject.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Dog.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.DogAllOf.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Drawing.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.EnumArrays.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.EnumTest.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.EquilateralTriangle.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.FileSchemaTestClass.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Foo.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.FormatTest.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Fruit.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.FruitReq.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.GmFruit.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.HasOnlyReadOnly.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.HealthCheckResult.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.InlineResponseDefault.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.IsoscelesTriangle.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Mammal.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.MapTest.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Model200Response.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ModelApiResponse.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ModelFile.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ModelList.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ModelReturn.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Name.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.NullableClass.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.NullableShape.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.NumberOnly.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ObjectWithDeprecatedFields.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Order.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.OuterComposite.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ParentPet.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Pet.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.PetWithRequiredTags.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Pig.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Quadrilateral.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.QuadrilateralInterface.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ReadOnlyFirst.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ScaleneTriangle.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Shape.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ShapeInterface.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ShapeOrNull.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.SimpleQuadrilateral.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.SpecialModelName.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Tag.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Triangle.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.TriangleInterface.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.User.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Whale.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.Zebra.CustomTypeAdapterFactory())
             .create();
     }
 
@@ -136,7 +296,7 @@ public class JSON {
      *
      * @return Gson
      */
-    public Gson getGson() {
+    public static Gson getGson() {
         return gson;
     }
 
@@ -144,23 +304,13 @@ public class JSON {
      * Set Gson.
      *
      * @param gson Gson
-     * @return JSON
      */
-    public JSON setGson(Gson gson) {
-        this.gson = gson;
-        return this;
+    public static void setGson(Gson gson) {
+        JSON.gson = gson;
     }
 
-    /**
-     * Configure the parser to be liberal in what it accepts.
-     *
-     * @param lenientOnJson Set it to true to ignore some syntax errors
-     * @return JSON
-     * @see <a href="https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html">https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html</a>
-     */
-    public JSON setLenientOnJson(boolean lenientOnJson) {
+    public static void setLenientOnJson(boolean lenientOnJson) {
         isLenientOnJson = lenientOnJson;
-        return this;
     }
 
     /**
@@ -169,7 +319,7 @@ public class JSON {
      * @param obj Object
      * @return String representation of the JSON
      */
-    public String serialize(Object obj) {
+    public static String serialize(Object obj) {
         return gson.toJson(obj);
     }
 
@@ -182,11 +332,11 @@ public class JSON {
      * @return The deserialized Java object
      */
     @SuppressWarnings("unchecked")
-    public <T> T deserialize(String body, Type returnType) {
+    public static <T> T deserialize(String body, Type returnType) {
         try {
             if (isLenientOnJson) {
                 JsonReader jsonReader = new JsonReader(new StringReader(body));
-                // see https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html
+                // see https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/stream/JsonReader.html#setLenient(boolean)
                 jsonReader.setLenient(true);
                 return gson.fromJson(jsonReader, returnType);
             } else {
@@ -206,7 +356,7 @@ public class JSON {
     /**
      * Gson TypeAdapter for Byte Array type
      */
-    public class ByteArrayAdapter extends TypeAdapter<byte[]> {
+    public static class ByteArrayAdapter extends TypeAdapter<byte[]> {
 
         @Override
         public void write(JsonWriter out, byte[] value) throws IOException {
@@ -278,7 +428,7 @@ public class JSON {
     /**
      * Gson TypeAdapter for JSR310 LocalDate type
      */
-    public class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
+    public static class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
 
         private DateTimeFormatter formatter;
 
@@ -316,14 +466,12 @@ public class JSON {
         }
     }
 
-    public JSON setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
+    public static void setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
         offsetDateTimeTypeAdapter.setFormat(dateFormat);
-        return this;
     }
 
-    public JSON setLocalDateFormat(DateTimeFormatter dateFormat) {
+    public static void setLocalDateFormat(DateTimeFormatter dateFormat) {
         localDateTypeAdapter.setFormat(dateFormat);
-        return this;
     }
 
     /**
@@ -437,14 +585,11 @@ public class JSON {
         }
     }
 
-    public JSON setDateFormat(DateFormat dateFormat) {
+    public static void setDateFormat(DateFormat dateFormat) {
         dateTypeAdapter.setFormat(dateFormat);
-        return this;
     }
 
-    public JSON setSqlDateFormat(DateFormat dateFormat) {
+    public static void setSqlDateFormat(DateFormat dateFormat) {
         sqlDateTypeAdapter.setFormat(dateFormat);
-        return this;
     }
-
 }
