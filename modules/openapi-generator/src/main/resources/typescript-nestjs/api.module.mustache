@@ -74,6 +74,7 @@ const getAgent = (
   caPath: string
 ): Agent | undefined => {
   return new Agent({
+    keepAlive: true,
     cert: fs.readFileSync(certPath),
     key: fs.readFileSync(certKeyPath),
     ca: fs.readFileSync(caPath),
