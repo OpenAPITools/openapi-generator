@@ -74,3 +74,31 @@ paths:
       responses:
         '200':
           description: OK
+
+components:
+  schemas:
+    'Pet':
+      type: object
+      required:
+        - '@type'
+      properties:
+        '@type':
+          type: string
+          default: 'Pet'
+        age:
+          type: integer
+          default: 4
+        happy:
+          type: boolean
+          default: true
+        price:
+          type: number
+          default: 32000000000
+        lastFeed:
+          type: string
+          format: date-time
+          default: '1973-12-19T03:39:57-08:00'
+        dateOfBirth:
+          type: string
+          format: date
+          default: '2021-01-01'

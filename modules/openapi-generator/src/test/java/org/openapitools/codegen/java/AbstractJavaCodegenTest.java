@@ -582,7 +582,7 @@ public class AbstractJavaCodegenTest {
         Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         dateSchema.setDefault(date);
         defaultValue = codegen.toDefaultValue(dateSchema);
-        Assert.assertEquals(defaultLocalDate, LocalDate.parse(defaultValue));
+        Assert.assertEquals(defaultValue, "LocalDate.parse(\"" + defaultLocalDate.toString() + "\")");
 
         // Test default value for number without format
         NumberSchema numberSchema = new NumberSchema();
