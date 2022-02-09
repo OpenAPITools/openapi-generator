@@ -126,7 +126,6 @@
             <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>

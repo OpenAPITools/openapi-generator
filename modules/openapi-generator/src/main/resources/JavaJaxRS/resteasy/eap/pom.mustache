@@ -23,8 +23,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</source>
-                    <target>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -156,26 +156,11 @@
             <scope>provided</scope>
         </dependency>
 {{/useBeanValidation}}
-{{^java8}}
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.7</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-joda</artifactId>
-            <version>2.9.9</version>
-        </dependency>
-{{/java8}}
-{{#java8}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>2.9.9</version>
         </dependency>
-{{/java8}}
-
     </dependencies>
     <repositories>
         <repository>
