@@ -1198,8 +1198,7 @@
                 <module>samples/server/petstore/jaxrs-spec-interface-response</module>
                 <module>samples/server/petstore/java-vertx-web</module>
                 <module>samples/server/petstore/java-inflector</module>
-<!--
-                <module>samples/server/petstore/java-pkmst</module>-->
+                <module>samples/server/petstore/java-pkmst</module>
                 <module>samples/server/petstore/java-play-framework</module>
                 <module>samples/server/petstore/java-play-framework-no-wrap-calls</module>
                 <module>samples/server/petstore/java-play-framework-no-swagger-ui</module>
