@@ -64,7 +64,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 42);
+            Assert.assertEquals(files.size(), 43);
 
             // Check expected generated files
             // api sanity check

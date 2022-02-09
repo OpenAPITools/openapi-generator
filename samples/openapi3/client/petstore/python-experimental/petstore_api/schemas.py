@@ -65,8 +65,12 @@ def update(d: dict, u: dict):
     Adds u to d
     Where each dict is defaultdict(set)
     """
+    if not u:
+        return d
     for k, v in u.items():
-        d[k] = d[k].union(v)
+        if not v:
+            continue
+        d[k] = d[k] | v
     return d
 
 
@@ -217,7 +221,6 @@ class ValidatorBase:
         if (cls.__is_json_validation_enabled('uniqueItems', _instantiation_metadata.configuration) and
                 'unique_items' in validations and validations['unique_items'] and input_values):
             unique_items = []
-            # print(validations)
             for item in input_values:
                 if item not in unique_items:
                     unique_items.append(item)
@@ -782,25 +785,22 @@ class ListBase:
         cls_item_cls = getattr(cls, '_items', AnyTypeSchema)
         for i, value in enumerate(list_items):
             item_path_to_item = _instantiation_metadata.path_to_item+(i,)
-            if item_path_to_item in _instantiation_metadata.path_to_schemas:
-                item_cls = _instantiation_metadata.path_to_schemas[item_path_to_item]
-            else:
+            item_cls = _instantiation_metadata.path_to_schemas.get(item_path_to_item)
+            if item_cls is None:
                 item_cls = cls_item_cls
 
             if isinstance(value, item_cls):
                 cast_items.append(value)
                 continue
+
             item_instantiation_metadata = InstantiationMetadata(
                 configuration=_instantiation_metadata.configuration,
                 from_server=_instantiation_metadata.from_server,
                 path_to_item=item_path_to_item,
                 path_to_schemas=_instantiation_metadata.path_to_schemas,
             )
-
-            if _instantiation_metadata.from_server:
-                new_value = item_cls._from_openapi_data(value, _instantiation_metadata=item_instantiation_metadata)
-            else:
-                new_value = item_cls(value, _instantiation_metadata=item_instantiation_metadata)
+            new_value = item_cls._get_new_instance_without_conversion(
+                value, _instantiation_metadata=item_instantiation_metadata)
             cast_items.append(new_value)
 
         return cast_items
@@ -939,7 +939,6 @@ class DictBase(Discriminable):
             )
             other_path_to_schemas = schema._validate(value, _instantiation_metadata=arg_instantiation_metadata)
             update(path_to_schemas, other_path_to_schemas)
-            _instantiation_metadata.path_to_schemas.update(arg_instantiation_metadata.path_to_schemas)
         return path_to_schemas
 
     @classmethod
@@ -1052,10 +1051,8 @@ class DictBase(Discriminable):
                 path_to_item=property_path_to_item,
                 path_to_schemas=_instantiation_metadata.path_to_schemas,
             )
-            if _instantiation_metadata.from_server:
-                new_value = property_cls._from_openapi_data(value, _instantiation_metadata=prop_instantiation_metadata)
-            else:
-                new_value = property_cls(value, _instantiation_metadata=prop_instantiation_metadata)
+            new_value = property_cls._get_new_instance_without_conversion(
+                value, _instantiation_metadata=prop_instantiation_metadata)
             dict_items[property_name_js] = new_value
         return dict_items
 
@@ -1070,11 +1067,9 @@ class DictBase(Discriminable):
                 return self[name]
             except KeyError as ex:
                 raise AttributeError(str(ex))
-        # print(('non-frozendict __getattr__', name))
         return super().__getattr__(self, name)
 
     def __getattribute__(self, name):
-        # print(('__getattribute__', name))
         # if an attribute does exist (for example as a class property but not as an instance method)
         try:
             return self[name]
@@ -1275,9 +1270,6 @@ class Schema:
         _instantiation_metadata.path_to_schemas and
         _instantiation_metadata.path_to_item in _instantiation_metadata.path_to_schemas):
             chosen_new_cls = _instantiation_metadata.path_to_schemas[_instantiation_metadata.path_to_item]
-            # print('leaving __get_new_cls early for cls {} because path_to_schemas exists'.format(cls))
-            # print(_instantiation_metadata.path_to_item)
-            # print(chosen_new_cls)
             return chosen_new_cls
         """
         Dict property + List Item Assignment Use cases:
@@ -1293,8 +1285,6 @@ class Schema:
             because value is of the correct type, and validation was run earlier when the instance was created
         """
         _path_to_schemas = cls._validate(arg, _instantiation_metadata=_instantiation_metadata)
-        from pprint import pprint
-        pprint(dict(_path_to_schemas))
         # loop through it make a new class for each entry
         for path, schema_classes in _path_to_schemas.items():
             enum_schema = any(
@@ -1325,7 +1315,6 @@ class Schema:
                 continue
 
             # Use case: value is None, True, False, or an enum value
-            # print('choosing enum class for path {} in arg {}'.format(path, arg))
             value = arg
             for key in path[1:]:
                 value = value[key]
@@ -1342,14 +1331,14 @@ class Schema:
         return _instantiation_metadata.path_to_schemas[_instantiation_metadata.path_to_item]
 
     @classmethod
-    def __get_new_instance_without_conversion(cls, arg, _instantiation_metadata):
+    def _get_new_instance_without_conversion(cls, arg, _instantiation_metadata):
         # PATH 2 - we have a Dynamic class and we are making an instance of it
-        if issubclass(cls, tuple):
-            items = cls._get_items(arg, _instantiation_metadata=_instantiation_metadata)
-            return super(Schema, cls).__new__(cls, items)
-        elif issubclass(cls, frozendict):
+        if issubclass(cls, frozendict):
             properties = cls._get_properties(arg, _instantiation_metadata=_instantiation_metadata)
             return super(Schema, cls).__new__(cls, properties)
+        elif issubclass(cls, tuple):
+            items = cls._get_items(arg, _instantiation_metadata=_instantiation_metadata)
+            return super(Schema, cls).__new__(cls, items)
         """
         str = openapi str, date, and datetime
         decimal.Decimal = openapi int and float
@@ -1388,7 +1377,7 @@ class Schema:
                 'from_server must be True in this code path, if you need it to be False, use cls()'
             )
         new_cls = cls.__get_new_cls(arg, _instantiation_metadata)
-        new_inst = new_cls.__get_new_instance_without_conversion(arg, _instantiation_metadata)
+        new_inst = new_cls._get_new_instance_without_conversion(arg, _instantiation_metadata)
         return new_inst
 
     @staticmethod
@@ -1429,7 +1418,7 @@ class Schema:
             )
         arg = cast_to_allowed_types(arg, from_server=_instantiation_metadata.from_server)
         new_cls = cls.__get_new_cls(arg, _instantiation_metadata)
-        return new_cls.__get_new_instance_without_conversion(arg, _instantiation_metadata)
+        return new_cls._get_new_instance_without_conversion(arg, _instantiation_metadata)
 
     def __init__(
         self,
@@ -1455,21 +1444,16 @@ def cast_to_allowed_types(arg: typing.Union[str, date, datetime, decimal.Decimal
     int, float -> Decimal
     StrSchema will convert that to bytes and remember the encoding when we pass in str input
     """
-    if isinstance(arg, (date, datetime)):
-        if not from_server:
-            return arg.isoformat()
-        # ApiTypeError will be thrown later by _validate_type
+    if isinstance(arg, str):
         return arg
+    elif type(arg) is dict or type(arg) is frozendict:
+        return frozendict({key: cast_to_allowed_types(val) for key, val in arg.items()})
     elif isinstance(arg, bool):
         """
         this check must come before isinstance(arg, (int, float))
         because isinstance(True, int) is True
         """
         return arg
-    elif isinstance(arg, decimal.Decimal):
-        return arg
-    elif isinstance(arg, int):
-        return decimal.Decimal(arg)
     elif isinstance(arg, float):
         decimal_from_float = decimal.Decimal(arg)
         if decimal_from_float.as_integer_ratio()[1] == 1:
@@ -1477,19 +1461,24 @@ def cast_to_allowed_types(arg: typing.Union[str, date, datetime, decimal.Decimal
             # 3.4028234663852886e+38 -> Decimal('340282346638528859811704183484516925440.0')
             return decimal.Decimal(str(decimal_from_float)+'.0')
         return decimal_from_float
-    elif isinstance(arg, str):
+    elif type(arg) is list or type(arg) is tuple:
+        return tuple([cast_to_allowed_types(item) for item in arg])
+    elif isinstance(arg, int):
+        return decimal.Decimal(arg)
+    elif arg is None:
+        return arg
+    elif isinstance(arg, (date, datetime)):
+        if not from_server:
+            return arg.isoformat()
+        # ApiTypeError will be thrown later by _validate_type
+        return arg
+    elif isinstance(arg, decimal.Decimal):
         return arg
     elif isinstance(arg, bytes):
         return arg
     elif isinstance(arg, (io.FileIO, io.BufferedReader)):
         if arg.closed:
             raise ApiValueError('Invalid file state; file is closed and must be open')
-        return arg
-    elif type(arg) is list or type(arg) is tuple:
-        return tuple([cast_to_allowed_types(item) for item in arg])
-    elif type(arg) is dict or type(arg) is frozendict:
-        return frozendict({key: cast_to_allowed_types(val) for key, val in arg.items() if val is not unset})
-    elif arg is None:
         return arg
     elif isinstance(arg, Schema):
         return arg
@@ -1779,30 +1768,49 @@ class IntSchema(IntBase, NumberSchema):
         return super().__new__(cls, arg, **kwargs)
 
 
-class Int32Schema(
+class Int32Base(
     _SchemaValidator(
         inclusive_minimum=decimal.Decimal(-2147483648),
         inclusive_maximum=decimal.Decimal(2147483647)
     ),
+):
+    pass
+
+
+class Int32Schema(
+    Int32Base,
     IntSchema
 ):
     pass
 
-class Int64Schema(
+
+class Int64Base(
     _SchemaValidator(
         inclusive_minimum=decimal.Decimal(-9223372036854775808),
         inclusive_maximum=decimal.Decimal(9223372036854775807)
     ),
+):
+    pass
+
+
+class Int64Schema(
+    Int64Base,
     IntSchema
+):
+    pass
+
+
+class Float32Base(
+    _SchemaValidator(
+        inclusive_minimum=decimal.Decimal(-3.4028234663852886e+38),
+        inclusive_maximum=decimal.Decimal(3.4028234663852886e+38)
+    ),
 ):
     pass
 
 
 class Float32Schema(
-    _SchemaValidator(
-        inclusive_minimum=decimal.Decimal(-3.4028234663852886e+38),
-        inclusive_maximum=decimal.Decimal(3.4028234663852886e+38)
-    ),
+    Float32Base,
     NumberSchema
 ):
 
@@ -1812,11 +1820,17 @@ class Float32Schema(
         return super()._from_openapi_data(arg, _instantiation_metadata=_instantiation_metadata)
 
 
-class Float64Schema(
+class Float64Base(
     _SchemaValidator(
         inclusive_minimum=decimal.Decimal(-1.7976931348623157E+308),
         inclusive_maximum=decimal.Decimal(1.7976931348623157E+308)
     ),
+):
+    pass
+
+
+class Float64Schema(
+    Float64Base,
     NumberSchema
 ):
 

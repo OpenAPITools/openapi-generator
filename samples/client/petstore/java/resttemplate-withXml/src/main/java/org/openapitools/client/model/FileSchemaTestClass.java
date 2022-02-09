@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.*;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@JsonTypeName("FileSchemaTestClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "FileSchemaTestClass")
 @XmlAccessorType(XmlAccessType.FIELD)

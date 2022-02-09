@@ -98,6 +98,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**group_parameters**](docs/FakeApi.md#group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**inline_additional_properties**](docs/FakeApi.md#inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**inline_composition**](docs/FakeApi.md#inline_composition) | **POST** /fake/inlineComposition/ | testing composed schemas at inline locations
 *FakeApi* | [**json_form_data**](docs/FakeApi.md#json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**mammal**](docs/FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 *FakeApi* | [**number_with_validations**](docs/FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
@@ -172,6 +173,7 @@ Class | Method | HTTP request | Description
  - [ComposedObject](docs/ComposedObject.md)
  - [ComposedOneOfDifferentTypes](docs/ComposedOneOfDifferentTypes.md)
  - [ComposedString](docs/ComposedString.md)
+ - [CompositionInProperty](docs/CompositionInProperty.md)
  - [Currency](docs/Currency.md)
  - [DanishPig](docs/DanishPig.md)
  - [DateTimeTest](docs/DateTimeTest.md)
@@ -223,6 +225,7 @@ Class | Method | HTTP request | Description
  - [ObjectModelWithRefProps](docs/ObjectModelWithRefProps.md)
  - [ObjectWithDecimalProperties](docs/ObjectWithDecimalProperties.md)
  - [ObjectWithDifficultlyNamedProps](docs/ObjectWithDifficultlyNamedProps.md)
+ - [ObjectWithInlineCompositionProperty](docs/ObjectWithInlineCompositionProperty.md)
  - [ObjectWithValidations](docs/ObjectWithValidations.md)
  - [Order](docs/Order.md)
  - [ParentPet](docs/ParentPet.md)
