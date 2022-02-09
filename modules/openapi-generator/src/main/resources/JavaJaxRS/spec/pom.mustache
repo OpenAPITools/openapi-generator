@@ -35,12 +35,15 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>{{#interfaceOnly}}
+      </plugin>
+      {{#interfaceOnly}}
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>2.2</version>
-      </plugin>{{/interfaceOnly}}{{^interfaceOnly}}
+      </plugin>
+      {{/interfaceOnly}}
+      {{^interfaceOnly}}
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
@@ -60,7 +63,8 @@
             </goals>
           </execution>
         </executions>
-      </plugin>{{/interfaceOnly}}
+      </plugin>
+      {{/interfaceOnly}}
     </plugins>
   </build>
   <dependencies>
@@ -71,14 +75,24 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-        <groupId>com.fasterxml.jackson.datatype</groupId>
-        <artifactId>jackson-datatype-jsr310</artifactId>
-        <version>${jackson-version}</version>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+      <version>${jackson-version}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.jaxrs</groupId>
       <artifactId>jackson-jaxrs-json-provider</artifactId>
       <version>${jackson-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>${joda-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>${javax.annotation-api-version}</version>
     </dependency>
     {{#useSwaggerAnnotations}}
     <dependency>
@@ -99,7 +113,8 @@
       <artifactId>junit</artifactId>
       <version>${junit-version}</version>
       <scope>test</scope>
-    </dependency>{{^interfaceOnly}}
+    </dependency>
+    {{^interfaceOnly}}
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
@@ -119,7 +134,8 @@
           <groupId>org.beanshell</groupId>
         </exclusion>
       </exclusions>
-    </dependency>{{/interfaceOnly}}
+    </dependency>
+    {{/interfaceOnly}}
     {{#useBeanValidation}}
     <!-- Bean Validation API support -->
     <dependency>
@@ -136,8 +152,10 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <jackson-version>2.9.9</jackson-version>
     <junit-version>4.13.1</junit-version>
+    <joda-version>2.10.13</joda-version>
+    <javax.annotation-api-version>1.3.2</javax.annotation-api-version>
 {{#useBeanValidation}}
-	<beanvalidation-version>2.0.2</beanvalidation-version>
+    <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
     <jakarta.ws.rs-version>2.1.6</jakarta.ws.rs-version>
   </properties>
