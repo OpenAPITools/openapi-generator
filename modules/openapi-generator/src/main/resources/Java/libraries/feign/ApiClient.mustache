@@ -5,9 +5,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-{{#threetenbp}}
-import org.threeten.bp.*;
-{{/threetenbp}}
 import feign.okhttp.OkHttpClient;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -20,9 +17,6 @@ import org.openapitools.jackson.nullable.JsonNullableModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-{{#threetenbp}}
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
-{{/threetenbp}}
 
 import feign.Feign;
 import feign.RequestInterceptor;
@@ -158,13 +152,6 @@ public class ApiClient {
     objectMapper.registerModule(new JodaModule());
     {{/joda}}
     objectMapper.registerModule(new JavaTimeModule());
-    {{#threetenbp}}
-    ThreeTenModule module = new ThreeTenModule();
-    module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-    objectMapper.registerModule(module);
-    {{/threetenbp}}
     {{#openApiNullable}}
     JsonNullableModule jnm = new JsonNullableModule();
     objectMapper.registerModule(jnm);

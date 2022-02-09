@@ -290,13 +290,6 @@
                 <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson-version}</version>
             </dependency>
-        {{#threetenbp}}
-            <dependency>
-                <groupId>com.github.joschi.jackson</groupId>
-                <artifactId>jackson-datatype-threetenbp</artifactId>
-                <version>${jackson-threetenbp-version}</version>
-            </dependency>
-        {{/threetenbp}}
         {{#useBeanValidation}}
             <!-- Bean Validation API support -->
             <dependency>
@@ -342,9 +335,6 @@
         <swagger-annotations-version>1.6.3</swagger-annotations-version>
         <jersey-version>1.19.4</jersey-version>
         <jackson-version>2.12.5</jackson-version>
-        {{#threetenbp}}
-        <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
-        {{/threetenbp}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
 {{#useBeanValidation}}
 		<beanvalidation-version>2.0.2</beanvalidation-version>

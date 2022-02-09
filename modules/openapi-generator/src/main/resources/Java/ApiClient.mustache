@@ -1,22 +1,13 @@
 {{>licenseInfo}}
 package {{invokerPackage}};
 
-{{#threetenbp}}
-import org.threeten.bp.*;
-
-{{/threetenbp}}
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 {{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-{{^threetenbp}}
 import java.time.OffsetDateTime;
-{{/threetenbp}}
-{{#threetenbp}}
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
-{{/threetenbp}}
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import com.sun.jersey.api.client.Client;
@@ -124,13 +115,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     objectMapper.registerModule(new JodaModule());
     {{/joda}}
     objectMapper.registerModule(new JavaTimeModule());
-    {{#threetenbp}}
-    ThreeTenModule module = new ThreeTenModule();
-    module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-    objectMapper.registerModule(module);
-    {{/threetenbp}}
     objectMapper.setDateFormat(ApiClient.buildDefaultDateFormat());
 
     dateFormat = ApiClient.buildDefaultDateFormat();

@@ -73,7 +73,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
 
-    protected String dateLibrary = "threetenbp";
+    protected String dateLibrary = "java8";
     protected boolean supportAsync = false;
     protected boolean withXml = false;
     protected String invokerPackage = "org.openapitools";
@@ -234,10 +234,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put("java8", "Java 8 native JSR310 (preferred for jdk 1.8+)");
-        dateOptions.put("threetenbp", "Backport of JSR310 (preferred for jdk < 1.8)");
         dateOptions.put("java8-localdatetime", "Java 8 using LocalDateTime (for legacy app only)");
         dateOptions.put("joda", "Joda (for legacy app only)");
-        dateOptions.put("legacy", "Legacy java.util.Date (if you really have a good reason not to use threetenbp");
+        dateOptions.put("legacy", "Legacy java.util.Date");
         dateLibrary.setEnum(dateOptions);
         cliOptions.add(dateLibrary);
 
@@ -602,14 +601,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             setDateLibrary(additionalProperties.get("dateLibrary").toString());
         }
 
-        if ("threetenbp".equals(dateLibrary)) {
-            additionalProperties.put("threetenbp", "true");
-            additionalProperties.put("jsr310", "true");
-            typeMapping.put("date", "LocalDate");
-            typeMapping.put("DateTime", "OffsetDateTime");
-            importMapping.put("LocalDate", "org.threeten.bp.LocalDate");
-            importMapping.put("OffsetDateTime", "org.threeten.bp.OffsetDateTime");
-        } else if ("joda".equals(dateLibrary)) {
+        if ("joda".equals(dateLibrary)) {
             additionalProperties.put("joda", "true");
             typeMapping.put("date", "LocalDate");
             typeMapping.put("DateTime", "DateTime");

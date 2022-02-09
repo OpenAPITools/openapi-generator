@@ -23,9 +23,6 @@ lazy val root = (project in file(".")).
       "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.13.0" % "compile",
       {{/joda}}
       "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.13.0" % "compile",
-      {{#threetenbp}}
-      "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.12.5" % "compile",
-      {{/threetenbp}}
       {{#openApiNullable}}
       "org.openapitools" % "jackson-databind-nullable" % "0.2.2" % "compile",
       {{/openApiNullable}}

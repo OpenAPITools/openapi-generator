@@ -9,7 +9,6 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
-import org.threeten.bp.format.DateTimeFormatter;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;

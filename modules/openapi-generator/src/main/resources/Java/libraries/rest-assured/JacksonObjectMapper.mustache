@@ -2,9 +2,6 @@
 
 package {{invokerPackage}};
 
-{{#threetenbp}}
-import org.threeten.bp.*;
-{{/threetenbp}}
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 {{#openApiNullable}}
@@ -14,9 +11,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 {{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
-{{#threetenbp}}
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
-{{/threetenbp}}
 
 import io.restassured.internal.mapping.Jackson2Mapper;
 import io.restassured.path.json.mapper.factory.Jackson2ObjectMapperFactory;
@@ -43,13 +37,6 @@ public class JacksonObjectMapper extends Jackson2Mapper {
             {{#joda}}
             mapper.registerModule(new JodaModule());
             {{/joda}}
-            {{#threetenbp}}
-            ThreeTenModule module = new ThreeTenModule();
-            module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-            module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-            module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-            mapper.registerModule(module);
-            {{/threetenbp}}
             {{#openApiNullable}}
             JsonNullableModule jnm = new JsonNullableModule();
             mapper.registerModule(jnm);

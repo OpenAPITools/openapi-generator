@@ -241,11 +241,6 @@
             <artifactId>gson-fire</artifactId>
             <version>${gson-fire-version}</version>
         </dependency>
-            <dependency>
-                <groupId>org.threeten</groupId>
-                <artifactId>threetenbp</artifactId>
-                <version>${threetenbp-version}</version>
-            </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
@@ -268,7 +263,6 @@
         <gson-fire-version>1.8.3</gson-fire-version>
         <swagger-annotations-version>1.6.3</swagger-annotations-version>
         <retrofit-version>2.5.0</retrofit-version>
-        <threetenbp-version>1.4.0</threetenbp-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <oltu-version>1.0.1</oltu-version>
         <junit-version>4.13.1</junit-version>
