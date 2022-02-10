@@ -39,7 +39,6 @@ public interface DefaultApi {
      * @return OK (status code 200)
      */
     @ApiOperation(
-        tags = {  },
         value = "",
         nickname = "get",
         notes = ""
@@ -68,7 +67,6 @@ public interface DefaultApi {
      * @return Invalid input (status code 405)
      */
     @ApiOperation(
-        tags = {  },
         value = "",
         nickname = "updatePetWithForm",
         notes = "update with form data"

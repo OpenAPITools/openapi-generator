@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("MapTest")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MapTest  implements Serializable {
   
-  private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
+  private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
 public enum InnerEnum {
 
@@ -55,9 +55,9 @@ public enum InnerEnum {
     }
 }
 
-  private @Valid Map<String, InnerEnum> mapOfEnumString = new HashMap<String, InnerEnum>();
-  private @Valid Map<String, Boolean> directMap = new HashMap<String, Boolean>();
-  private @Valid Map<String, Boolean> indirectMap = new HashMap<String, Boolean>();
+  private @Valid Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private @Valid Map<String, Boolean> directMap = new HashMap<>();
+  private @Valid Map<String, Boolean> indirectMap = new HashMap<>();
 
   /**
    **/
@@ -82,7 +82,7 @@ public enum InnerEnum {
 
   public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
     if (this.mapMapOfString == null) {
-      this.mapMapOfString = new HashMap<String, Map<String, String>>();
+      this.mapMapOfString = new HashMap<>();
     }
 
     this.mapMapOfString.put(key, mapMapOfStringItem);
@@ -119,7 +119,7 @@ public enum InnerEnum {
 
   public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
     if (this.mapOfEnumString == null) {
-      this.mapOfEnumString = new HashMap<String, InnerEnum>();
+      this.mapOfEnumString = new HashMap<>();
     }
 
     this.mapOfEnumString.put(key, mapOfEnumStringItem);
@@ -156,7 +156,7 @@ public enum InnerEnum {
 
   public MapTest putDirectMapItem(String key, Boolean directMapItem) {
     if (this.directMap == null) {
-      this.directMap = new HashMap<String, Boolean>();
+      this.directMap = new HashMap<>();
     }
 
     this.directMap.put(key, directMapItem);
@@ -193,7 +193,7 @@ public enum InnerEnum {
 
   public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
     if (this.indirectMap == null) {
-      this.indirectMap = new HashMap<String, Boolean>();
+      this.indirectMap = new HashMap<>();
     }
 
     this.indirectMap.put(key, indirectMapItem);

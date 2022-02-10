@@ -28,8 +28,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   private @Valid Long id;
   private @Valid Category category;
   private @Valid String name;
-  private @Valid Set<String> photoUrls = new LinkedHashSet<String>();
-  private @Valid List<Tag> tags = new ArrayList<Tag>();
+  private @Valid Set<String> photoUrls = new LinkedHashSet<>();
+  private @Valid List<Tag> tags = new ArrayList<>();
 
 public enum StatusEnum {
 
@@ -154,7 +154,7 @@ public enum StatusEnum {
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
     if (this.photoUrls == null) {
-      this.photoUrls = new LinkedHashSet<String>();
+      this.photoUrls = new LinkedHashSet<>();
     }
 
     this.photoUrls.add(photoUrlsItem);
@@ -191,7 +191,7 @@ public enum StatusEnum {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<Tag>();
+      this.tags = new ArrayList<>();
     }
 
     this.tags.add(tagsItem);

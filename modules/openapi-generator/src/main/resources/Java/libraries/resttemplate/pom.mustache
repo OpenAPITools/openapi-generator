@@ -144,14 +144,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    {{#java8}}
-                        <source>1.8</source>
-                        <target>1.8</target>
-                    {{/java8}}
-                    {{^java8}}
-                        <source>1.7</source>
-                        <target>1.7</target>
-                    {{/java8}}
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -272,13 +266,11 @@
             </dependency>
 
         {{/withXml}}
-        {{#java8}}
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson-version}</version>
             </dependency>
-        {{/java8}}
         {{#joda}}
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -291,13 +283,6 @@
                 <version>${jodatime-version}</version>
             </dependency>
         {{/joda}}
-        {{#threetenbp}}
-            <dependency>
-                <groupId>com.github.joschi.jackson</groupId>
-                <artifactId>jackson-datatype-threetenbp</artifactId>
-                <version>${jackson-threetenbp-version}</version>
-            </dependency>
-        {{/threetenbp}}
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
@@ -324,9 +309,6 @@
         {{#joda}}
         <jodatime-version>2.9.9</jodatime-version>
         {{/joda}}
-        {{#threetenbp}}
-        <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
-        {{/threetenbp}}
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.13.1</junit-version>
     </properties>
