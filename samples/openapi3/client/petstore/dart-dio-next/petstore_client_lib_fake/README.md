@@ -20,8 +20,8 @@ dependencies:
   openapi: 1.0.0
 ```
 
-### Github
-If this Dart package is published to Github, please include the following in pubspec.yaml
+### GitHub
+If this Dart package is published to GitHub, please include the following in pubspec.yaml
 ```yaml
 dependencies:
   openapi:

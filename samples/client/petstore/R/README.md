@@ -37,7 +37,7 @@ R CMD INSTALL petstore_1.0.0.tar.gz
 install.packages("petstore")
 ```
 
-To install directly from Github, use `devtools`:
+To install directly from GitHub, use `devtools`:
 ```R
 install.packages("devtools")
 library(devtools)

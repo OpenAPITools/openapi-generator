@@ -1124,7 +1124,7 @@
                 <module>samples/server/petstore/python-aiohttp-srclayout</module>
                 <module>samples/server/petstore/python-fastapi</module>
                 <module>samples/server/petstore/python-flask</module>
-                <!-- TODO: will move these to Github action
+                <!-- TODO: will move these to GitHub action
                 <module>samples/server/petstore/php-slim4</module>
                 <module>samples/server/petstore/php-laravel</module>
                 <module>samples/server/petstore/php-lumen</module>-->

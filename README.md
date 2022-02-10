@@ -517,9 +517,9 @@ Other generators have [samples](https://github.com/OpenAPITools/openapi-generato
 
 Please refer to [customization.md](docs/customization.md) on how to customize the output (e.g. package name, version)
 
-### [3.2 - Workflow Integration (Maven, Gradle, Github, CI/CD)](#table-of-contents)
+### [3.2 - Workflow Integration (Maven, Gradle, GitHub, CI/CD)](#table-of-contents)
 
-Please refer to [integration.md](docs/integration.md) on how to integrate OpenAPI generator with Maven, Gradle, sbt, Bazel, Github and CI/CD.
+Please refer to [integration.md](docs/integration.md) on how to integrate OpenAPI generator with Maven, Gradle, sbt, Bazel, GitHub and CI/CD.
 
 ### [3.3 - Online OpenAPI generator](#table-of-contents)
 
@@ -1038,7 +1038,7 @@ Members of the OpenAPI Generator technical committee shoulder the following resp
 
 Who is eligible? Those who want to join must have at least 3 PRs merged into a generator. (Exceptions can be granted to template creators or contributors who have made a lot of code changes with less than 3 merged PRs)
 
-If you want to join the committee, please kindly apply by sending an email to team@openapitools.org with your Github ID.
+If you want to join the committee, please kindly apply by sending an email to team@openapitools.org with your GitHub ID.
 
 #### Members of Technical Committee
 

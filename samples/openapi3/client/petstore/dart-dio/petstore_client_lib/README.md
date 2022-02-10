@@ -12,8 +12,8 @@ Dart 2.7.0 or later OR Flutter 1.12 or later
 
 ## Installation & Usage
 
-### Github
-If this Dart package is published to Github, please include the following in pubspec.yaml
+### GitHub
+If this Dart package is published to GitHub, please include the following in pubspec.yaml
 ```
 name: openapi
 version: 1.0.0
