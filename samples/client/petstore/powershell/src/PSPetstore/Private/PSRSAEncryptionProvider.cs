@@ -18,7 +18,7 @@ using System.Text;
 namespace RSAEncryption
 {
     /// <summary>
-    /// A RSA enccryption provider.
+    /// A RSA encryption provider.
     /// </summary>
     public class RSAEncryptionProvider
     {
