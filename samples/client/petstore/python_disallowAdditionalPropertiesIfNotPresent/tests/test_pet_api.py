@@ -323,7 +323,7 @@ class PetApiTests(unittest.TestCase):
             return headers
         def get_header(name, default=None):
             return headers.get(name, default)
-        api_respponse = {
+        api_response = {
             'code': 200,
             'type': 'blah',
             'message': 'file upload succeeded'
@@ -331,7 +331,7 @@ class PetApiTests(unittest.TestCase):
         http_response = HTTPResponse(
             status=200,
             reason='OK',
-            data=json.dumps(api_respponse).encode('utf-8'),
+            data=json.dumps(api_response).encode('utf-8'),
             getheaders=get_headers,
             getheader=get_header
         )
