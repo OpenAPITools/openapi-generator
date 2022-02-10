@@ -41,7 +41,7 @@ object Pets : BaseTable<Pet>("Pet") {
         name = row[name] ?: "" /* kotlin.String */,
         photoUrls = emptyList() /* kotlin.Array<kotlin.String> */,
         id = row[id]  /* kotlin.Long? */,
-        category = Categorys.createEntity(row, withReferences) /* Category? */,
+        category = Categories.createEntity(row, withReferences) /* Category? */,
         tags = emptyList() /* kotlin.Array<Tag>? */,
         status = row[status]  /* kotlin.String? */ /* pet status in the store */
     )

@@ -22,7 +22,7 @@ import org.openapitools.client.models.*
  * @param id 
  * @param name 
  */
-object Categorys : BaseTable<Category>("Category") {
+object Categories : BaseTable<Category>("Category") {
     val id = long("id") /* null */
     val name = text("name") /* null */
 
@@ -41,7 +41,7 @@ object Categorys : BaseTable<Category>("Category") {
     *
     * ```kotlin
     * let entity = Category()
-    * database.update(Categorys, {
+    * database.update(Categories, {
     *     assignFrom(entity)
     * })
     * ```
@@ -49,8 +49,8 @@ object Categorys : BaseTable<Category>("Category") {
     */
     fun AssignmentsBuilder.assignFrom(entity: Category) {
         this.apply {
-            set(Categorys.id, entity.id)
-            set(Categorys.name, entity.name)
+            set(Categories.id, entity.id)
+            set(Categories.name, entity.name)
         }
     }
 
