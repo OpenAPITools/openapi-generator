@@ -975,7 +975,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
      */
     public void setApiName(String apiName) {
         if (!"".equals(apiName) && (Boolean.FALSE.equals(apiName.matches("^[a-zA-Z0-9_]*$")) || Boolean.FALSE.equals(apiName.matches("^[a-zA-Z].*")))) {
-            throw new RuntimeException("Invalid project name " + apiName + ". May only contain alphanumeric characaters or underscore and start with a letter.");
+            throw new RuntimeException("Invalid project name " + apiName + ". May only contain alphanumeric characters or underscore and start with a letter.");
         }
         this.apiName = apiName;
     }
