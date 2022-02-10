@@ -109,7 +109,7 @@ public class NullableShape extends AbstractOpenApiSchema {
 
                     // deserialize Quadrilateral
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Quadrilateral.validateJsonObject(jsonObject);
                         actualAdapter = adapterQuadrilateral;
                         match++;
@@ -121,7 +121,7 @@ public class NullableShape extends AbstractOpenApiSchema {
 
                     // deserialize Triangle
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Triangle.validateJsonObject(jsonObject);
                         actualAdapter = adapterTriangle;
                         match++;

@@ -118,7 +118,7 @@ public class Triangle extends AbstractOpenApiSchema {
 
                     // deserialize EquilateralTriangle
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         EquilateralTriangle.validateJsonObject(jsonObject);
                         actualAdapter = adapterEquilateralTriangle;
                         match++;
@@ -130,7 +130,7 @@ public class Triangle extends AbstractOpenApiSchema {
 
                     // deserialize IsoscelesTriangle
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         IsoscelesTriangle.validateJsonObject(jsonObject);
                         actualAdapter = adapterIsoscelesTriangle;
                         match++;
@@ -142,7 +142,7 @@ public class Triangle extends AbstractOpenApiSchema {
 
                     // deserialize ScaleneTriangle
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         ScaleneTriangle.validateJsonObject(jsonObject);
                         actualAdapter = adapterScaleneTriangle;
                         match++;
