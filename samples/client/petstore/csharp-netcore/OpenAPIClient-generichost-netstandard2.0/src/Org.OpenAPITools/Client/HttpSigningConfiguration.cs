@@ -324,7 +324,7 @@ namespace Org.OpenAPITools.Client
         private  byte[] ConvertToECDSAANS1Format(byte[] signedBytes)
         {
             var derBytes = new List<byte>();
-            byte derLength = 68; //default lenght for ECDSA code signinged bit 0x44
+            byte derLength = 68; //default length for ECDSA code signinged bit 0x44
             byte rbytesLength = 32; //R length 0x20
             byte sbytesLength = 32; //S length 0x20
             var rBytes = new List<byte>();
