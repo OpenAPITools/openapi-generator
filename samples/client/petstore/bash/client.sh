@@ -591,7 +591,7 @@ build_request_path() {
                 parameter_value+="${qparam}=${qvalue}"
             done
         #
-        # Append parameters specified as 'mutli' collections i.e. param=value1&param=value2&...
+        # Append parameters specified as 'multi' collections i.e. param=value1&param=value2&...
         #
         elif [[ "${collection_type}" == "multi" ]]; then
             local vcount=0
