@@ -83,7 +83,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String REACTIVE = "reactive";
     public static final String RESPONSE_WRAPPER = "responseWrapper";
     public static final String USE_TAGS = "useTags";
-    public static final String SPRING_MVC_LIBRARY = "spring-mvc";
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
@@ -201,8 +200,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             useSwaggerUI));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
-        supportedLibraries.put(SPRING_MVC_LIBRARY,
-            "Spring-MVC Server application using the SpringFox integration. Deprecated (for removal); use spring-boot instead.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
             "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
         setLibrary(SPRING_BOOT);
@@ -288,9 +285,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
             LOGGER.warn("The springfox documentation provider is deprecated for removal. Use the springdoc provider instead.");
-        }
-        if (SPRING_MVC_LIBRARY.equals(library)) {
-            LOGGER.warn("The spring-mvc library is deprecated for removal. Use the spring-boot library instead.");
         }
 
         // clear model and api doc template as this codegen
@@ -444,24 +438,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
                         "RFC3339DateFormat.java"));
             }
-            if (SPRING_MVC_LIBRARY.equals(library)) {
-                supportingFiles.add(new SupportingFile("webApplication.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "WebApplication.java"));
-                supportingFiles.add(new SupportingFile("webMvcConfiguration.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "WebMvcConfiguration.java"));
-
-                if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
-                    supportingFiles.add(new SupportingFile("openapiUiConfiguration.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "OpenAPIUiConfiguration.java"));
-                }
-
-                supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "RFC3339DateFormat.java"));
-            }
             if (SPRING_CLOUD_LIBRARY.equals(library)) {
                 supportingFiles.add(new SupportingFile("apiKeyRequestInterceptor.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
@@ -583,7 +559,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co,
             Map<String, List<CodegenOperation>> operations) {
-        if ((SPRING_BOOT.equals(library) || SPRING_MVC_LIBRARY.equals(library)) && !useTags) {
+        if ((SPRING_BOOT.equals(library) && !useTags)) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
