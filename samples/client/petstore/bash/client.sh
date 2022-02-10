@@ -3812,7 +3812,7 @@ case $key in
     ;;
     *:=*)
     # Parse body arguments and convert them into top level
-    # JSON properties passed in the body content without qoutes
+    # JSON properties passed in the body content without quotes
     if [[ "$operation" ]]; then
         # ignore error about 'sep' being unused
         # shellcheck disable=SC2034
