@@ -425,7 +425,7 @@ namespace Org.OpenAPITools.Client
                 }
                 else
                 {
-                    // use defualt value
+                    // use default value
                     url = url.Replace("{" + variable.Key + "}", (string)serverVariables["default_value"]);
                 }
             }
