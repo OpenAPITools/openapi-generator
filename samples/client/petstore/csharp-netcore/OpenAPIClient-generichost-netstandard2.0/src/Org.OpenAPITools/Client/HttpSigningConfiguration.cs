@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Client
         public string SigningAlgorithm { get; set; }
 
         /// <summary>
-        /// Gets the Signature validaty period in seconds
+        /// Gets the Signature validity period in seconds
         /// </summary>
         public int SignatureValidityPeriod { get; set; }
 
