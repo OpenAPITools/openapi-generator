@@ -23,9 +23,9 @@ paths:
           schema:
             type: string
             format: date
-  /girafes:
+  /giraffes:
     get:
-      operationId: getGirafes
+      operationId: getGiraffes
       parameters:
         - $ref: '#/components/parameters/refStatus'
   /zebras:
