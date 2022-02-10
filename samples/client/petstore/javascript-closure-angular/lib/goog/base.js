@@ -1478,7 +1478,7 @@ goog.inherits = function(childCtor, parentCtor) {
  * Call up to the superclass.
  *
  * If this is called from a constructor, then this calls the superclass
- * contructor with arguments 1-N.
+ * constructor with arguments 1-N.
  *
  * If this is called from a prototype method, then you must pass
  * the name of the method as the second argument to this function. If
