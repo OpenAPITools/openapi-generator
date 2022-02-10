@@ -371,7 +371,7 @@ namespace Org.OpenAPITools.Client
             return derBytes.ToArray();
         }
 
-        private  RSACryptoServiceProvider? GetRSAProviderFromPemFile(String pemfile, SecureString? keyPassPharse = null)
+        private  RSACryptoServiceProvider? GetRSAProviderFromPemFile(String pemfile, SecureString? keyPassPhrase = null)
         {
             const String pempubheader = "-----BEGIN PUBLIC KEY-----";
             const String pempubfooter = "-----END PUBLIC KEY-----";
@@ -388,7 +388,7 @@ namespace Org.OpenAPITools.Client
 
             if (isPrivateKeyFile)
             {
-                pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPharse);
+                pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPhrase);
 
                 if (pemkey == null)
                     return null;
@@ -398,7 +398,7 @@ namespace Org.OpenAPITools.Client
             return null;
         }
 
-        private byte[]? ConvertPrivateKeyToBytes(String instr, SecureString? keyPassPharse = null)
+        private byte[]? ConvertPrivateKeyToBytes(String instr, SecureString? keyPassPhrase = null)
         {
             const String pemprivheader = "-----BEGIN RSA PRIVATE KEY-----";
             const String pemprivfooter = "-----END RSA PRIVATE KEY-----";
@@ -450,8 +450,8 @@ namespace Org.OpenAPITools.Client
                     return null;
                 }
 
-                // TODO: what do we do here if keyPassPharse is null?
-                byte[] deskey = GetEncryptedKey(salt, keyPassPharse!, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
+                // TODO: what do we do here if keyPassPhrase is null?
+                byte[] deskey = GetEncryptedKey(salt, keyPassPhrase!, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
                 if (deskey == null)
                     return null;
 

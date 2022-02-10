@@ -411,7 +411,7 @@ namespace {{packageName}}.Client
             return derBytes.ToArray();
         }
 
-        private  RSACryptoServiceProvider GetRSAProviderFromPemFile(string pemfile, SecureString keyPassPharse = null)
+        private  RSACryptoServiceProvider GetRSAProviderFromPemFile(string pemfile, SecureString keyPassPhrase = null)
         {
             const string pempubheader = "-----BEGIN PUBLIC KEY-----";
             const string pempubfooter = "-----END PUBLIC KEY-----";
@@ -431,7 +431,7 @@ namespace {{packageName}}.Client
 
             if (isPrivateKeyFile)
             {
-                pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPharse);
+                pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPhrase);
                 if (pemkey == null)
                 {
                     return null;
@@ -441,7 +441,7 @@ namespace {{packageName}}.Client
             return null;
         }
 
-        private byte[] ConvertPrivateKeyToBytes(string instr, SecureString keyPassPharse = null)
+        private byte[] ConvertPrivateKeyToBytes(string instr, SecureString keyPassPhrase = null)
         {
             const string pemprivheader = "-----BEGIN RSA PRIVATE KEY-----";
             const string pemprivfooter = "-----END RSA PRIVATE KEY-----";
@@ -498,7 +498,7 @@ namespace {{packageName}}.Client
                     return null;
                 }
 
-                byte[] deskey = GetEncryptedKey(salt, keyPassPharse, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
+                byte[] deskey = GetEncryptedKey(salt, keyPassPhrase, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
                 if (deskey == null)
                 {
                     return null;

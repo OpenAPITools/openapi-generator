@@ -363,7 +363,7 @@ namespace {{packageName}}.Client
             return derBytes.ToArray();
         }
 
-        private  RSACryptoServiceProvider{{nrt?}} GetRSAProviderFromPemFile(String pemfile, SecureString{{nrt?}} keyPassPharse = null)
+        private  RSACryptoServiceProvider{{nrt?}} GetRSAProviderFromPemFile(String pemfile, SecureString{{nrt?}} keyPassPhrase = null)
         {
             const String pempubheader = "-----BEGIN PUBLIC KEY-----";
             const String pempubfooter = "-----END PUBLIC KEY-----";
@@ -380,7 +380,7 @@ namespace {{packageName}}.Client
 
             if (isPrivateKeyFile)
             {
-                pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPharse);
+                pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPhrase);
 
                 if (pemkey == null)
                     return null;
@@ -390,7 +390,7 @@ namespace {{packageName}}.Client
             return null;
         }
 
-        private byte[]{{nrt?}} ConvertPrivateKeyToBytes(String instr, SecureString{{nrt?}} keyPassPharse = null)
+        private byte[]{{nrt?}} ConvertPrivateKeyToBytes(String instr, SecureString{{nrt?}} keyPassPhrase = null)
         {
             const String pemprivheader = "-----BEGIN RSA PRIVATE KEY-----";
             const String pemprivfooter = "-----END RSA PRIVATE KEY-----";
@@ -442,8 +442,8 @@ namespace {{packageName}}.Client
                     return null;
                 }
 
-                // TODO: what do we do here if keyPassPharse is null?
-                byte[] deskey = GetEncryptedKey(salt, keyPassPharse{{nrt!}}, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
+                // TODO: what do we do here if keyPassPhrase is null?
+                byte[] deskey = GetEncryptedKey(salt, keyPassPhrase{{nrt!}}, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
                 if (deskey == null)
                     return null;
 
