@@ -168,8 +168,6 @@
       <version>2.3.3</version>
       <scope>runtime</scope>
     </dependency>
-
-
     <!-- Bean Validation API support -->
     <dependency>
         <groupId>jakarta.validation</groupId>

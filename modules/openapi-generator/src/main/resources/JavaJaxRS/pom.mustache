@@ -177,21 +177,6 @@
       <version>2.3.3</version>
       <scope>runtime</scope>
     </dependency>
-
-  {{#supportJava6}}
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>${commons_lang3_version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>${commons_io_version}</version>
-    </dependency>
-  {{/supportJava6}}
-
 {{#useBeanValidation}}
     <!-- Bean Validation API support -->
     <dependency>
@@ -223,10 +208,6 @@
     <jetty-version>9.2.9.v20150224</jetty-version>
     <jersey2-version>2.22.2</jersey2-version>
     <jackson-version>2.9.9</jackson-version>
-  {{#supportJava6}}
-    <commons_io_version>2.5</commons_io_version>
-    <commons_lang3_version>3.5</commons_lang3_version>
-  {{/supportJava6}}
     <junit-version>4.13.1</junit-version>
     <logback-version>1.2.0</logback-version>
     <servlet-api-version>4.0.4</servlet-api-version>
