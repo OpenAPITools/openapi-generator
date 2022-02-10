@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Here we serialze all the properties of Apple that it origin and cultivar both.
+        /// Here we serialize all the properties of Apple that it origin and cultivar both.
         /// </summary>
         [Fact]
         public void SerializeApple()
