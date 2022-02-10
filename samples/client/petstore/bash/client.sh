@@ -65,7 +65,7 @@ declare -A header_arguments
 declare -A operation_parameters
 
 ##
-# Declare colors with autodection if output is terminal
+# Declare colors with autodetection if output is terminal
 if [ -t 1 ]; then
     RED="$(tput setaf 1)"
     GREEN="$(tput setaf 2)"
