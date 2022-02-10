@@ -1586,7 +1586,7 @@ call_123Test@$%SpecialTags() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -1736,7 +1736,7 @@ call_fakeOuterBooleanSerialize() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -1814,7 +1814,7 @@ call_fakeOuterCompositeSerialize() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -1892,7 +1892,7 @@ call_fakeOuterNumberSerialize() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -1970,7 +1970,7 @@ call_fakeOuterStringSerialize() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2048,7 +2048,7 @@ call_testBodyWithFileSchema() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2126,7 +2126,7 @@ call_testBodyWithQueryParams() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2204,7 +2204,7 @@ call_testClientModel() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2390,7 +2390,7 @@ call_testInlineAdditionalProperties() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2504,7 +2504,7 @@ call_testClassname() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2582,7 +2582,7 @@ call_addPet() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 
 
@@ -2802,7 +2802,7 @@ call_updatePet() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 
 
@@ -3094,7 +3094,7 @@ call_placeOrder() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -3172,7 +3172,7 @@ call_createUser() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -3250,7 +3250,7 @@ call_createUsersWithArrayInput() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -3328,7 +3328,7 @@ call_createUsersWithListInput() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -3550,7 +3550,7 @@ call_updateUser() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
