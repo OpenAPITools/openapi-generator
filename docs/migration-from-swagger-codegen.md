@@ -176,7 +176,7 @@ As example the default package name used in the generated code has changed.
 You need to have a look at the specific value, depending of your target language, but often `Swagger` îs replaced by `OpenAPITools` and `io.swagger` is replaced by `org.openapitools`.
 Concretely if you did not specify anything when you are generating java code, a file `org/openapitools/api/PetApi.java`  might be generated instead of `io/swagger/api/PetApi.java`.
 
-If this is a problem for you, you need to explicitly set the the parameter value in order to match with the `swagger-codgen` default value (`apiPackage` == `io.swagger` in the previous example with the java generator).
+If this is a problem for you, you need to explicitly set the parameter value in order to match with the `swagger-codgen` default value (`apiPackage` == `io.swagger` in the previous example with the java generator).
 
 
 ## New fully qualified name for the classes 

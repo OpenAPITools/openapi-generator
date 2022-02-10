@@ -1316,7 +1316,7 @@ class Schema:
             _validate returns a key value pair
             where the key is the path to the item, and the value will be the required manufactured class
             made out of the matching schemas
-        2. value is an instance of the the correct schema type
+        2. value is an instance of the correct schema type
             the value is NOT validated by _validate, _validate only checks that the instance is of the correct schema type
             for this value, _validate does NOT return an entry for it in _path_to_schemas
             and in list/dict _get_items,_get_properties the value will be directly assigned

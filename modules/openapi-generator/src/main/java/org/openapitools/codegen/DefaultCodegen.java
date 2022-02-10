@@ -2765,7 +2765,7 @@ public class DefaultCodegen implements CodegenConfig {
             updateModelForObject(m, schema);
         } else if (!ModelUtils.isNullType(schema)) {
             // referenced models here, component that refs another component which is a model
-            // if a component references a schema which is not a generated model, the the refed schema will be loaded into
+            // if a component references a schema which is not a generated model, the refed schema will be loaded into
             // schema by unaliasSchema and one of the above code paths will be taken
             ;
         }
