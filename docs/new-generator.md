@@ -119,7 +119,7 @@ outputFolder = "generated-code" + File.separator + "common-mark";
 
 This is the default output location. This will be `generated-code/common-mark` on non-Windows machines and `generated-code\common-mark` on Windows. You may change this to any value you'd like, but a user will almost always provide an output directory.
 
-> When joining paths, always use `File.seperator`
+> When joining paths, always use `File.separator`
 
 ```java
  modelTemplateFiles.put("model.mustache", ".zz");
