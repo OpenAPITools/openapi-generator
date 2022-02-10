@@ -527,17 +527,11 @@ public class DefaultGenerator implements Generator {
             }
         }
 
-        logForMe(allProcessedModels, 1);
-
         // loop through all models to update children models, isSelfReference, isCircularReference, etc
         allProcessedModels = config.updateAllModels(allProcessedModels);
 
-        logForMe(allProcessedModels, 2);
-
         // post process all processed models
         allProcessedModels = config.postProcessAllModels(allProcessedModels);
-
-        logForMe(allProcessedModels, 3);
 
         // generate files based on processed models
         for (String modelName : allProcessedModels.keySet()) {
@@ -582,37 +576,6 @@ public class DefaultGenerator implements Generator {
             Json.prettyPrint(allModels);
         }
 
-    }
-
-    public void logForMe(Map<String, Object> objs, int index) {
-        System.out.println("logForMe " + index);
-        for (String key : objs.keySet()) {
-            if (key.equals("DependencyObject")) {
-                Map<String, Object> mo = (Map<String, Object>) objs.get(key);
-                for (String k : mo.keySet()) {
-                    Object o = mo.get(k);
-                    if (k.equals("models")) {
-                        ArrayList<HashMap> l = (ArrayList<HashMap>) o;
-                        HashMap hm = l.get(0);
-                        CodegenModel cm = (CodegenModel) hm.get("model");
-                        // Iterate through properties
-                        for (CodegenProperty cp : cm.allVars) {
-                            // Enums with values only
-                            if (cp.isEnum && cp.allowableValues != null) {
-                                Object valuesObject = cp.allowableValues.get("values");
-                                if (valuesObject != null) {
-                                    ArrayList valuesArray = (ArrayList) valuesObject;
-                                    if (!(valuesArray.get(0) instanceof Integer)) {
-                                        // String enum type
-                                        System.out.println("lookronan " + cp.name  + " " + cp.vendorExtensions + " " + cp._enum);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     @SuppressWarnings("unchecked")
