@@ -890,7 +890,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * We have a custom version of this method to produce links to models when they are
      * primitive type (not map, not array, not object) and include validations or are enums
      *
-     * @param body requesst body
+     * @param body request body
      * @param imports import collection
      * @param bodyParameterName body parameter name
      * @return the resultant CodegenParameter
