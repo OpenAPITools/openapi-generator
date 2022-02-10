@@ -36,7 +36,7 @@ Unfortunately, I have not written any unit-tests. Those will come in the future.
 
 1. API documentation, and to check the available endpoints:
 http://localhost:3000/api-docs/. To
-2. Download the oepnapi.yaml document: http://localhost:3000/openapi.
+2. Download the openapi.yaml document: http://localhost:3000/openapi.
 3.  Every call to an endpoint that was defined in the openapi document will return a 200 and a list of all the parameters and objects that were sent in the request.
 4. Endpoints that require security need to have security handlers configured before they can return a successful response. At this point they will return [ a response code of 401](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401).
 5. ##### At this stage the server does not support document body sent in xml format.
