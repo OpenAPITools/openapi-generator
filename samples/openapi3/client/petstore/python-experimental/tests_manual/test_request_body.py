@@ -90,7 +90,7 @@ class TestParameter(unittest.TestCase):
             )
         )
 
-    def test_throws_error_for_nonexistant_content_type(self):
+    def test_throws_error_for_nonexistent_content_type(self):
         request_body = api_client.RequestBody(
             content={'application/json': api_client.MediaType(schema=schemas.AnyTypeSchema)}
         )
