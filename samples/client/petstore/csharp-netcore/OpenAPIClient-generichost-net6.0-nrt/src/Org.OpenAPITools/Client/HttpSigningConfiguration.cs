@@ -196,7 +196,7 @@ namespace Org.OpenAPITools.Client
             foreach (var keyVal in httpSignatureHeader)
                 headerValuesList.Add(string.Format("{0}: {1}", keyVal.Key, keyVal.Value));
 
-            //Concatinate headers value separated by new line
+            //Concatenate headers value separated by new line
             var headerValuesString = string.Join("\n", headerValuesList);
             var signatureStringHash = GetStringHash(HashAlgorithm.ToString(), headerValuesString);
             string? headerSignatureStr = null;

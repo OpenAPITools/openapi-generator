@@ -238,7 +238,7 @@ namespace {{packageName}}.Client
                 headerValuesList.Add(string.Format("{0}: {1}", keyVal.Key, keyVal.Value));
 
             }
-            //Concatinate headers value separated by new line
+            //Concatenate headers value separated by new line
             var headerValuesString = string.Join("\n", headerValuesList);
             var signatureStringHash = GetStringHash(HashAlgorithm.ToString(), headerValuesString);
             string headerSignatureStr = null;
@@ -638,19 +638,19 @@ namespace {{packageName}}.Client
         {
             IntPtr unmanagedPswd = IntPtr.Zero;
             int HASHLENGTH = 16;    //MD5 bytes
-            byte[] keymaterial = new byte[HASHLENGTH * miter];     //to store contatenated Mi hashed results
+            byte[] keymaterial = new byte[HASHLENGTH * miter];     //to store concatenated Mi hashed results
 
             byte[] psbytes = new byte[secpswd.Length];
             unmanagedPswd = Marshal.SecureStringToGlobalAllocAnsi(secpswd);
             Marshal.Copy(unmanagedPswd, psbytes, 0, psbytes.Length);
             Marshal.ZeroFreeGlobalAllocAnsi(unmanagedPswd);
 
-            // --- contatenate salt and pswd bytes into fixed data array ---
+            // --- concatenate salt and pswd bytes into fixed data array ---
             byte[] data00 = new byte[psbytes.Length + salt.Length];
             Array.Copy(psbytes, data00, psbytes.Length);      //copy the pswd bytes
             Array.Copy(salt, 0, data00, psbytes.Length, salt.Length); //concatenate the salt bytes
 
-            // ---- do multi-hashing and contatenate results  D1, D2 ...  into keymaterial bytes ----
+            // ---- do multi-hashing and concatenate results  D1, D2 ...  into keymaterial bytes ----
             MD5 md5 = new MD5CryptoServiceProvider();
             byte[] result = null;
             byte[] hashtarget = new byte[HASHLENGTH + data00.Length];   //fixed length initial hashtarget
@@ -671,7 +671,7 @@ namespace {{packageName}}.Client
 
                 for (int i = 0; i < count; i++)
                     result = md5.ComputeHash(result);
-                Array.Copy(result, 0, keymaterial, j * HASHLENGTH, result.Length);  //contatenate to keymaterial
+                Array.Copy(result, 0, keymaterial, j * HASHLENGTH, result.Length);  //concatenate to keymaterial
             }
             byte[] deskey = new byte[24];
             Array.Copy(keymaterial, deskey, deskey.Length);
