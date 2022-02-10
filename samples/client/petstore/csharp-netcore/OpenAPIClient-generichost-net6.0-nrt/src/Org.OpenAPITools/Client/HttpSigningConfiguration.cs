@@ -446,7 +446,7 @@ namespace Org.OpenAPITools.Client
                     binkey = Convert.FromBase64String(encryptedstr);
                 }
                 catch (System.FormatException)
-                {   //data is not in base64 fromat
+                {   //data is not in base64 format
                     return null;
                 }
 
