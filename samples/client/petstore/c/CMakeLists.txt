@@ -81,7 +81,7 @@ set(HDRS "")
 
 ## loop over all files in SRCS variable
 #foreach(SOURCE_FILE ${SRCS})
-#    # Get only the file name from the file as add_executable doesnot support executable with slash("/")
+#    # Get only the file name from the file as add_executable does not support executable with slash("/")
 #    get_filename_component(FILE_NAME_ONLY ${SOURCE_FILE} NAME_WE)
 #    # Remove .c from the file name and set it as executable name
 #    string( REPLACE ".c" "" EXECUTABLE_FILE ${FILE_NAME_ONLY})
