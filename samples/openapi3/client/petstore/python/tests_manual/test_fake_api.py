@@ -637,7 +637,7 @@ class TestFakeApi(unittest.TestCase):
         pass
 
     def test_post_inline_additional_properties_ref_payload(self):
-        """Test case for postInlineAdditionlPropertiesRefPayload
+        """Test case for postInlineAdditionalPropertiesRefPayload
         """
         from petstore_api.model.inline_additional_properties_ref_payload import InlineAdditionalPropertiesRefPayload
         from petstore_api.model.fake_post_inline_additional_properties_payload_array_data import FakePostInlineAdditionalPropertiesPayloadArrayData
@@ -676,7 +676,7 @@ class TestFakeApi(unittest.TestCase):
             assert model_to_dict(response) == expected_json_body
 
     def test_post_inline_additional_properties_payload(self):
-        """Test case for postInlineAdditionlPropertiesPayload
+        """Test case for postInlineAdditionalPropertiesPayload
         """
         from petstore_api.model.inline_object6 import InlineObject6
         from petstore_api.model.fake_post_inline_additional_properties_payload_array_data import FakePostInlineAdditionalPropertiesPayloadArrayData
@@ -715,7 +715,7 @@ class TestFakeApi(unittest.TestCase):
             assert model_to_dict(response) == expected_json_body
 
     def test_post_tx_rx_any_of_payload(self):
-        """Test case for postInlineAdditionlPropertiesPayload
+        """Test case for postInlineAdditionalPropertiesPayload
         """
         from petstore_api.model.gm_fruit_no_properties import GmFruitNoProperties
         endpoint = self.api.tx_rx_any_of_model_endpoint

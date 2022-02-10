@@ -30,5 +30,5 @@ fn test_pet() {
     // get pet
     let pet_result = petstore_reqwest_async::apis::pet_api::get_pet_by_id(&config, get_pet_params);
 
-    // TODO Testing async functions requires some additionnal testing crates.
+    // TODO Testing async functions requires some additional testing crates.
 }
