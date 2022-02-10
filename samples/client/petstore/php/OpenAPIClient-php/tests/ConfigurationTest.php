@@ -5,6 +5,9 @@ namespace OpenAPI\Client;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversDefaultClass \OpenAPI\Client\Configuration
+ */
 class ConfigurationTest extends TestCase
 {
     /**
@@ -63,5 +66,34 @@ class ConfigurationTest extends TestCase
         $config = new Configuration();
         $url = $config->getHostFromSettings(0, array("server" => "dev-petstore", "port" => "8"));
         $this->assertSame("http://dev-petstore.swagger.io:8080/v2", $url);
+    }
+
+    /**
+     * Tests additional http client options.
+     *
+     * @see https://github.com/OpenAPITools/openapi-generator/pull/11431
+     * @covers ::setOptions
+     * @covers ::getOptions
+     */
+    public function testHttpClientOptions()
+    {
+        $config = Configuration::getDefaultConfiguration();
+        // default is array and empty
+        $this->assertIsArray($config->getOptions());
+        $this->assertEmpty($config->getOptions());
+
+        // example from PR itself
+        $cookie = \GuzzleHttp\Cookie\CookieJar::fromArray([
+            'XDEBUG_SESSION' => 'xdebug',
+        ], 'example.com');
+
+        $self = $config->setOptions(['cookies' => $cookie]);
+        // assert method is chainable
+        $this->assertInstanceOf(Configuration::class, $self);
+
+        // still array, not empty
+        $options = $config->getOptions();
+        $this->assertIsArray($options);
+        $this->assertArrayHasKey('cookies', $options);
     }
 }
