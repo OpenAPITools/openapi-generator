@@ -109,7 +109,7 @@ paths:
 securityDefinitions:
   petstore_token:
     type: oauth2
-    description: security definition for using keycloak authentification with control site.
+    description: security definition for using keycloak authentication with control site.
     authorizationUrl: https://keycloak-dev.business.stingray.com/auth/realms/CSLocal/protocol/openid-connect/auth
     tokenUrl: https://keycloak-dev.business.stingray.com/auth/realms/CSLocal/protocol/openid-connect/token
     x-jwksUrl: https://keycloak-dev.business.stingray.com/auth/realms/CSLocal/protocol/openid-connect/certs
