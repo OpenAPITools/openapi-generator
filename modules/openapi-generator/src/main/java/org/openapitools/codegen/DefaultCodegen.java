@@ -5956,7 +5956,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // Int.max / 192
                 // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
                 // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
-                // Since this functionality was born in the Swift 5 generator and latter on broth to all generatorss
+                // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
                 // https://github.com/OpenAPITools/openapi-generator/pull/11013
                 enumValue = String.valueOf(11184809);
             }
