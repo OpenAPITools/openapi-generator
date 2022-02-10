@@ -1271,7 +1271,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     public String getTypeDeclaration(Schema p) {
         // this is used to set dataType, which defines a python tuple of classes
         // in Python we will wrap this in () to make it a tuple but here we
-        // will omit the parens so the generated documentaion will not include
+        // will omit the parens so the generated documentation will not include
         // them
         return getTypeString(p, "", "", null);
     }
