@@ -1378,7 +1378,7 @@ goog.getMsg = function(str, opt_values) {
  * This is useful when introducing a new message that has not yet been
  * translated into all languages.
  *
- * This function is a compiler primtive. Must be used in the form:
+ * This function is a compiler primitive. Must be used in the form:
  * <code>var x = goog.getMsgWithFallback(MSG_A, MSG_B);</code>
  * where MSG_A and MSG_B were initialized with goog.getMsg.
  *

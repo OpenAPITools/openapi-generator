@@ -160,7 +160,7 @@ components:
             type: array
             items:
               type: string
-        arrayOfPrimitve:
+        arrayOfPrimitive:
           type: array
           items:
             $ref: "#/components/schemas/Primitive"

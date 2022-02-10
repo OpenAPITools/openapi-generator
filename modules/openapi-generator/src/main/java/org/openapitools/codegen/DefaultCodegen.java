@@ -3617,7 +3617,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (!ModelUtils.isArraySchema(p) && !ModelUtils.isMapSchema(p) && !isFreeFormObject(p) && !isAnyTypeWithNothingElseSet) {
             /* schemas that are not Array, not ModelUtils.isMapSchema, not isFreeFormObject, not AnyType with nothing else set
-             *  so primitve schemas int, str, number, referenced schemas, AnyType schemas with properties, enums, or composition
+             *  so primitive schemas int, str, number, referenced schemas, AnyType schemas with properties, enums, or composition
              */
             String type = getSchemaType(p);
             setNonArrayMapProperty(property, type);
