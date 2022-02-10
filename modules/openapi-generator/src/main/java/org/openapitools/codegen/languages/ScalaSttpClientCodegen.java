@@ -300,11 +300,11 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         for (Map.Entry<String, Object> entry : enumModels.entrySet()) {
             String name = entry.getKey();
             Map<String, Object> objs = (Map<String, Object>)enumModels.get(name);
-            List<Map<String, Object>> modles = (List<Map<String, Object>>) objs.get("models");
-            if (modles == null || modles.isEmpty()) {
+            List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
+            if (models == null || models.isEmpty()) {
                 continue;
             }
-            Iterator<Map<String, Object>> iterator = modles.iterator();
+            Iterator<Map<String, Object>> iterator = models.iterator();
             while (iterator.hasNext()) {
                 String enumImportPath = (String)iterator.next().get("importPath");
                 if (enumImportPath != null && enumImportPath.equals(importPath)) {
