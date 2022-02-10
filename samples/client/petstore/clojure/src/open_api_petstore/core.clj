@@ -105,7 +105,7 @@
     :else (str param)))
 
 (defn auth->opts
-  "Process the given auth to an option map that might conatin request options and parameters."
+  "Process the given auth to an option map that might contain request options and parameters."
   [{:keys [type in param-name]} value]
   (case type
     :basic {:req-opts {:basic-auth value}}
@@ -126,7 +126,7 @@
     opts))
 
 (defn auths->opts
-  "Process the given auth names to an option map that might conatin request options and parameters."
+  "Process the given auth names to an option map that might contain request options and parameters."
   [auth-names]
   (reduce process-auth {} auth-names))
 
