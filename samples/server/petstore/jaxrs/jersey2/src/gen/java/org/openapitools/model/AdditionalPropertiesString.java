@@ -75,7 +75,6 @@ public class AdditionalPropertiesString extends HashMap<String, String>  {
     return Objects.hash(name, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

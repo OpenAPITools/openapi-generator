@@ -152,7 +152,6 @@ public class ArrayTest  implements Serializable {
     return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

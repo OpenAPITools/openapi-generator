@@ -162,7 +162,6 @@ public class ObjectWithDeprecatedFields   {
     return Objects.hash(uuid, id, deprecatedRef, bars);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
