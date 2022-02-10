@@ -66,7 +66,7 @@ set(SRCS "")
 set(HDRS "")
 
 
-## This section shows how to use the above compiled libary to compile the source files
+## This section shows how to use the above compiled library to compile the source files
 ## set source files
 #set(SRCS
 #    unit-tests/manual-PetAPI.c
@@ -87,6 +87,6 @@ set(HDRS "")
 #    string( REPLACE ".c" "" EXECUTABLE_FILE ${FILE_NAME_ONLY})
 #    # Add executable for every source file in  SRCS
 #    add_executable(unit-${EXECUTABLE_FILE} ${SOURCE_FILE})
-#    # Link above created libary to executable and dependent libary curl
+#    # Link above created library to executable and dependent library curl
 #    target_link_libraries(unit-${EXECUTABLE_FILE} ${CURL_LIBRARIES} ${pkgName} )
 #endforeach(SOURCE_FILE ${SRCS})
