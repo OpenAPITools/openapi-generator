@@ -3999,7 +3999,7 @@ public class DefaultCodegen implements CodegenConfig {
                     for (Entry<String, Header> entry : headers.entrySet()) {
                         String headerName = entry.getKey();
                         Header header = entry.getValue();
-                        CodegenParameter responseHeader = heeaderToCodegenParameter(header, headerName, imports, String.format(Locale.ROOT, "%sResponseParameter", r.code));
+                        CodegenParameter responseHeader = headerToCodegenParameter(header, headerName, imports, String.format(Locale.ROOT, "%sResponseParameter", r.code));
                         responseHeaders.add(responseHeader);
                     }
                     r.setResponseHeaders(responseHeaders);
@@ -6689,7 +6689,7 @@ public class DefaultCodegen implements CodegenConfig {
         return "SchemaFor" + mediaTypeSchemaSuffix + toModelName(contentType);
     }
 
-    private CodegenParameter heeaderToCodegenParameter(Header header, String headerName, Set<String> imports, String mediaTypeSchemaSuffix) {
+    private CodegenParameter headerToCodegenParameter(Header header, String headerName, Set<String> imports, String mediaTypeSchemaSuffix) {
         if (header == null) {
             return null;
         }
@@ -6733,7 +6733,7 @@ public class DefaultCodegen implements CodegenConfig {
                         for (Entry<String, Header> headerEntry : encHeaders.entrySet()) {
                             String headerName = headerEntry.getKey();
                             Header header = ModelUtils.getReferencedHeader(this.openAPI, headerEntry.getValue());
-                            CodegenParameter param = heeaderToCodegenParameter(header, headerName, imports, mediaTypeSchemaSuffix);
+                            CodegenParameter param = headerToCodegenParameter(header, headerName, imports, mediaTypeSchemaSuffix);
                             headers.add(param);
                         }
                     }
