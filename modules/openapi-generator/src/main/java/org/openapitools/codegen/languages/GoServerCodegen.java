@@ -53,6 +53,8 @@ public class GoServerCodegen extends AbstractGoCodegen {
     protected String sourceFolder = "go";
     protected Boolean corsFeatureEnabled = false;
     protected Boolean addResponseHeaders = false;
+    protected Boolean outputAsLibrary = false;
+    protected Boolean onlyInterfaces = false;
 
 
     public GoServerCodegen() {
@@ -109,6 +111,18 @@ public class GoServerCodegen extends AbstractGoCodegen {
         optAddResponseHeaders.defaultValue(addResponseHeaders.toString());
         cliOptions.add(optAddResponseHeaders);
 
+        
+        // option to exclude service factories; only interfaces are rendered
+        CliOption optOnlyInterfaces = new CliOption("onlyInterfaces", "Exclude default service creators from output; only generate interfaces");
+        optOnlyInterfaces.setType("bool");
+        optOnlyInterfaces.defaultValue(onlyInterfaces.toString());
+        cliOptions.add(optOnlyInterfaces);
+
+        // option to exclude main package (main.go), Dockerfile, and go.mod files
+        CliOption optOutputAsLibrary = new CliOption("outputAsLibrary", "Exclude main.go, go.mod, and Dockerfile from output");
+        optOutputAsLibrary.setType("bool");
+        optOutputAsLibrary.defaultValue(outputAsLibrary.toString());
+        cliOptions.add(optOutputAsLibrary);
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
          * if you want to create one template for file, you can do so here.
@@ -214,6 +228,22 @@ public class GoServerCodegen extends AbstractGoCodegen {
             additionalProperties.put("addResponseHeaders", addResponseHeaders);
         }
 
+        if (additionalProperties.containsKey("onlyInterfaces")) {
+            this.setOnlyInterfaces(convertPropertyToBooleanAndWriteBack("onlyInterfaces"));
+        } else {
+            additionalProperties.put("onlyInterfaces", onlyInterfaces);
+        }
+
+        if (this.onlyInterfaces) {
+          apiTemplateFiles.remove("service.mustache");
+        }
+
+        if (additionalProperties.containsKey("outputAsLibrary")) {
+            this.setOutputAsLibrary(convertPropertyToBooleanAndWriteBack("outputAsLibrary"));
+        } else {
+            additionalProperties.put("outputAsLibrary", outputAsLibrary);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
             setEnumClassPrefix(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_CLASS_PREFIX).toString()));
             if (enumClassPrefix) {
@@ -238,10 +268,12 @@ public class GoServerCodegen extends AbstractGoCodegen {
          * entire object tree available.  If the input file has a suffix of `.mustache
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
+        if (!outputAsLibrary) {
+          supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
+          supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
+          supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
+        }
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
-        supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
-        supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
-        supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
         supportingFiles.add(new SupportingFile("routers.mustache", sourceFolder, "routers.go"));
         supportingFiles.add(new SupportingFile("logger.mustache", sourceFolder, "logger.go"));
         supportingFiles.add(new SupportingFile("impl.mustache",sourceFolder, "impl.go"));
@@ -361,6 +393,14 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     public void setAddResponseHeaders(Boolean addResponseHeaders) {
         this.addResponseHeaders = addResponseHeaders;
+    }
+
+    public void setOnlyInterfaces(Boolean onlyInterfaces) {
+        this.onlyInterfaces = onlyInterfaces;
+    }
+
+    public void setOutputAsLibrary(Boolean outputAsLibrary) {
+        this.outputAsLibrary = outputAsLibrary;
     }
 
     @Override
