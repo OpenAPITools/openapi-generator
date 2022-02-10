@@ -110,7 +110,6 @@ public class BigCatAllOf  implements Serializable {
     return Objects.hash(kind);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -143,7 +143,7 @@
     </dependency>
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
-        <artifactId>jackson-datatype-joda</artifactId>
+        <artifactId>jackson-datatype-jsr310</artifactId>
         <version>${jackson-version}</version>
     </dependency>
     <dependency>
@@ -157,8 +157,17 @@
       <artifactId>migbase64</artifactId>
       <version>2.2</version>
     </dependency>
-
-
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <version>2.3.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <version>2.3.3</version>
+      <scope>runtime</scope>
+    </dependency>
     <!-- Bean Validation API support -->
     <dependency>
         <groupId>jakarta.validation</groupId>
@@ -178,7 +187,7 @@
     </repository>
   </repositories>
   <properties>
-    <java.version>1.7</java.version>
+    <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.18</swagger-core-version>

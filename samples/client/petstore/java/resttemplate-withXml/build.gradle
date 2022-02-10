@@ -105,7 +105,6 @@ ext {
     spring_web_version = "5.2.5.RELEASE"
     jodatime_version = "2.9.9"
     junit_version = "4.13.1"
-    jackson_threeten_version = "2.9.10"
 }
 
 dependencies {
@@ -119,7 +118,6 @@ dependencies {
     implementation "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threeten_version"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"

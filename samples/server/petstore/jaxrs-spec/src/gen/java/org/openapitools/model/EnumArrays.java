@@ -87,7 +87,7 @@ public enum ArrayEnumEnum {
     }
 }
 
-  private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
+  private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   /**
    **/
@@ -133,7 +133,7 @@ public enum ArrayEnumEnum {
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
     if (this.arrayEnum == null) {
-      this.arrayEnum = new ArrayList<ArrayEnumEnum>();
+      this.arrayEnum = new ArrayList<>();
     }
 
     this.arrayEnum.add(arrayEnumItem);

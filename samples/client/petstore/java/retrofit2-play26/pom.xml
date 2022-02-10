@@ -147,7 +147,7 @@
                 <version>3.1.1</version>
                 <configuration>
                     <doclint>none</doclint>
-                        <source>1.8</source>
+                    <source>1.8</source>
                 </configuration>
                 <executions>
                     <execution>
@@ -241,11 +241,6 @@
             <artifactId>gson-fire</artifactId>
             <version>${gson-fire-version}</version>
         </dependency>
-            <dependency>
-                <groupId>org.threeten</groupId>
-                <artifactId>threetenbp</artifactId>
-                <version>${threetenbp-version}</version>
-            </dependency>
             <!-- JSON processing: jackson -->
             <dependency>
                 <groupId>com.squareup.retrofit2</groupId>
@@ -312,7 +307,6 @@
         <play-version>2.6.7</play-version>
         <jackson-databind-nullable-version>0.2.2</jackson-databind-nullable-version>
         <retrofit-version>2.5.0</retrofit-version>
-        <threetenbp-version>1.4.0</threetenbp-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <beanvalidation-version>2.0.2</beanvalidation-version>
         <oltu-version>1.0.1</oltu-version>
