@@ -64,7 +64,7 @@ import java.util.Optional;
 {{/useOptional}}
 {{/jdk8-no-delegate}}
 {{#async}}
-import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture{{/jdk8}};
+import java.util.concurrent.CompletableFuture;
 {{/async}}
 import javax.annotation.Generated;
 

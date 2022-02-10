@@ -239,7 +239,6 @@ public class SpringCodegenTest {
     @Test
     public void interfaceDefaultImplDisableWithResponseWrapper() {
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
         codegen.additionalProperties().put(RESPONSE_WRAPPER, "aWrapper");
         codegen.processOpts();
 
@@ -320,7 +319,6 @@ public class SpringCodegenTest {
     @Test
     public void springcloudWithAsyncAndJava8HasResponseWrapperCompletableFuture() {
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
         codegen.additionalProperties().put(SpringCodegen.ASYNC, true);
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
         codegen.processOpts();
@@ -332,7 +330,6 @@ public class SpringCodegenTest {
     @Test
     public void springcloudWithAsyncHasResponseWrapperCallable() {
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(SpringCodegen.JAVA_8, false);
         codegen.additionalProperties().put(SpringCodegen.ASYNC, true);
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
         codegen.processOpts();
@@ -344,7 +341,6 @@ public class SpringCodegenTest {
     @Test
     public void springcloudWithJava8DisableJdk8() {
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
         codegen.processOpts();
 
@@ -619,7 +615,6 @@ public class SpringCodegenTest {
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.setUseBeanValidation(useBeanValidation);
         codegen.setPerformBeanValidation(performBeanValidation);
-        codegen.setJava8(java8);
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
