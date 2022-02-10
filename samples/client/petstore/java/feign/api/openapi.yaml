@@ -32,7 +32,7 @@ servers:
       - v1
       - v2
 - description: The local server without variables
-  url: https://127.0.0.1/no_varaible
+  url: https://127.0.0.1/no_variable
 tags:
 - description: Everything about your Pets
   name: pet
