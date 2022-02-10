@@ -26,7 +26,7 @@ jobs:
           - samples/client/petstore/java/resttemplate
           - samples/client/petstore/java/resttemplate-withXml
           - samples/client/petstore/java/webclient
-          - samples/client/petstore/java/webclient-nulable-arrays
+          - samples/client/petstore/java/webclient-nullable-arrays
           - samples/client/petstore/java/vertx
           - samples/client/petstore/java/jersey2-java8-localdatetime
           - samples/client/petstore/java/resteasy
