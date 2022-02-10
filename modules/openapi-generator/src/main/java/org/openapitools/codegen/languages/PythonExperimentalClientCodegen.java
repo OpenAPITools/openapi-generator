@@ -1387,7 +1387,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * @param schema the schema that we need an example for
      * @param objExample the example that applies to this schema, for now only string example are used
      * @param indentationLevel integer indentation level that we are currently at
-     *                         we assume the indentaion amount is 4 spaces times this integer
+     *                         we assume the indentation amount is 4 spaces times this integer
      * @param prefix the string prefix that we will use when assigning an example for this line
      *               this is used when setting key: value, pairs "key: " is the prefix
      *               and this is used when setting properties like some_property='some_property_example'
