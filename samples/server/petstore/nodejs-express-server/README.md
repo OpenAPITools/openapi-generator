@@ -87,4 +87,4 @@ Future tests should be written to ensure that the response of every request sent
 
 
 #### models/
-Currently a concept awaiting feedback. The idea is to have the objects defined in the openapi.yaml act as models which are passed between the different modules. This will conform the programmers to interact using defined objects, rather than loosely-defined JSON objects. Given the nature of JavaScript progrmmers, who want to work with their own bootstrapped parameters, this concept might not work. Keeping this here for future discussion and feedback.
+Currently a concept awaiting feedback. The idea is to have the objects defined in the openapi.yaml act as models which are passed between the different modules. This will conform the programmers to interact using defined objects, rather than loosely-defined JSON objects. Given the nature of JavaScript programmers, who want to work with their own bootstrapped parameters, this concept might not work. Keeping this here for future discussion and feedback.
