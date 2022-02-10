@@ -229,7 +229,7 @@ public class FruitReq extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `AppleReq`. If the actual instanct is not `AppleReq`,
+     * Get the actual instance of `AppleReq`. If the actual instance is not `AppleReq`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `AppleReq`
@@ -240,7 +240,7 @@ public class FruitReq extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `BananaReq`. If the actual instanct is not `BananaReq`,
+     * Get the actual instance of `BananaReq`. If the actual instance is not `BananaReq`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `BananaReq`

@@ -50,85 +50,85 @@
   describe('FormatTest', function() {
     it('should create an instance of FormatTest', function() {
       // uncomment below and update the code to test FormatTest
-      //var instane = new OpenApiPetstore.FormatTest();
+      //var instance = new OpenApiPetstore.FormatTest();
       //expect(instance).to.be.a(OpenApiPetstore.FormatTest);
     });
 
     it('should have the property integer (base name: "integer")', function() {
       // uncomment below and update the code to test the property integer
-      //var instane = new OpenApiPetstore.FormatTest();
+      //var instance = new OpenApiPetstore.FormatTest();
       //expect(instance).to.be();
     });
 
     it('should have the property int32 (base name: "int32")', function() {
       // uncomment below and update the code to test the property int32
-      //var instane = new OpenApiPetstore.FormatTest();
+      //var instance = new OpenApiPetstore.FormatTest();
       //expect(instance).to.be();
     });
 
     it('should have the property int64 (base name: "int64")', function() {
       // uncomment below and update the code to test the property int64
-      //var instane = new OpenApiPetstore.FormatTest();
+      //var instance = new OpenApiPetstore.FormatTest();
       //expect(instance).to.be();
     });
 
     it('should have the property _number (base name: "number")', function() {
       // uncomment below and update the code to test the property _number
-      //var instane = new OpenApiPetstore.FormatTest();
+      //var instance = new OpenApiPetstore.FormatTest();
       //expect(instance).to.be();
     });
 
     it('should have the property _float (base name: "float")', function() {
       // uncomment below and update the code to test the property _float
-      //var instane = new OpenApiPetstore.FormatTest();
+      //var instance = new OpenApiPetstore.FormatTest();
       //expect(instance).to.be();
     });
 
     it('should have the property _double (base name: "double")', function() {
       // uncomment below and update the code to test the property _double
-      //var instane = new OpenApiPetstore.FormatTest();
+      //var instance = new OpenApiPetstore.FormatTest();
       //expect(instance).to.be();
     });
 
     it('should have the property _string (base name: "string")', function() {
       // uncomment below and update the code to test the property _string
-      //var instane = new OpenApiPetstore.FormatTest();
+      //var instance = new OpenApiPetstore.FormatTest();
       //expect(instance).to.be();
     });
 
     it('should have the property _byte (base name: "byte")', function() {
       // uncomment below and update the code to test the property _byte
-      //var instane = new OpenApiPetstore.FormatTest();
+      //var instance = new OpenApiPetstore.FormatTest();
       //expect(instance).to.be();
     });
 
     it('should have the property binary (base name: "binary")', function() {
       // uncomment below and update the code to test the property binary
-      //var instane = new OpenApiPetstore.FormatTest();
+      //var instance = new OpenApiPetstore.FormatTest();
       //expect(instance).to.be();
     });
 
     it('should have the property _date (base name: "date")', function() {
       // uncomment below and update the code to test the property _date
-      //var instane = new OpenApiPetstore.FormatTest();
+      //var instance = new OpenApiPetstore.FormatTest();
       //expect(instance).to.be();
     });
 
     it('should have the property dateTime (base name: "dateTime")', function() {
       // uncomment below and update the code to test the property dateTime
-      //var instane = new OpenApiPetstore.FormatTest();
+      //var instance = new OpenApiPetstore.FormatTest();
       //expect(instance).to.be();
     });
 
     it('should have the property uuid (base name: "uuid")', function() {
       // uncomment below and update the code to test the property uuid
-      //var instane = new OpenApiPetstore.FormatTest();
+      //var instance = new OpenApiPetstore.FormatTest();
       //expect(instance).to.be();
     });
 
     it('should have the property password (base name: "password")', function() {
       // uncomment below and update the code to test the property password
-      //var instane = new OpenApiPetstore.FormatTest();
+      //var instance = new OpenApiPetstore.FormatTest();
       //expect(instance).to.be();
     });
 
