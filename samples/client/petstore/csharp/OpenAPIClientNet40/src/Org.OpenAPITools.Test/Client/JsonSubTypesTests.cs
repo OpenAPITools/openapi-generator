@@ -26,17 +26,17 @@ namespace Org.OpenAPITools.Test.Client
         [Test]
         public void TestSimpleJsonSubTypesExample()
         {
-            var annimal =
+            var animal =
                 JsonConvert.DeserializeObject<IAnimal>("{\"Kind\":\"Dog\",\"Breed\":\"Jack Russell Terrier\"}");
-            Assert.AreEqual("Jack Russell Terrier", (annimal as Dog)?.Breed);
+            Assert.AreEqual("Jack Russell Terrier", (animal as Dog)?.Breed);
         }
 
         [Test]
         public void DeserializeObjectWithCustomMapping()
         {
-            var annimal =
+            var animal =
                 JsonConvert.DeserializeObject<Animal2>("{\"Sound\":\"Bark\",\"Breed\":\"Jack Russell Terrier\"}");
-            Assert.AreEqual("Jack Russell Terrier", (annimal as Dog2)?.Breed);
+            Assert.AreEqual("Jack Russell Terrier", (animal as Dog2)?.Breed);
         }
 
         [Test]
