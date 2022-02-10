@@ -301,7 +301,7 @@ conf = petstore_api.Configuration(
                         "Invalid keyword: '{0}''".format(v))
             self._disabled_client_side_validations = s
         if name == "signing_info" and value is not None:
-            # Ensure the host paramater from signing info is the same as
+            # Ensure the host parameter from signing info is the same as
             # Configuration.host.
             value.host = self.host
 

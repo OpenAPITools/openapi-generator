@@ -142,7 +142,7 @@
     (str (:base-url *api-context*) path)))
 
 (defn normalize-array-param
-  "Normalize array paramater according to :collection-format specified in the parameter's meta data.
+  "Normalize array parameter according to :collection-format specified in the parameter's meta data.
   When the parameter contains File, a seq is returned so as to keep File parameters.
   For :multi collection format, a seq is returned which will be handled properly by clj-http.
   For other cases, a string is returned."
