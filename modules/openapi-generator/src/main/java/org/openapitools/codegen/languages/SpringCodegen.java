@@ -83,7 +83,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String REACTIVE = "reactive";
     public static final String RESPONSE_WRAPPER = "responseWrapper";
     public static final String USE_TAGS = "useTags";
-    public static final String SPRING_MVC_LIBRARY = "spring-mvc";
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
@@ -200,10 +199,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).",
                 unhandledException));
 
-        supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
-        supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
+        supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
-                "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
+            "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
         setLibrary(SPRING_BOOT);
         final CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC)
                 .defaultValue(SPRING_BOOT);
@@ -284,6 +282,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         super.processOpts();
+
+        if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+            LOGGER.warn("The springfox documentation provider is deprecated for removal. Use the springdoc provider instead.");
+        }
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
@@ -429,20 +431,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
                         "RFC3339DateFormat.java"));
             }
-            if (SPRING_MVC_LIBRARY.equals(library)) {
-                supportingFiles.add(new SupportingFile("webApplication.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "WebApplication.java"));
-                supportingFiles.add(new SupportingFile("webMvcConfiguration.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "WebMvcConfiguration.java"));
-                supportingFiles.add(new SupportingFile("openapiUiConfiguration.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "OpenAPIUiConfiguration.java"));
-                supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "RFC3339DateFormat.java"));
-            }
             if (SPRING_CLOUD_LIBRARY.equals(library)) {
                 supportingFiles.add(new SupportingFile("apiKeyRequestInterceptor.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
@@ -569,7 +557,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co,
             Map<String, List<CodegenOperation>> operations) {
-        if ((SPRING_BOOT.equals(library) || SPRING_MVC_LIBRARY.equals(library)) && !useTags) {
+        if ((SPRING_BOOT.equals(library) && !useTags)) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
