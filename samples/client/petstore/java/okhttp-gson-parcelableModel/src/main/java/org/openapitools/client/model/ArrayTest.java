@@ -76,7 +76,7 @@ public class ArrayTest implements Parcelable {
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
     if (this.arrayOfString == null) {
-      this.arrayOfString = new ArrayList<String>();
+      this.arrayOfString = new ArrayList<>();
     }
     this.arrayOfString.add(arrayOfStringItem);
     return this;
@@ -107,7 +107,7 @@ public class ArrayTest implements Parcelable {
 
   public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
     if (this.arrayArrayOfInteger == null) {
-      this.arrayArrayOfInteger = new ArrayList<List<Long>>();
+      this.arrayArrayOfInteger = new ArrayList<>();
     }
     this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
     return this;
@@ -138,7 +138,7 @@ public class ArrayTest implements Parcelable {
 
   public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
-      this.arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+      this.arrayArrayOfModel = new ArrayList<>();
     }
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;

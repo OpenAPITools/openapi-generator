@@ -66,7 +66,7 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  private List<String> photoUrls = new ArrayList<String>();
+  private List<String> photoUrls = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
@@ -233,7 +233,7 @@ public class Pet {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<Tag>();
+      this.tags = new ArrayList<>();
     }
     this.tags.add(tagsItem);
     return this;

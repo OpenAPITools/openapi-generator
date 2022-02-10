@@ -55,7 +55,7 @@ public class Pet {
     private String name;
 
     public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-    private Set<String> photoUrls = new LinkedHashSet<String>();
+    private Set<String> photoUrls = new LinkedHashSet<>();
 
     public static final String JSON_PROPERTY_TAGS = "tags";
     private List<Tag> tags = null;
@@ -205,7 +205,7 @@ public class Pet {
 
     public Pet addTagsItem(Tag tagsItem) {
         if (this.tags == null) {
-            this.tags = new ArrayList<Tag>();
+            this.tags = new ArrayList<>();
         }
         this.tags.add(tagsItem);
         return this;

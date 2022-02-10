@@ -30,7 +30,7 @@ public class Pet  {
   private String name;
 
   @ApiModelProperty(required = true, value = "")
-  private List<String> photoUrls = new ArrayList<String>();
+  private List<String> photoUrls = new ArrayList<>();
 
   @ApiModelProperty(value = "")
   @Valid

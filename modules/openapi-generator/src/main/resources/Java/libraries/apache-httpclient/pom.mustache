@@ -159,14 +159,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    {{#java8}}
-                        <source>1.8</source>
-                        <target>1.8</target>
-                    {{/java8}}
-                    {{^java8}}
-                        <source>1.7</source>
-                        <target>1.7</target>
-                    {{/java8}}
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -175,12 +169,7 @@
                 <version>3.1.1</version>
                 <configuration>
                     <doclint>none</doclint>
-                    {{#java8}}
-                        <source>1.8</source>
-                    {{/java8}}
-                    {{^java8}}
-                        <source>1.7</source>
-                    {{/java8}}
+                    <source>1.8</source>
                 </configuration>
                 <executions>
                     <execution>
@@ -296,28 +285,11 @@
                 <version>${jackson-version}</version>
             </dependency>
         {{/joda}}
-        {{#java8}}
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson-version}</version>
             </dependency>
-        {{/java8}}
-        {{#threetenbp}}
-            <dependency>
-                <groupId>com.github.joschi.jackson</groupId>
-                <artifactId>jackson-datatype-threetenbp</artifactId>
-                <version>${jackson-threetenbp-version}</version>
-            </dependency>
-        {{/threetenbp}}
-        {{^java8}}
-            <!-- Base64 encoding that works in both JVM and Android -->
-            <dependency>
-                <groupId>com.brsanthu</groupId>
-                <artifactId>migbase64</artifactId>
-                <version>2.2</version>
-            </dependency>
-        {{/java8}}
         {{#useBeanValidation}}
             <!-- Bean Validation API support -->
             <dependency>
@@ -363,9 +335,6 @@
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
         <httpclient-version>4.5.13</httpclient-version>
         <jackson-version>2.12.1</jackson-version>
-        {{#threetenbp}}
-        <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
-        {{/threetenbp}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
 {{#useBeanValidation}}
         <beanvalidation-version>2.0.2</beanvalidation-version>
