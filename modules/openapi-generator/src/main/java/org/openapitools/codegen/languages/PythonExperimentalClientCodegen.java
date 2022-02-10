@@ -166,7 +166,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(PACKAGE_URL, "python package URL."));
         // this generator does not use SORT_PARAMS_BY_REQUIRED_FLAG
-        // this generator uses the following order for endpoint paramters and model properties
+        // this generator uses the following order for endpoint parameters and model properties
         // required params
         // optional params which are set to unset as their default for method signatures only
         // optional params as **kwargs

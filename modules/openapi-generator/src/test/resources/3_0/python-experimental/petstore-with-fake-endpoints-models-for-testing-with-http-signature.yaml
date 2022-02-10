@@ -1151,7 +1151,7 @@ paths:
       responses:
         "200":
           description: Success
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake
