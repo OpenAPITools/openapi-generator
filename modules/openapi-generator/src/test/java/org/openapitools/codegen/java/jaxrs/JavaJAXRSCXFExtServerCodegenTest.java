@@ -76,11 +76,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
             return generateSpringBootApplication;
         }
 
-        // AbstractJavaCodegen.JAVA8_MODE
-        public boolean isJava8Mode() {
-            return java8Mode;
-        }
-
         // CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING
         public boolean isSerializeBigDecimalAsString() {
             return serializeBigDecimalAsString;
@@ -257,7 +252,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         additionalProperties.put(AbstractJavaCodegen.DATE_LIBRARY, "MyDateLibrary");
         additionalProperties.put(AbstractJavaCodegen.DISABLE_HTML_ESCAPING, "true");
         additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
-        additionalProperties.put(AbstractJavaCodegen.JAVA8_MODE, "true");
         additionalProperties.put(AbstractJavaCodegen.SUPPORT_ASYNC, "true");
         additionalProperties.put(AbstractJavaCodegen.SUPPORT_JAVA6, "false");
         additionalProperties.put(AbstractJavaCodegen.WITH_XML, "true");
@@ -333,7 +327,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertEquals(testerCodegen.getDateLibrary(), "MyDateLibrary");
         assertEquals(testerCodegen.isDisableHtmlEscaping(), true);
         assertEquals(testerCodegen.isFullJavaUtil(), true);
-        assertEquals(testerCodegen.isJava8Mode(), true);
         assertEquals(testerCodegen.isSupportAsync(), true);
         assertEquals(testerCodegen.isWithXml(), true);
         assertEquals(testerCodegen.isOpenApiNullable(), false);
@@ -509,7 +502,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertNull(additionalProperties.get(AbstractJavaCodegen.DATE_LIBRARY));
         assertEquals(additionalProperties.get(AbstractJavaCodegen.DISABLE_HTML_ESCAPING), Boolean.FALSE);
         assertEquals(additionalProperties.get(AbstractJavaCodegen.FULL_JAVA_UTIL), Boolean.FALSE);
-        assertNull(additionalProperties.get(AbstractJavaCodegen.JAVA8_MODE));
         assertNull(additionalProperties.get(AbstractJavaCodegen.SUPPORT_ASYNC));
         assertEquals(additionalProperties.get(AbstractJavaCodegen.SUPPORT_JAVA6), Boolean.FALSE);
         assertEquals(additionalProperties.get(AbstractJavaCodegen.WITH_XML), false);

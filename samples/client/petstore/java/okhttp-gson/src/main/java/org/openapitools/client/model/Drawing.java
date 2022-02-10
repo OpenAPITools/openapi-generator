@@ -153,7 +153,7 @@ public class Drawing extends HashMap<String, Fruit> {
 
   public Drawing addShapesItem(Shape shapesItem) {
     if (this.shapes == null) {
-      this.shapes = new ArrayList<Shape>();
+      this.shapes = new ArrayList<>();
     }
     this.shapes.add(shapesItem);
     return this;

@@ -166,7 +166,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Whether to generate the server files using the delegate pattern", delegatePattern));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES,
                 "Whether to select only one produces/consumes content-type by operation.", singleContentTypes));
-        updateJava8CliOptions();
         cliOptions.add(CliOption.newBoolean(SKIP_DEFAULT_INTERFACE,
                 "Whether to generate default implementations for java8 interfaces", skipDefaultInterface));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers", async));
@@ -212,14 +211,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
 
-    }
-
-    private void updateJava8CliOptions() {
-        final CliOption option = cliOptions.stream().filter(o -> JAVA_8.equals(o.getOpt())).findFirst()
-                .orElseThrow(() -> new RuntimeException("Missing java8 option"));
-        final Map<String, String> java8ModeOptions = option.getEnum();
-        java8ModeOptions.put("true",
-                "Use Java 8 classes such as Base64. Use java8 default interface when a responseWrapper is used. IMPORTANT: This option has been deprecated as Java 8 is the default.");
     }
 
     @Override

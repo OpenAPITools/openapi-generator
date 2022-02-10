@@ -17,9 +17,10 @@ import org.openapitools.client.ApiException;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterEnum;
 import org.openapitools.client.model.User;
@@ -125,6 +126,21 @@ public class FakeApiTest {
     @Test
     public void getArrayOfEnumsTest() throws ApiException {
                 List<OuterEnum> response = api.getArrayOfEnums();
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testBodyWithFileSchemaTest() throws ApiException {
+        FileSchemaTestClass fileSchemaTestClass = null;
+                api.testBodyWithFileSchema(fileSchemaTestClass);
         // TODO: test validations
     }
     

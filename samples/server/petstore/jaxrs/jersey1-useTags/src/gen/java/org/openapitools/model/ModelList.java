@@ -73,7 +73,6 @@ public class ModelList   {
     return Objects.hash(_123list);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

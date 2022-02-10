@@ -14,9 +14,6 @@ import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuil
 {{#joda}}
 import org.joda.time.format.DateTimeFormatter;
 {{/joda}}
-{{#threetenbp}}
-import org.threeten.bp.format.DateTimeFormatter;
-{{/threetenbp}}
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 {{#useRxJava2}}
@@ -40,9 +37,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
-{{#java8}}
 import java.time.format.DateTimeFormatter;
-{{/java8}}
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.HashMap;
