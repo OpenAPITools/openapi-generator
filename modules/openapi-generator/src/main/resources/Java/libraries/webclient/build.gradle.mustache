@@ -32,14 +32,8 @@ if(hasProperty('target') && target == 'android') {
         }
 
         compileOptions {
-            {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
-            {{/java8}}
-            {{^java8}}
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
-            {{/java8}}
         }
 
         // Rename the aar correctly
@@ -84,14 +78,8 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
-    {{#java8}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-    {{/java8}}
-    {{^java8}}
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
-    {{/java8}}
 
     publishing {
         publications {
@@ -154,12 +142,7 @@ dependencies {
     {{#joda}}
     implementation "joda-time:joda-time:$jodatime_version"
     {{/joda}}
-    {{#java8}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    {{/java8}}
-    {{^java8}}
-    implementation "com.brsanthu:migbase64:2.2"
-    {{/java8}}
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"
 }
