@@ -1115,12 +1115,12 @@ class ApiClient:
                 " `POST`, `PATCH`, `PUT` or `DELETE`."
             )
 
-    def update_params_for_auth(self, headers, querys, auth_settings,
+    def update_params_for_auth(self, headers, queries, auth_settings,
                                resource_path, method, body):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
-        :param querys: Query parameters tuple list to be updated.
+        :param queries: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
         :param resource_path: A string representation of the HTTP request resource path.
         :param method: A string representation of the HTTP request method.
@@ -1143,11 +1143,11 @@ class ApiClient:
                         # that are calculated dynamically.
                         signing_info = self.configuration.signing_info
                         auth_headers = signing_info.get_http_signature_headers(
-                                            resource_path, method, headers, body, querys)
+                                            resource_path, method, headers, body, queries)
                         for key, value in auth_headers.items():
                             headers.add(key, value)
                 elif auth_setting['in'] == 'query':
-                    querys.append((auth_setting['key'], auth_setting['value']))
+                    queries.append((auth_setting['key'], auth_setting['value']))
                 else:
                     raise ApiValueError(
                         'Authentication token must be in `query` or `header`'
