@@ -24,6 +24,7 @@ jobs:
           - samples/openapi3/client/petstore/spring-cloud-date-time
           - samples/client/petstore/spring-stubs
           - samples/openapi3/client/petstore/spring-stubs
+          - samples/openapi3/client/petstore/spring-stubs-skip-default-interface
           # servers
           - samples/server/petstore/spring-mvc
           - samples/server/petstore/spring-mvc-default-value
