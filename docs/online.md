@@ -79,7 +79,7 @@ To customize the SDK, you can `POST` to `http://localhost:8080/gen/clients/{gene
 }
 ```
 
-Here, the `options` for a language can be obtained by submitting a `GET` request to `http://locahost:8080/api/gen/clients/{generator}`:
+Here, the `options` for a language can be obtained by submitting a `GET` request to `http://localhost:8080/api/gen/clients/{generator}`:
 
 For example, `curl http://localhost:8080/api/gen/clients/python` returns
 
