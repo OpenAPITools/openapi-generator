@@ -303,11 +303,11 @@ public class ObjcModelTest {
         final Schema definition = openAPI.getComponents().getSchemas().get("format_test");
 
         Schema property = ((Map<String, Schema>) definition.getProperties()).get("uuid");
-        CodegenProperty prope = codegen.fromProperty("uuid", property);
-        Assert.assertEquals(prope.baseType, "NSString");
+        CodegenProperty prop = codegen.fromProperty("uuid", property);
+        Assert.assertEquals(prop.baseType, "NSString");
 
-        prope = codegen.fromProperty("password", property);
-        Assert.assertEquals(prope.baseType, "NSString");
+        prop = codegen.fromProperty("password", property);
+        Assert.assertEquals(prop.baseType, "NSString");
     }
 
     @Test(description = "test mixedProperties")
@@ -318,8 +318,8 @@ public class ObjcModelTest {
         final Schema definition = openAPI.getComponents().getSchemas().get("MixedPropertiesAndAdditionalPropertiesClass");
 
         Schema property = ((Map<String, Schema>)definition.getProperties()).get("map");
-        CodegenProperty prope = codegen.fromProperty("map", property);
-        Assert.assertEquals(prope.baseType, "NSDictionary");
+        CodegenProperty prop = codegen.fromProperty("map", property);
+        Assert.assertEquals(prop.baseType, "NSDictionary");
     }
 
     @Test(description = "test isArray")

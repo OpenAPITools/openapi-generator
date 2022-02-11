@@ -304,12 +304,12 @@ public class TypeScriptFetchModelTest {
         final Schema schema = openAPI.getComponents().getSchemas().get("EnumArrays");
 
         Schema property = (Schema) schema.getProperties().get("array_enum");
-        CodegenProperty prope = codegen.fromProperty("array_enum", property);
-        codegen.updateCodegenPropertyEnum(prope);
-        Assert.assertEquals(prope.datatypeWithEnum, "Array<ArrayEnumEnum>");
-        Assert.assertEquals(prope.enumName, "ArrayEnumEnum");
-        Assert.assertTrue(prope.isEnum);
-        Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList("fish", "crab"));
+        CodegenProperty prop = codegen.fromProperty("array_enum", property);
+        codegen.updateCodegenPropertyEnum(prop);
+        Assert.assertEquals(prop.datatypeWithEnum, "Array<ArrayEnumEnum>");
+        Assert.assertEquals(prop.enumName, "ArrayEnumEnum");
+        Assert.assertTrue(prop.isEnum);
+        Assert.assertEquals(prop.allowableValues.get("values"), Arrays.asList("fish", "crab"));
 
         HashMap<String, Object> fish = new HashMap<String, Object>();
         fish.put("name", "Fish");
@@ -319,14 +319,14 @@ public class TypeScriptFetchModelTest {
         crab.put("name", "Crab");
         crab.put("value", "'crab'");
         crab.put("isString", false);
-        Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
+        Assert.assertEquals(prop.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
         // assert inner items
-        Assert.assertEquals(prope.datatypeWithEnum, "Array<ArrayEnumEnum>");
-        Assert.assertEquals(prope.enumName, "ArrayEnumEnum");
-        Assert.assertTrue(prope.items.isEnum);
-        Assert.assertEquals(prope.items.allowableValues.get("values"), Arrays.asList("fish", "crab"));
-        Assert.assertEquals(prope.items.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
+        Assert.assertEquals(prop.datatypeWithEnum, "Array<ArrayEnumEnum>");
+        Assert.assertEquals(prop.enumName, "ArrayEnumEnum");
+        Assert.assertTrue(prop.items.isEnum);
+        Assert.assertEquals(prop.items.allowableValues.get("values"), Arrays.asList("fish", "crab"));
+        Assert.assertEquals(prop.items.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
         //IMPORTANT: these are not final enum values, which may be further updated
         //by postProcessModels
@@ -342,14 +342,14 @@ public class TypeScriptFetchModelTest {
         final Schema schema = openAPI.getComponents().getSchemas().get("Enum_Test");
 
         Schema property = (Schema) schema.getProperties().get("enum_integer");
-        CodegenProperty prope = codegen.fromProperty("enum_integer", property);
-        codegen.updateCodegenPropertyEnum(prope);
-        Assert.assertEquals(prope.datatypeWithEnum, "EnumIntegerEnum");
-        Assert.assertEquals(prope.enumName, "EnumIntegerEnum");
-        Assert.assertTrue(prope.isEnum);
-        Assert.assertFalse(prope.isContainer);
-        Assert.assertNull(prope.items);
-        Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));
+        CodegenProperty prop = codegen.fromProperty("enum_integer", property);
+        codegen.updateCodegenPropertyEnum(prop);
+        Assert.assertEquals(prop.datatypeWithEnum, "EnumIntegerEnum");
+        Assert.assertEquals(prop.enumName, "EnumIntegerEnum");
+        Assert.assertTrue(prop.isEnum);
+        Assert.assertFalse(prop.isContainer);
+        Assert.assertNull(prop.items);
+        Assert.assertEquals(prop.allowableValues.get("values"), Arrays.asList(1, -1));
 
         HashMap<String, Object> one = new HashMap<String, Object>();
         one.put("name", "NUMBER_1");
@@ -359,7 +359,7 @@ public class TypeScriptFetchModelTest {
         minusOne.put("name", "NUMBER_MINUS_1");
         minusOne.put("value", "-1");
         minusOne.put("isString", false);
-        Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(one, minusOne));
+        Assert.assertEquals(prop.allowableValues.get("enumVars"), Arrays.asList(one, minusOne));
 
         //IMPORTANT: these are not final enum values, which may be further updated
         //by postProcessModels

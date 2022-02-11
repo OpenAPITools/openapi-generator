@@ -304,12 +304,12 @@ public class PhpModelTest {
         final Schema definition = schemas.get("EnumArrays");
 
         Schema property =  (Schema) definition.getProperties().get("array_enum");
-        CodegenProperty prope = codegen.fromProperty("array_enum", property);
-        codegen.updateCodegenPropertyEnum(prope);
-        Assert.assertEquals(prope.datatypeWithEnum, "ARRAY_ENUM[]");
-        Assert.assertEquals(prope.enumName, "ARRAY_ENUM");
-        Assert.assertTrue(prope.isEnum);
-        Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList("fish", "crab"));
+        CodegenProperty prop = codegen.fromProperty("array_enum", property);
+        codegen.updateCodegenPropertyEnum(prop);
+        Assert.assertEquals(prop.datatypeWithEnum, "ARRAY_ENUM[]");
+        Assert.assertEquals(prop.enumName, "ARRAY_ENUM");
+        Assert.assertTrue(prop.isEnum);
+        Assert.assertEquals(prop.allowableValues.get("values"), Arrays.asList("fish", "crab"));
 
         HashMap<String, Object> fish= new HashMap<String, Object>();
         fish.put("name", "FISH");
@@ -319,14 +319,14 @@ public class PhpModelTest {
         crab.put("name", "CRAB");
         crab.put("value", "\'crab\'");
         crab.put("isString", true);
-        Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
+        Assert.assertEquals(prop.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
         // assert inner items
-        Assert.assertEquals(prope.datatypeWithEnum, "ARRAY_ENUM[]");
-        Assert.assertEquals(prope.enumName, "ARRAY_ENUM");
-        Assert.assertTrue(prope.items.isEnum);
-        Assert.assertEquals(prope.items.allowableValues.get("values"), Arrays.asList("fish", "crab"));
-        Assert.assertEquals(prope.items.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
+        Assert.assertEquals(prop.datatypeWithEnum, "ARRAY_ENUM[]");
+        Assert.assertEquals(prop.enumName, "ARRAY_ENUM");
+        Assert.assertTrue(prop.items.isEnum);
+        Assert.assertEquals(prop.items.allowableValues.get("values"), Arrays.asList("fish", "crab"));
+        Assert.assertEquals(prop.items.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
     }
 
@@ -338,14 +338,14 @@ public class PhpModelTest {
         final Schema definition = openAPI.getComponents().getSchemas().get("Enum_Test");
 
         Schema property =  (Schema) definition.getProperties().get("enum_integer");
-        CodegenProperty prope = codegen.fromProperty("enum_integer", property);
-        codegen.updateCodegenPropertyEnum(prope);
-        Assert.assertEquals(prope.datatypeWithEnum, "ENUM_INTEGER");
-        Assert.assertEquals(prope.enumName, "ENUM_INTEGER");
-        Assert.assertTrue(prope.isEnum);
-        Assert.assertFalse(prope.isContainer);
-        Assert.assertNull(prope.items);
-        Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));
+        CodegenProperty prop = codegen.fromProperty("enum_integer", property);
+        codegen.updateCodegenPropertyEnum(prop);
+        Assert.assertEquals(prop.datatypeWithEnum, "ENUM_INTEGER");
+        Assert.assertEquals(prop.enumName, "ENUM_INTEGER");
+        Assert.assertTrue(prop.isEnum);
+        Assert.assertFalse(prop.isContainer);
+        Assert.assertNull(prop.items);
+        Assert.assertEquals(prop.allowableValues.get("values"), Arrays.asList(1, -1));
 
         HashMap<String, Object> one = new HashMap<String, Object>();
         one.put("name", "1");
@@ -355,7 +355,7 @@ public class PhpModelTest {
         minusOne.put("name", "MINUS_1");
         minusOne.put("value", "-1");
         minusOne.put("isString", false);
-        Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(one, minusOne));
+        Assert.assertEquals(prop.allowableValues.get("enumVars"), Arrays.asList(one, minusOne));
     }
 
     @Test(description = "test enum variable names for reserved words")
