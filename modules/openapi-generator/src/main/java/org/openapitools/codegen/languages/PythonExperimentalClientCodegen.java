@@ -1392,7 +1392,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      *               this is used when setting key: value, pairs "key: " is the prefix
      *               and this is used when setting properties like some_property='some_property_example'
      * @param exampleLine this is the current line that we are generating an example for, starts at 0
-     *                    we don't indentin the 0th line because using the example value looks like:
+     *                    we don't indent the 0th line because using the example value looks like:
      *                    prop = ModelName( line 0
      *                        some_property='some_property_example' line 1
      *                    ) line 2
