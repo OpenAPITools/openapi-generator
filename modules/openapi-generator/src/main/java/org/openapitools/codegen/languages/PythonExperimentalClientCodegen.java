@@ -702,7 +702,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      *      because they are not used we do not write them
      * - fix the model imports, go from model name to the full import string with toModelImport + globalImportFixer
      *
-     * @param objs a map going from the model name to a object hoding the model info
+     * @param objs a map going from the model name to a object holding the model info
      * @return the updated objs
      */
     @Override
