@@ -58,7 +58,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String FULL_JAVA_UTIL = "fullJavaUtil";
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
-    public static final String JAVA8_MODE = "java8";
     public static final String SUPPORT_ASYNC = "supportAsync";
     public static final String WITH_XML = "withXml";
     public static final String SUPPORT_JAVA6 = "supportJava6";
@@ -74,9 +73,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
 
-    protected String dateLibrary = "threetenbp";
+    protected String dateLibrary = "java8";
     protected boolean supportAsync = false;
-    protected boolean java8Mode = true;
     protected boolean withXml = false;
     protected String invokerPackage = "org.openapitools";
     protected String groupId = "org.openapitools";
@@ -235,20 +233,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
-        dateOptions.put("java8", "Java 8 native JSR310 (preferred for jdk 1.8+) - note: this also sets \"" + JAVA8_MODE + "\" to true");
-        dateOptions.put("threetenbp", "Backport of JSR310 (preferred for jdk < 1.8)");
+        dateOptions.put("java8", "Java 8 native JSR310 (preferred for jdk 1.8+)");
         dateOptions.put("java8-localdatetime", "Java 8 using LocalDateTime (for legacy app only)");
         dateOptions.put("joda", "Joda (for legacy app only)");
-        dateOptions.put("legacy", "Legacy java.util.Date (if you really have a good reason not to use threetenbp");
+        dateOptions.put("legacy", "Legacy java.util.Date");
         dateLibrary.setEnum(dateOptions);
         cliOptions.add(dateLibrary);
-
-        CliOption java8Mode = CliOption.newBoolean(JAVA8_MODE, "Use Java8 classes instead of third party equivalents. Starting in 5.x, JDK8 is the default and the support for JDK7, JDK6 has been dropped", this.java8Mode);
-        Map<String, String> java8ModeOptions = new HashMap<>();
-        java8ModeOptions.put("true", "Use Java 8 classes such as Base64");
-        java8ModeOptions.put("false", "Various third party libraries as needed");
-        java8Mode.setEnum(java8ModeOptions);
-        cliOptions.add(java8Mode);
 
         cliOptions.add(CliOption.newBoolean(DISABLE_HTML_ESCAPING, "Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)", disableHtmlEscaping));
         cliOptions.add(CliOption.newString(BOOLEAN_GETTER_PREFIX, "Set booleanGetterPrefix").defaultValue(this.getBooleanGetterPrefix()));
@@ -600,10 +590,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
-        if (additionalProperties.containsKey(JAVA8_MODE)) {
-            setJava8ModeAndAdditionalProperties(Boolean.parseBoolean(additionalProperties.get(JAVA8_MODE).toString()));
-        }
-
         if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
             setSupportAsync(Boolean.parseBoolean(additionalProperties.get(SUPPORT_ASYNC).toString()));
             if (supportAsync) {
@@ -615,14 +601,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             setDateLibrary(additionalProperties.get("dateLibrary").toString());
         }
 
-        if ("threetenbp".equals(dateLibrary)) {
-            additionalProperties.put("threetenbp", "true");
-            additionalProperties.put("jsr310", "true");
-            typeMapping.put("date", "LocalDate");
-            typeMapping.put("DateTime", "OffsetDateTime");
-            importMapping.put("LocalDate", "org.threeten.bp.LocalDate");
-            importMapping.put("OffsetDateTime", "org.threeten.bp.OffsetDateTime");
-        } else if ("joda".equals(dateLibrary)) {
+        if ("joda".equals(dateLibrary)) {
             additionalProperties.put("joda", "true");
             typeMapping.put("date", "LocalDate");
             typeMapping.put("DateTime", "DateTime");
@@ -907,14 +886,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             Schema<?> items = getSchemaItems((ArraySchema) schema);
 
-            String typeDeclaration = getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items));
-            Object java8obj = additionalProperties.get("java8");
-            if (java8obj != null) {
-                Boolean java8 = Boolean.valueOf(java8obj.toString());
-                if (java8 != null && java8) {
-                    typeDeclaration = "";
-                }
-            }
+            // comment out below for JDK7
+            //String typeDeclaration = getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items));
+            String typeDeclaration = "";
 
             return String.format(Locale.ROOT, pattern, typeDeclaration);
         } else if (ModelUtils.isMapSchema(schema) && !(schema instanceof ComposedSchema)) {
@@ -933,14 +907,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
-            String typeDeclaration = String.format(Locale.ROOT, "String, %s", getTypeDeclaration(getAdditionalProperties(schema)));
-            Object java8obj = additionalProperties.get("java8");
-            if (java8obj != null) {
-                Boolean java8 = Boolean.valueOf(java8obj.toString());
-                if (java8 != null && java8) {
-                    typeDeclaration = "";
-                }
-            }
+            // comment out below for JDK7
+            //String typeDeclaration = String.format(Locale.ROOT, "String, %s", getTypeDeclaration(getAdditionalProperties(schema)));
+            String typeDeclaration = "";
 
             return String.format(Locale.ROOT, pattern, typeDeclaration);
         } else if (ModelUtils.isIntegerSchema(schema)) {
@@ -1777,19 +1746,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
-    }
-
-    public void setJava8Mode(boolean enabled) {
-        this.java8Mode = enabled;
-    }
-
-    public void setJava8ModeAndAdditionalProperties(boolean enabled) {
-        this.java8Mode = enabled;
-        if (this.java8Mode) {
-            this.additionalProperties.put("java8", true);
-        } else {
-            this.additionalProperties.put("java8", false);
-        }
     }
 
     public void setSupportAsync(boolean enabled) {

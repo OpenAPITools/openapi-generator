@@ -16,9 +16,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
     {{/springFoxDocumentationProvider}}
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-    {{^java8}}
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-    {{/java8}}
 {{/reactive}}
 {{#reactive}}
 import org.springframework.web.reactive.config.CorsRegistry;
@@ -55,7 +52,7 @@ public class OpenAPI2SpringBoot implements CommandLineRunner {
 
     @Bean
     public Web{{^reactive}}Mvc{{/reactive}}{{#reactive}}Flux{{/reactive}}Configurer webConfigurer() {
-        return new Web{{^reactive}}Mvc{{/reactive}}{{#reactive}}Flux{{/reactive}}Configurer{{^java8}}Adapter{{/java8}}() {
+        return new Web{{^reactive}}Mvc{{/reactive}}{{#reactive}}Flux{{/reactive}}Configurer() {
             /*@Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")

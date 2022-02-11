@@ -588,22 +588,22 @@ public class AbstractJavaCodegenTest {
 
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals(defaultValue, "new ArrayList<List<Integer>>()");
+        Assert.assertEquals(defaultValue, "new ArrayList<>()");
 
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals(defaultValue, "new ArrayList<NestedArray>()");
+        Assert.assertEquals(defaultValue, "new ArrayList<>()");
 
         // Create a map schema with additionalProperties type set to array alias
         schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals(defaultValue, "new HashMap<String, List<Integer>>()");
+        Assert.assertEquals(defaultValue, "new HashMap<>()");
 
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals(defaultValue, "new HashMap<String, NestedArray>()");
+        Assert.assertEquals(defaultValue, "new HashMap<>()");
 
         // Test default value for date format
         DateSchema dateSchema = new DateSchema();
@@ -812,7 +812,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
 
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals(defaultValue, "new HashMap<String, String>()", "Expected string-string map aliased model to default to new HashMap<String, String>()");
+        Assert.assertEquals(defaultValue, "new HashMap<>()", "Expected string-string map aliased model to default to new HashMap<String, String>()");
     }
 
     @Test
@@ -828,7 +828,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
 
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals(defaultValue, "new HashMap<String, ComplexModel>()", "Expected string-ref map aliased model to default to new HashMap<String, ComplexModel>()");
+        Assert.assertEquals(defaultValue, "new HashMap<>()", "Expected string-ref map aliased model to default to new HashMap<String, ComplexModel>()");
     }
 
     @Test

@@ -32,14 +32,8 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 25
         }
         compileOptions {
-            {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
-            {{/java8}}
-            {{^java8}}
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
-            {{/java8}}
         }
 
         // Rename the aar correctly
@@ -84,14 +78,8 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
-    {{#java8}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-    {{/java8}}
-    {{^java8}}
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
-    {{/java8}}
 
     publishing {
         publications {
@@ -131,9 +119,6 @@ ext {
     {{#joda}}
     jodatime_version = "2.9.9"
     {{/joda}}
-    {{#threetenbp}}
-    threetenbp_version = "1.4.0"
-    {{/threetenbp}}
     json_fire_version = "1.8.0"
 }
 
@@ -158,9 +143,6 @@ dependencies {
     {{#joda}}
     implementation "joda-time:joda-time:$jodatime_version"
     {{/joda}}
-    {{#threetenbp}}
-    implementation "org.threeten:threetenbp:$threetenbp_version"
-    {{/threetenbp}}
     {{#usePlayWS}}
     implementation "com.typesafe.play:play-ahc-ws_2.12:$play_version"
     implementation "jakarta.validation:jakarta.validation-api:2.0.2"
@@ -171,7 +153,7 @@ dependencies {
     {{#openApiNullable}}
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{/openApiNullable}}
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}:$jackson_version"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/usePlayWS}}
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"

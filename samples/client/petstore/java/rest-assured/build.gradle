@@ -102,7 +102,6 @@ ext {
     junit_version = "4.13.1"
     gson_version = "2.8.6"
     gson_fire_version = "1.8.4"
-    threetenbp_version = "1.4.3"
     okio_version = "1.17.5"
 }
 
@@ -112,7 +111,6 @@ dependencies {
     implementation "io.rest-assured:rest-assured:$rest_assured_version"
     implementation "io.gsonfire:gson-fire:$gson_fire_version"
     implementation 'com.google.code.gson:gson:$gson_version'
-    implementation "org.threeten:threetenbp:$threetenbp_version"
     implementation "com.squareup.okio:okio:$okio_version"
     implementation "jakarta.validation:jakarta.validation-api:2.0.2"
     implementation "org.hibernate:hibernate-validator:6.0.19.Final"

@@ -1,7 +1,7 @@
 package org.openapitools.api;
 
 import java.util.List;
-import org.threeten.bp.OffsetDateTime;
+import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
