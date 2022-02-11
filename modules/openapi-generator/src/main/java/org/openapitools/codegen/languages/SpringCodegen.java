@@ -482,11 +482,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.java"));
         }
 
-        if (apiFirst) {
-            apiTemplateFiles.clear();
-            modelTemplateFiles.clear();
-        }
-
         if ("threetenbp".equals(dateLibrary)) {
             supportingFiles.add(new SupportingFile("customInstantDeserializer.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
@@ -505,6 +500,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (delegatePattern && !delegateMethod) {
             additionalProperties.put("isDelegate", "true");
             apiTemplateFiles.put("apiDelegate.mustache", "Delegate.java");
+        }
+
+        if (apiFirst) {
+            apiTemplateFiles.clear();
+            modelTemplateFiles.clear();
         }
 
         if (java8) {
