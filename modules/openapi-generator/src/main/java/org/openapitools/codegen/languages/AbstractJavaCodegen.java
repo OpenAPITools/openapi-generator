@@ -977,11 +977,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (schema.getDefault() != null) {
                 String _default;
                 if (schema.getDefault() instanceof Date) {
-                    Date date = (Date) schema.getDefault();
-                    LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    return String.format(Locale.ROOT, "LocalDate.parse(\"%s\")", localDate.toString());
+                    if ("java8".equals(getDateLibrary())) {
+                        Date date = (Date) schema.getDefault();
+                        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                        return String.format(Locale.ROOT, "LocalDate.parse(\"%s\")", localDate.toString());
+                    } else {
+                        return null;
+                    }
                 } else if (schema.getDefault() instanceof java.time.OffsetDateTime) {
-                    return "OffsetDateTime.parse(\"" +  String.format(Locale.ROOT, ((java.time.OffsetDateTime) schema.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))";
+                    if ("java8".equals(getDateLibrary())) {
+                        return String.format(Locale.ROOT, "OffsetDateTime.parse(\"%s\", %s)",
+                            ((java.time.OffsetDateTime) schema.getDefault()).atZoneSameInstant(ZoneId.systemDefault()),
+                            "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
+                    } else {
+                        return null;
+                    }
                 } else {
                     _default = (String) schema.getDefault();
                 }
