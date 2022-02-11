@@ -49,6 +49,7 @@ import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
@@ -248,6 +249,16 @@ public class SpringCodegen extends AbstractJavaCodegen
         return supportedLibraries;
     }
 
+    /**
+     * Whether the selected {@link DocumentationProviderFeatures.DocumentationProvider} requires us to bootstrap and
+     * configure swagger-ui by ourselves. Springdoc, for example ships its own swagger-ui integration.
+     *
+     * @return true if the selected DocumentationProvider requires us to bootstrap swagger-ui.
+     */
+    private boolean selectedDocumentationProviderRequiresSwaggerUiBootstrap() {
+        return getDocumentationProvider().equals(DocumentationProvider.SPRINGFOX) || getDocumentationProvider().equals(DocumentationProvider.SOURCE);
+    }
+
     @Override
     public void processOpts() {
         final List<Pair<String, String>> configOptions = additionalProperties.entrySet().stream()
@@ -389,6 +400,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(USE_SWAGGER_UI)) {
             this.setUseSwaggerUI(convertPropertyToBoolean(USE_SWAGGER_UI));
         }
+
+        if (getDocumentationProvider().equals(DocumentationProvider.NONE)) {
+            this.setUseSwaggerUI(false);
+        }
+
         writePropertyBack(USE_SWAGGER_UI, useSwaggerUI);
 
         if (additionalProperties.containsKey(UNHANDLED_EXCEPTION_HANDLING)) {
@@ -424,7 +440,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (!interfaceOnly) {
             if (SPRING_BOOT.equals(library)) {
-                if (useSwaggerUI) {
+                if (useSwaggerUI && selectedDocumentationProviderRequiresSwaggerUiBootstrap()) {
                     supportingFiles.add(new SupportingFile("swagger-ui.mustache", "src/main/resources/static", "swagger-ui.html"));
                 }
                 // rename template to SpringBootApplication.mustache
