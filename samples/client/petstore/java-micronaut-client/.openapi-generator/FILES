@@ -1,6 +1,6 @@
 .gitignore
 .mvn/wrapper/MavenWrapperDownloader.java
-.mvn/wrapper/maren-wrapper.properties
+.mvn/wrapper/maven-wrapper.properties
 .mvn/wrapper/maven-wrapper.jar
 README.md
 build.gradle
