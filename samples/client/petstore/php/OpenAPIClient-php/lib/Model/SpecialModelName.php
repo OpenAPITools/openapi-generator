@@ -178,7 +178,7 @@ class SpecialModelName implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['special_property_name'] = $data['special_property_name'] ?? null;
+        $this->container['special_property_name'] = $data['special_property_name'] ?? 0;
     }
 
     /**

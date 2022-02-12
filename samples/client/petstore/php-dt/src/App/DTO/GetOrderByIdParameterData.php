@@ -19,6 +19,6 @@ class GetOrderByIdParameterData
      * @DTA\Validator(subset="path", name="LessThan", options={"max":5, "inclusive":true})
      * @var int
      */
-    public $order_id;
+    public $order_id = 0;
 
 }

@@ -11,24 +11,24 @@ use Articus\DataTransfer\Annotation as DTA;
 class ApiResponse
 {
     /**
-     * @DTA\Data(field="code", nullable=true)
+     * @DTA\Data(field="code")
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
+     * @var int
      */
-    public $code;
+    public $code = 0;
 
     /**
-     * @DTA\Data(field="type", nullable=true)
+     * @DTA\Data(field="type")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
-    public $type;
+    public $type = "";
 
     /**
-     * @DTA\Data(field="message", nullable=true)
+     * @DTA\Data(field="message")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
-    public $message;
+    public $message = "";
 
 }

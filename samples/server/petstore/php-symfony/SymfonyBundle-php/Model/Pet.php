@@ -106,12 +106,12 @@ class Pet
      */
     public function __construct(array $data = null)
     {
-        $this->id = isset($data['id']) ? $data['id'] : null;
+        $this->id = isset($data['id']) ? $data['id'] : 0;
         $this->category = isset($data['category']) ? $data['category'] : null;
-        $this->name = isset($data['name']) ? $data['name'] : null;
-        $this->photoUrls = isset($data['photoUrls']) ? $data['photoUrls'] : null;
-        $this->tags = isset($data['tags']) ? $data['tags'] : null;
-        $this->status = isset($data['status']) ? $data['status'] : null;
+        $this->name = isset($data['name']) ? $data['name'] : "";
+        $this->photoUrls = isset($data['photoUrls']) ? $data['photoUrls'] : [];
+        $this->tags = isset($data['tags']) ? $data['tags'] : [];
+        $this->status = isset($data['status']) ? $data['status'] : "";
     }
 
     /**

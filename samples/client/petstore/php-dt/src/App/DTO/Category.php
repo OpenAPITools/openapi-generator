@@ -11,18 +11,18 @@ use Articus\DataTransfer\Annotation as DTA;
 class Category
 {
     /**
-     * @DTA\Data(field="id", nullable=true)
+     * @DTA\Data(field="id")
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
+     * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
-     * @DTA\Data(field="name", nullable=true)
+     * @DTA\Data(field="name")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
      * @DTA\Validator(name="Regex", options={"pattern":"/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/"})
-     * @var string|null
+     * @var string
      */
-    public $name;
+    public $name = "";
 
 }

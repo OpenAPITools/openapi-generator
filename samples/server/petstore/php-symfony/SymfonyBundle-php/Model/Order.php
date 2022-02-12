@@ -100,11 +100,11 @@ class Order
      */
     public function __construct(array $data = null)
     {
-        $this->id = isset($data['id']) ? $data['id'] : null;
-        $this->petId = isset($data['petId']) ? $data['petId'] : null;
-        $this->quantity = isset($data['quantity']) ? $data['quantity'] : null;
+        $this->id = isset($data['id']) ? $data['id'] : 0;
+        $this->petId = isset($data['petId']) ? $data['petId'] : 0;
+        $this->quantity = isset($data['quantity']) ? $data['quantity'] : 0;
         $this->shipDate = isset($data['shipDate']) ? $data['shipDate'] : null;
-        $this->status = isset($data['status']) ? $data['status'] : null;
+        $this->status = isset($data['status']) ? $data['status'] : "";
         $this->complete = isset($data['complete']) ? $data['complete'] : false;
     }
 

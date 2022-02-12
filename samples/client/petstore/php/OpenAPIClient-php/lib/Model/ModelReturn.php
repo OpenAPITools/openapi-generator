@@ -179,7 +179,7 @@ class ModelReturn implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['return'] = $data['return'] ?? null;
+        $this->container['return'] = $data['return'] ?? 0;
     }
 
     /**

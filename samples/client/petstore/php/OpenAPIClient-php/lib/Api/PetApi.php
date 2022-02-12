@@ -375,13 +375,13 @@ class PetApi
      * Deletes a pet
      *
      * @param  int $pet_id Pet id to delete (required)
-     * @param  string $api_key api_key (optional)
+     * @param  string $api_key api_key (optional, default to "")
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function deletePet($pet_id, $api_key = null)
+    public function deletePet($pet_id, $api_key = "")
     {
         $this->deletePetWithHttpInfo($pet_id, $api_key);
     }
@@ -392,13 +392,13 @@ class PetApi
      * Deletes a pet
      *
      * @param  int $pet_id Pet id to delete (required)
-     * @param  string $api_key (optional)
+     * @param  string $api_key (optional, default to "")
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deletePetWithHttpInfo($pet_id, $api_key = null)
+    public function deletePetWithHttpInfo($pet_id, $api_key = "")
     {
         $request = $this->deletePetRequest($pet_id, $api_key);
 
@@ -452,12 +452,12 @@ class PetApi
      * Deletes a pet
      *
      * @param  int $pet_id Pet id to delete (required)
-     * @param  string $api_key (optional)
+     * @param  string $api_key (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deletePetAsync($pet_id, $api_key = null)
+    public function deletePetAsync($pet_id, $api_key = "")
     {
         return $this->deletePetAsyncWithHttpInfo($pet_id, $api_key)
             ->then(
@@ -473,12 +473,12 @@ class PetApi
      * Deletes a pet
      *
      * @param  int $pet_id Pet id to delete (required)
-     * @param  string $api_key (optional)
+     * @param  string $api_key (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deletePetAsyncWithHttpInfo($pet_id, $api_key = null)
+    public function deletePetAsyncWithHttpInfo($pet_id, $api_key = "")
     {
         $returnType = '';
         $request = $this->deletePetRequest($pet_id, $api_key);
@@ -510,12 +510,12 @@ class PetApi
      * Create request for operation 'deletePet'
      *
      * @param  int $pet_id Pet id to delete (required)
-     * @param  string $api_key (optional)
+     * @param  string $api_key (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function deletePetRequest($pet_id, $api_key = null)
+    public function deletePetRequest($pet_id, $api_key = "")
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -1698,14 +1698,14 @@ class PetApi
      * Updates a pet in the store with form data
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
-     * @param  string $name Updated name of the pet (optional)
-     * @param  string $status Updated status of the pet (optional)
+     * @param  string $name Updated name of the pet (optional, default to "")
+     * @param  string $status Updated status of the pet (optional, default to "")
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function updatePetWithForm($pet_id, $name = null, $status = null)
+    public function updatePetWithForm($pet_id, $name = "", $status = "")
     {
         $this->updatePetWithFormWithHttpInfo($pet_id, $name, $status);
     }
@@ -1716,14 +1716,14 @@ class PetApi
      * Updates a pet in the store with form data
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
-     * @param  string $name Updated name of the pet (optional)
-     * @param  string $status Updated status of the pet (optional)
+     * @param  string $name Updated name of the pet (optional, default to "")
+     * @param  string $status Updated status of the pet (optional, default to "")
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updatePetWithFormWithHttpInfo($pet_id, $name = null, $status = null)
+    public function updatePetWithFormWithHttpInfo($pet_id, $name = "", $status = "")
     {
         $request = $this->updatePetWithFormRequest($pet_id, $name, $status);
 
@@ -1777,13 +1777,13 @@ class PetApi
      * Updates a pet in the store with form data
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
-     * @param  string $name Updated name of the pet (optional)
-     * @param  string $status Updated status of the pet (optional)
+     * @param  string $name Updated name of the pet (optional, default to "")
+     * @param  string $status Updated status of the pet (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updatePetWithFormAsync($pet_id, $name = null, $status = null)
+    public function updatePetWithFormAsync($pet_id, $name = "", $status = "")
     {
         return $this->updatePetWithFormAsyncWithHttpInfo($pet_id, $name, $status)
             ->then(
@@ -1799,13 +1799,13 @@ class PetApi
      * Updates a pet in the store with form data
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
-     * @param  string $name Updated name of the pet (optional)
-     * @param  string $status Updated status of the pet (optional)
+     * @param  string $name Updated name of the pet (optional, default to "")
+     * @param  string $status Updated status of the pet (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updatePetWithFormAsyncWithHttpInfo($pet_id, $name = null, $status = null)
+    public function updatePetWithFormAsyncWithHttpInfo($pet_id, $name = "", $status = "")
     {
         $returnType = '';
         $request = $this->updatePetWithFormRequest($pet_id, $name, $status);
@@ -1837,13 +1837,13 @@ class PetApi
      * Create request for operation 'updatePetWithForm'
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
-     * @param  string $name Updated name of the pet (optional)
-     * @param  string $status Updated status of the pet (optional)
+     * @param  string $name Updated name of the pet (optional, default to "")
+     * @param  string $status Updated status of the pet (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function updatePetWithFormRequest($pet_id, $name = null, $status = null)
+    public function updatePetWithFormRequest($pet_id, $name = "", $status = "")
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -1946,14 +1946,14 @@ class PetApi
      * uploads an image
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $additional_metadata Additional data to pass to server (optional, default to "")
      * @param  \SplFileObject $file file to upload (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\ApiResponse
      */
-    public function uploadFile($pet_id, $additional_metadata = null, $file = null)
+    public function uploadFile($pet_id, $additional_metadata = "", $file = null)
     {
         list($response) = $this->uploadFileWithHttpInfo($pet_id, $additional_metadata, $file);
         return $response;
@@ -1965,14 +1965,14 @@ class PetApi
      * uploads an image
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $additional_metadata Additional data to pass to server (optional, default to "")
      * @param  \SplFileObject $file file to upload (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\ApiResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function uploadFileWithHttpInfo($pet_id, $additional_metadata = null, $file = null)
+    public function uploadFileWithHttpInfo($pet_id, $additional_metadata = "", $file = null)
     {
         $request = $this->uploadFileRequest($pet_id, $additional_metadata, $file);
 
@@ -2060,13 +2060,13 @@ class PetApi
      * uploads an image
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $additional_metadata Additional data to pass to server (optional, default to "")
      * @param  \SplFileObject $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadFileAsync($pet_id, $additional_metadata = null, $file = null)
+    public function uploadFileAsync($pet_id, $additional_metadata = "", $file = null)
     {
         return $this->uploadFileAsyncWithHttpInfo($pet_id, $additional_metadata, $file)
             ->then(
@@ -2082,13 +2082,13 @@ class PetApi
      * uploads an image
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $additional_metadata Additional data to pass to server (optional, default to "")
      * @param  \SplFileObject $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadFileAsyncWithHttpInfo($pet_id, $additional_metadata = null, $file = null)
+    public function uploadFileAsyncWithHttpInfo($pet_id, $additional_metadata = "", $file = null)
     {
         $returnType = '\OpenAPI\Client\Model\ApiResponse';
         $request = $this->uploadFileRequest($pet_id, $additional_metadata, $file);
@@ -2130,13 +2130,13 @@ class PetApi
      * Create request for operation 'uploadFile'
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $additional_metadata Additional data to pass to server (optional, default to "")
      * @param  \SplFileObject $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function uploadFileRequest($pet_id, $additional_metadata = null, $file = null)
+    public function uploadFileRequest($pet_id, $additional_metadata = "", $file = null)
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -2248,13 +2248,13 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  \SplFileObject $required_file file to upload (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $additional_metadata Additional data to pass to server (optional, default to "")
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\ApiResponse
      */
-    public function uploadFileWithRequiredFile($pet_id, $required_file, $additional_metadata = null)
+    public function uploadFileWithRequiredFile($pet_id, $required_file, $additional_metadata = "")
     {
         list($response) = $this->uploadFileWithRequiredFileWithHttpInfo($pet_id, $required_file, $additional_metadata);
         return $response;
@@ -2267,13 +2267,13 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  \SplFileObject $required_file file to upload (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $additional_metadata Additional data to pass to server (optional, default to "")
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\ApiResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function uploadFileWithRequiredFileWithHttpInfo($pet_id, $required_file, $additional_metadata = null)
+    public function uploadFileWithRequiredFileWithHttpInfo($pet_id, $required_file, $additional_metadata = "")
     {
         $request = $this->uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata);
 
@@ -2362,12 +2362,12 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  \SplFileObject $required_file file to upload (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $additional_metadata Additional data to pass to server (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadFileWithRequiredFileAsync($pet_id, $required_file, $additional_metadata = null)
+    public function uploadFileWithRequiredFileAsync($pet_id, $required_file, $additional_metadata = "")
     {
         return $this->uploadFileWithRequiredFileAsyncWithHttpInfo($pet_id, $required_file, $additional_metadata)
             ->then(
@@ -2384,12 +2384,12 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  \SplFileObject $required_file file to upload (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $additional_metadata Additional data to pass to server (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadFileWithRequiredFileAsyncWithHttpInfo($pet_id, $required_file, $additional_metadata = null)
+    public function uploadFileWithRequiredFileAsyncWithHttpInfo($pet_id, $required_file, $additional_metadata = "")
     {
         $returnType = '\OpenAPI\Client\Model\ApiResponse';
         $request = $this->uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata);
@@ -2432,12 +2432,12 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  \SplFileObject $required_file file to upload (required)
-     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $additional_metadata Additional data to pass to server (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata = null)
+    public function uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata = "")
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {

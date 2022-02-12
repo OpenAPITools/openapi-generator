@@ -183,8 +183,8 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['bar'] = $data['bar'] ?? null;
-        $this->container['baz'] = $data['baz'] ?? null;
+        $this->container['bar'] = $data['bar'] ?? "";
+        $this->container['baz'] = $data['baz'] ?? "";
     }
 
     /**

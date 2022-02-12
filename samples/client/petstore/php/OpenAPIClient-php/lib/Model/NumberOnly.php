@@ -178,7 +178,7 @@ class NumberOnly implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['just_number'] = $data['just_number'] ?? null;
+        $this->container['just_number'] = $data['just_number'] ?? 0;
     }
 
     /**

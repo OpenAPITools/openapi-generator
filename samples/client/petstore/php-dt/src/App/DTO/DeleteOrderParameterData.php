@@ -17,6 +17,6 @@ class DeleteOrderParameterData
      * @DTA\Validator(subset="path", name="QueryStringScalar", options={"type":"string"})
      * @var string
      */
-    public $order_id;
+    public $order_id = "";
 
 }

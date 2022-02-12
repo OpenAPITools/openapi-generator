@@ -179,7 +179,7 @@ class File implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['source_uri'] = $data['source_uri'] ?? null;
+        $this->container['source_uri'] = $data['source_uri'] ?? "";
     }
 
     /**

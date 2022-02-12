@@ -194,10 +194,10 @@ class Name implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['name'] = $data['name'] ?? null;
-        $this->container['snake_case'] = $data['snake_case'] ?? null;
-        $this->container['property'] = $data['property'] ?? null;
-        $this->container['_123_number'] = $data['_123_number'] ?? null;
+        $this->container['name'] = $data['name'] ?? 0;
+        $this->container['snake_case'] = $data['snake_case'] ?? 0;
+        $this->container['property'] = $data['property'] ?? "";
+        $this->container['_123_number'] = $data['_123_number'] ?? 0;
     }
 
     /**

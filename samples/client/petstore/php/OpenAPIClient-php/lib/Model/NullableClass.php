@@ -241,7 +241,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->container['datetime_prop'] = $data['datetime_prop'] ?? null;
         $this->container['array_nullable_prop'] = $data['array_nullable_prop'] ?? null;
         $this->container['array_and_items_nullable_prop'] = $data['array_and_items_nullable_prop'] ?? null;
-        $this->container['array_items_nullable'] = $data['array_items_nullable'] ?? null;
+        $this->container['array_items_nullable'] = $data['array_items_nullable'] ?? [];
         $this->container['object_nullable_prop'] = $data['object_nullable_prop'] ?? null;
         $this->container['object_and_items_nullable_prop'] = $data['object_and_items_nullable_prop'] ?? null;
         $this->container['object_items_nullable'] = $data['object_items_nullable'] ?? null;

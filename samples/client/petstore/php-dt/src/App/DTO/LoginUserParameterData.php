@@ -17,7 +17,7 @@ class LoginUserParameterData
      * @DTA\Validator(subset="query", name="QueryStringScalar", options={"type":"string"})
      * @var string
      */
-    public $password;
+    public $password = "";
 
     /**
      * The user name for login
@@ -27,6 +27,6 @@ class LoginUserParameterData
      * @DTA\Validator(subset="query", name="Regex", options={"pattern":"/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/"})
      * @var string
      */
-    public $username;
+    public $username = "";
 
 }

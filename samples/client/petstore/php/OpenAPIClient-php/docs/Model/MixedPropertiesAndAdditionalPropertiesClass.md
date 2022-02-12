@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**uuid** | **string** |  | [optional]
+**uuid** | **string** |  | [optional] [default to ""]
 **date_time** | **\DateTime** |  | [optional]
 **map** | [**array<string,\OpenAPI\Client\Model\Animal>**](Animal.md) |  | [optional]
 

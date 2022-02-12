@@ -11,11 +11,11 @@ class InlineObject1
 {
     /**
      * Additional data to pass to server
-     * @DTA\Data(field="additionalMetadata", nullable=true)
+     * @DTA\Data(field="additionalMetadata")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
-    public $additional_metadata;
+    public $additional_metadata = "";
 
     /**
      * file to upload

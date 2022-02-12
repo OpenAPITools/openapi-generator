@@ -65,8 +65,8 @@ class Tag
      */
     public function __construct(array $data = null)
     {
-        $this->id = isset($data['id']) ? $data['id'] : null;
-        $this->name = isset($data['name']) ? $data['name'] : null;
+        $this->id = isset($data['id']) ? $data['id'] : 0;
+        $this->name = isset($data['name']) ? $data['name'] : "";
     }
 
     /**

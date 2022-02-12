@@ -373,14 +373,14 @@ class FakeApi
      * test http signature authentication
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
-     * @param  string $query_1 query parameter (optional)
-     * @param  string $header_1 header parameter (optional)
+     * @param  string $query_1 query parameter (optional, default to "")
+     * @param  string $header_1 header parameter (optional, default to "")
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function fakeHttpSignatureTest($pet, $query_1 = null, $header_1 = null)
+    public function fakeHttpSignatureTest($pet, $query_1 = "", $header_1 = "")
     {
         $this->fakeHttpSignatureTestWithHttpInfo($pet, $query_1, $header_1);
     }
@@ -391,14 +391,14 @@ class FakeApi
      * test http signature authentication
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
-     * @param  string $query_1 query parameter (optional)
-     * @param  string $header_1 header parameter (optional)
+     * @param  string $query_1 query parameter (optional, default to "")
+     * @param  string $header_1 header parameter (optional, default to "")
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fakeHttpSignatureTestWithHttpInfo($pet, $query_1 = null, $header_1 = null)
+    public function fakeHttpSignatureTestWithHttpInfo($pet, $query_1 = "", $header_1 = "")
     {
         $request = $this->fakeHttpSignatureTestRequest($pet, $query_1, $header_1);
 
@@ -452,13 +452,13 @@ class FakeApi
      * test http signature authentication
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
-     * @param  string $query_1 query parameter (optional)
-     * @param  string $header_1 header parameter (optional)
+     * @param  string $query_1 query parameter (optional, default to "")
+     * @param  string $header_1 header parameter (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fakeHttpSignatureTestAsync($pet, $query_1 = null, $header_1 = null)
+    public function fakeHttpSignatureTestAsync($pet, $query_1 = "", $header_1 = "")
     {
         return $this->fakeHttpSignatureTestAsyncWithHttpInfo($pet, $query_1, $header_1)
             ->then(
@@ -474,13 +474,13 @@ class FakeApi
      * test http signature authentication
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
-     * @param  string $query_1 query parameter (optional)
-     * @param  string $header_1 header parameter (optional)
+     * @param  string $query_1 query parameter (optional, default to "")
+     * @param  string $header_1 header parameter (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fakeHttpSignatureTestAsyncWithHttpInfo($pet, $query_1 = null, $header_1 = null)
+    public function fakeHttpSignatureTestAsyncWithHttpInfo($pet, $query_1 = "", $header_1 = "")
     {
         $returnType = '';
         $request = $this->fakeHttpSignatureTestRequest($pet, $query_1, $header_1);
@@ -512,13 +512,13 @@ class FakeApi
      * Create request for operation 'fakeHttpSignatureTest'
      *
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
-     * @param  string $query_1 query parameter (optional)
-     * @param  string $header_1 header parameter (optional)
+     * @param  string $query_1 query parameter (optional, default to "")
+     * @param  string $header_1 header parameter (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fakeHttpSignatureTestRequest($pet, $query_1 = null, $header_1 = null)
+    public function fakeHttpSignatureTestRequest($pet, $query_1 = "", $header_1 = "")
     {
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
@@ -2845,22 +2845,22 @@ class FakeApi
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
-     * @param  int $integer None (optional)
-     * @param  int $int32 None (optional)
-     * @param  int $int64 None (optional)
-     * @param  float $float None (optional)
-     * @param  string $string None (optional)
+     * @param  int $integer None (optional, default to 0)
+     * @param  int $int32 None (optional, default to 0)
+     * @param  int $int64 None (optional, default to 0)
+     * @param  float $float None (optional, default to 0)
+     * @param  string $string None (optional, default to "")
      * @param  \SplFileObject $binary None (optional)
      * @param  \DateTime $date None (optional)
      * @param  \DateTime $date_time None (optional)
-     * @param  string $password None (optional)
-     * @param  string $callback None (optional)
+     * @param  string $password None (optional, default to "")
+     * @param  string $callback None (optional, default to "")
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
+    public function testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer = 0, $int32 = 0, $int64 = 0, $float = 0, $string = "", $binary = null, $date = null, $date_time = null, $password = "", $callback = "")
     {
         $this->testEndpointParametersWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
     }
@@ -2874,22 +2874,22 @@ class FakeApi
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
-     * @param  int $integer None (optional)
-     * @param  int $int32 None (optional)
-     * @param  int $int64 None (optional)
-     * @param  float $float None (optional)
-     * @param  string $string None (optional)
+     * @param  int $integer None (optional, default to 0)
+     * @param  int $int32 None (optional, default to 0)
+     * @param  int $int64 None (optional, default to 0)
+     * @param  float $float None (optional, default to 0)
+     * @param  string $string None (optional, default to "")
      * @param  \SplFileObject $binary None (optional)
      * @param  \DateTime $date None (optional)
      * @param  \DateTime $date_time None (optional)
-     * @param  string $password None (optional)
-     * @param  string $callback None (optional)
+     * @param  string $password None (optional, default to "")
+     * @param  string $callback None (optional, default to "")
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEndpointParametersWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
+    public function testEndpointParametersWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = 0, $int32 = 0, $int64 = 0, $float = 0, $string = "", $binary = null, $date = null, $date_time = null, $password = "", $callback = "")
     {
         $request = $this->testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
 
@@ -2946,21 +2946,21 @@ class FakeApi
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
-     * @param  int $integer None (optional)
-     * @param  int $int32 None (optional)
-     * @param  int $int64 None (optional)
-     * @param  float $float None (optional)
-     * @param  string $string None (optional)
+     * @param  int $integer None (optional, default to 0)
+     * @param  int $int32 None (optional, default to 0)
+     * @param  int $int64 None (optional, default to 0)
+     * @param  float $float None (optional, default to 0)
+     * @param  string $string None (optional, default to "")
      * @param  \SplFileObject $binary None (optional)
      * @param  \DateTime $date None (optional)
      * @param  \DateTime $date_time None (optional)
-     * @param  string $password None (optional)
-     * @param  string $callback None (optional)
+     * @param  string $password None (optional, default to "")
+     * @param  string $callback None (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEndpointParametersAsync($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
+    public function testEndpointParametersAsync($number, $double, $pattern_without_delimiter, $byte, $integer = 0, $int32 = 0, $int64 = 0, $float = 0, $string = "", $binary = null, $date = null, $date_time = null, $password = "", $callback = "")
     {
         return $this->testEndpointParametersAsyncWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback)
             ->then(
@@ -2979,21 +2979,21 @@ class FakeApi
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
-     * @param  int $integer None (optional)
-     * @param  int $int32 None (optional)
-     * @param  int $int64 None (optional)
-     * @param  float $float None (optional)
-     * @param  string $string None (optional)
+     * @param  int $integer None (optional, default to 0)
+     * @param  int $int32 None (optional, default to 0)
+     * @param  int $int64 None (optional, default to 0)
+     * @param  float $float None (optional, default to 0)
+     * @param  string $string None (optional, default to "")
      * @param  \SplFileObject $binary None (optional)
      * @param  \DateTime $date None (optional)
      * @param  \DateTime $date_time None (optional)
-     * @param  string $password None (optional)
-     * @param  string $callback None (optional)
+     * @param  string $password None (optional, default to "")
+     * @param  string $callback None (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEndpointParametersAsyncWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
+    public function testEndpointParametersAsyncWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = 0, $int32 = 0, $int64 = 0, $float = 0, $string = "", $binary = null, $date = null, $date_time = null, $password = "", $callback = "")
     {
         $returnType = '';
         $request = $this->testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
@@ -3028,21 +3028,21 @@ class FakeApi
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
-     * @param  int $integer None (optional)
-     * @param  int $int32 None (optional)
-     * @param  int $int64 None (optional)
-     * @param  float $float None (optional)
-     * @param  string $string None (optional)
+     * @param  int $integer None (optional, default to 0)
+     * @param  int $int32 None (optional, default to 0)
+     * @param  int $int64 None (optional, default to 0)
+     * @param  float $float None (optional, default to 0)
+     * @param  string $string None (optional, default to "")
      * @param  \SplFileObject $binary None (optional)
      * @param  \DateTime $date None (optional)
      * @param  \DateTime $date_time None (optional)
-     * @param  string $password None (optional)
-     * @param  string $callback None (optional)
+     * @param  string $password None (optional, default to "")
+     * @param  string $callback None (optional, default to "")
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
+    public function testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer = 0, $int32 = 0, $int64 = 0, $float = 0, $string = "", $binary = null, $date = null, $date_time = null, $password = "", $callback = "")
     {
         // verify the required parameter 'number' is set
         if ($number === null || (is_array($number) && count($number) === 0)) {
@@ -3257,12 +3257,12 @@ class FakeApi
      *
      * To test enum parameters
      *
-     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional, default to [])
      * @param  string $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional, default to [])
      * @param  string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
-     * @param  int $enum_query_integer Query parameter enum test (double) (optional)
-     * @param  double $enum_query_double Query parameter enum test (double) (optional)
+     * @param  int $enum_query_integer Query parameter enum test (double) (optional, default to 0)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional, default to 0)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
      * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
@@ -3270,7 +3270,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testEnumParameters($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
+    public function testEnumParameters($enum_header_string_array = [], $enum_header_string = '-efg', $enum_query_string_array = [], $enum_query_string = '-efg', $enum_query_integer = 0, $enum_query_double = 0, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
         $this->testEnumParametersWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
     }
@@ -3280,12 +3280,12 @@ class FakeApi
      *
      * To test enum parameters
      *
-     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional, default to [])
      * @param  string $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional, default to [])
      * @param  string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
-     * @param  int $enum_query_integer Query parameter enum test (double) (optional)
-     * @param  double $enum_query_double Query parameter enum test (double) (optional)
+     * @param  int $enum_query_integer Query parameter enum test (double) (optional, default to 0)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional, default to 0)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
      * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
@@ -3293,7 +3293,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEnumParametersWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
+    public function testEnumParametersWithHttpInfo($enum_header_string_array = [], $enum_header_string = '-efg', $enum_query_string_array = [], $enum_query_string = '-efg', $enum_query_integer = 0, $enum_query_double = 0, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
         $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
 
@@ -3346,19 +3346,19 @@ class FakeApi
      *
      * To test enum parameters
      *
-     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional, default to [])
      * @param  string $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional, default to [])
      * @param  string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
-     * @param  int $enum_query_integer Query parameter enum test (double) (optional)
-     * @param  double $enum_query_double Query parameter enum test (double) (optional)
+     * @param  int $enum_query_integer Query parameter enum test (double) (optional, default to 0)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional, default to 0)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
      * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEnumParametersAsync($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
+    public function testEnumParametersAsync($enum_header_string_array = [], $enum_header_string = '-efg', $enum_query_string_array = [], $enum_query_string = '-efg', $enum_query_integer = 0, $enum_query_double = 0, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
         return $this->testEnumParametersAsyncWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string)
             ->then(
@@ -3373,19 +3373,19 @@ class FakeApi
      *
      * To test enum parameters
      *
-     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional, default to [])
      * @param  string $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional, default to [])
      * @param  string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
-     * @param  int $enum_query_integer Query parameter enum test (double) (optional)
-     * @param  double $enum_query_double Query parameter enum test (double) (optional)
+     * @param  int $enum_query_integer Query parameter enum test (double) (optional, default to 0)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional, default to 0)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
      * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEnumParametersAsyncWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
+    public function testEnumParametersAsyncWithHttpInfo($enum_header_string_array = [], $enum_header_string = '-efg', $enum_query_string_array = [], $enum_query_string = '-efg', $enum_query_integer = 0, $enum_query_double = 0, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
         $returnType = '';
         $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
@@ -3416,19 +3416,19 @@ class FakeApi
     /**
      * Create request for operation 'testEnumParameters'
      *
-     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional, default to [])
      * @param  string $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
-     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional, default to [])
      * @param  string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
-     * @param  int $enum_query_integer Query parameter enum test (double) (optional)
-     * @param  double $enum_query_double Query parameter enum test (double) (optional)
+     * @param  int $enum_query_integer Query parameter enum test (double) (optional, default to 0)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional, default to 0)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
      * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testEnumParametersRequest($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
+    public function testEnumParametersRequest($enum_header_string_array = [], $enum_header_string = '-efg', $enum_query_string_array = [], $enum_query_string = '-efg', $enum_query_integer = 0, $enum_query_double = 0, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
 
         $resourcePath = '/fake';
@@ -3572,9 +3572,9 @@ class FakeApi
      * @param  int $required_string_group Required String in group parameters (required)
      * @param  bool $required_boolean_group Required Boolean in group parameters (required)
      * @param  int $required_int64_group Required Integer in group parameters (required)
-     * @param  int $string_group String in group parameters (optional)
-     * @param  bool $boolean_group Boolean in group parameters (optional)
-     * @param  int $int64_group Integer in group parameters (optional)
+     * @param  int $string_group String in group parameters (optional, default to 0)
+     * @param  bool $boolean_group Boolean in group parameters (optional, default to false)
+     * @param  int $int64_group Integer in group parameters (optional, default to 0)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -3595,9 +3595,9 @@ class FakeApi
      * @param  int $required_string_group Required String in group parameters (required)
      * @param  bool $required_boolean_group Required Boolean in group parameters (required)
      * @param  int $required_int64_group Required Integer in group parameters (required)
-     * @param  int $string_group String in group parameters (optional)
-     * @param  bool $boolean_group Boolean in group parameters (optional)
-     * @param  int $int64_group Integer in group parameters (optional)
+     * @param  int $string_group String in group parameters (optional, default to 0)
+     * @param  bool $boolean_group Boolean in group parameters (optional, default to false)
+     * @param  int $int64_group Integer in group parameters (optional, default to 0)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -3661,9 +3661,9 @@ class FakeApi
      * @param  int $required_string_group Required String in group parameters (required)
      * @param  bool $required_boolean_group Required Boolean in group parameters (required)
      * @param  int $required_int64_group Required Integer in group parameters (required)
-     * @param  int $string_group String in group parameters (optional)
-     * @param  bool $boolean_group Boolean in group parameters (optional)
-     * @param  int $int64_group Integer in group parameters (optional)
+     * @param  int $string_group String in group parameters (optional, default to 0)
+     * @param  bool $boolean_group Boolean in group parameters (optional, default to false)
+     * @param  int $int64_group Integer in group parameters (optional, default to 0)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -3688,9 +3688,9 @@ class FakeApi
      * @param  int $required_string_group Required String in group parameters (required)
      * @param  bool $required_boolean_group Required Boolean in group parameters (required)
      * @param  int $required_int64_group Required Integer in group parameters (required)
-     * @param  int $string_group String in group parameters (optional)
-     * @param  bool $boolean_group Boolean in group parameters (optional)
-     * @param  int $int64_group Integer in group parameters (optional)
+     * @param  int $string_group String in group parameters (optional, default to 0)
+     * @param  bool $boolean_group Boolean in group parameters (optional, default to false)
+     * @param  int $int64_group Integer in group parameters (optional, default to 0)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -3731,9 +3731,9 @@ class FakeApi
      * @param  int $required_string_group Required String in group parameters (required)
      * @param  bool $required_boolean_group Required Boolean in group parameters (required)
      * @param  int $required_int64_group Required Integer in group parameters (required)
-     * @param  int $string_group String in group parameters (optional)
-     * @param  bool $boolean_group Boolean in group parameters (optional)
-     * @param  int $int64_group Integer in group parameters (optional)
+     * @param  int $string_group String in group parameters (optional, default to 0)
+     * @param  bool $boolean_group Boolean in group parameters (optional, default to false)
+     * @param  int $int64_group Integer in group parameters (optional, default to 0)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -3741,12 +3741,12 @@ class FakeApi
     public function testGroupParametersRequest($associative_array)
     {
         // unbox the parameters from the associative array
-        $required_string_group = array_key_exists('required_string_group', $associative_array) ? $associative_array['required_string_group'] : null;
-        $required_boolean_group = array_key_exists('required_boolean_group', $associative_array) ? $associative_array['required_boolean_group'] : null;
-        $required_int64_group = array_key_exists('required_int64_group', $associative_array) ? $associative_array['required_int64_group'] : null;
-        $string_group = array_key_exists('string_group', $associative_array) ? $associative_array['string_group'] : null;
-        $boolean_group = array_key_exists('boolean_group', $associative_array) ? $associative_array['boolean_group'] : null;
-        $int64_group = array_key_exists('int64_group', $associative_array) ? $associative_array['int64_group'] : null;
+        $required_string_group = array_key_exists('required_string_group', $associative_array) ? $associative_array['required_string_group'] : 0;
+        $required_boolean_group = array_key_exists('required_boolean_group', $associative_array) ? $associative_array['required_boolean_group'] : false;
+        $required_int64_group = array_key_exists('required_int64_group', $associative_array) ? $associative_array['required_int64_group'] : 0;
+        $string_group = array_key_exists('string_group', $associative_array) ? $associative_array['string_group'] : 0;
+        $boolean_group = array_key_exists('boolean_group', $associative_array) ? $associative_array['boolean_group'] : false;
+        $int64_group = array_key_exists('int64_group', $associative_array) ? $associative_array['int64_group'] : 0;
 
         // verify the required parameter 'required_string_group' is set
         if ($required_string_group === null || (is_array($required_string_group) && count($required_string_group) === 0)) {

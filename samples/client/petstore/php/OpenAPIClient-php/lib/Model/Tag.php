@@ -183,8 +183,8 @@ class Tag implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['id'] = $data['id'] ?? null;
-        $this->container['name'] = $data['name'] ?? null;
+        $this->container['id'] = $data['id'] ?? 0;
+        $this->container['name'] = $data['name'] ?? "";
     }
 
     /**

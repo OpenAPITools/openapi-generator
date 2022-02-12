@@ -178,7 +178,7 @@ class DogAllOf implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['breed'] = $data['breed'] ?? null;
+        $this->container['breed'] = $data['breed'] ?? "";
     }
 
     /**

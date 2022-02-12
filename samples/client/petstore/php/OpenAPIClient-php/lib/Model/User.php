@@ -213,14 +213,14 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['id'] = $data['id'] ?? null;
-        $this->container['username'] = $data['username'] ?? null;
-        $this->container['first_name'] = $data['first_name'] ?? null;
-        $this->container['last_name'] = $data['last_name'] ?? null;
-        $this->container['email'] = $data['email'] ?? null;
-        $this->container['password'] = $data['password'] ?? null;
-        $this->container['phone'] = $data['phone'] ?? null;
-        $this->container['user_status'] = $data['user_status'] ?? null;
+        $this->container['id'] = $data['id'] ?? 0;
+        $this->container['username'] = $data['username'] ?? "";
+        $this->container['first_name'] = $data['first_name'] ?? "";
+        $this->container['last_name'] = $data['last_name'] ?? "";
+        $this->container['email'] = $data['email'] ?? "";
+        $this->container['password'] = $data['password'] ?? "";
+        $this->container['phone'] = $data['phone'] ?? "";
+        $this->container['user_status'] = $data['user_status'] ?? 0;
     }
 
     /**

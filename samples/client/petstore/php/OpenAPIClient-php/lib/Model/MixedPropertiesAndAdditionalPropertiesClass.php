@@ -188,7 +188,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      */
     public function __construct(array $data = null)
     {
-        $this->container['uuid'] = $data['uuid'] ?? null;
+        $this->container['uuid'] = $data['uuid'] ?? "";
         $this->container['date_time'] = $data['date_time'] ?? null;
         $this->container['map'] = $data['map'] ?? null;
     }

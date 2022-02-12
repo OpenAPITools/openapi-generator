@@ -73,9 +73,9 @@ class ApiResponse
      */
     public function __construct(array $data = null)
     {
-        $this->code = isset($data['code']) ? $data['code'] : null;
-        $this->type = isset($data['type']) ? $data['type'] : null;
-        $this->message = isset($data['message']) ? $data['message'] : null;
+        $this->code = isset($data['code']) ? $data['code'] : 0;
+        $this->type = isset($data['type']) ? $data['type'] : "";
+        $this->message = isset($data['message']) ? $data['message'] : "";
     }
 
     /**

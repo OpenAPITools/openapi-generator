@@ -178,7 +178,7 @@ class CatAllOf implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['declawed'] = $data['declawed'] ?? null;
+        $this->container['declawed'] = $data['declawed'] ?? false;
     }
 
     /**

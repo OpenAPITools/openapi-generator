@@ -178,7 +178,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSerializabl
      */
     public function __construct(array $data = null)
     {
-        $this->container['array_number'] = $data['array_number'] ?? null;
+        $this->container['array_number'] = $data['array_number'] ?? [];
     }
 
     /**

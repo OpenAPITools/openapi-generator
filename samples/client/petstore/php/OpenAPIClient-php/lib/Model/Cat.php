@@ -172,7 +172,7 @@ class Cat extends Animal
     {
         parent::__construct($data);
 
-        $this->container['declawed'] = $data['declawed'] ?? null;
+        $this->container['declawed'] = $data['declawed'] ?? false;
     }
 
     /**

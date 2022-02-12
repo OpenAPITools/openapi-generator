@@ -213,8 +213,8 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['just_symbol'] = $data['just_symbol'] ?? null;
-        $this->container['array_enum'] = $data['array_enum'] ?? null;
+        $this->container['just_symbol'] = $data['just_symbol'] ?? "";
+        $this->container['array_enum'] = $data['array_enum'] ?? [];
     }
 
     /**

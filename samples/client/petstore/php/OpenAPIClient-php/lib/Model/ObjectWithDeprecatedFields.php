@@ -193,10 +193,10 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      */
     public function __construct(array $data = null)
     {
-        $this->container['uuid'] = $data['uuid'] ?? null;
-        $this->container['id'] = $data['id'] ?? null;
+        $this->container['uuid'] = $data['uuid'] ?? "";
+        $this->container['id'] = $data['id'] ?? 0;
         $this->container['deprecated_ref'] = $data['deprecated_ref'] ?? null;
-        $this->container['bars'] = $data['bars'] ?? null;
+        $this->container['bars'] = $data['bars'] ?? [];
     }
 
     /**

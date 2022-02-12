@@ -116,7 +116,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#deletePet
      */
-    public function deletePet($petId, $apiKey = null)
+    public function deletePet($petId, $apiKey = '""')
     {
         // Implement the operation ...
     }
@@ -129,8 +129,8 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| Pet id to delete |
- **apiKey** | **string**|  | [optional]
+ **petId** | **int**| Pet id to delete | [default to 0]
+ **apiKey** | **string**|  | [optional] [default to &quot;&quot;]
 
 ### Return type
 
@@ -192,7 +192,7 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**string**](../Model/string.md)| Status values that need to be considered for filter |
+ **status** | [**string**](../Model/string.md)| Status values that need to be considered for filter | [default to []]
 
 ### Return type
 
@@ -254,7 +254,7 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**string**](../Model/string.md)| Tags to filter by |
+ **tags** | [**string**](../Model/string.md)| Tags to filter by | [default to []]
 
 ### Return type
 
@@ -316,7 +316,7 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet to return |
+ **petId** | **int**| ID of pet to return | [default to 0]
 
 ### Return type
 
@@ -423,7 +423,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#updatePetWithForm
      */
-    public function updatePetWithForm($petId, $name = null, $status = null)
+    public function updatePetWithForm($petId, $name = '""', $status = '""')
     {
         // Implement the operation ...
     }
@@ -436,9 +436,9 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet that needs to be updated |
- **name** | **string**| Updated name of the pet | [optional]
- **status** | **string**| Updated status of the pet | [optional]
+ **petId** | **int**| ID of pet that needs to be updated | [default to 0]
+ **name** | **string**| Updated name of the pet | [optional] [default to &quot;&quot;]
+ **status** | **string**| Updated status of the pet | [optional] [default to &quot;&quot;]
 
 ### Return type
 
@@ -485,7 +485,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#uploadFile
      */
-    public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null)
+    public function uploadFile($petId, $additionalMetadata = '""', UploadedFile $file = null)
     {
         // Implement the operation ...
     }
@@ -498,8 +498,8 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet to update |
- **additionalMetadata** | **string**| Additional data to pass to server | [optional]
+ **petId** | **int**| ID of pet to update | [default to 0]
+ **additionalMetadata** | **string**| Additional data to pass to server | [optional] [default to &quot;&quot;]
  **file** | **UploadedFile****UploadedFile**| file to upload | [optional]
 
 ### Return type

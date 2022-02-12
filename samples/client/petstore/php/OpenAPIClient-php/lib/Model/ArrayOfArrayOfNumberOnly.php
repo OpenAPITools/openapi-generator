@@ -178,7 +178,7 @@ class ArrayOfArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSeri
      */
     public function __construct(array $data = null)
     {
-        $this->container['array_array_number'] = $data['array_array_number'] ?? null;
+        $this->container['array_array_number'] = $data['array_array_number'] ?? [];
     }
 
     /**

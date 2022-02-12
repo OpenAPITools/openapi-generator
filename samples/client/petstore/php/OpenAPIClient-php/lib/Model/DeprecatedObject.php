@@ -178,7 +178,7 @@ class DeprecatedObject implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['name'] = $data['name'] ?? null;
+        $this->container['name'] = $data['name'] ?? "";
     }
 
     /**

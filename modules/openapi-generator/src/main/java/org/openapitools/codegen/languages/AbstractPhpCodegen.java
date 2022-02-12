@@ -562,22 +562,38 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "false";
             }
         } else if (ModelUtils.isDateSchema(p)) {
             // TODO
         } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
+        } else if (ModelUtils.isFileSchema(p)) {
+            // TODO
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "0";
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "0";
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 return "'" + p.getDefault() + "'";
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "\"\"";
+            }
+        } else if (ModelUtils.isArraySchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "[]";
             }
         }
 

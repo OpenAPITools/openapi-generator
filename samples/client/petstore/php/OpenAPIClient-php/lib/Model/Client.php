@@ -178,7 +178,7 @@ class Client implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['client'] = $data['client'] ?? null;
+        $this->container['client'] = $data['client'] ?? "";
     }
 
     /**

@@ -277,10 +277,10 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['enum_string'] = $data['enum_string'] ?? null;
-        $this->container['enum_string_required'] = $data['enum_string_required'] ?? null;
-        $this->container['enum_integer'] = $data['enum_integer'] ?? null;
-        $this->container['enum_number'] = $data['enum_number'] ?? null;
+        $this->container['enum_string'] = $data['enum_string'] ?? "";
+        $this->container['enum_string_required'] = $data['enum_string_required'] ?? "";
+        $this->container['enum_integer'] = $data['enum_integer'] ?? 0;
+        $this->container['enum_number'] = $data['enum_number'] ?? 0;
         $this->container['outer_enum'] = $data['outer_enum'] ?? null;
         $this->container['outer_enum_integer'] = $data['outer_enum_integer'] ?? null;
         $this->container['outer_enum_default_value'] = $data['outer_enum_default_value'] ?? null;

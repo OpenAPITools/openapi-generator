@@ -220,12 +220,12 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['id'] = $data['id'] ?? null;
+        $this->container['id'] = $data['id'] ?? 0;
         $this->container['category'] = $data['category'] ?? null;
-        $this->container['name'] = $data['name'] ?? null;
-        $this->container['photo_urls'] = $data['photo_urls'] ?? null;
-        $this->container['tags'] = $data['tags'] ?? null;
-        $this->container['status'] = $data['status'] ?? null;
+        $this->container['name'] = $data['name'] ?? "";
+        $this->container['photo_urls'] = $data['photo_urls'] ?? [];
+        $this->container['tags'] = $data['tags'] ?? [];
+        $this->container['status'] = $data['status'] ?? "";
     }
 
     /**

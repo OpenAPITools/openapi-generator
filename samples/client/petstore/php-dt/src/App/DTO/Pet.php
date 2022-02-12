@@ -11,11 +11,11 @@ use Articus\DataTransfer\Annotation as DTA;
 class Pet
 {
     /**
-     * @DTA\Data(field="id", nullable=true)
+     * @DTA\Data(field="id")
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
+     * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
      * @DTA\Data(field="category", nullable=true)
@@ -30,7 +30,7 @@ class Pet
      * @DTA\Validator(name="Scalar", options={"type":"string"})
      * @var string
      */
-    public $name;
+    public $name = "";
 
     /**
      * @DTA\Data(field="photoUrls")
@@ -38,22 +38,22 @@ class Pet
      * @DTA\Validator(name="TypeCompliant", options={"type":\App\DTO\Collection32::class})
      * @var \App\DTO\Collection32
      */
-    public $photo_urls;
+    public $photo_urls = [];
 
     /**
-     * @DTA\Data(field="tags", nullable=true)
+     * @DTA\Data(field="tags")
      * @DTA\Strategy(name="Object", options={"type":\App\DTO\Collection33::class})
      * @DTA\Validator(name="TypeCompliant", options={"type":\App\DTO\Collection33::class})
-     * @var \App\DTO\Collection33|null
+     * @var \App\DTO\Collection33
      */
-    public $tags;
+    public $tags = [];
 
     /**
      * pet status in the store
-     * @DTA\Data(field="status", nullable=true)
+     * @DTA\Data(field="status")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
-    public $status;
+    public $status = "";
 
 }

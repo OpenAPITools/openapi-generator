@@ -198,7 +198,7 @@ $apiInstance = new OpenAPI\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$username = 'username_example'; // string | The name that needs to be deleted
+$username = \"\"; // string | The name that needs to be deleted
 
 try {
     $apiInstance->deleteUser($username);
@@ -211,7 +211,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be deleted |
+ **username** | **string**| The name that needs to be deleted | [default to &quot;&quot;]
 
 ### Return type
 
@@ -251,7 +251,7 @@ $apiInstance = new OpenAPI\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$username = 'username_example'; // string | The name that needs to be fetched. Use user1 for testing.
+$username = \"\"; // string | The name that needs to be fetched. Use user1 for testing.
 
 try {
     $result = $apiInstance->getUserByName($username);
@@ -265,7 +265,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be fetched. Use user1 for testing. |
+ **username** | **string**| The name that needs to be fetched. Use user1 for testing. | [default to &quot;&quot;]
 
 ### Return type
 
@@ -305,8 +305,8 @@ $apiInstance = new OpenAPI\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$username = 'username_example'; // string | The user name for login
-$password = 'password_example'; // string | The password for login in clear text
+$username = \"\"; // string | The user name for login
+$password = \"\"; // string | The password for login in clear text
 
 try {
     $result = $apiInstance->loginUser($username, $password);
@@ -320,8 +320,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The user name for login |
- **password** | **string**| The password for login in clear text |
+ **username** | **string**| The user name for login | [default to &quot;&quot;]
+ **password** | **string**| The password for login in clear text | [default to &quot;&quot;]
 
 ### Return type
 
@@ -413,7 +413,7 @@ $apiInstance = new OpenAPI\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$username = 'username_example'; // string | name that need to be deleted
+$username = \"\"; // string | name that need to be deleted
 $user = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | Updated user object
 
 try {
@@ -427,7 +427,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| name that need to be deleted |
+ **username** | **string**| name that need to be deleted | [default to &quot;&quot;]
  **user** | [**\OpenAPI\Client\Model\User**](../Model/User.md)| Updated user object |
 
 ### Return type

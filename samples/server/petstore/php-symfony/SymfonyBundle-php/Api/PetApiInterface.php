@@ -89,13 +89,13 @@ interface PetApiInterface
      * Deletes a pet
      *
      * @param  \int $petId  Pet id to delete (required)
-     * @param  \string $apiKey   (optional)
+     * @param  \string $apiKey   (optional, default to "")
      * @param  \int $responseCode     The HTTP response code to return
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
      */
-    public function deletePet($petId, $apiKey = null, &$responseCode, array &$responseHeaders);
+    public function deletePet($petId, $apiKey = "", &$responseCode, array &$responseHeaders);
 
     /**
      * Operation findPetsByStatus
@@ -156,14 +156,14 @@ interface PetApiInterface
      * Updates a pet in the store with form data
      *
      * @param  \int $petId  ID of pet that needs to be updated (required)
-     * @param  \string $name  Updated name of the pet (optional)
-     * @param  \string $status  Updated status of the pet (optional)
+     * @param  \string $name  Updated name of the pet (optional, default to "")
+     * @param  \string $status  Updated status of the pet (optional, default to "")
      * @param  \int $responseCode     The HTTP response code to return
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
      */
-    public function updatePetWithForm($petId, $name = null, $status = null, &$responseCode, array &$responseHeaders);
+    public function updatePetWithForm($petId, $name = "", $status = "", &$responseCode, array &$responseHeaders);
 
     /**
      * Operation uploadFile
@@ -171,12 +171,12 @@ interface PetApiInterface
      * uploads an image
      *
      * @param  \int $petId  ID of pet to update (required)
-     * @param  \string $additionalMetadata  Additional data to pass to server (optional)
+     * @param  \string $additionalMetadata  Additional data to pass to server (optional, default to "")
      * @param  \UploadedFile $file  file to upload (optional)
      * @param  \int $responseCode     The HTTP response code to return
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return \OpenAPI\Server\Model\ApiResponse
      */
-    public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null, &$responseCode, array &$responseHeaders);
+    public function uploadFile($petId, $additionalMetadata = "", UploadedFile $file = null, &$responseCode, array &$responseHeaders);
 }

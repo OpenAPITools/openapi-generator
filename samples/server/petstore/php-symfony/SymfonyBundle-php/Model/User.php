@@ -115,14 +115,14 @@ class User
      */
     public function __construct(array $data = null)
     {
-        $this->id = isset($data['id']) ? $data['id'] : null;
-        $this->username = isset($data['username']) ? $data['username'] : null;
-        $this->firstName = isset($data['firstName']) ? $data['firstName'] : null;
-        $this->lastName = isset($data['lastName']) ? $data['lastName'] : null;
-        $this->email = isset($data['email']) ? $data['email'] : null;
-        $this->password = isset($data['password']) ? $data['password'] : null;
-        $this->phone = isset($data['phone']) ? $data['phone'] : null;
-        $this->userStatus = isset($data['userStatus']) ? $data['userStatus'] : null;
+        $this->id = isset($data['id']) ? $data['id'] : 0;
+        $this->username = isset($data['username']) ? $data['username'] : "";
+        $this->firstName = isset($data['firstName']) ? $data['firstName'] : "";
+        $this->lastName = isset($data['lastName']) ? $data['lastName'] : "";
+        $this->email = isset($data['email']) ? $data['email'] : "";
+        $this->password = isset($data['password']) ? $data['password'] : "";
+        $this->phone = isset($data['phone']) ? $data['phone'] : "";
+        $this->userStatus = isset($data['userStatus']) ? $data['userStatus'] : 0;
     }
 
     /**

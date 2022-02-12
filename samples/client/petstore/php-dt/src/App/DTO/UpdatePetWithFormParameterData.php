@@ -17,6 +17,6 @@ class UpdatePetWithFormParameterData
      * @DTA\Validator(subset="path", name="QueryStringScalar", options={"type":"int"})
      * @var int
      */
-    public $pet_id;
+    public $pet_id = 0;
 
 }

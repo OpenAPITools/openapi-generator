@@ -184,8 +184,8 @@ class Model200Response implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['name'] = $data['name'] ?? null;
-        $this->container['class'] = $data['class'] ?? null;
+        $this->container['name'] = $data['name'] ?? 0;
+        $this->container['class'] = $data['class'] ?? "";
     }
 
     /**

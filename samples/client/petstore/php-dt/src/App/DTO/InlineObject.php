@@ -11,18 +11,18 @@ class InlineObject
 {
     /**
      * Updated name of the pet
-     * @DTA\Data(field="name", nullable=true)
+     * @DTA\Data(field="name")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
-    public $name;
+    public $name = "";
 
     /**
      * Updated status of the pet
-     * @DTA\Data(field="status", nullable=true)
+     * @DTA\Data(field="status")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
-    public $status;
+    public $status = "";
 
 }

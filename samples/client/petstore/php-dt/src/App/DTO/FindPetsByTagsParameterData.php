@@ -17,6 +17,6 @@ class FindPetsByTagsParameterData
      * @DTA\Validator(subset="query", name="QueryStringScalarArray", options={"type":"string", "format":"csv"})
      * @var string[]
      */
-    public $tags;
+    public $tags = [];
 
 }

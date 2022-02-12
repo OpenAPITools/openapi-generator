@@ -253,7 +253,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be deleted |
+ **username** | **string**| The name that needs to be deleted | [default to &quot;&quot;]
 
 ### Return type
 
@@ -305,7 +305,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be fetched. Use user1 for testing. |
+ **username** | **string**| The name that needs to be fetched. Use user1 for testing. | [default to &quot;&quot;]
 
 ### Return type
 
@@ -357,8 +357,8 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The user name for login |
- **password** | **string**| The password for login in clear text |
+ **username** | **string**| The user name for login | [default to &quot;&quot;]
+ **password** | **string**| The password for login in clear text | [default to &quot;&quot;]
 
 ### Return type
 
@@ -477,7 +477,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| name that need to be deleted |
+ **username** | **string**| name that need to be deleted | [default to &quot;&quot;]
  **user** | [**OpenAPI\Server\Model\User**](../Model/User.md)| Updated user object |
 
 ### Return type

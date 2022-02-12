@@ -183,7 +183,7 @@ class Animal implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['class_name'] = $data['class_name'] ?? null;
+        $this->container['class_name'] = $data['class_name'] ?? "";
         $this->container['color'] = $data['color'] ?? 'red';
 
         // Initialize discriminator property with the model name.

@@ -179,7 +179,7 @@ class ClassModel implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['_class'] = $data['_class'] ?? null;
+        $this->container['_class'] = $data['_class'] ?? "";
     }
 
     /**

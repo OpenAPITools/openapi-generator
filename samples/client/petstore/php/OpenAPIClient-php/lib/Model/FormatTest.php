@@ -253,22 +253,22 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['integer'] = $data['integer'] ?? null;
-        $this->container['int32'] = $data['int32'] ?? null;
-        $this->container['int64'] = $data['int64'] ?? null;
-        $this->container['number'] = $data['number'] ?? null;
-        $this->container['float'] = $data['float'] ?? null;
-        $this->container['double'] = $data['double'] ?? null;
-        $this->container['decimal'] = $data['decimal'] ?? null;
-        $this->container['string'] = $data['string'] ?? null;
-        $this->container['byte'] = $data['byte'] ?? null;
+        $this->container['integer'] = $data['integer'] ?? 0;
+        $this->container['int32'] = $data['int32'] ?? 0;
+        $this->container['int64'] = $data['int64'] ?? 0;
+        $this->container['number'] = $data['number'] ?? 0;
+        $this->container['float'] = $data['float'] ?? 0;
+        $this->container['double'] = $data['double'] ?? 0;
+        $this->container['decimal'] = $data['decimal'] ?? "";
+        $this->container['string'] = $data['string'] ?? "";
+        $this->container['byte'] = $data['byte'] ?? "";
         $this->container['binary'] = $data['binary'] ?? null;
         $this->container['date'] = $data['date'] ?? null;
         $this->container['date_time'] = $data['date_time'] ?? null;
-        $this->container['uuid'] = $data['uuid'] ?? null;
-        $this->container['password'] = $data['password'] ?? null;
-        $this->container['pattern_with_digits'] = $data['pattern_with_digits'] ?? null;
-        $this->container['pattern_with_digits_and_delimiter'] = $data['pattern_with_digits_and_delimiter'] ?? null;
+        $this->container['uuid'] = $data['uuid'] ?? "";
+        $this->container['password'] = $data['password'] ?? "";
+        $this->container['pattern_with_digits'] = $data['pattern_with_digits'] ?? "";
+        $this->container['pattern_with_digits_and_delimiter'] = $data['pattern_with_digits_and_delimiter'] ?? "";
     }
 
     /**

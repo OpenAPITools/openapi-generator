@@ -183,8 +183,8 @@ class HasOnlyReadOnly implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['bar'] = $data['bar'] ?? null;
-        $this->container['foo'] = $data['foo'] ?? null;
+        $this->container['bar'] = $data['bar'] ?? "";
+        $this->container['foo'] = $data['foo'] ?? "";
     }
 
     /**

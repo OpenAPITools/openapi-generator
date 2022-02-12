@@ -188,9 +188,9 @@ class ApiResponse implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['code'] = $data['code'] ?? null;
-        $this->container['type'] = $data['type'] ?? null;
-        $this->container['message'] = $data['message'] ?? null;
+        $this->container['code'] = $data['code'] ?? 0;
+        $this->container['type'] = $data['type'] ?? "";
+        $this->container['message'] = $data['message'] ?? "";
     }
 
     /**

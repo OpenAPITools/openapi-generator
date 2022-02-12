@@ -188,9 +188,9 @@ class ArrayTest implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['array_of_string'] = $data['array_of_string'] ?? null;
-        $this->container['array_array_of_integer'] = $data['array_array_of_integer'] ?? null;
-        $this->container['array_array_of_model'] = $data['array_array_of_model'] ?? null;
+        $this->container['array_of_string'] = $data['array_of_string'] ?? [];
+        $this->container['array_array_of_integer'] = $data['array_array_of_integer'] ?? [];
+        $this->container['array_array_of_model'] = $data['array_array_of_model'] ?? [];
     }
 
     /**

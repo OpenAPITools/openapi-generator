@@ -11,25 +11,25 @@ use Articus\DataTransfer\Annotation as DTA;
 class Order
 {
     /**
-     * @DTA\Data(field="id", nullable=true)
+     * @DTA\Data(field="id")
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
+     * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
-     * @DTA\Data(field="petId", nullable=true)
+     * @DTA\Data(field="petId")
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
+     * @var int
      */
-    public $pet_id;
+    public $pet_id = 0;
 
     /**
-     * @DTA\Data(field="quantity", nullable=true)
+     * @DTA\Data(field="quantity")
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
+     * @var int
      */
-    public $quantity;
+    public $quantity = 0;
 
     /**
      * @DTA\Data(field="shipDate", nullable=true)
@@ -41,17 +41,17 @@ class Order
 
     /**
      * Order Status
-     * @DTA\Data(field="status", nullable=true)
+     * @DTA\Data(field="status")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
-    public $status;
+    public $status = "";
 
     /**
-     * @DTA\Data(field="complete", nullable=true)
+     * @DTA\Data(field="complete")
      * @DTA\Validator(name="Scalar", options={"type":"bool"})
-     * @var bool|null
+     * @var bool
      */
-    public $complete;
+    public $complete = false;
 
 }

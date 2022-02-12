@@ -11,60 +11,60 @@ use Articus\DataTransfer\Annotation as DTA;
 class User
 {
     /**
-     * @DTA\Data(field="id", nullable=true)
+     * @DTA\Data(field="id")
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
+     * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
-     * @DTA\Data(field="username", nullable=true)
+     * @DTA\Data(field="username")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
-    public $username;
+    public $username = "";
 
     /**
-     * @DTA\Data(field="firstName", nullable=true)
+     * @DTA\Data(field="firstName")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
-    public $first_name;
+    public $first_name = "";
 
     /**
-     * @DTA\Data(field="lastName", nullable=true)
+     * @DTA\Data(field="lastName")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
-    public $last_name;
+    public $last_name = "";
 
     /**
-     * @DTA\Data(field="email", nullable=true)
+     * @DTA\Data(field="email")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
-    public $email;
+    public $email = "";
 
     /**
-     * @DTA\Data(field="password", nullable=true)
+     * @DTA\Data(field="password")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
-    public $password;
+    public $password = "";
 
     /**
-     * @DTA\Data(field="phone", nullable=true)
+     * @DTA\Data(field="phone")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
-    public $phone;
+    public $phone = "";
 
     /**
      * User Status
-     * @DTA\Data(field="userStatus", nullable=true)
+     * @DTA\Data(field="userStatus")
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
+     * @var int
      */
-    public $user_status;
+    public $user_status = 0;
 
 }

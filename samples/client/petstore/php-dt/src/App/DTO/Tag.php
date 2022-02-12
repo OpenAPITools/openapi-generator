@@ -11,17 +11,17 @@ use Articus\DataTransfer\Annotation as DTA;
 class Tag
 {
     /**
-     * @DTA\Data(field="id", nullable=true)
+     * @DTA\Data(field="id")
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
+     * @var int
      */
-    public $id;
+    public $id = 0;
 
     /**
-     * @DTA\Data(field="name", nullable=true)
+     * @DTA\Data(field="name")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
+     * @var string
      */
-    public $name;
+    public $name = "";
 
 }

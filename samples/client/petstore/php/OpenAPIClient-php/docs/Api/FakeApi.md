@@ -98,8 +98,8 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     $config
 );
 $pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
-$query_1 = 'query_1_example'; // string | query parameter
-$header_1 = 'header_1_example'; // string | header parameter
+$query_1 = \"\"; // string | query parameter
+$header_1 = \"\"; // string | header parameter
 
 try {
     $apiInstance->fakeHttpSignatureTest($pet, $query_1, $header_1);
@@ -113,8 +113,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
- **query_1** | **string**| query parameter | [optional]
- **header_1** | **string**| header parameter | [optional]
+ **query_1** | **string**| query parameter | [optional] [default to &quot;&quot;]
+ **header_1** | **string**| header parameter | [optional] [default to &quot;&quot;]
 
 ### Return type
 
@@ -544,7 +544,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$query = 'query_example'; // string
+$query = \"\"; // string
 $user = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User
 
 try {
@@ -558,7 +558,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string**|  |
+ **query** | **string**|  | [default to &quot;&quot;]
  **user** | [**\OpenAPI\Client\Model\User**](../Model/User.md)|  |
 
 ### Return type
@@ -663,20 +663,20 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     new GuzzleHttp\Client(),
     $config
 );
-$number = 3.4; // float | None
-$double = 3.4; // double | None
-$pattern_without_delimiter = 'pattern_without_delimiter_example'; // string | None
-$byte = 'byte_example'; // string | None
-$integer = 56; // int | None
-$int32 = 56; // int | None
-$int64 = 56; // int | None
-$float = 3.4; // float | None
-$string = 'string_example'; // string | None
+$number = 0; // float | None
+$double = 0; // double | None
+$pattern_without_delimiter = \"\"; // string | None
+$byte = \"\"; // string | None
+$integer = 0; // int | None
+$int32 = 0; // int | None
+$int64 = 0; // int | None
+$float = 0; // float | None
+$string = \"\"; // string | None
 $binary = "/path/to/file.txt"; // \SplFileObject | None
 $date = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
 $date_time = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
-$password = 'password_example'; // string | None
-$callback = 'callback_example'; // string | None
+$password = \"\"; // string | None
+$callback = \"\"; // string | None
 
 try {
     $apiInstance->testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
@@ -689,20 +689,20 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **float**| None |
- **double** | **double**| None |
- **pattern_without_delimiter** | **string**| None |
- **byte** | **string**| None |
- **integer** | **int**| None | [optional]
- **int32** | **int**| None | [optional]
- **int64** | **int**| None | [optional]
- **float** | **float**| None | [optional]
- **string** | **string**| None | [optional]
+ **number** | **float**| None | [default to 0]
+ **double** | **double**| None | [default to 0]
+ **pattern_without_delimiter** | **string**| None | [default to &quot;&quot;]
+ **byte** | **string**| None | [default to &quot;&quot;]
+ **integer** | **int**| None | [optional] [default to 0]
+ **int32** | **int**| None | [optional] [default to 0]
+ **int64** | **int**| None | [optional] [default to 0]
+ **float** | **float**| None | [optional] [default to 0]
+ **string** | **string**| None | [optional] [default to &quot;&quot;]
  **binary** | **\SplFileObject****\SplFileObject**| None | [optional]
  **date** | **\DateTime**| None | [optional]
  **date_time** | **\DateTime**| None | [optional]
- **password** | **string**| None | [optional]
- **callback** | **string**| None | [optional]
+ **password** | **string**| None | [optional] [default to &quot;&quot;]
+ **callback** | **string**| None | [optional] [default to &quot;&quot;]
 
 ### Return type
 
@@ -744,12 +744,12 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$enum_header_string_array = array('enum_header_string_array_example'); // string[] | Header parameter enum test (string array)
+$enum_header_string_array = array([]); // string[] | Header parameter enum test (string array)
 $enum_header_string = '-efg'; // string | Header parameter enum test (string)
-$enum_query_string_array = array('enum_query_string_array_example'); // string[] | Query parameter enum test (string array)
+$enum_query_string_array = array([]); // string[] | Query parameter enum test (string array)
 $enum_query_string = '-efg'; // string | Query parameter enum test (string)
-$enum_query_integer = 56; // int | Query parameter enum test (double)
-$enum_query_double = 3.4; // double | Query parameter enum test (double)
+$enum_query_integer = 0; // int | Query parameter enum test (double)
+$enum_query_double = 0; // double | Query parameter enum test (double)
 $enum_form_string_array = array('$'); // string[] | Form parameter enum test (string array)
 $enum_form_string = '-efg'; // string | Form parameter enum test (string)
 
@@ -764,12 +764,12 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enum_header_string_array** | [**string[]**](../Model/string.md)| Header parameter enum test (string array) | [optional]
+ **enum_header_string_array** | [**string[]**](../Model/string.md)| Header parameter enum test (string array) | [optional] [default to []]
  **enum_header_string** | **string**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_string_array** | [**string[]**](../Model/string.md)| Query parameter enum test (string array) | [optional]
+ **enum_query_string_array** | [**string[]**](../Model/string.md)| Query parameter enum test (string array) | [optional] [default to []]
  **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
- **enum_query_double** | **double**| Query parameter enum test (double) | [optional]
+ **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] [default to 0]
+ **enum_query_double** | **double**| Query parameter enum test (double) | [optional] [default to 0]
  **enum_form_string_array** | [**string[]**](../Model/string.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
@@ -817,12 +817,12 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     new GuzzleHttp\Client(),
     $config
 );
-$associate_array['required_string_group'] = 56; // int | Required String in group parameters
-$associate_array['required_boolean_group'] = True; // bool | Required Boolean in group parameters
-$associate_array['required_int64_group'] = 56; // int | Required Integer in group parameters
-$associate_array['string_group'] = 56; // int | String in group parameters
-$associate_array['boolean_group'] = True; // bool | Boolean in group parameters
-$associate_array['int64_group'] = 56; // int | Integer in group parameters
+$associate_array['required_string_group'] = 0; // int | Required String in group parameters
+$associate_array['required_boolean_group'] = false; // bool | Required Boolean in group parameters
+$associate_array['required_int64_group'] = 0; // int | Required Integer in group parameters
+$associate_array['string_group'] = 0; // int | String in group parameters
+$associate_array['boolean_group'] = false; // bool | Boolean in group parameters
+$associate_array['int64_group'] = 0; // int | Integer in group parameters
 
 try {
     $apiInstance->testGroupParameters($associate_array);
@@ -837,12 +837,12 @@ Note: the input parameter is an associative array with the keys listed as the pa
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **required_string_group** | **int**| Required String in group parameters |
- **required_boolean_group** | **bool**| Required Boolean in group parameters |
- **required_int64_group** | **int**| Required Integer in group parameters |
- **string_group** | **int**| String in group parameters | [optional]
- **boolean_group** | **bool**| Boolean in group parameters | [optional]
- **int64_group** | **int**| Integer in group parameters | [optional]
+ **required_string_group** | **int**| Required String in group parameters | [default to 0]
+ **required_boolean_group** | **bool**| Required Boolean in group parameters | [default to false]
+ **required_int64_group** | **int**| Required Integer in group parameters | [default to 0]
+ **string_group** | **int**| String in group parameters | [optional] [default to 0]
+ **boolean_group** | **bool**| Boolean in group parameters | [optional] [default to false]
+ **int64_group** | **int**| Integer in group parameters | [optional] [default to 0]
 
 ### Return type
 
@@ -935,8 +935,8 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$param = 'param_example'; // string | field1
-$param2 = 'param2_example'; // string | field2
+$param = \"\"; // string | field1
+$param2 = \"\"; // string | field2
 
 try {
     $apiInstance->testJsonFormData($param, $param2);
@@ -949,8 +949,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **string**| field1 |
- **param2** | **string**| field2 |
+ **param** | **string**| field1 | [default to &quot;&quot;]
+ **param2** | **string**| field2 | [default to &quot;&quot;]
 
 ### Return type
 
@@ -992,12 +992,12 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$pipe = array('pipe_example'); // string[]
-$ioutil = array('ioutil_example'); // string[]
-$http = array('http_example'); // string[]
-$url = array('url_example'); // string[]
-$context = array('context_example'); // string[]
-$allow_empty = 'allow_empty_example'; // string
+$pipe = array([]); // string[]
+$ioutil = array([]); // string[]
+$http = array([]); // string[]
+$url = array([]); // string[]
+$context = array([]); // string[]
+$allow_empty = \"\"; // string
 $language = array('key' => 'language_example'); // array<string,string>
 
 try {
@@ -1011,12 +1011,12 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**string[]**](../Model/string.md)|  |
- **ioutil** | [**string[]**](../Model/string.md)|  |
- **http** | [**string[]**](../Model/string.md)|  |
- **url** | [**string[]**](../Model/string.md)|  |
- **context** | [**string[]**](../Model/string.md)|  |
- **allow_empty** | **string**|  |
+ **pipe** | [**string[]**](../Model/string.md)|  | [default to []]
+ **ioutil** | [**string[]**](../Model/string.md)|  | [default to []]
+ **http** | [**string[]**](../Model/string.md)|  | [default to []]
+ **url** | [**string[]**](../Model/string.md)|  | [default to []]
+ **context** | [**string[]**](../Model/string.md)|  | [default to []]
+ **allow_empty** | **string**|  | [default to &quot;&quot;]
  **language** | [**array<string,string>**](../Model/string.md)|  | [optional]
 
 ### Return type

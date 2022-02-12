@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **datetime_prop** | **\DateTime** |  | [optional]
 **array_nullable_prop** | **object[]** |  | [optional]
 **array_and_items_nullable_prop** | **object[]** |  | [optional]
-**array_items_nullable** | **object[]** |  | [optional]
+**array_items_nullable** | **object[]** |  | [optional] [default to []]
 **object_nullable_prop** | **array<string,object>** |  | [optional]
 **object_and_items_nullable_prop** | **array<string,object>** |  | [optional]
 **object_items_nullable** | **array<string,object>** |  | [optional]

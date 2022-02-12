@@ -178,7 +178,7 @@ class ModelList implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['_123_list'] = $data['_123_list'] ?? null;
+        $this->container['_123_list'] = $data['_123_list'] ?? "";
     }
 
     /**

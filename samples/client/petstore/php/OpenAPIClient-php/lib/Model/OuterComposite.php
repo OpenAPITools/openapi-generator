@@ -188,9 +188,9 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['my_number'] = $data['my_number'] ?? null;
-        $this->container['my_string'] = $data['my_string'] ?? null;
-        $this->container['my_boolean'] = $data['my_boolean'] ?? null;
+        $this->container['my_number'] = $data['my_number'] ?? 0;
+        $this->container['my_string'] = $data['my_string'] ?? "";
+        $this->container['my_boolean'] = $data['my_boolean'] ?? false;
     }
 
     /**

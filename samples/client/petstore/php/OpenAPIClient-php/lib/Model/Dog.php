@@ -172,7 +172,7 @@ class Dog extends Animal
     {
         parent::__construct($data);
 
-        $this->container['breed'] = $data['breed'] ?? null;
+        $this->container['breed'] = $data['breed'] ?? "";
     }
 
     /**

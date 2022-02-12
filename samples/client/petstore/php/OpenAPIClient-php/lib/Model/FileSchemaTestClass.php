@@ -184,7 +184,7 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess, \JsonSerializa
     public function __construct(array $data = null)
     {
         $this->container['file'] = $data['file'] ?? null;
-        $this->container['files'] = $data['files'] ?? null;
+        $this->container['files'] = $data['files'] ?? [];
     }
 
     /**

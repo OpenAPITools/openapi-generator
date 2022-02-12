@@ -203,12 +203,12 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['small_camel'] = $data['small_camel'] ?? null;
-        $this->container['capital_camel'] = $data['capital_camel'] ?? null;
-        $this->container['small_snake'] = $data['small_snake'] ?? null;
-        $this->container['capital_snake'] = $data['capital_snake'] ?? null;
-        $this->container['sca_eth_flow_points'] = $data['sca_eth_flow_points'] ?? null;
-        $this->container['att_name'] = $data['att_name'] ?? null;
+        $this->container['small_camel'] = $data['small_camel'] ?? "";
+        $this->container['capital_camel'] = $data['capital_camel'] ?? "";
+        $this->container['small_snake'] = $data['small_snake'] ?? "";
+        $this->container['capital_snake'] = $data['capital_snake'] ?? "";
+        $this->container['sca_eth_flow_points'] = $data['sca_eth_flow_points'] ?? "";
+        $this->container['att_name'] = $data['att_name'] ?? "";
     }
 
     /**

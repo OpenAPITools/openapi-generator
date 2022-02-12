@@ -33,7 +33,7 @@ $apiInstance = new OpenAPI\Client\Api\StoreApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$order_id = 'order_id_example'; // string | ID of the order that needs to be deleted
+$order_id = \"\"; // string | ID of the order that needs to be deleted
 
 try {
     $apiInstance->deleteOrder($order_id);
@@ -46,7 +46,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **string**| ID of the order that needs to be deleted |
+ **order_id** | **string**| ID of the order that needs to be deleted | [default to &quot;&quot;]
 
 ### Return type
 
@@ -147,7 +147,7 @@ $apiInstance = new OpenAPI\Client\Api\StoreApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$order_id = 56; // int | ID of pet that needs to be fetched
+$order_id = 0; // int | ID of pet that needs to be fetched
 
 try {
     $result = $apiInstance->getOrderById($order_id);
@@ -161,7 +161,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **int**| ID of pet that needs to be fetched |
+ **order_id** | **int**| ID of pet that needs to be fetched | [default to 0]
 
 ### Return type
 

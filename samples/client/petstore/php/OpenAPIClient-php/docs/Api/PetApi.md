@@ -97,8 +97,8 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet_id = 56; // int | Pet id to delete
-$api_key = 'api_key_example'; // string
+$pet_id = 0; // int | Pet id to delete
+$api_key = \"\"; // string
 
 try {
     $apiInstance->deletePet($pet_id, $api_key);
@@ -111,8 +111,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| Pet id to delete |
- **api_key** | **string**|  | [optional]
+ **pet_id** | **int**| Pet id to delete | [default to 0]
+ **api_key** | **string**|  | [optional] [default to &quot;&quot;]
 
 ### Return type
 
@@ -158,7 +158,7 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$status = array('status_example'); // string[] | Status values that need to be considered for filter
+$status = array([]); // string[] | Status values that need to be considered for filter
 
 try {
     $result = $apiInstance->findPetsByStatus($status);
@@ -172,7 +172,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**string[]**](../Model/string.md)| Status values that need to be considered for filter |
+ **status** | [**string[]**](../Model/string.md)| Status values that need to be considered for filter | [default to []]
 
 ### Return type
 
@@ -218,7 +218,7 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$tags = array('tags_example'); // string[] | Tags to filter by
+$tags = array([]); // string[] | Tags to filter by
 
 try {
     $result = $apiInstance->findPetsByTags($tags);
@@ -232,7 +232,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**string[]**](../Model/string.md)| Tags to filter by |
+ **tags** | [**string[]**](../Model/string.md)| Tags to filter by | [default to []]
 
 ### Return type
 
@@ -280,7 +280,7 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet_id = 56; // int | ID of pet to return
+$pet_id = 0; // int | ID of pet to return
 
 try {
     $result = $apiInstance->getPetById($pet_id);
@@ -294,7 +294,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to return |
+ **pet_id** | **int**| ID of pet to return | [default to 0]
 
 ### Return type
 
@@ -395,9 +395,9 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet_id = 56; // int | ID of pet that needs to be updated
-$name = 'name_example'; // string | Updated name of the pet
-$status = 'status_example'; // string | Updated status of the pet
+$pet_id = 0; // int | ID of pet that needs to be updated
+$name = \"\"; // string | Updated name of the pet
+$status = \"\"; // string | Updated status of the pet
 
 try {
     $apiInstance->updatePetWithForm($pet_id, $name, $status);
@@ -410,9 +410,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet that needs to be updated |
- **name** | **string**| Updated name of the pet | [optional]
- **status** | **string**| Updated status of the pet | [optional]
+ **pet_id** | **int**| ID of pet that needs to be updated | [default to 0]
+ **name** | **string**| Updated name of the pet | [optional] [default to &quot;&quot;]
+ **status** | **string**| Updated status of the pet | [optional] [default to &quot;&quot;]
 
 ### Return type
 
@@ -456,8 +456,8 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet_id = 56; // int | ID of pet to update
-$additional_metadata = 'additional_metadata_example'; // string | Additional data to pass to server
+$pet_id = 0; // int | ID of pet to update
+$additional_metadata = \"\"; // string | Additional data to pass to server
 $file = "/path/to/file.txt"; // \SplFileObject | file to upload
 
 try {
@@ -472,8 +472,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to update |
- **additional_metadata** | **string**| Additional data to pass to server | [optional]
+ **pet_id** | **int**| ID of pet to update | [default to 0]
+ **additional_metadata** | **string**| Additional data to pass to server | [optional] [default to &quot;&quot;]
  **file** | **\SplFileObject****\SplFileObject**| file to upload | [optional]
 
 ### Return type
@@ -518,9 +518,9 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet_id = 56; // int | ID of pet to update
+$pet_id = 0; // int | ID of pet to update
 $required_file = "/path/to/file.txt"; // \SplFileObject | file to upload
-$additional_metadata = 'additional_metadata_example'; // string | Additional data to pass to server
+$additional_metadata = \"\"; // string | Additional data to pass to server
 
 try {
     $result = $apiInstance->uploadFileWithRequiredFile($pet_id, $required_file, $additional_metadata);
@@ -534,9 +534,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to update |
+ **pet_id** | **int**| ID of pet to update | [default to 0]
  **required_file** | **\SplFileObject****\SplFileObject**| file to upload |
- **additional_metadata** | **string**| Additional data to pass to server | [optional]
+ **additional_metadata** | **string**| Additional data to pass to server | [optional] [default to &quot;&quot;]
 
 ### Return type
 

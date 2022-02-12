@@ -220,11 +220,11 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->container['id'] = $data['id'] ?? null;
-        $this->container['pet_id'] = $data['pet_id'] ?? null;
-        $this->container['quantity'] = $data['quantity'] ?? null;
+        $this->container['id'] = $data['id'] ?? 0;
+        $this->container['pet_id'] = $data['pet_id'] ?? 0;
+        $this->container['quantity'] = $data['quantity'] ?? 0;
         $this->container['ship_date'] = $data['ship_date'] ?? null;
-        $this->container['status'] = $data['status'] ?? null;
+        $this->container['status'] = $data['status'] ?? "";
         $this->container['complete'] = $data['complete'] ?? false;
     }
 

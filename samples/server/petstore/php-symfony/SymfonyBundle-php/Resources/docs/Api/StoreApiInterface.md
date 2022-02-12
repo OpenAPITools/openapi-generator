@@ -59,7 +59,7 @@ class StoreApi implements StoreApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **string**| ID of the order that needs to be deleted |
+ **orderId** | **string**| ID of the order that needs to be deleted | [default to &quot;&quot;]
 
 ### Return type
 
@@ -172,7 +172,7 @@ class StoreApi implements StoreApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **int**| ID of pet that needs to be fetched |
+ **orderId** | **int**| ID of pet that needs to be fetched | [default to 0]
 
 ### Return type
 

@@ -17,6 +17,6 @@ class DeleteUserParameterData
      * @DTA\Validator(subset="path", name="QueryStringScalar", options={"type":"string"})
      * @var string
      */
-    public $username;
+    public $username = "";
 
 }
