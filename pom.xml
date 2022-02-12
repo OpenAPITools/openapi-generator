@@ -1317,8 +1317,6 @@
             <modules>
                 <!-- clients -->
                 <!-- test java-related projects -->
-                <!-- comment out below due to gradle no longer installed in circleci
-                <module>samples/client/petstore/groovy</module> -->
                 <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
