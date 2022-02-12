@@ -26,10 +26,6 @@ jobs:
           - samples/openapi3/client/petstore/spring-stubs
           - samples/openapi3/client/petstore/spring-stubs-skip-default-interface
           # servers
-          - samples/server/petstore/spring-mvc
-          - samples/server/petstore/spring-mvc-default-value
-          - samples/server/petstore/spring-mvc-j8-async
-          - samples/server/petstore/spring-mvc-j8-localdatetime
           - samples/server/petstore/springboot
           - samples/openapi3/server/petstore/springboot
           - samples/server/petstore/springboot-beanvalidation

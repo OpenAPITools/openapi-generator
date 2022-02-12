@@ -775,7 +775,7 @@ public class SpringCodegenTest {
     }
 
     /**define the destinationFilename*/
-    private final static String DESTINATIONFILE = "OpenAPIDocumentationConfig.java";
+    private final static String DESTINATIONFILE = "SpringFoxConfiguration.java";
     /**define the templateFile*/
     private final static String TEMPLATEFILE = "openapiDocumentationConfig.mustache";
 
@@ -787,14 +787,14 @@ public class SpringCodegenTest {
     public void testConfigFileGeneration() {
 
         final SpringCodegen codegen = new SpringCodegen();
-
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
         codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, false);
         codegen.additionalProperties().put(SpringCodegen.SPRING_CLOUD_LIBRARY, "spring-cloud");
-        codegen.additionalProperties().put(SpringCodegen.OPENAPI_DOCKET_CONFIG, true);
         codegen.additionalProperties().put(SpringCodegen.REACTIVE, false);
         codegen.additionalProperties().put(SpringCodegen.API_FIRST, false);
 
         codegen.processOpts();
+
         final List<SupportingFile> supList = codegen.supportingFiles();
         String tmpFile;
         String desFile;

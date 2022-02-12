@@ -921,24 +921,6 @@
       ]
     },
     {
-      "input": "spring-mvc-petstore-j8-async-server.sh",
-      "matches": [
-        "Server: Spring"
-      ]
-    },
-    {
-      "input": "spring-mvc-petstore-j8-localdatetime.sh",
-      "matches": [
-        "Server: Spring"
-      ]
-    },
-    {
-      "input": "spring-mvc-petstore-server.sh",
-      "matches": [
-        "Server: Spring"
-      ]
-    },
-    {
       "input": "spring-stubs.sh",
       "matches": [
         "Server: Spring"
