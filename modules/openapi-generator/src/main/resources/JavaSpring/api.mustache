@@ -85,6 +85,9 @@ import javax.annotation.Generated;
 {{#virtualService}}
 @VirtualService
 {{/virtualService}}
+{{#-}}
+{{>requestMapping}}
+{{/-}}
 public interface {{classname}} {
 {{#jdk8-default-interface}}
     {{^isDelegate}}

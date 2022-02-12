@@ -9,7 +9,6 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
-@RequestMapping("${openapi.openAPIPetstore.base-path:/}")
 public class FakeClassnameTestApiController implements FakeClassnameTestApi {
 
     private final NativeWebRequest request;
