@@ -58,7 +58,7 @@ public class PhpModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, null);
+        Assert.assertEquals(property1.defaultValue, "0");
         Assert.assertEquals(property1.baseType, "int");
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
@@ -68,7 +68,7 @@ public class PhpModelTest {
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.dataType, "string");
         Assert.assertEquals(property2.name, "name");
-        Assert.assertEquals(property2.defaultValue, null);
+        Assert.assertEquals(property2.defaultValue, "\"\"");
         Assert.assertEquals(property2.baseType, "string");
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
@@ -107,7 +107,7 @@ public class PhpModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, null);
+        Assert.assertEquals(property1.defaultValue, "0");
         Assert.assertEquals(property1.baseType, "int");
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
