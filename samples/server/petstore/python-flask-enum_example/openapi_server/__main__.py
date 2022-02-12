@@ -1,16 +1,8 @@
-{{#supportPython2}}
-#!/usr/bin/env python
-{{/supportPython2}}
-{{^supportPython2}}
 #!/usr/bin/env python3
-{{/supportPython2}}
 
 import connexion
-{{#featureCORS}}
-from flask_cors import CORS
-{{/featureCORS}}
 
-from {{packageName}} import encoder
+from openapi_server import encoder
 
 
 def main():
@@ -27,15 +19,10 @@ def main():
     app.app.config['TRAP_BAD_REQUEST_ERRORS'] = True 
 
     app.add_api('openapi.yaml',
-                arguments={'title': '{{appName}}'},
+                arguments={'title': 'OpenAPI Enums Exemplar'},
                 pythonic_params=True)
 
-{{#featureCORS}}
-    # add CORS support
-    CORS(app.app)
-
-{{/featureCORS}}
-    app.run(port={{serverPort}})
+    app.run(port=8080)
 
 
 if __name__ == '__main__':

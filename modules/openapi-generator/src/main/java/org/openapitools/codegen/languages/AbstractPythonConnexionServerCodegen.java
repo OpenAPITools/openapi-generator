@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -401,19 +402,42 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                                 }
                             }
                         }
+
+                        /* unless fixBodyName is set to true then generated code will be invalid.
+                         * Connexion default body param name is "body" but the default param name that
+                         * Openapi Generator will use if we don't do something is the name of the class.
+                         * So there would be a runtime error as the parameters of the controller method would not be satisfied
+                         * by connexion. Of course one could manually edit the generated code to refer to "body" instead
+                         * but better still if we just make the openapi generator use "body" explicitly unless overridden.
+                         */
                         RequestBody body = operation.getRequestBody();
                         if (fixBodyName && body != null) {
-                            if (body.getExtensions() == null || !body.getExtensions().containsKey("x-body-name")) {
-                                String bodyParameterName = "body";
-                                if (operation.getExtensions() != null && operation.getExtensions().containsKey("x-codegen-request-body-name")) {
-                                    bodyParameterName = (String) operation.getExtensions().get("x-codegen-request-body-name");
-                                } else {
-                                    // Used by code generator
-                                    operation.addExtension("x-codegen-request-body-name", bodyParameterName);
-                                }
-                                // Used by connexion
-                                body.addExtension("x-body-name", bodyParameterName);
+                            String bodyParameterName = "body";
+                            if (operation.getExtensions() != null && operation.getExtensions().containsKey("x-codegen-request-body-name")) {
+                                bodyParameterName = (String) operation.getExtensions().get("x-codegen-request-body-name");
+                            } else {
+                                // Used by code generator
+                                operation.addExtension("x-codegen-request-body-name", bodyParameterName);
                             }
+
+                            // pushing down to the schema where connexions curretly expects it to be is pointless
+                            // because it's not a valid position to have a $ref schema wth extensions
+                            // so the serialisation drops the extension.
+                            // we have modified connexion to allow it alo also at the operation level
+                            // so inject that below instead.
+
+                            // new location of x-body-name as per connexion issue 1452
+                            // and fix https://github.com/zalando/connexion/pull/1453
+                            operation.addExtension("x-body-name", bodyParameterName);
+
+                            // Used by connexion
+                            // TODO : NO IT'S NOT USD BY CONNEXIONS
+                            //  THIS DOESN'T WORK IN 2.10.0 AT LEAST - HAS TO BE IN THE SCHEMA INSTEAD
+                            //  BUT SADLY ONE CANNOT GET AN EXTENSION IN A SCHEMA IF TYPE IS A $ref
+                            //  AS ITS NOT LEGAL OAS.
+                            // It's useless but I'm not deleting - Retire this when connexions 1452 is merged
+                            body.addExtension("x-body-name", bodyParameterName);
+
                         }
                     }
                 }

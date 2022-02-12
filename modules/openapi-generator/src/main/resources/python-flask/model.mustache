@@ -37,6 +37,11 @@ class {{classname}}(Model):
 {{/enumVars}}
 {{/allowableValues}}
 
+{{#allowableValues}}
+    allowable_values = [{{#enumVars}}{{name}}{{^-last}}, {{/-last}}{{/enumVars}}]  # noqa: E501
+    enum_items = { {{#enumVars}} "{{name}}" : {{name}}{{^-last}}, {{/-last}}{{/enumVars}} }  # noqa: E501
+
+{{/allowableValues}}
     def __init__(self{{#vars}}, {{name}}={{{defaultValue}}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI
 
@@ -70,8 +75,8 @@ class {{classname}}(Model):
         :return: The {{name}} of this {{classname}}.  # noqa: E501
         :rtype: {{classname}}
         """
-        return util.deserialize_model(dikt, cls){{#vars}}{{#-first}}
-
+        return util.deserialize_model(dikt, cls)
+{{#vars}}{{#-first}}
 {{/-first}}
     @property
     def {{name}}(self):
@@ -131,8 +136,12 @@ class {{classname}}(Model):
         if {{name}} is None:
             raise ValueError("Invalid value for `{{name}}`, must not be `None`")  # noqa: E501
 {{/required}}
+{{#allowableValues}}
+        # assert that this is a valid {{dataType}} enum value
+        {{{name}}} = {{dataType}}.of({{{name}}})
+{{/allowableValues}}
 {{#hasValidation}}
-{{#maxLength}}
+    {{#maxLength}}
         if {{name}} is not None and len({{name}}) > {{maxLength}}:
             raise ValueError("Invalid value for `{{name}}`, length must be less than or equal to `{{maxLength}}`")  # noqa: E501
 {{/maxLength}}
@@ -167,6 +176,21 @@ class {{classname}}(Model):
 
 {{/-last}}
 {{/vars}}
+{{#allowableValues}}
+
+    @staticmethod
+    def of(value):
+        """
+        return value if it is a valid enum value or none, otherwise throw
+        """
+        if not value or value in {{classname}}.allowable_values:
+           return value
+
+        raise ValueError(
+            "Invalid enum value for `{{classname}}` ({0}), must be one of {1}"  # noqa: E501
+            .format(value, {{classname}}.allowable_values)
+        )
+    {{/allowableValues}}
 
 {{/model}}
 {{/models}}

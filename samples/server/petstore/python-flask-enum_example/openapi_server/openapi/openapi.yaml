@@ -1,0 +1,395 @@
+openapi: 3.0.0
+info:
+  description: This spec is for testing all kinds of enum functionality and is generally
+    applicable to any generator
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: OpenAPI Enums Exemplar
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /enum-get:
+    get:
+      description: To test enum parameters
+      operationId: enum_get
+      parameters:
+      - description: Header parameter  - HTTP convention for headers is hyphen NOT
+          underscore but both are legal so we'll use both here deliberately to highlight
+          what the processing does
+        explode: false
+        in: header
+        name: enum-header_string-array
+        required: false
+        schema:
+          items:
+            default: $
+            enum:
+            - '>'
+            - $
+            type: string
+          type: array
+        style: simple
+      - description: Header parameter - HTTP convention for headers is hyphen NOT
+          underscore but both are legal so we'll use both here deliberately to highlight
+          what the processing does
+        explode: false
+        in: header
+        name: enum-header_string
+        required: false
+        schema:
+          default: -efg
+          enum:
+          - _abc
+          - -efg
+          - (xyz)
+          type: string
+        style: simple
+      - description: Query parameter enum test (string array)
+        explode: true
+        in: query
+        name: enum_query_string_array
+        required: false
+        schema:
+          items:
+            default: $
+            enum:
+            - '>'
+            - $
+            type: string
+          type: array
+        style: form
+      - description: Query parameter enum test (string)
+        explode: true
+        in: query
+        name: enum_query_string
+        required: false
+        schema:
+          default: -efg
+          enum:
+          - _abc
+          - -efg
+          - (xyz)
+          type: string
+        style: form
+      - description: Query parameter enum test (double)
+        explode: true
+        in: query
+        name: enum_query_integer
+        required: false
+        schema:
+          enum:
+          - 1
+          - -2
+          format: int32
+          type: integer
+        style: form
+      - description: Query parameter enum test (double)
+        explode: true
+        in: query
+        name: enum_query_double
+        required: false
+        schema:
+          enum:
+          - 1.1
+          - -1.2
+          example: 1.1
+          format: double
+          type: number
+        style: form
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object'
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                enum_form_string_array:
+                  description: Form parameter enum test (string array)
+                  items:
+                    default: $
+                    enum:
+                    - '>'
+                    - $
+                    type: string
+                  type: array
+                enum_form_string:
+                  default: -efg
+                  description: Form parameter enum test (string)
+                  enum:
+                  - _abc
+                  - -efg
+                  - (xyz)
+                  type: string
+              type: object
+        x-body-name: body
+      responses:
+        "400":
+          description: Invalid request
+        "404":
+          description: Not found
+      summary: To test enum parameters
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+      x-codegen-request-body-name: body
+      x-body-name: body
+  /enum-post-form:
+    post:
+      description: Test serialization of enum properties with examples
+      operationId: enum_post_form
+      parameters:
+      - description: Query outer enum parameter
+        explode: true
+        in: query
+        name: enum_query_int
+        required: true
+        schema:
+          $ref: '#/components/schemas/OuterEnumInteger'
+        style: form
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object_1'
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                enum_form_string_array:
+                  description: Form parameter enum test (string array)
+                  items:
+                    default: $
+                    enum:
+                    - '>'
+                    - $
+                    type: string
+                  type: array
+                enum_form_string:
+                  default: -efg
+                  description: Form parameter enum test (string)
+                  enum:
+                  - _abc
+                  - -efg
+                  - (xyz)
+                  type: string
+              type: object
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EnumCornucopia'
+          description: Output enum corncopia
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+      x-codegen-request-body-name: body
+      x-body-name: body
+  /enum-post-json:
+    post:
+      description: Test serialization of enum properties with examples
+      operationId: enum_post_json
+      parameters:
+      - description: Query outer enum parameter
+        example: 2
+        explode: true
+        in: query
+        name: enum_query_int
+        required: true
+        schema:
+          $ref: '#/components/schemas/OuterEnumInteger'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnumCornucopia'
+        required: true
+        x-body-name: overidden_body_param_name
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EnumCornucopia'
+          description: Output enum cornucopia
+      x-codegen-request-body-name: overidden_body_param_name
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+      x-body-name: overidden_body_param_name
+components:
+  requestBodies:
+    inline_object_1:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/inline_object_1'
+      required: true
+    inline_object:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/inline_object'
+  schemas:
+    EnumCornucopia:
+      example:
+        enum_string_required: UPPER
+        enum_integer: 1
+        outerEnumInteger: 2
+        enum_string: UPPER
+        enum_number: -1.2
+      properties:
+        enum_string:
+          enum:
+          - UPPER
+          - lower
+          - ""
+          title: enum_string
+          type: string
+        enum_string_required:
+          enum:
+          - UPPER
+          - lower
+          - ""
+          title: enum_string_required
+          type: string
+        enum_integer:
+          enum:
+          - 1
+          - -1
+          example: 1
+          format: int32
+          title: enum_integer
+          type: integer
+        enum_number:
+          enum:
+          - 1.1
+          - -1.2
+          example: -1.2
+          format: double
+          title: enum_number
+          type: number
+        outerEnumString:
+          $ref: '#/components/schemas/OuterEnumString'
+        outerEnumInteger:
+          $ref: '#/components/schemas/OuterEnumInteger'
+        outerEnumStringDefaultValue:
+          $ref: '#/components/schemas/OuterEnumStringDefaultValue'
+        outerEnumIntegerDefaultValue:
+          $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
+        outerEnumNumber:
+          $ref: '#/components/schemas/OuterEnumNumber'
+        outerEnumStrange:
+          $ref: '#/components/schemas/OuterEnumStrange'
+      required:
+      - enum_string_required
+      title: EnumCornucopia
+      type: object
+    EnumMap:
+      properties:
+        map_of_enum_string:
+          additionalProperties:
+            enum:
+            - UPPER
+            - lower
+            type: string
+          type: object
+      type: object
+    EnumArrays:
+      properties:
+        just_symbol:
+          enum:
+          - '>='
+          - $
+          type: string
+        array_enum:
+          items:
+            enum:
+            - fish
+            - crab
+            type: string
+          type: array
+      type: object
+    OuterEnumStrange:
+      default: -efg
+      enum:
+      - _abc
+      - -efg
+      - (xyz)
+      - with Spaces
+      title: OuterEnumStrange
+      type: string
+    OuterEnumString:
+      enum:
+      - placed
+      - approved
+      - delivered
+      nullable: true
+      title: OuterEnumString
+      type: string
+    OuterEnumInteger:
+      enum:
+      - 0
+      - 1
+      - 2
+      example: 2
+      title: OuterEnumInteger
+      type: integer
+    OuterEnumNumber:
+      enum:
+      - 0
+      - 1.1
+      - 2.2
+      title: OuterEnumNumber
+      type: number
+    OuterEnumStringDefaultValue:
+      default: placed
+      enum:
+      - placed
+      - approved
+      - delivered
+      title: OuterEnumStringDefaultValue
+      type: string
+    OuterEnumIntegerDefaultValue:
+      default: 0
+      enum:
+      - 0
+      - 1
+      - 2
+      title: OuterEnumIntegerDefaultValue
+      type: integer
+    inline_object:
+      properties:
+        enum_form_string_array:
+          description: Form parameter enum test (string array)
+          items:
+            default: $
+            enum:
+            - '>'
+            - $
+            type: string
+          type: array
+        enum_form_string:
+          default: -efg
+          description: Form parameter enum test (string)
+          enum:
+          - _abc
+          - -efg
+          - (xyz)
+          type: string
+      type: object
+    inline_object_1:
+      properties:
+        enum_form_string_array:
+          description: Form parameter enum test (string array)
+          items:
+            default: $
+            enum:
+            - '>'
+            - $
+            type: string
+          type: array
+        enum_form_string:
+          default: -efg
+          description: Form parameter enum test (string)
+          enum:
+          - _abc
+          - -efg
+          - (xyz)
+          type: string
+      type: object

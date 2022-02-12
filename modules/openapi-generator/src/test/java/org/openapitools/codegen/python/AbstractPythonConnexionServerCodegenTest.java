@@ -11,13 +11,42 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.google.common.collect.ImmutableMap;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.MediaType;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.DefaultCodegenTest;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractPythonConnexionServerCodegen;
+import org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class AbstractPythonConnexionServerCodegenTest {
+public class AbstractPythonConnexionServerCodegenTest extends DefaultCodegenTest  {
+
+    @Test
+    public void testBodyParamNameIsPushedToConnexionsLocation() {
+        String specFile = "src/test/resources/3_0/enum_examples.yaml";
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(specFile);
+        Operation initialState = openAPI.getPaths().get("/enum-post-json").getPost();
+        Assert.assertTrue(initialState.getExtensions().containsKey("x-codegen-request-body-name"));
+        Assert.assertTrue(initialState.getExtensions().get("x-codegen-request-body-name").equals("overidden_body_param_name"));
+        Assert.assertTrue(initialState.getExtensions().get("x-body-name") == null);
+
+        final AbstractPythonConnexionServerCodegen codegen = new AbstractPythonConnexionServerCodegen(System.getProperty("java.io.tmpdir"),true) {};
+        codegen.setOpenAPI(openAPI);
+        codegen.preprocessOpenAPI(openAPI);
+
+        Operation finalState = openAPI.getPaths().get("/enum-post-json").getPost();
+        // legacy location that's incompatible with Connexion
+        Assert.assertTrue(finalState.getRequestBody().getExtensions().get("x-body-name").equals("overidden_body_param_name"));
+        // new location
+        Assert.assertTrue(finalState.getExtensions().get("x-body-name").equals("overidden_body_param_name"));
+    }
 
     /**
      * Passing "description" as first param to succinctly identify the significance of test parameters.
@@ -144,4 +173,8 @@ public class AbstractPythonConnexionServerCodegenTest {
         return StringUtils.join(nodes, File.separatorChar);
     }
 
+    @Override
+    protected DefaultCodegen subject() {
+        return new PythonFlaskConnexionServerCodegen();
+    }
 }
