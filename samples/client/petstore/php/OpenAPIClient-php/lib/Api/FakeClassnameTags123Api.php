@@ -31,9 +31,12 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
+use InvalidArgumentException;
+use RuntimeException;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -123,7 +126,7 @@ class FakeClassnameTags123Api
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\Client
      */
     public function testClassname($client)
@@ -140,7 +143,7 @@ class FakeClassnameTags123Api
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
      */
     public function testClassnameWithHttpInfo($client)
@@ -232,8 +235,8 @@ class FakeClassnameTags123Api
      *
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testClassnameAsync($client)
     {
@@ -252,8 +255,8 @@ class FakeClassnameTags123Api
      *
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function testClassnameAsyncWithHttpInfo($client)
     {
@@ -298,8 +301,8 @@ class FakeClassnameTags123Api
      *
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function testClassnameRequest($client)
     {
@@ -335,7 +338,7 @@ class FakeClassnameTags123Api
         // for model (json/xml)
         if (isset($client)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($client));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($client));
             } else {
                 $httpBody = $client;
             }
@@ -352,14 +355,14 @@ class FakeClassnameTags123Api
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -380,8 +383,8 @@ class FakeClassnameTags123Api
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'PATCH',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -392,7 +395,7 @@ class FakeClassnameTags123Api
     /**
      * Create http client option
      *
-     * @throws \RuntimeException on file opening failure
+     * @throws RuntimeException on file opening failure
      * @return array of http client options
      */
     protected function createHttpClientOption()

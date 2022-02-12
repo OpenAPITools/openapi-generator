@@ -173,7 +173,7 @@ class ModelList implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
+     * @param mixed[]|null $data Associated array of property values
      *                      initializing the model
      */
     public function __construct(array $data = null)
@@ -231,7 +231,7 @@ class ModelList implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param integer $offset Offset
+     * @param mixed $offset Offset
      *
      * @return boolean
      */
@@ -243,7 +243,7 @@ class ModelList implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets offset.
      *
-     * @param integer $offset Offset
+     * @param mixed $offset Offset
      *
      * @return mixed|null
      */
@@ -255,7 +255,7 @@ class ModelList implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets value based on offset.
      *
-     * @param int|null $offset Offset
+     * @param mixed    $offset Offset
      * @param mixed    $value  Value to be set
      *
      * @return void
@@ -272,7 +272,7 @@ class ModelList implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Unsets offset.
      *
-     * @param integer $offset Offset
+     * @param mixed $offset Offset
      *
      * @return void
      */
@@ -285,7 +285,7 @@ class ModelList implements ModelInterface, ArrayAccess, \JsonSerializable
      * Serializes the object to a value that can be serialized natively by json_encode().
      * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * @return scalar|object|array|null Returns data which can be serialized by json_encode(), which is a value
      * of any type other than a resource.
      */
     public function jsonSerialize()

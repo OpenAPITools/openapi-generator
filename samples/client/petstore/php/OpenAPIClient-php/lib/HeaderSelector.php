@@ -1,6 +1,6 @@
 <?php
 /**
- * ApiException
+ * HeaderSelector
  * PHP version 7.3
  *
  * @category Class
@@ -27,7 +27,7 @@
 
 namespace OpenAPI\Client;
 
-use \Exception;
+use Exception;
 
 /**
  * ApiException Class Doc Comment

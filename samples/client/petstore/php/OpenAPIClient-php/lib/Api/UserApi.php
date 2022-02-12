@@ -31,9 +31,12 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
+use InvalidArgumentException;
+use RuntimeException;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
@@ -123,7 +126,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function createUser($user)
@@ -139,7 +142,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function createUserWithHttpInfo($user)
@@ -197,8 +200,8 @@ class UserApi
      *
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function createUserAsync($user)
     {
@@ -217,8 +220,8 @@ class UserApi
      *
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function createUserAsyncWithHttpInfo($user)
     {
@@ -253,8 +256,8 @@ class UserApi
      *
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function createUserRequest($user)
     {
@@ -290,7 +293,7 @@ class UserApi
         // for model (json/xml)
         if (isset($user)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($user));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($user));
             } else {
                 $httpBody = $user;
             }
@@ -307,14 +310,14 @@ class UserApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -330,8 +333,8 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -347,7 +350,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function createUsersWithArrayInput($user)
@@ -363,7 +366,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function createUsersWithArrayInputWithHttpInfo($user)
@@ -421,8 +424,8 @@ class UserApi
      *
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function createUsersWithArrayInputAsync($user)
     {
@@ -441,8 +444,8 @@ class UserApi
      *
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function createUsersWithArrayInputAsyncWithHttpInfo($user)
     {
@@ -477,8 +480,8 @@ class UserApi
      *
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function createUsersWithArrayInputRequest($user)
     {
@@ -514,7 +517,7 @@ class UserApi
         // for model (json/xml)
         if (isset($user)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($user));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($user));
             } else {
                 $httpBody = $user;
             }
@@ -531,14 +534,14 @@ class UserApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -554,8 +557,8 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -571,7 +574,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function createUsersWithListInput($user)
@@ -587,7 +590,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function createUsersWithListInputWithHttpInfo($user)
@@ -645,8 +648,8 @@ class UserApi
      *
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function createUsersWithListInputAsync($user)
     {
@@ -665,8 +668,8 @@ class UserApi
      *
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function createUsersWithListInputAsyncWithHttpInfo($user)
     {
@@ -701,8 +704,8 @@ class UserApi
      *
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function createUsersWithListInputRequest($user)
     {
@@ -738,7 +741,7 @@ class UserApi
         // for model (json/xml)
         if (isset($user)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($user));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($user));
             } else {
                 $httpBody = $user;
             }
@@ -755,14 +758,14 @@ class UserApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -778,8 +781,8 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -795,7 +798,7 @@ class UserApi
      * @param  string $username The name that needs to be deleted (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function deleteUser($username)
@@ -811,7 +814,7 @@ class UserApi
      * @param  string $username The name that needs to be deleted (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteUserWithHttpInfo($username)
@@ -869,8 +872,8 @@ class UserApi
      *
      * @param  string $username The name that needs to be deleted (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function deleteUserAsync($username)
     {
@@ -889,8 +892,8 @@ class UserApi
      *
      * @param  string $username The name that needs to be deleted (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function deleteUserAsyncWithHttpInfo($username)
     {
@@ -925,8 +928,8 @@ class UserApi
      *
      * @param  string $username The name that needs to be deleted (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function deleteUserRequest($username)
     {
@@ -981,14 +984,14 @@ class UserApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -1004,8 +1007,8 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -1021,7 +1024,7 @@ class UserApi
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\User
      */
     public function getUserByName($username)
@@ -1038,7 +1041,7 @@ class UserApi
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\User, HTTP status code, HTTP response headers (array of strings)
      */
     public function getUserByNameWithHttpInfo($username)
@@ -1130,8 +1133,8 @@ class UserApi
      *
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function getUserByNameAsync($username)
     {
@@ -1150,8 +1153,8 @@ class UserApi
      *
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function getUserByNameAsyncWithHttpInfo($username)
     {
@@ -1196,8 +1199,8 @@ class UserApi
      *
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function getUserByNameRequest($username)
     {
@@ -1252,14 +1255,14 @@ class UserApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -1275,8 +1278,8 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -1293,7 +1296,7 @@ class UserApi
      * @param  string $password The password for login in clear text (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return string
      */
     public function loginUser($username, $password)
@@ -1311,7 +1314,7 @@ class UserApi
      * @param  string $password The password for login in clear text (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function loginUserWithHttpInfo($username, $password)
@@ -1404,8 +1407,8 @@ class UserApi
      * @param  string $username The user name for login (required)
      * @param  string $password The password for login in clear text (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function loginUserAsync($username, $password)
     {
@@ -1425,8 +1428,8 @@ class UserApi
      * @param  string $username The user name for login (required)
      * @param  string $password The password for login in clear text (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function loginUserAsyncWithHttpInfo($username, $password)
     {
@@ -1472,8 +1475,8 @@ class UserApi
      * @param  string $username The user name for login (required)
      * @param  string $password The password for login in clear text (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function loginUserRequest($username, $password)
     {
@@ -1548,14 +1551,14 @@ class UserApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -1571,8 +1574,8 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -1587,7 +1590,7 @@ class UserApi
      *
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function logoutUser()
@@ -1602,7 +1605,7 @@ class UserApi
      *
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function logoutUserWithHttpInfo()
@@ -1659,8 +1662,8 @@ class UserApi
      * Logs out current logged in user session
      *
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function logoutUserAsync()
     {
@@ -1678,8 +1681,8 @@ class UserApi
      * Logs out current logged in user session
      *
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function logoutUserAsyncWithHttpInfo()
     {
@@ -1713,8 +1716,8 @@ class UserApi
      * Create request for operation 'logoutUser'
      *
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function logoutUserRequest()
     {
@@ -1755,14 +1758,14 @@ class UserApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -1778,8 +1781,8 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -1796,7 +1799,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function updateUser($username, $user)
@@ -1813,7 +1816,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateUserWithHttpInfo($username, $user)
@@ -1872,8 +1875,8 @@ class UserApi
      * @param  string $username name that need to be deleted (required)
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function updateUserAsync($username, $user)
     {
@@ -1893,8 +1896,8 @@ class UserApi
      * @param  string $username name that need to be deleted (required)
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @throws InvalidArgumentException
+     * @return Promise\PromiseInterface
      */
     public function updateUserAsyncWithHttpInfo($username, $user)
     {
@@ -1930,8 +1933,8 @@ class UserApi
      * @param  string $username name that need to be deleted (required)
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @throws InvalidArgumentException
+     * @return Psr7\Request
      */
     public function updateUserRequest($username, $user)
     {
@@ -1981,7 +1984,7 @@ class UserApi
         // for model (json/xml)
         if (isset($user)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($user));
+                $httpBody = Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($user));
             } else {
                 $httpBody = $user;
             }
@@ -1998,14 +2001,14 @@ class UserApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new Psr7\MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = Utils::jsonEncode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = Psr7\Query::build($formParams);
             }
         }
 
@@ -2021,8 +2024,8 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
-        return new Request(
+        $query = Psr7\Query::build($queryParams);
+        return new Psr7\Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
@@ -2033,7 +2036,7 @@ class UserApi
     /**
      * Create http client option
      *
-     * @throws \RuntimeException on file opening failure
+     * @throws RuntimeException on file opening failure
      * @return array of http client options
      */
     protected function createHttpClientOption()

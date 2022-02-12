@@ -29,6 +29,9 @@
 namespace OpenAPI\Client;
 
 use OpenAPI\Client\Model\ModelInterface;
+use Psr\Http\Message;
+use DateTime;
+use DateTimeInterface;
 
 /**
  * ObjectSerializer Class Doc Comment
@@ -41,7 +44,7 @@ use OpenAPI\Client\Model\ModelInterface;
 class ObjectSerializer
 {
     /** @var string */
-    private static $dateTimeFormat = \DateTime::ATOM;
+    private static $dateTimeFormat = DateTimeInterface::ATOM;
 
     /**
      * Change the date format
@@ -57,8 +60,8 @@ class ObjectSerializer
      * Serialize data
      *
      * @param mixed  $data   the data to serialize
-     * @param string $type   the OpenAPIToolsType of the data
-     * @param string $format the format of the OpenAPITools type of the data
+     * @param string $type|null   the OpenAPIToolsType of the data
+     * @param string $format|null the format of the OpenAPITools type of the data
      *
      * @return scalar|object|array|null serialized form of $data
      */
@@ -218,7 +221,7 @@ class ObjectSerializer
      * If it's a datetime object, format it in ISO8601
      * If it's a boolean, convert it to "true" or "false".
      *
-     * @param string|bool|\DateTime $value the value of the parameter
+     * @param string|bool|DateTime $value the value of the parameter
      *
      * @return string the header string
      */
@@ -276,7 +279,6 @@ class ObjectSerializer
      * @param mixed    $data          object or primitive to be deserialized
      * @param string   $class         class name is passed as a string
      * @param string[] $httpHeaders   HTTP headers
-     * @param string   $discriminator discriminator if polymorphism is used
      *
      * @return object|array|null a single or an array of $class instances
      */
@@ -346,12 +348,12 @@ class ObjectSerializer
         }
 
         if ($class === '\SplFileObject') {
-            /** @var \Psr\Http\Message\StreamInterface $data */
+            /** @var Message\StreamInterface $data */
 
             // determine file name
             if (
                 is_array($httpHeaders)
-                && array_key_exists('Content-Disposition', $httpHeaders) 
+                && array_key_exists('Content-Disposition', $httpHeaders)
                 && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)
             ) {
                 $filename = Configuration::getDefaultConfiguration()->getTempFolderPath() . DIRECTORY_SEPARATOR . self::sanitizeFilename($match[1]);
