@@ -48,5 +48,3 @@ apiInstance.addPet(pet)
 };
 ```
 
-
-
