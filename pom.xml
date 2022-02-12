@@ -1227,6 +1227,7 @@
                 <module>samples/client/petstore/spring-cloud-date-time</module>
                 <module>samples/openapi3/client/petstore/spring-cloud-date-time</module>
                 <module>samples/server/petstore/springboot</module>
+                <module>samples/server/petstore/spring-boot-nullable-set</module>
                 <module>samples/openapi3/server/petstore/springboot</module>
                 <module>samples/server/petstore/springboot-beanvalidation</module>
                 <module>samples/server/petstore/springboot-useoptional</module>
