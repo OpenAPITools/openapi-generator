@@ -502,11 +502,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             apiTemplateFiles.put("apiDelegate.mustache", "Delegate.java");
         }
 
-        if (apiFirst) {
-            apiTemplateFiles.clear();
-            modelTemplateFiles.clear();
-        }
-
         if (java8) {
             additionalProperties.put("javaVersion", "1.8");
             if (SPRING_CLOUD_LIBRARY.equals(library)) {
@@ -564,6 +559,12 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
+
+        // HEADS-UP: Do not add more template file after this block
+        if (apiFirst) {
+            apiTemplateFiles.clear();
+            modelTemplateFiles.clear();
+        }
     }
 
     @Override
