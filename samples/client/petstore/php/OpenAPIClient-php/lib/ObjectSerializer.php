@@ -29,7 +29,7 @@
 namespace OpenAPI\Client;
 
 use OpenAPI\Client\Model\ModelInterface;
-use GuzzleHttp\Psr7;
+use GuzzleHttp\Psr7\Utils;
 
 /**
  * ObjectSerializer Class Doc Comment
@@ -347,7 +347,7 @@ class ObjectSerializer
         }
 
         if ($class === '\SplFileObject') {
-            $data = Psr7\Utils::streamFor($data);
+            $data = Utils::streamFor($data);
 
             /** @var \Psr\Http\Message\StreamInterface $data */
 
