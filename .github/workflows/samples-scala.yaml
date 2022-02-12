@@ -18,7 +18,6 @@ jobs:
       matrix:
         sample:
           # clients
-          - samples/client/petstore/scala-sttp
           - samples/client/petstore/scalaz
           # servers
           - samples/server/petstore/scala-lagom-server
@@ -31,7 +30,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
-          java-version: 8
+          java-version: 11
       - name: Cache maven dependencies
         uses: actions/cache@v2.1.7
         env:
