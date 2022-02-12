@@ -1097,18 +1097,6 @@
             </modules>
         </profile>
         <profile>
-            <id>scalatra-server</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/server/petstore/scalatra</module>
-            </modules>
-        </profile>
-        <profile>
             <id>java-inflector</id>
             <activation>
                 <property>
@@ -1244,11 +1232,6 @@
                 <module>samples/server/petstore/jaxrs-cxf-cdi-default-value</module>
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
                 <module>samples/server/petstore/java-msf4j</module>
-                <module>samples/server/petstore/scala-lagom-server</module>
-                <module>samples/server/petstore/scala-play-server</module>
-                <module>samples/server/petstore/scala-akka-http-server</module>
-                <module>samples/server/petstore/scalatra</module>
-                <module>samples/server/petstore/scala-finch</module>
             </modules>
         </profile>
         <profile>
@@ -1339,7 +1322,6 @@
                 <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
-                <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
