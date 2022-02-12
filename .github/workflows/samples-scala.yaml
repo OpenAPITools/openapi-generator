@@ -18,16 +18,16 @@ jobs:
       matrix:
         sample:
           # clients
-          - samples/client/petstore/scala-akka</module>
-          - samples/client/petstore/scala-sttp</module>
-          - samples/client/petstore/scala-httpclient</module>
-          - samples/client/petstore/scalaz</module>
+          - samples/client/petstore/scala-akka
+          - samples/client/petstore/scala-sttp
+          - samples/client/petstore/scala-httpclient
+          - samples/client/petstore/scalaz
           # servers
-          - samples/server/petstore/scala-lagom-server</module>
-          - samples/server/petstore/scala-play-server</module>
-          - samples/server/petstore/scala-akka-http-server</module>
-          - samples/server/petstore/scalatra</module>
-          - samples/server/petstore/scala-finch</module>
+          - samples/server/petstore/scala-lagom-server
+          - samples/server/petstore/scala-play-server
+          - samples/server/petstore/scala-akka-http-server
+          - samples/server/petstore/scalatra
+          - samples/server/petstore/scala-finch
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v2
