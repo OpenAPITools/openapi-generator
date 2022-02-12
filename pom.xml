@@ -1037,18 +1037,6 @@
             </modules>
         </profile>
         <profile>
-            <id>spring-mvc</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/server/petstore/spring-mvc</module>
-            </modules>
-        </profile>
-        <profile>
             <id>springboot-beanvalidation</id>
             <activation>
                 <property>
@@ -1094,18 +1082,6 @@
             </activation>
             <modules>
                 <module>samples/server/petstore/springboot-virtualan</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>scalatra-server</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/server/petstore/scalatra</module>
             </modules>
         </profile>
         <profile>
@@ -1186,10 +1162,6 @@
             <modules>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/spring-mvc-default-value</module>
-                <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
                 <!-- servers -->
                 <module>samples/server/petstore/java-camel</module>
                 <module>samples/server/petstore/jaxrs-jersey</module>
@@ -1227,6 +1199,7 @@
                 <module>samples/client/petstore/spring-cloud-date-time</module>
                 <module>samples/openapi3/client/petstore/spring-cloud-date-time</module>
                 <module>samples/server/petstore/springboot</module>
+                <module>samples/server/petstore/spring-boot-nullable-set</module>
                 <module>samples/openapi3/server/petstore/springboot</module>
                 <module>samples/server/petstore/springboot-beanvalidation</module>
                 <module>samples/server/petstore/springboot-useoptional</module>
@@ -1243,11 +1216,6 @@
                 <module>samples/server/petstore/jaxrs-cxf-cdi-default-value</module>
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
                 <module>samples/server/petstore/java-msf4j</module>
-                <module>samples/server/petstore/scala-lagom-server</module>
-                <module>samples/server/petstore/scala-play-server</module>
-                <module>samples/server/petstore/scala-akka-http-server</module>
-                <module>samples/server/petstore/scalatra</module>
-                <module>samples/server/petstore/scala-finch</module>
             </modules>
         </profile>
         <profile>
@@ -1333,12 +1301,9 @@
             <modules>
                 <!-- clients -->
                 <!-- test java-related projects -->
-                <!-- comment out below due to gradle no longer installed in circleci
-                <module>samples/client/petstore/groovy</module> -->
                 <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
-                <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>

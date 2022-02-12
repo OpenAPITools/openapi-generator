@@ -946,11 +946,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (schema.getDefault() != null) {
                 String _default;
                 if (schema.getDefault() instanceof Date) {
-                    Date date = (Date) schema.getDefault();
-                    LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    return String.format(Locale.ROOT, localDate.toString(), "");
+                    if ("java8".equals(getDateLibrary())) {
+                        Date date = (Date) schema.getDefault();
+                        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                        return String.format(Locale.ROOT, "LocalDate.parse(\"%s\")", localDate.toString());
+                    } else {
+                        return null;
+                    }
                 } else if (schema.getDefault() instanceof java.time.OffsetDateTime) {
-                    return "OffsetDateTime.parse(\"" +  String.format(Locale.ROOT, ((java.time.OffsetDateTime) schema.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))";
+                    if ("java8".equals(getDateLibrary())) {
+                        return String.format(Locale.ROOT, "OffsetDateTime.parse(\"%s\", %s)",
+                            ((java.time.OffsetDateTime) schema.getDefault()).atZoneSameInstant(ZoneId.systemDefault()),
+                            "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
+                    } else {
+                        return null;
+                    }
                 } else {
                     _default = (String) schema.getDefault();
                 }
@@ -983,6 +993,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Object defaultValue = schema.get$ref() != null ? ModelUtils.getReferencedSchema(openAPI, schema).getDefault() : schema.getDefault();
         if (defaultValue == null) {
             return null;
+        }
+        if  (defaultValue instanceof Date) {
+            Date date = (Date) schema.getDefault();
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            return localDate.toString();
         }
         // escape quotes
         return defaultValue.toString().replace("\"", "\\\"");
@@ -1265,8 +1280,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 model.imports.add("ArrayList");
             } else if ("set".equals(property.containerType)) {
                 model.imports.add("LinkedHashSet");
-                model.imports.add("JsonDeserialize");
-                property.vendorExtensions.put("x-setter-extra-annotation", "@JsonDeserialize(as = LinkedHashSet.class)");
+                boolean canNotBeWrappedToNullable = !openApiNullable || !property.isNullable;
+                if (canNotBeWrappedToNullable) {
+                    model.imports.add("JsonDeserialize");
+                    property.vendorExtensions.put("x-setter-extra-annotation", "@JsonDeserialize(as = LinkedHashSet.class)");
+                }
             } else if ("map".equals(property.containerType)) {
                 model.imports.add("HashMap");
             }
@@ -1513,27 +1531,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         op.path = sanitizePath(op.path);
         return op;
-    }
-
-    @Override
-    public void postProcessParameter(CodegenParameter p) {
-        // we use a custom version of this function to remove the l, d, and f suffixes from Long/Double/Float
-        // defaultValues
-        // remove the l because our users will use Long.parseLong(String defaultValue)
-        // remove the d because our users will use Double.parseDouble(String defaultValue)
-        // remove the f because our users will use Float.parseFloat(String defaultValue)
-        // NOTE: for CodegenParameters we DO need these suffixes because those defaultValues are used as java value
-        // literals assigned to Long/Double/Float
-        if (p.defaultValue == null) {
-            return;
-        }
-
-        Boolean fixLong = (p.isLong && "l".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
-        Boolean fixDouble = (p.isDouble && "d".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
-        Boolean fixFloat = (p.isFloat && "f".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
-        if (fixLong || fixDouble || fixFloat) {
-            p.defaultValue = p.defaultValue.substring(0, p.defaultValue.length()-1);
-        }
     }
 
     private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
