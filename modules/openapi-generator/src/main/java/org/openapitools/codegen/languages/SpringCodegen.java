@@ -472,11 +472,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.java"));
         }
 
-        if (apiFirst) {
-            apiTemplateFiles.clear();
-            modelTemplateFiles.clear();
-        }
-
         if ("threetenbp".equals(dateLibrary)) {
             supportingFiles.add(new SupportingFile("customInstantDeserializer.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
@@ -554,6 +549,12 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
+
+        // HEADS-UP: Do not add more template file after this block
+        if (apiFirst) {
+            apiTemplateFiles.clear();
+            modelTemplateFiles.clear();
+        }
     }
 
     @Override
