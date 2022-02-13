@@ -1171,15 +1171,6 @@
                 <module>samples/server/petstore/java-vertx-web</module>
                 <module>samples/server/petstore/java-inflector</module>
                 <module>samples/server/petstore/java-pkmst</module>
-                <module>samples/server/petstore/java-play-framework</module>
-                <module>samples/server/petstore/java-play-framework-no-wrap-calls</module>
-                <module>samples/server/petstore/java-play-framework-no-swagger-ui</module>
-                <module>samples/server/petstore/java-play-framework-no-interface</module>
-                <module>samples/server/petstore/java-play-framework-no-exception-handling</module>
-                <module>samples/server/petstore/java-play-framework-no-bean-validation</module>
-                <module>samples/server/petstore/java-play-framework-fake-endpoints</module>
-                <module>samples/server/petstore/java-play-framework-controller-only</module>
-                <module>samples/server/petstore/java-play-framework-api-package-override</module>
                 <module>samples/server/petstore/java-undertow</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
                 <module>samples/server/petstore/jaxrs/jersey1-useTags</module>
