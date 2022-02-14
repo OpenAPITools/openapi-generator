@@ -80,6 +80,7 @@ public class {{classname}}Controller implements {{classname}} {
     {{/reactive}}
 {{/isDelegate}}
 
+{{^reactive}}
 {{#operation}}
     /**
      * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
@@ -125,5 +126,6 @@ public class {{classname}}Controller implements {{classname}} {
     }
 
 {{/operation}}
+{{/reactive}}
 }
 {{/operations}}
