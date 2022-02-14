@@ -19,10 +19,8 @@
     <RepositoryUrl>https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>{{#releaseNote}}
     <PackageReleaseNotes>{{.}}</PackageReleaseNotes>{{/releaseNote}}{{#packageTags}}
-    <PackageTags>{{{.}}}</PackageTags>{{/packageTags}}
-    {{#nullableReferenceTypes}}
-    <Nullable>annotations</Nullable>
-    {{/nullableReferenceTypes}}
+    <PackageTags>{{{.}}}</PackageTags>{{/packageTags}}{{#nrt}}
+    <Nullable>annotations</Nullable>{{/nrt}}
   </PropertyGroup>
 
   <ItemGroup>
