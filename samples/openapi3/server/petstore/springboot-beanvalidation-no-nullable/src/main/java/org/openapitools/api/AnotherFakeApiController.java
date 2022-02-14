@@ -24,4 +24,28 @@ public class AnotherFakeApiController implements AnotherFakeApi {
         return Optional.ofNullable(request);
     }
 
+    /**
+     * PATCH /another-fake/dummy : To test special tags
+     * To test special tags and operation ID starting with number
+     *
+     * @param body client model (required)
+     * @return successful operation (status code 200)
+     * @see AnotherFakeApi#call123testSpecialTags
+     */
+    public ResponseEntity<Client> call123testSpecialTags(
+        @Parameter(name = "body", description = "client model", required = true) @Valid @RequestBody Client body
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"client\" : \"client\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
 }

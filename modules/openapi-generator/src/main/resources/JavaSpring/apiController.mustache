@@ -46,5 +46,50 @@ public class {{classname}}Controller implements {{classname}} {
     {{/reactive}}
 {{/isDelegate}}
 
+{{#operation}}
+    /**
+     * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
+    {{#notes}}
+     * {{.}}
+    {{/notes}}
+     *
+    {{#allParams}}
+     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+    {{/allParams}}
+     * @return {{#responses}}{{message}} (status code {{code}}){{^-last}}
+     *         or {{/-last}}{{/responses}}
+    {{#isDeprecated}}
+     * @deprecated
+    {{/isDeprecated}}
+    {{#externalDocs}}
+     * {{description}}
+     * @see <a href="{{url}}">{{summary}} Documentation</a>
+    {{/externalDocs}}
+     * @see {{classname}}#{{operationId}}
+     */
+    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}(
+        {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},
+        {{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
+        {{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore {{/springFoxDocumentationProvider}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}
+    ) {
+    {{^isDelegate}}
+        {{^async}}
+        {{>methodBody}}
+        {{/async}}
+        {{#async}}
+        return new Callable<ResponseEntity<{{>returnTypes}}>>() {
+            @Override
+            public ResponseEntity<{{>returnTypes}}> call() {
+                {{>methodBody}}
+            }
+        };
+        {{/async}}
+    {{/isDelegate}}
+    {{#isDelegate}}
+        return delegate.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}, pageable{{/vendorExtensions.x-spring-paginated}});
+    {{/isDelegate}}
+    }
+
+{{/operation}}
 }
 {{/operations}}

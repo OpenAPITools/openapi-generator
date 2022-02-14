@@ -22,4 +22,18 @@ public class AnotherFakeApiController implements AnotherFakeApi {
         return delegate;
     }
 
+    /**
+     * PATCH /another-fake/dummy : To test special tags
+     * To test special tags and operation ID starting with number
+     *
+     * @param body client model (required)
+     * @return successful operation (status code 200)
+     * @see AnotherFakeApi#call123testSpecialTags
+     */
+    public Mono<ResponseEntity<Client>> call123testSpecialTags(
+        @Parameter(name = "body", description = "client model", required = true) @Valid @RequestBody Mono<Client> body
+    ) {
+        return delegate.call123testSpecialTags(body);
+    }
+
 }
