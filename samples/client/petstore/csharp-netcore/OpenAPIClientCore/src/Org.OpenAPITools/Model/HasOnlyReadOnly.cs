@@ -142,4 +142,5 @@ namespace Org.OpenAPITools.Model
             yield break;
         }
     }
+
 }
