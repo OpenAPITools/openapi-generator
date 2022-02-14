@@ -11,10 +11,6 @@ protocol JSONEncodable {
     func encodeToJSON() -> Any
 }
 
-extension JSONEncodable {
-    func encodeToJSON() -> Any { self }
-}
-
 /// An enum where the last case value can be used as a default catch-all.
 protocol CaseIterableDefaultsLast: Decodable & CaseIterable & RawRepresentable
 where RawValue: Decodable, AllCases: BidirectionalCollection {}

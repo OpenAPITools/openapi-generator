@@ -116,6 +116,13 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
+    def test_inline_composition(self):
+        """Test case for inline_composition
+
+        testing composed schemas at inline locations  # noqa: E501
+        """
+        pass
+
     def test_json_form_data(self):
         """Test case for json_form_data
 

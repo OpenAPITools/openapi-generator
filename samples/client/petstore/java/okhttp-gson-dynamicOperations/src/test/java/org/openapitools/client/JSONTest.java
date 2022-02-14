@@ -17,8 +17,8 @@ import java.util.TimeZone;
 
 import okio.ByteString;
 import org.junit.*;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZoneOffset;
 import org.threeten.bp.format.DateTimeFormatter;

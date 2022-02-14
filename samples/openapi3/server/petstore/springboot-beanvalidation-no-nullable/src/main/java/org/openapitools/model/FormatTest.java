@@ -4,13 +4,13 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.UUID;
-import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,6 +23,7 @@ import javax.annotation.Generated;
  * FormatTest
  */
 
+@JsonTypeName("format_test")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FormatTest   {
 
@@ -51,7 +52,7 @@ public class FormatTest   {
   private byte[] _byte;
 
   @JsonProperty("binary")
-  private Resource binary;
+  private org.springframework.core.io.Resource binary;
 
   @JsonProperty("date")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -232,7 +233,7 @@ public class FormatTest   {
     this._byte = _byte;
   }
 
-  public FormatTest binary(Resource binary) {
+  public FormatTest binary(org.springframework.core.io.Resource binary) {
     this.binary = binary;
     return this;
   }
@@ -243,11 +244,11 @@ public class FormatTest   {
   */
   @Valid 
   @Schema(name = "binary", required = false)
-  public Resource getBinary() {
+  public org.springframework.core.io.Resource getBinary() {
     return binary;
   }
 
-  public void setBinary(Resource binary) {
+  public void setBinary(org.springframework.core.io.Resource binary) {
     this.binary = binary;
   }
 

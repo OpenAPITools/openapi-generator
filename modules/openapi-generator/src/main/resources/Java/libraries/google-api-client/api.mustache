@@ -121,7 +121,7 @@ public class {{classname}} {
         String localVarUrl = uriBuilder{{#hasPathParams}}.buildFromMap(uriVariables).toString();{{/hasPathParams}}{{^hasPathParams}}.build().toString();{{/hasPathParams}}
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
-        HttpContent content = {{#isMethodPutOrPatchOrPost}}{{#bodyParam}}apiClient.new JacksonJsonHttpContent({{paramName}}){{/bodyParam}}{{^bodyParam}}new EmptyContent(){{/bodyParam}}{{/isMethodPutOrPatchOrPost}}{{^isMethodPutOrPatchOrPost}}null{{/isMethodPutOrPatchOrPost}};
+        HttpContent content = {{#isBodyAllowed}}{{#bodyParam}}apiClient.new JacksonJsonHttpContent({{paramName}}){{/bodyParam}}{{^bodyParam}}new EmptyContent(){{/bodyParam}}{{/isBodyAllowed}}{{^isBodyAllowed}}null{{/isBodyAllowed}};
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.{{httpMethod}}, genericUrl, content).execute();
     }{{#bodyParam}}
 
@@ -199,7 +199,7 @@ public class {{classname}} {
         String localVarUrl = uriBuilder{{#hasPathParams}}.buildFromMap(uriVariables).toString();{{/hasPathParams}}{{^hasPathParams}}.build().toString();{{/hasPathParams}}
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
-        HttpContent content = {{#isMethodPutOrPatchOrPost}}{{#bodyParam}}apiClient.new JacksonJsonHttpContent({{paramName}}){{/bodyParam}}{{^bodyParam}}new EmptyContent(){{/bodyParam}}{{/isMethodPutOrPatchOrPost}}{{^isMethodPutOrPatchOrPost}}null{{/isMethodPutOrPatchOrPost}};
+        HttpContent content = {{#isBodyAllowed}}{{#bodyParam}}apiClient.new JacksonJsonHttpContent({{paramName}}){{/bodyParam}}{{^bodyParam}}new EmptyContent(){{/bodyParam}}{{/isBodyAllowed}}{{^isBodyAllowed}}null{{/isBodyAllowed}};
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.{{httpMethod}}, genericUrl, content).execute();
     }
 

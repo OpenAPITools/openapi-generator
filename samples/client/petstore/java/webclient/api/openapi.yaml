@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  description: 'This spec is mainly for testing Petstore server and contains fake
-    endpoints, models. Please do not use this for any other purpose. Special characters:
-    " \'
+  description: "This spec is mainly for testing Petstore server and contains fake\
+    \ endpoints, models. Please do not use this for any other purpose. Special characters:\
+    \ \" \\"
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -10,7 +10,7 @@ info:
   version: 1.0.0
 servers:
 - description: petstore server
-  url: http://{server}.swagger.io:{port}/v2
+  url: "http://{server}.swagger.io:{port}/v2"
   variables:
     server:
       default: petstore
@@ -24,7 +24,7 @@ servers:
       - "80"
       - "8080"
 - description: The local server
-  url: https://localhost:8080/{version}
+  url: "https://localhost:8080/{version}"
   variables:
     version:
       default: v2
@@ -143,8 +143,8 @@ paths:
   /pet/findByTags:
     get:
       deprecated: true
-      description: Multiple tags can be provided with comma separated strings. Use
-        tag1, tag2, tag3 for testing.
+      description: "Multiple tags can be provided with comma separated strings. Use\
+        \ tag1, tag2, tag3 for testing."
       operationId: findPetsByTags
       parameters:
       - description: Tags to filter by
@@ -886,11 +886,11 @@ paths:
                   type: number
                 string:
                   description: None
-                  pattern: /[a-z]/i
+                  pattern: "/[a-z]/i"
                   type: string
                 pattern_without_delimiter:
                   description: None
-                  pattern: ^[A-Z].*
+                  pattern: "^[A-Z].*"
                   type: string
                 byte:
                   description: None
@@ -1136,8 +1136,8 @@ paths:
       x-accepts: application/json
   /fake/body-with-file-schema:
     put:
-      description: For this test, the body for this request must reference a schema
-        named `File`.
+      description: "For this test, the body for this request must reference a schema\
+        \ named `File`."
       operationId: testBodyWithFileSchema
       requestBody:
         content:
@@ -1154,7 +1154,7 @@ paths:
       x-accepts: application/json
   /fake/body-with-binary:
     put:
-      description: For this test, the body has to be a binary file.
+      description: "For this test, the body has to be a binary file."
       operationId: testBodyWithBinary
       requestBody:
         content:
@@ -1669,7 +1669,7 @@ components:
           format: number
           type: string
         string:
-          pattern: /[a-z]/i
+          pattern: "/[a-z]/i"
           type: string
         byte:
           format: byte
@@ -1694,12 +1694,12 @@ components:
           type: string
         pattern_with_digits:
           description: A string that is a 10 digit number. Can have leading zeros.
-          pattern: ^\d{10}$
+          pattern: "^\\d{10}$"
           type: string
         pattern_with_digits_and_delimiter:
           description: A string starting with 'image_' (case insensitive) and one
             to three digits following i.e. Image_01.
-          pattern: /^image_\d{1,3}$/i
+          pattern: "/^image_\\d{1,3}$/i"
           type: string
       required:
       - byte
@@ -1988,7 +1988,7 @@ components:
           format: int64
           type: integer
       xml:
-        name: $special[model.name]
+        name: "$special[model.name]"
     HealthCheckResult:
       description: Just a string to inform instance is up and running. Make it nullable
         in hope to get it as pointer in generated model.
@@ -2169,11 +2169,11 @@ components:
           type: number
         string:
           description: None
-          pattern: /[a-z]/i
+          pattern: "/[a-z]/i"
           type: string
         pattern_without_delimiter:
           description: None
-          pattern: ^[A-Z].*
+          pattern: "^[A-Z].*"
           type: string
         byte:
           description: None

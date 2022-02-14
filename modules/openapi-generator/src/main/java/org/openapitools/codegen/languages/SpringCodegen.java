@@ -20,6 +20,12 @@ package org.openapitools.codegen.languages;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,13 +37,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
-
-import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -50,8 +49,10 @@ import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
+import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.meta.features.ParameterFeature;
@@ -65,7 +66,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SpringCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures {
+        implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures, SwaggerUIFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
 
     public static final String TITLE = "title";
@@ -83,11 +84,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String REACTIVE = "reactive";
     public static final String RESPONSE_WRAPPER = "responseWrapper";
     public static final String USE_TAGS = "useTags";
-    public static final String SPRING_MVC_LIBRARY = "spring-mvc";
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
-    public static final String OPENAPI_DOCKET_CONFIG = "swaggerDocketConfig";
     public static final String API_FIRST = "apiFirst";
     public static final String SPRING_CONTROLLER = "useSpringController";
     public static final String HATEOAS = "hateoas";
@@ -113,7 +112,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean useBeanValidation = true;
     protected boolean performBeanValidation = false;
     protected boolean implicitHeaders = false;
-    protected boolean openapiDocketConfig = false;
     protected boolean apiFirst = false;
     protected boolean useOptional = false;
     protected boolean virtualService = false;
@@ -121,6 +119,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
     protected boolean useSpringController = false;
+    protected boolean useSwaggerUI = true;
 
     public SpringCodegen() {
         super();
@@ -167,7 +166,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Whether to generate the server files using the delegate pattern", delegatePattern));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES,
                 "Whether to select only one produces/consumes content-type by operation.", singleContentTypes));
-        updateJava8CliOptions();
         cliOptions.add(CliOption.newBoolean(SKIP_DEFAULT_INTERFACE,
                 "Whether to generate default implementations for java8 interfaces", skipDefaultInterface));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers", async));
@@ -186,8 +184,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS,
                 "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.",
                 implicitHeaders));
-        cliOptions.add(CliOption.newBoolean(OPENAPI_DOCKET_CONFIG,
-                "Generate Spring OpenAPI Docket configuration class.", openapiDocketConfig));
         cliOptions.add(CliOption.newBoolean(API_FIRST,
                 "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
         cliOptions
@@ -200,25 +196,19 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING,
                 "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).",
                 unhandledException));
+        cliOptions.add(CliOption.newBoolean(USE_SWAGGER_UI,
+            "Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies",
+            useSwaggerUI));
 
-        supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
-        supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
+        supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
-                "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
+            "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
         setLibrary(SPRING_BOOT);
         final CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC)
                 .defaultValue(SPRING_BOOT);
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
 
-    }
-
-    private void updateJava8CliOptions() {
-        final CliOption option = cliOptions.stream().filter(o -> JAVA_8.equals(o.getOpt())).findFirst()
-                .orElseThrow(() -> new RuntimeException("Missing java8 option"));
-        final Map<String, String> java8ModeOptions = option.getEnum();
-        java8ModeOptions.put("true",
-                "Use Java 8 classes such as Base64. Use java8 default interface when a responseWrapper is used. IMPORTANT: This option has been deprecated as Java 8 is the default.");
     }
 
     @Override
@@ -259,6 +249,16 @@ public class SpringCodegen extends AbstractJavaCodegen
         return supportedLibraries;
     }
 
+    /**
+     * Whether the selected {@link DocumentationProviderFeatures.DocumentationProvider} requires us to bootstrap and
+     * configure swagger-ui by ourselves. Springdoc, for example ships its own swagger-ui integration.
+     *
+     * @return true if the selected DocumentationProvider requires us to bootstrap swagger-ui.
+     */
+    private boolean selectedDocumentationProviderRequiresSwaggerUiBootstrap() {
+        return getDocumentationProvider().equals(DocumentationProvider.SPRINGFOX) || getDocumentationProvider().equals(DocumentationProvider.SOURCE);
+    }
+
     @Override
     public void processOpts() {
         final List<Pair<String, String>> configOptions = additionalProperties.entrySet().stream()
@@ -293,6 +293,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         super.processOpts();
+
+        if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+            LOGGER.warn("The springfox documentation provider is deprecated for removal. Use the springdoc provider instead.");
+        }
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
@@ -376,11 +380,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setImplicitHeaders(Boolean.parseBoolean(additionalProperties.get(IMPLICIT_HEADERS).toString()));
         }
 
-        if (additionalProperties.containsKey(OPENAPI_DOCKET_CONFIG)) {
-            this.setOpenapiDocketConfig(
-                    Boolean.parseBoolean(additionalProperties.get(OPENAPI_DOCKET_CONFIG).toString()));
-        }
-
         if (additionalProperties.containsKey(API_FIRST)) {
             this.setApiFirst(Boolean.parseBoolean(additionalProperties.get(API_FIRST).toString()));
         }
@@ -398,14 +397,24 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setReturnSuccessCode(Boolean.parseBoolean(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
         }
 
+        if (additionalProperties.containsKey(USE_SWAGGER_UI)) {
+            this.setUseSwaggerUI(convertPropertyToBoolean(USE_SWAGGER_UI));
+        }
+
+        if (getDocumentationProvider().equals(DocumentationProvider.NONE)) {
+            this.setUseSwaggerUI(false);
+        }
+
+        writePropertyBack(USE_SWAGGER_UI, useSwaggerUI);
+
         if (additionalProperties.containsKey(UNHANDLED_EXCEPTION_HANDLING)) {
             this.setUnhandledException(
                     Boolean.parseBoolean(additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING).toString()));
         }
         additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
 
-        typeMapping.put("file", "Resource");
-        importMapping.put("Resource", "org.springframework.core.io.Resource");
+        typeMapping.put("file", "org.springframework.core.io.Resource");
+        importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
         importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
@@ -431,25 +440,18 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (!interfaceOnly) {
             if (SPRING_BOOT.equals(library)) {
+                if (useSwaggerUI && selectedDocumentationProviderRequiresSwaggerUiBootstrap()) {
+                    supportingFiles.add(new SupportingFile("swagger-ui.mustache", "src/main/resources/static", "swagger-ui.html"));
+                }
+                // rename template to SpringBootApplication.mustache
                 supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
-                        "OpenAPI2SpringBoot.java"));
+                        "OpenApiGeneratorApplication.java"));
+                supportingFiles.add(new SupportingFile("SpringBootTest.mustache",
+                    (testFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                    "OpenApiGeneratorApplicationTests.java"));
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
-                        "RFC3339DateFormat.java"));
-            }
-            if (SPRING_MVC_LIBRARY.equals(library)) {
-                supportingFiles.add(new SupportingFile("webApplication.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "WebApplication.java"));
-                supportingFiles.add(new SupportingFile("webMvcConfiguration.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "WebMvcConfiguration.java"));
-                supportingFiles.add(new SupportingFile("openapiUiConfiguration.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "OpenAPIUiConfiguration.java"));
-                supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "RFC3339DateFormat.java"));
             }
             if (SPRING_CLOUD_LIBRARY.equals(library)) {
@@ -471,29 +473,19 @@ public class SpringCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("homeController.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "HomeController.java"));
-                if (!reactive && !apiFirst && this.openapiDocketConfig) {
+                supportingFiles.add(new SupportingFile("openapi.mustache",
+                        ("src/main/resources").replace("/", java.io.File.separator), "openapi.yaml"));
+                if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider()) && !reactive && !apiFirst) {
                     supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
-                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                            "OpenAPIDocumentationConfig.java"));
-                } else {
-                    supportingFiles.add(new SupportingFile("openapi.mustache",
-                            ("src/main/resources").replace("/", java.io.File.separator), "openapi.yaml"));
+                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                        "SpringFoxConfiguration.java"));
                 }
             }
-        } else if (openapiDocketConfig && !SPRING_CLOUD_LIBRARY.equals(library) && !reactive && !apiFirst) {
-            supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
-                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                    "OpenAPIDocumentationConfig.java"));
         }
 
         if (!SPRING_CLOUD_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("apiUtil.mustache",
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.java"));
-        }
-
-        if (apiFirst) {
-            apiTemplateFiles.clear();
-            modelTemplateFiles.clear();
         }
 
         if ("threetenbp".equals(dateLibrary)) {
@@ -573,12 +565,18 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
+
+        // HEADS-UP: Do not add more template file after this block
+        if (apiFirst) {
+            apiTemplateFiles.clear();
+            modelTemplateFiles.clear();
+        }
     }
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co,
             Map<String, List<CodegenOperation>> operations) {
-        if ((SPRING_BOOT.equals(library) || SPRING_MVC_LIBRARY.equals(library)) && !useTags) {
+        if ((SPRING_BOOT.equals(library) && !useTags)) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
@@ -876,10 +874,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.implicitHeaders = implicitHeaders;
     }
 
-    public void setOpenapiDocketConfig(boolean openapiDocketConfig) {
-        this.openapiDocketConfig = openapiDocketConfig;
-    }
-
     public void setApiFirst(boolean apiFirst) {
         this.apiFirst = apiFirst;
     }
@@ -1015,5 +1009,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void setUseOptional(boolean useOptional) {
         this.useOptional = useOptional;
+    }
+
+    @Override
+    public void setUseSwaggerUI(boolean useSwaggerUI) {
+        this.useSwaggerUI = useSwaggerUI;
     }
 }

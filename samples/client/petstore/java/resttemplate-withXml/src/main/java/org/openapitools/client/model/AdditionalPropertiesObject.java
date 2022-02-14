@@ -35,7 +35,6 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   AdditionalPropertiesObject.JSON_PROPERTY_NAME
 })
-@JsonTypeName("AdditionalPropertiesObject")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "AdditionalPropertiesObject")
 @XmlAccessorType(XmlAccessType.FIELD)

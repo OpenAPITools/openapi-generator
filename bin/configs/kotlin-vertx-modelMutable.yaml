@@ -1,0 +1,6 @@
+generatorName: kotlin-vertx
+outputDir: samples/server/petstore/kotlin-vertx-modelMutable
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-vertx-server
+additionalProperties:
+  modelMutable: "true"
