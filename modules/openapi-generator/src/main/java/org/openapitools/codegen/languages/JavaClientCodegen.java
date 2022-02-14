@@ -76,7 +76,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String JERSEY2 = "jersey2";
     public static final String NATIVE = "native";
     public static final String OKHTTP_GSON = "okhttp-gson";
-    public static final String OKHTTP_GSON_NEXTGEN = "okhttp-gson-nextgen";
     public static final String RESTEASY = "resteasy";
     public static final String RESTTEMPLATE = "resttemplate";
     public static final String WEBCLIENT = "webclient";
@@ -165,7 +164,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 10.x. JSON processing: Jackson 2.9.x.");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
-        supportedLibraries.put(OKHTTP_GSON_NEXTGEN, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x.'. Better support for oneOf/anyOf with breaking changes. Will replace `okhttp-gson` in the 6.0.0 release. IMPORTANT: this may subject to breaking changes without further notice.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
         supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(WEBCLIENT, "HTTP client: Spring WebClient 5.x. JSON processing: Jackson 2.9.x");
@@ -224,9 +222,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public void processOpts() {
-        if ((WEBCLIENT.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) || NATIVE.equals(getLibrary())) {
+        if (WEBCLIENT.equals(getLibrary()) || NATIVE.equals(getLibrary())) {
             dateLibrary = "java8";
-        } else if (MICROPROFILE.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) {
+        } else if (MICROPROFILE.equals(getLibrary())) {
             dateLibrary = "legacy";
         }
         super.processOpts();
@@ -421,7 +419,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("ParamExpander.mustache", invokerFolder, "ParamExpander.java"));
             supportingFiles.add(new SupportingFile("EncodingUtils.mustache", invokerFolder, "EncodingUtils.java"));
             supportingFiles.add(new SupportingFile("auth/DefaultApi20Impl.mustache", authFolder, "DefaultApi20Impl.java"));
-        } else if (OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary()) || OKHTTP_GSON_NEXTGEN.equals(getLibrary())) {
+        } else if (OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
@@ -429,7 +427,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("ProgressRequestBody.mustache", invokerFolder, "ProgressRequestBody.java"));
             supportingFiles.add(new SupportingFile("ProgressResponseBody.mustache", invokerFolder, "ProgressResponseBody.java"));
             supportingFiles.add(new SupportingFile("GzipRequestInterceptor.mustache", invokerFolder, "GzipRequestInterceptor.java"));
-            if (OKHTTP_GSON_NEXTGEN.equals(getLibrary())) {
+            if (OKHTTP_GSON.equals(getLibrary())) {
                 supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", modelsFolder, "AbstractOpenApiSchema.java"));
             }
 
@@ -462,13 +460,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportsAdditionalPropertiesWithComposedSchema = true;
 
         } else if (NATIVE.equals(getLibrary())) {
-            setJava8ModeAndAdditionalProperties(true);
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", modelsFolder, "AbstractOpenApiSchema.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (RESTEASY.equals(getLibrary())) {
-            setJava8ModeAndAdditionalProperties(true);
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (JERSEY1.equals(getLibrary())) {
@@ -477,12 +473,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         } else if (WEBCLIENT.equals(getLibrary())) {
-            setJava8ModeAndAdditionalProperties(true);
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (VERTX.equals(getLibrary())) {
             typeMapping.put("file", "AsyncFile");
             importMapping.put("AsyncFile", "io.vertx.core.file.AsyncFile");
-            setJava8ModeAndAdditionalProperties(true);
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
             apiTemplateFiles.put("apiImpl.mustache", "Impl.java");
             apiTemplateFiles.put("rxApiImpl.mustache", ".java");
@@ -520,7 +514,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("kumuluzee.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
             }
         } else if (APACHE.equals(getLibrary())) {
-            setJava8ModeAndAdditionalProperties(true);
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
@@ -543,7 +536,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("play26/Play26CallFactory.mustache", invokerFolder, "Play26CallFactory.java"));
             supportingFiles.add(new SupportingFile("play26/Play26CallAdapterFactory.mustache", invokerFolder,
                     "Play26CallAdapterFactory.java"));
-            setJava8ModeAndAdditionalProperties(true);
 
             supportingFiles.add(new SupportingFile("play-common/auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
@@ -562,11 +554,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
-                if (!NATIVE.equals(getLibrary())) {
-                    if ("threetenbp".equals(dateLibrary) && !usePlayWS) {
-                        supportingFiles.add(new SupportingFile("CustomInstantDeserializer.mustache", invokerFolder, "CustomInstantDeserializer.java"));
-                    }
-                }
                 break;
             case SERIALIZATION_LIBRARY_GSON:
                 additionalProperties.put(SERIALIZATION_LIBRARY_GSON, "true");
@@ -589,7 +576,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         // has OAuth defined
         if (ProcessUtils.hasOAuthMethods(openAPI)) {
             // for okhttp-gson (default), check to see if OAuth is defined and included OAuth-related files accordingly
-            if ((OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary())) || OKHTTP_GSON_NEXTGEN.equals(getLibrary())) {
+            if ((OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary()))) {
                 supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
                 supportingFiles.add(new SupportingFile("auth/RetryingOAuth.mustache", authFolder, "RetryingOAuth.java"));
             }
@@ -890,7 +877,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             CodegenModel cm = (CodegenModel) mo.get("model");
 
             cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
-            if (JERSEY2.equals(getLibrary()) || NATIVE.equals(getLibrary()) || OKHTTP_GSON_NEXTGEN.equals(getLibrary())) {
+            if (JERSEY2.equals(getLibrary()) || NATIVE.equals(getLibrary()) || OKHTTP_GSON.equals(getLibrary())) {
                 cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
 
                 if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {

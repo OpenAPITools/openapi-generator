@@ -6286,7 +6286,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         codegenParameter.baseType = codegenProperty.baseType;
         codegenParameter.dataType = codegenProperty.dataType;
-        codegenParameter.defaultValue = codegenProperty.getDefaultValue();
+        codegenParameter.defaultValue = toDefaultParameterValue(propertySchema);
         codegenParameter.baseName = codegenProperty.baseName;
         codegenParameter.paramName = toParamName(codegenParameter.baseName);
         codegenParameter.dataFormat = codegenProperty.dataFormat;
