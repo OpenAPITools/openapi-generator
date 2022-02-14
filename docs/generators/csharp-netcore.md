@@ -30,7 +30,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |PascalCase|
 |netCoreProjectFile|Use the new format (.NET Core) for .NET project files (.csproj).| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|
-|nullableReferenceTypes|Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.1 or newer.| |false|
+|nullableReferenceTypes|Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.1 or newer. Starting in .NET 6.0 the default is true.| |false|
 |optionalAssemblyInfo|Generate AssemblyInfo.cs.| |true|
 |optionalEmitDefaultValues|Set DataMember's EmitDefaultValue.| |false|
 |optionalMethodArgument|C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).| |true|

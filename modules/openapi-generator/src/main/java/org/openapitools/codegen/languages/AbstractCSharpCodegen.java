@@ -369,8 +369,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES)) {
             setNullableReferenceTypes(convertPropertyToBooleanAndWriteBack(CodegenConstants.NULLABLE_REFERENCE_TYPES));
-        } else {
-            additionalProperties.put(CodegenConstants.NULLABLE_REFERENCE_TYPES, nullReferenceTypesFlag);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
@@ -1165,8 +1163,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public void setNullableReferenceTypes(final Boolean nullReferenceTypesFlag){
         this.nullReferenceTypesFlag = nullReferenceTypesFlag;
-        if (nullReferenceTypesFlag == true){
+        additionalProperties.put("nullableReferenceTypes", nullReferenceTypesFlag);
+        additionalProperties.put("nrt", nullReferenceTypesFlag);
+
+        if (nullReferenceTypesFlag){
             this.nullableType.add("string");
+            additionalProperties.put("nrt?", "?");
+            additionalProperties.put("nrt!", "!");
+        } else {
+            this.nullableType.remove("string");
+            additionalProperties.remove("nrt?");
+            additionalProperties.remove("nrt!");
         }
     }
 
