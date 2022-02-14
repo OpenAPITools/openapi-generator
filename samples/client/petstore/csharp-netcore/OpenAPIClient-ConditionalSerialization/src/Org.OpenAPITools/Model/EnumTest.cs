@@ -33,58 +33,6 @@ namespace Org.OpenAPITools.Model
     public partial class EnumTest : IEquatable<EnumTest>, IValidatableObject
     {
         /// <summary>
-        /// Defines EnumStringRequired
-        /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
-        public enum EnumStringRequiredEnum
-        {
-            /// <summary>
-            /// Enum UPPER for value: UPPER
-            /// </summary>
-            [EnumMember(Value = "UPPER")]
-            UPPER = 1,
-
-            /// <summary>
-            /// Enum Lower for value: lower
-            /// </summary>
-            [EnumMember(Value = "lower")]
-            Lower = 2,
-
-            /// <summary>
-            /// Enum Empty for value: 
-            /// </summary>
-            [EnumMember(Value = "")]
-            Empty = 3
-
-        }
-
-
-        /// <summary>
-        /// Gets or Sets EnumStringRequired
-        /// </summary>
-
-        [DataMember(Name = "enum_string_required", IsRequired = true, EmitDefaultValue = false)]
-        public EnumStringRequiredEnum EnumStringRequired
-        {
-            get{ return _EnumStringRequired;}
-            set
-            {
-                _EnumStringRequired = value;
-                _flagEnumStringRequired = true;
-            }
-        }
-        private EnumStringRequiredEnum _EnumStringRequired;
-        private bool _flagEnumStringRequired;
-
-        /// <summary>
-        /// Returns false as EnumStringRequired should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeEnumStringRequired()
-        {
-            return _flagEnumStringRequired;
-        }
-        /// <summary>
         /// Defines EnumString
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
@@ -135,6 +83,58 @@ namespace Org.OpenAPITools.Model
         public bool ShouldSerializeEnumString()
         {
             return _flagEnumString;
+        }
+        /// <summary>
+        /// Defines EnumStringRequired
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum EnumStringRequiredEnum
+        {
+            /// <summary>
+            /// Enum UPPER for value: UPPER
+            /// </summary>
+            [EnumMember(Value = "UPPER")]
+            UPPER = 1,
+
+            /// <summary>
+            /// Enum Lower for value: lower
+            /// </summary>
+            [EnumMember(Value = "lower")]
+            Lower = 2,
+
+            /// <summary>
+            /// Enum Empty for value: 
+            /// </summary>
+            [EnumMember(Value = "")]
+            Empty = 3
+
+        }
+
+
+        /// <summary>
+        /// Gets or Sets EnumStringRequired
+        /// </summary>
+
+        [DataMember(Name = "enum_string_required", IsRequired = true, EmitDefaultValue = false)]
+        public EnumStringRequiredEnum EnumStringRequired
+        {
+            get{ return _EnumStringRequired;}
+            set
+            {
+                _EnumStringRequired = value;
+                _flagEnumStringRequired = true;
+            }
+        }
+        private EnumStringRequiredEnum _EnumStringRequired;
+        private bool _flagEnumStringRequired;
+
+        /// <summary>
+        /// Returns false as EnumStringRequired should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeEnumStringRequired()
+        {
+            return _flagEnumStringRequired;
         }
         /// <summary>
         /// Defines EnumInteger
@@ -383,8 +383,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
-        /// <param name="enumStringRequired">enumStringRequired (required).</param>
         /// <param name="enumString">enumString.</param>
+        /// <param name="enumStringRequired">enumStringRequired (required).</param>
         /// <param name="enumInteger">enumInteger.</param>
         /// <param name="enumIntegerOnly">enumIntegerOnly.</param>
         /// <param name="enumNumber">enumNumber.</param>
@@ -392,7 +392,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerEnumInteger">outerEnumInteger.</param>
         /// <param name="outerEnumDefaultValue">outerEnumDefaultValue.</param>
         /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue.</param>
-        public EnumTest(EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumStringEnum? enumString = default(EnumStringEnum?), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumIntegerOnlyEnum? enumIntegerOnly = default(EnumIntegerOnlyEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum? outerEnum = default(OuterEnum?), OuterEnumInteger? outerEnumInteger = default(OuterEnumInteger?), OuterEnumDefaultValue? outerEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default(OuterEnumIntegerDefaultValue?))
+        public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumIntegerOnlyEnum? enumIntegerOnly = default(EnumIntegerOnlyEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum? outerEnum = default(OuterEnum?), OuterEnumInteger? outerEnumInteger = default(OuterEnumInteger?), OuterEnumDefaultValue? outerEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default(OuterEnumIntegerDefaultValue?))
         {
             this._EnumStringRequired = enumStringRequired;
             this._EnumString = enumString;
@@ -420,8 +420,8 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class EnumTest {\n");
-            sb.Append("  EnumStringRequired: ").Append(EnumStringRequired).Append("\n");
             sb.Append("  EnumString: ").Append(EnumString).Append("\n");
+            sb.Append("  EnumStringRequired: ").Append(EnumStringRequired).Append("\n");
             sb.Append("  EnumInteger: ").Append(EnumInteger).Append("\n");
             sb.Append("  EnumIntegerOnly: ").Append(EnumIntegerOnly).Append("\n");
             sb.Append("  EnumNumber: ").Append(EnumNumber).Append("\n");
@@ -472,8 +472,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.EnumStringRequired.GetHashCode();
                 hashCode = (hashCode * 59) + this.EnumString.GetHashCode();
+                hashCode = (hashCode * 59) + this.EnumStringRequired.GetHashCode();
                 hashCode = (hashCode * 59) + this.EnumInteger.GetHashCode();
                 hashCode = (hashCode * 59) + this.EnumIntegerOnly.GetHashCode();
                 hashCode = (hashCode * 59) + this.EnumNumber.GetHashCode();

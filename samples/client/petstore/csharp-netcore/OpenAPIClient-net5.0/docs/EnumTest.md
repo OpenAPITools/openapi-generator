@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**EnumStringRequired** | **string** |  | 
 **EnumString** | **string** |  | [optional] 
+**EnumStringRequired** | **string** |  | 
 **EnumInteger** | **int** |  | [optional] 
 **EnumIntegerOnly** | **int** |  | [optional] 
 **EnumNumber** | **double** |  | [optional] 

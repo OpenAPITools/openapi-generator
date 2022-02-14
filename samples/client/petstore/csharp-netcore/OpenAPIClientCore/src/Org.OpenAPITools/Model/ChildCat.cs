@@ -62,9 +62,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
-        /// <param name="petType">petType (required) (default to PetTypeEnum.ChildCat).</param>
         /// <param name="name">name.</param>
-        public ChildCat(PetTypeEnum petType = PetTypeEnum.ChildCat, string name = default(string)) : base()
+        /// <param name="petType">petType (required) (default to PetTypeEnum.ChildCat).</param>
+        public ChildCat(string name = default(string), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
         {
             this.PetType = petType;
             this.Name = name;
@@ -85,8 +85,8 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ChildCat {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  PetType: ").Append(PetType).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  PetType: ").Append(PetType).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -129,11 +129,11 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                hashCode = (hashCode * 59) + this.PetType.GetHashCode();
                 if (this.Name != null)
                 {
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.PetType.GetHashCode();
                 return hashCode;
             }
         }
