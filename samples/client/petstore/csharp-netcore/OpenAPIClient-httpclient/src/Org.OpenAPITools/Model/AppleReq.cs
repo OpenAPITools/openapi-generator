@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Cultivar
         /// </summary>
-        [DataMember(Name = "cultivar", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "cultivar", IsRequired = true, EmitDefaultValue = true)]
         public string Cultivar { get; set; }
 
         /// <summary>

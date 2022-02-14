@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetType
         /// </summary>
 
-        [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = true)]
         public PetTypeEnum PetType
         {
             get{ return _PetType;}
