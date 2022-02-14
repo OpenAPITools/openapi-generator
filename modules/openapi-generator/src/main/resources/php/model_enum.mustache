@@ -14,7 +14,7 @@ class {{classname}}
     
     public function __construct($value)
     {
-        if (!in_array($value, self::getAllowableEnumValues(), true) {
+        if (!in_array($value, self::getAllowableEnumValues(), true)) {
             throw new \LogicException(sprintf('%s is not a allowed value for enum', $value));
         }
         $this->value = $value;
