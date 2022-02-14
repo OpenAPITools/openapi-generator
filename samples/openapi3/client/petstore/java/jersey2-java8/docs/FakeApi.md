@@ -643,7 +643,7 @@ public class Example {
         String string = "string_example"; // String | None
         File binary = new File("/path/to/file"); // File | None
         LocalDate date = LocalDate.now(); // LocalDate | None
-        OffsetDateTime dateTime = OffsetDateTime.parse("OffsetDateTime.parse("2010-02-01T09:20:10.111110Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))"); // OffsetDateTime | None
+        OffsetDateTime dateTime = OffsetDateTime.parse("2010-02-01T10:20:10.111110+01:00"); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
         try {
@@ -675,7 +675,7 @@ Name | Type | Description  | Notes
  **string** | **String**| None | [optional]
  **binary** | **File**| None | [optional]
  **date** | **LocalDate**| None | [optional]
- **dateTime** | **OffsetDateTime**| None | [optional] [default to OffsetDateTime.parse(&quot;2010-02-01T09:20:10.111110Z[UTC]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))]
+ **dateTime** | **OffsetDateTime**| None | [optional] [default to 2010-02-01T10:20:10.111110+01:00]
  **password** | **String**| None | [optional]
  **paramCallback** | **String**| None | [optional]
 

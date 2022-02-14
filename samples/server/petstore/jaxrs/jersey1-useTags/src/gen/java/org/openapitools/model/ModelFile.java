@@ -74,7 +74,6 @@ public class ModelFile   {
     return Objects.hash(sourceURI);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

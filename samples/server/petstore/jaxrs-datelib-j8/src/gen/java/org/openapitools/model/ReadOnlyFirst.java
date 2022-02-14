@@ -99,7 +99,6 @@ public class ReadOnlyFirst  implements Serializable {
     return Objects.hash(bar, baz);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
