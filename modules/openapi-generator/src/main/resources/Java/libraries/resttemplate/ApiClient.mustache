@@ -608,12 +608,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return path with placeholders replaced by variables
      */
     public String expandPath(String pathTemplate, Map<String, Object> variables) {
-        // disable default URL encoding 
-        DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
-        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
-        final RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setUriTemplateHandler(uriBuilderFactory);
-
         return restTemplate.getUriTemplateHandler().expand(pathTemplate, variables).toString();
     }
 
@@ -784,10 +778,15 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         {{/openApiNullable}}
         messageConverters.add(new MappingJackson2XmlHttpMessageConverter(xmlMapper));
 
+        // disable default URL encoding
+        DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
+        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+
         RestTemplate restTemplate = new RestTemplate(messageConverters);
         {{/withXml}}{{^withXml}}RestTemplate restTemplate = new RestTemplate();{{/withXml}}
         // This allows us to read the response more than once - Necessary for debugging.
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(restTemplate.getRequestFactory()));
+        restTemplate.setUriTemplateHandler(uriBuilderFactory);
         return restTemplate;
     }
 
