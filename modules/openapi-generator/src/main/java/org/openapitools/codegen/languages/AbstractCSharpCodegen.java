@@ -409,14 +409,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-
-        // if (property.required || !property.isNullable){
-        //     property.required = true;
-        //     property.isNullable = false;
-        // } else{
-        //     property.required = false;
-        //     property.isNullable = true;
-        // }
     }
 
     @Override
