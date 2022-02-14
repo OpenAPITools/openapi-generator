@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Marker** | [**MultipartMixedMarker**](MultipartMixedMarker.md) |  | [optional] 
 **File** | **System.IO.Stream** | a file | 
+**Marker** | [**MultipartMixedMarker**](MultipartMixedMarker.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

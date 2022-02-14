@@ -45,9 +45,17 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="shapeType">shapeType (required).</param>
         /// <param name="triangleType">triangleType (required).</param>
-        public EquilateralTriangle(string shapeType = default(string), string triangleType = default(string))
+        public EquilateralTriangle(string shapeType, string triangleType)
         {
+            // to ensure "shapeType" is required (not null)
+            if (shapeType == null) {
+                throw new ArgumentNullException("shapeType is a required property for EquilateralTriangle and cannot be null");
+            }
             this.ShapeType = shapeType;
+            // to ensure "triangleType" is required (not null)
+            if (triangleType == null) {
+                throw new ArgumentNullException("triangleType is a required property for EquilateralTriangle and cannot be null");
+            }
             this.TriangleType = triangleType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }

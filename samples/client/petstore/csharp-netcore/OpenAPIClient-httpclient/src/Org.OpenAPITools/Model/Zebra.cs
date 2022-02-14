@@ -76,9 +76,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
         /// </summary>
-        /// <param name="type">type.</param>
         /// <param name="className">className (required).</param>
-        public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string)) : base()
+        /// <param name="type">type.</param>
+        public Zebra(string className = default(string), TypeEnum? type = default(TypeEnum?)) : base()
         {
             // to ensure "className" is required (not null)
             if (className == null) {
@@ -110,8 +110,8 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Zebra {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
+            sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -155,11 +155,11 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                hashCode = (hashCode * 59) + this.Type.GetHashCode();
                 if (this.ClassName != null)
                 {
                     hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.Type.GetHashCode();
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
@@ -178,5 +178,4 @@ namespace Org.OpenAPITools.Model
             yield break;
         }
     }
-
 }

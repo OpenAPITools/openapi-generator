@@ -5,7 +5,7 @@
     <RootNamespace>Org.OpenAPITools.Test</RootNamespace>
     <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <Nullable>annotations</Nullable>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

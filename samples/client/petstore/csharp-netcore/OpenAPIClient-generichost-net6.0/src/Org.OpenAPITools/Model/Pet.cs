@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>pet status in the store</value>
         [DataMember(Name = "status", EmitDefaultValue = false)]
-        public StatusEnum? Status { get; set; }
+        public StatusEnum Status { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
@@ -77,13 +77,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
-        /// <param name="id">id.</param>
-        /// <param name="category">category.</param>
         /// <param name="name">name (required).</param>
         /// <param name="photoUrls">photoUrls (required).</param>
+        /// <param name="id">id.</param>
+        /// <param name="category">category.</param>
         /// <param name="tags">tags.</param>
         /// <param name="status">pet status in the store.</param>
-        public Pet(long id = default(long), Category category = default(Category), string name = default(string), List<string> photoUrls = default(List<string>), List<Tag> tags = default(List<Tag>), StatusEnum? status = default(StatusEnum?))
+        public Pet(string name, List<string> photoUrls, long id = default, Category category = default, List<Tag> tags = default, StatusEnum status = default)
         {
             // to ensure "name" is required (not null)
             if (name == null) {
@@ -103,18 +103,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Category
-        /// </summary>
-        [DataMember(Name = "category", EmitDefaultValue = false)]
-        public Category Category { get; set; }
-
-        /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
@@ -125,6 +113,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "photoUrls", IsRequired = true, EmitDefaultValue = false)]
         public List<string> PhotoUrls { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        public long Id { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Category
+        /// </summary>
+        [DataMember(Name = "category", EmitDefaultValue = false)]
+        public Category Category { get; set; }
 
         /// <summary>
         /// Gets or Sets Tags
@@ -146,10 +146,10 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Pet {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Category: ").Append(Category).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Category: ").Append(Category).Append("\n");
             sb.Append("  Tags: ").Append(Tags).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -195,11 +195,6 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Category != null)
-                {
-                    hashCode = (hashCode * 59) + this.Category.GetHashCode();
-                }
                 if (this.Name != null)
                 {
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();
@@ -207,6 +202,11 @@ namespace Org.OpenAPITools.Model
                 if (this.PhotoUrls != null)
                 {
                     hashCode = (hashCode * 59) + this.PhotoUrls.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                if (this.Category != null)
+                {
+                    hashCode = (hashCode * 59) + this.Category.GetHashCode();
                 }
                 if (this.Tags != null)
                 {

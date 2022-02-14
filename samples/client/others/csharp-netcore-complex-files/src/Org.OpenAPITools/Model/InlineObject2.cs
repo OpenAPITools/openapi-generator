@@ -40,9 +40,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineObject2" /> class.
         /// </summary>
-        /// <param name="marker">marker.</param>
         /// <param name="file">a file (required).</param>
-        public InlineObject2(MultipartMixedMarker marker = default(MultipartMixedMarker), System.IO.Stream file = default(System.IO.Stream))
+        /// <param name="marker">marker.</param>
+        public InlineObject2(System.IO.Stream file = default(System.IO.Stream), MultipartMixedMarker marker = default(MultipartMixedMarker))
         {
             // to ensure "file" is required (not null)
             if (file == null) {
@@ -53,17 +53,17 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Gets or Sets Marker
-        /// </summary>
-        [DataMember(Name = "marker", EmitDefaultValue = false)]
-        public MultipartMixedMarker Marker { get; set; }
-
-        /// <summary>
         /// a file
         /// </summary>
         /// <value>a file</value>
         [DataMember(Name = "file", IsRequired = true, EmitDefaultValue = false)]
         public System.IO.Stream File { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Marker
+        /// </summary>
+        [DataMember(Name = "marker", EmitDefaultValue = false)]
+        public MultipartMixedMarker Marker { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -73,8 +73,8 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class InlineObject2 {\n");
-            sb.Append("  Marker: ").Append(Marker).Append("\n");
             sb.Append("  File: ").Append(File).Append("\n");
+            sb.Append("  Marker: ").Append(Marker).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -117,13 +117,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Marker != null)
-                {
-                    hashCode = (hashCode * 59) + this.Marker.GetHashCode();
-                }
                 if (this.File != null)
                 {
                     hashCode = (hashCode * 59) + this.File.GetHashCode();
+                }
+                if (this.Marker != null)
+                {
+                    hashCode = (hashCode * 59) + this.Marker.GetHashCode();
                 }
                 return hashCode;
             }
@@ -139,5 +139,4 @@ namespace Org.OpenAPITools.Model
             yield break;
         }
     }
-
 }
