@@ -778,14 +778,14 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         {{/openApiNullable}}
         messageConverters.add(new MappingJackson2XmlHttpMessageConverter(xmlMapper));
 
-        // disable default URL encoding
-        DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
-        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
-
         RestTemplate restTemplate = new RestTemplate(messageConverters);
         {{/withXml}}{{^withXml}}RestTemplate restTemplate = new RestTemplate();{{/withXml}}
         // This allows us to read the response more than once - Necessary for debugging.
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(restTemplate.getRequestFactory()));
+
+        // disable default URL encoding
+        DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
+        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
         restTemplate.setUriTemplateHandler(uriBuilderFactory);
         return restTemplate;
     }
