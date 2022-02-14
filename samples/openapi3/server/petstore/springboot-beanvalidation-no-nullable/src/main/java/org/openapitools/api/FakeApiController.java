@@ -4,14 +4,15 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClass;
-import org.threeten.bp.LocalDate;
+import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
-import org.threeten.bp.OffsetDateTime;
+import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,7 +20,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.annotations.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,14 +33,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.context.request.NativeWebRequest;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
@@ -51,6 +54,11 @@ public class FakeApiController implements FakeApi {
     @Autowired
     public FakeApiController(NativeWebRequest request) {
         this.request = request;
+    }
+
+    @Override
+    public Optional<NativeWebRequest> getRequest() {
+        return Optional.ofNullable(request);
     }
 
     /**
@@ -94,13 +102,15 @@ public class FakeApiController implements FakeApi {
     public ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
         @Parameter(name = "body", description = "Input composite as post body") @Valid @RequestBody(required = false) OuterComposite body
     ) {
-        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
-                ApiUtil.setExampleResponse(request, "*/*", exampleString);
-                break;
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                    String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
+                    ApiUtil.setExampleResponse(request, "*/*", exampleString);
+                    break;
+                }
             }
-        }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -177,13 +187,15 @@ public class FakeApiController implements FakeApi {
     public ResponseEntity<Client> testClientModel(
         @Parameter(name = "body", description = "client model", required = true) @Valid @RequestBody Client body
     ) {
-        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"client\" : \"client\" }";
-                ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                break;
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"client\" : \"client\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
             }
-        }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -248,7 +260,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<Void> testEnumParameters(
         @Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)") @RequestHeader(value = "enum_header_string_array", required = false) List<String> enumHeaderStringArray,
-        @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)") @RequestHeader(value = "enum_header_string", required = false) String enumHeaderString,
+        @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)") @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
         @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
         @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
         @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
@@ -352,13 +364,15 @@ public class FakeApiController implements FakeApi {
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     ) {
-        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
-                ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                break;
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
             }
-        }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
