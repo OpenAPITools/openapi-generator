@@ -253,7 +253,8 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(RESPONSE_WRAPPER, "aWrapper");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get("jdk8"), false);
+        // jdk8 tag has been removed
+        Assert.assertEquals(codegen.additionalProperties().get("jdk8"), null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -336,17 +337,6 @@ public class SpringCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get("jdk8-default-interface"), false);
         Assert.assertEquals(codegen.additionalProperties().get(RESPONSE_WRAPPER), "CompletableFuture");
-    }
-
-    @Test
-    public void springcloudWithAsyncHasResponseWrapperCallable() {
-        final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(SpringCodegen.ASYNC, true);
-        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
-        codegen.processOpts();
-
-        Assert.assertNull(codegen.additionalProperties().get("jdk8-default-interface"));
-        Assert.assertEquals(codegen.additionalProperties().get(RESPONSE_WRAPPER), "Callable");
     }
 
     @Test
