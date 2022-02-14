@@ -113,9 +113,6 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
 
         reservedWords = new HashSet<>(
                 Arrays.asList(
-                        // name used by swift client
-                        "ErrorResponse", "Response",
-
                         // Swift keywords. This list is taken from here:
                         // https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/LexicalStructure.html#//apple_ref/doc/uid/TP40014097-CH30-ID410
                         //
@@ -285,7 +282,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
-            return ModelUtils.isSet(target) ? "Set<" + getTypeDeclaration(items) + ">" : "[" + getTypeDeclaration(items) + "]";
+            return ModelUtils.isSet(target) && ModelUtils.isObjectSchema(items) ? "Set<" + getTypeDeclaration(items) + ">" : "[" + getTypeDeclaration(items) + "]";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
@@ -735,7 +732,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
             operation.allParams.forEach(cp -> addVendorExtensions(cp, operation, modelMaps));
             operation.queryParams.forEach(cp -> addVendorExtensions(cp, operation, modelMaps));
             operation.bodyParams.forEach(cp -> addVendorExtensions(cp, operation, modelMaps));
-            operation.formParams.forEach(cp -> addVendorExtensions(cp, operation, modelMaps));
+            operation.formParams.forEach(cp -> addFormVendorExtensions(cp, operation, modelMaps));
             if (notCodableTypes.contains(operation.returnType) || notCodableTypes.contains(operation.returnBaseType)) {
                 operation.vendorExtensions.put("x-swift-is-not-codable", true);
             }
@@ -753,14 +750,35 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     protected void addVendorExtensions(CodegenParameter cp, CodegenOperation operation, HashMap<String, CodegenModel> modelMaps) {
-        boolean isBaseTypeEnum = cp.isArray && cp.baseType != null && modelMaps.get(cp.baseType) != null && modelMaps.get(cp.baseType).isEnum;
-        cp.vendorExtensions.put("x-swift-is-base-type-enum", isBaseTypeEnum);
-        if (cp.isEnum) {
-            cp.vendorExtensions.put("x-swift-nested-enum-type", WordUtils.capitalize(operation.operationId) + WordUtils.capitalize(cp.enumName));
-        }
         CodegenModel model = modelMaps.get(cp.dataType);
+        if (cp.isArray && cp.items != null) {
+            CodegenModel baseModel = modelMaps.get(cp.items.dataType);
+            boolean isBaseTypeEnum = cp.items.isEnum || cp.isEnum || (baseModel != null && baseModel.isEnum);
+            cp.vendorExtensions.put("x-swift-is-base-type-enum", isBaseTypeEnum);
+        }
         if (cp.isEnum || (model != null && model.isEnum)) {
             cp.vendorExtensions.put("x-swift-is-enum-type", true);
+        }
+        if (cp.isEnum) {
+            String newDataType = WordUtils.capitalize(operation.operationId) + WordUtils.capitalize(cp.enumName);
+            cp.vendorExtensions.put("x-swift-nested-enum-type", newDataType);
+            if (cp.isArray) {
+                if (cp.uniqueItems) {
+                    cp.dataType = "Set<" + newDataType + ">";
+                } else {
+                    cp.dataType = "[" + newDataType + "]";
+                }
+            } else {
+                cp.baseType = cp.dataType;
+                cp.dataType = newDataType;
+            }
+        }
+    }
+
+    protected void addFormVendorExtensions(CodegenParameter cp, CodegenOperation operation, HashMap<String, CodegenModel> modelMaps) {
+        addVendorExtensions(cp, operation, modelMaps);
+        if (operation.isMultipart && cp.isArray && cp.items.isFile) {
+            cp.vendorExtensions.put("x-swift-enumerate-multipart", true);
         }
     }
 
@@ -769,7 +787,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
         System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift alternative generator v0.7.0                                           #");
+        System.out.println("# swift alternative generator v0.8.0                                           #");
         System.out.println("################################################################################");
     }
 }

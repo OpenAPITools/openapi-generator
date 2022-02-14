@@ -35,7 +35,7 @@ open class {{classname}} {
     /**
      * enum for parameter {{paramName}}
      */
-    public enum {{{vendorExtensions.x-swift-nested-enum-type}}}: {{dataType}}, Hashable, Codable, CaseIterable {
+    public enum {{{vendorExtensions.x-swift-nested-enum-type}}}: {{{baseType}}}, Codable, CaseIterable {
         {{#allowableValues}}
         {{#enumVars}}
         case {{name}} = {{{value}}}
@@ -92,7 +92,7 @@ open class {{classname}} {
     {{/allParams}}
         - returns: AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {{description}}
         */
-    open func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{vendorExtensions.x-swift-nested-enum-type}}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {
+    open func {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {
         return Result<URLRequest, Error> {
             guard let baseURL = transport.baseURL ?? self.baseURL else {
                 throw OpenAPITransportError.badURLError()
@@ -142,30 +142,9 @@ open class {{classname}} {
             let multipartBoundary = String(format: "Boundary+%08X%08X", arc4random(), arc4random())
             var multipartData = Data()
             {{#formParams}}
-            let {{paramName}}Header = "--\(multipartBoundary)\r\n"
-            {{#isFile}}
-                .appending("Content-Disposition:form-data; name=\"{{paramName}}\"; filename=\"{{paramName}}\"\r\n")
-            {{/isFile}}
-            {{^isFile}}
-                .appending("Content-Disposition:form-data; name=\"{{paramName}}\"\r\n")
-            {{/isFile}}
-            {{#contentType}}
-                .appending("Content-Type: {{{contentType}}}\r\n")
-            {{/contentType}}
-                .appending("\r\n")
-            if let {{paramName}}HeaderData = {{paramName}}Header.data(using: .utf8) {
-                multipartData.append({{paramName}}HeaderData)
-            }
-            {{#required}}multipartData.append({{> toData}}){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { multipartData.append({{> toData}}) }{{/required}}
-            {{^-last}}
-            if let separator = "\r\n".data(using: .utf8) {
-                multipartData.append(separator)
-            }
-            {{/-last}}
+{{> toMultipartFormDataAppend}}
             {{/formParams}}
-            if let footer = "\r\n--\(multipartBoundary)--\r\n".data(using: .utf8) {
-                multipartData.append(footer)
-            }
+            multipartData.append("\r\n--\(multipartBoundary)--\r\n".data(using: .utf8) ?? Data())
             request.httpBody = multipartData
             request.setValue("\(multipartData.count)", forHTTPHeaderField: "Content-Length")
             request.setValue("multipart/form-data; boundary=\(multipartBoundary)", forHTTPHeaderField: "Content-Type")
