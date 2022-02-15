@@ -63,9 +63,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
     public static final String SUPPORT_STREAMING = "supportStreaming";
-    public static final String GRADLE_PROPERTIES= "gradleProperties";
-    public static final String ERROR_OBJECT_TYPE= "errorObjectType";
-    public static final String ERROR_OBJECT_SUBTYPE= "errorObjectSubtype";
+    public static final String GRADLE_PROPERTIES = "gradleProperties";
+    public static final String ERROR_OBJECT_TYPE = "errorObjectType";
+    public static final String ERROR_OBJECT_SUBTYPE = "errorObjectSubtype";
 
     public static final String MICROPROFILE_DEFAULT = "default";
     public static final String MICROPROFILE_KUMULUZEE = "kumuluzee";
@@ -329,7 +329,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         additionalProperties.put(ERROR_OBJECT_TYPE, errorObjectType);
 
         if (additionalProperties.containsKey(ERROR_OBJECT_SUBTYPE)) {
-            this.setErrorObjectSubtype((List<String>)additionalProperties.get(ERROR_OBJECT_SUBTYPE));
+            this.setErrorObjectSubtype((List<String>) additionalProperties.get(ERROR_OBJECT_SUBTYPE));
         }
         additionalProperties.put(ERROR_OBJECT_SUBTYPE, errorObjectSubtype);
 
@@ -979,15 +979,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     public void setGradleProperties(final String gradleProperties) {
-        this.gradleProperties= gradleProperties;
+        this.gradleProperties = gradleProperties;
     }
 
     public void setErrorObjectType(final String errorObjectType) {
-        this.errorObjectType= errorObjectType;
+        this.errorObjectType = errorObjectType;
     }
 
     public void setErrorObjectSubtype(final List<String> errorObjectSubtype) {
-        this.errorObjectSubtype= errorObjectSubtype;
+        this.errorObjectSubtype = errorObjectSubtype;
     }
 
     /**
