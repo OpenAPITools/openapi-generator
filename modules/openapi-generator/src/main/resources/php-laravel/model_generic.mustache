@@ -5,7 +5,7 @@ class {{classname}} {
 {{#deprecated}}
     /** @deprecated */
 {{/deprecated}}
-    private ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#isNullable}} = null{{/isNullable}}{{/defaultValue}};
+    public ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#isNullable}} = null{{/isNullable}}{{/defaultValue}};
 
     {{/vars}}
 }
