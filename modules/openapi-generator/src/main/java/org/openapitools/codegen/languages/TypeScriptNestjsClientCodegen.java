@@ -300,6 +300,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
 
                         // Add the more complicated component instead of just the brace.
                         CodegenParameter parameter = findPathParameterByName(op, parameterName.toString());
+                        pathBuffer.append("params.");
                         pathBuffer.append(toVarName(parameterName.toString()));
                         if (parameter != null && parameter.isDateTime) {
                             pathBuffer.append(".toISOString()");
