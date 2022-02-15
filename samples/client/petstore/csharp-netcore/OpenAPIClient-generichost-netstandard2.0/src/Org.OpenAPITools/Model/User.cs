@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value..</param>
         /// <param name="anyTypeProp">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389.</param>
         /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values..</param>
-        public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), Object objectWithNoDeclaredProps = default(Object), Object objectWithNoDeclaredPropsNullable = default(Object), Object anyTypeProp = default(Object), Object anyTypePropNullable = default(Object))
+        public User(long id = default, string username = default, string firstName = default, string lastName = default, string email = default, string password = default, string phone = default, int userStatus = default, Object objectWithNoDeclaredProps = default, Object objectWithNoDeclaredPropsNullable = default, Object anyTypeProp = default, Object anyTypePropNullable = default)
         {
             this.Id = id;
             this.Username = username;

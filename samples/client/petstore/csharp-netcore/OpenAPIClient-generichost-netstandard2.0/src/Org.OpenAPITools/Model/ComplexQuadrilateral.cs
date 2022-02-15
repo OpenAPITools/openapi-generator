@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="shapeType">shapeType (required).</param>
         /// <param name="quadrilateralType">quadrilateralType (required).</param>
-        public ComplexQuadrilateral(string shapeType = default(string), string quadrilateralType = default(string))
+        public ComplexQuadrilateral(string shapeType, string quadrilateralType)
         {
             // to ensure "shapeType" is required (not null)
             if (shapeType == null) {

@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="BasquePig" /> class.
         /// </summary>
         /// <param name="className">className (required).</param>
-        public BasquePig(string className = default(string))
+        public BasquePig(string className)
         {
             // to ensure "className" is required (not null)
             if (className == null) {
