@@ -2,13 +2,6 @@ package org.openapitools.api;
 
 import org.openapitools.model.Client;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,30 +41,6 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
     @Override
     public Optional<NativeWebRequest> getRequest() {
         return Optional.ofNullable(request);
-    }
-
-    /**
-     * PATCH /fake_classname_test : To test class name in snake case
-     * To test class name in snake case
-     *
-     * @param body client model (required)
-     * @return successful operation (status code 200)
-     * @see FakeClassnameTestApi#testClassname
-     */
-    public ResponseEntity<Client> testClassname(
-        @Parameter(name = "body", description = "client model", required = true) @Valid @RequestBody Client body
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"client\" : \"client\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
 }

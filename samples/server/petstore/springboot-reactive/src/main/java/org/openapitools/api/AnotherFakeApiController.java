@@ -3,7 +3,6 @@ package org.openapitools.api;
 import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.Client;
 
-import io.swagger.annotations.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

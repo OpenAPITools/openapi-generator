@@ -2,13 +2,6 @@ package org.openapitools.api;
 
 import org.openapitools.model.Client;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,20 +39,6 @@ public class AnotherFakeApiController implements AnotherFakeApi {
     @Override
     public AnotherFakeApiDelegate getDelegate() {
         return delegate;
-    }
-
-    /**
-     * PATCH /another-fake/dummy : To test special tags
-     * To test special tags and operation ID starting with number
-     *
-     * @param body client model (required)
-     * @return successful operation (status code 200)
-     * @see AnotherFakeApi#call123testSpecialTags
-     */
-    public ResponseEntity<Client> call123testSpecialTags(
-        @Parameter(name = "body", description = "client model", required = true) @Valid @RequestBody Client body
-    ) {
-        return delegate.call123testSpecialTags(body);
     }
 
 }
