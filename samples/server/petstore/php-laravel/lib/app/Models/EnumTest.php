@@ -10,27 +10,27 @@ namespace app\Models;
 class EnumTest {
 
     /** @var string $enumString */
-    private $enumString = "";
+    public $enumString = "";
 
     /** @var string $enumStringRequired */
-    private $enumStringRequired = "";
+    public $enumStringRequired = "";
 
     /** @var int $enumInteger */
-    private $enumInteger = 0;
+    public $enumInteger = 0;
 
     /** @var double $enumNumber */
-    private $enumNumber = 0;
+    public $enumNumber = 0;
 
     /** @var string|null $outerEnum */
-    private $outerEnum = null;
+    public $outerEnum = null;
 
     /** @var int $outerEnumInteger */
-    private $outerEnumInteger = \app\Models\OuterEnumInteger::NUMBER_0;
+    public $outerEnumInteger = \app\Models\OuterEnumInteger::NUMBER_0;
 
     /** @var string $outerEnumDefaultValue */
-    private $outerEnumDefaultValue = \app\Models\OuterEnumDefaultValue::PLACED;
+    public $outerEnumDefaultValue = \app\Models\OuterEnumDefaultValue::PLACED;
 
     /** @var int $outerEnumIntegerDefaultValue */
-    private $outerEnumIntegerDefaultValue = \app\Models\OuterEnumIntegerDefaultValue::NUMBER_0;
+    public $outerEnumIntegerDefaultValue = \app\Models\OuterEnumIntegerDefaultValue::NUMBER_0;
 
 }

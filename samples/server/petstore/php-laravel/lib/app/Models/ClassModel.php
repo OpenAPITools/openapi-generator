@@ -11,6 +11,6 @@ namespace app\Models;
 class ClassModel {
 
     /** @var string $class */
-    private $class = "";
+    public $class = "";
 
 }

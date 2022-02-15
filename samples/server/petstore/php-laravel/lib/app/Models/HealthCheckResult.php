@@ -11,6 +11,6 @@ namespace app\Models;
 class HealthCheckResult {
 
     /** @var string|null $nullableMessage */
-    private $nullableMessage = null;
+    public $nullableMessage = null;
 
 }

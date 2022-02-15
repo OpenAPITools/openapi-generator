@@ -10,9 +10,9 @@ namespace app\Models;
 class Category {
 
     /** @var int $id */
-    private $id = 0;
+    public $id = 0;
 
     /** @var string $name */
-    private $name = 'default-name';
+    public $name = 'default-name';
 
 }

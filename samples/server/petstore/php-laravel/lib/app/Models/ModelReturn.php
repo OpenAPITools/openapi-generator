@@ -11,6 +11,6 @@ namespace app\Models;
 class ModelReturn {
 
     /** @var int $return */
-    private $return = 0;
+    public $return = 0;
 
 }

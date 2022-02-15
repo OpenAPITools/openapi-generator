@@ -11,6 +11,6 @@ namespace app\Models;
 class File {
 
     /** @var string $sourceURI Test capitalization*/
-    private $sourceURI = "";
+    public $sourceURI = "";
 
 }

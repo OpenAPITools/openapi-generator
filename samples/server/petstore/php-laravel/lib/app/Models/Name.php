@@ -11,15 +11,15 @@ namespace app\Models;
 class Name {
 
     /** @var int $name */
-    private $name = 0;
+    public $name = 0;
 
     /** @var int $snakeCase */
-    private $snakeCase = 0;
+    public $snakeCase = 0;
 
     /** @var string $property */
-    private $property = "";
+    public $property = "";
 
     /** @var int $_123number */
-    private $_123number = 0;
+    public $_123number = 0;
 
 }

@@ -10,12 +10,12 @@ namespace app\Models;
 class Dog {
 
     /** @var string $className */
-    private $className = "";
+    public $className = "";
 
     /** @var string $color */
-    private $color = 'red';
+    public $color = 'red';
 
     /** @var string $breed */
-    private $breed = "";
+    public $breed = "";
 
 }
