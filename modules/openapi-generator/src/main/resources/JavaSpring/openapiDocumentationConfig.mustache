@@ -53,10 +53,6 @@ public class SpringFoxConfiguration {
                 .directModelSubstitute(org.joda.time.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(org.joda.time.DateTime.class, java.util.Date.class)
                 {{/joda}}
-                {{#threetenbp}}
-                .directModelSubstitute(org.threeten.bp.LocalDate.class, java.sql.Date.class)
-                .directModelSubstitute(org.threeten.bp.OffsetDateTime.class, java.util.Date.class)
-                {{/threetenbp}}
                 {{#useOptional}}
                 .genericModelSubstitutes(Optional.class)
                 {{/useOptional}}
