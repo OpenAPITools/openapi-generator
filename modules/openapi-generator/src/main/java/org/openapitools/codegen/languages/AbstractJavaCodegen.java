@@ -50,7 +50,7 @@ import java.util.stream.Stream;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig,
-    DocumentationProviderFeatures {
+        DocumentationProviderFeatures {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
@@ -172,14 +172,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         );
 
         languageSpecificPrimitives = Sets.newHashSet("String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Integer",
-                        "Long",
-                        "Float",
-                        "Object",
-                        "byte[]"
+                "boolean",
+                "Boolean",
+                "Double",
+                "Integer",
+                "Long",
+                "Float",
+                "Object",
+                "byte[]"
         );
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("set", "LinkedHashSet");
@@ -260,17 +260,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (null != defaultDocumentationProvider()) {
             CliOption documentationProviderCliOption = new CliOption(DOCUMENTATION_PROVIDER,
-                "Select the OpenAPI documentation provider.")
-                .defaultValue(defaultDocumentationProvider().toCliOptValue());
+                    "Select the OpenAPI documentation provider.")
+                    .defaultValue(defaultDocumentationProvider().toCliOptValue());
             supportedDocumentationProvider().forEach(dp ->
-                documentationProviderCliOption.addEnum(dp.toCliOptValue(), dp.getDescription()));
+                    documentationProviderCliOption.addEnum(dp.toCliOptValue(), dp.getDescription()));
             cliOptions.add(documentationProviderCliOption);
 
             CliOption annotationLibraryCliOption = new CliOption(ANNOTATION_LIBRARY,
-                "Select the complementary documentation annotation library.")
-                .defaultValue(defaultDocumentationProvider().getPreferredAnnotationLibrary().toCliOptValue());
+                    "Select the complementary documentation annotation library.")
+                    .defaultValue(defaultDocumentationProvider().getPreferredAnnotationLibrary().toCliOptValue());
             supportedAnnotationLibraries().forEach(al ->
-                annotationLibraryCliOption.addEnum(al.toCliOptValue(), al.getDescription()));
+                    annotationLibraryCliOption.addEnum(al.toCliOptValue(), al.getDescription()));
             cliOptions.add(annotationLibraryCliOption);
         }
     }
@@ -279,34 +279,34 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public void processOpts() {
         super.processOpts();
 
-        if  (null != defaultDocumentationProvider()) {
+        if (null != defaultDocumentationProvider()) {
             documentationProvider = DocumentationProvider.ofCliOption(
-                (String)additionalProperties.getOrDefault(DOCUMENTATION_PROVIDER,
-                    defaultDocumentationProvider().toCliOptValue())
+                    (String) additionalProperties.getOrDefault(DOCUMENTATION_PROVIDER,
+                            defaultDocumentationProvider().toCliOptValue())
             );
 
-            if (! supportedDocumentationProvider().contains(documentationProvider)) {
+            if (!supportedDocumentationProvider().contains(documentationProvider)) {
                 String msg = String.format(Locale.ROOT,
-                    "The [%s] Documentation Provider is not supported by this generator",
-                    documentationProvider.toCliOptValue());
+                        "The [%s] Documentation Provider is not supported by this generator",
+                        documentationProvider.toCliOptValue());
                 throw new IllegalArgumentException(msg);
             }
 
             annotationLibrary = AnnotationLibrary.ofCliOption(
-                (String) additionalProperties.getOrDefault(ANNOTATION_LIBRARY,
-                    documentationProvider.getPreferredAnnotationLibrary().toCliOptValue())
+                    (String) additionalProperties.getOrDefault(ANNOTATION_LIBRARY,
+                            documentationProvider.getPreferredAnnotationLibrary().toCliOptValue())
             );
 
-            if (! supportedAnnotationLibraries().contains(annotationLibrary)) {
+            if (!supportedAnnotationLibraries().contains(annotationLibrary)) {
                 String msg = String.format(Locale.ROOT, "The Annotation Library [%s] is not supported by this generator",
-                    annotationLibrary.toCliOptValue());
+                        annotationLibrary.toCliOptValue());
                 throw new IllegalArgumentException(msg);
             }
 
-            if (! documentationProvider.supportedAnnotationLibraries().contains(annotationLibrary)) {
+            if (!documentationProvider.supportedAnnotationLibraries().contains(annotationLibrary)) {
                 String msg = String.format(Locale.ROOT,
-                    "The [%s] documentation provider does not support [%s] as complementary annotation library",
-                    documentationProvider.toCliOptValue(), annotationLibrary.toCliOptValue());
+                        "The [%s] documentation provider does not support [%s] as complementary annotation library",
+                        documentationProvider.toCliOptValue(), annotationLibrary.toCliOptValue());
                 throw new IllegalArgumentException(msg);
             }
 
@@ -946,8 +946,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 } else if (schema.getDefault() instanceof java.time.OffsetDateTime) {
                     if ("java8".equals(getDateLibrary())) {
                         return String.format(Locale.ROOT, "OffsetDateTime.parse(\"%s\", %s)",
-                            ((java.time.OffsetDateTime) schema.getDefault()).atZoneSameInstant(ZoneId.systemDefault()),
-                            "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
+                                ((java.time.OffsetDateTime) schema.getDefault()).atZoneSameInstant(ZoneId.systemDefault()),
+                                "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
                     } else {
                         return null;
                     }
@@ -984,7 +984,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (defaultValue == null) {
             return null;
         }
-        if  (defaultValue instanceof Date) {
+        if (defaultValue instanceof Date) {
             Date date = (Date) schema.getDefault();
             LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             return localDate.toString();
@@ -1403,10 +1403,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             //       - ENUM_A
             //       - ENUM_B
             Stream.concat(
-                    Stream.of(openAPI.getComponents().getSchemas()),
-                    openAPI.getComponents().getSchemas().values().stream()
-                            .filter(schema -> schema.getProperties() != null)
-                            .map(Schema::getProperties))
+                            Stream.of(openAPI.getComponents().getSchemas()),
+                            openAPI.getComponents().getSchemas().values().stream()
+                                    .filter(schema -> schema.getProperties() != null)
+                                    .map(Schema::getProperties))
                     .forEach(schemas -> schemas.replaceAll(
                             (name, s) -> Stream.of(s)
                                     .filter(schema -> schema instanceof ComposedSchema)
