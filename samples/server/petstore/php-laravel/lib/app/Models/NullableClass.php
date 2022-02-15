@@ -9,38 +9,38 @@ namespace app\Models;
  */
 class NullableClass {
 
-    /** @var int $integerProp */
-    private $integerProp;
+    /** @var int|null $integerProp */
+    private $integerProp = null;
 
-    /** @var float $numberProp */
-    private $numberProp;
+    /** @var float|null $numberProp */
+    private $numberProp = null;
 
-    /** @var bool $booleanProp */
-    private $booleanProp;
+    /** @var bool|null $booleanProp */
+    private $booleanProp = null;
 
-    /** @var string $stringProp */
-    private $stringProp;
+    /** @var string|null $stringProp */
+    private $stringProp = null;
 
-    /** @var \DateTime $dateProp */
-    private $dateProp;
+    /** @var \DateTime|null $dateProp */
+    private $dateProp = null;
 
-    /** @var \DateTime $datetimeProp */
-    private $datetimeProp;
+    /** @var \DateTime|null $datetimeProp */
+    private $datetimeProp = null;
 
-    /** @var object[] $arrayNullableProp */
-    private $arrayNullableProp;
+    /** @var object[]|null $arrayNullableProp */
+    private $arrayNullableProp = null;
 
-    /** @var object[] $arrayAndItemsNullableProp */
-    private $arrayAndItemsNullableProp;
+    /** @var object[]|null $arrayAndItemsNullableProp */
+    private $arrayAndItemsNullableProp = null;
 
     /** @var object[] $arrayItemsNullable */
-    private $arrayItemsNullable;
+    private $arrayItemsNullable = [];
 
-    /** @var array<string,object> $objectNullableProp */
-    private $objectNullableProp;
+    /** @var array<string,object>|null $objectNullableProp */
+    private $objectNullableProp = null;
 
-    /** @var array<string,object> $objectAndItemsNullableProp */
-    private $objectAndItemsNullableProp;
+    /** @var array<string,object>|null $objectAndItemsNullableProp */
+    private $objectAndItemsNullableProp = null;
 
     /** @var array<string,object> $objectItemsNullable */
     private $objectItemsNullable;

@@ -10,9 +10,9 @@ namespace app\Models;
 class Animal {
 
     /** @var string $className */
-    private $className;
+    private $className = "";
 
     /** @var string $color */
-    private $color;
+    private $color = 'red';
 
 }

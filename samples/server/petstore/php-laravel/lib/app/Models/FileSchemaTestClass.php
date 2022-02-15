@@ -13,6 +13,6 @@ class FileSchemaTestClass {
     private $file;
 
     /** @var \app\Models\File[] $files */
-    private $files;
+    private $files = [];
 
 }

@@ -10,7 +10,7 @@ namespace app\Models;
 class MixedPropertiesAndAdditionalPropertiesClass {
 
     /** @var string $uuid */
-    private $uuid;
+    private $uuid = "";
 
     /** @var \DateTime $dateTime */
     private $dateTime;

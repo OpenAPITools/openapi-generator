@@ -10,9 +10,9 @@ namespace app\Models;
 class HasOnlyReadOnly {
 
     /** @var string $bar */
-    private $bar;
+    private $bar = "";
 
     /** @var string $foo */
-    private $foo;
+    private $foo = "";
 
 }

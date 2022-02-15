@@ -10,6 +10,6 @@ namespace app\Models;
 class NumberOnly {
 
     /** @var float $justNumber */
-    private $justNumber;
+    private $justNumber = 0;
 
 }

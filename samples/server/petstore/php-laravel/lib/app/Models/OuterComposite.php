@@ -10,12 +10,12 @@ namespace app\Models;
 class OuterComposite {
 
     /** @var float $myNumber */
-    private $myNumber;
+    private $myNumber = 0;
 
     /** @var string $myString */
-    private $myString;
+    private $myString = "";
 
     /** @var bool $myBoolean */
-    private $myBoolean;
+    private $myBoolean = false;
 
 }
