@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 
 import java.util.*;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -112,7 +113,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     /**
      * The type of the value for the additionalProperties keyword in the OAS document.
      * Used in map like objects, including composed schemas.
-     *
+     * <p>
      * In most programming languages, the additional (undeclared) properties are stored
      * in a map data structure, such as HashMap in Java, map in golang, or a dict in Python.
      * There are multiple ways to implement the additionalProperties keyword, depending
@@ -122,17 +123,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * In that case 'CodegenModel.parent' is set to represent the class hierarchy.
      * Another way is to use CodegenModel.additionalPropertiesType. A code generator
      * such as Python does not use class inheritance to model additional properties.
-     *
+     * <p>
      * For example, in the OAS schema below, the schema has a declared 'id' property
      * and additional, undeclared properties of type 'integer' are allowed.
-     *
+     * <p>
      * type: object
      * properties:
-     *   id:
-     *     type: integer
+     * id:
+     * type: integer
      * additionalProperties:
-     *   type: integer
-     *
+     * type: integer
      */
     public String additionalPropertiesType;
 
@@ -575,90 +575,114 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public boolean getIsModel() { return isModel; }
+    public boolean getIsModel() {
+        return isModel;
+    }
 
     @Override
-    public void setIsModel(boolean isModel)  {
+    public void setIsModel(boolean isModel) {
         this.isModel = isModel;
     }
 
     @Override
-    public boolean getIsDate() { return isDate; }
+    public boolean getIsDate() {
+        return isDate;
+    }
 
     @Override
-    public void setIsDate(boolean isDate)   {
+    public void setIsDate(boolean isDate) {
         this.isDate = isDate;
     }
 
     @Override
-    public boolean getIsDateTime() { return isDateTime; }
+    public boolean getIsDateTime() {
+        return isDateTime;
+    }
 
     @Override
-    public void setIsDateTime(boolean isDateTime)   {
+    public void setIsDateTime(boolean isDateTime) {
         this.isDateTime = isDateTime;
     }
 
     @Override
-    public boolean getIsMap() { return isMap; }
+    public boolean getIsMap() {
+        return isMap;
+    }
 
     @Override
-    public void setIsMap(boolean isMap)  {
+    public void setIsMap(boolean isMap) {
         this.isMap = isMap;
     }
 
     @Override
-    public boolean getIsArray() { return isArray; }
+    public boolean getIsArray() {
+        return isArray;
+    }
 
     @Override
-    public void setIsArray(boolean isArray)  {
+    public void setIsArray(boolean isArray) {
         this.isArray = isArray;
     }
 
     @Override
-    public boolean getIsShort() { return isShort; }
+    public boolean getIsShort() {
+        return isShort;
+    }
 
     @Override
-    public void setIsShort(boolean isShort)   {
+    public void setIsShort(boolean isShort) {
         this.isShort = isShort;
     }
 
     @Override
-    public boolean getIsBoolean() { return isBoolean; }
-
-    @Override
-    public void setIsBoolean(boolean isBoolean)   {
-        this.isBoolean= isBoolean;
+    public boolean getIsBoolean() {
+        return isBoolean;
     }
 
     @Override
-    public boolean getIsUnboundedInteger() { return isUnboundedInteger; }
+    public void setIsBoolean(boolean isBoolean) {
+        this.isBoolean = isBoolean;
+    }
 
     @Override
-    public void setIsUnboundedInteger(boolean isUnboundedInteger)   {
+    public boolean getIsUnboundedInteger() {
+        return isUnboundedInteger;
+    }
+
+    @Override
+    public void setIsUnboundedInteger(boolean isUnboundedInteger) {
         this.isUnboundedInteger = isUnboundedInteger;
     }
 
     @Override
-    public boolean getIsPrimitiveType() { return isPrimitiveType; }
+    public boolean getIsPrimitiveType() {
+        return isPrimitiveType;
+    }
 
     @Override
-    public void setIsPrimitiveType(boolean isPrimitiveType)  {
+    public void setIsPrimitiveType(boolean isPrimitiveType) {
         this.isPrimitiveType = isPrimitiveType;
     }
 
     @Override
-    public CodegenProperty getAdditionalProperties() { return additionalProperties; }
+    public CodegenProperty getAdditionalProperties() {
+        return additionalProperties;
+    }
 
     @Override
-    public void setAdditionalProperties(CodegenProperty additionalProperties)  {
+    public void setAdditionalProperties(CodegenProperty additionalProperties) {
         this.additionalProperties = additionalProperties;
     }
 
     @Override
-    public boolean getHasValidation() { return hasValidation; }
+    public boolean getHasValidation() {
+        return hasValidation;
+    }
 
     @Override
-    public void setHasValidation(boolean hasValidation) { this.hasValidation = hasValidation; }
+    public void setHasValidation(boolean hasValidation) {
+        this.hasValidation = hasValidation;
+    }
 
     public List<CodegenProperty> getReadOnlyVars() {
         return readOnlyVars;
@@ -785,7 +809,11 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public boolean getHasDiscriminatorWithNonEmptyMapping() { return hasDiscriminatorWithNonEmptyMapping; };
+    public boolean getHasDiscriminatorWithNonEmptyMapping() {
+        return hasDiscriminatorWithNonEmptyMapping;
+    }
+
+    ;
 
     @Override
     public void setHasDiscriminatorWithNonEmptyMapping(boolean hasDiscriminatorWithNonEmptyMapping) {
@@ -793,26 +821,32 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public boolean getIsString() { return isString; }
+    public boolean getIsString() {
+        return isString;
+    }
 
     @Override
-    public void setIsString(boolean isString)  {
+    public void setIsString(boolean isString) {
         this.isString = isString;
     }
 
     @Override
-    public boolean getIsNumber() { return isNumber; }
+    public boolean getIsNumber() {
+        return isNumber;
+    }
 
     @Override
-    public void setIsNumber(boolean isNumber)  {
+    public void setIsNumber(boolean isNumber) {
         this.isNumber = isNumber;
     }
 
     @Override
-    public boolean getIsAnyType() { return isAnyType; }
+    public boolean getIsAnyType() {
+        return isAnyType;
+    }
 
     @Override
-    public void setIsAnyType(boolean isAnyType)  {
+    public void setIsAnyType(boolean isAnyType) {
         this.isAnyType = isAnyType;
     }
 
@@ -827,10 +861,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public boolean getHasMultipleTypes() {return hasMultipleTypes; }
+    public boolean getHasMultipleTypes() {
+        return hasMultipleTypes;
+    }
 
     @Override
-    public void setHasMultipleTypes(boolean hasMultipleTypes) { this.hasMultipleTypes = hasMultipleTypes; }
+    public void setHasMultipleTypes(boolean hasMultipleTypes) {
+        this.hasMultipleTypes = hasMultipleTypes;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -1043,7 +1081,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         return sb.toString();
     }
 
-    public void addDiscriminatorMappedModelsImports(){
+    public void addDiscriminatorMappedModelsImports() {
         if (discriminator == null || discriminator.getMappedModels() == null) {
             return;
         }
@@ -1065,6 +1103,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public boolean getHasItems() {
         return this.items != null;
     }
+
     /**
      * Remove duplicated properties in all variable list
      */
