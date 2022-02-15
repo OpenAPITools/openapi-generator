@@ -568,12 +568,6 @@ public class ApiClient extends JavaTimeFormatter {
      * @return path with placeholders replaced by variables
      */
     public String expandPath(String pathTemplate, Map<String, Object> variables) {
-        // disable default URL encoding 
-        DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
-        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
-        final RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setUriTemplateHandler(uriBuilderFactory);
-
         return restTemplate.getUriTemplateHandler().expand(pathTemplate, variables).toString();
     }
 
@@ -746,6 +740,11 @@ public class ApiClient extends JavaTimeFormatter {
         
         // This allows us to read the response more than once - Necessary for debugging.
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(restTemplate.getRequestFactory()));
+
+        // disable default URL encoding
+        DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
+        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+        restTemplate.setUriTemplateHandler(uriBuilderFactory);
         return restTemplate;
     }
 
