@@ -1,6 +1,10 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Client;
+
+import io.swagger.annotations.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.context.request.NativeWebRequest;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
@@ -34,6 +39,11 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
         this.request = request;
     }
 
+    @Override
+    public Optional<NativeWebRequest> getRequest() {
+        return Optional.ofNullable(request);
+    }
+
     /**
      * PATCH /fake_classname_test : To test class name in snake case
      * To test class name in snake case
@@ -45,13 +55,15 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
     public ResponseEntity<Client> testClassname(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody Client body
     ) {
-        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"client\" : \"client\" }";
-                ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                break;
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"client\" : \"client\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
             }
-        }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

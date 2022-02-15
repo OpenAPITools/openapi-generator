@@ -1171,15 +1171,6 @@
                 <module>samples/server/petstore/java-vertx-web</module>
                 <module>samples/server/petstore/java-inflector</module>
                 <module>samples/server/petstore/java-pkmst</module>
-                <module>samples/server/petstore/java-play-framework</module>
-                <module>samples/server/petstore/java-play-framework-no-wrap-calls</module>
-                <module>samples/server/petstore/java-play-framework-no-swagger-ui</module>
-                <module>samples/server/petstore/java-play-framework-no-interface</module>
-                <module>samples/server/petstore/java-play-framework-no-exception-handling</module>
-                <module>samples/server/petstore/java-play-framework-no-bean-validation</module>
-                <module>samples/server/petstore/java-play-framework-fake-endpoints</module>
-                <module>samples/server/petstore/java-play-framework-controller-only</module>
-                <module>samples/server/petstore/java-play-framework-api-package-override</module>
                 <module>samples/server/petstore/java-undertow</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
                 <module>samples/server/petstore/jaxrs/jersey1-useTags</module>
@@ -1364,20 +1355,6 @@
                 <module>samples/server/petstore/kotlin-springboot</module>
                 <!--<module>samples/server/petstore/kotlin/vertx</module>-->
                 <!--<module>samples/server/petstore/erlang-server</module>-->
-            </modules>
-        </profile>
-        <!-- test with JDK11 in drone.io -->
-        <profile>
-            <id>samples.droneio</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>samples.droneio</value>
-                </property>
-            </activation>
-            <modules>
-                <!-- clients -->
-                <module>samples/client/petstore/java/native</module>
             </modules>
         </profile>
         <!-- test with Haskell -->

@@ -250,11 +250,11 @@ public class SpringCodegenTest {
     @Test
     public void interfaceDefaultImplDisableWithResponseWrapper() {
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
         codegen.additionalProperties().put(RESPONSE_WRAPPER, "aWrapper");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get("jdk8"), false);
+        // jdk8 tag has been removed
+        Assert.assertEquals(codegen.additionalProperties().get("jdk8"), null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -331,7 +331,6 @@ public class SpringCodegenTest {
     @Test
     public void springcloudWithAsyncAndJava8HasResponseWrapperCompletableFuture() {
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
         codegen.additionalProperties().put(SpringCodegen.ASYNC, true);
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
         codegen.processOpts();
@@ -341,21 +340,8 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void springcloudWithAsyncHasResponseWrapperCallable() {
-        final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(SpringCodegen.JAVA_8, false);
-        codegen.additionalProperties().put(SpringCodegen.ASYNC, true);
-        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
-        codegen.processOpts();
-
-        Assert.assertNull(codegen.additionalProperties().get("jdk8-default-interface"));
-        Assert.assertEquals(codegen.additionalProperties().get(RESPONSE_WRAPPER), "Callable");
-    }
-
-    @Test
     public void springcloudWithJava8DisableJdk8() {
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
         codegen.processOpts();
 
@@ -630,7 +616,6 @@ public class SpringCodegenTest {
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.setUseBeanValidation(useBeanValidation);
         codegen.setPerformBeanValidation(performBeanValidation);
-        codegen.setJava8(java8);
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -837,7 +822,6 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
 
         codegen.setUseOneOfInterfaces(true);
-        codegen.setJava8(true);
         codegen.setLegacyDiscriminatorBehavior(false);
 
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");

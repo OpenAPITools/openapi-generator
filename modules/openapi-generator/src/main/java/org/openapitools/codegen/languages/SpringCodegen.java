@@ -79,7 +79,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
 
-    public static final String JAVA_8 = "java8";
     public static final String ASYNC = "async";
     public static final String REACTIVE = "reactive";
     public static final String RESPONSE_WRAPPER = "responseWrapper";
@@ -103,7 +102,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean delegatePattern = false;
     protected boolean delegateMethod = false;
     protected boolean singleContentTypes = false;
-    protected boolean java8 = true;
     protected boolean async = false;
     protected boolean reactive = false;
     protected String responseWrapper = "";
@@ -274,13 +272,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Process java8 option before common java ones to change the default
         // dateLibrary to java8.
         LOGGER.info("----------------------------------");
-        if (additionalProperties.containsKey(JAVA_8)) {
-            this.setJava8(Boolean.parseBoolean(additionalProperties.get(JAVA_8).toString()));
-            additionalProperties.put(JAVA_8, java8);
-            LOGGER.warn(
-                    "java8 option has been deprecated as it's set to true by default (JDK7 support has been deprecated)");
-        }
-        if (java8 && !additionalProperties.containsKey(DATE_LIBRARY)) {
+        if (!additionalProperties.containsKey(DATE_LIBRARY)) {
             setDateLibrary("java8");
         }
 
@@ -427,14 +419,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (interfaceOnly && delegatePattern) {
-            if (java8) {
-                delegateMethod = true;
-                additionalProperties.put("delegate-method", true);
-            } else {
-                throw new IllegalArgumentException(
-                        String.format(Locale.ROOT, "Can not generate code with `%s` and `%s` true while `%s` is false.",
-                                DELEGATE_PATTERN, INTERFACE_ONLY, JAVA_8));
-            }
+            delegateMethod = true;
+            additionalProperties.put("delegate-method", true);
         }
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -490,18 +476,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.java"));
         }
 
-        if ("threetenbp".equals(dateLibrary)) {
-            supportingFiles.add(new SupportingFile("customInstantDeserializer.mustache",
-                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                    "CustomInstantDeserializer.java"));
-            if (SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library)) {
-                supportingFiles.add(new SupportingFile("jacksonConfiguration.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "JacksonConfiguration.java"));
-            }
-        }
-
-        if ((!delegatePattern && java8) || delegateMethod) {
+        if (!delegatePattern || delegateMethod) {
             additionalProperties.put("jdk8-no-delegate", true);
         }
 
@@ -510,27 +485,22 @@ public class SpringCodegen extends AbstractJavaCodegen
             apiTemplateFiles.put("apiDelegate.mustache", "Delegate.java");
         }
 
-        if (java8) {
-            additionalProperties.put("javaVersion", "1.8");
-            if (SPRING_CLOUD_LIBRARY.equals(library)) {
-                additionalProperties.put("jdk8-default-interface", false);
-            } else {
-                additionalProperties.put("jdk8-default-interface", !skipDefaultInterface);
-            }
-            additionalProperties.put("jdk8", true);
-            if (async) {
-                additionalProperties.put(RESPONSE_WRAPPER, "CompletableFuture");
-            }
-            if (reactive) {
-                additionalProperties.put(RESPONSE_WRAPPER, "Mono");
-            }
-        } else if (async) {
-            additionalProperties.put(RESPONSE_WRAPPER, "Callable");
+        additionalProperties.put("javaVersion", "1.8");
+        if (SPRING_CLOUD_LIBRARY.equals(library)) {
+            additionalProperties.put("jdk8-default-interface", false);
+        } else {
+            additionalProperties.put("jdk8-default-interface", !skipDefaultInterface);
+        }
+
+        if (async) {
+            additionalProperties.put(RESPONSE_WRAPPER, "CompletableFuture");
+        }
+        if (reactive) {
+            additionalProperties.put(RESPONSE_WRAPPER, "Mono");
         }
 
         // Some well-known Spring or Spring-Cloud response wrappers
         if (isNotEmpty(responseWrapper)) {
-            additionalProperties.put("jdk8", false);
             additionalProperties.put("jdk8-default-interface", false);
             switch (responseWrapper) {
             case "Future":
@@ -846,10 +816,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setSkipDefaultInterface(boolean skipDefaultInterface) {
         this.skipDefaultInterface = skipDefaultInterface;
-    }
-
-    public void setJava8(boolean java8) {
-        this.java8 = java8;
     }
 
     public void setVirtualService(boolean virtualService) {

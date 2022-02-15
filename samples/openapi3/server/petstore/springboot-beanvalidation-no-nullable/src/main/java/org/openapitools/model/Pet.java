@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -12,6 +12,7 @@ import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 

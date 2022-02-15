@@ -884,13 +884,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 pattern = "new " + arrInstantiationType + "<%s>()";
             }
 
-            Schema<?> items = getSchemaItems((ArraySchema) schema);
-
-            // comment out below for JDK7
-            //String typeDeclaration = getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items));
-            String typeDeclaration = "";
-
-            return String.format(Locale.ROOT, pattern, typeDeclaration);
+            return String.format(Locale.ROOT, pattern, "");
         } else if (ModelUtils.isMapSchema(schema) && !(schema instanceof ComposedSchema)) {
             if (schema.getProperties() != null && schema.getProperties().size() > 0) {
                 // object is complex object with free-form additional properties
@@ -907,11 +901,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
-            // comment out below for JDK7
-            //String typeDeclaration = String.format(Locale.ROOT, "String, %s", getTypeDeclaration(getAdditionalProperties(schema)));
-            String typeDeclaration = "";
-
-            return String.format(Locale.ROOT, pattern, typeDeclaration);
+            return String.format(Locale.ROOT, pattern, "");
         } else if (ModelUtils.isIntegerSchema(schema)) {
             if (schema.getDefault() != null) {
                 if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {

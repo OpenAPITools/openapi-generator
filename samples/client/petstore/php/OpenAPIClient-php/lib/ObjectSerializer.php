@@ -29,6 +29,7 @@
 namespace OpenAPI\Client;
 
 use OpenAPI\Client\Model\ModelInterface;
+use GuzzleHttp\Psr7\Utils;
 
 /**
  * ObjectSerializer Class Doc Comment
@@ -346,6 +347,8 @@ class ObjectSerializer
         }
 
         if ($class === '\SplFileObject') {
+            $data = Utils::streamFor($data);
+
             /** @var \Psr\Http\Message\StreamInterface $data */
 
             // determine file name

@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.BigCat;
 import org.openapitools.model.Cat;
 import org.openapitools.model.Dog;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
