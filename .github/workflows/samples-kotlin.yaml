@@ -25,6 +25,11 @@ jobs:
           - samples/server/petstore/kotlin-springboot
           - samples/server/petstore/kotlin-springboot-modelMutable
           - samples/server/petstore/kotlin-springboot-delegate
+          - samples/server/petstore/kotlin-springboot-reactive
+          - samples/server/petstore/kotlin-server/ktor
+          - samples/server/petstore/kotlin-server/jaxrs-spec
+          - samples/server/petstore/kotlin-server-modelMutable
+          - samples/server/petstore/kotlin-vertx-modelMutable
           # client
           - samples/client/petstore/kotlin
           - samples/client/petstore/kotlin-gson
