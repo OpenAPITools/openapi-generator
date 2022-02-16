@@ -6,12 +6,15 @@ class {{classname}} implements EnumInterface
     {{#allowableValues}}
     {{#enumVars}}
     const {{^isString}}NUMBER_{{/isString}}{{{name}}} = {{{value}}};
-    
+    {{/enumVars}}
+    {{/allowableValues}}
+
+
     /**
      * @var mixed
      */
     private $value;
-    
+
     public function __construct($value)
     {
         if (!in_array($value, self::getAllowableEnumValues(), true)) {
@@ -20,8 +23,6 @@ class {{classname}} implements EnumInterface
         $this->value = $value;
     }
 
-    {{/enumVars}}
-    {{/allowableValues}}
     /**
      * Gets allowable values of the enum
      * @return string[]
