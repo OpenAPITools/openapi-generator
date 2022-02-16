@@ -1,4 +1,4 @@
-class {{classname}}
+class {{classname}} implements EnumInterface
 {
     /**
      * Possible values of this enum
@@ -42,7 +42,7 @@ class {{classname}}
     /**
      * @return mixed
      */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function getValue()
     {
         return $this->value;
