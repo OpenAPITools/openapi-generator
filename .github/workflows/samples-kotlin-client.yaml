@@ -1,14 +1,10 @@
-name: Samples Kotlin
+name: Samples Kotlin cilent
 
 on:
   push:
     branches:
-      - master
-      - '[5-9]+.[0-9]+.x'
+      - 'samples/client/petstore/kotlin*/**'
   pull_request:
-    branches:
-      - master
-      - '[5-9]+.[0-9]+.x'
     paths:
       - 'samples/client/petstore/kotlin*/**'
 
@@ -17,12 +13,13 @@ env:
 
 jobs:
   build:
-    name: Build Kotlin
+    name: Build Kotlin client
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         sample:
+          # client
           - samples/client/petstore/kotlin
           - samples/client/petstore/kotlin-gson
           - samples/client/petstore/kotlin-jackson

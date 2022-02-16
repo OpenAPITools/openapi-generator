@@ -5,7 +5,6 @@ import java.util.List;
 import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 
-import io.swagger.annotations.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

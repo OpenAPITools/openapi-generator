@@ -4,7 +4,6 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.Map;
 import org.openapitools.model.Order;
 
-import io.swagger.annotations.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

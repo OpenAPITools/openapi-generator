@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Order Status</value>
         [DataMember(Name = "status", EmitDefaultValue = false)]
-        public StatusEnum? Status { get; set; }
+        public StatusEnum Status { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// </summary>
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate.</param>
         /// <param name="status">Order Status.</param>
         /// <param name="complete">complete (default to false).</param>
-        public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
+        public Order(long id = default, long petId = default, int quantity = default, DateTime shipDate = default, StatusEnum status = default, bool complete = false)
         {
             this.Id = id;
             this.PetId = petId;

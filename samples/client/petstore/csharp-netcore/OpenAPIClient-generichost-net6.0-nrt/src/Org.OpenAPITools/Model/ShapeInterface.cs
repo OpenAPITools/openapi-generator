@@ -44,8 +44,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ShapeInterface" /> class.
         /// </summary>
         /// <param name="shapeType">shapeType (required).</param>
-        public ShapeInterface(string shapeType = default(string))
+        public ShapeInterface(string shapeType)
         {
+            // to ensure "shapeType" is required (not null)
+            if (shapeType == null) {
+                throw new ArgumentNullException("shapeType is a required property for ShapeInterface and cannot be null");
+            }
             this.ShapeType = shapeType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }

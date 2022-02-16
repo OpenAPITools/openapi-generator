@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="shapeType">shapeType (required).</param>
         /// <param name="triangleType">triangleType (required).</param>
-        public ScaleneTriangle(string shapeType = default(string), string triangleType = default(string))
+        public ScaleneTriangle(string shapeType, string triangleType)
         {
             // to ensure "shapeType" is required (not null)
             if (shapeType == null) {

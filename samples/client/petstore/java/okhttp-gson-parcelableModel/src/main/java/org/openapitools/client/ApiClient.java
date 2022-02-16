@@ -1396,9 +1396,12 @@ public class ApiClient {
         for (Entry<String, Object> param : formParams.entrySet()) {
             if (param.getValue() instanceof File) {
                 File file = (File) param.getValue();
-                Headers partHeaders = Headers.of("Content-Disposition", "form-data; name=\"" + param.getKey() + "\"; filename=\"" + file.getName() + "\"");
-                MediaType mediaType = MediaType.parse(guessContentTypeFromFile(file));
-                mpBuilder.addPart(partHeaders, RequestBody.create(file, mediaType));
+                addPartToMultiPartBuilder(mpBuilder, param.getKey(), file);
+            } else if (param.getValue() instanceof List) {
+                List<File> files = (List<File>) param.getValue();
+                for (File file : files) {
+                    addPartToMultiPartBuilder(mpBuilder, param.getKey(), file);
+                }
             } else {
                 Headers partHeaders = Headers.of("Content-Disposition", "form-data; name=\"" + param.getKey() + "\"");
                 mpBuilder.addPart(partHeaders, RequestBody.create(parameterToString(param.getValue()), null));
@@ -1420,6 +1423,19 @@ public class ApiClient {
         } else {
             return contentType;
         }
+    }
+
+    /**
+     * Add a Content-Disposition Header for the given key and file to the MultipartBody Builder.
+     *
+     * @param mpBuilder MultipartBody.Builder 
+     * @param key The key of the Header element
+     * @param file The file to add to the Header
+     */ 
+    private void addPartToMultiPartBuilder(MultipartBody.Builder mpBuilder, String key, File file) {
+        Headers partHeaders = Headers.of("Content-Disposition", "form-data; name=\"" + key + "\"; filename=\"" + file.getName() + "\"");
+        MediaType mediaType = MediaType.parse(guessContentTypeFromFile(file));
+        mpBuilder.addPart(partHeaders, RequestBody.create(file, mediaType));
     }
 
     /**
