@@ -429,7 +429,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             if (!this.interfaceOnly) {
                 supportingFiles.add(new SupportingFile("application.mustache", resourceFolder, "application.yaml"));
                 supportingFiles.add(new SupportingFile("springBootApplication.mustache",
-                    sanitizeDirectory(sourceFolder + File.separator + basePackage), "Application.kt"));
+                        sanitizeDirectory(sourceFolder + File.separator + basePackage), "Application.kt"));
             }
         }
 
@@ -596,11 +596,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 final List<CodegenParameter> allParams = operation.allParams;
                 if (allParams != null) {
                     allParams.forEach(param ->
-                        // This is necessary in case 'modelMutable' is enabled,
-                        // to prevent Spring Request handlers from being generated with
-                        // parameters using their Mutable container types.
-                        // See https://github.com/OpenAPITools/openapi-generator/pull/11154#discussion_r793094727
-                        param.dataType = getNonMutableContainerTypeIfNeeded(param.dataType));
+                            // This is necessary in case 'modelMutable' is enabled,
+                            // to prevent Spring Request handlers from being generated with
+                            // parameters using their Mutable container types.
+                            // See https://github.com/OpenAPITools/openapi-generator/pull/11154#discussion_r793094727
+                            param.dataType = getNonMutableContainerTypeIfNeeded(param.dataType));
                 }
 
                 doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {

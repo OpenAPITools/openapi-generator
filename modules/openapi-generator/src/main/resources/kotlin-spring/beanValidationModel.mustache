@@ -1,8 +1,7 @@
 {{!
 format: email
 }}{{#isEmail}}
-    @get:Email
-{{/isEmail}}{{!
+    @get:Email{{/isEmail}}{{!
 pattern set
 }}{{#pattern}}
     @get:Pattern(regexp="{{{.}}}"){{/pattern}}{{!
