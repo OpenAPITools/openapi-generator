@@ -3,14 +3,12 @@ name: Samples Kotlin
 on:
   push:
     branches:
-      - master
-      - '[5-9]+.[0-9]+.x'
+      - 'samples/client/petstore/kotlin*/**'
+      - 'samples/server/petstore/kotlin*/**'
   pull_request:
-    branches:
-      - master
-      - '[5-9]+.[0-9]+.x'
     paths:
       - 'samples/client/petstore/kotlin*/**'
+      - 'samples/server/petstore/kotlin*/**'
 
 env:
   GRADLE_VERSION: 6.9
@@ -23,6 +21,11 @@ jobs:
       fail-fast: false
       matrix:
         sample:
+          # server
+          - samples/server/petstore/kotlin-springboot
+          - samples/server/petstore/kotlin-springboot-modelMutable
+          - samples/server/petstore/kotlin-springboot-delegate
+          # client
           - samples/client/petstore/kotlin
           - samples/client/petstore/kotlin-gson
           - samples/client/petstore/kotlin-jackson
