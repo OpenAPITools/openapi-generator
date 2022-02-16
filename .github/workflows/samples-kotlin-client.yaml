@@ -1,35 +1,24 @@
-name: Samples Kotlin
+name: Samples Kotlin cilent
 
 on:
   push:
     branches:
       - 'samples/client/petstore/kotlin*/**'
-      - 'samples/server/petstore/kotlin*/**'
   pull_request:
     paths:
       - 'samples/client/petstore/kotlin*/**'
-      - 'samples/server/petstore/kotlin*/**'
 
 env:
   GRADLE_VERSION: 6.9
 
 jobs:
   build:
-    name: Build Kotlin
+    name: Build Kotlin client
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         sample:
-          # server
-          - samples/server/petstore/kotlin-springboot
-          - samples/server/petstore/kotlin-springboot-modelMutable
-          - samples/server/petstore/kotlin-springboot-delegate
-          - samples/server/petstore/kotlin-springboot-reactive
-          - samples/server/petstore/kotlin-server/ktor
-          - samples/server/petstore/kotlin-server/jaxrs-spec
-          - samples/server/petstore/kotlin-server-modelMutable
-          - samples/server/petstore/kotlin-vertx-modelMutable
           # client
           - samples/client/petstore/kotlin
           - samples/client/petstore/kotlin-gson
