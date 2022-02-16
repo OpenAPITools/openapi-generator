@@ -4,10 +4,9 @@ package {{packageName}}
 import (
 	"context"
 	"net/http"{{#apiInfo}}{{#apis}}{{#imports}}
-	"{{import}}"{{/imports}}
-
-	{{#-first}}"{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/support"{{/-first}}
-	{{#hasDifferentModelDir}}"{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/{{modelPackage}}"{{/hasDifferentModelDir}}{{/apis}}{{/apiInfo}}
+	"{{import}}"{{/imports}}{{/apis}}{{/apiInfo}}
+	{{#hasSupportDir}}"{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/support"{{/hasSupportDir}}
+	{{#hasDifferentModelDir}}"{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/{{modelPackage}}"{{/hasDifferentModelDir}}
 )
 
 

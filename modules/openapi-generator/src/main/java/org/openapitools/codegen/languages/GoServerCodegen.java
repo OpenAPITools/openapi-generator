@@ -301,6 +301,37 @@ public class GoServerCodegen extends AbstractGoCodegen {
     }
 
     @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        objs = super.postProcessSupportingFileData(objs);
+
+        Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
+        List<HashMap<String, Object>> apiList = (List<HashMap<String, Object>>) apiInfo.get("apis");
+        for (HashMap<String, Object> api : apiList) {
+            Map<String, Object> objectMap = (Map<String, Object>) api.get("operations");
+            List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+
+            boolean addedModelImport = false;
+            boolean addedSupportImport = false;
+            for (CodegenOperation operation : operations) {
+                for (CodegenParameter param : operation.allParams) {
+                    // Always Add the support import
+                    if (!addedSupportImport) {
+                        objs.put("hasSupportDir", true);
+                        addedSupportImport = true;
+                    }
+
+                    // import "models" directory if needed
+                    if (!addedModelImport && param.isModel && !modelPackage.equals(apiPackage)) {
+                        objs.put("hasDifferentModelDir", true);
+                        addedModelImport = true;
+                    }
+                }
+            }
+        }
+        return objs;
+    }
+
+    @Override
     public String apiPackage() {
         return sourceFolder;
     }
