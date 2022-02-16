@@ -11,8 +11,8 @@ package petstoreserver
 
 import (
 	"context"
-	"net/http"
 	"errors"
+	"net/http"
 	"os"
 )
 

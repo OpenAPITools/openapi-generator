@@ -19,7 +19,7 @@ import (
 
 // StoreApiController binds http requests to an api service and writes the service results to the http response
 type StoreApiController struct {
-	service StoreApiServicer
+	service      StoreApiServicer
 	errorHandler ErrorHandler
 }
 
@@ -49,7 +49,7 @@ func NewStoreApiController(s StoreApiServicer, opts ...StoreApiOption) Router {
 
 // Routes returns all the api routes for the StoreApiController
 func (c *StoreApiController) Routes() Routes {
-	return Routes{ 
+	return Routes{
 		{
 			"DeleteOrder",
 			strings.ToUpper("Delete"),
@@ -80,7 +80,7 @@ func (c *StoreApiController) Routes() Routes {
 // DeleteOrder - Delete purchase order by ID
 func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
 	orderIdParam := chi.URLParam(r, "orderId")
-	
+
 	result, err := c.service.DeleteOrder(r.Context(), orderIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {

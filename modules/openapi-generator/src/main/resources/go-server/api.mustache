@@ -27,12 +27,8 @@ type {{classname}}Router interface { {{#operations}}{{#operation}}
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type {{classname}}Servicer interface { {{#operations}}{{#operation}}
-<<<<<<< HEAD
 	{{#isDeprecated}}
 	// Deprecated
 	{{/isDeprecated}}
 	{{operationId}}(context.Context{{#allParams}}, {{#isArray}}[]{{^isPrimitiveType}}{{#hasDifferentModelDir}}models.{{/hasDifferentModelDir}}{{/isPrimitiveType}}{{baseType}}{{/isArray}}{{^isArray}}{{#isModel}}{{#hasDifferentModelDir}}models.{{/hasDifferentModelDir}}{{/isModel}}{{dataType}}{{/isArray}}{{/allParams}}) (ImplResponse, error){{/operation}}{{/operations}}
-=======
-	{{operationId}}(context.Context{{#allParams}}, {{dataType}}{{/allParams}}) (ImplResponse, error){{/operation}}{{/operations}}
->>>>>>> master
 }{{/apis}}{{/apiInfo}}
