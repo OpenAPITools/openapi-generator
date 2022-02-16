@@ -19,6 +19,7 @@
 
 namespace {{invokerPackage}};
 
+use {{modelPackage}}\EnumInterface;
 use {{modelPackage}}\ModelInterface;
 
 /**
@@ -78,9 +79,9 @@ class ObjectSerializer
                     $getter = $data::getters()[$property];
                     $value = $data->$getter();
                     if ($value !== null && !in_array($openAPIType, [{{&primitives}}], true)) {
-                        $callable = [$openAPIType, 'getAllowableEnumValues'];
-                        if (is_callable($callable)) {
-                            /** array $callable */
+                        if ($value instanceof EnumInterface) {
+                            $value = $value->getValue();
+                            $callable = [$openAPIType, 'getAllowableEnumValues'];
                             $allowedEnumTypes = $callable();
                             if (!in_array($value, $allowedEnumTypes, true)) {
                                 $imploded = implode("', '", $allowedEnumTypes);
