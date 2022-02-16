@@ -37,16 +37,28 @@ use \OpenAPI\Client\ObjectSerializer;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class OuterEnum
+class OuterEnum implements EnumInterface
 {
     /**
      * Possible values of this enum
      */
     const PLACED = 'placed';
-
     const APPROVED = 'approved';
-
     const DELIVERED = 'delivered';
+
+
+    /**
+     * @var mixed
+     */
+    private $value;
+
+    public function __construct($value)
+    {
+        if (!in_array($value, self::getAllowableEnumValues(), true)) {
+            throw new \LogicException(sprintf('%s is not a allowed value for enum', $value));
+        }
+        $this->value = $value;
+    }
 
     /**
      * Gets allowable values of the enum
@@ -59,6 +71,15 @@ class OuterEnum
             self::APPROVED,
             self::DELIVERED
         ];
+    }
+    
+    /**
+     * @return mixed
+     */
+    #[\ReturnTypeWillChange]
+    public function getValue()
+    {
+        return $this->value;
     }
 }
 

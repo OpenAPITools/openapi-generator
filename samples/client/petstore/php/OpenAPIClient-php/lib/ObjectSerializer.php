@@ -28,6 +28,7 @@
 
 namespace OpenAPI\Client;
 
+use OpenAPI\Client\Model\EnumInterface;
 use OpenAPI\Client\Model\ModelInterface;
 
 /**
@@ -87,9 +88,9 @@ class ObjectSerializer
                     $getter = $data::getters()[$property];
                     $value = $data->$getter();
                     if ($value !== null && !in_array($openAPIType, ['\DateTime', '\SplFileObject', 'array', 'bool', 'boolean', 'byte', 'double', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'], true)) {
-                        $callable = [$openAPIType, 'getAllowableEnumValues'];
-                        if (is_callable($callable)) {
-                            /** array $callable */
+                        if ($value instanceof EnumInterface) {
+                            $value = $value->getValue();
+                            $callable = [$openAPIType, 'getAllowableEnumValues'];
                             $allowedEnumTypes = $callable();
                             if (!in_array($value, $allowedEnumTypes, true)) {
                                 $imploded = implode("', '", $allowedEnumTypes);
