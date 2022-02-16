@@ -8,9 +8,9 @@
  */
 
 package petstoreserver
-
 import (
 	"time"
+	support "github.com/GIT_USER_ID/GIT_REPO_ID/support"
 )
 
 // OrderInfo - An order info for a pets from the pet store
@@ -31,10 +31,10 @@ func AssertOrderInfoRequired(obj OrderInfo) error {
 // AssertRecurseOrderInfoRequired recursively checks if required fields are not zero-ed in a nested slice.
 // Accepts only nested slice of OrderInfo (e.g. [][]OrderInfo), otherwise ErrTypeAssertionError is thrown.
 func AssertRecurseOrderInfoRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
+	return support.AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
 		aOrderInfo, ok := obj.(OrderInfo)
 		if !ok {
-			return ErrTypeAssertionError
+			return support.ErrTypeAssertionError
 		}
 		return AssertOrderInfoRequired(aOrderInfo)
 	})

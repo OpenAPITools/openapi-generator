@@ -8,6 +8,10 @@
  */
 
 package petstoreserver
+import (
+	
+	support "github.com/GIT_USER_ID/GIT_REPO_ID/support"
+)
 
 // User - A User who is purchasing from the pet store
 type User struct {
@@ -38,10 +42,10 @@ func AssertUserRequired(obj User) error {
 // AssertRecurseUserRequired recursively checks if required fields are not zero-ed in a nested slice.
 // Accepts only nested slice of User (e.g. [][]User), otherwise ErrTypeAssertionError is thrown.
 func AssertRecurseUserRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
+	return support.AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
 		aUser, ok := obj.(User)
 		if !ok {
-			return ErrTypeAssertionError
+			return support.ErrTypeAssertionError
 		}
 		return AssertUserRequired(aUser)
 	})

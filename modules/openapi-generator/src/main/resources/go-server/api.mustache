@@ -6,7 +6,8 @@ import (
 	"net/http"{{#apiInfo}}{{#apis}}{{#imports}}
 	"{{import}}"{{/imports}}
 
-	{{#hasDifferentModelDir}}models "{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/{{modelPackage}}"{{/hasDifferentModelDir}}{{/apis}}{{/apiInfo}}
+	"{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/support"
+	{{#hasDifferentModelDir}}"{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/{{modelPackage}}"{{/hasDifferentModelDir}}{{/apis}}{{/apiInfo}}
 )
 
 
@@ -30,5 +31,5 @@ type {{classname}}Servicer interface { {{#operations}}{{#operation}}
 	{{#isDeprecated}}
 	// Deprecated
 	{{/isDeprecated}}
-	{{operationId}}(context.Context{{#allParams}}, {{#isArray}}[]{{^isPrimitiveType}}{{#hasDifferentModelDir}}models.{{/hasDifferentModelDir}}{{/isPrimitiveType}}{{baseType}}{{/isArray}}{{^isArray}}{{#isModel}}{{#hasDifferentModelDir}}models.{{/hasDifferentModelDir}}{{/isModel}}{{dataType}}{{/isArray}}{{/allParams}}) (ImplResponse, error){{/operation}}{{/operations}}
+	{{operationId}}(context.Context{{#allParams}}, {{#isArray}}[]{{/isArray}}{{#isArray}}{{#items}}{{#isModel}}{{#hasDifferentModelDir}}{{modelPackage}}.{{/hasDifferentModelDir}}{{/isModel}}{{dataType}}{{/items}}{{/isArray}}{{^isArray}}{{#isModel}}{{#hasDifferentModelDir}}{{modelPackage}}.{{/hasDifferentModelDir}}{{/isModel}}{{dataType}}{{/isArray}}{{/allParams}}) (support.ImplResponse, error){{/operation}}{{/operations}}
 }{{/apis}}{{/apiInfo}}

@@ -13,6 +13,9 @@ import (
 	"context"
 	"errors"
 	"net/http"
+
+    "github.com/GIT_USER_ID/GIT_REPO_ID/support"
+	
 )
 
 // UserApiService is a service that implements the logic for the UserApiServicer
@@ -27,104 +30,104 @@ func NewUserApiService() UserApiServicer {
 }
 
 // CreateUser - Create user
-func (s *UserApiService) CreateUser(ctx context.Context, user User) (ImplResponse, error) {
+func (s *UserApiService) CreateUser(ctx context.Context, user User) (support.ImplResponse, error) {
 	// TODO - update CreateUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 	//TODO: Uncomment the next line to return response Response(0, {}) or use other options such as http.Ok ...
-	//return Response(0, nil),nil
+	//return support.Response(0, nil),nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("CreateUser method not implemented")
+	return support.Response(http.StatusNotImplemented, nil), errors.New("CreateUser method not implemented")
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
-func (s *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []User) (ImplResponse, error) {
+func (s *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []User) (support.ImplResponse, error) {
 	// TODO - update CreateUsersWithArrayInput with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 	//TODO: Uncomment the next line to return response Response(0, {}) or use other options such as http.Ok ...
-	//return Response(0, nil),nil
+	//return support.Response(0, nil),nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("CreateUsersWithArrayInput method not implemented")
+	return support.Response(http.StatusNotImplemented, nil), errors.New("CreateUsersWithArrayInput method not implemented")
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
-func (s *UserApiService) CreateUsersWithListInput(ctx context.Context, user []User) (ImplResponse, error) {
+func (s *UserApiService) CreateUsersWithListInput(ctx context.Context, user []User) (support.ImplResponse, error) {
 	// TODO - update CreateUsersWithListInput with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 	//TODO: Uncomment the next line to return response Response(0, {}) or use other options such as http.Ok ...
-	//return Response(0, nil),nil
+	//return support.Response(0, nil),nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("CreateUsersWithListInput method not implemented")
+	return support.Response(http.StatusNotImplemented, nil), errors.New("CreateUsersWithListInput method not implemented")
 }
 
 // DeleteUser - Delete user
-func (s *UserApiService) DeleteUser(ctx context.Context, username string) (ImplResponse, error) {
+func (s *UserApiService) DeleteUser(ctx context.Context, username string) (support.ImplResponse, error) {
 	// TODO - update DeleteUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	//return support.Response(400, nil),nil
 
 	//TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
-	//return Response(404, nil),nil
+	//return support.Response(404, nil),nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("DeleteUser method not implemented")
+	return support.Response(http.StatusNotImplemented, nil), errors.New("DeleteUser method not implemented")
 }
 
 // GetUserByName - Get user by user name
-func (s *UserApiService) GetUserByName(ctx context.Context, username string) (ImplResponse, error) {
+func (s *UserApiService) GetUserByName(ctx context.Context, username string) (support.ImplResponse, error) {
 	// TODO - update GetUserByName with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 	//TODO: Uncomment the next line to return response Response(200, User{}) or use other options such as http.Ok ...
-	//return Response(200, User{}), nil
+	//return support.Response(200, User{}), nil
 
 	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	//return support.Response(400, nil),nil
 
 	//TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
-	//return Response(404, nil),nil
+	//return support.Response(404, nil),nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("GetUserByName method not implemented")
+	return support.Response(http.StatusNotImplemented, nil), errors.New("GetUserByName method not implemented")
 }
 
 // LoginUser - Logs user into the system
-func (s *UserApiService) LoginUser(ctx context.Context, username string, password string) (ImplResponse, error) {
+func (s *UserApiService) LoginUser(ctx context.Context, username string, password string) (support.ImplResponse, error) {
 	// TODO - update LoginUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 	//TODO: Uncomment the next line to return response Response(200, string{}) or use other options such as http.Ok ...
-	//return Response(200, string{}), nil
+	//return support.Response(200, string{}), nil
 
 	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	//return support.Response(400, nil),nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("LoginUser method not implemented")
+	return support.Response(http.StatusNotImplemented, nil), errors.New("LoginUser method not implemented")
 }
 
 // LogoutUser - Logs out current logged in user session
-func (s *UserApiService) LogoutUser(ctx context.Context) (ImplResponse, error) {
+func (s *UserApiService) LogoutUser(ctx context.Context) (support.ImplResponse, error) {
 	// TODO - update LogoutUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 	//TODO: Uncomment the next line to return response Response(0, {}) or use other options such as http.Ok ...
-	//return Response(0, nil),nil
+	//return support.Response(0, nil),nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("LogoutUser method not implemented")
+	return support.Response(http.StatusNotImplemented, nil), errors.New("LogoutUser method not implemented")
 }
 
 // UpdateUser - Updated user
-func (s *UserApiService) UpdateUser(ctx context.Context, username string, user User) (ImplResponse, error) {
+func (s *UserApiService) UpdateUser(ctx context.Context, username string, user User) (support.ImplResponse, error) {
 	// TODO - update UpdateUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	//return support.Response(400, nil),nil
 
 	//TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
-	//return Response(404, nil),nil
+	//return support.Response(404, nil),nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("UpdateUser method not implemented")
+	return support.Response(http.StatusNotImplemented, nil), errors.New("UpdateUser method not implemented")
 }

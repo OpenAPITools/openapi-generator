@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	{{packageName}} "{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/{{sourceFolder}}"
+	support "{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/support"
 )
 
 func main() {
@@ -14,7 +15,7 @@ func main() {
 	{{classname}}Service := {{packageName}}.New{{classname}}Service()
 	{{classname}}Controller := {{packageName}}.New{{classname}}Controller({{classname}}Service)
 {{/apis}}{{/apiInfo}}
-	router := {{packageName}}.NewRouter({{#apiInfo}}{{#apis}}{{classname}}Controller{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}})
+	router := support.NewRouter({{#apiInfo}}{{#apis}}{{classname}}Controller{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}})
 
 	log.Fatal(http.ListenAndServe(":{{serverPort}}", router))
 }

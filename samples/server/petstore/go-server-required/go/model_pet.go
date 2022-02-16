@@ -8,6 +8,10 @@
  */
 
 package petstoreserver
+import (
+	
+	support "github.com/GIT_USER_ID/GIT_REPO_ID/support"
+)
 
 // Pet - A pet for sale in the pet store
 type Pet struct {
@@ -33,8 +37,8 @@ func AssertPetRequired(obj Pet) error {
 		"photoUrls": obj.PhotoUrls,
 	}
 	for name, el := range elements {
-		if isZero := IsZeroValue(el); isZero {
-			return &RequiredError{Field: name}
+		if isZero := support.IsZeroValue(el); isZero {
+			return &support.RequiredError{Field: name}
 		}
 	}
 
@@ -56,10 +60,10 @@ func AssertPetRequired(obj Pet) error {
 // AssertRecursePetRequired recursively checks if required fields are not zero-ed in a nested slice.
 // Accepts only nested slice of Pet (e.g. [][]Pet), otherwise ErrTypeAssertionError is thrown.
 func AssertRecursePetRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
+	return support.AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
 		aPet, ok := obj.(Pet)
 		if !ok {
-			return ErrTypeAssertionError
+			return support.ErrTypeAssertionError
 		}
 		return AssertPetRequired(aPet)
 	})

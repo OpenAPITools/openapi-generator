@@ -8,6 +8,10 @@
  */
 
 package petstoreserver
+import (
+	
+	support "github.com/GIT_USER_ID/GIT_REPO_ID/support"
+)
 
 // ApiResponse - Describes the result of uploading an image resource
 type ApiResponse struct {
@@ -27,10 +31,10 @@ func AssertApiResponseRequired(obj ApiResponse) error {
 // AssertRecurseApiResponseRequired recursively checks if required fields are not zero-ed in a nested slice.
 // Accepts only nested slice of ApiResponse (e.g. [][]ApiResponse), otherwise ErrTypeAssertionError is thrown.
 func AssertRecurseApiResponseRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
+	return support.AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
 		aApiResponse, ok := obj.(ApiResponse)
 		if !ok {
-			return ErrTypeAssertionError
+			return support.ErrTypeAssertionError
 		}
 		return AssertApiResponseRequired(aApiResponse)
 	})

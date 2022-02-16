@@ -13,12 +13,23 @@ import (
 	"context"
 	"net/http"
 	"os"
+
+	"github.com/GIT_USER_ID/GIT_REPO_ID/support"
+	
+
+	"github.com/GIT_USER_ID/GIT_REPO_ID/support"
+	
+
+	"github.com/GIT_USER_ID/GIT_REPO_ID/support"
+	
 )
+
+
 
 // PetApiRouter defines the required methods for binding the api requests to a responses for the PetApi
 // The PetApiRouter implementation should parse necessary information from the http request,
 // pass the data to a PetApiServicer to perform the required actions, then write the service results to the http response.
-type PetApiRouter interface {
+type PetApiRouter interface { 
 	AddPet(http.ResponseWriter, *http.Request)
 	DeletePet(http.ResponseWriter, *http.Request)
 	FindPetsByStatus(http.ResponseWriter, *http.Request)
@@ -29,21 +40,19 @@ type PetApiRouter interface {
 	UpdatePetWithForm(http.ResponseWriter, *http.Request)
 	UploadFile(http.ResponseWriter, *http.Request)
 }
-
 // StoreApiRouter defines the required methods for binding the api requests to a responses for the StoreApi
 // The StoreApiRouter implementation should parse necessary information from the http request,
 // pass the data to a StoreApiServicer to perform the required actions, then write the service results to the http response.
-type StoreApiRouter interface {
+type StoreApiRouter interface { 
 	DeleteOrder(http.ResponseWriter, *http.Request)
 	GetInventory(http.ResponseWriter, *http.Request)
 	GetOrderById(http.ResponseWriter, *http.Request)
 	PlaceOrder(http.ResponseWriter, *http.Request)
 }
-
 // UserApiRouter defines the required methods for binding the api requests to a responses for the UserApi
 // The UserApiRouter implementation should parse necessary information from the http request,
 // pass the data to a UserApiServicer to perform the required actions, then write the service results to the http response.
-type UserApiRouter interface {
+type UserApiRouter interface { 
 	CreateUser(http.ResponseWriter, *http.Request)
 	CreateUsersWithArrayInput(http.ResponseWriter, *http.Request)
 	CreateUsersWithListInput(http.ResponseWriter, *http.Request)
@@ -54,44 +63,47 @@ type UserApiRouter interface {
 	UpdateUser(http.ResponseWriter, *http.Request)
 }
 
+
 // PetApiServicer defines the api actions for the PetApi service
 // This interface intended to stay up to date with the openapi yaml used to generate it,
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
-type PetApiServicer interface {
-	AddPet(context.Context, Pet) (ImplResponse, error)
-	DeletePet(context.Context, int64, string) (ImplResponse, error)
-	FindPetsByStatus(context.Context, []string) (ImplResponse, error)
+type PetApiServicer interface { 
+	AddPet(context.Context, Pet) (support.ImplResponse, error)
+	DeletePet(context.Context, int64, string) (support.ImplResponse, error)
+	FindPetsByStatus(context.Context, []string) (support.ImplResponse, error)
 	// Deprecated
-	FindPetsByTags(context.Context, []string) (ImplResponse, error)
-	GetPetById(context.Context, int64) (ImplResponse, error)
-	UpdatePet(context.Context, Pet) (ImplResponse, error)
-	UpdatePetWithForm(context.Context, int64, string, string) (ImplResponse, error)
-	UploadFile(context.Context, int64, string, *os.File) (ImplResponse, error)
+	FindPetsByTags(context.Context, []string) (support.ImplResponse, error)
+	GetPetById(context.Context, int64) (support.ImplResponse, error)
+	UpdatePet(context.Context, Pet) (support.ImplResponse, error)
+	UpdatePetWithForm(context.Context, int64, string, string) (support.ImplResponse, error)
+	UploadFile(context.Context, int64, string, *os.File) (support.ImplResponse, error)
 }
+
 
 // StoreApiServicer defines the api actions for the StoreApi service
 // This interface intended to stay up to date with the openapi yaml used to generate it,
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
-type StoreApiServicer interface {
-	DeleteOrder(context.Context, string) (ImplResponse, error)
-	GetInventory(context.Context) (ImplResponse, error)
-	GetOrderById(context.Context, int64) (ImplResponse, error)
-	PlaceOrder(context.Context, Order) (ImplResponse, error)
+type StoreApiServicer interface { 
+	DeleteOrder(context.Context, string) (support.ImplResponse, error)
+	GetInventory(context.Context) (support.ImplResponse, error)
+	GetOrderById(context.Context, int64) (support.ImplResponse, error)
+	PlaceOrder(context.Context, Order) (support.ImplResponse, error)
 }
+
 
 // UserApiServicer defines the api actions for the UserApi service
 // This interface intended to stay up to date with the openapi yaml used to generate it,
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
-type UserApiServicer interface {
-	CreateUser(context.Context, User) (ImplResponse, error)
-	CreateUsersWithArrayInput(context.Context, []User) (ImplResponse, error)
-	CreateUsersWithListInput(context.Context, []User) (ImplResponse, error)
-	DeleteUser(context.Context, string) (ImplResponse, error)
-	GetUserByName(context.Context, string) (ImplResponse, error)
-	LoginUser(context.Context, string, string) (ImplResponse, error)
-	LogoutUser(context.Context) (ImplResponse, error)
-	UpdateUser(context.Context, string, User) (ImplResponse, error)
+type UserApiServicer interface { 
+	CreateUser(context.Context, User) (support.ImplResponse, error)
+	CreateUsersWithArrayInput(context.Context, []User) (support.ImplResponse, error)
+	CreateUsersWithListInput(context.Context, []User) (support.ImplResponse, error)
+	DeleteUser(context.Context, string) (support.ImplResponse, error)
+	GetUserByName(context.Context, string) (support.ImplResponse, error)
+	LoginUser(context.Context, string, string) (support.ImplResponse, error)
+	LogoutUser(context.Context) (support.ImplResponse, error)
+	UpdateUser(context.Context, string, User) (support.ImplResponse, error)
 }

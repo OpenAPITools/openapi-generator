@@ -2,7 +2,6 @@
 package {{packageName}}
 
 import (
-	"encoding/json"
 	"net/http"
 	"strings"
 
@@ -15,30 +14,31 @@ import (
 	{{/chi}}
 {{/routers}}
 
-	{{#hasDifferentModelDir}}models "{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/{{modelPackage}}"{{/hasDifferentModelDir}}
+	support "{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/support"
+	{{#hasDifferentModelDir}}"{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/{{modelPackage}}"{{/hasDifferentModelDir}}
 )
 
 // {{classname}}Controller binds http requests to an api service and writes the service results to the http response
 type {{classname}}Controller struct {
 	service {{classname}}Servicer
-	errorHandler ErrorHandler
+	errorHandler support.ErrorHandler
 }
 
 // {{classname}}Option for how the controller is set up.
 type {{classname}}Option func(*{{classname}}Controller)
 
 // With{{classname}}ErrorHandler inject ErrorHandler into controller
-func With{{classname}}ErrorHandler(h ErrorHandler) {{classname}}Option {
+func With{{classname}}ErrorHandler(h support.ErrorHandler) {{classname}}Option {
 	return func(c *{{classname}}Controller) {
 		c.errorHandler = h
 	}
 }
 
 // New{{classname}}Controller creates a default api controller
-func New{{classname}}Controller(s {{classname}}Servicer, opts ...{{classname}}Option) Router {
+func New{{classname}}Controller(s {{classname}}Servicer, opts ...{{classname}}Option) support.Router {
 	controller := &{{classname}}Controller{
 		service:      s,
-		errorHandler: DefaultErrorHandler,
+		errorHandler: support.DefaultErrorHandler,
 	}
 
 	for _, opt := range opts {
@@ -49,8 +49,8 @@ func New{{classname}}Controller(s {{classname}}Servicer, opts ...{{classname}}Op
 }
 
 // Routes returns all the api routes for the {{classname}}Controller
-func (c *{{classname}}Controller) Routes() Routes {
-	return Routes{ {{#operations}}{{#operation}}
+func (c *{{classname}}Controller) Routes() support.Routes {
+	return support.Routes{ {{#operations}}{{#operation}}
 		{
 			"{{operationId}}",
 			strings.ToUpper("{{httpMethod}}"),
@@ -68,13 +68,13 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#hasFormParams}}
 	{{#isMultipart}}
 	if err := r.ParseMultipartForm(32 << 20); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isMultipart}}
 	{{^isMultipart}}
 	if err := r.ParseForm(); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isMultipart}}
@@ -92,16 +92,16 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#allParams}}
 	{{#isPathParam}}
 	{{#isLong}}
-	{{paramName}}Param, err := parseInt64Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	{{paramName}}Param, err := support.ParseInt64Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isLong}}
 	{{#isInteger}}
-	{{paramName}}Param, err := parseInt32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	{{paramName}}Param, err := support.ParseInt32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isInteger}}
@@ -112,21 +112,21 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isPathParam}}
 	{{#isQueryParam}}
 	{{#isLong}}
-	{{paramName}}Param, err := parseInt64Parameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := support.ParseInt64Parameter(query.Get("{{baseName}}"), {{required}})
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isLong}}
 	{{#isInteger}}
-	{{paramName}}Param, err := parseInt32Parameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := support.ParseInt32Parameter(query.Get("{{baseName}}"), {{required}})
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isInteger}}
 	{{#isBoolean}}
-	{{paramName}}Param, err := parseBoolParameter(query.Get("{{baseName}}"))
+	{{paramName}}Param, err := support.ParseBoolParameter(query.Get("{{baseName}}"))
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -134,16 +134,16 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isBoolean}}
 	{{#isArray}}
 	{{#items.isLong}}
-	{{paramName}}Param, err := parseInt64ArrayParameter(query.Get("{{baseName}}"), ",", {{required}})
+	{{paramName}}Param, err := support.ParseInt64ArrayParameter(query.Get("{{baseName}}"), ",", {{required}})
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	{{/items.isLong}}
 	{{#items.isInteger}}
-	{{paramName}}Param, err := parseInt32ArrayParameter(query.Get("{{baseName}}"), ",", {{required}})
+	{{paramName}}Param, err := support.ParseInt32ArrayParameter(query.Get("{{baseName}}"), ",", {{required}})
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	{{/items.isInteger}}
@@ -165,27 +165,27 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isQueryParam}}
 	{{#isFormParam}}
 	{{#isFile}}{{#isArray}}
-	{{paramName}}Param, err := ReadFormFilesToTempFiles(r, "{{baseName}}"){{/isArray}}{{^isArray}}
-	{{paramName}}Param, err := ReadFormFileToTempFile(r, "{{baseName}}")
+	{{paramName}}Param, err := support.ReadFormFilesToTempFiles(r, "{{baseName}}"){{/isArray}}{{^isArray}}
+	{{paramName}}Param, err := support.ReadFormFileToTempFile(r, "{{baseName}}")
 	{{/isArray}}
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isFile}}
 	{{#isLong}}{{#isArray}}
-	{{paramName}}Param, err := parseInt64ArrayParameter(r.FormValue("{{baseName}}"), ",", {{required}}){{/isArray}}{{^isArray}}
-	{{paramName}}Param, err := parseInt64Parameter(r.FormValue("{{baseName}}"), {{required}}){{/isArray}}
+	{{paramName}}Param, err := support.ParseInt64ArrayParameter(r.FormValue("{{baseName}}"), ",", {{required}}){{/isArray}}{{^isArray}}
+	{{paramName}}Param, err := support.ParseInt64Parameter(r.FormValue("{{baseName}}"), {{required}}){{/isArray}}
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isLong}}
 	{{#isInteger}}{{#isArray}}
-	{{paramName}}Param, err := parseInt32ArrayParameter(r.FormValue("{{baseName}}"), ",", {{required}}){{/isArray}}{{^isArray}}
-	{{paramName}}Param, err := parseInt32Parameter(r.FormValue("{{baseName}}"), {{required}}){{/isArray}}
+	{{paramName}}Param, err := support.ParseInt32ArrayParameter(r.FormValue("{{baseName}}"), ",", {{required}}){{/isArray}}{{^isArray}}
+	{{paramName}}Param, err := support.ParseInt32Parameter(r.FormValue("{{baseName}}"), {{required}}){{/isArray}}
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isInteger}}
@@ -199,19 +199,19 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{paramName}}Param := r.Header.Get("{{baseName}}")
 	{{/isHeaderParam}}
 	{{#isBodyParam}}
-	{{paramName}}Param := {{#isArray}}[]{{^isPrimitiveType}}{{#hasDifferentModelDir}}models.{{/hasDifferentModelDir}}{{/isPrimitiveType}}{{baseType}}{{/isArray}}{{^isArray}}{{#isModel}}{{#hasDifferentModelDir}}models.{{/hasDifferentModelDir}}{{/isModel}}{{dataType}}{{/isArray}}{}
-	d := json.NewDecoder(r.Body)
+	{{paramName}}Param := {{#isArray}}[]{{^isPrimitiveType}}{{#hasDifferentModelDir}}{{modelPackage}}.{{/hasDifferentModelDir}}{{/isPrimitiveType}}{{baseType}}{{/isArray}}{{^isArray}}{{#isModel}}{{#hasDifferentModelDir}}{{modelPackage}}.{{/hasDifferentModelDir}}{{/isModel}}{{dataType}}{{/isArray}}{}
+	d := support.NewJSONDecoder(r.Body)
 	{{^isAdditionalPropertiesTrue}}
 	d.DisallowUnknownFields()
 	{{/isAdditionalPropertiesTrue}}
 	if err := d.Decode(&{{paramName}}Param); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	{{#isArray}}
 		{{#items.isModel}}
 	for _, el := range {{paramName}}Param {
-		if err := Assert{{baseType}}Required(el); err != nil {
+		if err := {{#hasDifferentModelDir}}{{modelPackage}}.{{/hasDifferentModelDir}}Assert{{baseType}}Required(el); err != nil {
 			c.errorHandler(w, r, err, nil)
 			return
 		}
@@ -220,7 +220,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isArray}}
 	{{^isArray}}
 		{{#isModel}}
-	if err := Assert{{baseType}}Required({{paramName}}Param); err != nil {
+	if err := {{#hasDifferentModelDir}}{{modelPackage}}.{{/hasDifferentModelDir}}Assert{{baseType}}Required({{paramName}}Param); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
@@ -235,6 +235,6 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code,{{#addResponseHeaders}} result.Headers,{{/addResponseHeaders}} w)
+	support.EncodeJSONResponse(result.Body, &result.Code,{{#addResponseHeaders}} result.Headers,{{/addResponseHeaders}} w)
 
 }{{/operation}}{{/operations}}
