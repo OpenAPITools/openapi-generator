@@ -2532,14 +2532,14 @@ public class DefaultCodegen implements CodegenConfig {
                 if (allDefinitions != null && refSchema != null) {
                     if (allParents.contains(ref) && supportsMultipleInheritance) {
                         // multiple inheritance
-                        addProperties(allProperties, allRequired, refSchema);
+                        addProperties(allProperties, allRequired, refSchema, new HashSet<>());
                     } else if (parentName != null && parentName.equals(ref) && supportsInheritance) {
                         // single inheritance
-                        addProperties(allProperties, allRequired, refSchema);
+                        addProperties(allProperties, allRequired, refSchema, new HashSet<>());
                     } else {
                         // composition
-                        addProperties(properties, required, refSchema);
-                        addProperties(allProperties, allRequired, refSchema);
+                        addProperties(properties, required, refSchema, new HashSet<>());
+                        addProperties(allProperties, allRequired, refSchema, new HashSet<>());
                     }
                 }
 
@@ -2576,10 +2576,10 @@ public class DefaultCodegen implements CodegenConfig {
             if (component.get$ref() == null) {
                 if (component != null) {
                     // component is the child schema
-                    addProperties(properties, required, component);
+                    addProperties(properties, required, component, new HashSet<>());
 
                     // includes child's properties (all, required) in allProperties, allRequired
-                    addProperties(allProperties, allRequired, component);
+                    addProperties(allProperties, allRequired, component, new HashSet<>());
                 }
                 break; // at most one child only
             }
@@ -3260,17 +3260,21 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Add schema's properties to "properties" and "required" list
      *
-     * @param properties all properties
-     * @param required   required property only
-     * @param schema     schema in which the properties will be added to the lists
+     * @param properties     all properties
+     * @param required       required property only
+     * @param schema         schema in which the properties will be added to the lists
+     * @param visitedSchemas circuit-breaker - the schemas with which the method was called before for recursive structures
      */
-    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema) {
+    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Set<Schema> visitedSchemas) {
+        if (!visitedSchemas.add(schema)) {
+            return;
+        }
         if (schema instanceof ComposedSchema) {
             ComposedSchema composedSchema = (ComposedSchema) schema;
 
             if (composedSchema.getAllOf() != null) {
                 for (Schema component : composedSchema.getAllOf()) {
-                    addProperties(properties, required, component);
+                    addProperties(properties, required, component, visitedSchemas);
                 }
             }
 
@@ -3280,13 +3284,13 @@ public class DefaultCodegen implements CodegenConfig {
 
             if (composedSchema.getOneOf() != null) {
                 for (Schema component : composedSchema.getOneOf()) {
-                    addProperties(properties, required, component);
+                    addProperties(properties, required, component, visitedSchemas);
                 }
             }
 
             if (composedSchema.getAnyOf() != null) {
                 for (Schema component : composedSchema.getAnyOf()) {
-                    addProperties(properties, required, component);
+                    addProperties(properties, required, component, visitedSchemas);
                 }
             }
 
@@ -3295,7 +3299,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
             Schema interfaceSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
-            addProperties(properties, required, interfaceSchema);
+            addProperties(properties, required, interfaceSchema, visitedSchemas);
             return;
         }
         if (schema.getProperties() != null) {
@@ -6244,7 +6248,7 @@ public class DefaultCodegen implements CodegenConfig {
         // TODO in the future have this return one codegenParameter of type object or composed which includes all definition
         // that will be needed for complex composition use cases
         // https://github.com/OpenAPITools/openapi-generator/issues/10415
-        addProperties(properties, allRequired, schema);
+        addProperties(properties, allRequired, schema, new HashSet<>());
 
         if (!properties.isEmpty()) {
             for (Map.Entry<String, Schema> entry : properties.entrySet()) {
