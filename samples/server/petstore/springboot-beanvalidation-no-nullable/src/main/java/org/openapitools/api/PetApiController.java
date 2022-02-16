@@ -49,6 +49,7 @@ public class PetApiController implements PetApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
     /**
@@ -65,6 +66,7 @@ public class PetApiController implements PetApi {
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -93,6 +95,7 @@ public class PetApiController implements PetApi {
             }
         }
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -123,6 +126,7 @@ public class PetApiController implements PetApi {
         }
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
     /**
@@ -152,6 +156,7 @@ public class PetApiController implements PetApi {
         }
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
     /**
@@ -168,6 +173,7 @@ public class PetApiController implements PetApi {
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -186,6 +192,7 @@ public class PetApiController implements PetApi {
         @ApiParam(value = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -211,6 +218,7 @@ public class PetApiController implements PetApi {
             }
         }
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 

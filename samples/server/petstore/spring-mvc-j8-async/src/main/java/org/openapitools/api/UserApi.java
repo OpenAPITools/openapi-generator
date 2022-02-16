@@ -59,6 +59,7 @@ public interface UserApi {
     ) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
+
     }
 
 
@@ -86,6 +87,7 @@ public interface UserApi {
     ) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
+
     }
 
 
@@ -112,6 +114,7 @@ public interface UserApi {
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> body
     ) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
+
 
     }
 
@@ -142,6 +145,7 @@ public interface UserApi {
         @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
     ) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
+
 
     }
 
@@ -190,6 +194,7 @@ public interface UserApi {
                 }
             });
             return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
         }, Runnable::run);
 
     }
@@ -225,6 +230,7 @@ public interface UserApi {
     ) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
+
     }
 
 
@@ -250,6 +256,7 @@ public interface UserApi {
         
     ) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
+
 
     }
 
@@ -282,6 +289,7 @@ public interface UserApi {
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body
     ) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
+
 
     }
 

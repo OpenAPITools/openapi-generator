@@ -43,6 +43,7 @@ public interface FakeClassnameTestApiDelegate {
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 }

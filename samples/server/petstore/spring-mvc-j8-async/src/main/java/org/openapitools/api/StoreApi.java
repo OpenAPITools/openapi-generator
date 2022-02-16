@@ -60,6 +60,7 @@ public interface StoreApi {
     ) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
+
     }
 
 
@@ -92,6 +93,7 @@ public interface StoreApi {
         
     ) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
+
 
     }
 
@@ -141,6 +143,7 @@ public interface StoreApi {
                 }
             });
             return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
         }, Runnable::run);
 
     }
@@ -188,6 +191,7 @@ public interface StoreApi {
                 }
             });
             return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
         }, Runnable::run);
 
     }

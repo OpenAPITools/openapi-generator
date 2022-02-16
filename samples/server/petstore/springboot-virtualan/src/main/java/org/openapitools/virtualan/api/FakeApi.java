@@ -71,6 +71,7 @@ public interface FakeApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 
@@ -101,6 +102,7 @@ public interface FakeApi {
         @ApiParam(value = "Input boolean as post body") @Valid @RequestBody(required = false) Boolean body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -142,6 +144,7 @@ public interface FakeApi {
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 
@@ -172,6 +175,7 @@ public interface FakeApi {
         @ApiParam(value = "Input number as post body") @Valid @RequestBody(required = false) BigDecimal body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -204,6 +208,7 @@ public interface FakeApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 
@@ -233,6 +238,7 @@ public interface FakeApi {
         @ApiParam(value = "", required = true) @Valid @RequestBody FileSchemaTestClass body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -264,6 +270,7 @@ public interface FakeApi {
         @ApiParam(value = "", required = true) @Valid @RequestBody User body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -305,6 +312,7 @@ public interface FakeApi {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -367,6 +375,7 @@ public interface FakeApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 
@@ -413,6 +422,7 @@ public interface FakeApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 
@@ -452,6 +462,7 @@ public interface FakeApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 
@@ -480,6 +491,7 @@ public interface FakeApi {
         @ApiParam(value = "request body", required = true) @Valid @RequestBody Map<String, String> param
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -511,6 +523,7 @@ public interface FakeApi {
         @ApiParam(value = "field2", required = true) @Valid @RequestPart(value = "param2", required = true) String param2
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -548,6 +561,7 @@ public interface FakeApi {
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -598,6 +612,7 @@ public interface FakeApi {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
