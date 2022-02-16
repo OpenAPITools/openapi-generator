@@ -3,6 +3,7 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 
+{{#_api_controller_impl_}}
 {{#swagger2AnnotationLibrary}}
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 {{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.*;
 {{/swagger1AnnotationLibrary}}
+{{/_api_controller_impl_}}
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -80,7 +82,7 @@ public class {{classname}}Controller implements {{classname}} {
     {{/reactive}}
 {{/isDelegate}}
 
-{{^reactive}}
+{{#_api_controller_impl_}}
 {{#operation}}
     /**
      * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
@@ -126,6 +128,6 @@ public class {{classname}}Controller implements {{classname}} {
     }
 
 {{/operation}}
-{{/reactive}}
+{{/_api_controller_impl_}}
 }
 {{/operations}}
