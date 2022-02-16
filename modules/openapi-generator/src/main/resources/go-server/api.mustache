@@ -6,7 +6,7 @@ import (
 	"net/http"{{#apiInfo}}{{#apis}}{{#imports}}
 	"{{import}}"{{/imports}}
 
-	"{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/support"
+	{{#-first}}"{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/support"{{/-first}}
 	{{#hasDifferentModelDir}}"{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/{{modelPackage}}"{{/hasDifferentModelDir}}{{/apis}}{{/apiInfo}}
 )
 
