@@ -16,7 +16,7 @@
 #include "OpenAPICategory.h"
 #include "OpenAPITag.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 /*
@@ -42,6 +42,9 @@ public:
 		Pending,
 		Sold,
   	};
+
+	static FString EnumToString(const StatusEnum& EnumValue);
+	static bool EnumFromString(const FString& EnumAsString, StatusEnum& EnumValue);
 	/* pet status in the store */
 	TOptional<StatusEnum> Status;
 };

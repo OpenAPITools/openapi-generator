@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -11,9 +12,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("ApiResponse")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ModelApiResponse  implements Serializable {
   
   private @Valid Integer code;
@@ -36,6 +39,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return code;
   }
 
+  @JsonProperty("code")
   public void setCode(Integer code) {
     this.code = code;
   }
@@ -56,6 +60,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return type;
   }
 
+  @JsonProperty("type")
   public void setType(String type) {
     this.type = type;
   }
@@ -76,6 +81,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return message;
   }
 
+  @JsonProperty("message")
   public void setMessage(String message) {
     this.message = message;
   }

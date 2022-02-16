@@ -3,7 +3,7 @@
 import unittest
 
 import {{packageName}}
-from {{apiPackage}}.{{classVarName}} import {{classname}}  # noqa: E501
+from {{apiPackage}}.{{classFilename}} import {{classname}}  # noqa: E501
 
 
 class {{#operations}}Test{{classname}}(unittest.TestCase):
@@ -20,7 +20,7 @@ class {{#operations}}Test{{classname}}(unittest.TestCase):
         """Test case for {{{operationId}}}
 
 {{#summary}}
-        {{{summary}}}  # noqa: E501
+        {{{.}}}  # noqa: E501
 {{/summary}}
         """
         pass

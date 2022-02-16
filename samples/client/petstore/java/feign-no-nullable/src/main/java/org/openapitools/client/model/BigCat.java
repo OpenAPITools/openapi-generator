@@ -27,6 +27,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * BigCat
@@ -34,7 +35,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   BigCat.JSON_PROPERTY_KIND
 })
-@JsonTypeName("BigCat")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
@@ -82,6 +82,8 @@ public class BigCat extends Cat {
   public static final String JSON_PROPERTY_KIND = "kind";
   private KindEnum kind;
 
+  public BigCat() { 
+  }
 
   public BigCat kind(KindEnum kind) {
     

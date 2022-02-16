@@ -27,11 +27,11 @@ public:
      * @param defaultValue The default value to use for substitution.
      * @param enumValues An enumeration of string values to be used if the substitution options are from a limited set.
      */
-    PFXServerVariable(const QString &description, const QString &defaultValue, const QSet<QString> &enumValues) 
+    PFXServerVariable(const QString &description, const QString &defaultValue, const QSet<QString> &enumValues)
     : _defaultValue(defaultValue),
       _description(description),
       _enumValues(enumValues){}
-      
+
     PFXServerVariable(){}
     ~PFXServerVariable(){}
 

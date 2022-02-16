@@ -226,13 +226,13 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
 };
 
 export type {{classname}}Type = { {{#operation}}
-    {{operationId}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: RequestOptions): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response{{/returnType}}>,
+    {{operationId}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: RequestOptions): Promise<{{{returnType}}}{{^returnType}}Response{{/returnType}}>,
     {{/operation}}
 }
 
 /**
  * {{classname}} - factory function to inject configuration {{#description}}
- * {{{description}}}{{/description}}
+ * {{{.}}}{{/description}}
  * @export
  */
 export const {{classname}} = function(configuration?: Configuration, fetch: FetchAPI = portableFetch): {{classname}}Type {
@@ -246,7 +246,7 @@ export const {{classname}} = function(configuration?: Configuration, fetch: Fetc
          {{/summary}}
          * @throws {RequiredError}
          */
-        {{operationId}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: RequestOptions = {}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response{{/returnType}}> {
+        {{operationId}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: RequestOptions = {}): Promise<{{{returnType}}}{{^returnType}}Response{{/returnType}}> {
             const localVarFetchArgs = {{classname}}FetchParamCreator(configuration).{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}options);
             return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {

@@ -265,7 +265,7 @@ namespace Example
             // config.AddApiKeyPrefix("api_key", "Bearer");
 
             var apiInstance = new UserApi(config);
-            var username = username_example;  // string | The name that needs to be deleted
+            var username = "username_example";  // string | The name that needs to be deleted
 
             try
             {
@@ -334,7 +334,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io/v2";
             var apiInstance = new UserApi(config);
-            var username = username_example;  // string | The name that needs to be fetched. Use user1 for testing.
+            var username = "username_example";  // string | The name that needs to be fetched. Use user1 for testing.
 
             try
             {
@@ -405,8 +405,8 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io/v2";
             var apiInstance = new UserApi(config);
-            var username = username_example;  // string | The user name for login
-            var password = password_example;  // string | The password for login in clear text
+            var username = "username_example";  // string | The user name for login
+            var password = "password_example";  // string | The password for login in clear text
 
             try
             {
@@ -449,7 +449,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  * Set-Cookie - Cookie authentication key for use with the &#x60;api_key&#x60; apiKey authentication. <br>  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when toekn expires <br>  |
+| **200** | successful operation |  * Set-Cookie - Cookie authentication key for use with the &#x60;api_key&#x60; apiKey authentication. <br>  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  |
 | **400** | Invalid username/password supplied |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -553,7 +553,7 @@ namespace Example
             // config.AddApiKeyPrefix("api_key", "Bearer");
 
             var apiInstance = new UserApi(config);
-            var username = username_example;  // string | name that need to be deleted
+            var username = "username_example";  // string | name that need to be deleted
             var user = new User(); // User | Updated user object
 
             try

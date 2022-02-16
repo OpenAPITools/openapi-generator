@@ -72,7 +72,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Python FastAPI server (beta).";
+        return "Generates a Python FastAPI server (beta). Models are defined with the pydantic library";
     }
 
     public PythonFastAPIServerCodegen() {
@@ -294,4 +294,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         String regex = super.toRegularExpression(pattern);
         return StringUtils.substring(regex, 1, -1);
     }
+
+    @Override
+    public String generatorLanguageVersion() { return "3.7"; };
 }

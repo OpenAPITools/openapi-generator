@@ -22,7 +22,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```golang
-import sw "./petstore"
+import petstore "github.com/GIT_USER_ID/GIT_REPO_ID"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:
@@ -40,7 +40,7 @@ Default configuration comes with `Servers` field that contains server objects as
 For using other server than the one defined on index 0 set context value `sw.ContextServerIndex` of type `int`.
 
 ```golang
-ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
+ctx := context.WithValue(context.Background(), petstore.ContextServerIndex, 1)
 ```
 
 ### Templated Server URL
@@ -48,7 +48,7 @@ ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
 Templated server URL is formatted using default variables from configuration or from context value `sw.ContextServerVariables` of type `map[string]string`.
 
 ```golang
-ctx := context.WithValue(context.Background(), sw.ContextServerVariables, map[string]string{
+ctx := context.WithValue(context.Background(), petstore.ContextServerVariables, map[string]string{
 	"basePath": "v2",
 })
 ```
@@ -58,14 +58,14 @@ Note, enum values are always validated and all unused variables are silently ign
 ### URLs Configuration per Operation
 
 Each operation can use different server URL defined using `OperationServers` map in the `Configuration`.
-An operation is uniquely identifield by `"{classname}Service.{nickname}"` string.
+An operation is uniquely identified by `"{classname}Service.{nickname}"` string.
 Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
 
 ```
-ctx := context.WithValue(context.Background(), sw.ContextOperationServerIndices, map[string]int{
+ctx := context.WithValue(context.Background(), petstore.ContextOperationServerIndices, map[string]int{
 	"{classname}Service.{nickname}": 2,
 })
-ctx = context.WithValue(context.Background(), sw.ContextOperationServerVariables, map[string]map[string]string{
+ctx = context.WithValue(context.Background(), petstore.ContextOperationServerVariables, map[string]map[string]string{
 	"{classname}Service.{nickname}": {
 		"port": "8443",
 	},
@@ -93,8 +93,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestGroupParameters**](docs/FakeApi.md#testgroupparameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**TestInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**TestJsonFormData**](docs/FakeApi.md#testjsonformdata) | **Get** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **Put** /fake/test-query-paramters | 
-*FakeApi* | [**TestUniqueItemsHeaderAndQueryParameterCollectionFormat**](docs/FakeApi.md#testuniqueitemsheaderandqueryparametercollectionformat) | **Put** /fake/test-unique-paramters | 
+*FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **Put** /fake/test-query-parameters | 
+*FakeApi* | [**TestUniqueItemsHeaderAndQueryParameterCollectionFormat**](docs/FakeApi.md#testuniqueitemsheaderandqueryparametercollectionformat) | **Put** /fake/test-unique-parameters | 
 *FakeClassnameTags123Api* | [**TestClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **Patch** /fake_classname_test | To test class name in snake case
 *PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **Post** /pet | Add a new pet to the store
 *PetApi* | [**DeletePet**](docs/PetApi.md#deletepet) | **Delete** /pet/{petId} | Deletes a pet
@@ -168,6 +168,7 @@ Class | Method | HTTP request | Description
  - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [ReadOnlyWithDefault](docs/ReadOnlyWithDefault.md)
  - [Return](docs/Return.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
@@ -205,7 +206,7 @@ Note, each API key must be added to a map of `map[string]APIKey` where the key i
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextAccessToken, "BEARERTOKENSTRING")
+auth := context.WithValue(context.Background(), sw.ContextAccessToken, "BEARER_TOKEN_STRING")
 r, err := client.Service.Operation(auth, args)
 ```
 
@@ -232,7 +233,7 @@ r, err := client.Service.Operation(auth, args)
 Example
 
 ```golang
-	authConfig := sw.HttpSignatureAuth{
+	authConfig := client.HttpSignatureAuth{
 		KeyId:                "my-key-id",
 		PrivateKeyPath:       "rsa.pem",
 		Passphrase:           "my-passphrase",

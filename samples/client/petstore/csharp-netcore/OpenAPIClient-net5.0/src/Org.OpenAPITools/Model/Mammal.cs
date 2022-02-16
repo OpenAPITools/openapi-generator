@@ -105,7 +105,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Pig`. If the actual instanct is not `Pig`,
+        /// Get the actual instance of `Pig`. If the actual instance is not `Pig`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Pig</returns>
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Whale`. If the actual instanct is not `Whale`,
+        /// Get the actual instance of `Whale`. If the actual instance is not `Whale`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Whale</returns>
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Zebra`. If the actual instanct is not `Zebra`,
+        /// Get the actual instance of `Zebra`. If the actual instance is not `Zebra`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Zebra</returns>
@@ -165,26 +165,34 @@ namespace Org.OpenAPITools.Model
         {
             Mammal newMammal = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newMammal;
             }
 
-            string discriminatorValue = JObject.Parse(jsonString)["className"].ToString();
-            switch (discriminatorValue)
+            try
             {
-                case "Pig":
-                    newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
-                    return newMammal;
-                case "whale":
-                    newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
-                    return newMammal;
-                case "zebra":
-                    newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
-                    return newMammal;
-                default:
-                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for Mammal. Possible values: Pig whale zebra", discriminatorValue));
-                    break;
+                var discriminatorObj = JObject.Parse(jsonString)["className"];
+                string discriminatorValue =  discriminatorObj == null ?string.Empty :discriminatorObj.ToString();
+                switch (discriminatorValue)
+                {
+                    case "Pig":
+                        newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
+                        return newMammal;
+                    case "whale":
+                        newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
+                        return newMammal;
+                    case "zebra":
+                        newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
+                        return newMammal;
+                    default:
+                        System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for Mammal. Possible values: Pig whale zebra", discriminatorValue));
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to parse the json data : `{0}` {1}", jsonString, ex.ToString()));
             }
 
             int match = 0;
@@ -207,7 +215,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Pig: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Pig: {1}", jsonString, exception.ToString()));
             }
 
             try
@@ -227,7 +235,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Whale: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Whale: {1}", jsonString, exception.ToString()));
             }
 
             try
@@ -247,7 +255,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Zebra: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Zebra: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -322,7 +330,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue((String)(typeof(Mammal).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((string)(typeof(Mammal).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>

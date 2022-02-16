@@ -115,10 +115,6 @@
         "title": "Config Options for csharp-dotnet2",
         "sidebar_label": "csharp-dotnet2"
       },
-      "generators/csharp-nancyfx": {
-        "title": "Config Options for csharp-nancyfx",
-        "sidebar_label": "csharp-nancyfx"
-      },
       "generators/csharp-netcore": {
         "title": "Config Options for csharp-netcore",
         "sidebar_label": "csharp-netcore"
@@ -170,10 +166,6 @@
       "generators/erlang-server": {
         "title": "Config Options for erlang-server",
         "sidebar_label": "erlang-server"
-      },
-      "generators/flash": {
-        "title": "Config Options for flash",
-        "sidebar_label": "flash"
       },
       "generators/fsharp-functions": {
         "title": "Config Options for fsharp-functions",
@@ -398,6 +390,10 @@
       "generators/php-mezzio-ph": {
         "title": "Config Options for php-mezzio-ph",
         "sidebar_label": "php-mezzio-ph"
+      },
+      "generators/php-dt": {
+        "title": "Config Options for php-dt",
+        "sidebar_label": "php-dt"
       },
       "generators/php": {
         "title": "Config Options for php",

@@ -49,7 +49,7 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  private Set<String> photoUrls = new LinkedHashSet<String>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
@@ -108,6 +108,8 @@ public class Pet {
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
 
+  public Pet() { 
+  }
 
   public Pet id(Long id) {
     
@@ -165,6 +167,7 @@ public class Pet {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "doggie", required = true, value = "")
 
   public String getName() {
@@ -192,6 +195,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public Set<String> getPhotoUrls() {
@@ -212,7 +216,7 @@ public class Pet {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<Tag>();
+      this.tags = new ArrayList<>();
     }
     this.tags.add(tagsItem);
     return this;

@@ -69,7 +69,7 @@ export class Order {
     static getAttributeTypeMap() {
         return Order.attributeTypeMap;
     }
-    
+
     public constructor() {
     }
 }

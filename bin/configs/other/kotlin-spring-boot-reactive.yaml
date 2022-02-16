@@ -1,0 +1,10 @@
+generatorName: kotlin-spring
+outputDir: samples/openapi3/server/petstore/kotlin-springboot-reactive
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  serviceImplementation: "true"
+  reactive: "true"
+  swaggerAnnotations: "true"
+  beanValidations: "true"

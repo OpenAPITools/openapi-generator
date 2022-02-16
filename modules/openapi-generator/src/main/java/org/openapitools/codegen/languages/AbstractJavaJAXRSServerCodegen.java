@@ -61,16 +61,16 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
-        additionalProperties.put("jackson", "true");
+        additionalProperties.put(JACKSON, "true");
 
         cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC).defaultValue(implFolder));
         cliOptions.add(new CliOption("title", "a title describing the application").defaultValue(title));
@@ -142,8 +142,9 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         }
 
         if (openAPI.getPaths() != null) {
-            for (String pathname : openAPI.getPaths().keySet()) {
-                PathItem path = openAPI.getPaths().get(pathname);
+            for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
+                String pathname = openAPIGetPathsEntry.getKey();
+                PathItem path = openAPIGetPathsEntry.getValue();
                 if (path.readOperations() != null) {
                     for (Operation operation : path.readOperations()) {
                         if (operation.getTags() != null) {
@@ -305,6 +306,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         return outputFolder + "/" + output + "/" + apiPackage().replace('.', '/');
     }
 
+    @Override
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
     }

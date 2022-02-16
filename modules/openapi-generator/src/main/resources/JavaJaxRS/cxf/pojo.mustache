@@ -1,4 +1,5 @@
 import io.swagger.annotations.ApiModelProperty;
+{{#withXml}}
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -6,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+{{/withXml}}
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 {{#description}}
@@ -14,81 +16,163 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  **/
 @ApiModel(description="{{{description}}}")
 {{/description}}
-{{>additionalModelTypeAnnotations}}{{>xmlPojoAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializableModel}} implements Serializable{{/serializableModel}} {
+{{>additionalModelTypeAnnotations}}{{>xmlPojoAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#serializableModel}} implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
 {{#withXml}}
   @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
 {{/withXml}}
-  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
   @Valid{{/useBeanValidation}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}
 {{#description}}
  /**
-   * {{{description}}}
+   * {{{.}}}
   **/
 {{/description}}
-{{#isContainer}}
+{{#vendorExtensions.x-is-jackson-optional-nullable}}
+  {{#isContainer}}
+  private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();
+  {{/isContainer}}
+  {{^isContainer}}
+  private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}};
+  {{/isContainer}}
+{{/vendorExtensions.x-is-jackson-optional-nullable}}
+{{^vendorExtensions.x-is-jackson-optional-nullable}}
+  {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
-{{/isContainer}}
-{{^isContainer}}
+  {{/isContainer}}
+  {{^isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
-{{/isContainer}}
-  {{/vars}}
+  {{/isContainer}}
+{{/vendorExtensions.x-is-jackson-optional-nullable}}
+{{/vars}}
   {{#vars}}
  /**
   {{#description}}
-   * {{description}}
+   * {{.}}
   {{/description}}
   {{^description}}
    * Get {{name}}
   {{/description}}
   {{#minimum}}
-   * minimum: {{minimum}}
+   * minimum: {{.}}
   {{/minimum}}
   {{#maximum}}
-   * maximum: {{maximum}}
+   * maximum: {{.}}
   {{/maximum}}
    * @return {{name}}
   **/
-  @JsonProperty("{{baseName}}")
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isArray}}{{^isMap}}public {{dataType}} {{getter}}() {
+{{#vendorExtensions.x-is-jackson-optional-nullable}}
+{{!unannotated, Jackson would pick this up automatically and add it *in addition* to the _JsonNullable getter field}}
+  @JsonIgnore
+{{/vendorExtensions.x-is-jackson-optional-nullable}}
+{{^vendorExtensions.x-is-jackson-optional-nullable}}
+  @JsonProperty("{{baseName}}")
+{{/vendorExtensions.x-is-jackson-optional-nullable}}
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isContainer}}public {{dataType}} {{getter}}() {
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    if ({{name}} == null || !{{name}}.isPresent() || {{name}}.get() == null) {
+      return null;
+    }
+    return {{name}}.get().value();
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
     if ({{name}} == null) {
       return null;
     }
     return {{name}}.value();
-  }{{/isMap}}{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isArray}}public {{{datatypeWithEnum}}} {{getter}}() {
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  }{{/isContainer}}{{#isContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    if ({{name}} == null) {
+      return null;
+    }
+    return {{name}}.orElse(null);
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
     return {{name}};
-  }{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isMap}}public {{{datatypeWithEnum}}} {{getter}}() {
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  }{{/isContainer}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    if ({{name}} == null) {
+      return null;
+    }
+    return {{name}}.orElse(null);
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
     return {{name}};
-  }{{/isMap}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
-    return {{name}};
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }{{/isEnum}}
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+
+  @JsonProperty("{{baseName}}")
+  public JsonNullable<{{{datatypeWithEnum}}}> {{getter}}_JsonNullable() {
+    return {{name}};
+  }
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{^isReadOnly}}
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
+    this.{{name}} = {{name}};
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  }
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+
+  @JsonProperty("{{baseName}}")
+  public void {{setter}}_JsonNullable(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
+    {{! For getters/setters that have name differing from attribute name, we must include setter (albeit private) for jackson to be able to set the attribute}}
     this.{{name}} = {{name}};
   }
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = {{name}};
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
     return this;
   }
   {{#isArray}}
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    if (this.{{name}} == null || !this.{{name}}.isPresent()) {
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
+    }
+    this.{{name}}.get().add({{name}}Item);
+    return this;
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}}.add({{name}}Item);
     return this;
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
   {{/isArray}}
   {{#isMap}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    if (this.{{name}} == null || !this.{{name}}.isPresent()) {
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
+    }
+    this.{{name}}.get().put(key, {{name}}Item);
+    return this;
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}}.put(key, {{name}}Item);
     return this;
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
   {{/isMap}}
   {{/isReadOnly}}

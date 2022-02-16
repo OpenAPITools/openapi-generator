@@ -18,7 +18,7 @@ import {
     ReadOnlyFirstFromJSON,
     ReadOnlyFirstFromJSONTyped,
     ReadOnlyFirstToJSON,
-} from './';
+} from './ReadOnlyFirst';
 
 /**
  * 
@@ -76,5 +76,4 @@ export function ArrayTestToJSON(value?: ArrayTest | null): any {
         'array_array_of_model': value.arrayArrayOfModel,
     };
 }
-
 

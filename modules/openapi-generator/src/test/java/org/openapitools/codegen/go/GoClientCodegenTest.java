@@ -36,7 +36,7 @@ public class GoClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class GoClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -56,7 +56,7 @@ public class GoClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
     @Test(description = "test example value for body parameter")
@@ -72,7 +72,7 @@ public class GoClientCodegenTest {
         Assert.assertFalse(bp.isPrimitiveType);
     }
 
-    @Test(description = "test to ensrue the paramter names are unique")
+    @Test(description = "test to ensure the parameter names are unique")
     public void ensureParameterNameUniqueTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/conflictingParameter.yaml");
         final GoClientCodegen codegen = new GoClientCodegen();

@@ -49,6 +49,11 @@
   infoLink: "https://b-com.com/en"
   pinned: false
 -
+  caption: "百度营销"
+  image: "img/companies/ebaidu.jpeg"
+  infoLink: "https://e.baidu.com"
+  pinned: false
+-
   caption: "Banzai Cloud"
   image: "img/companies/banzai_cloud.png"
   infoLink: "https://banzaicloud.com/"
@@ -72,6 +77,11 @@
   caption: Boxever
   image: "img/companies/boxever.svg"
   infoLink: "https://www.boxever.com/"
+  pinned: false
+-
+  caption: Bunker Holding Group
+  image: "img/companies/bunker-holding.png"
+  infoLink: "https://www.bunker-holding.com/"
   pinned: false
 -
   caption: "California State University, Northridge"
@@ -142,6 +152,11 @@
   caption: "Edge Impulse"
   image: "img/companies/edge_impulse.png"
   infoLink: "https://www.edgeimpulse.com/"
+  pinned: false
+-
+  caption: "Elastic Email"
+  image: "img/companies/elasticemail.png"
+  infoLink: "https://elasticemail.com/"
   pinned: false
 -
   caption: "Element AI"

@@ -28,6 +28,7 @@ import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.CatAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Cat
@@ -35,7 +36,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   Cat.JSON_PROPERTY_DECLAWED
 })
-@JsonTypeName("Cat")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
@@ -47,6 +47,8 @@ public class Cat extends Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
   private Boolean declawed;
 
+  public Cat() { 
+  }
 
   public Cat declawed(Boolean declawed) {
     

@@ -63,14 +63,14 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         modelPackage = "com.prokarma.pkmst.model";
         invokerPackage = "com.prokarma.pkmst.controller";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.GROUP_ID, this.getGroupId());
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
-        additionalProperties.put("jackson", "true");
+        additionalProperties.put(JACKSON, "true");
 
         this.cliOptions.add(new CliOption("basePackage", "base package for java source code"));
         this.cliOptions.add(new CliOption("serviceName", "Service Name"));
@@ -422,7 +422,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             }
         } else { // enum class
             // Needed imports for Jackson's JsonCreator
-            if (this.additionalProperties.containsKey("jackson")) {
+            if (this.additionalProperties.containsKey(JACKSON)) {
                 model.imports.add("JsonCreator");
             }
         }
@@ -471,7 +471,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         // get vendor extensions
 
         Map<String, Object> vendorExt = openAPI.getInfo().getExtensions();
-        if (vendorExt != null && !vendorExt.toString().equals("")) {
+        if (vendorExt != null && !vendorExt.toString().isEmpty()) {
             if (vendorExt.containsKey("x-codegen")) {
 
                 Map<String, String> uris = (Map<String, String>) vendorExt.get("x-codegen");
@@ -543,8 +543,9 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         this.additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
 
         if (openAPI.getPaths() != null) {
-            for (String pathname : openAPI.getPaths().keySet()) {
-                PathItem path = openAPI.getPaths().get(pathname);
+            for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
+                String pathname = openAPIGetPathsEntry.getKey();
+                PathItem path = openAPIGetPathsEntry.getValue();
                 if (path.readOperations() != null) {
                     for (Operation operation : path.readOperations()) {
                         if (operation.getTags() != null) {

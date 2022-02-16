@@ -16,6 +16,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
@@ -475,7 +476,6 @@ public class FormatTest   {
   public int hashCode() {
     return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, _byte, binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
-
 
   @Override
   public String toString() {

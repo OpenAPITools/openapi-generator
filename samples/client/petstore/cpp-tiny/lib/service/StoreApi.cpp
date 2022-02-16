@@ -15,10 +15,15 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/store/order/{orderId}"; //orderId 
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | 
-            // Body     | 
+
+
 
                 std::string s_orderId("{");
                 s_orderId.append("orderId");
@@ -29,18 +34,16 @@ using namespace Tiny;
                 url.erase(pos, s_orderId.length());
                 url.insert(pos, stringify(orderId));
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
             // METHOD | DELETE
-            int httpCode = http.sendRequest("DELETE", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            // Body     | 
+            int httpCode = sendRequest(url, "DELETE", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
             Response<String> response(output, httpCode);
@@ -55,24 +58,27 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/store/inventory"; //
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | 
-            // Body     | 
 
 
-            begin(url);
+
+
 
             std::string payload = "";
             // Send Request
             // METHOD | GET
-            int httpCode = http.sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            // Body     | 
+            int httpCode = sendRequest(url, "GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
 
@@ -97,10 +103,15 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/store/order/{orderId}"; //orderId 
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | 
-            // Body     | 
+
+
 
                 std::string s_orderId("{");
                 s_orderId.append("orderId");
@@ -111,18 +122,16 @@ using namespace Tiny;
                 url.erase(pos, s_orderId.length());
                 url.insert(pos, stringify(orderId));
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
             // METHOD | GET
-            int httpCode = http.sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            // Body     | 
+            int httpCode = sendRequest(url, "GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
 
@@ -145,30 +154,33 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/store/order"; //
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | 
-            // Body     | order
+            addHeader("Content-Type", "application/json");
 
 
-            begin(url);
+
+
 
             std::string payload = "";
             // Send Request
             // METHOD | POST
-            http.addHeader("Content-Type", "application/json");
+            // Body     | order
 
 
 
             payload = order.toJson().dump();
 
-            int httpCode = http.sendRequest("POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest(url, "POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
 
@@ -179,7 +191,6 @@ using namespace Tiny;
             Response<Order> response(obj, httpCode);
             return response;
         }
-
 
 
 

@@ -17,6 +17,7 @@ import petstore_api
 from petstore_api.model.enum_test import EnumTest
 from petstore_api.model.string_enum import StringEnum
 from petstore_api.model.array_of_enums import ArrayOfEnums
+from petstore_api.model.boolean_enum import BooleanEnum
 
 
 class TestEnumTest(unittest.TestCase):
@@ -30,17 +31,29 @@ class TestEnumTest(unittest.TestCase):
 
     def testEnumTest(self):
         """Test EnumTest"""
+        required_kwargs = dict(enum_string_required='lower')
+
         # inline array of enums
         model = EnumTest(
-            enum_string_required='lower',
-            inline_array_of_str_enum=[StringEnum('approved')]
+            inline_array_of_str_enum=[StringEnum('approved')],
+            **required_kwargs
         )
         # refed array of enums
         model = EnumTest(
-            enum_string_required='lower',
-            array_of_str_enum=ArrayOfEnums([StringEnum('approved')])
+            array_of_str_enum=ArrayOfEnums([StringEnum('approved')]),
+            **required_kwargs
         )
 
+        # inline bool enum
+        model = EnumTest(
+            enum_bool=False,
+            **required_kwargs
+        )
+        # refed bool enum
+        model = EnumTest(
+            bool_enum=BooleanEnum(True),
+            **required_kwargs
+        )
 
 if __name__ == '__main__':
     unittest.main()

@@ -55,6 +55,8 @@ public class ChildCat extends ParentPet {
   public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
   private String petType = "ChildCat";
 
+  public ChildCat() { 
+  }
 
   public ChildCat name(String name) {
     this.name = name;
@@ -99,6 +101,7 @@ public class ChildCat extends ParentPet {
    * Get petType
    * @return petType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

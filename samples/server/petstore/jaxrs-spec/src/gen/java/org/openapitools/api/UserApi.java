@@ -1,5 +1,6 @@
 package org.openapitools.api;
 
+import java.util.Date;
 import java.util.List;
 import org.openapitools.model.User;
 
@@ -79,7 +80,7 @@ import javax.validation.Valid;
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class)
     })
-    public Response loginUser(@QueryParam("username") @NotNull   @ApiParam("The user name for login")  String username,@QueryParam("password") @NotNull   @ApiParam("The password for login in clear text")  String password) {
+    public Response loginUser(@QueryParam("username") @NotNull  @ApiParam("The user name for login")  String username,@QueryParam("password") @NotNull  @ApiParam("The password for login in clear text")  String password) {
         return Response.ok().entity("magic!").build();
     }
 

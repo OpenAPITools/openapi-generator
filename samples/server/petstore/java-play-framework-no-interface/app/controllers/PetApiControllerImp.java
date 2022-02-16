@@ -53,7 +53,7 @@ public class PetApiControllerImp  {
     }
 
     
-    public ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception {
+    public ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> _file) throws Exception {
         //Do your magic!!!
         return new ModelApiResponse();
     }

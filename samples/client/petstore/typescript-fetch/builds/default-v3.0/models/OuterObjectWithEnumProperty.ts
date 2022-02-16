@@ -18,7 +18,7 @@ import {
     OuterEnumIntegerFromJSON,
     OuterEnumIntegerFromJSONTyped,
     OuterEnumIntegerToJSON,
-} from './';
+} from './OuterEnumInteger';
 
 /**
  * 
@@ -60,5 +60,4 @@ export function OuterObjectWithEnumPropertyToJSON(value?: OuterObjectWithEnumPro
         'value': OuterEnumIntegerToJSON(value.value),
     };
 }
-
 

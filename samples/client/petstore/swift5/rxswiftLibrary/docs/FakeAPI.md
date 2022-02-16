@@ -27,7 +27,7 @@ Method | HTTP request | Description
 
 Test serialization of outer boolean types
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -67,7 +67,7 @@ No authorization required
 
 Test serialization of object with outer number type
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -107,7 +107,7 @@ No authorization required
 
 Test serialization of outer number types
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -147,7 +147,7 @@ No authorization required
 
 Test serialization of outer string types
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -187,7 +187,7 @@ No authorization required
 
 For this test, the body for this request much reference a schema named `File`.
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -225,7 +225,7 @@ No authorization required
 
 
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -267,7 +267,7 @@ To test \"client\" model
 
 To test \"client\" model
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -307,7 +307,7 @@ Fake endpoint for testing various parameters  假端點  偽のエンドポイ�
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -366,14 +366,14 @@ Void (empty response body)
 
 # **testEnumParameters**
 ```swift
-    open class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> Observable<Void>
+    open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> Observable<Void>
 ```
 
 To test enum parameters
 
 To test enum parameters
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -427,7 +427,7 @@ Fake endpoint to test group parameters (optional)
 
 Fake endpoint to test group parameters (optional)
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -475,7 +475,7 @@ No authorization required
 
 test inline additionalProperties
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -513,7 +513,7 @@ No authorization required
 
 test json serialization of form data
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient

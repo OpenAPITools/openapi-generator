@@ -826,7 +826,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="FakeApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public FakeApi(String basePath)
+        public FakeApi(string basePath)
         {
             this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
@@ -889,7 +889,7 @@ namespace Org.OpenAPITools.Api
         /// Gets the base path of the API client.
         /// </summary>
         /// <value>The base path</value>
-        public String GetBasePath()
+        public string GetBasePath()
         {
             return this.Configuration.BasePath;
         }
@@ -936,29 +936,37 @@ namespace Org.OpenAPITools.Api
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/json"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
 
 
             // make the HTTP request
             var localVarResponse = this.Client.Get<HealthCheckResult>("/fake/health", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FakeHealthGet", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -987,31 +995,38 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/json"
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
 
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.GetAsync<HealthCheckResult>("/fake/health", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FakeHealthGet", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1039,31 +1054,39 @@ namespace Org.OpenAPITools.Api
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "*/*"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
             var localVarResponse = this.Client.Post<bool>("/fake/outer/boolean", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FakeOuterBooleanSerialize", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1094,33 +1117,40 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "*/*"
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.PostAsync<bool>("/fake/outer/boolean", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FakeOuterBooleanSerialize", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1148,31 +1178,39 @@ namespace Org.OpenAPITools.Api
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "*/*"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.Data = outerComposite;
 
 
             // make the HTTP request
             var localVarResponse = this.Client.Post<OuterComposite>("/fake/outer/composite", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FakeOuterCompositeSerialize", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1203,33 +1241,40 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "*/*"
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.Data = outerComposite;
 
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.PostAsync<OuterComposite>("/fake/outer/composite", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FakeOuterCompositeSerialize", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1257,31 +1302,39 @@ namespace Org.OpenAPITools.Api
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "*/*"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
             var localVarResponse = this.Client.Post<decimal>("/fake/outer/number", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FakeOuterNumberSerialize", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1312,33 +1365,40 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "*/*"
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.PostAsync<decimal>("/fake/outer/number", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FakeOuterNumberSerialize", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1366,31 +1426,39 @@ namespace Org.OpenAPITools.Api
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "*/*"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
             var localVarResponse = this.Client.Post<string>("/fake/outer/string", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FakeOuterStringSerialize", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1421,33 +1489,40 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "*/*"
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.PostAsync<string>("/fake/outer/string", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FakeOuterStringSerialize", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1473,29 +1548,37 @@ namespace Org.OpenAPITools.Api
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/json"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
 
 
             // make the HTTP request
             var localVarResponse = this.Client.Get<List<OuterEnum>>("/fake/array-of-enums", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetArrayOfEnums", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1524,31 +1607,38 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/json"
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
 
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.GetAsync<List<OuterEnum>>("/fake/array-of-enums", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetArrayOfEnums", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1575,34 +1665,44 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'fileSchemaTestClass' is set
             if (fileSchemaTestClass == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'fileSchemaTestClass' when calling FakeApi->TestBodyWithFileSchema");
+            }
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.Data = fileSchemaTestClass;
 
 
             // make the HTTP request
             var localVarResponse = this.Client.Put<Object>("/fake/body-with-file-schema", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestBodyWithFileSchema", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1631,37 +1731,46 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'fileSchemaTestClass' is set
             if (fileSchemaTestClass == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'fileSchemaTestClass' when calling FakeApi->TestBodyWithFileSchema");
+            }
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.Data = fileSchemaTestClass;
 
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/body-with-file-schema", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestBodyWithFileSchema", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1690,27 +1799,37 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'query' is set
             if (query == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'query' when calling FakeApi->TestBodyWithQueryParams");
+            }
 
             // verify the required parameter 'user' is set
             if (user == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling FakeApi->TestBodyWithQueryParams");
+            }
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query", query));
             localVarRequestOptions.Data = user;
@@ -1718,11 +1837,13 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
             var localVarResponse = this.Client.Put<Object>("/fake/body-with-query-params", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestBodyWithQueryParams", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1753,42 +1874,53 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'query' is set
             if (query == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'query' when calling FakeApi->TestBodyWithQueryParams");
+            }
 
             // verify the required parameter 'user' is set
             if (user == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling FakeApi->TestBodyWithQueryParams");
+            }
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query", query));
             localVarRequestOptions.Data = user;
 
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/body-with-query-params", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestBodyWithQueryParams", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1816,35 +1948,45 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'modelClient' when calling FakeApi->TestClientModel");
+            }
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/json"
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.Data = modelClient;
 
 
             // make the HTTP request
             var localVarResponse = this.Client.Patch<ModelClient>("/fake", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestClientModel", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1874,38 +2016,47 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'modelClient' when calling FakeApi->TestClientModel");
+            }
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/json"
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.Data = modelClient;
 
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.PatchAsync<ModelClient>("/fake", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestClientModel", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -1958,27 +2109,37 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'patternWithoutDelimiter' when calling FakeApi->TestEndpointParameters");
+            }
 
             // verify the required parameter '_byte' is set
             if (_byte == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter '_byte' when calling FakeApi->TestEndpointParameters");
+            }
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             if (integer != null)
             {
@@ -2027,18 +2188,20 @@ namespace Org.OpenAPITools.Api
 
             // authentication (http_basic_test) required
             // http basic authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
+            if (!string.IsNullOrEmpty(this.Configuration.Username) || !string.IsNullOrEmpty(this.Configuration.Password) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Basic " + Org.OpenAPITools.Client.ClientUtils.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password));
             }
 
             // make the HTTP request
             var localVarResponse = this.Client.Post<Object>("/fake", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestEndpointParameters", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -2093,29 +2256,38 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'patternWithoutDelimiter' when calling FakeApi->TestEndpointParameters");
+            }
 
             // verify the required parameter '_byte' is set
             if (_byte == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter '_byte' when calling FakeApi->TestEndpointParameters");
+            }
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             if (integer != null)
             {
@@ -2164,19 +2336,21 @@ namespace Org.OpenAPITools.Api
 
             // authentication (http_basic_test) required
             // http basic authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
+            if (!string.IsNullOrEmpty(this.Configuration.Username) || !string.IsNullOrEmpty(this.Configuration.Password) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Basic " + Org.OpenAPITools.Client.ClientUtils.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password));
             }
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/fake", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestEndpointParameters", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -2217,19 +2391,25 @@ namespace Org.OpenAPITools.Api
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             if (enumQueryStringArray != null)
             {
@@ -2267,11 +2447,13 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
             var localVarResponse = this.Client.Get<Object>("/fake", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestEnumParameters", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -2315,20 +2497,25 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             if (enumQueryStringArray != null)
             {
@@ -2365,13 +2552,15 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/fake", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestEnumParameters", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -2408,18 +2597,24 @@ namespace Org.OpenAPITools.Api
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup));
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_int64_group", requiredInt64Group));
@@ -2439,18 +2634,20 @@ namespace Org.OpenAPITools.Api
 
             // authentication (bearer_test) required
             // bearer authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
             var localVarResponse = this.Client.Delete<Object>("/fake", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestGroupParameters", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -2490,19 +2687,24 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup));
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_int64_group", requiredInt64Group));
@@ -2522,19 +2724,21 @@ namespace Org.OpenAPITools.Api
 
             // authentication (bearer_test) required
             // bearer authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/fake", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestGroupParameters", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -2561,34 +2765,44 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'requestBody' is set
             if (requestBody == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requestBody' when calling FakeApi->TestInlineAdditionalProperties");
+            }
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.Data = requestBody;
 
 
             // make the HTTP request
             var localVarResponse = this.Client.Post<Object>("/fake/inline-additionalProperties", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestInlineAdditionalProperties", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -2617,37 +2831,46 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'requestBody' is set
             if (requestBody == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requestBody' when calling FakeApi->TestInlineAdditionalProperties");
+            }
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.Data = requestBody;
 
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/fake/inline-additionalProperties", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestInlineAdditionalProperties", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -2676,27 +2899,37 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'param' is set
             if (param == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param' when calling FakeApi->TestJsonFormData");
+            }
 
             // verify the required parameter 'param2' is set
             if (param2 == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param2' when calling FakeApi->TestJsonFormData");
+            }
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.FormParameters.Add("param", Org.OpenAPITools.Client.ClientUtils.ParameterToString(param)); // form parameter
             localVarRequestOptions.FormParameters.Add("param2", Org.OpenAPITools.Client.ClientUtils.ParameterToString(param2)); // form parameter
@@ -2704,11 +2937,13 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
             var localVarResponse = this.Client.Get<Object>("/fake/jsonFormData", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestJsonFormData", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -2739,42 +2974,53 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'param' is set
             if (param == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param' when calling FakeApi->TestJsonFormData");
+            }
 
             // verify the required parameter 'param2' is set
             if (param2 == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param2' when calling FakeApi->TestJsonFormData");
+            }
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.FormParameters.Add("param", Org.OpenAPITools.Client.ClientUtils.ParameterToString(param)); // form parameter
             localVarRequestOptions.FormParameters.Add("param2", Org.OpenAPITools.Client.ClientUtils.ParameterToString(param2)); // form parameter
 
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/fake/jsonFormData", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestJsonFormData", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -2809,38 +3055,54 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'pipe' is set
             if (pipe == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pipe' when calling FakeApi->TestQueryParameterCollectionFormat");
+            }
 
             // verify the required parameter 'ioutil' is set
             if (ioutil == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'ioutil' when calling FakeApi->TestQueryParameterCollectionFormat");
+            }
 
             // verify the required parameter 'http' is set
             if (http == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'http' when calling FakeApi->TestQueryParameterCollectionFormat");
+            }
 
             // verify the required parameter 'url' is set
             if (url == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'url' when calling FakeApi->TestQueryParameterCollectionFormat");
+            }
 
             // verify the required parameter 'context' is set
             if (context == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
+            }
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("multi", "pipe", pipe));
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "ioutil", ioutil));
@@ -2850,12 +3112,14 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Put<Object>("/fake/test-query-paramters", localVarRequestOptions, this.Configuration);
-
+            var localVarResponse = this.Client.Put<Object>("/fake/test-query-parameters", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestQueryParameterCollectionFormat", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -2892,40 +3156,55 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'pipe' is set
             if (pipe == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pipe' when calling FakeApi->TestQueryParameterCollectionFormat");
+            }
 
             // verify the required parameter 'ioutil' is set
             if (ioutil == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'ioutil' when calling FakeApi->TestQueryParameterCollectionFormat");
+            }
 
             // verify the required parameter 'http' is set
             if (http == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'http' when calling FakeApi->TestQueryParameterCollectionFormat");
+            }
 
             // verify the required parameter 'url' is set
             if (url == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'url' when calling FakeApi->TestQueryParameterCollectionFormat");
+            }
 
             // verify the required parameter 'context' is set
             if (context == null)
+            {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
+            }
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
-
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("multi", "pipe", pipe));
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "ioutil", ioutil));
@@ -2935,13 +3214,15 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/test-query-paramters", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/test-query-parameters", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestQueryParameterCollectionFormat", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;

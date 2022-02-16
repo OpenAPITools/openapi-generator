@@ -14,8 +14,10 @@ import logging
 import re
 import ssl
 from urllib.parse import urlencode
-
+from urllib.parse import urlparse
+from urllib.request import proxy_bypass_environment
 import urllib3
+import ipaddress
 
 from petstore_api.exceptions import ApiException, UnauthorizedException, ForbiddenException, NotFoundException, ServiceException, ApiValueError
 
@@ -72,7 +74,7 @@ class RESTClientObject(object):
                 maxsize = 4
 
         # https pool manager
-        if configuration.proxy:
+        if configuration.proxy and not should_bypass_proxies(configuration.host, no_proxy=configuration.no_proxy or ''):
             self.pool_manager = urllib3.ProxyManager(
                 num_pools=pools_size,
                 maxsize=maxsize,
@@ -137,15 +139,15 @@ class RESTClientObject(object):
                 timeout = urllib3.Timeout(
                     connect=_request_timeout[0], read=_request_timeout[1])
 
-        if 'Content-Type' not in headers:
-            headers['Content-Type'] = 'application/json'
-
         try:
             # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
             if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
+                # Only set a default Content-Type for POST, PUT, PATCH and OPTIONS requests
+                if (method != 'DELETE') and ('Content-Type' not in headers):
+                    headers['Content-Type'] = 'application/json'
                 if query_params:
                     url += '?' + urlencode(query_params)
-                if re.search('json', headers['Content-Type'], re.IGNORECASE):
+                if ('Content-Type' not in headers) or (re.search('json', headers['Content-Type'], re.IGNORECASE)):
                     request_body = None
                     if body is not None:
                         request_body = json.dumps(body)
@@ -290,3 +292,55 @@ class RESTClientObject(object):
                             _preload_content=_preload_content,
                             _request_timeout=_request_timeout,
                             body=body)
+
+# end of class RESTClientObject
+def is_ipv4(target):
+    """ Test if IPv4 address or not
+    """
+    try:
+       chk = ipaddress.IPv4Address(target)
+       return True
+    except ipaddress.AddressValueError:
+       return False
+
+def in_ipv4net(target, net):
+    """ Test if target belongs to given IPv4 network
+    """
+    try:
+        nw = ipaddress.IPv4Network(net)
+        ip = ipaddress.IPv4Address(target)
+        if ip in nw:
+            return True
+        return False
+    except ipaddress.AddressValueError:
+        return False
+    except ipaddress.NetmaskValueError:
+        return False
+
+def should_bypass_proxies(url, no_proxy=None):
+    """ Yet another requests.should_bypass_proxies
+    Test if proxies should not be used for a particular url.
+    """
+
+    parsed = urlparse(url)
+
+    # special cases
+    if parsed.hostname in [None, '']:
+        return True
+
+    # special cases
+    if no_proxy in [None , '']:
+        return False
+    if no_proxy == '*':
+        return True
+
+    no_proxy = no_proxy.lower().replace(' ','');
+    entries = (
+        host for host in no_proxy.split(',') if host
+    )
+
+    if is_ipv4(parsed.hostname):
+        for item in entries:
+           if in_ipv4net(parsed.hostname, item):
+               return True
+    return proxy_bypass_environment(parsed.hostname, {'no': no_proxy} )

@@ -55,7 +55,7 @@ std::pair<Pistache::Http::Code, std::string> PetApi::handleParsingException(cons
     } catch (org::openapitools::server::helpers::ValidationException &e) {
         return std::make_pair(Pistache::Http::Code::Bad_Request, e.what());
     } catch (std::exception &e) {
-        return std::make_pair(Pistache::Http::Code::Internal_Server_Error, e.what())
+        return std::make_pair(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 }
 
@@ -128,11 +128,11 @@ void PetApi::find_pets_by_status_handler(const Pistache::Rest::Request &request,
 
     // Getting the query params
     auto statusQuery = request.query().get("status");
-    Pistache::Optional<std::vector<std::string>> status;
-    if(!statusQuery.isEmpty()){
+    std::optional<std::vector<std::string>> status;
+    if(statusQuery.has_value()){
         std::vector<std::string> valueQuery_instance;
-        if(fromStringValue(statusQuery.get(), valueQuery_instance)){
-            status = Pistache::Some(valueQuery_instance);
+        if(fromStringValue(statusQuery.value(), valueQuery_instance)){
+            status = valueQuery_instance;
         }
     }
     
@@ -158,11 +158,11 @@ void PetApi::find_pets_by_tags_handler(const Pistache::Rest::Request &request, P
 
     // Getting the query params
     auto tagsQuery = request.query().get("tags");
-    Pistache::Optional<std::vector<std::string>> tags;
-    if(!tagsQuery.isEmpty()){
+    std::optional<std::vector<std::string>> tags;
+    if(tagsQuery.has_value()){
         std::vector<std::string> valueQuery_instance;
-        if(fromStringValue(tagsQuery.get(), valueQuery_instance)){
-            tags = Pistache::Some(valueQuery_instance);
+        if(fromStringValue(tagsQuery.value(), valueQuery_instance)){
+            tags = valueQuery_instance;
         }
     }
     

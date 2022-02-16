@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.OuterEnum;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -225,6 +226,8 @@ public class EnumTest {
   @XmlElement(name = "outerEnum")
   private OuterEnum outerEnum;
 
+  public EnumTest() { 
+  }
 
   public EnumTest enumString(EnumStringEnum enumString) {
     
@@ -265,6 +268,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

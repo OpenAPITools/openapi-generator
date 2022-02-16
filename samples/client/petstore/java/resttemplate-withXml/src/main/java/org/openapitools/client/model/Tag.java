@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -33,7 +34,6 @@ import javax.xml.bind.annotation.*;
   Tag.JSON_PROPERTY_ID,
   Tag.JSON_PROPERTY_NAME
 })
-@JsonTypeName("Tag")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "Tag")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -47,6 +47,8 @@ public class Tag {
   @XmlElement(name = "name")
   private String name;
 
+  public Tag() { 
+  }
 
   public Tag id(Long id) {
     

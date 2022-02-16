@@ -39,6 +39,7 @@ import org.openapitools.client.JSON;
   Zebra.JSON_PROPERTY_TYPE,
   Zebra.JSON_PROPERTY_CLASS_NAME
 })
+@JsonTypeName("zebra")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Zebra {
   /**
@@ -84,6 +85,8 @@ public class Zebra {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   private String className;
 
+  public Zebra() { 
+  }
 
   public Zebra type(TypeEnum type) {
     this.type = type;
@@ -120,6 +123,7 @@ public class Zebra {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

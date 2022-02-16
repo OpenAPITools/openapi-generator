@@ -129,9 +129,10 @@ class ApiClient(object):
         _return_http_data_only: typing.Optional[bool] = None,
         collection_formats: typing.Optional[typing.Dict[str, str]] = None,
         _preload_content: bool = True,
-        _request_timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        _request_timeout: typing.Optional[typing.Union[int, float, typing.Tuple]] = None,
         _host: typing.Optional[str] = None,
-        _check_type: typing.Optional[bool] = None
+        _check_type: typing.Optional[bool] = None,
+        _content_type: typing.Optional[str] = None
     ):
 
         config = self.configuration
@@ -347,7 +348,7 @@ class ApiClient(object):
         _return_http_data_only: typing.Optional[bool] = None,
         collection_formats: typing.Optional[typing.Dict[str, str]] = None,
         _preload_content: bool = True,
-        _request_timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        _request_timeout: typing.Optional[typing.Union[int, float, typing.Tuple]] = None,
         _host: typing.Optional[str] = None,
         _check_type: typing.Optional[bool] = None
     ):
@@ -572,10 +573,12 @@ class ApiClient(object):
         else:
             return ', '.join(accepts)
 
-    def select_header_content_type(self, content_types):
+    def select_header_content_type(self, content_types, method=None, body=None):
         """Returns `Content-Type` based on an array of content_types provided.
 
         :param content_types: List of content-types.
+        :param method: http method (e.g. POST, PATCH).
+        :param body: http body to send.
         :return: Content-Type (e.g. application/json).
         """
         if not content_types:
@@ -583,17 +586,22 @@ class ApiClient(object):
 
         content_types = [x.lower() for x in content_types]
 
+        if (method == 'PATCH' and
+                'application/json-patch+json' in content_types and
+                isinstance(body, list)):
+            return 'application/json-patch+json'
+
         if 'application/json' in content_types or '*/*' in content_types:
             return 'application/json'
         else:
             return content_types[0]
 
-    def update_params_for_auth(self, headers, querys, auth_settings,
+    def update_params_for_auth(self, headers, queries, auth_settings,
                                resource_path, method, body):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
-        :param querys: Query parameters tuple list to be updated.
+        :param queries: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
         :param resource_path: A string representation of the HTTP request resource path.
         :param method: A string representation of the HTTP request method.
@@ -612,7 +620,7 @@ class ApiClient(object):
                     if auth_setting['type'] != 'http-signature':
                         headers[auth_setting['key']] = auth_setting['value']
                 elif auth_setting['in'] == 'query':
-                    querys.append((auth_setting['key'], auth_setting['value']))
+                    queries.append((auth_setting['key'], auth_setting['value']))
                 else:
                     raise ApiValueError(
                         'Authentication token must be in `query` or `header`'
@@ -664,7 +672,9 @@ class Endpoint(object):
             '_request_timeout',
             '_return_http_data_only',
             '_check_input_type',
-            '_check_return_type'
+            '_check_return_type',
+            '_content_type',
+            '_spec_property_naming'
         ])
         self.params_map['nullable'].extend(['_request_timeout'])
         self.validations = root_map['validations']
@@ -674,10 +684,12 @@ class Endpoint(object):
             'async_req': (bool,),
             '_host_index': (none_type, int),
             '_preload_content': (bool,),
-            '_request_timeout': (none_type, int, (int,), [int]),
+            '_request_timeout': (none_type, float, (float,), [float], int, (int,), [int]),
             '_return_http_data_only': (bool,),
             '_check_input_type': (bool,),
-            '_check_return_type': (bool,)
+            '_check_return_type': (bool,),
+            '_spec_property_naming': (bool,),
+            '_content_type': (none_type, str)
         }
         self.openapi_types.update(extra_types)
         self.attribute_map = root_map['attribute_map']
@@ -713,7 +725,7 @@ class Endpoint(object):
                 value,
                 self.openapi_types[key],
                 [key],
-                False,
+                kwargs['_spec_property_naming'],
                 kwargs['_check_input_type'],
                 configuration=self.api_client.configuration
             )
@@ -741,11 +753,11 @@ class Endpoint(object):
                 base_name = self.attribute_map[param_name]
                 if (param_location == 'form' and
                         self.openapi_types[param_name] == (file_type,)):
-                    params['file'][param_name] = [param_value]
+                    params['file'][base_name] = [param_value]
                 elif (param_location == 'form' and
                         self.openapi_types[param_name] == ([file_type],)):
                     # param_value is already a list
-                    params['file'][param_name] = param_value
+                    params['file'][base_name] = param_value
                 elif param_location in {'form', 'query'}:
                     param_value_full = (base_name, param_value)
                     params[param_location].append(param_value_full)
@@ -824,11 +836,16 @@ class Endpoint(object):
             params['header']['Accept'] = self.api_client.select_header_accept(
                 accept_headers_list)
 
-        content_type_headers_list = self.headers_map['content_type']
-        if content_type_headers_list:
-            header_list = self.api_client.select_header_content_type(
-                content_type_headers_list)
-            params['header']['Content-Type'] = header_list
+        if kwargs.get('_content_type'):
+            params['header']['Content-Type'] = kwargs['_content_type']
+        else:
+            content_type_headers_list = self.headers_map['content_type']
+            if content_type_headers_list:
+                if params['body'] != "":
+                    header_list = self.api_client.select_header_content_type(
+                        content_type_headers_list, self.settings['http_method'],
+                        params['body'])
+                    params['header']['Content-Type'] = header_list
 
         return self.api_client.call_api(
             self.settings['endpoint_path'], self.settings['http_method'],

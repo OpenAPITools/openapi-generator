@@ -14,7 +14,9 @@ import play.mvc.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import openapitools.OpenAPIUtils;
+import openapitools.SecurityAPIUtils;
 import static play.mvc.Results.ok;
+import static play.mvc.Results.unauthorized;
 import play.libs.Files.TemporaryFile;
 {{#supportAsync}}
 import java.util.concurrent.CompletionException;
@@ -32,11 +34,12 @@ public abstract class {{classname}}ControllerImpInterface {
     {{#useBeanValidation}}
     @Inject private Config configuration;
     {{/useBeanValidation}}
+    @Inject private SecurityAPIUtils securityAPIUtils;
     private ObjectMapper mapper = new ObjectMapper();
 
 {{#operation}}
     public {{#supportAsync}}CompletionStage<{{/supportAsync}}Result{{#supportAsync}}>{{/supportAsync}} {{operationId}}Http(Http.Request request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{^-last}}, {{/-last}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}} {
-        {{>responseToResult}}
+{{>responseToResult}}
     }
 
     public abstract {{^returnType}}void{{/returnType}}{{#returnType}}{{#supportAsync}}CompletionStage<{{/supportAsync}}{{>returnTypesNoVoid}}{{#supportAsync}}>{{/supportAsync}}{{/returnType}} {{operationId}}(Http.Request request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{^-last}}, {{/-last}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}};

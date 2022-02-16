@@ -79,11 +79,13 @@ declare -a xml_files=(
     "${root}/modules/openapi-generator-online/pom.xml"
     "${root}/modules/openapi-generator/pom.xml"
     "${root}/modules/openapi-generator-gradle-plugin/gradle.properties"
+    "${root}/modules/openapi-generator-gradle-plugin/samples/local-spec/gradle.properties"
     "${root}/modules/openapi-generator-maven-plugin/examples/multi-module/java-client/pom.xml"
     "${root}/modules/openapi-generator-maven-plugin/examples/java-client.xml"
     "${root}/modules/openapi-generator-maven-plugin/examples/non-java-invalid-spec.xml"
     "${root}/modules/openapi-generator-maven-plugin/examples/non-java.xml"
-    "${root}/samples/meta-codegen/lib/pom.xml"
+    "${root}/modules/openapi-generator-maven-plugin/examples/kotlin.xml"
+    "${root}/modules/openapi-generator-maven-plugin/examples/spring.xml"
     "${root}/pom.xml"
 )
 

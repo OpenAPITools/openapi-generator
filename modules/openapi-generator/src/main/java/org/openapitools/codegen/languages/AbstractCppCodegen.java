@@ -17,7 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap.Builder;
+import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
 
 import io.swagger.v3.oas.models.OpenAPI;
@@ -25,14 +25,9 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariables;
 import io.swagger.v3.oas.models.servers.ServerVariable;
-import org.openapitools.codegen.CodegenServer;
-import org.openapitools.codegen.CodegenServerVariable;
+import org.openapitools.codegen.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -275,6 +270,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
      * @param name the name of the property
      * @return getter name based on naming convention
      */
+    @Override
     public String toBooleanGetter(String name) {
         return "is" + getterAndSetterCapitalize(name);
     }
@@ -284,6 +280,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         return "std::shared_ptr<" + toModelName(str) + ">";
     }
 
+    @Override
     public void processOpts() {
         super.processOpts();
 
@@ -305,7 +302,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    protected Builder<String, Lambda> addMustacheLambdas() {
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("multiline_comment_4", new IndentedLambda(4, " ", "///"));
     }
@@ -321,7 +318,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         }
         // only process files with cpp extension
         if ("cpp".equals(FilenameUtils.getExtension(file.toString())) || "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = cppPostProcessFile + " " + file.toString();
+            String command = cppPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
@@ -437,4 +434,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         }
         return;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.C_PLUS_PLUS; }
 }

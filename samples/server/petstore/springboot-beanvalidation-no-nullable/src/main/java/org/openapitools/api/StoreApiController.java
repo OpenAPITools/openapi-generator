@@ -2,7 +2,10 @@ package org.openapitools.api;
 
 import java.util.Map;
 import org.openapitools.model.Order;
+
 import io.swagger.annotations.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,24 +17,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
+import org.springframework.web.context.request.NativeWebRequest;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+import java.util.Optional;
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class StoreApiController implements StoreApi {
 
     private final NativeWebRequest request;
 
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     public StoreApiController(NativeWebRequest request) {
         this.request = request;
+    }
+
+    @Override
+    public Optional<NativeWebRequest> getRequest() {
+        return Optional.ofNullable(request);
     }
 
     /**
@@ -43,7 +54,9 @@ public class StoreApiController implements StoreApi {
      *         or Order not found (status code 404)
      * @see StoreApi#deleteOrder
      */
-    public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
+    public ResponseEntity<Void> deleteOrder(
+        @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId
+    ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -55,7 +68,9 @@ public class StoreApiController implements StoreApi {
      * @return successful operation (status code 200)
      * @see StoreApi#getInventory
      */
-    public ResponseEntity<Map<String, Integer>> getInventory() {
+    public ResponseEntity<Map<String, Integer>> getInventory(
+        
+    ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -70,19 +85,23 @@ public class StoreApiController implements StoreApi {
      *         or Order not found (status code 404)
      * @see StoreApi#getOrderById
      */
-    public ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId) {
-        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
-                ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                break;
+    public ResponseEntity<Order> getOrderById(
+        @Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
             }
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
-                ApiUtil.setExampleResponse(request, "application/xml", exampleString);
-                break;
-            }
-        }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -95,19 +114,23 @@ public class StoreApiController implements StoreApi {
      *         or Invalid Order (status code 400)
      * @see StoreApi#placeOrder
      */
-    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body) {
-        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
-                ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                break;
+    public ResponseEntity<Order> placeOrder(
+        @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
             }
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
-                ApiUtil.setExampleResponse(request, "application/xml", exampleString);
-                break;
-            }
-        }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

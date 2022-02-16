@@ -11,15 +11,15 @@ test_that("{{{operationId}}}", {
   # tests for {{operationId}}
   # base path: {{{basePath}}}
   {{#summary}}
-  # {{summary}}
+  # {{.}}
   {{/summary}}
   {{#notes}}
-  # {{notes}}
+  # {{.}}
   {{/notes}}
 {{#allParams}}
   # @param {{{paramName}}} {{{dataType}}} {{{description}}}{{^required}} (optional){{/required}}
 {{/allParams}}
-  # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}]
+  # @return [{{{returnType}}}{{^returnType}}Void{{/returnType}}]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")

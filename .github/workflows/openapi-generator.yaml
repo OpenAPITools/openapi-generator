@@ -17,11 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 8
+          distribution: 'temurin'
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         env:
           cache-name: cache-maven-repository
         with:
@@ -38,7 +39,7 @@ jobs:
         run: mvn --no-snapshot-updates --batch-mode --quiet install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=error
       - run: ls -la  modules/openapi-generator-cli/target
       - name: Upload openapi-generator-cli.jar artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.3.1
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target/openapi-generator-cli.jar
@@ -52,11 +53,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 8
+          distribution: 'temurin'
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         env:
           cache-name: cache-maven-repository
         with:
@@ -73,7 +75,7 @@ jobs:
         run: mvn --no-snapshot-updates --batch-mode --quiet --fail-at-end test -Dorg.slf4j.simpleLogger.defaultLogLevel=error
       - name: Publish unit test reports
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.3.1
         with:
           name: surefire-test-results
           path: '**/surefire-reports/TEST-*.xml'
@@ -86,11 +88,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 8
+          distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v2.0.9
+        uses: actions/download-artifact@v2.1.0
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
@@ -124,11 +127,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 8
+          distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v2.0.9
+        uses: actions/download-artifact@v2.1.0
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
@@ -158,11 +162,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 11
+          distribution: 'temurin'
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         env:
           cache-name: cache-maven-repository
         with:
@@ -190,11 +195,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 11
+          distribution: 'temurin'
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         env:
           cache-name: cache-maven-repository
         with:
@@ -210,5 +216,6 @@ jobs:
             ${{ runner.os }}-test-gradle-plugin-
       - name: Run tests
         run: |
+          mvn --no-snapshot-updates --batch-mode --quiet install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=error
           (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
           (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)

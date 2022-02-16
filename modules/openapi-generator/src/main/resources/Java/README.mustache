@@ -8,7 +8,7 @@
 - Build date: {{generatedDate}}
 {{/hideGenerationTimestamp}}
 
-{{#appDescriptionWithNewLines}}{{{appDescriptionWithNewLines}}}{{/appDescriptionWithNewLines}}
+{{{appDescriptionWithNewLines}}}
 
 {{#infoUrl}}
   For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
@@ -20,8 +20,13 @@
 
 Building the API client library requires:
 
-1. Java {{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}+
+1. Java 1.8+
+{{#jersey2}}
+2. Maven (3.8.3+)/Gradle (7.2+)
+{{/jersey2}}
+{{^jersey2}}
 2. Maven/Gradle
+{{/jersey2}}
 
 ## Installation
 
@@ -57,7 +62,14 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "{{{groupId}}}:{{{artifactId}}}:{{{artifactVersion}}}"
+  repositories {
+    mavenCentral()     // Needed if the '{{{artifactId}}}' jar has been published to maven central.
+    mavenLocal()       // Needed if the '{{{artifactId}}}' jar has been published to the local maven repo.
+  }
+
+  dependencies {
+     implementation "{{{groupId}}}:{{{artifactId}}}:{{{artifactVersion}}}"
+  }
 ```
 
 ### Others
@@ -157,7 +169,7 @@ public class {{{classname}}}Example {
         {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
         {{/allParams}}
         try {
-            {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
+            {{#returnType}}{{{.}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
             System.out.println(result);{{/returnType}}
         } catch (ApiException e) {
             System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");
@@ -177,7 +189,7 @@ All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{commonPath}}{{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{commonPath}}{{path}} | {{summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ## Documentation for Models

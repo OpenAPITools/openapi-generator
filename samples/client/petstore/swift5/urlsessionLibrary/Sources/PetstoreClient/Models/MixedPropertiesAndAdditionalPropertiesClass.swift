@@ -10,12 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.MixedPropertiesAndAdditionalPropertiesClass")
-public typealias MixedPropertiesAndAdditionalPropertiesClass = PetstoreClient.MixedPropertiesAndAdditionalPropertiesClass
+@available(*, deprecated, renamed: "PetstoreClientAPI.MixedPropertiesAndAdditionalPropertiesClass")
+public typealias MixedPropertiesAndAdditionalPropertiesClass = PetstoreClientAPI.MixedPropertiesAndAdditionalPropertiesClass
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
-public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
+public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, JSONEncodable, Hashable {
 
     public var uuid: UUID?
     public var dateTime: Date?

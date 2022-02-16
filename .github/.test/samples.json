@@ -146,12 +146,6 @@
       ]
     },
     {
-      "input": "dart-jaguar-petstore.sh",
-      "matches": [
-        "Client: Dart"
-      ]
-    },
-    {
       "input": "dart-dio-petstore.sh",
       "matches": [
         "Client: Dart"
@@ -221,12 +215,6 @@
       "input": "scala-finch-petstore-server.sh",
       "matches": [
         "Server: Scala"
-      ]
-    },
-    {
-      "input": "flash-petstore.sh",
-      "matches": [
-        "Client: Flash/ActionScript"
       ]
     },
     {
@@ -723,18 +711,6 @@
       ]
     },
     {
-      "input": "nancyfx-petstore-server-async.sh",
-      "matches": [
-        "Server: C-Sharp"
-      ]
-    },
-    {
-      "input": "nancyfx-petstore-server.sh",
-      "matches": [
-        "Server: C-Sharp"
-      ]
-    },
-    {
       "input": "nodejs-petstore-google-cloud-functions.sh",
       "matches": [
         "Server: Nodejs"
@@ -940,24 +916,6 @@
     },
     {
       "input": "spring-delegate.sh",
-      "matches": [
-        "Server: Spring"
-      ]
-    },
-    {
-      "input": "spring-mvc-petstore-j8-async-server.sh",
-      "matches": [
-        "Server: Spring"
-      ]
-    },
-    {
-      "input": "spring-mvc-petstore-j8-localdatetime.sh",
-      "matches": [
-        "Server: Spring"
-      ]
-    },
-    {
-      "input": "spring-mvc-petstore-server.sh",
       "matches": [
         "Server: Spring"
       ]

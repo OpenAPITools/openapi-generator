@@ -18,7 +18,7 @@ import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
-} from './';
+} from './Animal';
 
 /**
  * 
@@ -76,5 +76,4 @@ export function MixedPropertiesAndAdditionalPropertiesClassToJSON(value?: MixedP
         'map': value.map === undefined ? undefined : (mapValues(value.map, AnimalToJSON)),
     };
 }
-
 

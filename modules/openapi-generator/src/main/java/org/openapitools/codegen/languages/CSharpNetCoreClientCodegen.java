@@ -19,7 +19,10 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -32,6 +35,9 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -39,6 +45,8 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 @SuppressWarnings("Duplicates")
 public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
+    protected String apiName = "Api";
+
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
     protected static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
     protected static final String SUPPORTS_UWP = "supportsUWP";
@@ -49,14 +57,15 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // HTTP libraries
     protected static final String RESTSHARP = "restsharp";
     protected static final String HTTPCLIENT = "httpclient";
+    protected static final String GENERICHOST = "generichost";
 
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_IDENTIFIER = "targetFrameworkIdentifier";
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_VERSION = "targetFrameworkVersion";
 
-    @SuppressWarnings({"hiding"})
-    private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+    @SuppressWarnings("hiding")
+    private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     private static final List<FrameworkStrategy> frameworkStrategies = Arrays.asList(
             FrameworkStrategy.NETSTANDARD_1_3,
             FrameworkStrategy.NETSTANDARD_1_4,
@@ -69,7 +78,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETCOREAPP_3_0,
             FrameworkStrategy.NETCOREAPP_3_1,
             FrameworkStrategy.NETFRAMEWORK_4_7,
-            FrameworkStrategy.NET_5_0
+            FrameworkStrategy.NET_5_0,
+            FrameworkStrategy.NET_6_0
     );
     private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
@@ -170,6 +180,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 "C# package name (convention: Title.Case).",
                 this.packageName);
 
+        addOption(CodegenConstants.API_NAME,
+                "Must be a valid C# class name. Only used in Generic Host library. Default: " + this.apiName, 
+                this.apiName);
+
         addOption(CodegenConstants.PACKAGE_VERSION,
                 "C# package version.",
                 this.packageVersion);
@@ -231,16 +245,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         // CLI Switches
         addSwitch(CodegenConstants.NULLABLE_REFERENCE_TYPES,
-                CodegenConstants.NULLABLE_REFERENCE_TYPES_DESC,
+                CodegenConstants.NULLABLE_REFERENCE_TYPES_DESC + " Starting in .NET 6.0 the default is true.",
                 this.nullReferenceTypesFlag);
 
         addSwitch(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC,
                 this.hideGenerationTimestamp);
-
-        addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
-                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC,
-                this.sortParamsByRequiredFlag);
 
         addSwitch(CodegenConstants.USE_DATETIME_OFFSET,
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
@@ -265,6 +275,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
                 CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
                 this.optionalEmitDefaultValuesFlag);
+            
+        addSwitch(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION,
+                CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION_DESC,
+                this.conditionalSerialization);
 
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE,
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
@@ -304,8 +318,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         regexModifiers.put('s', "Singleline");
         regexModifiers.put('x', "IgnorePatternWhitespace");
 
+        supportedLibraries.put(GENERICHOST, "HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) "
+                + "(Experimental. Subject to breaking changes without notice.)");
         supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
-                + "(Experimental. May subject to breaking changes without further notice.)");
+                + "(Experimental. Subject to breaking changes without notice.)");
         supportedLibraries.put(RESTSHARP, "RestSharp (https://github.com/restsharp/RestSharp)");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
@@ -318,7 +334,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+        if (GENERICHOST.equals(getLibrary())){
+            return (outputFolder + "/" + apiDocPath + File.separatorChar + "apis").replace('/', File.separatorChar);
+        }else{
+            return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+        }
     }
 
     @Override
@@ -373,6 +393,40 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                     codegenModel.readWriteVars.remove(i);
                 }
             }
+        }
+
+        // avoid breaking changes
+        if (GENERICHOST.equals(getLibrary())){
+            Comparator<CodegenProperty> comparatorByDefaultValue = new Comparator<CodegenProperty>() {
+            @Override
+                public int compare(CodegenProperty one, CodegenProperty another) {
+                    if (one.defaultValue == another.defaultValue) 
+                        return 0;
+                    else if (Boolean.FALSE.equals(one.defaultValue)) 
+                        return -1;
+                    else 
+                        return 1;
+                }
+            };
+
+            Comparator<CodegenProperty> comparatorByRequired = new Comparator<CodegenProperty>() {
+                @Override
+                public int compare(CodegenProperty one, CodegenProperty another) {
+                    if (one.required == another.required) 
+                        return 0;
+                    else if (Boolean.TRUE.equals(one.required))
+                        return -1;
+                    else 
+                        return 1;
+                }
+            };
+
+            Collections.sort(codegenModel.vars, comparatorByDefaultValue);
+            Collections.sort(codegenModel.vars, comparatorByRequired);
+            Collections.sort(codegenModel.allVars, comparatorByDefaultValue);
+            Collections.sort(codegenModel.allVars, comparatorByRequired);
+            Collections.sort(codegenModel.readWriteVars, comparatorByDefaultValue);
+            Collections.sort(codegenModel.readWriteVars, comparatorByRequired);
         }
 
         return codegenModel;
@@ -448,7 +502,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+        if (GENERICHOST.equals(getLibrary())){
+            return (outputFolder + "/" + modelDocPath + File.separator + "models").replace('/', File.separatorChar);
+        }else{
+            return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+        }
     }
 
     @Override
@@ -462,33 +520,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         postProcessEmitDefaultValue(property.vendorExtensions);
 
         super.postProcessModelProperty(model, property);
-    }
-
-    @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        super.postProcessOperationsWithModels(objs, allModels);
-        if (objs != null) {
-            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-            if (operations != null) {
-                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-                for (CodegenOperation operation : ops) {
-                    if (operation.returnType != null) {
-                        operation.returnContainer = operation.returnType;
-                        if (this.returnICollection && (
-                                operation.returnType.startsWith("List") ||
-                                        operation.returnType.startsWith("Collection"))) {
-                            // NOTE: ICollection works for both List<T> and Collection<T>
-                            int genericStart = operation.returnType.indexOf("<");
-                            if (genericStart > 0) {
-                                operation.returnType = "ICollection" + operation.returnType.substring(genericStart);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return objs;
     }
 
     @Override
@@ -570,8 +601,24 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValuesFlag);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION)) {
+            setConditionalSerialization(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION, conditionalSerialization);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+        }
+
+        if (additionalProperties.containsKey((CodegenConstants.LICENSE_ID))) {
+            setLicenseId((String) additionalProperties.get(CodegenConstants.LICENSE_ID));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.API_NAME)) {
+            setApiName((String) additionalProperties.get(CodegenConstants.API_NAME));
+        } else {
+            additionalProperties.put(CodegenConstants.API_NAME, apiName);
         }
 
         if (isEmpty(apiPackage)) {
@@ -583,7 +630,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         clientPackage = "Client";
 
-        if (RESTSHARP.equals(getLibrary())) {
+        if (GENERICHOST.equals(getLibrary())){
+            setLibrary(GENERICHOST);
+            additionalProperties.put("useGenericHost", true);
+            // all c# libraries should be doing this, but we only do it here to avoid breaking changes
+            this.setSortModelPropertiesByRequiredFlag(true);
+        } else if (RESTSHARP.equals(getLibrary())) {
             additionalProperties.put("useRestSharp", true);
             needsCustomHttpMethod = true;
         } else if (HTTPCLIENT.equals(getLibrary())) {
@@ -640,11 +692,17 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         if (!netStandard) {
             setNetCoreProjectFileFlag(true);
-        }
 
-        if (additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
-            LOGGER.warn("{} is not supported in the .NET Standard generator.", CodegenConstants.GENERATE_PROPERTY_CHANGED);
-            additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
+            if (!additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES) && !strategies.stream().anyMatch(s -> 
+                        s.equals(FrameworkStrategy.NETCOREAPP_2_0) ||
+                        s.equals(FrameworkStrategy.NETCOREAPP_2_1) ||
+                        s.equals(FrameworkStrategy.NETCOREAPP_3_0) ||
+                        s.equals(FrameworkStrategy.NETCOREAPP_3_1) ||
+                        s.equals(FrameworkStrategy.NET_5_0) ||
+                        s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))) {
+                // starting in .net 6.0, NRT is enabled by default. If not specified, lets enable NRT to match the framework's default
+                setNullableReferenceTypes(true);
+            }
         }
 
         final AtomicReference<Boolean> excludeTests = new AtomicReference<>();
@@ -685,11 +743,97 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         binRelativePath += "vendor";
         additionalProperties.put("binRelativePath", binRelativePath);
 
+        // Only write out test related files if excludeTests is unset or explicitly set to false (see start of this method)
+        if (Boolean.FALSE.equals(excludeTests.get())) {
+            modelTestTemplateFiles.put("model_test.mustache", ".cs");
+            apiTestTemplateFiles.put("api_test.mustache", ".cs");
+        }
+
         if(HTTPCLIENT.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
             typeMapping.put("file", "FileParameter");
+            addRestSharpSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
+            additionalProperties.put("apiDocPath", apiDocPath);
+            additionalProperties.put("modelDocPath", modelDocPath);
+        }
+        else if (GENERICHOST.equals(getLibrary())){
+            addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
+            additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
+            additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
+        }
+        else{
+            addRestSharpSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
+            additionalProperties.put("apiDocPath", apiDocPath);
+            additionalProperties.put("modelDocPath", modelDocPath);
         }
 
+        addTestInstructions();
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path,
+                                          String httpMethod,
+                                          Operation operation,
+                                          List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+
+        if (!GENERICHOST.equals(getLibrary())){
+            return op;
+        }
+
+        Collections.sort(op.allParams, new Comparator<CodegenParameter>() {
+            @Override
+            public int compare(CodegenParameter one, CodegenParameter another) {
+                if (one.defaultValue == another.defaultValue)
+                    return 0;
+                else if (Boolean.FALSE.equals(one.defaultValue))
+                    return -1;
+                else
+                    return 1;
+            }
+        });
+
+        Collections.sort(op.allParams, new Comparator<CodegenParameter>() {
+            @Override
+            public int compare(CodegenParameter one, CodegenParameter another) {
+                if (one.required == another.required)
+                    return 0;
+                else if (Boolean.TRUE.equals(one.required))
+                    return -1;
+                else
+                    return 1;
+            }
+        });
+
+        return op;
+    }
+
+    private void addTestInstructions(){
+        if (GENERICHOST.equals(getLibrary())){
+            additionalProperties.put("testInstructions", 
+                    "/* *********************************************************************************" +
+                    "\n*              Follow these manual steps to construct tests." +
+                    "\n*              This file will not be overwritten." +
+                    "\n*  *********************************************************************************" +
+                    "\n* 1. Navigate to ApiTests.Base.cs and ensure any tokens are being created correctly." +
+                    "\n*    Take care not to commit credentials to any repository." +
+                    "\n*" +
+                    "\n* 2. Mocking is coordinated by ApiTestsBase#AddApiHttpClients." +
+                    "\n*    To mock the client, use the generic AddApiHttpClients." +
+                    "\n*    To mock the server, change the client's BaseAddress." +
+                    "\n*" +
+                    "\n* 3. Locate the test you want below" +
+                    "\n*      - remove the skip property from the Fact attribute" +
+                    "\n*      - set the value of any variables if necessary" +
+                    "\n*" +
+                    "\n* 4. Run the tests and ensure they work." +
+                    "\n*" +
+                    "\n*/");
+        }
+    }
+
+    public void addRestSharpSupportingFiles(final String clientPackageDir, final String packageFolder, 
+                final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir){
         supportingFiles.add(new SupportingFile("IApiAccessor.mustache", clientPackageDir, "IApiAccessor.cs"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));
@@ -723,12 +867,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("GlobalConfiguration.mustache",
                 clientPackageDir, "GlobalConfiguration.cs"));
 
-        // Only write out test related files if excludeTests is unset or explicitly set to false (see start of this method)
-        if (Boolean.FALSE.equals(excludeTests.get())) {
-            modelTestTemplateFiles.put("model_test.mustache", ".cs");
-            apiTestTemplateFiles.put("api_test.mustache", ".cs");
-        }
-
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
@@ -742,9 +880,64 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
         supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
+    }
 
-        additionalProperties.put("apiDocPath", apiDocPath);
-        additionalProperties.put("modelDocPath", modelDocPath);
+    public void addGenericHostSupportingFiles(final String clientPackageDir, final String packageFolder, 
+            final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir){
+        supportingFiles.add(new SupportingFile("TokenProvider`1.mustache", clientPackageDir, "TokenProvider`1.cs"));
+        supportingFiles.add(new SupportingFile("RateLimitProvider`1.mustache", clientPackageDir, "RateLimitProvider`1.cs"));
+        supportingFiles.add(new SupportingFile("TokenContainer`1.mustache", clientPackageDir, "TokenContainer`1.cs"));
+        supportingFiles.add(new SupportingFile("TokenBase.mustache", clientPackageDir, "TokenBase.cs"));
+        supportingFiles.add(new SupportingFile("ApiException.mustache", clientPackageDir, "ApiException.cs"));
+        supportingFiles.add(new SupportingFile("ApiResponse`1.mustache", clientPackageDir, "ApiResponse`1.cs"));
+        supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
+        supportingFiles.add(new SupportingFile("HostConfiguration.mustache", clientPackageDir, "HostConfiguration.cs"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "docs" + File.separator + "scripts", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("git_push.ps1.mustache", "docs" + File.separator + "scripts", "git_push.ps1"));
+        // TODO: supportingFiles.add(new SupportingFile("generate.ps1.mustache", "docs" + File.separator + "scripts", "generate.ps1"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
+        supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
+        supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
+        supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
+        supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
+        supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
+        supportingFiles.add(new SupportingFile("IApi.mustache", clientPackageDir, getInterfacePrefix() + "Api.cs"));
+
+        String apiTestFolder = testFolder + File.separator + testPackageName() + File.separator + apiPackage();
+
+        if (Boolean.FALSE.equals(excludeTests.get())) {
+            supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
+            supportingFiles.add(new SupportingFile("DependencyInjectionTests.mustache", apiTestFolder, "DependencyInjectionTests.cs"));
+
+            // do not overwrite test file that already exists
+            File apiTestsBaseFile = new File(apiTestFileFolder() + File.separator + "ApiTestsBase.cs");
+            if (!apiTestsBaseFile.exists()) {
+                supportingFiles.add(new SupportingFile("ApiTestsBase.mustache", apiTestFolder, "ApiTestsBase.cs"));
+            }
+        }
+
+        if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("HttpSigningConfiguration.mustache", clientPackageDir, "HttpSigningConfiguration.cs"));
+            supportingFiles.add(new SupportingFile("HttpSigningToken.mustache", clientPackageDir, "HttpSigningToken.cs"));
+        }
+
+        if (ProcessUtils.hasHttpBasicMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("BasicToken.mustache", clientPackageDir, "BasicToken.cs"));
+        }
+
+        if (ProcessUtils.hasOAuthMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("OAuthToken.mustache", clientPackageDir, "OAuthToken.cs"));
+        }
+
+        if (ProcessUtils.hasHttpBearerMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("BearerToken.mustache", clientPackageDir, "BearerToken.cs"));
+        }
+
+        if (ProcessUtils.hasApiKeyMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("ApiKeyToken.mustache", clientPackageDir, "ApiKeyToken.cs"));
+        }
     }
 
     public void setNetStandard(Boolean netStandard) {
@@ -759,6 +952,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.optionalEmitDefaultValuesFlag = flag;
     }
 
+    public void setConditionalSerialization(boolean flag){
+        this.conditionalSerialization = flag;
+    }
+
     public void setOptionalProjectFileFlag(boolean flag) {
         this.optionalProjectFileFlag = flag;
     }
@@ -767,10 +964,25 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.packageGuid = packageGuid;
     }
 
+    // TODO: this does the same as super
+    @Override
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
 
+    /** 
+     * Sets the api name. This value must be a valid class name.
+     * @param apiName The api name
+    */
+    public void setApiName(String apiName) {
+        if (!"".equals(apiName) && (Boolean.FALSE.equals(apiName.matches("^[a-zA-Z0-9_]*$")) || Boolean.FALSE.equals(apiName.matches("^[a-zA-Z].*")))){
+            throw new RuntimeException("Invalid project name " + apiName + ". May only contain alphanumeric characaters or underscore and start with a letter.");
+        }
+        this.apiName = apiName;
+    }
+
+    // TODO: this does the same as super
+    @Override
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
     }
@@ -841,6 +1053,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.licenseId = licenseId;
     }
 
+    @Override
     public void setReleaseNote(String releaseNote) {
         this.releaseNote = releaseNote;
     }
@@ -900,7 +1113,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         // sanitize name
         name = sanitizeName(name);
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -910,6 +1123,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
+        }
+
+        // for function names in the model, escape with the "Property" prefix
+        if (propertySpecialKeywords.contains(name)) {
+            return camelize("property_" + name);
         }
 
         return name;
@@ -931,15 +1149,15 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
             // Iterate over all of the parent model properties
             boolean removedChildEnum = false;
-            for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
+            for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
                 // Look for enums
-                if (parentModelCodegenPropery.isEnum) {
+                if (parentModelCodegenProperty.isEnum) {
                     // Now that we have found an enum in the parent class,
                     // and search the child class for the same enum.
                     Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                     while (iterator.hasNext()) {
                         CodegenProperty codegenProperty = iterator.next();
-                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
+                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
                             // We found an enum in the child class that is
                             // a duplicate of the one in the parent, so remove it.
                             iterator.remove();
@@ -978,29 +1196,34 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // https://docs.microsoft.com/en-us/dotnet/standard/net-standard
     @SuppressWarnings("Duplicates")
     private static abstract class FrameworkStrategy {
-        static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "netcoreapp2.0") {
+
+        private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+
+        static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "netcoreapp3.1") {
         };
-        static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4 compatible", "netcoreapp2.0") {
+        static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4 compatible", "netcoreapp3.1") {
         };
-        static FrameworkStrategy NETSTANDARD_1_5 = new FrameworkStrategy("netstandard1.5", ".NET Standard 1.5 compatible", "netcoreapp2.0") {
+        static FrameworkStrategy NETSTANDARD_1_5 = new FrameworkStrategy("netstandard1.5", ".NET Standard 1.5 compatible", "netcoreapp3.1") {
         };
-        static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6 compatible", "netcoreapp2.0") {
+        static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6 compatible", "netcoreapp3.1") {
         };
-        static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0 compatible", "netcoreapp2.0") {
+        static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0 compatible", "netcoreapp3.1") {
         };
-        static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1 compatible", "netcoreapp3.0") {
+        static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1 compatible", "netcoreapp3.1") {
         };
-        static FrameworkStrategy NETCOREAPP_2_0 = new FrameworkStrategy("netcoreapp2.0", ".NET Core 2.0 compatible", "netcoreapp2.0", Boolean.FALSE) {
+        static FrameworkStrategy NETCOREAPP_2_0 = new FrameworkStrategy("netcoreapp2.0", ".NET Core 2.0 compatible (deprecated)", "netcoreapp2.0", Boolean.FALSE) {
         };
-        static FrameworkStrategy NETCOREAPP_2_1 = new FrameworkStrategy("netcoreapp2.1", ".NET Core 2.1 compatible", "netcoreapp2.1", Boolean.FALSE) {
+        static FrameworkStrategy NETCOREAPP_2_1 = new FrameworkStrategy("netcoreapp2.1", ".NET Core 2.1 compatible (deprecated)", "netcoreapp2.1", Boolean.FALSE) {
         };
-        static FrameworkStrategy NETCOREAPP_3_0 = new FrameworkStrategy("netcoreapp3.0", ".NET Core 3.0 compatible", "netcoreapp3.0", Boolean.FALSE) {
+        static FrameworkStrategy NETCOREAPP_3_0 = new FrameworkStrategy("netcoreapp3.0", ".NET Core 3.0 compatible (deprecated)", "netcoreapp3.0", Boolean.FALSE) {
         };
         static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible", "netcoreapp3.1", Boolean.FALSE) {
         };
         static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7 compatible", "net47", Boolean.FALSE) {
         };
         static FrameworkStrategy NET_5_0 = new FrameworkStrategy("net5.0", ".NET 5.0 compatible", "net5.0", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NET_6_0 = new FrameworkStrategy("net6.0", ".NET 6.0 compatible", "net6.0", Boolean.FALSE) {
         };
         protected String name;
         protected String description;
@@ -1066,6 +1289,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         properties.putIfAbsent(MCS_NET_VERSION_KEY, "4.6-api");
 
         properties.put(NET_STANDARD, strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
+        for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
+            properties.put(frameworkStrategy.name, strategies.stream().anyMatch(s -> s.name.equals(frameworkStrategy.name)));
+        }
     }
 
     /**
@@ -1103,16 +1329,16 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
+            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("Null")) {
                 // if oneOf contains "null" type
                 cm.isNullable = true;
-                cm.oneOf.remove("ModelNull");
+                cm.oneOf.remove("Null");
             }
 
-            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
+            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("Null")) {
                 // if anyOf contains "null" type
                 cm.isNullable = true;
-                cm.anyOf.remove("ModelNull");
+                cm.anyOf.remove("Null");
             }
         }
 
@@ -1129,5 +1355,31 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
         System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
         System.out.println("################################################################################");
+    }
+
+    @Override
+    protected void updateModelForObject(CodegenModel m, Schema schema) {
+        /**
+         * we have a custom version of this function so we only set isMap to true if
+         * ModelUtils.isMapSchema
+         * In other generators, isMap is true for all type object schemas
+         */
+        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+            // passing null to allProperties and allRequired as there's no parent
+            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+        }
+        if (ModelUtils.isMapSchema(schema)) {
+            // an object or anyType composed schema that has additionalProperties set
+            addAdditionPropertiesToCodeGenModel(m, schema);
+        } else {
+            m.setIsMap(false);
+            if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+                // non-composed object type with no properties + additionalProperties
+                // additionalProperties must be null, ObjectSchema, or empty Schema
+                addAdditionPropertiesToCodeGenModel(m, schema);
+            }
+        }
+        // process 'additionalProperties'
+        setAddProps(schema, m);
     }
 }

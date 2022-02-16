@@ -26,6 +26,7 @@ docs/Client.md
 docs/ComplexQuadrilateral.md
 docs/DanishPig.md
 docs/DefaultApi.md
+docs/DeprecatedObject.md
 docs/Dog.md
 docs/DogAllOf.md
 docs/Drawing.md
@@ -51,11 +52,14 @@ docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/ModelApiResponse.md
+docs/ModelFile.md
+docs/ModelList.md
 docs/ModelReturn.md
 docs/Name.md
 docs/NullableClass.md
 docs/NullableShape.md
 docs/NumberOnly.md
+docs/ObjectWithDeprecatedFields.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
@@ -138,6 +142,7 @@ src/main/java/org/openapitools/client/model/ClassModel.java
 src/main/java/org/openapitools/client/model/Client.java
 src/main/java/org/openapitools/client/model/ComplexQuadrilateral.java
 src/main/java/org/openapitools/client/model/DanishPig.java
+src/main/java/org/openapitools/client/model/DeprecatedObject.java
 src/main/java/org/openapitools/client/model/Dog.java
 src/main/java/org/openapitools/client/model/DogAllOf.java
 src/main/java/org/openapitools/client/model/Drawing.java
@@ -161,11 +166,14 @@ src/main/java/org/openapitools/client/model/MapTest.java
 src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Model200Response.java
 src/main/java/org/openapitools/client/model/ModelApiResponse.java
+src/main/java/org/openapitools/client/model/ModelFile.java
+src/main/java/org/openapitools/client/model/ModelList.java
 src/main/java/org/openapitools/client/model/ModelReturn.java
 src/main/java/org/openapitools/client/model/Name.java
 src/main/java/org/openapitools/client/model/NullableClass.java
 src/main/java/org/openapitools/client/model/NullableShape.java
 src/main/java/org/openapitools/client/model/NumberOnly.java
+src/main/java/org/openapitools/client/model/ObjectWithDeprecatedFields.java
 src/main/java/org/openapitools/client/model/Order.java
 src/main/java/org/openapitools/client/model/OuterComposite.java
 src/main/java/org/openapitools/client/model/OuterEnum.java

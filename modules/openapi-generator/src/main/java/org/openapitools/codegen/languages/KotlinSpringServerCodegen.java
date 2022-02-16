@@ -16,7 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap.Builder;
+import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
@@ -43,7 +43,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         implements BeanValidationFeatures {
 
-    private static Logger LOGGER =
+    private final Logger LOGGER =
             LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
 
     private static final HashSet<String> VARIABLE_RESERVED_WORDS =
@@ -275,6 +275,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public void processOpts() {
         super.processOpts();
 
+        if (isModelMutable()) {
+            typeMapping.put("array", "kotlin.collections.MutableList");
+            typeMapping.put("list", "kotlin.collections.MutableList");
+            typeMapping.put("set", "kotlin.collections.MutableSet");
+            typeMapping.put("map", "kotlin.collections.MutableMap");
+        }
+
         // optional jackson mappings for BigDecimal support
         importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
         importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
@@ -379,7 +386,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         } else if (interfaceOnly) {
             apiTemplateFiles.put("apiInterface.mustache", ".kt");
         } else {
-            apiTemplateFiles.put("api.mustache", ".kt");
+            apiTemplateFiles.put("api.mustache", "Controller.kt");
             apiTestTemplateFiles.put("api_test.mustache", ".kt");
         }
 
@@ -437,7 +444,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     @Override
-    protected Builder<String, Lambda> addMustacheLambdas() {
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("escapeDoubleQuote", new EscapeLambda("\"", "\\\""));
     }
@@ -454,7 +461,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 basePath = basePath.substring(0, pos);
             }
 
-            if (basePath.equals("")) {
+            if (basePath.isEmpty()) {
                 basePath = "default";
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
@@ -541,10 +548,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 .forEach(cm -> {
                     cm.imports.add(importMapping.get("JsonValue"));
                     cm.imports.add(importMapping.get("JsonProperty"));
-                    Map<String, String> item = new HashMap<>();
-                    item.put("import", importMapping.get("JsonValue"));
-                    item.put("import", importMapping.get("JsonProperty"));
-                    imports.add(item);
+                    Map<String, String> itemJsonValue = new HashMap<>();
+                    itemJsonValue.put("import", importMapping.get("JsonValue"));
+                    imports.add(itemJsonValue);
+                    Map<String, String> itemJsonProperty = new HashMap<>();
+                    itemJsonProperty.put("import", importMapping.get("JsonProperty"));
+                    imports.add(itemJsonProperty);
                 });
 
         return objs;
@@ -564,6 +573,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                             resp.code = "200";
                         }
 
+                        // This is necessary in case 'modelMutable' is enabled,
+                        // to prevent Spring Request handlers from being generated with
+                        // the ApiResponse annotation configured with the Mutable container type.
+                        // See https://github.com/OpenAPITools/openapi-generator/pull/11154#discussion_r793108068
+                        resp.baseType = getNonMutableContainerTypeIfNeeded(resp.baseType);
+
                         doDataTypeAssignment(resp.dataType, new DataTypeAssigner() {
                             @Override
                             public void setReturnType(final String returnType) {
@@ -577,6 +592,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         });
                     });
                 }
+
+                final List<CodegenParameter> allParams = operation.allParams;
+                if (allParams != null) {
+                    allParams.forEach(param ->
+                        // This is necessary in case 'modelMutable' is enabled,
+                        // to prevent Spring Request handlers from being generated with
+                        // parameters using their Mutable container types.
+                        // See https://github.com/OpenAPITools/openapi-generator/pull/11154#discussion_r793094727
+                        param.dataType = getNonMutableContainerTypeIfNeeded(param.dataType));
+                }
+
                 doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {
 
                     @Override
@@ -598,6 +624,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return objs;
     }
 
+    private String getNonMutableContainerTypeIfNeeded(String type) {
+        if (type != null && type.contains("kotlin.collections.Mutable")) {
+            return type.replaceAll("kotlin\\.collections\\.Mutable", "kotlin.collections.");
+        }
+        return type;
+    }
+
     private interface DataTypeAssigner {
         void setReturnType(String returnType);
 
@@ -617,10 +650,22 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.List<".length(), end).trim());
                 dataTypeAssigner.setReturnContainer("List");
             }
+        } else if (returnType.startsWith("kotlin.collections.MutableList")) {
+            int end = returnType.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableList<".length(), end).trim());
+                dataTypeAssigner.setReturnContainer("List");
+            }
         } else if (returnType.startsWith("kotlin.collections.Map")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {
                 dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.Map<".length(), end).split(",")[1].trim());
+                dataTypeAssigner.setReturnContainer("Map");
+            }
+        } else if (returnType.startsWith("kotlin.collections.MutableMap")) {
+            int end = returnType.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableMap<".length(), end).split(",")[1].trim());
                 dataTypeAssigner.setReturnContainer("Map");
             }
         }

@@ -1,0 +1,32 @@
+base-path: "http://petstore.swagger.io:80/v2/"
+context-path: "/v2/"
+
+micronaut:
+    application:
+        name: petstore-micronaut
+    # TODO configure security features
+    security:
+        oauth2:
+            clients:
+                # An example of how oauth client is filled
+                # name:
+                #     grant-type: authorization_code | client_credentials
+                #     scopes: []
+                # token:
+                #     auth-method: client_secret_basic
+                #     url: "https://"
+                # client-id:
+                # client-secret
+        # An example of how to apply other authorization methods
+        # authentication: bearer | cookie | session
+
+
+
+jackson:
+    serialization:
+        writeEnumsUsingToString: true
+        writeDatesAsTimestamps: false
+    deserialization:
+        readEnumsUsingToString: true
+        failOnUnknownProperties: false
+        failOnInvalidSubtype: false

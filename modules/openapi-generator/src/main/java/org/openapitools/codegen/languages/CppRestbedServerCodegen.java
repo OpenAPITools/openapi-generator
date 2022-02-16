@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
@@ -32,8 +31,6 @@ import java.util.Map.Entry;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
-
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CppRestbedServerCodegen.class);
 
     public static final String DECLSPEC = "declspec";
     public static final String DEFAULT_INCLUDE = "defaultInclude";
@@ -96,10 +93,10 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("date", "std::string");
         typeMapping.put("DateTime", "std::string");
         typeMapping.put("string", "std::string");
@@ -116,7 +113,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
 
-        super.importMapping = new HashMap<String, String>();
+        super.importMapping = new HashMap<>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
         importMapping.put("std::string", "#include <string>");
@@ -132,7 +129,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         // Clean interfaces of ambiguity
         for (Entry<String, CodegenModel> cm : allModels.entrySet()) {
             if (cm.getValue().getInterfaces() != null && !cm.getValue().getInterfaces().isEmpty()) {
-                List<String> newIntf = new ArrayList<String>(cm.getValue().getInterfaces());
+                List<String> newIntf = new ArrayList<>(cm.getValue().getInterfaces());
 
                 for (String intf : allModels.get(cm.getKey()).getInterfaces()) {
                     if (allModels.get(intf).getInterfaces() != null && !allModels.get(intf).getInterfaces().isEmpty()) {
@@ -175,6 +172,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
      *
      * @return the CodegenType for this generator
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -185,6 +183,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "cpp-restbed-server";
     }
@@ -195,6 +194,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a C++ API Server with Restbed (https://github.com/Corvusoft/restbed).";
     }
@@ -228,6 +228,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
      * Location to write model files. You can use the modelPackage() as defined
      * when the class is instantiated
      */
+    @Override
     public String modelFileFolder() {
         return (outputFolder + "/model").replace("/", File.separator);
     }
@@ -255,7 +256,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         CodegenModel codegenModel = super.fromModel(name, model);
 
         Set<String> oldImports = codegenModel.imports;
-        codegenModel.imports = new HashSet<String>();
+        codegenModel.imports = new HashSet<>();
         for (String imp : oldImports) {
             String newImp = toModelImport(imp);
             if (!newImp.isEmpty()) {
@@ -284,7 +285,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-        List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();
+        List<CodegenOperation> newOpList = new ArrayList<>();
 
         for (CodegenOperation op : operationList) {
             String path = op.path;
@@ -314,13 +315,14 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 if (!foundInNewList) {
                     if (op1.path.equals(op.path)) {
                         foundInNewList = true;
-                        List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get("x-codegen-otherMethods");
+                        final String X_CODEGEN_OTHER_METHODS = "x-codegen-other-methods";
+                        List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get(X_CODEGEN_OTHER_METHODS);
                         if (currentOtherMethodList == null) {
-                            currentOtherMethodList = new ArrayList<CodegenOperation>();
+                            currentOtherMethodList = new ArrayList<>();
                         }
                         op.operationIdCamelCase = op1.operationIdCamelCase;
                         currentOtherMethodList.add(op);
-                        op1.vendorExtensions.put("x-codegen-other-methods", currentOtherMethodList);
+                        op1.vendorExtensions.put(X_CODEGEN_OTHER_METHODS, currentOtherMethodList);
                     }
                 }
             }

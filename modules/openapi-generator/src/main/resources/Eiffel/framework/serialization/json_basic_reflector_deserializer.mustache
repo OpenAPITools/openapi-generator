@@ -50,7 +50,7 @@ feature -- Cleaning
 			fields_infos_by_type_id := Void
 		end
 
-feature {NONE} -- Helpers	: Array	
+feature {NONE} -- Helpers	: Array
 
 	reference_from_json_array (a_json: JSON_ARRAY; ctx: JSON_DESERIALIZER_CONTEXT; a_type: detachable TYPE [detachable ANY]): detachable ANY
 		do
@@ -263,7 +263,7 @@ feature {NONE} -- Helpers	: Array
 			end
 		end
 
-feature {NONE} -- Helpers: Object		
+feature {NONE} -- Helpers: Object
 
 	type_name_from_json_object (a_json_object: JSON_OBJECT): detachable READABLE_STRING_32
 		do
@@ -282,7 +282,7 @@ feature {NONE} -- Helpers: Object
 			l_field_static_types: like fields_infos
 		do
 			if Result = Void then
-					-- Updated to use the Type info insted of the type_field in JSON.
+					-- Updated to use the Type info instead of the type_field in JSON.
 					--  fn.same_string ({JSON_REFLECTOR_SERIALIZER}.type_field_name
 				if attached a_type then
 					l_type_name := a_type.name.to_string_8
@@ -364,7 +364,7 @@ feature {NONE} -- Helpers: Object
 			end
 		end
 
-feature {NONE} -- Helpers: Basic values		
+feature {NONE} -- Helpers: Basic values
 
 	boolean_from_json (v: JSON_VALUE): BOOLEAN
 		do

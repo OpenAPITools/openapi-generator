@@ -326,4 +326,11 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         return input.replace("-ifdef", "- if def").replace("-endif", "- end if");
     }
 
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
 }

@@ -136,6 +136,11 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
     {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isFreeFormObject}}
+    {{/isModel}}
     {{#isUuid}}
     {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isUuid}}
@@ -164,7 +169,7 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isByteArray}}
     {{#isBinary}}
     {{datatype}} {{name}}{{^-last}},{{/-last}}
@@ -220,6 +225,14 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     }
     {{/isEnum}}
     {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    if ({{{classname}}}->{{{name}}}) {
+        {{{complexType}}}_free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
+    {{/isFreeFormObject}}
+    {{/isModel}}
     {{#isUuid}}
     if ({{{classname}}}->{{{name}}}) {
         free({{{classname}}}->{{{name}}});
@@ -248,6 +261,12 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     }
     {{/isString}}
     {{/isEnum}}
+    {{#isByteArray}}
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
+    {{/isByteArray}}
     {{#isBinary}}
     if ({{{classname}}}->{{{name}}}) {
         free({{{classname}}}->{{{name}}}->data);
@@ -275,7 +294,7 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
         list_ForEach(listEntry, {{classname}}->{{name}}) {
             free(listEntry->data);
         }
-        list_free({{classname}}->{{name}});
+        list_freeList({{classname}}->{{name}});
         {{classname}}->{{name}} = NULL;
     }
     {{/isPrimitiveType}}
@@ -284,7 +303,7 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
         list_ForEach(listEntry, {{classname}}->{{name}}) {
             {{complexType}}_free(listEntry->data);
         }
-        list_free({{classname}}->{{name}});
+        list_freeList({{classname}}->{{name}});
         {{classname}}->{{name}} = NULL;
     }
     {{/isPrimitiveType}}
@@ -297,7 +316,7 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
             free (localKeyValue->value);
             keyValuePair_free(localKeyValue);
         }
-        list_free({{classname}}->{{name}});
+        list_freeList({{classname}}->{{name}});
         {{classname}}->{{name}} = NULL;
     }
     {{/isMap}}
@@ -347,8 +366,8 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
-    goto fail; //Byte
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
+    goto fail; //ByteArray
     }
     {{/isByteArray}}
     {{#isBinary}}
@@ -391,6 +410,18 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     goto fail;
     }
     {{/isEnum}}
+    {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    cJSON *{{{name}}}_local_JSON = {{complexType}}_convertToJSON({{{classname}}}->{{{name}}});
+    if({{{name}}}_local_JSON == NULL) {
+        goto fail; // custom
+    }
+    cJSON_AddItemToObject(item, "{{{baseName}}}", {{{name}}}_local_JSON);
+    if(item->child == NULL) {
+        goto fail;
+    }
+    {{/isFreeFormObject}}
     {{/isModel}}
     {{#isUuid}}
     if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
@@ -481,6 +512,12 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
             goto fail;
         }
         {{/isString}}
+        {{#isByteArray}}
+        if(cJSON_AddStringToObject(localMapObject, localKeyValue->key, (char*)localKeyValue->value) == NULL)
+        {
+            goto fail;
+        }
+        {{/isByteArray}}
         {{#isNumeric}}
         if(cJSON_AddNumberToObject(localMapObject, localKeyValue->key, *(double *)localKeyValue->value) == NULL)
         {
@@ -515,6 +552,26 @@ fail:
 
     {{classname}}_t *{{classname}}_local_var = NULL;
 
+    {{#vars}}
+    {{^isContainer}}
+    {{^isPrimitiveType}}
+    {{#isModel}}
+    {{^isEnum}}
+    // define the local variable for {{{classname}}}->{{{name}}}
+    {{^isFreeFormObject}}{{complexType}}{{/isFreeFormObject}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_t *{{name}}_local_nonprim = NULL;
+
+    {{/isEnum}}
+    {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    // define the local variable for {{{classname}}}->{{{name}}}
+    {{complexType}}_t *{{name}}_local_nonprim = NULL;
+
+    {{/isFreeFormObject}}
+    {{/isModel}}
+    {{/isPrimitiveType}}
+    {{/isContainer}}
+    {{/vars}}
     {{#vars}}
     // {{{classname}}}->{{{name}}}
     cJSON *{{{name}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
@@ -562,9 +619,9 @@ fail:
     {{/isEnum}}
     {{#isByteArray}}
     {{^required}}if ({{{name}}}) { {{/required}}
-    if(!cJSON_IsNumber({{{name}}}))
+    if(!cJSON_IsString({{{name}}}))
     {
-    goto end; //Byte
+    goto end; //ByteArray
     }
     {{/isByteArray}}
     {{#isBinary}}
@@ -602,10 +659,15 @@ fail:
     {{{name}}}_local_nonprim_enum = {{datatypeWithEnum}}_parseFromJSON({{{name}}}); //enum model
     {{/isEnum}}
     {{^isEnum}}
-    {{^isFreeFormObject}}{{complexType}}{{/isFreeFormObject}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_t *{{name}}_local_nonprim = NULL;
     {{^required}}if ({{{name}}}) { {{/required}}
     {{{name}}}_local_nonprim = {{complexType}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_parseFromJSON({{{name}}}); //nonprimitive
     {{/isEnum}}
+    {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    {{^required}}if ({{{name}}}) { {{/required}}
+    {{{name}}}_local_nonprim = {{complexType}}_parseFromJSON({{{name}}}); //custom
+    {{/isFreeFormObject}}
     {{/isModel}}
     {{#isUuid}}
     {{^required}}if ({{{name}}}) { {{/required}}
@@ -637,7 +699,7 @@ fail:
     if(!cJSON_IsArray({{{name}}})) {
         goto end;//primitive container
     }
-    {{{name}}}List = list_create();
+    {{{name}}}List = list_createList();
 
     cJSON_ArrayForEach({{{name}}}_local, {{{name}}})
     {
@@ -654,7 +716,13 @@ fail:
         {
             goto end;
         }
-        list_addElement({{{name}}}List , &{{{name}}}_local->valuedouble);
+        double *{{{name}}}_local_value = (double *)calloc(1, sizeof(double));
+        if(!{{{name}}}_local_value)
+        {
+            goto end;
+        }
+        *{{{name}}}_local_value = {{{name}}}_local->valuedouble;
+        list_addElement({{{name}}}List , {{{name}}}_local_value);
         {{/isNumeric}}
         {{#isBoolean}}
         if(!cJSON_IsBool({{{name}}}_local))
@@ -674,7 +742,7 @@ fail:
         goto end; //nonprimitive container
     }
 
-    {{{name}}}List = list_create();
+    {{{name}}}List = list_createList();
 
     cJSON_ArrayForEach({{{name}}}_local_nonprimitive,{{{name}}} )
     {
@@ -694,7 +762,7 @@ fail:
     if(!cJSON_IsObject({{{name}}})) {
         goto end;//primitive map container
     }
-    {{{name}}}List = list_create();
+    {{{name}}}List = list_createList();
     keyValuePair_t *localMapKeyPair;
     cJSON_ArrayForEach({{{name}}}_local_map, {{{name}}})
     {
@@ -707,6 +775,13 @@ fail:
         }
         localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
         {{/isString}}
+        {{#isByteArray}}
+        if(!cJSON_IsString(localMapObject))
+        {
+            goto end;
+        }
+        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
+        {{/isByteArray}}
         {{#isBoolean}}
         if(!cJSON_IsBool(localMapObject))
         {
@@ -744,6 +819,11 @@ fail:
         {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isEnum}}
         {{/isModel}}
+        {{^isModel}}
+        {{^isFreeFormObject}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{/isFreeFormObject}}
+        {{/isModel}}
         {{#isUuid}}
         {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isUuid}}
@@ -772,7 +852,7 @@ fail:
         {{/isString}}
         {{/isEnum}}
         {{#isByteArray}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valueint{{^required}} : 0{{/required}}{{^-last}},{{/-last}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isByteArray}}
         {{#isBinary}}
         {{^required}}{{{name}}} ? {{/required}}decoded_str_{{{name}}}{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
@@ -813,6 +893,14 @@ end:
         {{{name}}}_local_nonprim = NULL;
     }
     {{/isEnum}}
+    {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    if ({{{name}}}_local_nonprim) {
+        {{complexType}}_free({{{name}}}_local_nonprim);
+        {{{name}}}_local_nonprim = NULL;
+    }
+    {{/isFreeFormObject}}
     {{/isModel}}
     {{/isPrimitiveType}}
     {{/isContainer}}

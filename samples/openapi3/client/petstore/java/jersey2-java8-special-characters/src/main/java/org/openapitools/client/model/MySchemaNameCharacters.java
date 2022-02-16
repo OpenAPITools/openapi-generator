@@ -43,14 +43,16 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   MySchemaNameCharacters.JSON_PROPERTY_PROP2
 })
+@JsonTypeName("MySchemaName._-Characters")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "objectType", visible = true)
-@JsonTypeName("MySchemaName._-Characters")
 
 public class MySchemaNameCharacters extends Parent {
   public static final String JSON_PROPERTY_PROP2 = "prop2";
   private String prop2;
 
+  public MySchemaNameCharacters() { 
+  }
 
   public MySchemaNameCharacters prop2(String prop2) {
     this.prop2 = prop2;

@@ -29,6 +29,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import java.io.File;
 import java.math.BigDecimal;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +37,7 @@ import java.util.Map;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.PythonExperimentalClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -360,7 +362,7 @@ public class PythonClientTest {
         final PythonClientCodegen codegen = new PythonClientCodegen();
 
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        final Schema noDefault = new ArraySchema()
+        final Schema noDefault = new Schema()
                 .type("number")
                 .minimum(new BigDecimal("10"));
         final Schema hasDefault = new Schema()
@@ -462,6 +464,44 @@ public class PythonClientTest {
 
         Assert.assertEquals(exampleValue.trim(), expectedValue.trim());
 
+    }
+
+    @Test(description = "tests NoProxyPyClient")
+    public void testNoProxyPyClient() throws Exception {
+
+        final String gen = "python";
+        final String spec = "src/test/resources/3_0/petstore.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(gen)
+                .setInputSpec(spec)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        for (String f : new String[] { "openapi_client/configuration.py", "openapi_client/rest.py" } ) {
+            TestUtils.ensureContainsFile(files, output, f);
+            Path p = output.toPath().resolve(f);
+            TestUtils.assertFileContains(p, "no_proxy");
+        }
+    }
+
+    @Test(description = "tests RecursiveExampleValueWithCycle")
+    public void testRecursiveExampleValueWithCycle() throws Exception {
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7532.yaml");
+        final PythonExperimentalClientCodegen codegen = new PythonExperimentalClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        Schema schemaWithCycleInTreesProperty = openAPI.getComponents().getSchemas().get("Forest");
+        String exampleValue = codegen.toExampleValue(schemaWithCycleInTreesProperty, null);
+
+        String expectedValue = Resources.toString(
+                Resources.getResource("3_0/issue_7532_tree_example_value_expected.txt"),
+                StandardCharsets.UTF_8);
+        expectedValue = expectedValue.replaceAll("\\r\\n", "\n");
+        Assert.assertEquals(exampleValue.trim(), expectedValue.trim());
     }
 
 }

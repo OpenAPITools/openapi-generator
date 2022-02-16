@@ -35,11 +35,14 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   InlineResponseDefault.JSON_PROPERTY_STRING
 })
+@JsonTypeName("inline_response_default")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class InlineResponseDefault {
   public static final String JSON_PROPERTY_STRING = "string";
   private Foo string;
 
+  public InlineResponseDefault() { 
+  }
 
   public InlineResponseDefault string(Foo string) {
     this.string = string;

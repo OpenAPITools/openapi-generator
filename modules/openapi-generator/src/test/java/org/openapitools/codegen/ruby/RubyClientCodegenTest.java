@@ -163,7 +163,7 @@ public class RubyClientCodegenTest {
         modelMap.put("model", model);
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
-        Map<String, Object> operations = ImmutableMap.<String, Object>of("operation", Collections.singletonList(op));
+        Map<String, Object> operations = ImmutableMap.of("operation", Collections.singletonList(op));
         Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<Map<String, String>>());
         objs = codegen.postProcessOperationsWithModels(objs, Collections.singletonList(modelMap));
         CodegenOperation postProcessedOp = ((List<CodegenOperation>) ((Map<String, Object>) objs.get("operations")).get("operation")).get(0);
@@ -616,7 +616,7 @@ public class RubyClientCodegenTest {
     }
 
 
-    @Test(description = "test example string imported from x-example parameterr (OAS2)")
+    @Test(description = "test example string imported from x-example parameter (OAS2)")
     public void exampleStringFromExampleParameterOAS2Test() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-nullable.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
@@ -627,7 +627,7 @@ public class RubyClientCodegenTest {
         final Operation p = openAPI.getPaths().get(path).getDelete();
         final CodegenOperation op = codegen.fromOperation(path, "delete", p, null);
 
-        Map<String, Object> operations = ImmutableMap.<String, Object>of("operation", Collections.singletonList(op));
+        Map<String, Object> operations = ImmutableMap.of("operation", Collections.singletonList(op));
         Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<Map<String, String>>());
         objs = codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
         CodegenOperation postProcessedOp = ((List<CodegenOperation>) ((Map<String, Object>) objs.get("operations")).get("operation")).get(0);
@@ -647,7 +647,7 @@ public class RubyClientCodegenTest {
         final Operation p = openAPI.getPaths().get(path).getDelete();
         final CodegenOperation op = codegen.fromOperation(path, "delete", p, null);
 
-        Map<String, Object> operations = ImmutableMap.<String, Object>of("operation", Collections.singletonList(op));
+        Map<String, Object> operations = ImmutableMap.of("operation", Collections.singletonList(op));
         Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<Map<String, String>>());
         objs = codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
         CodegenOperation postProcessedOp = ((List<CodegenOperation>) ((Map<String, Object>) objs.get("operations")).get("operation")).get(0);

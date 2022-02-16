@@ -49,6 +49,8 @@ public class GrandparentAnimal {
   public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
   private String petType;
 
+  public GrandparentAnimal() { 
+  }
 
   public GrandparentAnimal petType(String petType) {
     this.petType = petType;
@@ -59,6 +61,7 @@ public class GrandparentAnimal {
    * Get petType
    * @return petType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

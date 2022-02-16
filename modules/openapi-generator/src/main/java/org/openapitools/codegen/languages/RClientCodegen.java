@@ -133,6 +133,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("number", "numeric");
         typeMapping.put("float", "numeric");
         typeMapping.put("double", "numeric");
+        typeMapping.put("decimal", "numeric");
         typeMapping.put("boolean", "character");
         typeMapping.put("string", "character");
         typeMapping.put("UUID", "character");
@@ -262,7 +263,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$"))
             return name;
 
@@ -707,7 +708,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
         if (codegenParameter.isArray) { // array
-            return "list(" + constructExampleCode(codegenParameter.items, modelMaps) + ")";
+            return "list(" + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
         } else if (codegenParameter.isMap) { // TODO: map
             return "TODO";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
@@ -715,7 +716,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else { // model
             // look up the model
             if (modelMaps.containsKey(codegenParameter.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps);
+                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, 0);
             } else {
                 LOGGER.error("Error in constructing examples. Failed to look up the model {}", codegenParameter.dataType);
                 return "TODO";
@@ -723,9 +724,12 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps) {
+    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, int depth) {
+        if (depth > 10) return "...";
+        depth++;
+
         if (codegenProperty.isArray) { // array
-            return "list(" + constructExampleCode(codegenProperty.items, modelMaps) + ")";
+            return "list(" + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
         } else if (codegenProperty.isMap) { // TODO: map
             return "TODO";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
@@ -734,7 +738,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     return "\"" + codegenProperty.example + "\"";
                 } else {
                     if (Boolean.TRUE.equals(codegenProperty.isEnum)) { // enum
-                        return "\"" + String.valueOf(((List<Object>) codegenProperty.allowableValues.get("values")).get(0)) + "\"";
+                        return "\"" + ((List<Object>) codegenProperty.allowableValues.get("values")).get(0) + "\"";
                     } else {
                         return "\"" + codegenProperty.name + "_example\"";
                     }
@@ -749,7 +753,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             // look up the model
             if (modelMaps.containsKey(codegenProperty.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps);
+                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, depth);
             } else {
                 LOGGER.error("Error in constructing examples. Failed to look up the model {}", codegenProperty.dataType);
                 return "TODO";
@@ -757,18 +761,21 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps) {
+    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, int depth) {
+        if (depth > 10) return "...";
+        depth++;
+
         String example;
         example = codegenModel.name + "$new(";
         List<String> propertyExamples = new ArrayList<>();
         // required properties first
         for (CodegenProperty codegenProperty : codegenModel.requiredVars) {
-            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps));
+            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps, depth));
         }
 
         // optional properties second
         for (CodegenProperty codegenProperty : codegenModel.optionalVars) {
-            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps));
+            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps, depth));
         }
 
         example += StringUtils.join(propertyExamples, ", ");
@@ -789,4 +796,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         System.out.println("################################################################################");
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.R; }
 }

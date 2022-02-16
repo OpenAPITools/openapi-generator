@@ -145,8 +145,8 @@ public class PetApiController extends Controller {
         } else {
             additionalMetadata = null;
         }
-        Http.MultipartFormData<TemporaryFile> bodyfile = request.body().asMultipartFormData();
-        Http.MultipartFormData.FilePart<TemporaryFile> file = bodyfile.getFile("file");
+        Http.MultipartFormData<TemporaryFile> body_file = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> _file = body_file.getFile("file");
         return ok();
     }
 

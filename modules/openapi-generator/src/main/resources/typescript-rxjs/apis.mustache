@@ -1,9 +1,11 @@
 // tslint:disable
 {{>licenseInfo}}
-import { Observable } from 'rxjs';
-import { BaseAPI{{#hasHttpHeaders}}, HttpHeaders{{/hasHttpHeaders}}{{#hasQueryParams}}, HttpQuery{{/hasQueryParams}}{{#hasRequiredParams}}, throwIfNullOrUndefined{{/hasRequiredParams}}{{#hasPathParams}}, encodeURI{{/hasPathParams}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}}, OperationOpts, RawAjaxResponse } from '../runtime';
+import type { Observable } from 'rxjs';
+import type { AjaxResponse } from 'rxjs/ajax';
+import { BaseAPI{{#hasRequiredParams}}, throwIfNullOrUndefined{{/hasRequiredParams}}{{#hasPathParams}}, encodeURI{{/hasPathParams}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}} } from '../runtime';
+import type { OperationOpts{{#hasHttpHeaders}}, HttpHeaders{{/hasHttpHeaders}}{{#hasQueryParams}}, HttpQuery{{/hasQueryParams}} } from '../runtime';
 {{#imports.0}}
-import {
+import type {
     {{#imports}}
     {{className}},
     {{/imports}}
@@ -24,7 +26,7 @@ export interface {{operationIdCamelCase}}Request {
 {{/operations}}
 {{#operations}}
 /**
- * {{#description}}{{{description}}}{{/description}}{{^description}}no description{{/description}}
+ * {{{description}}}{{^description}}no description{{/description}}
  */
 export class {{classname}} extends BaseAPI {
 
@@ -37,12 +39,12 @@ export class {{classname}} extends BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
-    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>
+    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{{returnType}}}{{^returnType}}void{{/returnType}}>
 {{#withProgressSubscriber}}
-    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>
+    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<{{{returnType}}}{{^returnType}}void{{/returnType}}>
 {{/withProgressSubscriber}}
-    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}RawAjaxResponse<{{{returnType}}}>{{/returnType}}{{^returnType}}void | RawAjaxResponse<void>{{/returnType}}>
-    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}{{{returnType}}} | RawAjaxResponse<{{{returnType}}}>{{/returnType}}{{^returnType}}void | RawAjaxResponse<void>{{/returnType}}> {
+    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}AjaxResponse<{{{.}}}>{{/returnType}}{{^returnType}}void | AjaxResponse<void>{{/returnType}}>
+    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}{{{returnType}}} | AjaxResponse<{{{returnType}}}>{{/returnType}}{{^returnType}}void | AjaxResponse<void>{{/returnType}}> {
         {{#hasParams}}
         {{#allParams}}
         {{#required}}
@@ -181,7 +183,7 @@ export class {{classname}} extends BaseAPI {
         {{/formParams}}
 
         {{/hasFormParams}}
-        return this.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>({
+        return this.request<{{{returnType}}}{{^returnType}}void{{/returnType}}>({
             url: '{{{path}}}'{{#pathParams}}.replace({{=<% %>=}}'{<%baseName%>}'<%={{ }}=%>, encodeURI({{> paramNamePartial}})){{/pathParams}},
             method: '{{httpMethod}}',
             {{#hasHttpHeaders}}

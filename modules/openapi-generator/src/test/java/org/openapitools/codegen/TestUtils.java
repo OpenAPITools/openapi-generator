@@ -5,8 +5,9 @@ import static org.testng.Assert.fail;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
 
-import com.github.javaparser.ParseProblemException;
-import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParserConfiguration;
+import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
@@ -116,12 +117,12 @@ public class TestUtils {
 
     public static void ensureContainsFile(List<File> generatedFiles, File root, String filename) {
         Path path = root.toPath().resolve(filename);
-        assertTrue(generatedFiles.contains(path.toFile()), "File '" + path.toAbsolutePath().toString() + "' was not found in the list of generated files");
+        assertTrue(generatedFiles.contains(path.toFile()), "File '" + path.toAbsolutePath() + "' was not found in the list of generated files");
     }
 
     public static void ensureDoesNotContainsFile(List<File> generatedFiles, File root, String filename) {
         Path path = root.toPath().resolve(filename);
-        assertFalse(generatedFiles.contains(path.toFile()), "File '" + path.toAbsolutePath().toString() + "' was found in the list of generated files");
+        assertFalse(generatedFiles.contains(path.toFile()), "File '" + path.toAbsolutePath() + "' was found in the list of generated files");
     }
 
     public static void validateJavaSourceFiles(Map<String, String> fileMap) {
@@ -150,13 +151,11 @@ public class TestUtils {
     }
 
     public static void assertValidJavaSourceCode(String javaSourceCode, String filename) {
-        try {
-            CompilationUnit compilation = StaticJavaParser.parse(javaSourceCode);
-            assertTrue(compilation.getTypes().size() > 0, "File: " + filename);
-        }
-        catch (ParseProblemException ex) {
-            fail("Java parse problem: " + filename, ex);
-        }
+        ParserConfiguration config = new ParserConfiguration();
+        config.setLanguageLevel(ParserConfiguration.LanguageLevel.JAVA_11);
+        JavaParser parser = new JavaParser(config);
+        ParseResult<CompilationUnit> parseResult = parser.parse(javaSourceCode);
+        assertTrue(parseResult.isSuccessful(), String.valueOf(parseResult.getProblems()));
     }
 
     public static void assertFileContains(Path path, String... lines) {
@@ -167,7 +166,7 @@ public class TestUtils {
             for (String line : lines)
                 assertTrue(file.contains(linearize(line)), "File does not contain line [" + line + "]");
         } catch (IOException e) {
-            fail("Unable to evaluate file " + path.toString());
+            fail("Unable to evaluate file " + path);
         }
     }
 
@@ -180,11 +179,21 @@ public class TestUtils {
         try {
             generatedFile = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            fail("Unable to evaluate file " + path.toString());
+            fail("Unable to evaluate file " + path);
         }
         String file = linearize(generatedFile);
         assertNotNull(file);
         for (String line : lines)
             assertFalse(file.contains(linearize(line)));
+    }
+
+    public static void assertFileNotExists(Path path) {
+        try {
+            new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            fail("File exists when it should not: " + path);
+        } catch (IOException e) {
+            // File exists, pass.
+            assertTrue(true);
+        }
     }
 }

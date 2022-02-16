@@ -40,6 +40,8 @@ public class Category {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name = "default-name";
 
+  public Category() { 
+  }
 
   public Category id(Long id) {
     
@@ -74,6 +76,7 @@ public class Category {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(required = true, value = "")
 

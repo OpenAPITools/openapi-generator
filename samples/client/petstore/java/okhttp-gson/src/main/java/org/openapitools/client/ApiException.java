@@ -16,22 +16,52 @@ package org.openapitools.client;
 import java.util.Map;
 import java.util.List;
 
+import javax.ws.rs.core.GenericType;
+
+/**
+ * <p>ApiException class.</p>
+ */
+@SuppressWarnings("serial")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiException extends Exception {
     private int code = 0;
     private Map<String, List<String>> responseHeaders = null;
     private String responseBody = null;
-
+    private Object errorObject = null;
+    private GenericType errorObjectType = null;
+ 
+    /**
+     * <p>Constructor for ApiException.</p>
+     */
     public ApiException() {}
 
+    /**
+     * <p>Constructor for ApiException.</p>
+     *
+     * @param throwable a {@link java.lang.Throwable} object
+     */
     public ApiException(Throwable throwable) {
         super(throwable);
     }
 
+    /**
+     * <p>Constructor for ApiException.</p>
+     *
+     * @param message the error message
+     */
     public ApiException(String message) {
         super(message);
     }
 
+    /**
+     * <p>Constructor for ApiException.</p>
+     *
+     * @param message the error message
+     * @param throwable a {@link java.lang.Throwable} object
+     * @param code HTTP status code
+     * @param responseHeaders a {@link java.util.Map} of HTTP response headers
+     * @param responseBody the response body
+     */
     public ApiException(String message, Throwable throwable, int code, Map<String, List<String>> responseHeaders, String responseBody) {
         super(message, throwable);
         this.code = code;
@@ -39,23 +69,60 @@ public class ApiException extends Exception {
         this.responseBody = responseBody;
     }
 
+    /**
+     * <p>Constructor for ApiException.</p>
+     *
+     * @param message the error message
+     * @param code HTTP status code
+     * @param responseHeaders a {@link java.util.Map} of HTTP response headers
+     * @param responseBody the response body
+     */
     public ApiException(String message, int code, Map<String, List<String>> responseHeaders, String responseBody) {
         this(message, (Throwable) null, code, responseHeaders, responseBody);
     }
 
+    /**
+     * <p>Constructor for ApiException.</p>
+     *
+     * @param message the error message
+     * @param throwable a {@link java.lang.Throwable} object
+     * @param code HTTP status code
+     * @param responseHeaders a {@link java.util.Map} of HTTP response headers
+     */
     public ApiException(String message, Throwable throwable, int code, Map<String, List<String>> responseHeaders) {
         this(message, throwable, code, responseHeaders, null);
     }
 
+    /**
+     * <p>Constructor for ApiException.</p>
+     *
+     * @param code HTTP status code
+     * @param responseHeaders a {@link java.util.Map} of HTTP response headers
+     * @param responseBody the response body
+     */
     public ApiException(int code, Map<String, List<String>> responseHeaders, String responseBody) {
         this((String) null, (Throwable) null, code, responseHeaders, responseBody);
     }
 
+    /**
+     * <p>Constructor for ApiException.</p>
+     *
+     * @param code HTTP status code
+     * @param message a {@link java.lang.String} object
+     */
     public ApiException(int code, String message) {
         super(message);
         this.code = code;
     }
 
+    /**
+     * <p>Constructor for ApiException.</p>
+     *
+     * @param code HTTP status code
+     * @param message the error message
+     * @param responseHeaders a {@link java.util.Map} of HTTP response headers
+     * @param responseBody the response body
+     */
     public ApiException(int code, String message, Map<String, List<String>> responseHeaders, String responseBody) {
         this(code, message);
         this.responseHeaders = responseHeaders;
@@ -87,5 +154,41 @@ public class ApiException extends Exception {
      */
     public String getResponseBody() {
         return responseBody;
+    }
+
+    /**
+     * Get the error object type.
+     *
+     * @return Error object type
+     */
+    public GenericType getErrorObjectType() {
+        return errorObjectType;
+    }
+
+    /**
+     * Set the error object type.
+     *
+     * @param errorObjectType object type
+     */
+    public void setErrorObjectType(GenericType errorObjectType) {
+        this.errorObjectType = errorObjectType;
+    }
+
+    /**
+     * Get the error object.
+     *
+     * @return Error object
+     */
+    public Object getErrorObject() {
+        return errorObject;
+    }
+
+    /**
+     * Get the error object.
+     *
+     * @param errorObject Error object
+     */
+    public void setErrorObject(Object errorObject) {
+        this.errorObject = errorObject;
     }
 }

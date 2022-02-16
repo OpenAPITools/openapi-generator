@@ -28,11 +28,15 @@ namespace {{packageName}}.Test.Api
     /// </remarks>
     public class {{classname}}Tests : IDisposable
     {
+        {{^nonPublicApi}}
         private {{classname}} instance;
 
+        {{/nonPublicApi}}
         public {{classname}}Tests()
         {
+            {{^nonPublicApi}}
             instance = new {{classname}}();
+            {{/nonPublicApi}}
         }
 
         public void Dispose()
@@ -64,7 +68,7 @@ namespace {{packageName}}.Test.Api
             {{/allParams}}
             //{{#returnType}}var response = {{/returnType}}instance.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
             {{#returnType}}
-            //Assert.IsType<{{{returnType}}}>(response);
+            //Assert.IsType<{{{.}}}>(response);
             {{/returnType}}
         }
         {{/operation}}

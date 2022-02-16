@@ -28,6 +28,7 @@ import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.CatAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -37,7 +38,6 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   Cat.JSON_PROPERTY_DECLAWED
 })
-@JsonTypeName("Cat")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
@@ -48,6 +48,8 @@ public class Cat extends Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
   private Boolean declawed;
 
+  public Cat() { 
+  }
 
   public Cat declawed(Boolean declawed) {
     

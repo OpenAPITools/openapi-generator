@@ -124,13 +124,13 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "i8", "i16", "i32", "i64",
                         "u8", "u16", "u32", "u64",
@@ -259,10 +259,12 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             setPackageName("openapi");
         }
 
+        // If no version is provided in additional properties, version from API specification is used.
+        // If none of them is provided then fallback to default version
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        } else {
-            setPackageVersion("1.0.0");
+        } else if (openAPI != null && openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
+            setPackageVersion(openAPI.getInfo().getVersion());
         }
 
         if (additionalProperties.containsKey(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER)) {
@@ -358,10 +360,14 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
+        // translate @ for properties (like @type) to at_. 
+        // Otherwise an additional "type" property will leed to duplcates
+        name = name.replaceAll("^@", "at_");
+
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$"))
             return name;
 
@@ -684,4 +690,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             return null;
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUST; }
 }

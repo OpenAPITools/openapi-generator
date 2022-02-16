@@ -55,6 +55,8 @@ public class Animal {
   public static final String JSON_PROPERTY_COLOR = "color";
   private String color = "red";
 
+  public Animal() { 
+  }
 
   public Animal className(String className) {
     this.className = className;
@@ -65,6 +67,7 @@ public class Animal {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

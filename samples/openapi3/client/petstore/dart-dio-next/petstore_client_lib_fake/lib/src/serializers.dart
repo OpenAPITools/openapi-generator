@@ -23,6 +23,7 @@ import 'package:openapi/src/model/cat.dart';
 import 'package:openapi/src/model/cat_all_of.dart';
 import 'package:openapi/src/model/category.dart';
 import 'package:openapi/src/model/class_model.dart';
+import 'package:openapi/src/model/deprecated_object.dart';
 import 'package:openapi/src/model/dog.dart';
 import 'package:openapi/src/model/dog_all_of.dart';
 import 'package:openapi/src/model/enum_arrays.dart';
@@ -44,6 +45,7 @@ import 'package:openapi/src/model/model_return.dart';
 import 'package:openapi/src/model/name.dart';
 import 'package:openapi/src/model/nullable_class.dart';
 import 'package:openapi/src/model/number_only.dart';
+import 'package:openapi/src/model/object_with_deprecated_fields.dart';
 import 'package:openapi/src/model/order.dart';
 import 'package:openapi/src/model/outer_composite.dart';
 import 'package:openapi/src/model/outer_enum.dart';
@@ -71,6 +73,7 @@ part 'serializers.g.dart';
   CatAllOf,
   Category,
   ClassModel,
+  DeprecatedObject,
   Dog,
   DogAllOf,
   EnumArrays,
@@ -92,6 +95,7 @@ part 'serializers.g.dart';
   Name,
   NullableClass,
   NumberOnly,
+  ObjectWithDeprecatedFields,
   Order,
   OuterComposite,
   OuterEnum,
@@ -111,6 +115,14 @@ Serializers serializers = (_$serializers.toBuilder()
         () => MapBuilder<String, String>(),
       )
       ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(User)]),
+        () => ListBuilder<User>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltSet, [FullType(String)]),
+        () => SetBuilder<String>(),
+      )
+      ..addBuilderFactory(
         const FullType(BuiltSet, [FullType(Pet)]),
         () => SetBuilder<Pet>(),
       )
@@ -123,8 +135,8 @@ Serializers serializers = (_$serializers.toBuilder()
         () => MapBuilder<String, int>(),
       )
       ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(User)]),
-        () => ListBuilder<User>(),
+        const FullType(BuiltList, [FullType(String)]),
+        () => ListBuilder<String>(),
       )
       ..add(const DateSerializer())
       ..add(Iso8601DateTimeSerializer()))

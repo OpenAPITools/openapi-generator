@@ -17,8 +17,8 @@ import (
 	
 )
 
-// StoreApiService is a service that implents the logic for the StoreApiServicer
-// This service should implement the business logic for every endpoint for the StoreApi API. 
+// StoreApiService is a service that implements the logic for the StoreApiServicer
+// This service should implement the business logic for every endpoint for the StoreApi API.
 // Include any external packages or services that will be required by this service.
 type StoreApiService struct {
 }
@@ -83,4 +83,3 @@ func (s *StoreApiService) PlaceOrder(ctx context.Context, order Order) (ImplResp
 
 	return Response(http.StatusNotImplemented, nil), errors.New("PlaceOrder method not implemented")
 }
-

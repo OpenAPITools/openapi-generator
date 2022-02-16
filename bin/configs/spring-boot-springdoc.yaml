@@ -1,0 +1,11 @@
+generatorName: spring
+outputDir: samples/openapi3/server/petstore/spring-boot-springdoc
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  groupId: org.openapitools.openapi3
+  documentationProvider: springdoc
+  useSwaggerUI: false
+  artifactId: spring-boot-springdoc
+  snapshotVersion: "true"
+  hideGenerationTimestamp: "true"

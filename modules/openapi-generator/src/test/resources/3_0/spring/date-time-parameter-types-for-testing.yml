@@ -1,0 +1,104 @@
+openapi: 3.0.3
+info:
+  title: Api Documentation
+  description: 'Demo Spring Mvc @DateTimeFormat across the different openapi parameter types'
+  version: '1.0'
+paths:
+  /thingy/{date}:
+    post:
+      description: 'update with form data'
+      operationId: updatePetWithForm
+      parameters:
+        - name: date
+          in: path
+          description: 'A date path parameter'
+          required: true
+          schema:
+            type: string
+            format: date
+            default: '1970-01-01'
+            example: '2021-01-01'
+      responses:
+        '405':
+          description: Invalid input
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                visitDate:
+                  description: Updated last vist timestamp
+                  type: string
+                  default: '1971-12-19T03:39:57-08:00'
+                  format: date-time
+    get:
+      operationId: get
+      parameters:
+        - name: date
+          in: path
+          description: 'A date path parameter'
+          required: true
+          schema:
+            type: string
+            format: date
+            default: '1972-01-01'
+            example: '2021-01-01'
+        - name: dateTime
+          description: 'A date-time query parameter'
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+            default: '1973-12-19T03:39:57-08:00'
+            example: '1996-12-19T16:39:57-08:00'
+        - name: X-Order-Date
+          in: header
+          description: 'A date header parameter'
+          required: true
+          schema:
+            type: string
+            format: date
+            default: '1974-01-01'
+            example: '2021-01-01'
+        - name: loginDate
+          in: cookie
+          description: 'A date cookie parameter'
+          required: false
+          schema:
+            type: string
+            format: date
+            default: '1975-01-01'
+            example: '2021-01-01'
+      responses:
+        '200':
+          description: OK
+
+components:
+  schemas:
+    'Pet':
+      type: object
+      required:
+        - '@type'
+      properties:
+        '@type':
+          type: string
+          default: 'Pet'
+        age:
+          type: integer
+          default: 4
+        happy:
+          type: boolean
+          default: true
+        price:
+          type: number
+          default: 32000000000
+        lastFeed:
+          type: string
+          format: date-time
+          default: '1973-12-19T03:39:57-08:00'
+        dateOfBirth:
+          type: string
+          format: date
+          default: '2021-01-01'

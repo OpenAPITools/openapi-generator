@@ -6,11 +6,34 @@
     <name>{{artifactId}}</name>
     <version>{{artifactVersion}}</version>
 
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{parentGroupId}}</groupId>
+        <artifactId>{{parentArtifactId}}</artifactId>
+        <version>{{parentVersion}}</version>
+    </parent>
+{{/parentOverridden}}
+
     <build>
         <!-- Main source directory -->
         <sourceDirectory>src/main/java</sourceDirectory>
 
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <fork>true</fork>
+                    <meminitial>128m</meminitial>
+                    <maxmem>512m</maxmem>
+                    <compilerArgs>
+                        <arg>-Xlint:all</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
             <!-- Add src/gen/java to compilation -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -76,24 +99,34 @@
             <artifactId>swagger-annotations</artifactId>
             <version>[1.5.3,1.5.16]</version>
         </dependency>
-        
+
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
-        
+
 {{#useBeanValidation}}
        <!-- Bean Validation API support -->
        <dependency>
-           <groupId>javax.validation</groupId>
-           <artifactId>validation-api</artifactId>
-           <version>1.1.0.Final</version>
+           <groupId>jakarta.validation</groupId>
+           <artifactId>jakarta.validation-api</artifactId>
+           <version>${beanvalidation-version}</version>
            <scope>provided</scope>
        </dependency>
 {{/useBeanValidation}}
-
+       <dependency>
+           <groupId>joda-time</groupId>
+           <artifactId>joda-time</artifactId>
+           <version>2.10.13</version>
+       </dependency>
     </dependencies>
+
+    <properties>
+{{#useBeanValidation}}
+        <beanvalidation-version>2.0.2</beanvalidation-version>
+{{/useBeanValidation}}
+    </properties>
 
 </project>

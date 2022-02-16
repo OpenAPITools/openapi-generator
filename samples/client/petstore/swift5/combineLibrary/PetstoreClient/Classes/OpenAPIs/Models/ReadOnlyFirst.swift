@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ReadOnlyFirst: Codable, Hashable {
+public struct ReadOnlyFirst: Codable, JSONEncodable, Hashable {
 
     public var bar: String?
     public var baz: String?

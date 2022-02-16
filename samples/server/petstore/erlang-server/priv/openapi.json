@@ -102,6 +102,7 @@
         "description" : "Multiple status values can be provided with comma separated strings",
         "operationId" : "findPetsByStatus",
         "parameters" : [ {
+          "deprecated" : true,
           "description" : "Status values that need to be considered for filter",
           "explode" : false,
           "in" : "query",
@@ -640,7 +641,7 @@
                 "style" : "simple"
               },
               "X-Expires-After" : {
-                "description" : "date in UTC when toekn expires",
+                "description" : "date in UTC when token expires",
                 "explode" : false,
                 "schema" : {
                   "format" : "date-time",
@@ -1019,6 +1020,7 @@
             }
           },
           "status" : {
+            "deprecated" : true,
             "description" : "pet status in the store",
             "enum" : [ "available", "pending", "sold" ],
             "type" : "string"

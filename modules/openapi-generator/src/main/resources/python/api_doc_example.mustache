@@ -1,7 +1,7 @@
 ```python
 import time
 import {{{packageName}}}
-from {{apiPackage}} import {{classVarName}}
+from {{apiPackage}} import {{classFilename}}
 {{#imports}}
 {{{.}}}
 {{/imports}}
@@ -15,14 +15,14 @@ with {{{packageName}}}.ApiClient(configuration) as api_client:
 with {{{packageName}}}.ApiClient() as api_client:
 {{/hasAuthMethods}}
     # Create an instance of the API class
-    api_instance = {{classVarName}}.{{{classname}}}(api_client)
+    api_instance = {{classFilename}}.{{{classname}}}(api_client)
 {{#requiredParams}}
 {{^defaultValue}}
     {{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}
 {{/defaultValue}}
 {{/requiredParams}}
 {{#optionalParams}}
-    {{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}
+    {{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} if omitted the server will use the default value of {{{.}}}{{/defaultValue}}
 {{/optionalParams}}
 {{#requiredParams}}
 {{#-last}}

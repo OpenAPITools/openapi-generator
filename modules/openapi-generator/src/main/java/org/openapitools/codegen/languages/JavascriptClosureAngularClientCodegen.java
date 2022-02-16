@@ -55,16 +55,16 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
             "short", "try", "char", "final", "interface", "static", "void",
             "class", "finally", "const", "super", "while"));
 
-        languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
-            "string",
-            "boolean",
-            "number",
-            "Object",
-            "Blob",
-            "Date"));
+        languageSpecificPrimitives = new HashSet<>(Arrays.asList(
+                "string",
+                "boolean",
+                "number",
+                "Object",
+                "Blob",
+                "Date"));
         instantiationTypes.put("array", "Array");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("Array", "Array");
         typeMapping.put("array", "Array");
         typeMapping.put("List", "Array");
@@ -86,11 +86,11 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         typeMapping.put("map", "Object");
         typeMapping.put("DateTime", "Date");
 
-        importMapping = new HashMap<String, String>();
-        defaultIncludes = new HashSet<String>(Arrays.asList(
-            "Object",
-            "Array",
-            "Blob"
+        importMapping = new HashMap<>();
+        defaultIncludes = new HashSet<>(Arrays.asList(
+                "Object",
+                "Array",
+                "Blob"
         ));
 
         typeMapping.put("binary", "string");
@@ -170,7 +170,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_");
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$"))
             return name;
 
@@ -319,4 +319,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     public void setUseEs6(boolean useEs6) {
         this.useEs6 = useEs6;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }

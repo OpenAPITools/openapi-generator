@@ -25,6 +25,7 @@ import CatAllOf from './model/CatAllOf';
 import Category from './model/Category';
 import ClassModel from './model/ClassModel';
 import Client from './model/Client';
+import DeprecatedObject from './model/DeprecatedObject';
 import Dog from './model/Dog';
 import DogAllOf from './model/DogAllOf';
 import EnumArrays from './model/EnumArrays';
@@ -44,6 +45,7 @@ import Model200Response from './model/Model200Response';
 import Name from './model/Name';
 import NullableClass from './model/NullableClass';
 import NumberOnly from './model/NumberOnly';
+import ObjectWithDeprecatedFields from './model/ObjectWithDeprecatedFields';
 import Order from './model/Order';
 import OuterComposite from './model/OuterComposite';
 import OuterEnum from './model/OuterEnum';
@@ -177,6 +179,12 @@ export {
     Client,
 
     /**
+     * The DeprecatedObject model constructor.
+     * @property {module:model/DeprecatedObject}
+     */
+    DeprecatedObject,
+
+    /**
      * The Dog model constructor.
      * @property {module:model/Dog}
      */
@@ -289,6 +297,12 @@ export {
      * @property {module:model/NumberOnly}
      */
     NumberOnly,
+
+    /**
+     * The ObjectWithDeprecatedFields model constructor.
+     * @property {module:model/ObjectWithDeprecatedFields}
+     */
+    ObjectWithDeprecatedFields,
 
     /**
      * The Order model constructor.

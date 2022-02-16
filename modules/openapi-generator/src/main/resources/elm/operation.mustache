@@ -33,7 +33,7 @@ import Uuid exposing (Uuid){{/includeUuid}}
 {-| {{{notes}}}
 -}
 {{/notes}}
-{{operationId}} : {{#allParams}}{{^required}}Maybe {{/required}}{{#isArray}}List {{/isArray}}{{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{#isModel}}Api.Data.{{/isModel}}{{dataType}}{{/datatypeWithEnum}} -> {{/allParams}}{{#authMethods}}{{#isBasicBearer}}String -> {{/isBasicBearer}}{{/authMethods}}Api.Request {{^responses}}(){{/responses}}{{#responses}}{{#is2xx}}{{^dataType}}(){{/dataType}}{{#isMap}}(Dict.Dict String {{/isMap}}{{#isArray}}(List {{#items}}{{#isModel}}Api.Data.{{/isModel}}{{/items}}{{/isArray}}{{^isArray}}{{^primitiveType}}{{^isUuid}}Api.Data.{{/isUuid}}{{/primitiveType}}{{/isArray}}{{dataType}}{{#isArray}}){{/isArray}}{{#isMap}}){{/isMap}}{{/is2xx}}{{/responses}}
+{{operationId}} : {{#allParams}}{{^required}}Maybe {{/required}}{{#isArray}}List {{/isArray}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{#isModel}}Api.Data.{{/isModel}}{{dataType}}{{/datatypeWithEnum}} -> {{/allParams}}{{#authMethods}}{{#isBasicBearer}}String -> {{/isBasicBearer}}{{/authMethods}}Api.Request {{^responses}}(){{/responses}}{{#responses}}{{#is2xx}}{{^dataType}}(){{/dataType}}{{#isMap}}(Dict.Dict String {{/isMap}}{{#isArray}}(List {{#items}}{{#isModel}}Api.Data.{{/isModel}}{{/items}}{{/isArray}}{{^isArray}}{{^primitiveType}}{{^isUuid}}Api.Data.{{/isUuid}}{{/primitiveType}}{{/isArray}}{{dataType}}{{#isArray}}){{/isArray}}{{#isMap}}){{/isMap}}{{/is2xx}}{{/responses}}
 {{operationId}}{{#allParams}} {{>paramName}}{{/allParams}}{{#authMethods}}{{#isBasicBearer}} auth_token{{/isBasicBearer}}{{/authMethods}} =
     Api.request
         "{{httpMethod}}"

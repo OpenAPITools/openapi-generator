@@ -61,6 +61,7 @@ public class TypeScriptFetchModelTest {
                 .addRequiredItem("name");
 
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.processOpts();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);

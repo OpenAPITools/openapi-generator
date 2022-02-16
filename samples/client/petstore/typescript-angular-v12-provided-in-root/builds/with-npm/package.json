@@ -1,0 +1,34 @@
+{
+  "name": "@openapitools/typescript-angular-petstore",
+  "version": "1.0.0",
+  "description": "OpenAPI client for @openapitools/typescript-angular-petstore",
+  "author": "OpenAPI-Generator Contributors",
+  "keywords": [
+    "openapi-client",
+    "openapi-generator"
+  ],
+  "license": "Unlicense",
+  "scripts": {
+    "build": "ng-packagr -p ng-package.json"
+  },
+  "peerDependencies": {
+    "@angular/core": "^12.2.0",
+    "rxjs": "^6.6.0"
+  },
+  "devDependencies": {
+    "@angular/common": "^12.2.0",
+    "@angular/compiler": "^12.2.0",
+    "@angular/compiler-cli": "^12.2.0",
+    "@angular/core": "^12.2.0",
+    "@angular/platform-browser": "^12.2.0",
+    "ng-packagr": "^12.2.1",
+    "reflect-metadata": "^0.1.3",
+    "rxjs": "^6.6.0",
+    "tsickle": "^0.43.0",
+    "typescript": ">=4.3.0 <4.4.0",
+    "zone.js": "^0.11.4"
+  },
+  "publishConfig": {
+    "registry": "https://skimdb.npmjs.com/registry"
+  }
+}

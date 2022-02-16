@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
@@ -23,13 +24,13 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  * {{{appName}}}
  *
  {{#appDescription}}
- * <p>{{{appDescription}}}
+ * <p>{{{.}}}
  *
  {{/appDescription}}
  */
 {{/appName}}
 
-@RegisterRestClient
+@RegisterRestClient{{#configKey}}(configKey="{{configKey}}"){{/configKey}}
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("{{#useAnnotatedBasePath}}{{contextPath}}{{/useAnnotatedBasePath}}{{commonPath}}")
 public interface {{classname}}  {
@@ -41,11 +42,17 @@ public interface {{classname}}  {
      * {{summary}}
      *
      {{#notes}}
-     * {{notes}}
+     * {{.}}
      *
      {{/notes}}
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
      */
     {{/summary}}
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
     @{{httpMethod}}
     {{#subresourceOperation}}@Path("{{{path}}}"){{/subresourceOperation}}
 {{#hasConsumes}}
@@ -54,8 +61,7 @@ public interface {{classname}}  {
 {{#hasProduces}}
     @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} })
 {{/hasProduces}}
-    public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
+    public {{{returnType}}}{{^returnType}}void{{/returnType}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
 {{/operation}}
 }
 {{/operations}}
-

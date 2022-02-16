@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
@@ -86,6 +87,8 @@ public class User {
   public static final String JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE = "anyTypePropNullable";
   private JsonNullable<Object> anyTypePropNullable = JsonNullable.<Object>of(null);
 
+  public User() { 
+  }
 
   public User id(Long id) {
     this.id = id;
@@ -444,14 +447,25 @@ public class User {
         Objects.equals(this.phone, user.phone) &&
         Objects.equals(this.userStatus, user.userStatus) &&
         Objects.equals(this.objectWithNoDeclaredProps, user.objectWithNoDeclaredProps) &&
-        Objects.equals(this.objectWithNoDeclaredPropsNullable, user.objectWithNoDeclaredPropsNullable) &&
-        Objects.equals(this.anyTypeProp, user.anyTypeProp) &&
-        Objects.equals(this.anyTypePropNullable, user.anyTypePropNullable);
+        equalsNullable(this.objectWithNoDeclaredPropsNullable, user.objectWithNoDeclaredPropsNullable) &&
+        equalsNullable(this.anyTypeProp, user.anyTypeProp) &&
+        equalsNullable(this.anyTypePropNullable, user.anyTypePropNullable);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus, objectWithNoDeclaredProps, objectWithNoDeclaredPropsNullable, anyTypeProp, anyTypePropNullable);
+    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus, objectWithNoDeclaredProps, hashCodeNullable(objectWithNoDeclaredPropsNullable), hashCodeNullable(anyTypeProp), hashCodeNullable(anyTypePropNullable));
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

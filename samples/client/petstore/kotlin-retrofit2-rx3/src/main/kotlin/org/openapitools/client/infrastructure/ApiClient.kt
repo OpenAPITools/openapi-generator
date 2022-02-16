@@ -2,10 +2,10 @@ package org.openapitools.client.infrastructure
 
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder
-import org.openapitools.client.auth.ApiKeyAuth
 import org.openapitools.client.auth.OAuth
 import org.openapitools.client.auth.OAuth.AccessTokenListener
 import org.openapitools.client.auth.OAuthFlow
+import org.openapitools.client.auth.ApiKeyAuth
 
 import okhttp3.Call
 import okhttp3.Interceptor
@@ -205,8 +205,11 @@ class ApiClient(
 
     companion object {
         @JvmStatic
+        protected val baseUrlKey = "org.openapitools.client.baseUrl"
+
+        @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://petstore.swagger.io/v2")
+            System.getProperties().getProperty(baseUrlKey, "http://petstore.swagger.io/v2")
         }
     }
 }

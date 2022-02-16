@@ -18,6 +18,7 @@ docs/ArrayTest.md
 docs/Banana.md
 docs/BananaReq.md
 docs/BasquePig.md
+docs/BooleanEnum.md
 docs/Capitalization.md
 docs/Cat.md
 docs/CatAllOf.md
@@ -44,10 +45,12 @@ docs/FakePostInlineAdditionalPropertiesPayloadArrayData.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooObject.md
 docs/FormatTest.md
 docs/Fruit.md
 docs/FruitReq.md
 docs/GmFruit.md
+docs/GmFruitNoProperties.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
@@ -58,6 +61,7 @@ docs/IntegerEnum.md
 docs/IntegerEnumOneValue.md
 docs/IntegerEnumWithDefaultValue.md
 docs/IsoscelesTriangle.md
+docs/Legs.md
 docs/List.md
 docs/Mammal.md
 docs/MapTest.md
@@ -107,7 +111,7 @@ petstore_api/api/__init__.py
 petstore_api/api/another_fake_api.py
 petstore_api/api/default_api.py
 petstore_api/api/fake_api.py
-petstore_api/api/fake_classname_tags_123_api.py
+petstore_api/api/fake_classname_tags123_api.py
 petstore_api/api/pet_api.py
 petstore_api/api/store_api.py
 petstore_api/api/user_api.py
@@ -131,6 +135,7 @@ petstore_api/model/array_test.py
 petstore_api/model/banana.py
 petstore_api/model/banana_req.py
 petstore_api/model/basque_pig.py
+petstore_api/model/boolean_enum.py
 petstore_api/model/capitalization.py
 petstore_api/model/cat.py
 petstore_api/model/cat_all_of.py
@@ -154,10 +159,12 @@ petstore_api/model/fake_post_inline_additional_properties_payload_array_data.py
 petstore_api/model/file.py
 petstore_api/model/file_schema_test_class.py
 petstore_api/model/foo.py
+petstore_api/model/foo_object.py
 petstore_api/model/format_test.py
 petstore_api/model/fruit.py
 petstore_api/model/fruit_req.py
 petstore_api/model/gm_fruit.py
+petstore_api/model/gm_fruit_no_properties.py
 petstore_api/model/grandparent_animal.py
 petstore_api/model/has_only_read_only.py
 petstore_api/model/health_check_result.py
@@ -168,6 +175,7 @@ petstore_api/model/integer_enum.py
 petstore_api/model/integer_enum_one_value.py
 petstore_api/model/integer_enum_with_default_value.py
 petstore_api/model/isosceles_triangle.py
+petstore_api/model/legs.py
 petstore_api/model/list.py
 petstore_api/model/mammal.py
 petstore_api/model/map_test.py
