@@ -46,7 +46,7 @@ public class FileSchemaTestClass   {
     return file;
   }
 
-  public void setFile(File file) {
+  public void setFileFile file) {
     this.file = file;
   }
 
@@ -73,7 +73,7 @@ public class FileSchemaTestClass   {
     return files;
   }
 
-  public void setFiles(List<File> files) {
+  public void setFilesList<File> files) {
     this.files = files;
   }
 

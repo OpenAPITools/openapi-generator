@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -55,14 +54,12 @@ public class TypeHolderExample   {
    * @return stringItem
   */
   @NotNull 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(example = "what", required = true, value = "")
   public String getStringItem() {
     return stringItem;
   }
 
-  public void setStringItem(String stringItem) {
+  public void setStringItemString stringItem) {
     this.stringItem = stringItem;
   }
 
@@ -76,14 +73,12 @@ public class TypeHolderExample   {
    * @return numberItem
   */
   @NotNull @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(example = "1.234", required = true, value = "")
   public BigDecimal getNumberItem() {
     return numberItem;
   }
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItemBigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
@@ -97,14 +92,12 @@ public class TypeHolderExample   {
    * @return floatItem
   */
   @NotNull 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(example = "1.234", required = true, value = "")
   public Float getFloatItem() {
     return floatItem;
   }
 
-  public void setFloatItem(Float floatItem) {
+  public void setFloatItemFloat floatItem) {
     this.floatItem = floatItem;
   }
 
@@ -118,14 +111,12 @@ public class TypeHolderExample   {
    * @return integerItem
   */
   @NotNull 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(example = "-2", required = true, value = "")
   public Integer getIntegerItem() {
     return integerItem;
   }
 
-  public void setIntegerItem(Integer integerItem) {
+  public void setIntegerItemInteger integerItem) {
     this.integerItem = integerItem;
   }
 
@@ -139,14 +130,12 @@ public class TypeHolderExample   {
    * @return boolItem
   */
   @NotNull 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(example = "true", required = true, value = "")
   public Boolean getBoolItem() {
     return boolItem;
   }
 
-  public void setBoolItem(Boolean boolItem) {
+  public void setBoolItemBoolean boolItem) {
     this.boolItem = boolItem;
   }
 
@@ -165,14 +154,12 @@ public class TypeHolderExample   {
    * @return arrayItem
   */
   @NotNull 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
 
-  public void setArrayItem(List<Integer> arrayItem) {
+  public void setArrayItemList<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
 

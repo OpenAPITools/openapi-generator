@@ -10,7 +10,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -43,14 +42,12 @@ public class FileSchemaTestClass   {
    * @return file
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<File> getFile() {
     return Optional.ofNullable(file);
   }
 
-  public void setFile(File file) {
+  public void setFileOptional<File> file) {
     this.file = file;
   }
 
@@ -72,14 +69,12 @@ public class FileSchemaTestClass   {
    * @return files
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<List<File>> getFiles() {
     return Optional.ofNullable(files);
   }
 
-  public void setFiles(List<File> files) {
+  public void setFilesOptional<List<File>> files) {
     this.files = files;
   }
 

@@ -43,7 +43,7 @@ public class Tag   {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setIdLong id) {
     this.id = id;
   }
 
@@ -62,7 +62,7 @@ public class Tag   {
     return name;
   }
 
-  public void setName(String name) {
+  public void setNameString name) {
     this.name = name;
   }
 

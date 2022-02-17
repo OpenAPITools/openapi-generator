@@ -12,7 +12,6 @@ import java.util.UUID;
 import org.openapitools.model.Animal;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -50,14 +49,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * @return uuid
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "uuid", required = false)
   public Optional<UUID> getUuid() {
     return Optional.ofNullable(uuid);
   }
 
-  public void setUuid(UUID uuid) {
+  public void setUuidOptional<UUID> uuid) {
     this.uuid = uuid;
   }
 
@@ -71,14 +68,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * @return dateTime
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "dateTime", required = false)
   public Optional<OffsetDateTime> getDateTime() {
     return Optional.ofNullable(dateTime);
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTimeOptional<OffsetDateTime> dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -100,14 +95,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * @return map
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "map", required = false)
   public Optional<Map<String, Animal>> getMap() {
     return Optional.ofNullable(map);
   }
 
-  public void setMap(Map<String, Animal> map) {
+  public void setMapOptional<Map<String, Animal>> map) {
     this.map = map;
   }
 

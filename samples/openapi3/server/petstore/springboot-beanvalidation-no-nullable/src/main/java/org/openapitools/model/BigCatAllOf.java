@@ -80,7 +80,7 @@ public class BigCatAllOf   {
     return kind;
   }
 
-  public void setKind(KindEnum kind) {
+  public void setKindKindEnum kind) {
     this.kind = kind;
   }
 

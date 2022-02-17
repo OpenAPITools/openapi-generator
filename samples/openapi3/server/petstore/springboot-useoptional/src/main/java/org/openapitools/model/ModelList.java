@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -37,14 +36,12 @@ public class ModelList   {
    * @return _123list
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "123-list", required = false)
   public Optional<String> get123list() {
     return Optional.ofNullable(_123list);
   }
 
-  public void set123list(String _123list) {
+  public void set123listOptional<String> _123list) {
     this._123list = _123list;
   }
 

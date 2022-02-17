@@ -42,7 +42,7 @@ public class DogAllOf   {
     return breed;
   }
 
-  public void setBreed(String breed) {
+  public void setBreedString breed) {
     this.breed = breed;
   }
 

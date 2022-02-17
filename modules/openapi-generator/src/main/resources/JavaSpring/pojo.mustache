@@ -54,7 +54,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   private {{>nullableDataType}} {{name}} = {{#isNullable}}JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}}{{/isNullable}};
   {{/openApiNullable}}
   {{^openApiNullable}}
+  {{#useOptional}}
+  private {{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{#isEnum}}{{#useOptional}}Optional<{{/useOptional}}{{{datatypeWithEnum}}}{{#useOptional}}>{{/useOptional}}{{/isEnum}}{{^isEnum}}{{>optionalDataType}}{{/isEnum}}{{/required}} {{name}} = {{#required}}{{{defaultValue}}}{{/required}}{{^required}}Optional.empty(){{/required}}
+  {{/useOptional}}
+  {{^useOptional}}
   private {{>nullableDataType}} {{name}} = {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}};
+  {{/useOptional}}
   {{/openApiNullable}}
   {{/isContainer}}
   {{^isContainer}}
@@ -80,7 +85,17 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
     this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
     {{/openApiNullable}}
     {{^openApiNullable}}
+    {{^useOptional}}
     this.{{name}} = {{name}};
+    {{/useOptional}}
+    {{#useOptional}}
+    {{#required}}
+    this.{{name}} = {{name}};
+    {{/required}}
+    {{^required}}
+    this.{{name}} = Optional.of({{name}});
+    {{/required}}
+    {{/useOptional}}
     {{/openApiNullable}}
     return this;
   }
@@ -140,10 +155,6 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{#useBeanValidation}}
   {{>beanValidation}}
   {{/useBeanValidation}}
-  {{#useOptional}}
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
-  {{/useOptional}}
   {{#swagger2AnnotationLibrary}}
   @Schema(name = "{{{baseName}}}", {{#isReadOnly}}accessMode = Schema.AccessMode.READ_ONLY, {{/isReadOnly}}{{#example}}example = "{{{.}}}", {{/example}}{{#description}}description = "{{{.}}}", {{/description}}required = {{{required}}})
   {{/swagger2AnnotationLibrary}}
@@ -157,7 +168,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{#vendorExtensions.x-setter-extra-annotation}}
   {{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}
-  public void {{setter}}({{>nullableDataType}} {{name}}) {
+  public void {{setter}}{{#isNullable}}({{>nullableDataType}}{{/isNullable}}{{^isNullable}}{{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{#isEnum}}{{#useOptional}}Optional<{{/useOptional}}{{{datatypeWithEnum}}}{{#useOptional}}>{{/useOptional}}{{/isEnum}}{{^isEnum}}{{>optionalDataType}}{{/isEnum}}{{/required}}{{/isNullable}} {{name}}) {
     this.{{name}} = {{name}};
   }
   {{! end feature: getter and setter }}

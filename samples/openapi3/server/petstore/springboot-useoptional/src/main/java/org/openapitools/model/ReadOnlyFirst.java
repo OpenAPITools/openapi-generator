@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -38,14 +37,12 @@ public class ReadOnlyFirst   {
    * @return bar
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public Optional<String> getBar() {
     return Optional.ofNullable(bar);
   }
 
-  public void setBar(String bar) {
+  public void setBarOptional<String> bar) {
     this.bar = bar;
   }
 
@@ -59,14 +56,12 @@ public class ReadOnlyFirst   {
    * @return baz
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "baz", required = false)
   public Optional<String> getBaz() {
     return Optional.ofNullable(baz);
   }
 
-  public void setBaz(String baz) {
+  public void setBazOptional<String> baz) {
     this.baz = baz;
   }
 

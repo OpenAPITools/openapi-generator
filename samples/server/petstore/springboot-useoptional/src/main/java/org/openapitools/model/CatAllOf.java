@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -38,14 +37,12 @@ public class CatAllOf   {
    * @return declawed
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<Boolean> getDeclawed() {
     return Optional.ofNullable(declawed);
   }
 
-  public void setDeclawed(Boolean declawed) {
+  public void setDeclawedOptional<Boolean> declawed) {
     this.declawed = declawed;
   }
 

@@ -61,7 +61,7 @@ public class Pet   {
     return atType;
   }
 
-  public void setAtType(String atType) {
+  public void setAtTypeString atType) {
     this.atType = atType;
   }
 
@@ -80,7 +80,7 @@ public class Pet   {
     return age;
   }
 
-  public void setAge(Integer age) {
+  public void setAgeInteger age) {
     this.age = age;
   }
 
@@ -99,7 +99,7 @@ public class Pet   {
     return happy;
   }
 
-  public void setHappy(Boolean happy) {
+  public void setHappyBoolean happy) {
     this.happy = happy;
   }
 
@@ -118,7 +118,7 @@ public class Pet   {
     return price;
   }
 
-  public void setPrice(BigDecimal price) {
+  public void setPriceBigDecimal price) {
     this.price = price;
   }
 
@@ -137,7 +137,7 @@ public class Pet   {
     return lastFeed;
   }
 
-  public void setLastFeed(OffsetDateTime lastFeed) {
+  public void setLastFeedOffsetDateTime lastFeed) {
     this.lastFeed = lastFeed;
   }
 
@@ -156,7 +156,7 @@ public class Pet   {
     return dateOfBirth;
   }
 
-  public void setDateOfBirth(LocalDate dateOfBirth) {
+  public void setDateOfBirthLocalDate dateOfBirth) {
     this.dateOfBirth = dateOfBirth;
   }
 

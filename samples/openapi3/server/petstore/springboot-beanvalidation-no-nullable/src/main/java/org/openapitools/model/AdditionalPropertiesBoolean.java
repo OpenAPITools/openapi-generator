@@ -40,7 +40,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
     return name;
   }
 
-  public void setName(String name) {
+  public void setNameString name) {
     this.name = name;
   }
 

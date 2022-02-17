@@ -42,7 +42,7 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer>  {
     return name;
   }
 
-  public void setName(String name) {
+  public void setNameString name) {
     this.name = name;
   }
 

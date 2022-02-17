@@ -81,7 +81,7 @@ public class BigCat extends Cat  {
     return kind;
   }
 
-  public void setKind(KindEnum kind) {
+  public void setKindKindEnum kind) {
     this.kind = kind;
   }
 

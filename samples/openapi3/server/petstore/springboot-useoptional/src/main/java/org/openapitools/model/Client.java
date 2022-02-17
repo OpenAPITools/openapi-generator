@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -35,14 +34,12 @@ public class Client   {
    * @return client
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "client", required = false)
   public Optional<String> getClient() {
     return Optional.ofNullable(client);
   }
 
-  public void setClient(String client) {
+  public void setClientOptional<String> client) {
     this.client = client;
   }
 

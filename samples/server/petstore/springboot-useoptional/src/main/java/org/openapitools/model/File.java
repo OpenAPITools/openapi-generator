@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -37,14 +36,12 @@ public class File   {
    * @return sourceURI
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "Test capitalization")
   public Optional<String> getSourceURI() {
     return Optional.ofNullable(sourceURI);
   }
 
-  public void setSourceURI(String sourceURI) {
+  public void setSourceURIOptional<String> sourceURI) {
     this.sourceURI = sourceURI;
   }
 

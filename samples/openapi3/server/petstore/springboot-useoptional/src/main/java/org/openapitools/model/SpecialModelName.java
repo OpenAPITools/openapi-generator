@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -37,14 +36,12 @@ public class SpecialModelName   {
    * @return $specialPropertyName
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "$special[property.name]", required = false)
   public Optional<Long> get$SpecialPropertyName() {
     return Optional.ofNullable($specialPropertyName);
   }
 
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
+  public void set$SpecialPropertyNameOptional<Long> $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 

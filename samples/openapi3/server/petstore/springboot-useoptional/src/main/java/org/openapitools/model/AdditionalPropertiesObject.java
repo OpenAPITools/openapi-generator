@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.HashMap;
 import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -37,14 +36,12 @@ public class AdditionalPropertiesObject extends HashMap<String, Map>  {
    * @return name
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "name", required = false)
   public Optional<String> getName() {
     return Optional.ofNullable(name);
   }
 
-  public void setName(String name) {
+  public void setNameOptional<String> name) {
     this.name = name;
   }
 

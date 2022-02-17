@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -47,14 +46,12 @@ public class ArrayOfNumberOnly   {
    * @return arrayNumber
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "ArrayNumber", required = false)
   public Optional<List<BigDecimal>> getArrayNumber() {
     return Optional.ofNullable(arrayNumber);
   }
 
-  public void setArrayNumber(List<BigDecimal> arrayNumber) {
+  public void setArrayNumberOptional<List<BigDecimal>> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
 

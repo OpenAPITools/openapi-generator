@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -29,7 +28,7 @@ public class Tag   {
   private String name;
 
   public Tag id(Long id) {
-    this.id = id;
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -38,19 +37,17 @@ public class Tag   {
    * @return id
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "id", required = false)
   public Optional<Long> getId() {
     return Optional.ofNullable(id);
   }
 
-  public void setId(Long id) {
+  public void setIdOptional<Long> id) {
     this.id = id;
   }
 
   public Tag name(String name) {
-    this.name = name;
+    this.name = Optional.of(name);
     return this;
   }
 
@@ -59,14 +56,12 @@ public class Tag   {
    * @return name
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "name", required = false)
   public Optional<String> getName() {
     return Optional.ofNullable(name);
   }
 
-  public void setName(String name) {
+  public void setNameOptional<String> name) {
     this.name = name;
   }
 

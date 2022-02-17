@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -36,14 +35,12 @@ public class NumberOnly   {
    * @return justNumber
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "JustNumber", required = false)
   public Optional<BigDecimal> getJustNumber() {
     return Optional.ofNullable(justNumber);
   }
 
-  public void setJustNumber(BigDecimal justNumber) {
+  public void setJustNumberOptional<BigDecimal> justNumber) {
     this.justNumber = justNumber;
   }
 

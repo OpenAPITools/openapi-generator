@@ -41,7 +41,7 @@ public class ReadOnlyFirst   {
     return bar;
   }
 
-  public void setBar(String bar) {
+  public void setBarString bar) {
     this.bar = bar;
   }
 
@@ -60,7 +60,7 @@ public class ReadOnlyFirst   {
     return baz;
   }
 
-  public void setBaz(String baz) {
+  public void setBazString baz) {
     this.baz = baz;
   }
 

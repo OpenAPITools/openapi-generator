@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -43,14 +42,12 @@ public class OuterComposite   {
    * @return myNumber
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<BigDecimal> getMyNumber() {
     return Optional.ofNullable(myNumber);
   }
 
-  public void setMyNumber(BigDecimal myNumber) {
+  public void setMyNumberOptional<BigDecimal> myNumber) {
     this.myNumber = myNumber;
   }
 
@@ -64,14 +61,12 @@ public class OuterComposite   {
    * @return myString
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<String> getMyString() {
     return Optional.ofNullable(myString);
   }
 
-  public void setMyString(String myString) {
+  public void setMyStringOptional<String> myString) {
     this.myString = myString;
   }
 
@@ -85,14 +80,12 @@ public class OuterComposite   {
    * @return myBoolean
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<Boolean> getMyBoolean() {
     return Optional.ofNullable(myBoolean);
   }
 
-  public void setMyBoolean(Boolean myBoolean) {
+  public void setMyBooleanOptional<Boolean> myBoolean) {
     this.myBoolean = myBoolean;
   }
 

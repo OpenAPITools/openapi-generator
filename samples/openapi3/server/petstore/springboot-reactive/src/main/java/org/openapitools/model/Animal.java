@@ -50,7 +50,7 @@ public class Animal   {
     return className;
   }
 
-  public void setClassName(String className) {
+  public void setClassNameString className) {
     this.className = className;
   }
 
@@ -69,7 +69,7 @@ public class Animal   {
     return color;
   }
 
-  public void setColor(String color) {
+  public void setColorString color) {
     this.color = color;
   }
 

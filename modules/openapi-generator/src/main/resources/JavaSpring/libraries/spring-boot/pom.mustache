@@ -161,6 +161,13 @@
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
         </dependency>
+        {{#useOptional}}
+        <dependency>
+           <groupId>com.fasterxml.jackson.datatype</groupId>
+           <artifactId>jackson-datatype-jdk8</artifactId>
+           <version>2.9.6</version>
+        </dependency>
+        {{/useOptional}}
         {{#withXml}}
         <!-- XML processing: Jackson -->
         <dependency>

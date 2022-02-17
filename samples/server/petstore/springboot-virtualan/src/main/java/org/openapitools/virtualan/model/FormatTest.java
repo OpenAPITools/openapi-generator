@@ -91,7 +91,7 @@ public class FormatTest   {
     return integer;
   }
 
-  public void setInteger(Integer integer) {
+  public void setIntegerInteger integer) {
     this.integer = integer;
   }
 
@@ -112,7 +112,7 @@ public class FormatTest   {
     return int32;
   }
 
-  public void setInt32(Integer int32) {
+  public void setInt32Integer int32) {
     this.int32 = int32;
   }
 
@@ -131,7 +131,7 @@ public class FormatTest   {
     return int64;
   }
 
-  public void setInt64(Long int64) {
+  public void setInt64Long int64) {
     this.int64 = int64;
   }
 
@@ -152,7 +152,7 @@ public class FormatTest   {
     return number;
   }
 
-  public void setNumber(BigDecimal number) {
+  public void setNumberBigDecimal number) {
     this.number = number;
   }
 
@@ -173,7 +173,7 @@ public class FormatTest   {
     return _float;
   }
 
-  public void setFloat(Float _float) {
+  public void setFloatFloat _float) {
     this._float = _float;
   }
 
@@ -194,7 +194,7 @@ public class FormatTest   {
     return _double;
   }
 
-  public void setDouble(Double _double) {
+  public void setDoubleDouble _double) {
     this._double = _double;
   }
 
@@ -213,7 +213,7 @@ public class FormatTest   {
     return string;
   }
 
-  public void setString(String string) {
+  public void setStringString string) {
     this.string = string;
   }
 
@@ -232,7 +232,7 @@ public class FormatTest   {
     return _byte;
   }
 
-  public void setByte(byte[] _byte) {
+  public void setBytebyte[] _byte) {
     this._byte = _byte;
   }
 
@@ -251,7 +251,7 @@ public class FormatTest   {
     return binary;
   }
 
-  public void setBinary(org.springframework.core.io.Resource binary) {
+  public void setBinaryorg.springframework.core.io.Resource binary) {
     this.binary = binary;
   }
 
@@ -270,7 +270,7 @@ public class FormatTest   {
     return date;
   }
 
-  public void setDate(LocalDate date) {
+  public void setDateLocalDate date) {
     this.date = date;
   }
 
@@ -289,7 +289,7 @@ public class FormatTest   {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTimeOffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -308,7 +308,7 @@ public class FormatTest   {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  public void setUuidUUID uuid) {
     this.uuid = uuid;
   }
 
@@ -327,7 +327,7 @@ public class FormatTest   {
     return password;
   }
 
-  public void setPassword(String password) {
+  public void setPasswordString password) {
     this.password = password;
   }
 
@@ -346,7 +346,7 @@ public class FormatTest   {
     return bigDecimal;
   }
 
-  public void setBigDecimal(BigDecimal bigDecimal) {
+  public void setBigDecimalBigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
 

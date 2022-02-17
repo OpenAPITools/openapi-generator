@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -77,14 +76,12 @@ public class BigCat extends Cat  {
    * @return kind
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "kind", required = false)
   public Optional<KindEnum> getKind() {
     return Optional.ofNullable(kind);
   }
 
-  public void setKind(KindEnum kind) {
+  public void setKindOptional<KindEnum> kind) {
     this.kind = kind;
   }
 

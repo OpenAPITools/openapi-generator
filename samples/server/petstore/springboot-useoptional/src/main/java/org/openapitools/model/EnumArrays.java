@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -113,14 +112,12 @@ public class EnumArrays   {
    * @return justSymbol
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<JustSymbolEnum> getJustSymbol() {
     return Optional.ofNullable(justSymbol);
   }
 
-  public void setJustSymbol(JustSymbolEnum justSymbol) {
+  public void setJustSymbolOptional<JustSymbolEnum> justSymbol) {
     this.justSymbol = justSymbol;
   }
 
@@ -142,14 +139,12 @@ public class EnumArrays   {
    * @return arrayEnum
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<List<ArrayEnumEnum>> getArrayEnum() {
     return Optional.ofNullable(arrayEnum);
   }
 
-  public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
+  public void setArrayEnumOptional<List<ArrayEnumEnum>> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
 

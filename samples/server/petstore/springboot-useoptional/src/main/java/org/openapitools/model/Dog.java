@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
 import org.openapitools.model.DogAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -38,14 +37,12 @@ public class Dog extends Animal  {
    * @return breed
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<String> getBreed() {
     return Optional.ofNullable(breed);
   }
 
-  public void setBreed(String breed) {
+  public void setBreedOptional<String> breed) {
     this.breed = breed;
   }
 

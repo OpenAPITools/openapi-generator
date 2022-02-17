@@ -40,7 +40,7 @@ public class Client   {
     return client;
   }
 
-  public void setClient(String client) {
+  public void setClientString client) {
     this.client = client;
   }
 

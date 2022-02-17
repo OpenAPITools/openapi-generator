@@ -41,7 +41,7 @@ public class File   {
     return sourceURI;
   }
 
-  public void setSourceURI(String sourceURI) {
+  public void setSourceURIString sourceURI) {
     this.sourceURI = sourceURI;
   }
 

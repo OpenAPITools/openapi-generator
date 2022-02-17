@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -45,14 +44,12 @@ public class Name   {
    * @return name
   */
   @NotNull 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "name", required = true)
   public Integer getName() {
     return name;
   }
 
-  public void setName(Integer name) {
+  public void setNameInteger name) {
     this.name = name;
   }
 
@@ -66,14 +63,12 @@ public class Name   {
    * @return snakeCase
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public Optional<Integer> getSnakeCase() {
     return Optional.ofNullable(snakeCase);
   }
 
-  public void setSnakeCase(Integer snakeCase) {
+  public void setSnakeCaseOptional<Integer> snakeCase) {
     this.snakeCase = snakeCase;
   }
 
@@ -87,14 +82,12 @@ public class Name   {
    * @return property
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "property", required = false)
   public Optional<String> getProperty() {
     return Optional.ofNullable(property);
   }
 
-  public void setProperty(String property) {
+  public void setPropertyOptional<String> property) {
     this.property = property;
   }
 
@@ -108,14 +101,12 @@ public class Name   {
    * @return _123number
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public Optional<Integer> get123number() {
     return Optional.ofNullable(_123number);
   }
 
-  public void set123number(Integer _123number) {
+  public void set123numberOptional<Integer> _123number) {
     this._123number = _123number;
   }
 

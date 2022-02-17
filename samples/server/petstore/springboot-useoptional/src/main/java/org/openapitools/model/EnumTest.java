@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -196,14 +195,12 @@ public class EnumTest   {
    * @return enumString
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<EnumStringEnum> getEnumString() {
     return Optional.ofNullable(enumString);
   }
 
-  public void setEnumString(EnumStringEnum enumString) {
+  public void setEnumStringOptional<EnumStringEnum> enumString) {
     this.enumString = enumString;
   }
 
@@ -217,14 +214,12 @@ public class EnumTest   {
    * @return enumStringRequired
   */
   @NotNull 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
 
-  public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+  public void setEnumStringRequiredEnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
 
@@ -238,14 +233,12 @@ public class EnumTest   {
    * @return enumInteger
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<EnumIntegerEnum> getEnumInteger() {
     return Optional.ofNullable(enumInteger);
   }
 
-  public void setEnumInteger(EnumIntegerEnum enumInteger) {
+  public void setEnumIntegerOptional<EnumIntegerEnum> enumInteger) {
     this.enumInteger = enumInteger;
   }
 
@@ -259,14 +252,12 @@ public class EnumTest   {
    * @return enumNumber
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<EnumNumberEnum> getEnumNumber() {
     return Optional.ofNullable(enumNumber);
   }
 
-  public void setEnumNumber(EnumNumberEnum enumNumber) {
+  public void setEnumNumberOptional<EnumNumberEnum> enumNumber) {
     this.enumNumber = enumNumber;
   }
 
@@ -280,14 +271,12 @@ public class EnumTest   {
    * @return outerEnum
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<OuterEnum> getOuterEnum() {
     return Optional.ofNullable(outerEnum);
   }
 
-  public void setOuterEnum(OuterEnum outerEnum) {
+  public void setOuterEnumOptional<OuterEnum> outerEnum) {
     this.outerEnum = outerEnum;
   }
 

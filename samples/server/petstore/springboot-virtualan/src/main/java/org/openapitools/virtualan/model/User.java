@@ -61,7 +61,7 @@ public class User   {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setIdLong id) {
     this.id = id;
   }
 
@@ -80,7 +80,7 @@ public class User   {
     return username;
   }
 
-  public void setUsername(String username) {
+  public void setUsernameString username) {
     this.username = username;
   }
 
@@ -99,7 +99,7 @@ public class User   {
     return firstName;
   }
 
-  public void setFirstName(String firstName) {
+  public void setFirstNameString firstName) {
     this.firstName = firstName;
   }
 
@@ -118,7 +118,7 @@ public class User   {
     return lastName;
   }
 
-  public void setLastName(String lastName) {
+  public void setLastNameString lastName) {
     this.lastName = lastName;
   }
 
@@ -137,7 +137,7 @@ public class User   {
     return email;
   }
 
-  public void setEmail(String email) {
+  public void setEmailString email) {
     this.email = email;
   }
 
@@ -156,7 +156,7 @@ public class User   {
     return password;
   }
 
-  public void setPassword(String password) {
+  public void setPasswordString password) {
     this.password = password;
   }
 
@@ -175,7 +175,7 @@ public class User   {
     return phone;
   }
 
-  public void setPhone(String phone) {
+  public void setPhoneString phone) {
     this.phone = phone;
   }
 
@@ -194,7 +194,7 @@ public class User   {
     return userStatus;
   }
 
-  public void setUserStatus(Integer userStatus) {
+  public void setUserStatusInteger userStatus) {
     this.userStatus = userStatus;
   }
 

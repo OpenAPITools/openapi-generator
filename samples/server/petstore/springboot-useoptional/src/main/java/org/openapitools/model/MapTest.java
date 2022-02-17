@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -96,14 +95,12 @@ public class MapTest   {
    * @return mapMapOfString
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<Map<String, Map<String, String>>> getMapMapOfString() {
     return Optional.ofNullable(mapMapOfString);
   }
 
-  public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+  public void setMapMapOfStringOptional<Map<String, Map<String, String>>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
@@ -125,14 +122,12 @@ public class MapTest   {
    * @return mapOfEnumString
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<Map<String, InnerEnum>> getMapOfEnumString() {
     return Optional.ofNullable(mapOfEnumString);
   }
 
-  public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+  public void setMapOfEnumStringOptional<Map<String, InnerEnum>> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
@@ -154,14 +149,12 @@ public class MapTest   {
    * @return directMap
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<Map<String, Boolean>> getDirectMap() {
     return Optional.ofNullable(directMap);
   }
 
-  public void setDirectMap(Map<String, Boolean> directMap) {
+  public void setDirectMapOptional<Map<String, Boolean>> directMap) {
     this.directMap = directMap;
   }
 
@@ -183,14 +176,12 @@ public class MapTest   {
    * @return indirectMap
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<Map<String, Boolean>> getIndirectMap() {
     return Optional.ofNullable(indirectMap);
   }
 
-  public void setIndirectMap(Map<String, Boolean> indirectMap) {
+  public void setIndirectMapOptional<Map<String, Boolean>> indirectMap) {
     this.indirectMap = indirectMap;
   }
 

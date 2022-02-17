@@ -42,7 +42,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
     return name;
   }
 
-  public void setName(String name) {
+  public void setNameString name) {
     this.name = name;
   }
 

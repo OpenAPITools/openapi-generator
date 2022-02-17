@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -82,7 +81,7 @@ public class Order   {
   private Boolean complete = false;
 
   public Order id(Long id) {
-    this.id = id;
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -91,19 +90,17 @@ public class Order   {
    * @return id
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "id", required = false)
   public Optional<Long> getId() {
     return Optional.ofNullable(id);
   }
 
-  public void setId(Long id) {
+  public void setIdOptional<Long> id) {
     this.id = id;
   }
 
   public Order petId(Long petId) {
-    this.petId = petId;
+    this.petId = Optional.of(petId);
     return this;
   }
 
@@ -112,19 +109,17 @@ public class Order   {
    * @return petId
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "petId", required = false)
   public Optional<Long> getPetId() {
     return Optional.ofNullable(petId);
   }
 
-  public void setPetId(Long petId) {
+  public void setPetIdOptional<Long> petId) {
     this.petId = petId;
   }
 
   public Order quantity(Integer quantity) {
-    this.quantity = quantity;
+    this.quantity = Optional.of(quantity);
     return this;
   }
 
@@ -133,19 +128,17 @@ public class Order   {
    * @return quantity
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "quantity", required = false)
   public Optional<Integer> getQuantity() {
     return Optional.ofNullable(quantity);
   }
 
-  public void setQuantity(Integer quantity) {
+  public void setQuantityOptional<Integer> quantity) {
     this.quantity = quantity;
   }
 
   public Order shipDate(OffsetDateTime shipDate) {
-    this.shipDate = shipDate;
+    this.shipDate = Optional.of(shipDate);
     return this;
   }
 
@@ -154,19 +147,17 @@ public class Order   {
    * @return shipDate
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "shipDate", required = false)
   public Optional<OffsetDateTime> getShipDate() {
     return Optional.ofNullable(shipDate);
   }
 
-  public void setShipDate(OffsetDateTime shipDate) {
+  public void setShipDateOptional<OffsetDateTime> shipDate) {
     this.shipDate = shipDate;
   }
 
   public Order status(StatusEnum status) {
-    this.status = status;
+    this.status = Optional.of(status);
     return this;
   }
 
@@ -175,19 +166,17 @@ public class Order   {
    * @return status
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "status", description = "Order Status", required = false)
   public Optional<StatusEnum> getStatus() {
     return Optional.ofNullable(status);
   }
 
-  public void setStatus(StatusEnum status) {
+  public void setStatusOptional<StatusEnum> status) {
     this.status = status;
   }
 
   public Order complete(Boolean complete) {
-    this.complete = complete;
+    this.complete = Optional.of(complete);
     return this;
   }
 
@@ -196,14 +185,12 @@ public class Order   {
    * @return complete
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "complete", required = false)
   public Optional<Boolean> getComplete() {
     return Optional.ofNullable(complete);
   }
 
-  public void setComplete(Boolean complete) {
+  public void setCompleteOptional<Boolean> complete) {
     this.complete = complete;
   }
 

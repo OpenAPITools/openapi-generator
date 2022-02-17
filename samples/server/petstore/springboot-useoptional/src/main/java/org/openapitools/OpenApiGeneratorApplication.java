@@ -1,7 +1,9 @@
 package org.openapitools;
 
-import com.fasterxml.jackson.databind.Module;
 import org.openapitools.jackson.nullable.JsonNullableModule;
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +20,11 @@ public class OpenApiGeneratorApplication {
     @Bean
     public Module jsonNullableModule() {
         return new JsonNullableModule();
+    }
+
+    @Bean
+    public Module jdk8Module() {
+        return new new Jdk8Module();
     }
 
 }

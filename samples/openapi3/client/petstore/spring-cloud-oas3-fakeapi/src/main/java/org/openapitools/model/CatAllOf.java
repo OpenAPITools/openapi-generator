@@ -41,7 +41,7 @@ public class CatAllOf   {
     return declawed;
   }
 
-  public void setDeclawed(Boolean declawed) {
+  public void setDeclawedBoolean declawed) {
     this.declawed = declawed;
   }
 

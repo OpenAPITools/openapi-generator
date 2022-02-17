@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -37,14 +36,12 @@ public class ClassModel   {
    * @return propertyClass
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<String> getPropertyClass() {
     return Optional.ofNullable(propertyClass);
   }
 
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClassOptional<String> propertyClass) {
     this.propertyClass = propertyClass;
   }
 

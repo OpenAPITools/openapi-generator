@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -56,14 +55,12 @@ public class ArrayTest   {
    * @return arrayOfString
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<List<String>> getArrayOfString() {
     return Optional.ofNullable(arrayOfString);
   }
 
-  public void setArrayOfString(List<String> arrayOfString) {
+  public void setArrayOfStringOptional<List<String>> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
 
@@ -85,14 +82,12 @@ public class ArrayTest   {
    * @return arrayArrayOfInteger
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<List<List<Long>>> getArrayArrayOfInteger() {
     return Optional.ofNullable(arrayArrayOfInteger);
   }
 
-  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+  public void setArrayArrayOfIntegerOptional<List<List<Long>>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
@@ -114,14 +109,12 @@ public class ArrayTest   {
    * @return arrayArrayOfModel
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<List<List<ReadOnlyFirst>>> getArrayArrayOfModel() {
     return Optional.ofNullable(arrayArrayOfModel);
   }
 
-  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModelOptional<List<List<ReadOnlyFirst>>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 

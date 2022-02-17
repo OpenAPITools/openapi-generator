@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -51,14 +50,12 @@ public class Capitalization   {
    * @return smallCamel
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<String> getSmallCamel() {
     return Optional.ofNullable(smallCamel);
   }
 
-  public void setSmallCamel(String smallCamel) {
+  public void setSmallCamelOptional<String> smallCamel) {
     this.smallCamel = smallCamel;
   }
 
@@ -72,14 +69,12 @@ public class Capitalization   {
    * @return capitalCamel
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<String> getCapitalCamel() {
     return Optional.ofNullable(capitalCamel);
   }
 
-  public void setCapitalCamel(String capitalCamel) {
+  public void setCapitalCamelOptional<String> capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
 
@@ -93,14 +88,12 @@ public class Capitalization   {
    * @return smallSnake
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<String> getSmallSnake() {
     return Optional.ofNullable(smallSnake);
   }
 
-  public void setSmallSnake(String smallSnake) {
+  public void setSmallSnakeOptional<String> smallSnake) {
     this.smallSnake = smallSnake;
   }
 
@@ -114,14 +107,12 @@ public class Capitalization   {
    * @return capitalSnake
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<String> getCapitalSnake() {
     return Optional.ofNullable(capitalSnake);
   }
 
-  public void setCapitalSnake(String capitalSnake) {
+  public void setCapitalSnakeOptional<String> capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
 
@@ -135,14 +126,12 @@ public class Capitalization   {
    * @return scAETHFlowPoints
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<String> getScAETHFlowPoints() {
     return Optional.ofNullable(scAETHFlowPoints);
   }
 
-  public void setScAETHFlowPoints(String scAETHFlowPoints) {
+  public void setScAETHFlowPointsOptional<String> scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
@@ -156,14 +145,12 @@ public class Capitalization   {
    * @return ATT_NAME
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "Name of the pet ")
   public Optional<String> getATTNAME() {
     return Optional.ofNullable(ATT_NAME);
   }
 
-  public void setATTNAME(String ATT_NAME) {
+  public void setATTNAMEOptional<String> ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
 

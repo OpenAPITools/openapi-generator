@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -36,14 +35,12 @@ public class ClassModel   {
    * @return propertyClass
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "_class", required = false)
   public Optional<String> getPropertyClass() {
     return Optional.ofNullable(propertyClass);
   }
 
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClassOptional<String> propertyClass) {
     this.propertyClass = propertyClass;
   }
 

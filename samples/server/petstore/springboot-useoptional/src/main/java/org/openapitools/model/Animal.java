@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -47,14 +46,12 @@ public class Animal   {
    * @return className
   */
   @NotNull 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public String getClassName() {
     return className;
   }
 
-  public void setClassName(String className) {
+  public void setClassNameString className) {
     this.className = className;
   }
 
@@ -68,14 +65,12 @@ public class Animal   {
    * @return color
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(value = "")
   public Optional<String> getColor() {
     return Optional.ofNullable(color);
   }
 
-  public void setColor(String color) {
+  public void setColorOptional<String> color) {
     this.color = color;
   }
 

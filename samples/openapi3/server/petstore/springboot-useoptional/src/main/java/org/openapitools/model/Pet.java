@@ -13,7 +13,6 @@ import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -97,14 +96,12 @@ public class Pet   {
    * @return id
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "id", required = false)
   public Optional<Long> getId() {
     return Optional.ofNullable(id);
   }
 
-  public void setId(Long id) {
+  public void setIdOptional<Long> id) {
     this.id = id;
   }
 
@@ -118,14 +115,12 @@ public class Pet   {
    * @return category
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "category", required = false)
   public Optional<Category> getCategory() {
     return Optional.ofNullable(category);
   }
 
-  public void setCategory(Category category) {
+  public void setCategoryOptional<Category> category) {
     this.category = category;
   }
 
@@ -139,14 +134,12 @@ public class Pet   {
    * @return name
   */
   @NotNull 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "name", example = "doggie", required = true)
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setNameString name) {
     this.name = name;
   }
 
@@ -165,15 +158,13 @@ public class Pet   {
    * @return photoUrls
   */
   @NotNull 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "photoUrls", required = true)
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
   @JsonDeserialize(as = LinkedHashSet.class)
-  public void setPhotoUrls(Set<String> photoUrls) {
+  public void setPhotoUrlsSet<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
@@ -195,14 +186,12 @@ public class Pet   {
    * @return tags
   */
   @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "tags", required = false)
   public Optional<List<Tag>> getTags() {
     return Optional.ofNullable(tags);
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTagsOptional<List<Tag>> tags) {
     this.tags = tags;
   }
 
@@ -216,14 +205,12 @@ public class Pet   {
    * @return status
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "status", description = "pet status in the store", required = false)
   public Optional<StatusEnum> getStatus() {
     return Optional.ofNullable(status);
   }
 
-  public void setStatus(StatusEnum status) {
+  public void setStatusOptional<StatusEnum> status) {
     this.status = status;
   }
 

@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -36,14 +35,12 @@ public class File   {
    * @return sourceURI
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "sourceURI", description = "Test capitalization", required = false)
   public Optional<String> getSourceURI() {
     return Optional.ofNullable(sourceURI);
   }
 
-  public void setSourceURI(String sourceURI) {
+  public void setSourceURIOptional<String> sourceURI) {
     this.sourceURI = sourceURI;
   }
 

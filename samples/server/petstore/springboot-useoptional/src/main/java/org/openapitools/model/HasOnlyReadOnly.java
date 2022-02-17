@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -41,14 +40,12 @@ public class HasOnlyReadOnly   {
    * @return bar
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(readOnly = true, value = "")
   public Optional<String> getBar() {
     return Optional.ofNullable(bar);
   }
 
-  public void setBar(String bar) {
+  public void setBarOptional<String> bar) {
     this.bar = bar;
   }
 
@@ -62,14 +59,12 @@ public class HasOnlyReadOnly   {
    * @return foo
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(readOnly = true, value = "")
   public Optional<String> getFoo() {
     return Optional.ofNullable(foo);
   }
 
-  public void setFoo(String foo) {
+  public void setFooOptional<String> foo) {
     this.foo = foo;
   }
 

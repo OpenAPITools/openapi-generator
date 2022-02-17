@@ -43,7 +43,7 @@ public class HasOnlyReadOnly   {
     return bar;
   }
 
-  public void setBar(String bar) {
+  public void setBarString bar) {
     this.bar = bar;
   }
 
@@ -62,7 +62,7 @@ public class HasOnlyReadOnly   {
     return foo;
   }
 
-  public void setFoo(String foo) {
+  public void setFooString foo) {
     this.foo = foo;
   }
 

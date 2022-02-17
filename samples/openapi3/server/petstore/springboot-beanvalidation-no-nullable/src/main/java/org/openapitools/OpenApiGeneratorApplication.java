@@ -1,5 +1,6 @@
 package org.openapitools;
 
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ public class OpenApiGeneratorApplication {
     public static void main(String[] args) {
         SpringApplication.run(OpenApiGeneratorApplication.class, args);
     }
+
 
 
 }

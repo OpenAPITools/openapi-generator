@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -52,14 +51,12 @@ public class TypeHolderDefault   {
    * @return stringItem
   */
   @NotNull 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public String getStringItem() {
     return stringItem;
   }
 
-  public void setStringItem(String stringItem) {
+  public void setStringItemString stringItem) {
     this.stringItem = stringItem;
   }
 
@@ -73,14 +70,12 @@ public class TypeHolderDefault   {
    * @return numberItem
   */
   @NotNull @Valid 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public BigDecimal getNumberItem() {
     return numberItem;
   }
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItemBigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
@@ -94,14 +89,12 @@ public class TypeHolderDefault   {
    * @return integerItem
   */
   @NotNull 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public Integer getIntegerItem() {
     return integerItem;
   }
 
-  public void setIntegerItem(Integer integerItem) {
+  public void setIntegerItemInteger integerItem) {
     this.integerItem = integerItem;
   }
 
@@ -115,14 +108,12 @@ public class TypeHolderDefault   {
    * @return boolItem
   */
   @NotNull 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public Boolean getBoolItem() {
     return boolItem;
   }
 
-  public void setBoolItem(Boolean boolItem) {
+  public void setBoolItemBoolean boolItem) {
     this.boolItem = boolItem;
   }
 
@@ -141,14 +132,12 @@ public class TypeHolderDefault   {
    * @return arrayItem
   */
   @NotNull 
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
 
-  public void setArrayItem(List<Integer> arrayItem) {
+  public void setArrayItemList<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
 

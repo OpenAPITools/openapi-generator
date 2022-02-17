@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -44,14 +43,12 @@ public class ModelApiResponse   {
    * @return code
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "code", required = false)
   public Optional<Integer> getCode() {
     return Optional.ofNullable(code);
   }
 
-  public void setCode(Integer code) {
+  public void setCodeOptional<Integer> code) {
     this.code = code;
   }
 
@@ -65,14 +62,12 @@ public class ModelApiResponse   {
    * @return type
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "type", required = false)
   public Optional<String> getType() {
     return Optional.ofNullable(type);
   }
 
-  public void setType(String type) {
+  public void setTypeOptional<String> type) {
     this.type = type;
   }
 
@@ -86,14 +81,12 @@ public class ModelApiResponse   {
    * @return message
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "message", required = false)
   public Optional<String> getMessage() {
     return Optional.ofNullable(message);
   }
 
-  public void setMessage(String message) {
+  public void setMessageOptional<String> message) {
     this.message = message;
   }
 

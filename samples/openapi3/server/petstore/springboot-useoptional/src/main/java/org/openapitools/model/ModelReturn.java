@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -38,14 +37,12 @@ public class ModelReturn   {
    * @return _return
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "return", required = false)
   public Optional<Integer> getReturn() {
     return Optional.ofNullable(_return);
   }
 
-  public void setReturn(Integer _return) {
+  public void setReturnOptional<Integer> _return) {
     this._return = _return;
   }
 

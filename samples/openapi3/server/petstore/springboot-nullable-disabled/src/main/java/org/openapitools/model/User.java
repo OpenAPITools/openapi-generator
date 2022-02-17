@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -47,7 +46,7 @@ public class User   {
   private Integer userStatus;
 
   public User id(Long id) {
-    this.id = id;
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -56,19 +55,17 @@ public class User   {
    * @return id
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "id", required = false)
   public Optional<Long> getId() {
     return Optional.ofNullable(id);
   }
 
-  public void setId(Long id) {
+  public void setIdOptional<Long> id) {
     this.id = id;
   }
 
   public User username(String username) {
-    this.username = username;
+    this.username = Optional.of(username);
     return this;
   }
 
@@ -77,19 +74,17 @@ public class User   {
    * @return username
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "username", required = false)
   public Optional<String> getUsername() {
     return Optional.ofNullable(username);
   }
 
-  public void setUsername(String username) {
+  public void setUsernameOptional<String> username) {
     this.username = username;
   }
 
   public User firstName(String firstName) {
-    this.firstName = firstName;
+    this.firstName = Optional.of(firstName);
     return this;
   }
 
@@ -98,19 +93,17 @@ public class User   {
    * @return firstName
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "firstName", required = false)
   public Optional<String> getFirstName() {
     return Optional.ofNullable(firstName);
   }
 
-  public void setFirstName(String firstName) {
+  public void setFirstNameOptional<String> firstName) {
     this.firstName = firstName;
   }
 
   public User lastName(String lastName) {
-    this.lastName = lastName;
+    this.lastName = Optional.of(lastName);
     return this;
   }
 
@@ -119,19 +112,17 @@ public class User   {
    * @return lastName
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "lastName", required = false)
   public Optional<String> getLastName() {
     return Optional.ofNullable(lastName);
   }
 
-  public void setLastName(String lastName) {
+  public void setLastNameOptional<String> lastName) {
     this.lastName = lastName;
   }
 
   public User email(String email) {
-    this.email = email;
+    this.email = Optional.of(email);
     return this;
   }
 
@@ -140,19 +131,17 @@ public class User   {
    * @return email
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "email", required = false)
   public Optional<String> getEmail() {
     return Optional.ofNullable(email);
   }
 
-  public void setEmail(String email) {
+  public void setEmailOptional<String> email) {
     this.email = email;
   }
 
   public User password(String password) {
-    this.password = password;
+    this.password = Optional.of(password);
     return this;
   }
 
@@ -161,19 +150,17 @@ public class User   {
    * @return password
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "password", required = false)
   public Optional<String> getPassword() {
     return Optional.ofNullable(password);
   }
 
-  public void setPassword(String password) {
+  public void setPasswordOptional<String> password) {
     this.password = password;
   }
 
   public User phone(String phone) {
-    this.phone = phone;
+    this.phone = Optional.of(phone);
     return this;
   }
 
@@ -182,19 +169,17 @@ public class User   {
    * @return phone
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "phone", required = false)
   public Optional<String> getPhone() {
     return Optional.ofNullable(phone);
   }
 
-  public void setPhone(String phone) {
+  public void setPhoneOptional<String> phone) {
     this.phone = phone;
   }
 
   public User userStatus(Integer userStatus) {
-    this.userStatus = userStatus;
+    this.userStatus = Optional.of(userStatus);
     return this;
   }
 
@@ -203,14 +188,12 @@ public class User   {
    * @return userStatus
   */
   
-  // Rely on the @JsonProperty annotation on the variable and ignore the getter methods.
-  @JsonIgnore
   @Schema(name = "userStatus", description = "User Status", required = false)
   public Optional<Integer> getUserStatus() {
     return Optional.ofNullable(userStatus);
   }
 
-  public void setUserStatus(Integer userStatus) {
+  public void setUserStatusOptional<Integer> userStatus) {
     this.userStatus = userStatus;
   }
 

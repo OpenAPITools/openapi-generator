@@ -105,7 +105,7 @@ public class ObjectWithUniqueItems   {
   }
 
   @JsonDeserialize(as = LinkedHashSet.class)
-  public void setNotNullSet(Set<String> notNullSet) {
+  public void setNotNullSetSet<String> notNullSet) {
     this.notNullSet = notNullSet;
   }
 
@@ -159,7 +159,7 @@ public class ObjectWithUniqueItems   {
     return notNullList;
   }
 
-  public void setNotNullList(List<String> notNullList) {
+  public void setNotNullListList<String> notNullList) {
     this.notNullList = notNullList;
   }
 
@@ -178,7 +178,7 @@ public class ObjectWithUniqueItems   {
     return notNullDateField;
   }
 
-  public void setNotNullDateField(OffsetDateTime notNullDateField) {
+  public void setNotNullDateFieldOffsetDateTime notNullDateField) {
     this.notNullDateField = notNullDateField;
   }
 
@@ -197,7 +197,7 @@ public class ObjectWithUniqueItems   {
     return nullDateField;
   }
 
-  public void setNullDateField(OffsetDateTime nullDateField) {
+  public void setNullDateFieldOffsetDateTime nullDateField) {
     this.nullDateField = nullDateField;
   }
 
