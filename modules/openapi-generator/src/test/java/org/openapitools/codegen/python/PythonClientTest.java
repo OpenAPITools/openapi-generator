@@ -451,6 +451,7 @@ public class PythonClientTest {
         final CodegenProperty property1 = model.vars.get(0);
         Assert.assertEquals(property1.baseName, "datetime");
         Assert.assertEquals(property1.pattern, "/[\\d]{4}-[\\d]{2}-[\\d]{2}T[\\d]{1,2}:[\\d]{2}Z/");
+        Assert.assertEquals(property1.vendorExtensions.get("x-regex"), "[\\d]{4}-[\\d]{2}-[\\d]{2}T[\\d]{1,2}:[\\d]{2}Z");
     }
 
     @Test(description = "tests RecursiveToExample")
