@@ -74,7 +74,6 @@ public class FruitReq extends AbstractOpenApiSchema {
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             final TypeAdapter<AppleReq> adapterAppleReq = gson.getDelegateAdapter(this, TypeToken.get(AppleReq.class));
             final TypeAdapter<BananaReq> adapterBananaReq = gson.getDelegateAdapter(this, TypeToken.get(BananaReq.class));
-            final TypeAdapter<ModelNull> adapterModelNull = gson.getDelegateAdapter(this, TypeToken.get(ModelNull.class));
 
             return (TypeAdapter<T>) new TypeAdapter<FruitReq>() {
                 @Override
@@ -98,14 +97,7 @@ public class FruitReq extends AbstractOpenApiSchema {
                         return;
                     }
 
-                    // check if the actual instance is of the type `ModelNull`
-                    if (value.getActualInstance() instanceof ModelNull) {
-                        JsonObject obj = adapterModelNull.toJsonTree((ModelNull)value.getActualInstance()).getAsJsonObject();
-                        elementAdapter.write(out, obj);
-                        return;
-                    }
-
-                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: AppleReq, BananaReq, ModelNull");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: AppleReq, BananaReq");
                 }
 
                 @Override
@@ -140,18 +132,6 @@ public class FruitReq extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data does not match schema 'BananaReq'", e);
                     }
 
-                    // deserialize ModelNull
-                    try {
-                        // validate the JSON object to see if any excpetion is thrown
-                        ModelNull.validateJsonObject(jsonObject);
-                        actualAdapter = adapterModelNull;
-                        match++;
-                        log.log(Level.FINER, "Input data matches schema 'ModelNull'");
-                    } catch (Exception e) {
-                        // deserialization failed, continue
-                        log.log(Level.FINER, "Input data does not match schema 'ModelNull'", e);
-                    }
-
                     if (match == 1) {
                         FruitReq ret = new FruitReq();
                         ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject));
@@ -168,21 +148,16 @@ public class FruitReq extends AbstractOpenApiSchema {
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public FruitReq() {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
     }
 
     public FruitReq(AppleReq o) {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }
 
     public FruitReq(BananaReq o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public FruitReq(ModelNull o) {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }
 
@@ -190,8 +165,6 @@ public class FruitReq extends AbstractOpenApiSchema {
         schemas.put("AppleReq", new GenericType<AppleReq>() {
         });
         schemas.put("BananaReq", new GenericType<BananaReq>() {
-        });
-        schemas.put("ModelNull", new GenericType<ModelNull>() {
         });
     }
 
@@ -203,13 +176,18 @@ public class FruitReq extends AbstractOpenApiSchema {
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * AppleReq, BananaReq, ModelNull
+     * AppleReq, BananaReq
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
      */
     @Override
     public void setActualInstance(Object instance) {
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
         if (instance instanceof AppleReq) {
             super.setActualInstance(instance);
             return;
@@ -220,19 +198,14 @@ public class FruitReq extends AbstractOpenApiSchema {
             return;
         }
 
-        if (instance instanceof ModelNull) {
-            super.setActualInstance(instance);
-            return;
-        }
-
-        throw new RuntimeException("Invalid instance type. Must be AppleReq, BananaReq, ModelNull");
+        throw new RuntimeException("Invalid instance type. Must be AppleReq, BananaReq");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * AppleReq, BananaReq, ModelNull
+     * AppleReq, BananaReq
      *
-     * @return The actual instance (AppleReq, BananaReq, ModelNull)
+     * @return The actual instance (AppleReq, BananaReq)
      */
     @Override
     public Object getActualInstance() {
@@ -261,17 +234,6 @@ public class FruitReq extends AbstractOpenApiSchema {
         return (BananaReq)super.getActualInstance();
     }
 
-    /**
-     * Get the actual instance of `ModelNull`. If the actual instance is not `ModelNull`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `ModelNull`
-     * @throws ClassCastException if the instance is not `ModelNull`
-     */
-    public ModelNull getModelNull() throws ClassCastException {
-        return (ModelNull)super.getActualInstance();
-    }
-
 
  /**
   * Validates the JSON Object and throws an exception if issues found
@@ -296,15 +258,8 @@ public class FruitReq extends AbstractOpenApiSchema {
     } catch (Exception e) {
       // continue to the next one
     }
-    // validate the json string with ModelNull
-    try {
-      ModelNull.validateJsonObject(jsonObj);
-      validCount++;
-    } catch (Exception e) {
-      // continue to the next one
-    }
     if (validCount != 1) {
-      throw new IOException(String.format("The JSON string is invalid for FruitReq with oneOf schemas: AppleReq, BananaReq, ModelNull. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
+      throw new IOException(String.format("The JSON string is invalid for FruitReq with oneOf schemas: AppleReq, BananaReq. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
     }
   }
 
