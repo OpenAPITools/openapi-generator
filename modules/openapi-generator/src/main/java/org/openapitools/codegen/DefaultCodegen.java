@@ -1501,7 +1501,18 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @SuppressWarnings("static-method")
     public String toEnumName(CodegenProperty property) {
-        return StringUtils.capitalize(property.name) + "Enum";
+        return toEnumName(property.name);
+    }
+
+    /**
+     * Return the Enum name (e.g. StatusEnum given 'status')
+     *
+     * @param propertyName Property name
+     * @return the Enum name
+     */
+    @SuppressWarnings("static-method")
+    public String toEnumName(String propertyName) {
+        return StringUtils.capitalize(propertyName) + "Enum";
     }
 
     /**
@@ -3192,8 +3203,15 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.setPropertyName(toVarName(discPropName));
         discriminator.setPropertyBaseName(sourceDiscriminator.getPropertyName());
         discriminator.setPropertyGetter(toGetter(discriminator.getPropertyName()));
-        // FIXME: for now, we assume that the discriminator property is String
-        discriminator.setPropertyType(typeMapping.get("string"));
+        if (isEnumDiscriminator(schema, openAPI)) {
+            discriminator.setPropertyType(toEnumName(discPropName));
+            discriminator.setIsEnumProperty(true);
+        } else {
+            // FIXME: let's assume that it's a string if it's not an enum
+            discriminator.setPropertyType(typeMapping.get("string"));
+            discriminator.setIsEnumProperty(false);
+        }
+        discriminator.setMappingKey(getMappingKey(schemaName, sourceDiscriminator.getMapping()));
         discriminator.setMapping(sourceDiscriminator.getMapping());
         List<MappedModel> uniqueDescendants = new ArrayList();
         if (sourceDiscriminator.getMapping() != null && !sourceDiscriminator.getMapping().isEmpty()) {
@@ -3245,6 +3263,50 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.getMappedModels().addAll(uniqueDescendants);
 
         return discriminator;
+    }
+
+    private boolean isEnumDiscriminator (Schema schema, OpenAPI openAPI)
+    {
+        Schema refSchema = ModelUtils.getReferencedSchema(openAPI, schema);
+        Discriminator discriminator = refSchema.getDiscriminator();
+        if (discriminator != null) {
+            Map<String, Schema> properties = refSchema.getProperties();
+            if (properties != null) {
+                Schema discriminatorSchema = properties.get(discriminator.getPropertyName());
+                return discriminatorSchema != null &&
+                        discriminatorSchema.getEnum() != null
+                        && !discriminatorSchema.getEnum().isEmpty();
+            }
+        }
+
+        if (ModelUtils.isComposedSchema(refSchema)) {
+            ComposedSchema composedSchema = (ComposedSchema) refSchema;
+            if (composedSchema.getAllOf() != null) {
+                for (Schema allOf : composedSchema.getAllOf()) {
+                    if (isEnumDiscriminator(allOf, openAPI)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private String getMappingKey (String schemaName, Map<String, String> mapping)
+    {
+        if (mapping == null) {
+            return null;
+        }
+
+        for (Map.Entry<String, String> entry : mapping.entrySet()) {
+            String mappingSchemaPath = entry.getValue();
+            String mappingSchemaName = mappingSchemaPath.substring(mappingSchemaPath.lastIndexOf("/") + 1);
+            if (schemaName.equals(mappingSchemaName)) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
     /**

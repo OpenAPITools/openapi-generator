@@ -81,7 +81,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/vars}}
   public {{classname}}() { {{#parent}}{{#parcelableModel}}
     super();{{/parcelableModel}}{{/parent}}{{#gson}}{{#discriminator}}
-    this.{{{discriminatorName}}} = this.getClass().getSimpleName();{{/discriminator}}{{/gson}}
+    {{#isEnumProperty}}{{#mappingKey}}this.{{{discriminatorName}}} = {{propertyType}}.fromValue("{{mappingKey}}");{{/mappingKey}}{{/isEnumProperty}}
+    {{^isEnumProperty}}this.{{{discriminatorName}}} = this.getClass().getSimpleName();{{/isEnumProperty}}
+    {{/discriminator}}{{/gson}}
   }{{#vendorExtensions.x-has-readonly-properties}}{{^withXml}}
 
   {{#jsonb}}@JsonbCreator{{/jsonb}}{{#jackson}}@JsonCreator{{/jackson}}
