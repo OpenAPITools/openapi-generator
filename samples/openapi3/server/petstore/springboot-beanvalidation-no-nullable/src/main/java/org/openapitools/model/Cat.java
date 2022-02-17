@@ -40,7 +40,7 @@ public class Cat extends Animal  {
     return declawed;
   }
 
-  public void setDeclawedBoolean declawed) {
+  public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
 

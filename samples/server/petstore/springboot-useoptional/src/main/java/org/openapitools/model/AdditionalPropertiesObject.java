@@ -25,10 +25,10 @@ import javax.annotation.Generated;
 public class AdditionalPropertiesObject extends HashMap<String, Map>  {
 
   @JsonProperty("name")
-  private String name;
+  private Optional<String> name;
 
   public AdditionalPropertiesObject name(String name) {
-    this.name = name;
+    this.name = Optional.of(name);
     return this;
   }
 
@@ -36,13 +36,12 @@ public class AdditionalPropertiesObject extends HashMap<String, Map>  {
    * Get name
    * @return name
   */
-  
   @ApiModelProperty(value = "")
   public Optional<String> getName() {
-    return Optional.ofNullable(name);
+    return name;
   }
 
-  public void setNameOptional<String> name) {
+  public void setName(Optional<String> name) {
     this.name = name;
   }
 

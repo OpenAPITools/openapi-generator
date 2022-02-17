@@ -22,13 +22,13 @@ import javax.annotation.Generated;
 public class ReadOnlyFirst   {
 
   @JsonProperty("bar")
-  private String bar;
+  private Optional<String> bar;
 
   @JsonProperty("baz")
-  private String baz;
+  private Optional<String> baz;
 
   public ReadOnlyFirst bar(String bar) {
-    this.bar = bar;
+    this.bar = Optional.of(bar);
     return this;
   }
 
@@ -36,18 +36,17 @@ public class ReadOnlyFirst   {
    * Get bar
    * @return bar
   */
-  
   @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public Optional<String> getBar() {
-    return Optional.ofNullable(bar);
+    return bar;
   }
 
-  public void setBarOptional<String> bar) {
+  public void setBar(Optional<String> bar) {
     this.bar = bar;
   }
 
   public ReadOnlyFirst baz(String baz) {
-    this.baz = baz;
+    this.baz = Optional.of(baz);
     return this;
   }
 
@@ -55,13 +54,12 @@ public class ReadOnlyFirst   {
    * Get baz
    * @return baz
   */
-  
   @Schema(name = "baz", required = false)
   public Optional<String> getBaz() {
-    return Optional.ofNullable(baz);
+    return baz;
   }
 
-  public void setBazOptional<String> baz) {
+  public void setBaz(Optional<String> baz) {
     this.baz = baz;
   }
 

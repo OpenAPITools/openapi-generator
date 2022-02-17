@@ -39,7 +39,7 @@ public class NumberOnly   {
     return justNumber;
   }
 
-  public void setJustNumberBigDecimal justNumber) {
+  public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
 

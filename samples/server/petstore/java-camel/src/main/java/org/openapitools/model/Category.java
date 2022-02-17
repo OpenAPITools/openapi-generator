@@ -53,7 +53,7 @@ public class Category   {
     return id;
   }
 
-  public void setIdLong id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -72,7 +72,7 @@ public class Category   {
     return name;
   }
 
-  public void setNameString name) {
+  public void setName(String name) {
     this.name = name;
   }
 

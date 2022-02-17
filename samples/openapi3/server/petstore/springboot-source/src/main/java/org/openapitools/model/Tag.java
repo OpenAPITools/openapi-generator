@@ -40,7 +40,7 @@ public class Tag   {
     return id;
   }
 
-  public void setIdLong id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -58,7 +58,7 @@ public class Tag   {
     return name;
   }
 
-  public void setNameString name) {
+  public void setName(String name) {
     this.name = name;
   }
 

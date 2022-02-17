@@ -42,7 +42,7 @@ public class CatAllOf   {
     return declawed;
   }
 
-  public void setDeclawedBoolean declawed) {
+  public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
 

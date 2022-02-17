@@ -50,7 +50,7 @@ public class ArrayOfArrayOfNumberOnly   {
     return arrayArrayNumber;
   }
 
-  public void setArrayArrayNumberList<List<BigDecimal>> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 

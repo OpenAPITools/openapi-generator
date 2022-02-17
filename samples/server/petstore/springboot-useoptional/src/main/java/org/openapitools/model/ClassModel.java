@@ -24,10 +24,10 @@ import javax.annotation.Generated;
 public class ClassModel   {
 
   @JsonProperty("_class")
-  private String propertyClass;
+  private Optional<String> propertyClass;
 
   public ClassModel propertyClass(String propertyClass) {
-    this.propertyClass = propertyClass;
+    this.propertyClass = Optional.of(propertyClass);
     return this;
   }
 
@@ -35,13 +35,12 @@ public class ClassModel   {
    * Get propertyClass
    * @return propertyClass
   */
-  
   @ApiModelProperty(value = "")
   public Optional<String> getPropertyClass() {
-    return Optional.ofNullable(propertyClass);
+    return propertyClass;
   }
 
-  public void setPropertyClassOptional<String> propertyClass) {
+  public void setPropertyClass(Optional<String> propertyClass) {
     this.propertyClass = propertyClass;
   }
 

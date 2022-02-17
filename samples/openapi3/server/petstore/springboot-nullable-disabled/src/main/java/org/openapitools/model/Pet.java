@@ -27,21 +27,21 @@ import javax.annotation.Generated;
 public class Pet   {
 
   @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id;
 
   @JsonProperty("category")
-  private Category category;
+  private Optional<Category> category;
 
   @JsonProperty("name")
   private String name = null;
 
   @JsonProperty("photoUrls")
   @Valid
-  private List<String> photoUrls = new ArrayList<>()
+  private List<String> photoUrls = new ArrayList<>();
 
   @JsonProperty("tags")
   @Valid
-  private Optional<List<Tag>> tags = Optional.empty()
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -81,7 +81,7 @@ public class Pet   {
   }
 
   @JsonProperty("status")
-  private StatusEnum status = null;
+  private Optional<StatusEnum> status = Optional.empty();
 
   public Pet id(Long id) {
     this.id = Optional.of(id);
@@ -92,13 +92,12 @@ public class Pet   {
    * Get id
    * @return id
   */
-  
   @Schema(name = "id", required = false)
   public Optional<Long> getId() {
-    return Optional.ofNullable(id);
+    return id;
   }
 
-  public void setIdOptional<Long> id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
@@ -111,13 +110,12 @@ public class Pet   {
    * Get category
    * @return category
   */
-  @Valid 
   @Schema(name = "category", required = false)
   public Optional<Category> getCategory() {
-    return Optional.ofNullable(category);
+    return category;
   }
 
-  public void setCategoryOptional<Category> category) {
+  public void setCategory(Optional<Category> category) {
     this.category = category;
   }
 
@@ -163,12 +161,12 @@ public class Pet   {
     return photoUrls;
   }
 
-  public void setPhotoUrlsList<String> photoUrls) {
+  public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
   public Pet tags(List<Tag> tags) {
-    this.tags = Optional.of(tags);
+    this.tags = tags;
     return this;
   }
 
@@ -184,13 +182,12 @@ public class Pet   {
    * Get tags
    * @return tags
   */
-  @Valid 
   @Schema(name = "tags", required = false)
-  public Optional<List<Tag>> getTags() {
-    return Optional.ofNullable(tags);
+  public List<Tag> getTags() {
+    return tags;
   }
 
-  public void setTagsOptional<List<Tag>> tags) {
+  public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
@@ -203,13 +200,12 @@ public class Pet   {
    * pet status in the store
    * @return status
   */
-  
   @Schema(name = "status", description = "pet status in the store", required = false)
-  public StatusEnum getStatus() {
+  public Optional<StatusEnum> getStatus() {
     return status;
   }
 
-  public void setStatus(StatusEnum status) {
+  public void setStatus(Optional<StatusEnum> status) {
     this.status = status;
   }
 

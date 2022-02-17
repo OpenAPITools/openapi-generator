@@ -25,10 +25,10 @@ import javax.annotation.Generated;
 public class ModelList   {
 
   @JsonProperty("123-list")
-  private String _123list;
+  private Optional<String> _123list;
 
   public ModelList _123list(String _123list) {
-    this._123list = _123list;
+    this._123list = Optional.of(_123list);
     return this;
   }
 
@@ -36,13 +36,12 @@ public class ModelList   {
    * Get _123list
    * @return _123list
   */
-  
   @ApiModelProperty(value = "")
   public Optional<String> get123list() {
-    return Optional.ofNullable(_123list);
+    return _123list;
   }
 
-  public void set123listOptional<String> _123list) {
+  public void set123list(Optional<String> _123list) {
     this._123list = _123list;
   }
 

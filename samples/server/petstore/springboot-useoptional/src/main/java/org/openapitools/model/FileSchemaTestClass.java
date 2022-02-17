@@ -26,14 +26,14 @@ import javax.annotation.Generated;
 public class FileSchemaTestClass   {
 
   @JsonProperty("file")
-  private File file;
+  private Optional<File> file;
 
   @JsonProperty("files")
   @Valid
   private List<File> files = null;
 
   public FileSchemaTestClass file(File file) {
-    this.file = file;
+    this.file = Optional.of(file);
     return this;
   }
 
@@ -41,13 +41,12 @@ public class FileSchemaTestClass   {
    * Get file
    * @return file
   */
-  @Valid 
   @ApiModelProperty(value = "")
   public Optional<File> getFile() {
-    return Optional.ofNullable(file);
+    return file;
   }
 
-  public void setFileOptional<File> file) {
+  public void setFile(Optional<File> file) {
     this.file = file;
   }
 
@@ -68,13 +67,12 @@ public class FileSchemaTestClass   {
    * Get files
    * @return files
   */
-  @Valid 
   @ApiModelProperty(value = "")
-  public Optional<List<File>> getFiles() {
-    return Optional.ofNullable(files);
+  public List<File> getFiles() {
+    return files;
   }
 
-  public void setFilesOptional<List<File>> files) {
+  public void setFiles(List<File> files) {
     this.files = files;
   }
 

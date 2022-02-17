@@ -25,10 +25,10 @@ import javax.annotation.Generated;
 public class ModelReturn   {
 
   @JsonProperty("return")
-  private Integer _return;
+  private Optional<Integer> _return;
 
   public ModelReturn _return(Integer _return) {
-    this._return = _return;
+    this._return = Optional.of(_return);
     return this;
   }
 
@@ -36,13 +36,12 @@ public class ModelReturn   {
    * Get _return
    * @return _return
   */
-  
   @Schema(name = "return", required = false)
   public Optional<Integer> getReturn() {
-    return Optional.ofNullable(_return);
+    return _return;
   }
 
-  public void setReturnOptional<Integer> _return) {
+  public void setReturn(Optional<Integer> _return) {
     this._return = _return;
   }
 

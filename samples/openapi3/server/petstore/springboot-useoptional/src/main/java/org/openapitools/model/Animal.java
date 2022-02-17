@@ -33,7 +33,7 @@ public class Animal   {
   private String className;
 
   @JsonProperty("color")
-  private String color = "red";
+  private Optional<String> color = Optional.ofNullable("red");
 
   public Animal className(String className) {
     this.className = className;
@@ -50,12 +50,12 @@ public class Animal   {
     return className;
   }
 
-  public void setClassNameString className) {
+  public void setClassName(String className) {
     this.className = className;
   }
 
   public Animal color(String color) {
-    this.color = color;
+    this.color = Optional.of(color);
     return this;
   }
 
@@ -63,13 +63,12 @@ public class Animal   {
    * Get color
    * @return color
   */
-  
   @Schema(name = "color", required = false)
   public Optional<String> getColor() {
-    return Optional.ofNullable(color);
+    return color;
   }
 
-  public void setColorOptional<String> color) {
+  public void setColor(Optional<String> color) {
     this.color = color;
   }
 

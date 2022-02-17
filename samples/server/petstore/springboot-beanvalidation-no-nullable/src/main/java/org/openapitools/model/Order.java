@@ -95,7 +95,7 @@ public class Order   {
     return id;
   }
 
-  public void setIdLong id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -114,7 +114,7 @@ public class Order   {
     return petId;
   }
 
-  public void setPetIdLong petId) {
+  public void setPetId(Long petId) {
     this.petId = petId;
   }
 
@@ -133,7 +133,7 @@ public class Order   {
     return quantity;
   }
 
-  public void setQuantityInteger quantity) {
+  public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
 
@@ -152,7 +152,7 @@ public class Order   {
     return shipDate;
   }
 
-  public void setShipDateOffsetDateTime shipDate) {
+  public void setShipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
 
@@ -171,7 +171,7 @@ public class Order   {
     return status;
   }
 
-  public void setStatusStatusEnum status) {
+  public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
@@ -190,7 +190,7 @@ public class Order   {
     return complete;
   }
 
-  public void setCompleteBoolean complete) {
+  public void setComplete(Boolean complete) {
     this.complete = complete;
   }
 

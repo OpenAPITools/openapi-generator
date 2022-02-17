@@ -24,10 +24,10 @@ import javax.annotation.Generated;
 public class Dog extends Animal  {
 
   @JsonProperty("breed")
-  private String breed;
+  private Optional<String> breed;
 
   public Dog breed(String breed) {
-    this.breed = breed;
+    this.breed = Optional.of(breed);
     return this;
   }
 
@@ -35,13 +35,12 @@ public class Dog extends Animal  {
    * Get breed
    * @return breed
   */
-  
   @Schema(name = "breed", required = false)
   public Optional<String> getBreed() {
-    return Optional.ofNullable(breed);
+    return breed;
   }
 
-  public void setBreedOptional<String> breed) {
+  public void setBreed(Optional<String> breed) {
     this.breed = breed;
   }
 

@@ -46,13 +46,12 @@ public class ArrayOfArrayOfNumberOnly   {
    * Get arrayArrayNumber
    * @return arrayArrayNumber
   */
-  @Valid 
   @ApiModelProperty(value = "")
-  public Optional<List<List<BigDecimal>>> getArrayArrayNumber() {
-    return Optional.ofNullable(arrayArrayNumber);
+  public List<List<BigDecimal>> getArrayArrayNumber() {
+    return arrayArrayNumber;
   }
 
-  public void setArrayArrayNumberOptional<List<List<BigDecimal>>> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 

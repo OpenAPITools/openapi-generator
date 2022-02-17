@@ -134,7 +134,7 @@ public class XmlItem   {
     return attributeString;
   }
 
-  public void setAttributeStringString attributeString) {
+  public void setAttributeString(String attributeString) {
     this.attributeString = attributeString;
   }
 
@@ -153,7 +153,7 @@ public class XmlItem   {
     return attributeNumber;
   }
 
-  public void setAttributeNumberBigDecimal attributeNumber) {
+  public void setAttributeNumber(BigDecimal attributeNumber) {
     this.attributeNumber = attributeNumber;
   }
 
@@ -172,7 +172,7 @@ public class XmlItem   {
     return attributeInteger;
   }
 
-  public void setAttributeIntegerInteger attributeInteger) {
+  public void setAttributeInteger(Integer attributeInteger) {
     this.attributeInteger = attributeInteger;
   }
 
@@ -191,7 +191,7 @@ public class XmlItem   {
     return attributeBoolean;
   }
 
-  public void setAttributeBooleanBoolean attributeBoolean) {
+  public void setAttributeBoolean(Boolean attributeBoolean) {
     this.attributeBoolean = attributeBoolean;
   }
 
@@ -218,7 +218,7 @@ public class XmlItem   {
     return wrappedArray;
   }
 
-  public void setWrappedArrayList<Integer> wrappedArray) {
+  public void setWrappedArray(List<Integer> wrappedArray) {
     this.wrappedArray = wrappedArray;
   }
 
@@ -237,7 +237,7 @@ public class XmlItem   {
     return nameString;
   }
 
-  public void setNameStringString nameString) {
+  public void setNameString(String nameString) {
     this.nameString = nameString;
   }
 
@@ -256,7 +256,7 @@ public class XmlItem   {
     return nameNumber;
   }
 
-  public void setNameNumberBigDecimal nameNumber) {
+  public void setNameNumber(BigDecimal nameNumber) {
     this.nameNumber = nameNumber;
   }
 
@@ -275,7 +275,7 @@ public class XmlItem   {
     return nameInteger;
   }
 
-  public void setNameIntegerInteger nameInteger) {
+  public void setNameInteger(Integer nameInteger) {
     this.nameInteger = nameInteger;
   }
 
@@ -294,7 +294,7 @@ public class XmlItem   {
     return nameBoolean;
   }
 
-  public void setNameBooleanBoolean nameBoolean) {
+  public void setNameBoolean(Boolean nameBoolean) {
     this.nameBoolean = nameBoolean;
   }
 
@@ -321,7 +321,7 @@ public class XmlItem   {
     return nameArray;
   }
 
-  public void setNameArrayList<Integer> nameArray) {
+  public void setNameArray(List<Integer> nameArray) {
     this.nameArray = nameArray;
   }
 
@@ -348,7 +348,7 @@ public class XmlItem   {
     return nameWrappedArray;
   }
 
-  public void setNameWrappedArrayList<Integer> nameWrappedArray) {
+  public void setNameWrappedArray(List<Integer> nameWrappedArray) {
     this.nameWrappedArray = nameWrappedArray;
   }
 
@@ -367,7 +367,7 @@ public class XmlItem   {
     return prefixString;
   }
 
-  public void setPrefixStringString prefixString) {
+  public void setPrefixString(String prefixString) {
     this.prefixString = prefixString;
   }
 
@@ -386,7 +386,7 @@ public class XmlItem   {
     return prefixNumber;
   }
 
-  public void setPrefixNumberBigDecimal prefixNumber) {
+  public void setPrefixNumber(BigDecimal prefixNumber) {
     this.prefixNumber = prefixNumber;
   }
 
@@ -405,7 +405,7 @@ public class XmlItem   {
     return prefixInteger;
   }
 
-  public void setPrefixIntegerInteger prefixInteger) {
+  public void setPrefixInteger(Integer prefixInteger) {
     this.prefixInteger = prefixInteger;
   }
 
@@ -424,7 +424,7 @@ public class XmlItem   {
     return prefixBoolean;
   }
 
-  public void setPrefixBooleanBoolean prefixBoolean) {
+  public void setPrefixBoolean(Boolean prefixBoolean) {
     this.prefixBoolean = prefixBoolean;
   }
 
@@ -451,7 +451,7 @@ public class XmlItem   {
     return prefixArray;
   }
 
-  public void setPrefixArrayList<Integer> prefixArray) {
+  public void setPrefixArray(List<Integer> prefixArray) {
     this.prefixArray = prefixArray;
   }
 
@@ -478,7 +478,7 @@ public class XmlItem   {
     return prefixWrappedArray;
   }
 
-  public void setPrefixWrappedArrayList<Integer> prefixWrappedArray) {
+  public void setPrefixWrappedArray(List<Integer> prefixWrappedArray) {
     this.prefixWrappedArray = prefixWrappedArray;
   }
 
@@ -497,7 +497,7 @@ public class XmlItem   {
     return namespaceString;
   }
 
-  public void setNamespaceStringString namespaceString) {
+  public void setNamespaceString(String namespaceString) {
     this.namespaceString = namespaceString;
   }
 
@@ -516,7 +516,7 @@ public class XmlItem   {
     return namespaceNumber;
   }
 
-  public void setNamespaceNumberBigDecimal namespaceNumber) {
+  public void setNamespaceNumber(BigDecimal namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }
 
@@ -535,7 +535,7 @@ public class XmlItem   {
     return namespaceInteger;
   }
 
-  public void setNamespaceIntegerInteger namespaceInteger) {
+  public void setNamespaceInteger(Integer namespaceInteger) {
     this.namespaceInteger = namespaceInteger;
   }
 
@@ -554,7 +554,7 @@ public class XmlItem   {
     return namespaceBoolean;
   }
 
-  public void setNamespaceBooleanBoolean namespaceBoolean) {
+  public void setNamespaceBoolean(Boolean namespaceBoolean) {
     this.namespaceBoolean = namespaceBoolean;
   }
 
@@ -581,7 +581,7 @@ public class XmlItem   {
     return namespaceArray;
   }
 
-  public void setNamespaceArrayList<Integer> namespaceArray) {
+  public void setNamespaceArray(List<Integer> namespaceArray) {
     this.namespaceArray = namespaceArray;
   }
 
@@ -608,7 +608,7 @@ public class XmlItem   {
     return namespaceWrappedArray;
   }
 
-  public void setNamespaceWrappedArrayList<Integer> namespaceWrappedArray) {
+  public void setNamespaceWrappedArray(List<Integer> namespaceWrappedArray) {
     this.namespaceWrappedArray = namespaceWrappedArray;
   }
 
@@ -627,7 +627,7 @@ public class XmlItem   {
     return prefixNsString;
   }
 
-  public void setPrefixNsStringString prefixNsString) {
+  public void setPrefixNsString(String prefixNsString) {
     this.prefixNsString = prefixNsString;
   }
 
@@ -646,7 +646,7 @@ public class XmlItem   {
     return prefixNsNumber;
   }
 
-  public void setPrefixNsNumberBigDecimal prefixNsNumber) {
+  public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }
 
@@ -665,7 +665,7 @@ public class XmlItem   {
     return prefixNsInteger;
   }
 
-  public void setPrefixNsIntegerInteger prefixNsInteger) {
+  public void setPrefixNsInteger(Integer prefixNsInteger) {
     this.prefixNsInteger = prefixNsInteger;
   }
 
@@ -684,7 +684,7 @@ public class XmlItem   {
     return prefixNsBoolean;
   }
 
-  public void setPrefixNsBooleanBoolean prefixNsBoolean) {
+  public void setPrefixNsBoolean(Boolean prefixNsBoolean) {
     this.prefixNsBoolean = prefixNsBoolean;
   }
 
@@ -711,7 +711,7 @@ public class XmlItem   {
     return prefixNsArray;
   }
 
-  public void setPrefixNsArrayList<Integer> prefixNsArray) {
+  public void setPrefixNsArray(List<Integer> prefixNsArray) {
     this.prefixNsArray = prefixNsArray;
   }
 
@@ -738,7 +738,7 @@ public class XmlItem   {
     return prefixNsWrappedArray;
   }
 
-  public void setPrefixNsWrappedArrayList<Integer> prefixNsWrappedArray) {
+  public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
 

@@ -24,13 +24,13 @@ import javax.annotation.Generated;
 public class ModelApiResponse   {
 
   @JsonProperty("code")
-  private Integer code;
+  private Optional<Integer> code;
 
   @JsonProperty("type")
-  private String type;
+  private Optional<String> type;
 
   @JsonProperty("message")
-  private String message;
+  private Optional<String> message;
 
   public ModelApiResponse code(Integer code) {
     this.code = Optional.of(code);
@@ -41,13 +41,12 @@ public class ModelApiResponse   {
    * Get code
    * @return code
   */
-  
   @Schema(name = "code", required = false)
   public Optional<Integer> getCode() {
-    return Optional.ofNullable(code);
+    return code;
   }
 
-  public void setCodeOptional<Integer> code) {
+  public void setCode(Optional<Integer> code) {
     this.code = code;
   }
 
@@ -60,13 +59,12 @@ public class ModelApiResponse   {
    * Get type
    * @return type
   */
-  
   @Schema(name = "type", required = false)
   public Optional<String> getType() {
-    return Optional.ofNullable(type);
+    return type;
   }
 
-  public void setTypeOptional<String> type) {
+  public void setType(Optional<String> type) {
     this.type = type;
   }
 
@@ -79,13 +77,12 @@ public class ModelApiResponse   {
    * Get message
    * @return message
   */
-  
   @Schema(name = "message", required = false)
   public Optional<String> getMessage() {
-    return Optional.ofNullable(message);
+    return message;
   }
 
-  public void setMessageOptional<String> message) {
+  public void setMessage(Optional<String> message) {
     this.message = message;
   }
 

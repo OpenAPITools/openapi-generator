@@ -51,7 +51,7 @@ public class Animal   {
     return className;
   }
 
-  public void setClassNameString className) {
+  public void setClassName(String className) {
     this.className = className;
   }
 
@@ -70,7 +70,7 @@ public class Animal   {
     return color;
   }
 
-  public void setColorString color) {
+  public void setColor(String color) {
     this.color = color;
   }
 

@@ -30,10 +30,10 @@ import javax.annotation.Generated;
 public class Pet   {
 
   @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id;
 
   @JsonProperty("category")
-  private Category category;
+  private Optional<Category> category;
 
   @JsonProperty("name")
   private String name;
@@ -84,10 +84,10 @@ public class Pet   {
   }
 
   @JsonProperty("status")
-  private StatusEnum status;
+  private Optional<StatusEnum> status;
 
   public Pet id(Long id) {
-    this.id = id;
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -95,18 +95,17 @@ public class Pet   {
    * Get id
    * @return id
   */
-  
   @Schema(name = "id", required = false)
   public Optional<Long> getId() {
-    return Optional.ofNullable(id);
+    return id;
   }
 
-  public void setIdOptional<Long> id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
   public Pet category(Category category) {
-    this.category = category;
+    this.category = Optional.of(category);
     return this;
   }
 
@@ -114,13 +113,12 @@ public class Pet   {
    * Get category
    * @return category
   */
-  @Valid 
   @Schema(name = "category", required = false)
   public Optional<Category> getCategory() {
-    return Optional.ofNullable(category);
+    return category;
   }
 
-  public void setCategoryOptional<Category> category) {
+  public void setCategory(Optional<Category> category) {
     this.category = category;
   }
 
@@ -139,7 +137,7 @@ public class Pet   {
     return name;
   }
 
-  public void setNameString name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -164,7 +162,7 @@ public class Pet   {
   }
 
   @JsonDeserialize(as = LinkedHashSet.class)
-  public void setPhotoUrlsSet<String> photoUrls) {
+  public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
@@ -185,18 +183,17 @@ public class Pet   {
    * Get tags
    * @return tags
   */
-  @Valid 
   @Schema(name = "tags", required = false)
-  public Optional<List<Tag>> getTags() {
-    return Optional.ofNullable(tags);
+  public List<Tag> getTags() {
+    return tags;
   }
 
-  public void setTagsOptional<List<Tag>> tags) {
+  public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
   public Pet status(StatusEnum status) {
-    this.status = status;
+    this.status = Optional.of(status);
     return this;
   }
 
@@ -204,13 +201,12 @@ public class Pet   {
    * pet status in the store
    * @return status
   */
-  
   @Schema(name = "status", description = "pet status in the store", required = false)
   public Optional<StatusEnum> getStatus() {
-    return Optional.ofNullable(status);
+    return status;
   }
 
-  public void setStatusOptional<StatusEnum> status) {
+  public void setStatus(Optional<StatusEnum> status) {
     this.status = status;
   }
 

@@ -40,7 +40,7 @@ public class ModelList   {
     return _123list;
   }
 
-  public void set123listString _123list) {
+  public void set123list(String _123list) {
     this._123list = _123list;
   }
 

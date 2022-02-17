@@ -199,7 +199,7 @@ public class EnumTest   {
     return enumString;
   }
 
-  public void setEnumStringEnumStringEnum enumString) {
+  public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
 
@@ -218,7 +218,7 @@ public class EnumTest   {
     return enumStringRequired;
   }
 
-  public void setEnumStringRequiredEnumStringRequiredEnum enumStringRequired) {
+  public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
 
@@ -237,7 +237,7 @@ public class EnumTest   {
     return enumInteger;
   }
 
-  public void setEnumIntegerEnumIntegerEnum enumInteger) {
+  public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
 
@@ -256,7 +256,7 @@ public class EnumTest   {
     return enumNumber;
   }
 
-  public void setEnumNumberEnumNumberEnum enumNumber) {
+  public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
 
@@ -275,7 +275,7 @@ public class EnumTest   {
     return outerEnum;
   }
 
-  public void setOuterEnumOuterEnum outerEnum) {
+  public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
 

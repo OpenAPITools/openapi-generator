@@ -22,10 +22,10 @@ import javax.annotation.Generated;
 public class Tag   {
 
   @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id;
 
   @JsonProperty("name")
-  private String name;
+  private Optional<String> name;
 
   public Tag id(Long id) {
     this.id = Optional.of(id);
@@ -36,13 +36,12 @@ public class Tag   {
    * Get id
    * @return id
   */
-  
   @Schema(name = "id", required = false)
   public Optional<Long> getId() {
-    return Optional.ofNullable(id);
+    return id;
   }
 
-  public void setIdOptional<Long> id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
@@ -55,13 +54,12 @@ public class Tag   {
    * Get name
    * @return name
   */
-  
   @Schema(name = "name", required = false)
   public Optional<String> getName() {
-    return Optional.ofNullable(name);
+    return name;
   }
 
-  public void setNameOptional<String> name) {
+  public void setName(Optional<String> name) {
     this.name = name;
   }
 

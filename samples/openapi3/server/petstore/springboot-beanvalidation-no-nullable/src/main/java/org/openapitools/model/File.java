@@ -39,7 +39,7 @@ public class File   {
     return sourceURI;
   }
 
-  public void setSourceURIString sourceURI) {
+  public void setSourceURI(String sourceURI) {
     this.sourceURI = sourceURI;
   }
 

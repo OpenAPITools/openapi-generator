@@ -30,18 +30,18 @@ import javax.annotation.Generated;
 public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   @JsonProperty("uuid")
-  private UUID uuid;
+  private Optional<UUID> uuid;
 
   @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime dateTime;
+  private Optional<OffsetDateTime> dateTime;
 
   @JsonProperty("map")
   @Valid
   private Map<String, Animal> map = null;
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.uuid = Optional.of(uuid);
     return this;
   }
 
@@ -49,18 +49,17 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get uuid
    * @return uuid
   */
-  @Valid 
   @ApiModelProperty(value = "")
   public Optional<UUID> getUuid() {
-    return Optional.ofNullable(uuid);
+    return uuid;
   }
 
-  public void setUuidOptional<UUID> uuid) {
+  public void setUuid(Optional<UUID> uuid) {
     this.uuid = uuid;
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    this.dateTime = dateTime;
+    this.dateTime = Optional.of(dateTime);
     return this;
   }
 
@@ -68,18 +67,17 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get dateTime
    * @return dateTime
   */
-  @Valid 
   @ApiModelProperty(value = "")
   public Optional<OffsetDateTime> getDateTime() {
-    return Optional.ofNullable(dateTime);
+    return dateTime;
   }
 
-  public void setDateTimeOptional<OffsetDateTime> dateTime) {
+  public void setDateTime(Optional<OffsetDateTime> dateTime) {
     this.dateTime = dateTime;
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
-    this.map = map;
+    this.map = Optional.of(map);
     return this;
   }
 
@@ -95,13 +93,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get map
    * @return map
   */
-  @Valid 
   @ApiModelProperty(value = "")
   public Optional<Map<String, Animal>> getMap() {
-    return Optional.ofNullable(map);
+    return map;
   }
 
-  public void setMapOptional<Map<String, Animal>> map) {
+  public void setMap(Optional<Map<String, Animal>> map) {
     this.map = map;
   }
 

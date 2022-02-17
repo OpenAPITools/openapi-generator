@@ -25,10 +25,10 @@ import javax.annotation.Generated;
 public class DogAllOf   {
 
   @JsonProperty("breed")
-  private String breed;
+  private Optional<String> breed;
 
   public DogAllOf breed(String breed) {
-    this.breed = breed;
+    this.breed = Optional.of(breed);
     return this;
   }
 
@@ -36,13 +36,12 @@ public class DogAllOf   {
    * Get breed
    * @return breed
   */
-  
   @ApiModelProperty(value = "")
   public Optional<String> getBreed() {
-    return Optional.ofNullable(breed);
+    return breed;
   }
 
-  public void setBreedOptional<String> breed) {
+  public void setBreed(Optional<String> breed) {
     this.breed = breed;
   }
 

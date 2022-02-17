@@ -24,10 +24,10 @@ import javax.annotation.Generated;
 public class File   {
 
   @JsonProperty("sourceURI")
-  private String sourceURI;
+  private Optional<String> sourceURI;
 
   public File sourceURI(String sourceURI) {
-    this.sourceURI = sourceURI;
+    this.sourceURI = Optional.of(sourceURI);
     return this;
   }
 
@@ -35,13 +35,12 @@ public class File   {
    * Test capitalization
    * @return sourceURI
   */
-  
   @ApiModelProperty(value = "Test capitalization")
   public Optional<String> getSourceURI() {
-    return Optional.ofNullable(sourceURI);
+    return sourceURI;
   }
 
-  public void setSourceURIOptional<String> sourceURI) {
+  public void setSourceURI(Optional<String> sourceURI) {
     this.sourceURI = sourceURI;
   }
 

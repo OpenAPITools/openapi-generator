@@ -23,10 +23,10 @@ import javax.annotation.Generated;
 public class NumberOnly   {
 
   @JsonProperty("JustNumber")
-  private BigDecimal justNumber;
+  private Optional<BigDecimal> justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {
-    this.justNumber = justNumber;
+    this.justNumber = Optional.of(justNumber);
     return this;
   }
 
@@ -34,13 +34,12 @@ public class NumberOnly   {
    * Get justNumber
    * @return justNumber
   */
-  @Valid 
   @Schema(name = "JustNumber", required = false)
   public Optional<BigDecimal> getJustNumber() {
-    return Optional.ofNullable(justNumber);
+    return justNumber;
   }
 
-  public void setJustNumberOptional<BigDecimal> justNumber) {
+  public void setJustNumber(Optional<BigDecimal> justNumber) {
     this.justNumber = justNumber;
   }
 

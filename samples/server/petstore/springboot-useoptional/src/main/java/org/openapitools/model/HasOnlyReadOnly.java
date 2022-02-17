@@ -25,13 +25,13 @@ import javax.annotation.Generated;
 public class HasOnlyReadOnly   {
 
   @JsonProperty("bar")
-  private String bar;
+  private Optional<String> bar;
 
   @JsonProperty("foo")
-  private String foo;
+  private Optional<String> foo;
 
   public HasOnlyReadOnly bar(String bar) {
-    this.bar = bar;
+    this.bar = Optional.of(bar);
     return this;
   }
 
@@ -39,18 +39,17 @@ public class HasOnlyReadOnly   {
    * Get bar
    * @return bar
   */
-  
   @ApiModelProperty(readOnly = true, value = "")
   public Optional<String> getBar() {
-    return Optional.ofNullable(bar);
+    return bar;
   }
 
-  public void setBarOptional<String> bar) {
+  public void setBar(Optional<String> bar) {
     this.bar = bar;
   }
 
   public HasOnlyReadOnly foo(String foo) {
-    this.foo = foo;
+    this.foo = Optional.of(foo);
     return this;
   }
 
@@ -58,13 +57,12 @@ public class HasOnlyReadOnly   {
    * Get foo
    * @return foo
   */
-  
   @ApiModelProperty(readOnly = true, value = "")
   public Optional<String> getFoo() {
-    return Optional.ofNullable(foo);
+    return foo;
   }
 
-  public void setFooOptional<String> foo) {
+  public void setFoo(Optional<String> foo) {
     this.foo = foo;
   }
 

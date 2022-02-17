@@ -50,7 +50,7 @@ public class Name   {
     return name;
   }
 
-  public void setNameInteger name) {
+  public void setName(Integer name) {
     this.name = name;
   }
 
@@ -69,7 +69,7 @@ public class Name   {
     return snakeCase;
   }
 
-  public void setSnakeCaseInteger snakeCase) {
+  public void setSnakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
 
@@ -88,7 +88,7 @@ public class Name   {
     return property;
   }
 
-  public void setPropertyString property) {
+  public void setProperty(String property) {
     this.property = property;
   }
 
@@ -107,7 +107,7 @@ public class Name   {
     return _123number;
   }
 
-  public void set123numberInteger _123number) {
+  public void set123number(Integer _123number) {
     this._123number = _123number;
   }
 

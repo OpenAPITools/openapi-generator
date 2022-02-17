@@ -60,7 +60,7 @@ public class ArrayTest   {
     return arrayOfString;
   }
 
-  public void setArrayOfStringList<String> arrayOfString) {
+  public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
 
@@ -87,7 +87,7 @@ public class ArrayTest   {
     return arrayArrayOfInteger;
   }
 
-  public void setArrayArrayOfIntegerList<List<Long>> arrayArrayOfInteger) {
+  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
@@ -114,7 +114,7 @@ public class ArrayTest   {
     return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModelList<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 

@@ -23,13 +23,13 @@ import javax.annotation.Generated;
 public class Category   {
 
   @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id;
 
   @JsonProperty("name")
-  private String name;
+  private Optional<@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String> name;
 
   public Category id(Long id) {
-    this.id = id;
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -37,18 +37,17 @@ public class Category   {
    * Get id
    * @return id
   */
-  
   @Schema(name = "id", required = false)
   public Optional<Long> getId() {
-    return Optional.ofNullable(id);
+    return id;
   }
 
-  public void setIdOptional<Long> id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
   public Category name(String name) {
-    this.name = name;
+    this.name = Optional.of(name);
     return this;
   }
 
@@ -56,13 +55,12 @@ public class Category   {
    * Get name
    * @return name
   */
-  @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
   @Schema(name = "name", required = false)
   public Optional<@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String> getName() {
-    return Optional.ofNullable(name);
+    return name;
   }
 
-  public void setNameOptional<@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String> name) {
+  public void setName(Optional<@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String> name) {
     this.name = name;
   }
 

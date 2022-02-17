@@ -23,10 +23,10 @@ import javax.annotation.Generated;
 public class Client   {
 
   @JsonProperty("client")
-  private String client;
+  private Optional<String> client;
 
   public Client client(String client) {
-    this.client = client;
+    this.client = Optional.of(client);
     return this;
   }
 
@@ -34,13 +34,12 @@ public class Client   {
    * Get client
    * @return client
   */
-  
   @ApiModelProperty(value = "")
   public Optional<String> getClient() {
-    return Optional.ofNullable(client);
+    return client;
   }
 
-  public void setClientOptional<String> client) {
+  public void setClient(Optional<String> client) {
     this.client = client;
   }
 

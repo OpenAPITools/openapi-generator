@@ -43,7 +43,7 @@ public class ModelReturn   {
     return _return;
   }
 
-  public void setReturnInteger _return) {
+  public void setReturn(Integer _return) {
     this._return = _return;
   }
 

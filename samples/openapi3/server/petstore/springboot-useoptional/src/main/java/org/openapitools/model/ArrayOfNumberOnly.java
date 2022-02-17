@@ -45,13 +45,12 @@ public class ArrayOfNumberOnly   {
    * Get arrayNumber
    * @return arrayNumber
   */
-  @Valid 
   @Schema(name = "ArrayNumber", required = false)
-  public Optional<List<BigDecimal>> getArrayNumber() {
-    return Optional.ofNullable(arrayNumber);
+  public List<BigDecimal> getArrayNumber() {
+    return arrayNumber;
   }
 
-  public void setArrayNumberOptional<List<BigDecimal>> arrayNumber) {
+  public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
 

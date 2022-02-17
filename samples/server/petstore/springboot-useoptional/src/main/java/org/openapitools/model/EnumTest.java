@@ -64,7 +64,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_string")
-  private EnumStringEnum enumString;
+  private Optional<EnumStringEnum> enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -142,7 +142,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_integer")
-  private EnumIntegerEnum enumInteger;
+  private Optional<EnumIntegerEnum> enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -180,13 +180,13 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_number")
-  private EnumNumberEnum enumNumber;
+  private Optional<EnumNumberEnum> enumNumber;
 
   @JsonProperty("outerEnum")
-  private OuterEnum outerEnum;
+  private Optional<OuterEnum> outerEnum;
 
   public EnumTest enumString(EnumStringEnum enumString) {
-    this.enumString = enumString;
+    this.enumString = Optional.of(enumString);
     return this;
   }
 
@@ -194,13 +194,12 @@ public class EnumTest   {
    * Get enumString
    * @return enumString
   */
-  
   @ApiModelProperty(value = "")
   public Optional<EnumStringEnum> getEnumString() {
-    return Optional.ofNullable(enumString);
+    return enumString;
   }
 
-  public void setEnumStringOptional<EnumStringEnum> enumString) {
+  public void setEnumString(Optional<EnumStringEnum> enumString) {
     this.enumString = enumString;
   }
 
@@ -219,12 +218,12 @@ public class EnumTest   {
     return enumStringRequired;
   }
 
-  public void setEnumStringRequiredEnumStringRequiredEnum enumStringRequired) {
+  public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
 
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
-    this.enumInteger = enumInteger;
+    this.enumInteger = Optional.of(enumInteger);
     return this;
   }
 
@@ -232,18 +231,17 @@ public class EnumTest   {
    * Get enumInteger
    * @return enumInteger
   */
-  
   @ApiModelProperty(value = "")
   public Optional<EnumIntegerEnum> getEnumInteger() {
-    return Optional.ofNullable(enumInteger);
+    return enumInteger;
   }
 
-  public void setEnumIntegerOptional<EnumIntegerEnum> enumInteger) {
+  public void setEnumInteger(Optional<EnumIntegerEnum> enumInteger) {
     this.enumInteger = enumInteger;
   }
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
-    this.enumNumber = enumNumber;
+    this.enumNumber = Optional.of(enumNumber);
     return this;
   }
 
@@ -251,18 +249,17 @@ public class EnumTest   {
    * Get enumNumber
    * @return enumNumber
   */
-  
   @ApiModelProperty(value = "")
   public Optional<EnumNumberEnum> getEnumNumber() {
-    return Optional.ofNullable(enumNumber);
+    return enumNumber;
   }
 
-  public void setEnumNumberOptional<EnumNumberEnum> enumNumber) {
+  public void setEnumNumber(Optional<EnumNumberEnum> enumNumber) {
     this.enumNumber = enumNumber;
   }
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
-    this.outerEnum = outerEnum;
+    this.outerEnum = Optional.of(outerEnum);
     return this;
   }
 
@@ -270,13 +267,12 @@ public class EnumTest   {
    * Get outerEnum
    * @return outerEnum
   */
-  @Valid 
   @ApiModelProperty(value = "")
   public Optional<OuterEnum> getOuterEnum() {
-    return Optional.ofNullable(outerEnum);
+    return outerEnum;
   }
 
-  public void setOuterEnumOptional<OuterEnum> outerEnum) {
+  public void setOuterEnum(Optional<OuterEnum> outerEnum) {
     this.outerEnum = outerEnum;
   }
 

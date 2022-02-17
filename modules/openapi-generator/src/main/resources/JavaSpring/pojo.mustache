@@ -193,7 +193,14 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{{vendorExtensions.x-extra-annotation}}}
   {{/vendorExtensions.x-extra-annotation}}
   {{#useBeanValidation}}
+  {{#useOptional}}
+  {{#required}}
   {{>beanValidation}}
+  {{/required}}
+  {{/useOptional}}
+  {{^useOptional}}
+  {{>beanValidation}}
+  {{/useOptional}}
   {{/useBeanValidation}}
   {{#swagger2AnnotationLibrary}}
   @Schema(name = "{{{baseName}}}", {{#isReadOnly}}accessMode = Schema.AccessMode.READ_ONLY, {{/isReadOnly}}{{#example}}example = "{{{.}}}", {{/example}}{{#description}}description = "{{{.}}}", {{/description}}required = {{{required}}})

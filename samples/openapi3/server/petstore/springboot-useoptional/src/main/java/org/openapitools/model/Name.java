@@ -26,13 +26,13 @@ public class Name   {
   private Integer name;
 
   @JsonProperty("snake_case")
-  private Integer snakeCase;
+  private Optional<Integer> snakeCase;
 
   @JsonProperty("property")
-  private String property;
+  private Optional<String> property;
 
   @JsonProperty("123Number")
-  private Integer _123number;
+  private Optional<Integer> _123number;
 
   public Name name(Integer name) {
     this.name = name;
@@ -49,12 +49,12 @@ public class Name   {
     return name;
   }
 
-  public void setNameInteger name) {
+  public void setName(Integer name) {
     this.name = name;
   }
 
   public Name snakeCase(Integer snakeCase) {
-    this.snakeCase = snakeCase;
+    this.snakeCase = Optional.of(snakeCase);
     return this;
   }
 
@@ -62,18 +62,17 @@ public class Name   {
    * Get snakeCase
    * @return snakeCase
   */
-  
   @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public Optional<Integer> getSnakeCase() {
-    return Optional.ofNullable(snakeCase);
+    return snakeCase;
   }
 
-  public void setSnakeCaseOptional<Integer> snakeCase) {
+  public void setSnakeCase(Optional<Integer> snakeCase) {
     this.snakeCase = snakeCase;
   }
 
   public Name property(String property) {
-    this.property = property;
+    this.property = Optional.of(property);
     return this;
   }
 
@@ -81,18 +80,17 @@ public class Name   {
    * Get property
    * @return property
   */
-  
   @Schema(name = "property", required = false)
   public Optional<String> getProperty() {
-    return Optional.ofNullable(property);
+    return property;
   }
 
-  public void setPropertyOptional<String> property) {
+  public void setProperty(Optional<String> property) {
     this.property = property;
   }
 
   public Name _123number(Integer _123number) {
-    this._123number = _123number;
+    this._123number = Optional.of(_123number);
     return this;
   }
 
@@ -100,13 +98,12 @@ public class Name   {
    * Get _123number
    * @return _123number
   */
-  
   @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public Optional<Integer> get123number() {
-    return Optional.ofNullable(_123number);
+    return _123number;
   }
 
-  public void set123numberOptional<Integer> _123number) {
+  public void set123number(Optional<Integer> _123number) {
     this._123number = _123number;
   }
 

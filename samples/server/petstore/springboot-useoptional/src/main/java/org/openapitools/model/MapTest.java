@@ -78,7 +78,7 @@ public class MapTest   {
   private Map<String, Boolean> indirectMap = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
-    this.mapMapOfString = mapMapOfString;
+    this.mapMapOfString = Optional.of(mapMapOfString);
     return this;
   }
 
@@ -94,18 +94,17 @@ public class MapTest   {
    * Get mapMapOfString
    * @return mapMapOfString
   */
-  @Valid 
   @ApiModelProperty(value = "")
   public Optional<Map<String, Map<String, String>>> getMapMapOfString() {
-    return Optional.ofNullable(mapMapOfString);
+    return mapMapOfString;
   }
 
-  public void setMapMapOfStringOptional<Map<String, Map<String, String>>> mapMapOfString) {
+  public void setMapMapOfString(Optional<Map<String, Map<String, String>>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
-    this.mapOfEnumString = mapOfEnumString;
+    this.mapOfEnumString = Optional.of(mapOfEnumString);
     return this;
   }
 
@@ -121,18 +120,17 @@ public class MapTest   {
    * Get mapOfEnumString
    * @return mapOfEnumString
   */
-  
   @ApiModelProperty(value = "")
   public Optional<Map<String, InnerEnum>> getMapOfEnumString() {
-    return Optional.ofNullable(mapOfEnumString);
+    return mapOfEnumString;
   }
 
-  public void setMapOfEnumStringOptional<Map<String, InnerEnum>> mapOfEnumString) {
+  public void setMapOfEnumString(Optional<Map<String, InnerEnum>> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
   public MapTest directMap(Map<String, Boolean> directMap) {
-    this.directMap = directMap;
+    this.directMap = Optional.of(directMap);
     return this;
   }
 
@@ -148,18 +146,17 @@ public class MapTest   {
    * Get directMap
    * @return directMap
   */
-  
   @ApiModelProperty(value = "")
   public Optional<Map<String, Boolean>> getDirectMap() {
-    return Optional.ofNullable(directMap);
+    return directMap;
   }
 
-  public void setDirectMapOptional<Map<String, Boolean>> directMap) {
+  public void setDirectMap(Optional<Map<String, Boolean>> directMap) {
     this.directMap = directMap;
   }
 
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
-    this.indirectMap = indirectMap;
+    this.indirectMap = Optional.of(indirectMap);
     return this;
   }
 
@@ -175,13 +172,12 @@ public class MapTest   {
    * Get indirectMap
    * @return indirectMap
   */
-  
   @ApiModelProperty(value = "")
   public Optional<Map<String, Boolean>> getIndirectMap() {
-    return Optional.ofNullable(indirectMap);
+    return indirectMap;
   }
 
-  public void setIndirectMapOptional<Map<String, Boolean>> indirectMap) {
+  public void setIndirectMap(Optional<Map<String, Boolean>> indirectMap) {
     this.indirectMap = indirectMap;
   }
 

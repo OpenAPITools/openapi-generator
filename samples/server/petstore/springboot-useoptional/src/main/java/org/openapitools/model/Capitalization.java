@@ -23,25 +23,25 @@ import javax.annotation.Generated;
 public class Capitalization   {
 
   @JsonProperty("smallCamel")
-  private String smallCamel;
+  private Optional<String> smallCamel;
 
   @JsonProperty("CapitalCamel")
-  private String capitalCamel;
+  private Optional<String> capitalCamel;
 
   @JsonProperty("small_Snake")
-  private String smallSnake;
+  private Optional<String> smallSnake;
 
   @JsonProperty("Capital_Snake")
-  private String capitalSnake;
+  private Optional<String> capitalSnake;
 
   @JsonProperty("SCA_ETH_Flow_Points")
-  private String scAETHFlowPoints;
+  private Optional<String> scAETHFlowPoints;
 
   @JsonProperty("ATT_NAME")
-  private String ATT_NAME;
+  private Optional<String> ATT_NAME;
 
   public Capitalization smallCamel(String smallCamel) {
-    this.smallCamel = smallCamel;
+    this.smallCamel = Optional.of(smallCamel);
     return this;
   }
 
@@ -49,18 +49,17 @@ public class Capitalization   {
    * Get smallCamel
    * @return smallCamel
   */
-  
   @ApiModelProperty(value = "")
   public Optional<String> getSmallCamel() {
-    return Optional.ofNullable(smallCamel);
+    return smallCamel;
   }
 
-  public void setSmallCamelOptional<String> smallCamel) {
+  public void setSmallCamel(Optional<String> smallCamel) {
     this.smallCamel = smallCamel;
   }
 
   public Capitalization capitalCamel(String capitalCamel) {
-    this.capitalCamel = capitalCamel;
+    this.capitalCamel = Optional.of(capitalCamel);
     return this;
   }
 
@@ -68,18 +67,17 @@ public class Capitalization   {
    * Get capitalCamel
    * @return capitalCamel
   */
-  
   @ApiModelProperty(value = "")
   public Optional<String> getCapitalCamel() {
-    return Optional.ofNullable(capitalCamel);
+    return capitalCamel;
   }
 
-  public void setCapitalCamelOptional<String> capitalCamel) {
+  public void setCapitalCamel(Optional<String> capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
 
   public Capitalization smallSnake(String smallSnake) {
-    this.smallSnake = smallSnake;
+    this.smallSnake = Optional.of(smallSnake);
     return this;
   }
 
@@ -87,18 +85,17 @@ public class Capitalization   {
    * Get smallSnake
    * @return smallSnake
   */
-  
   @ApiModelProperty(value = "")
   public Optional<String> getSmallSnake() {
-    return Optional.ofNullable(smallSnake);
+    return smallSnake;
   }
 
-  public void setSmallSnakeOptional<String> smallSnake) {
+  public void setSmallSnake(Optional<String> smallSnake) {
     this.smallSnake = smallSnake;
   }
 
   public Capitalization capitalSnake(String capitalSnake) {
-    this.capitalSnake = capitalSnake;
+    this.capitalSnake = Optional.of(capitalSnake);
     return this;
   }
 
@@ -106,18 +103,17 @@ public class Capitalization   {
    * Get capitalSnake
    * @return capitalSnake
   */
-  
   @ApiModelProperty(value = "")
   public Optional<String> getCapitalSnake() {
-    return Optional.ofNullable(capitalSnake);
+    return capitalSnake;
   }
 
-  public void setCapitalSnakeOptional<String> capitalSnake) {
+  public void setCapitalSnake(Optional<String> capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
 
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
-    this.scAETHFlowPoints = scAETHFlowPoints;
+    this.scAETHFlowPoints = Optional.of(scAETHFlowPoints);
     return this;
   }
 
@@ -125,18 +121,17 @@ public class Capitalization   {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   */
-  
   @ApiModelProperty(value = "")
   public Optional<String> getScAETHFlowPoints() {
-    return Optional.ofNullable(scAETHFlowPoints);
+    return scAETHFlowPoints;
   }
 
-  public void setScAETHFlowPointsOptional<String> scAETHFlowPoints) {
+  public void setScAETHFlowPoints(Optional<String> scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
   public Capitalization ATT_NAME(String ATT_NAME) {
-    this.ATT_NAME = ATT_NAME;
+    this.ATT_NAME = Optional.of(ATT_NAME);
     return this;
   }
 
@@ -144,13 +139,12 @@ public class Capitalization   {
    * Name of the pet 
    * @return ATT_NAME
   */
-  
   @ApiModelProperty(value = "Name of the pet ")
   public Optional<String> getATTNAME() {
-    return Optional.ofNullable(ATT_NAME);
+    return ATT_NAME;
   }
 
-  public void setATTNAMEOptional<String> ATT_NAME) {
+  public void setATTNAME(Optional<String> ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
 

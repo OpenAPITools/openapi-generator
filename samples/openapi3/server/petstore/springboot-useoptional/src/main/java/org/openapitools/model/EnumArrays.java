@@ -60,7 +60,7 @@ public class EnumArrays   {
   }
 
   @JsonProperty("just_symbol")
-  private JustSymbolEnum justSymbol;
+  private Optional<JustSymbolEnum> justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -102,7 +102,7 @@ public class EnumArrays   {
   private List<ArrayEnumEnum> arrayEnum = null;
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
-    this.justSymbol = justSymbol;
+    this.justSymbol = Optional.of(justSymbol);
     return this;
   }
 
@@ -110,13 +110,12 @@ public class EnumArrays   {
    * Get justSymbol
    * @return justSymbol
   */
-  
   @Schema(name = "just_symbol", required = false)
   public Optional<JustSymbolEnum> getJustSymbol() {
-    return Optional.ofNullable(justSymbol);
+    return justSymbol;
   }
 
-  public void setJustSymbolOptional<JustSymbolEnum> justSymbol) {
+  public void setJustSymbol(Optional<JustSymbolEnum> justSymbol) {
     this.justSymbol = justSymbol;
   }
 
@@ -137,13 +136,12 @@ public class EnumArrays   {
    * Get arrayEnum
    * @return arrayEnum
   */
-  
   @Schema(name = "array_enum", required = false)
-  public Optional<List<ArrayEnumEnum>> getArrayEnum() {
-    return Optional.ofNullable(arrayEnum);
+  public List<ArrayEnumEnum> getArrayEnum() {
+    return arrayEnum;
   }
 
-  public void setArrayEnumOptional<List<ArrayEnumEnum>> arrayEnum) {
+  public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
 

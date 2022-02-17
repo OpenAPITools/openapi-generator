@@ -48,7 +48,7 @@ public class ModelApiResponse   {
     return code;
   }
 
-  public void setCodeInteger code) {
+  public void setCode(Integer code) {
     this.code = code;
   }
 
@@ -67,7 +67,7 @@ public class ModelApiResponse   {
     return type;
   }
 
-  public void setTypeString type) {
+  public void setType(String type) {
     this.type = type;
   }
 
@@ -86,7 +86,7 @@ public class ModelApiResponse   {
     return message;
   }
 
-  public void setMessageString message) {
+  public void setMessage(String message) {
     this.message = message;
   }
 

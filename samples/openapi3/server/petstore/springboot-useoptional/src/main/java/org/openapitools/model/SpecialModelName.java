@@ -24,10 +24,10 @@ import javax.annotation.Generated;
 public class SpecialModelName   {
 
   @JsonProperty("$special[property.name]")
-  private Long $specialPropertyName;
+  private Optional<Long> $specialPropertyName;
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+    this.$specialPropertyName = Optional.of($specialPropertyName);
     return this;
   }
 
@@ -35,13 +35,12 @@ public class SpecialModelName   {
    * Get $specialPropertyName
    * @return $specialPropertyName
   */
-  
   @Schema(name = "$special[property.name]", required = false)
   public Optional<Long> get$SpecialPropertyName() {
-    return Optional.ofNullable($specialPropertyName);
+    return $specialPropertyName;
   }
 
-  public void set$SpecialPropertyNameOptional<Long> $specialPropertyName) {
+  public void set$SpecialPropertyName(Optional<Long> $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 

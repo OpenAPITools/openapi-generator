@@ -52,7 +52,7 @@ public class ArrayOfNumberOnly   {
     return arrayNumber;
   }
 
-  public void setArrayNumberList<BigDecimal> arrayNumber) {
+  public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
 

@@ -54,13 +54,12 @@ public class ArrayTest   {
    * Get arrayOfString
    * @return arrayOfString
   */
-  
   @ApiModelProperty(value = "")
-  public Optional<List<String>> getArrayOfString() {
-    return Optional.ofNullable(arrayOfString);
+  public List<String> getArrayOfString() {
+    return arrayOfString;
   }
 
-  public void setArrayOfStringOptional<List<String>> arrayOfString) {
+  public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
 
@@ -81,13 +80,12 @@ public class ArrayTest   {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   */
-  @Valid 
   @ApiModelProperty(value = "")
-  public Optional<List<List<Long>>> getArrayArrayOfInteger() {
-    return Optional.ofNullable(arrayArrayOfInteger);
+  public List<List<Long>> getArrayArrayOfInteger() {
+    return arrayArrayOfInteger;
   }
 
-  public void setArrayArrayOfIntegerOptional<List<List<Long>>> arrayArrayOfInteger) {
+  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
@@ -108,13 +106,12 @@ public class ArrayTest   {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   */
-  @Valid 
   @ApiModelProperty(value = "")
-  public Optional<List<List<ReadOnlyFirst>>> getArrayArrayOfModel() {
-    return Optional.ofNullable(arrayArrayOfModel);
+  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+    return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModelOptional<List<List<ReadOnlyFirst>>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 

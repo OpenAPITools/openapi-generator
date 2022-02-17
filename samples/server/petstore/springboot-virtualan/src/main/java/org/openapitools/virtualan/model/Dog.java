@@ -42,7 +42,7 @@ public class Dog extends Animal  {
     return breed;
   }
 
-  public void setBreedString breed) {
+  public void setBreed(String breed) {
     this.breed = breed;
   }
 

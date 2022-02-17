@@ -25,10 +25,10 @@ import javax.annotation.Generated;
 public class CatAllOf   {
 
   @JsonProperty("declawed")
-  private Boolean declawed;
+  private Optional<Boolean> declawed;
 
   public CatAllOf declawed(Boolean declawed) {
-    this.declawed = declawed;
+    this.declawed = Optional.of(declawed);
     return this;
   }
 
@@ -36,13 +36,12 @@ public class CatAllOf   {
    * Get declawed
    * @return declawed
   */
-  
   @ApiModelProperty(value = "")
   public Optional<Boolean> getDeclawed() {
-    return Optional.ofNullable(declawed);
+    return declawed;
   }
 
-  public void setDeclawedOptional<Boolean> declawed) {
+  public void setDeclawed(Optional<Boolean> declawed) {
     this.declawed = declawed;
   }
 

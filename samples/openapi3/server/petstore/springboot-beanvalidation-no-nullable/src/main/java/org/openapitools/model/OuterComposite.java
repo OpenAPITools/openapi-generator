@@ -45,7 +45,7 @@ public class OuterComposite   {
     return myNumber;
   }
 
-  public void setMyNumberBigDecimal myNumber) {
+  public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
@@ -64,7 +64,7 @@ public class OuterComposite   {
     return myString;
   }
 
-  public void setMyStringString myString) {
+  public void setMyString(String myString) {
     this.myString = myString;
   }
 
@@ -83,7 +83,7 @@ public class OuterComposite   {
     return myBoolean;
   }
 
-  public void setMyBooleanBoolean myBoolean) {
+  public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
 

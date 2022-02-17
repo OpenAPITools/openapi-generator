@@ -41,7 +41,7 @@ public class DogAllOf   {
     return breed;
   }
 
-  public void setBreedString breed) {
+  public void setBreed(String breed) {
     this.breed = breed;
   }
 

@@ -40,7 +40,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map>  {
     return name;
   }
 
-  public void setNameString name) {
+  public void setName(String name) {
     this.name = name;
   }
 

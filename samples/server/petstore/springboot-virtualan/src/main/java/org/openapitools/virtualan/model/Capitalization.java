@@ -55,7 +55,7 @@ public class Capitalization   {
     return smallCamel;
   }
 
-  public void setSmallCamelString smallCamel) {
+  public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
   }
 
@@ -74,7 +74,7 @@ public class Capitalization   {
     return capitalCamel;
   }
 
-  public void setCapitalCamelString capitalCamel) {
+  public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
 
@@ -93,7 +93,7 @@ public class Capitalization   {
     return smallSnake;
   }
 
-  public void setSmallSnakeString smallSnake) {
+  public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
   }
 
@@ -112,7 +112,7 @@ public class Capitalization   {
     return capitalSnake;
   }
 
-  public void setCapitalSnakeString capitalSnake) {
+  public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
 
@@ -131,7 +131,7 @@ public class Capitalization   {
     return scAETHFlowPoints;
   }
 
-  public void setScAETHFlowPointsString scAETHFlowPoints) {
+  public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
@@ -150,7 +150,7 @@ public class Capitalization   {
     return ATT_NAME;
   }
 
-  public void setATTNAMEString ATT_NAME) {
+  public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
 

@@ -45,7 +45,7 @@ public class Model200Response   {
     return name;
   }
 
-  public void setNameInteger name) {
+  public void setName(Integer name) {
     this.name = name;
   }
 
@@ -64,7 +64,7 @@ public class Model200Response   {
     return propertyClass;
   }
 
-  public void setPropertyClassString propertyClass) {
+  public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
 

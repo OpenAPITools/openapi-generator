@@ -25,13 +25,13 @@ import javax.annotation.Generated;
 public class Model200Response   {
 
   @JsonProperty("name")
-  private Integer name;
+  private Optional<Integer> name;
 
   @JsonProperty("class")
-  private String propertyClass;
+  private Optional<String> propertyClass;
 
   public Model200Response name(Integer name) {
-    this.name = name;
+    this.name = Optional.of(name);
     return this;
   }
 
@@ -39,18 +39,17 @@ public class Model200Response   {
    * Get name
    * @return name
   */
-  
   @Schema(name = "name", required = false)
   public Optional<Integer> getName() {
-    return Optional.ofNullable(name);
+    return name;
   }
 
-  public void setNameOptional<Integer> name) {
+  public void setName(Optional<Integer> name) {
     this.name = name;
   }
 
   public Model200Response propertyClass(String propertyClass) {
-    this.propertyClass = propertyClass;
+    this.propertyClass = Optional.of(propertyClass);
     return this;
   }
 
@@ -58,13 +57,12 @@ public class Model200Response   {
    * Get propertyClass
    * @return propertyClass
   */
-  
   @Schema(name = "class", required = false)
   public Optional<String> getPropertyClass() {
-    return Optional.ofNullable(propertyClass);
+    return propertyClass;
   }
 
-  public void setPropertyClassOptional<String> propertyClass) {
+  public void setPropertyClass(Optional<String> propertyClass) {
     this.propertyClass = propertyClass;
   }
 
