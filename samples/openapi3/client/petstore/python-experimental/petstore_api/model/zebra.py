@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -123,7 +123,7 @@ class Zebra(
         *args: typing.Union[dict, frozendict, ],
         className: className,
         type: typing.Union[type, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'Zebra':
         return super().__new__(
@@ -131,6 +131,6 @@ class Zebra(
             *args,
             className=className,
             type=type,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )

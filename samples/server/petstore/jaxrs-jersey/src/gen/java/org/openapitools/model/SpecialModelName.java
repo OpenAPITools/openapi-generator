@@ -72,7 +72,6 @@ public class SpecialModelName   {
     return Objects.hash($specialPropertyName);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

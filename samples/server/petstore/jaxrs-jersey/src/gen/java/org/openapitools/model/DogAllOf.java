@@ -72,7 +72,6 @@ public class DogAllOf   {
     return Objects.hash(breed);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

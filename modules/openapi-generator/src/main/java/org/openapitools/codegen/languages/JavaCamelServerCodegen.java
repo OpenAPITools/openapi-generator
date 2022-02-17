@@ -119,7 +119,7 @@ public class JavaCamelServerCodegen extends SpringCodegen implements BeanValidat
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
             supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
                     (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
-                    "OpenAPI2SpringBoot.java"));
+                    "OpenApiGeneratorApplication.java"));
 
             if (!interfaceOnly) {
                 apiTemplateFiles.put("routesImpl.mustache", "RoutesImpl.java");

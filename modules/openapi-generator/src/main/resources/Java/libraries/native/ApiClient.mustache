@@ -17,10 +17,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-{{#java8}}
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-{{/java8}}
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -61,11 +59,9 @@ public class ApiClient {
     if (value == null) {
       return "";
     }
-    {{#java8}}
     if (value instanceof OffsetDateTime) {
       return ((OffsetDateTime) value).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     }
-    {{/java8}}
     return value.toString();
   }
 

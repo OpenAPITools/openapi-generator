@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -92,13 +92,13 @@ class ScaleneTriangleAllOf(
         cls,
         *args: typing.Union[dict, frozendict, ],
         triangleType: typing.Union[triangleType, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'ScaleneTriangleAllOf':
         return super().__new__(
             cls,
             *args,
             triangleType=triangleType,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )

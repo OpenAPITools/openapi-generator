@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="cultivar">cultivar.</param>
         /// <param name="origin">origin.</param>
-        public Apple(string cultivar = default(string), string origin = default(string))
+        public Apple(string? cultivar = default, string? origin = default)
         {
             this.Cultivar = cultivar;
             this.Origin = origin;
@@ -48,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Cultivar
         /// </summary>
         [DataMember(Name = "cultivar", EmitDefaultValue = false)]
-        public string Cultivar { get; set; }
+        public string? Cultivar { get; set; }
 
         /// <summary>
         /// Gets or Sets Origin
         /// </summary>
         [DataMember(Name = "origin", EmitDefaultValue = false)]
-        public string Origin { get; set; }
+        public string? Origin { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

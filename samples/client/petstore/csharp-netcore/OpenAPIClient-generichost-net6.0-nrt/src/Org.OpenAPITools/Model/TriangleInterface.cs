@@ -44,8 +44,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TriangleInterface" /> class.
         /// </summary>
         /// <param name="triangleType">triangleType (required).</param>
-        public TriangleInterface(string triangleType = default(string))
+        public TriangleInterface(string triangleType)
         {
+            // to ensure "triangleType" is required (not null)
+            if (triangleType == null) {
+                throw new ArgumentNullException("triangleType is a required property for TriangleInterface and cannot be null");
+            }
             this.TriangleType = triangleType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }

@@ -387,7 +387,6 @@ public class EnumTest   {
     return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum, outerEnumInteger, outerEnumDefaultValue, outerEnumIntegerDefaultValue);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

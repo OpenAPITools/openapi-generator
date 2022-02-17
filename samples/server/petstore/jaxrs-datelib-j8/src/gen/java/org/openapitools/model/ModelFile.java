@@ -74,7 +74,6 @@ public class ModelFile  implements Serializable {
     return Objects.hash(sourceURI);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

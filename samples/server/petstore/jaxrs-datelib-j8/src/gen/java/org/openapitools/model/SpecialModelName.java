@@ -73,7 +73,6 @@ public class SpecialModelName  implements Serializable {
     return Objects.hash($specialPropertyName);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

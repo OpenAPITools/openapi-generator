@@ -138,21 +138,11 @@
         <artifactId>jakarta.activation-api</artifactId>
         <version>${jakarta.activation-version}</version>
     </dependency>
-
-{{#java8}}
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-jsr310</artifactId>
         <version>${jackson-jaxrs-version}</version>
     </dependency>
-{{/java8}}
-{{^java8}}
-    <dependency>
-        <groupId>com.fasterxml.jackson.datatype</groupId>
-        <artifactId>jackson-datatype-joda</artifactId>
-        <version>${jackson-jaxrs-version}</version>
-    </dependency>
-{{/java8}}
 {{#useBeanValidationFeature}}
     <dependency>
         <groupId>org.hibernate</groupId>
