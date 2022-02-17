@@ -90,6 +90,8 @@ components:
         - requiredNullableArray
         - requiredSet
         - requiredNullableSet
+        - requiredStringMap
+        - requiredNullableStringMap
       properties:
         requiredString:
           type: string
@@ -188,6 +190,22 @@ components:
           uniqueItems: true
           nullable: true
           items:
+            type: string
+        optionalStringMap:
+          type: object
+          additionalProperties:
+            type: string
+        requiredStringMap:
+          type: object
+          additionalProperties:
+            type: string
+        optionalNullableStringMap:
+          type: object
+          additionalProperties:
+            type: string
+        requiredNullableStringMap:
+          type: object
+          additionalProperties:
             type: string
 
 

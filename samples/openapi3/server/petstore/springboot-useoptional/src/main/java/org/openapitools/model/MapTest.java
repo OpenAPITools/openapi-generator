@@ -27,7 +27,7 @@ public class MapTest   {
 
   @JsonProperty("map_map_of_string")
   @Valid
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
    * Gets or Sets inner
@@ -66,18 +66,18 @@ public class MapTest   {
 
   @JsonProperty("map_of_enum_string")
   @Valid
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
   @JsonProperty("direct_map")
   @Valid
-  private Map<String, Boolean> directMap = null;
+  private Map<String, Boolean> directMap = new HashMap<>();
 
   @JsonProperty("indirect_map")
   @Valid
-  private Map<String, Boolean> indirectMap = null;
+  private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
-    this.mapMapOfString = Optional.of(mapMapOfString);
+    this.mapMapOfString = mapMapOfString;
     return this;
   }
 
@@ -94,16 +94,16 @@ public class MapTest   {
    * @return mapMapOfString
   */
   @Schema(name = "map_map_of_string", required = false)
-  public Optional<Map<String, Map<String, String>>> getMapMapOfString() {
+  public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
 
-  public void setMapMapOfString(Optional<Map<String, Map<String, String>>> mapMapOfString) {
+  public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
-    this.mapOfEnumString = Optional.of(mapOfEnumString);
+    this.mapOfEnumString = mapOfEnumString;
     return this;
   }
 
@@ -120,16 +120,16 @@ public class MapTest   {
    * @return mapOfEnumString
   */
   @Schema(name = "map_of_enum_string", required = false)
-  public Optional<Map<String, InnerEnum>> getMapOfEnumString() {
+  public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
 
-  public void setMapOfEnumString(Optional<Map<String, InnerEnum>> mapOfEnumString) {
+  public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
   public MapTest directMap(Map<String, Boolean> directMap) {
-    this.directMap = Optional.of(directMap);
+    this.directMap = directMap;
     return this;
   }
 
@@ -146,16 +146,16 @@ public class MapTest   {
    * @return directMap
   */
   @Schema(name = "direct_map", required = false)
-  public Optional<Map<String, Boolean>> getDirectMap() {
+  public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
 
-  public void setDirectMap(Optional<Map<String, Boolean>> directMap) {
+  public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
 
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
-    this.indirectMap = Optional.of(indirectMap);
+    this.indirectMap = indirectMap;
     return this;
   }
 
@@ -172,11 +172,11 @@ public class MapTest   {
    * @return indirectMap
   */
   @Schema(name = "indirect_map", required = false)
-  public Optional<Map<String, Boolean>> getIndirectMap() {
+  public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
 
-  public void setIndirectMap(Optional<Map<String, Boolean>> indirectMap) {
+  public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 

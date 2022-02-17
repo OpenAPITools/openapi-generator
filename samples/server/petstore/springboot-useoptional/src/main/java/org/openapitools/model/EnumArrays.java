@@ -100,7 +100,7 @@ public class EnumArrays   {
 
   @JsonProperty("array_enum")
   @Valid
-  private List<ArrayEnumEnum> arrayEnum = null;
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = Optional.of(justSymbol);
