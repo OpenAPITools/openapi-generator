@@ -1255,29 +1255,10 @@
                 <module>samples/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/java/feign</module>
-                <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
                 <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
                 <module>samples/client/others/java/okhttp-gson-streaming</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit2</module>
-                <module>samples/client/petstore/java/retrofit2rx2</module>
-                <module>samples/client/petstore/java/retrofit2rx3</module>
-                <module>samples/client/petstore/java/retrofit2-play26</module>
-                <module>samples/client/petstore/jaxrs-cxf-client</module>
-                <module>samples/client/petstore/java/resttemplate</module>
-                <module>samples/client/petstore/java/resttemplate-withXml</module>
-                <module>samples/client/petstore/java/webclient</module>
-                <module>samples/client/petstore/java/webclient-nulable-arrays</module>
-                <module>samples/client/petstore/java/vertx</module>
-                <module>samples/client/petstore/java/jersey2-java8-localdatetime</module>
-                <module>samples/client/petstore/java/resteasy</module>
-                <module>samples/client/petstore/java/google-api-client</module>
-                <module>samples/client/petstore/java/rest-assured</module>
-                <module>samples/client/petstore/java/rest-assured-jackson</module>
-                <module>samples/client/petstore/java/microprofile-rest-client</module>
-                <module>samples/client/petstore/java/apache-httpclient</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->
