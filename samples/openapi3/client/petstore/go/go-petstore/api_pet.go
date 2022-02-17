@@ -20,10 +20,6 @@ import (
 	"os"
 )
 
-// Linger please
-var (
-	_ context.Context
-)
 
 type PetApi interface {
 
