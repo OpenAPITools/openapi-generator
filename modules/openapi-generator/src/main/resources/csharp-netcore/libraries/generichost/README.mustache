@@ -62,7 +62,7 @@ namespace YourProject
         {
             var host = CreateHostBuilder(args).Build();{{#apiInfo}}{{#apis}}{{#-first}}
             var api = host.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();{{#operations}}{{#-first}}{{#operation}}{{#-first}}
-            ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}> foo = await api.{{operationId}}WithHttpInfoAsync("todo");{{/-first}}{{/operation}}{{/-first}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
+            ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> foo = await api.{{operationId}}WithHttpInfoAsync("todo");{{/-first}}{{/operation}}{{/-first}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)

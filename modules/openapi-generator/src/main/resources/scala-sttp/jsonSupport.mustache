@@ -6,7 +6,7 @@ import {{modelPackage}}._
 {{/models.0}}
 {{#json4s}}
 import org.json4s._
-import sttp.client.json4s.SttpJson4sApi
+import sttp.client3.json4s.SttpJson4sApi
 import scala.reflect.ClassTag
 
 object JsonSupport extends SttpJson4sApi {
@@ -42,7 +42,7 @@ object JsonSupport extends SttpJson4sApi {
 {{#circe}}
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.AutoDerivation
-import sttp.client.circe.SttpCirceApi
+import sttp.client3.circe.SttpCirceApi
 
 object JsonSupport extends SttpCirceApi with AutoDerivation with DateSerializers {
 {{#models}}{{#model}}{{#hasEnums}}{{#vars}}{{#isEnum}}

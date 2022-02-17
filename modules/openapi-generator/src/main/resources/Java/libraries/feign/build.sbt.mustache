@@ -19,7 +19,7 @@ lazy val root = (project in file(".")).
       "com.fasterxml.jackson.core" % "jackson-core" % "2.10.3" % "compile",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.3" % "compile",
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.3" % "compile",
-      "com.fasterxml.jackson.datatype" % "jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}" % "2.9.10" % "compile",
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.9.10" % "compile",
       "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.9.10" % "compile",
       "com.github.scribejava" % "scribejava-core" % "8.0.0" % "compile",
       "com.brsanthu" % "migbase64" % "2.2" % "compile",

@@ -8,6 +8,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **$specialPropertyName** | **Long** |  |  [optional]
+**specialModelName** | **String** |  |  [optional]
 
 
 

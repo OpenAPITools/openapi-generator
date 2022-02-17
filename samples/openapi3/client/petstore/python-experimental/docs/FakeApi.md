@@ -57,7 +57,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # example passing only optional values
     body = AdditionalPropertiesWithArrayOfEnums(
         key=[
-            EnumClass("-efg"),
+            EnumClass("-efg")
         ],
     )
     try:
@@ -144,7 +144,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
     # example passing only optional values
     body = AnimalFarm([
-        Animal(),
+        Animal()
     ])
     try:
         api_response = api_instance.array_model(
@@ -227,7 +227,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
     # example passing only optional values
     body = ArrayOfEnums([
-        StringEnum("placed"),
+        StringEnum("placed")
     ])
     try:
         # Array of Enums
@@ -317,9 +317,7 @@ with petstore_api.ApiClient(configuration) as api_client:
             source_uri="source_uri_example",
         ),
         files=[
-            File(
-                source_uri="source_uri_example",
-            ),
+            File()
         ],
     )
     try:
@@ -974,7 +972,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # example passing only optional values
     query_params = {
         'enum_query_string_array': [
-        "$",
+        "$"
     ],
         'enum_query_string': "-efg",
         'enum_query_integer': 1,
@@ -982,13 +980,13 @@ with petstore_api.ApiClient(configuration) as api_client:
     }
     header_params = {
         'enum_header_string_array': [
-        "$",
+        "$"
     ],
         'enum_header_string': "-efg",
     }
     body = dict(
         enum_form_string_array=[
-            "$",
+            "$"
         ],
         enum_form_string="-efg",
     )
@@ -2203,19 +2201,19 @@ with petstore_api.ApiClient(configuration) as api_client:
     # example passing only required values which don't have defaults set
     query_params = {
         'pipe': [
-        "pipe_example",
+        "pipe_example"
     ],
         'ioutil': [
-        "ioutil_example",
+        "ioutil_example"
     ],
         'http': [
-        "http_example",
+        "http_example"
     ],
         'url': [
-        "url_example",
+        "url_example"
     ],
         'context': [
-        "context_example",
+        "context_example"
     ],
         'refParam': StringWithValidation("refParam_example"),
     }
@@ -2671,7 +2669,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # example passing only optional values
     body = dict(
         files=[
-            open('/path/to/file', 'rb'),
+            open('/path/to/file', 'rb')
         ],
     )
     try:
