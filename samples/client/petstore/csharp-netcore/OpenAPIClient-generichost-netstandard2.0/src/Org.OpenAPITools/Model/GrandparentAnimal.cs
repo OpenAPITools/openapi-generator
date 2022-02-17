@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
         /// </summary>
         /// <param name="petType">petType (required).</param>
-        public GrandparentAnimal(string petType = default(string))
+        public GrandparentAnimal(string petType)
         {
             // to ensure "petType" is required (not null)
             if (petType == null) {

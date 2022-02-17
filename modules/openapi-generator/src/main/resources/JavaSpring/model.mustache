@@ -13,9 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
-{{#jdk8}}
 import java.time.OffsetDateTime;
-{{/jdk8}}
 {{#useBeanValidation}}
 import javax.validation.Valid;
 import javax.validation.constraints.*;

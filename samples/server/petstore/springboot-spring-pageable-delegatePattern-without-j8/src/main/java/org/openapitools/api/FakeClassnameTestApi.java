@@ -23,6 +23,10 @@ import javax.annotation.Generated;
 @Api(value = "fake_classname_test", description = "the fake_classname_test API")
 public interface FakeClassnameTestApi {
 
+    default FakeClassnameTestApiDelegate getDelegate() {
+        return new FakeClassnameTestApiDelegate() {};
+    }
+
     /**
      * PATCH /fake_classname_test : To test class name in snake case
      * To test class name in snake case
@@ -49,8 +53,10 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    ResponseEntity<Client> testClassname(
+    default ResponseEntity<Client> testClassname(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody Client body
-    );
+    ) {
+        return getDelegate().testClassname(body);
+    }
 
 }
