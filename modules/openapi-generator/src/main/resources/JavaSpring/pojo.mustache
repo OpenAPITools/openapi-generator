@@ -54,11 +54,11 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   private {{>nullableDataType}} {{name}} = {{#isNullable}}JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}}{{/isNullable}};
   {{/openApiNullable}}
   {{^openApiNullable}}
-  {{#useOptional}}
-  private {{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{#isEnum}}{{#useOptional}}Optional<{{/useOptional}}{{{datatypeWithEnum}}}{{#useOptional}}>{{/useOptional}}{{/isEnum}}{{^isEnum}}{{>optionalDataType}}{{/isEnum}}{{/required}} {{name}} = {{#required}}{{{defaultValue}}}{{/required}}{{^required}}Optional.empty(){{/required}}
-  {{/useOptional}}
   {{^useOptional}}
   private {{>nullableDataType}} {{name}} = {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}};
+  {{/useOptional}}
+  {{#useOptional}}
+  private {{>nullableDataType}} {{name}} = {{{defaultValue}}};
   {{/useOptional}}
   {{/openApiNullable}}
   {{/isContainer}}
@@ -70,10 +70,35 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   {{/isDateTime}}
   {{#openApiNullable}}
-  private {{>nullableDataType}} {{name}}{{#isNullable}} = JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  {{#isNullable}}
+  private {{>nullableDataType}} {{name}} = JsonNullable.undefined();
+  {{/isNullable}}
+  {{^isNullable}}
+  {{#useOptional}}
+  {{#required}}
+  private {{>nullableDataType}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  {{/required}}
+  {{^required}}
+  private {{>optionalDataTypeWithEnum}} {{name}}{{#defaultValue}} = Optional.ofNullable({{{.}}}){{/defaultValue}};
+  {{/required}}
+  {{/useOptional}}
+  {{^useOptional}}
+  private {{>nullableDataType}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  {{/useOptional}}
+  {{/isNullable}}
   {{/openApiNullable}}
   {{^openApiNullable}}
+  {{^useOptional}}
   private {{>nullableDataType}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  {{/useOptional}}
+  {{#useOptional}}
+  {{#required}}
+  private {{>nullableDataType}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  {{/required}}
+  {{^required}}
+  private {{>optionalDataTypeWithEnum}} {{name}}{{#isNullable}} = Optional.empty(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = Optional.ofNullable({{{.}}}){{/defaultValue}}{{/isNullable}};
+  {{/required}}
+  {{/useOptional}}
   {{/openApiNullable}}
   {{/isContainer}}
   {{/vars}}
@@ -82,7 +107,22 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{! begin feature: fluent setter methods }}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     {{#openApiNullable}}
+    {{#isNullable}}
     this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
+    {{/isNullable}}
+    {{^isNullable}}
+    {{^useOptional}}
+    this.{{name}} = {{name}};
+    {{/useOptional}}
+    {{#useOptional}}
+    {{#required}}
+    this.{{name}} = {{name}};
+    {{/required}}
+    {{^required}}
+    this.{{name}} = {{^isArray}}Optional.of({{/isArray}}{{name}}{{^isArray}}){{/isArray}};
+    {{/required}}
+    {{/useOptional}}
+    {{/isNullable}}
     {{/openApiNullable}}
     {{^openApiNullable}}
     {{^useOptional}}
@@ -93,7 +133,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
     this.{{name}} = {{name}};
     {{/required}}
     {{^required}}
-    this.{{name}} = Optional.of({{name}});
+    this.{{name}} = {{^isArray}}Optional.of({{/isArray}}{{name}}{{^isArray}}){{/isArray}};
     {{/required}}
     {{/useOptional}}
     {{/openApiNullable}}
@@ -161,14 +201,44 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{#swagger1AnnotationLibrary}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
   {{/swagger1AnnotationLibrary}}
-  public {{#isNullable}}{{>nullableDataType}}{{/isNullable}}{{^isNullable}}{{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{#isEnum}}{{#useOptional}}Optional<{{/useOptional}}{{{datatypeWithEnum}}}{{#useOptional}}>{{/useOptional}}{{/isEnum}}{{^isEnum}}{{>optionalDataType}}{{/isEnum}}{{/required}}{{/isNullable}} {{getter}}() {
-    return {{^isNullable}}{{#useOptional}}{{^required}}Optional.ofNullable({{/required}}{{/useOptional}}{{/isNullable}}{{name}}{{^isNullable}}{{#useOptional}}{{^required}}){{/required}}{{/useOptional}}{{/isNullable}};
+  {{#openApiNullable}}
+  {{#isNullable}}
+  public {{>nullableDataType}} {{getter}}() {
+  {{/isNullable}}
+  {{^isNullable}}
+  public {{#isArray}}{{>nullableDataType}}{{/isArray}}{{^isArray}}{{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{>optionalDataTypeWithEnum}}{{/required}}{{/isArray}} {{getter}}() {
+  {{/isNullable}}
+  {{/openApiNullable}}
+  {{^openApiNullable}}
+  {{^useOptional}}
+  public {{>nullableDataType}} {{getter}}() {
+  {{/useOptional}}
+  {{#useOptional}}
+  public {{#isArray}}{{>nullableDataType}}{{/isArray}}{{^isArray}}{{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{>optionalDataTypeWithEnum}}{{/required}}{{/isArray}} {{getter}}() {
+  {{/useOptional}}
+  {{/openApiNullable}}
+    return {{name}};
   }
 
   {{#vendorExtensions.x-setter-extra-annotation}}
   {{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}
-  public void {{setter}}{{#isNullable}}({{>nullableDataType}}{{/isNullable}}{{^isNullable}}{{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{#isEnum}}{{#useOptional}}Optional<{{/useOptional}}{{{datatypeWithEnum}}}{{#useOptional}}>{{/useOptional}}{{/isEnum}}{{^isEnum}}{{>optionalDataType}}{{/isEnum}}{{/required}}{{/isNullable}} {{name}}) {
+  {{#openApiNullable}}
+  {{#isNullable}}
+  public void {{setter}}({{>nullableDataType}} {{name}}) {
+  {{/isNullable}}
+  {{^isNullable}}
+  public void {{setter}}({{#isArray}}{{>nullableDataType}}{{/isArray}}{{^isArray}}{{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{>optionalDataTypeWithEnum}}{{/required}}{{/isArray}} {{name}}) {
+  {{/isNullable}}
+  {{/openApiNullable}}
+  {{^openApiNullable}}
+  {{^useOptional}}
+  public void {{setter}}({{>nullableDataType}} {{name}}) {
+  {{/useOptional}}
+  {{#useOptional}}
+  public void {{setter}}({{#isArray}}{{>nullableDataType}}{{/isArray}}{{^isArray}}{{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{>optionalDataTypeWithEnum}}{{/required}}{{/isArray}} {{name}}) {
+  {{/useOptional}}
+  {{/openApiNullable}}
     this.{{name}} = {{name}};
   }
   {{! end feature: getter and setter }}
