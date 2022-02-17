@@ -24,7 +24,7 @@ public class OpenApiGeneratorApplication {
 
     @Bean
     public Module jdk8Module() {
-        return new new Jdk8Module();
+        return new Jdk8Module();
     }
 
 }
