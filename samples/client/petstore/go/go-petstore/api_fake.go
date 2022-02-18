@@ -21,10 +21,6 @@ import (
 	"reflect"
 )
 
-// Linger please
-var (
-	_ context.Context
-)
 
 type FakeApi interface {
 

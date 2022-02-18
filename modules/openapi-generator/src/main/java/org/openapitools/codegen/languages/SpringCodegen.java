@@ -538,6 +538,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
 
+        // apiController: hide implementation behind undocumented flag to temporarily preserve code
+        additionalProperties.put("_api_controller_impl_", false);
         // HEADS-UP: Do not add more template file after this block
         if (apiFirst) {
             apiTemplateFiles.clear();

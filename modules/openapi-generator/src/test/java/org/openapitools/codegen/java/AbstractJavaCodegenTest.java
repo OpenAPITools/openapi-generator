@@ -20,10 +20,12 @@ package org.openapitools.codegen.java;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
+
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenParameter;
@@ -214,7 +216,7 @@ public class AbstractJavaCodegenTest {
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo;@Bar");
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
@@ -229,14 +231,14 @@ public class AbstractJavaCodegenTest {
         Collections.sort(sortedAdditionalModelTypeAnnotations);
         Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
     }
-    
+
     @Test
     public void testAdditionalModelTypeAnnotationsNewLineLinux() throws Exception {
         OpenAPI openAPI = TestUtils.createOpenAPI();
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo\n@Bar");
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
@@ -251,14 +253,14 @@ public class AbstractJavaCodegenTest {
         Collections.sort(sortedAdditionalModelTypeAnnotations);
         Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
     }
-    
+
     @Test
     public void testAdditionalModelTypeAnnotationsNewLineWindows() throws Exception {
         OpenAPI openAPI = TestUtils.createOpenAPI();
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo\r\n@Bar");
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
@@ -273,17 +275,17 @@ public class AbstractJavaCodegenTest {
         Collections.sort(sortedAdditionalModelTypeAnnotations);
         Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
     }
-    
+
     @Test
     public void testAdditionalModelTypeAnnotationsMixed() throws Exception {
         OpenAPI openAPI = TestUtils.createOpenAPI();
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, " \t @Foo;\r\n@Bar  ;\n @Foobar  ");
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
-        
+
         final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
         additionalModelTypeAnnotations.add("@Foo");
         additionalModelTypeAnnotations.add("@Bar");
@@ -296,17 +298,17 @@ public class AbstractJavaCodegenTest {
         Collections.sort(sortedAdditionalModelTypeAnnotations);
         Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
     }
-    
+
     @Test
     public void testAdditionalModelTypeAnnotationsNoDuplicate() throws Exception {
         OpenAPI openAPI = TestUtils.createOpenAPI();
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo;@Bar;@Foo");
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
-        
+
         final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
         additionalModelTypeAnnotations.add("@Foo");
         additionalModelTypeAnnotations.add("@Bar");
@@ -318,7 +320,7 @@ public class AbstractJavaCodegenTest {
         Collections.sort(sortedAdditionalModelTypeAnnotations);
         Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
     }
-    
+
     @Test
     public void toEnumValue() {
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -529,7 +531,6 @@ public class AbstractJavaCodegenTest {
     }
 
 
-
     @Test(description = "tests if default version with snapshot is used when setArtifactVersion is used")
     public void snapshotVersionAlreadySnapshotTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -543,6 +544,7 @@ public class AbstractJavaCodegenTest {
 
         Assert.assertEquals(codegen.getArtifactVersion(), "4.1.2-SNAPSHOT");
     }
+
     @Test
     public void toDefaultValueDateTimeLegacyTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -551,7 +553,7 @@ public class AbstractJavaCodegenTest {
 
         // Test default value for date format
         DateSchema dateSchema = new DateSchema();
-        LocalDate defaultLocalDate = LocalDate.of(2019,2,15);
+        LocalDate defaultLocalDate = LocalDate.of(2019, 2, 15);
         Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         dateSchema.setDefault(date);
         defaultValue = codegen.toDefaultValue(dateSchema);
@@ -607,7 +609,7 @@ public class AbstractJavaCodegenTest {
 
         // Test default value for date format
         DateSchema dateSchema = new DateSchema();
-        LocalDate defaultLocalDate = LocalDate.of(2019,2,15);
+        LocalDate defaultLocalDate = LocalDate.of(2019, 2, 15);
         Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         dateSchema.setDefault(date);
         defaultValue = codegen.toDefaultValue(dateSchema);

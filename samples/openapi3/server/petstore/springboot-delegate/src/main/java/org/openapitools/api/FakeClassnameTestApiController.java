@@ -2,13 +2,6 @@ package org.openapitools.api;
 
 import org.openapitools.model.Client;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,20 +39,6 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
     @Override
     public FakeClassnameTestApiDelegate getDelegate() {
         return delegate;
-    }
-
-    /**
-     * PATCH /fake_classname_test : To test class name in snake case
-     * To test class name in snake case
-     *
-     * @param body client model (required)
-     * @return successful operation (status code 200)
-     * @see FakeClassnameTestApi#testClassname
-     */
-    public ResponseEntity<Client> testClassname(
-        @Parameter(name = "body", description = "client model", required = true) @Valid @RequestBody Client body
-    ) {
-        return delegate.testClassname(body);
     }
 
 }

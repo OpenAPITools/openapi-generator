@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -88,13 +88,13 @@ class ArrayOfArrayOfNumberOnly(
         cls,
         *args: typing.Union[dict, frozendict, ],
         ArrayArrayNumber: typing.Union[ArrayArrayNumber, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'ArrayOfArrayOfNumberOnly':
         return super().__new__(
             cls,
             *args,
             ArrayArrayNumber=ArrayArrayNumber,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )
