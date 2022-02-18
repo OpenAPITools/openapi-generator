@@ -116,6 +116,12 @@
 			<artifactId>jackson-databind-nullable</artifactId>
 			<version>0.1.0</version>
 		</dependency>
+		<!-- Jackson JFK 8 Support (Optionals) -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jdk8</artifactId>
+			<version>2.9.6</version>
+		</dependency>
 		<!-- Bean Validation API support -->
 		<dependency>
 			<groupId>javax.validation</groupId>
