@@ -14,7 +14,13 @@ import { {{classname}}Interface } from './{{classFilename}}Interface';
 {{/withInterfaces}}
 
 {{#operations}}
-
+{{#operation}}
+type {{nickname}}Params = {
+    {{#allParams}}
+        {{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}
+    {{/allParams}}
+}
+{{/operation}}
 {{#description}}
 /**
  * {{&description}}
@@ -50,12 +56,12 @@ export class {{classname}} {
     /**
      * {{summary}}
      * {{notes}}
-     {{#allParams}}* @param {{paramName}} {{description}}
-     {{/allParams}}* @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param {{nickname}}Params
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
-    public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<any> {
+    public {{nickname}}(params: {{nickname}}Params): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}(params: {{nickname}}Params): Observable<any> {
 {{#allParams}}
 
 {{#required}}
@@ -63,8 +69,8 @@ export class {{classname}} {
         let {{paramName}} = {{{dataType}}};
         {{/isConstEnumParam}}
         {{^isConstEnumParam}}
-        if ({{paramName}} === null || {{paramName}} === undefined) {
-            throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+        if ( params.{{paramName}} === null ||  params.{{paramName}} === undefined) {
+            throw new Error('Required parameter  params.{{paramName}} was null or undefined when calling {{nickname}}.');
         }
         {{/isConstEnumParam}}
 {{/required}}
@@ -74,24 +80,24 @@ export class {{classname}} {
         let queryParameters = {};
 {{#queryParams}}
         {{#isListContainer}}
-        if ({{paramName}}) {
+        if ( params.{{paramName}}) {
         {{#isCollectionFormatMulti}}
-            {{paramName}}.forEach((element) => {
+            params.{{paramName}}.forEach((element) => {
                 queryParameters.append('{{baseName}}', <any>element);
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            queryParameters['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
+            queryParameters['{{baseName}}'] = params.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
         {{/isCollectionFormatMulti}}
         }
         {{/isListContainer}}
         {{^isListContainer}}
-        if ({{paramName}} !== undefined && {{paramName}} !== null) {
+        if (params.{{paramName}} !== undefined && params.{{paramName}} !== null) {
         {{#isDateTime}}
-            queryParameters['{{baseName}}'] = (<any>{{paramName}} as any instanceof Date) ? ({{paramName}} as any).toISOString(): {{paramName}};
+            queryParameters['{{baseName}}'] = (<any>params.{{paramName}} as any instanceof Date) ? (params.{{paramName}} as any).toISOString(): params.{{paramName}};
         {{/isDateTime}}
         {{^isDateTime}}
-            queryParameters['{{baseName}}'] = <any>{{paramName}};
+            queryParameters['{{baseName}}'] = <any>params.{{paramName}};
         {{/isDateTime}}
         }
         {{/isListContainer}}
@@ -101,13 +107,13 @@ export class {{classname}} {
         let headers = this.defaultHeaders;
 {{#headerParams}}
         {{#isListContainer}}
-        if ({{paramName}}) {
-            headers['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
+        if (params.{{paramName}}) {
+            headers['{{baseName}}'] = params.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
         }
         {{/isListContainer}}
         {{^isListContainer}}
-        if ({{paramName}} !== undefined && {{paramName}} !== null) {
-            headers['{{baseName}}'] = String({{paramName}});
+        if (params.{{paramName}} !== undefined && params.{{paramName}} !== null) {
+            headers['{{baseName}}'] = String(params.{{paramName}});
         }
         {{/isListContainer}}
 {{/headerParams}}
@@ -190,27 +196,27 @@ export class {{classname}} {
 {{#formParams}}
 
         {{#isListContainer}}
-        if ({{paramName}}) {
+        if (params.{{paramName}}) {
         {{#isCollectionFormatMulti}}
-            {{paramName}}.forEach((element) => {
+            params.{{paramName}}.forEach((element) => {
                 formParams.append('{{baseName}}', <any>element);
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            formParams.append('{{baseName}}', params.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
         {{/isCollectionFormatMulti}}
         }
         {{/isListContainer}}
         {{^isListContainer}}
-        if ({{paramName}} !== undefined) {
-            formParams.append('{{baseName}}', <any>{{paramName}});
+        if (params.{{paramName}} !== undefined) {
+            formParams.append('{{baseName}}', <any>params.{{paramName}});
         }
         {{/isListContainer}}
 {{/formParams}}
 
 {{/hasFormParams}}
         return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
-            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+            {{#bodyParam}}params.{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
             {
 {{#hasQueryParams}}
                 params: queryParameters,
