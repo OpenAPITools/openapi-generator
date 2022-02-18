@@ -14,6 +14,7 @@ import (
 	"net/http"
 
 	petstoreserver "github.com/GIT_USER_ID/GIT_REPO_ID/go"
+	support "github.com/GIT_USER_ID/GIT_REPO_ID/support"
 )
 
 func main() {
@@ -28,7 +29,7 @@ func main() {
 	UserApiService := petstoreserver.NewUserApiService()
 	UserApiController := petstoreserver.NewUserApiController(UserApiService)
 
-	router := petstoreserver.NewRouter(PetApiController, StoreApiController, UserApiController)
+	router := support.NewRouter(PetApiController, StoreApiController, UserApiController)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

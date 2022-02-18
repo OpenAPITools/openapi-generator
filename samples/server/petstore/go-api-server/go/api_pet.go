@@ -10,34 +10,36 @@
 package petstoreserver
 
 import (
-	"encoding/json"
 	"net/http"
 	"strings"
 
 	"github.com/gorilla/mux"
+
+	support "github.com/GIT_USER_ID/GIT_REPO_ID/support"
+	
 )
 
 // PetApiController binds http requests to an api service and writes the service results to the http response
 type PetApiController struct {
 	service PetApiServicer
-	errorHandler ErrorHandler
+	errorHandler support.ErrorHandler
 }
 
 // PetApiOption for how the controller is set up.
 type PetApiOption func(*PetApiController)
 
 // WithPetApiErrorHandler inject ErrorHandler into controller
-func WithPetApiErrorHandler(h ErrorHandler) PetApiOption {
+func WithPetApiErrorHandler(h support.ErrorHandler) PetApiOption {
 	return func(c *PetApiController) {
 		c.errorHandler = h
 	}
 }
 
 // NewPetApiController creates a default api controller
-func NewPetApiController(s PetApiServicer, opts ...PetApiOption) Router {
+func NewPetApiController(s PetApiServicer, opts ...PetApiOption) support.Router {
 	controller := &PetApiController{
 		service:      s,
-		errorHandler: DefaultErrorHandler,
+		errorHandler: support.DefaultErrorHandler,
 	}
 
 	for _, opt := range opts {
@@ -48,8 +50,8 @@ func NewPetApiController(s PetApiServicer, opts ...PetApiOption) Router {
 }
 
 // Routes returns all the api routes for the PetApiController
-func (c *PetApiController) Routes() Routes {
-	return Routes{ 
+func (c *PetApiController) Routes() support.Routes {
+	return support.Routes{ 
 		{
 			"AddPet",
 			strings.ToUpper("Post"),
@@ -104,10 +106,10 @@ func (c *PetApiController) Routes() Routes {
 // AddPet - Add a new pet to the store
 func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 	petParam := Pet{}
-	d := json.NewDecoder(r.Body)
+	d := support.NewJSONDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&petParam); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	if err := AssertPetRequired(petParam); err != nil {
@@ -121,16 +123,16 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
 // DeletePet - Deletes a pet
 func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	petIdParam, err := parseInt64Parameter(params["petId"], true)
+	petIdParam, err := support.ParseInt64Parameter(params["petId"], true)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 
@@ -142,7 +144,7 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
@@ -157,7 +159,7 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
@@ -173,16 +175,16 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
 // GetPetById - Find pet by ID
 func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	petIdParam, err := parseInt64Parameter(params["petId"], true)
+	petIdParam, err := support.ParseInt64Parameter(params["petId"], true)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 
@@ -193,17 +195,17 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
 // UpdatePet - Update an existing pet
 func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 	petParam := Pet{}
-	d := json.NewDecoder(r.Body)
+	d := support.NewJSONDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&petParam); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	if err := AssertPetRequired(petParam); err != nil {
@@ -217,20 +219,20 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
 // UpdatePetWithForm - Updates a pet in the store with form data
 func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	params := mux.Vars(r)
-	petIdParam, err := parseInt64Parameter(params["petId"], true)
+	petIdParam, err := support.ParseInt64Parameter(params["petId"], true)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 
@@ -243,28 +245,28 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
 // UploadFile - uploads an image
 func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseMultipartForm(32 << 20); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	params := mux.Vars(r)
-	petIdParam, err := parseInt64Parameter(params["petId"], true)
+	petIdParam, err := support.ParseInt64Parameter(params["petId"], true)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 
 				additionalMetadataParam := r.FormValue("additionalMetadata")
 	
-	fileParam, err := ReadFormFileToTempFile(r, "file")
+	fileParam, err := support.ReadFormFileToTempFile(r, "file")
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 			result, err := c.service.UploadFile(r.Context(), petIdParam, additionalMetadataParam, fileParam)
@@ -274,6 +276,6 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }

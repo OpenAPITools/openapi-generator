@@ -10,34 +10,36 @@
 package petstoreserver
 
 import (
-	"encoding/json"
 	"net/http"
 	"strings"
 
 	"github.com/gorilla/mux"
+
+	support "github.com/GIT_USER_ID/GIT_REPO_ID/support"
+	
 )
 
 // UserApiController binds http requests to an api service and writes the service results to the http response
 type UserApiController struct {
 	service UserApiServicer
-	errorHandler ErrorHandler
+	errorHandler support.ErrorHandler
 }
 
 // UserApiOption for how the controller is set up.
 type UserApiOption func(*UserApiController)
 
 // WithUserApiErrorHandler inject ErrorHandler into controller
-func WithUserApiErrorHandler(h ErrorHandler) UserApiOption {
+func WithUserApiErrorHandler(h support.ErrorHandler) UserApiOption {
 	return func(c *UserApiController) {
 		c.errorHandler = h
 	}
 }
 
 // NewUserApiController creates a default api controller
-func NewUserApiController(s UserApiServicer, opts ...UserApiOption) Router {
+func NewUserApiController(s UserApiServicer, opts ...UserApiOption) support.Router {
 	controller := &UserApiController{
 		service:      s,
-		errorHandler: DefaultErrorHandler,
+		errorHandler: support.DefaultErrorHandler,
 	}
 
 	for _, opt := range opts {
@@ -48,8 +50,8 @@ func NewUserApiController(s UserApiServicer, opts ...UserApiOption) Router {
 }
 
 // Routes returns all the api routes for the UserApiController
-func (c *UserApiController) Routes() Routes {
-	return Routes{ 
+func (c *UserApiController) Routes() support.Routes {
+	return support.Routes{ 
 		{
 			"CreateUser",
 			strings.ToUpper("Post"),
@@ -104,10 +106,10 @@ func (c *UserApiController) Routes() Routes {
 // CreateUser - Create user
 func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	userParam := User{}
-	d := json.NewDecoder(r.Body)
+	d := support.NewJSONDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&userParam); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	if err := AssertUserRequired(userParam); err != nil {
@@ -121,17 +123,17 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
 func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) {
 	userParam := []User{}
-	d := json.NewDecoder(r.Body)
+	d := support.NewJSONDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&userParam); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	for _, el := range userParam {
@@ -147,17 +149,17 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
 func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) {
 	userParam := []User{}
-	d := json.NewDecoder(r.Body)
+	d := support.NewJSONDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&userParam); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	for _, el := range userParam {
@@ -173,7 +175,7 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
@@ -189,7 +191,7 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
@@ -205,7 +207,7 @@ func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
@@ -221,7 +223,7 @@ func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
@@ -234,7 +236,7 @@ func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
@@ -244,10 +246,10 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	usernameParam := params["username"]
 	
 	userParam := User{}
-	d := json.NewDecoder(r.Body)
+	d := support.NewJSONDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&userParam); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	if err := AssertUserRequired(userParam); err != nil {
@@ -261,6 +263,6 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }

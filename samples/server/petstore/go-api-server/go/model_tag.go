@@ -8,6 +8,10 @@
  */
 
 package petstoreserver
+import (
+	
+	support "github.com/GIT_USER_ID/GIT_REPO_ID/support"
+)
 
 // Tag - A tag for a pet
 type Tag struct {
@@ -25,10 +29,10 @@ func AssertTagRequired(obj Tag) error {
 // AssertRecurseTagRequired recursively checks if required fields are not zero-ed in a nested slice.
 // Accepts only nested slice of Tag (e.g. [][]Tag), otherwise ErrTypeAssertionError is thrown.
 func AssertRecurseTagRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
+	return support.AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
 		aTag, ok := obj.(Tag)
 		if !ok {
-			return ErrTypeAssertionError
+			return support.ErrTypeAssertionError
 		}
 		return AssertTagRequired(aTag)
 	})

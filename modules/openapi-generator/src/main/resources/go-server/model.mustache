@@ -1,10 +1,11 @@
 {{>partial_header}}
-package {{packageName}}
-{{#models}}{{#imports}}
-{{#-first}}import (
-{{/-first}}	"{{import}}"{{#-last}}
+package {{modelPackage}}
+{{#models}}
+import (
+	{{#imports}}"{{import}}"{{/imports}}
+	support "{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/support"
 )
-{{/-last}}{{/imports}}{{#model}}{{#isEnum}}{{#description}}// {{{classname}}} : {{{description}}}{{/description}}
+{{#model}}{{#isEnum}}{{#description}}// {{{classname}}} : {{{description}}}{{/description}}
 type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{{format}}}
 
 // List of {{{classname}}}
@@ -43,8 +44,8 @@ func Assert{{classname}}Required(obj {{classname}}) error {
 {{#requiredVars}}		"{{baseName}}": obj.{{name}},
 {{/requiredVars}}	}
 	for name, el := range elements {
-		if isZero := IsZeroValue(el); isZero {
-			return &RequiredError{Field: name}
+		if isZero := support.IsZeroValue(el); isZero {
+			return &support.RequiredError{Field: name}
 		}
 	}
 
@@ -124,10 +125,10 @@ func Assert{{classname}}Required(obj {{classname}}) error {
 // AssertRecurse{{classname}}Required recursively checks if required fields are not zero-ed in a nested slice.
 // Accepts only nested slice of {{classname}} (e.g. [][]{{classname}}), otherwise ErrTypeAssertionError is thrown.
 func AssertRecurse{{classname}}Required(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
+	return support.AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
 		a{{classname}}, ok := obj.({{classname}})
 		if !ok {
-			return ErrTypeAssertionError
+			return support.ErrTypeAssertionError
 		}
 		return Assert{{classname}}Required(a{{classname}})
 	})

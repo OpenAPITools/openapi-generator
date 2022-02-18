@@ -11,8 +11,11 @@ package petstoreserver
 
 import (
 	"context"
-	"net/http"
 	"errors"
+	"net/http"
+
+    "github.com/GIT_USER_ID/GIT_REPO_ID/support"
+	
 )
 
 // StoreApiService is a service that implements the logic for the StoreApiServicer
@@ -27,57 +30,57 @@ func NewStoreApiService() StoreApiServicer {
 }
 
 // DeleteOrder - Delete purchase order by ID
-func (s *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (ImplResponse, error) {
+func (s *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (support.ImplResponse, error) {
 	// TODO - update DeleteOrder with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	//return support.Response(400, nil),nil
 
 	//TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
-	//return Response(404, nil),nil
+	//return support.Response(404, nil),nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("DeleteOrder method not implemented")
+	return support.Response(http.StatusNotImplemented, nil), errors.New("DeleteOrder method not implemented")
 }
 
 // GetInventory - Returns pet inventories by status
-func (s *StoreApiService) GetInventory(ctx context.Context) (ImplResponse, error) {
+func (s *StoreApiService) GetInventory(ctx context.Context) (support.ImplResponse, error) {
 	// TODO - update GetInventory with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 	//TODO: Uncomment the next line to return response Response(200, map[string]int32{}) or use other options such as http.Ok ...
-	//return Response(200, map[string]int32{}), nil
+	//return support.Response(200, map[string]int32{}), nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("GetInventory method not implemented")
+	return support.Response(http.StatusNotImplemented, nil), errors.New("GetInventory method not implemented")
 }
 
 // GetOrderById - Find purchase order by ID
-func (s *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (ImplResponse, error) {
+func (s *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (support.ImplResponse, error) {
 	// TODO - update GetOrderById with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 	//TODO: Uncomment the next line to return response Response(200, Order{}) or use other options such as http.Ok ...
-	//return Response(200, Order{}), nil
+	//return support.Response(200, Order{}), nil
 
 	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	//return support.Response(400, nil),nil
 
 	//TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
-	//return Response(404, nil),nil
+	//return support.Response(404, nil),nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("GetOrderById method not implemented")
+	return support.Response(http.StatusNotImplemented, nil), errors.New("GetOrderById method not implemented")
 }
 
 // PlaceOrder - Place an order for a pet
-func (s *StoreApiService) PlaceOrder(ctx context.Context, order Order) (ImplResponse, error) {
+func (s *StoreApiService) PlaceOrder(ctx context.Context, order Order) (support.ImplResponse, error) {
 	// TODO - update PlaceOrder with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 	//TODO: Uncomment the next line to return response Response(200, Order{}) or use other options such as http.Ok ...
-	//return Response(200, Order{}), nil
+	//return support.Response(200, Order{}), nil
 
 	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	//return support.Response(400, nil),nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("PlaceOrder method not implemented")
+	return support.Response(http.StatusNotImplemented, nil), errors.New("PlaceOrder method not implemented")
 }

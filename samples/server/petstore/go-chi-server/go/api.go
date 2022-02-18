@@ -13,6 +13,8 @@ import (
 	"context"
 	"net/http"
 	"os"
+	"github.com/GIT_USER_ID/GIT_REPO_ID/support"
+	
 )
 
 
@@ -60,15 +62,15 @@ type UserApiRouter interface {
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type PetApiServicer interface { 
-	AddPet(context.Context, Pet) (ImplResponse, error)
-	DeletePet(context.Context, int64, string) (ImplResponse, error)
-	FindPetsByStatus(context.Context, []string) (ImplResponse, error)
+	AddPet(context.Context, Pet) (support.ImplResponse, error)
+	DeletePet(context.Context, int64, string) (support.ImplResponse, error)
+	FindPetsByStatus(context.Context, []string) (support.ImplResponse, error)
 	// Deprecated
-	FindPetsByTags(context.Context, []string) (ImplResponse, error)
-	GetPetById(context.Context, int64) (ImplResponse, error)
-	UpdatePet(context.Context, Pet) (ImplResponse, error)
-	UpdatePetWithForm(context.Context, int64, string, string) (ImplResponse, error)
-	UploadFile(context.Context, int64, string, *os.File) (ImplResponse, error)
+	FindPetsByTags(context.Context, []string) (support.ImplResponse, error)
+	GetPetById(context.Context, int64) (support.ImplResponse, error)
+	UpdatePet(context.Context, Pet) (support.ImplResponse, error)
+	UpdatePetWithForm(context.Context, int64, string, string) (support.ImplResponse, error)
+	UploadFile(context.Context, int64, string, *os.File) (support.ImplResponse, error)
 }
 
 
@@ -77,10 +79,10 @@ type PetApiServicer interface {
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type StoreApiServicer interface { 
-	DeleteOrder(context.Context, string) (ImplResponse, error)
-	GetInventory(context.Context) (ImplResponse, error)
-	GetOrderById(context.Context, int64) (ImplResponse, error)
-	PlaceOrder(context.Context, Order) (ImplResponse, error)
+	DeleteOrder(context.Context, string) (support.ImplResponse, error)
+	GetInventory(context.Context) (support.ImplResponse, error)
+	GetOrderById(context.Context, int64) (support.ImplResponse, error)
+	PlaceOrder(context.Context, Order) (support.ImplResponse, error)
 }
 
 
@@ -89,12 +91,12 @@ type StoreApiServicer interface {
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type UserApiServicer interface { 
-	CreateUser(context.Context, User) (ImplResponse, error)
-	CreateUsersWithArrayInput(context.Context, []User) (ImplResponse, error)
-	CreateUsersWithListInput(context.Context, []User) (ImplResponse, error)
-	DeleteUser(context.Context, string) (ImplResponse, error)
-	GetUserByName(context.Context, string) (ImplResponse, error)
-	LoginUser(context.Context, string, string) (ImplResponse, error)
-	LogoutUser(context.Context) (ImplResponse, error)
-	UpdateUser(context.Context, string, User) (ImplResponse, error)
+	CreateUser(context.Context, User) (support.ImplResponse, error)
+	CreateUsersWithArrayInput(context.Context, []User) (support.ImplResponse, error)
+	CreateUsersWithListInput(context.Context, []User) (support.ImplResponse, error)
+	DeleteUser(context.Context, string) (support.ImplResponse, error)
+	GetUserByName(context.Context, string) (support.ImplResponse, error)
+	LoginUser(context.Context, string, string) (support.ImplResponse, error)
+	LogoutUser(context.Context) (support.ImplResponse, error)
+	UpdateUser(context.Context, string, User) (support.ImplResponse, error)
 }

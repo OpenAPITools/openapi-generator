@@ -10,34 +10,36 @@
 package petstoreserver
 
 import (
-	"encoding/json"
 	"net/http"
 	"strings"
 
 	"github.com/go-chi/chi/v5"
+
+	support "github.com/GIT_USER_ID/GIT_REPO_ID/support"
+	
 )
 
 // StoreApiController binds http requests to an api service and writes the service results to the http response
 type StoreApiController struct {
 	service StoreApiServicer
-	errorHandler ErrorHandler
+	errorHandler support.ErrorHandler
 }
 
 // StoreApiOption for how the controller is set up.
 type StoreApiOption func(*StoreApiController)
 
 // WithStoreApiErrorHandler inject ErrorHandler into controller
-func WithStoreApiErrorHandler(h ErrorHandler) StoreApiOption {
+func WithStoreApiErrorHandler(h support.ErrorHandler) StoreApiOption {
 	return func(c *StoreApiController) {
 		c.errorHandler = h
 	}
 }
 
 // NewStoreApiController creates a default api controller
-func NewStoreApiController(s StoreApiServicer, opts ...StoreApiOption) Router {
+func NewStoreApiController(s StoreApiServicer, opts ...StoreApiOption) support.Router {
 	controller := &StoreApiController{
 		service:      s,
-		errorHandler: DefaultErrorHandler,
+		errorHandler: support.DefaultErrorHandler,
 	}
 
 	for _, opt := range opts {
@@ -48,8 +50,8 @@ func NewStoreApiController(s StoreApiServicer, opts ...StoreApiOption) Router {
 }
 
 // Routes returns all the api routes for the StoreApiController
-func (c *StoreApiController) Routes() Routes {
-	return Routes{ 
+func (c *StoreApiController) Routes() support.Routes {
+	return support.Routes{ 
 		{
 			"DeleteOrder",
 			strings.ToUpper("Delete"),
@@ -88,7 +90,7 @@ func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
@@ -101,15 +103,15 @@ func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
 // GetOrderById - Find purchase order by ID
 func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request) {
-	orderIdParam, err := parseInt64Parameter(chi.URLParam(r, "orderId"), true)
+	orderIdParam, err := support.ParseInt64Parameter(chi.URLParam(r, "orderId"), true)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 
@@ -120,17 +122,17 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }
 
 // PlaceOrder - Place an order for a pet
 func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) {
 	orderParam := Order{}
-	d := json.NewDecoder(r.Body)
+	d := support.NewJSONDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&orderParam); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &support.ParsingError{Err: err}, nil)
 		return
 	}
 	if err := AssertOrderRequired(orderParam); err != nil {
@@ -144,6 +146,6 @@ func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	support.EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 
 }

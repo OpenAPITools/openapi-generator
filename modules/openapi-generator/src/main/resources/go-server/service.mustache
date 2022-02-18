@@ -3,9 +3,12 @@ package {{packageName}}
 
 import (
 	"context"
-	"net/http"
-	"errors"{{#imports}}
+	"errors"
+	"net/http"{{#imports}}
 	"{{import}}"{{/imports}}
+
+    "{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/support"
+	{{#hasDifferentModelDir}}"{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/{{modelPackage}}"{{/hasDifferentModelDir}}
 )
 
 // {{classname}}Service is a service that implements the logic for the {{classname}}Servicer
@@ -23,21 +26,21 @@ func New{{classname}}Service() {{classname}}Servicer {
 {{#isDeprecated}}
 // Deprecated
 {{/isDeprecated}}
-func (s *{{classname}}Service) {{nickname}}(ctx context.Context{{#allParams}}, {{paramName}} {{dataType}}{{/allParams}}) (ImplResponse, error) {
+func (s *{{classname}}Service) {{nickname}}(ctx context.Context{{#allParams}}, {{paramName}} {{#isArray}}[]{{/isArray}}{{#isArray}}{{#items}}{{#isModel}}{{#hasDifferentModelDir}}{{modelPackage}}.{{/hasDifferentModelDir}}{{/isModel}}{{dataType}}{{/items}}{{/isArray}}{{^isArray}}{{#isModel}}{{#hasDifferentModelDir}}{{modelPackage}}.{{/hasDifferentModelDir}}{{/isModel}}{{dataType}}{{/isArray}}{{/allParams}}) (support.ImplResponse, error) {
 	// TODO - update {{nickname}} with the required logic for this service method.
 	// Add {{classFilename}}_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 {{#responses}}
 {{#dataType}}
 	//TODO: Uncomment the next line to return response Response({{code}}, {{dataType}}{}) or use other options such as http.Ok ...
-	//return Response({{code}}, {{dataType}}{}), nil
+	//return support.Response({{code}}, {{dataType}}{}), nil
 
 {{/dataType}}
 {{^dataType}}
 	//TODO: Uncomment the next line to return response Response({{code}}, {{dataType}}{}) or use other options such as http.Ok ...
-	//return Response({{code}}, nil),nil
+	//return support.Response({{code}}, nil),nil
 
 {{/dataType}}
 {{/responses}}
-	return Response(http.StatusNotImplemented, nil), errors.New("{{nickname}} method not implemented")
+	return support.Response(http.StatusNotImplemented, nil), errors.New("{{nickname}} method not implemented")
 }{{/operation}}{{/operations}}
