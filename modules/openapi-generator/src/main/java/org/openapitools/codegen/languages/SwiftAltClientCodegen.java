@@ -787,7 +787,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
         System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift alternative generator v0.8.0                                           #");
+        System.out.println("# swift alternative generator v0.9.0                                           #");
         System.out.println("################################################################################");
     }
 }

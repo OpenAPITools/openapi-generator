@@ -106,7 +106,7 @@ open class {{classname}} {
             {{#hasQueryParams}}
             var queryItems: [URLQueryItem] = []
             {{#queryParams}}
-            {{#required}}queryItems.append(URLQueryItem(name: "{{paramName}}", value: {{> toString}})){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { queryItems.append(URLQueryItem(name: "{{paramName}}", value: {{> toString}})) } {{/required}}
+            {{#required}}queryItems.append(URLQueryItem(name: "{{baseName}}", value: {{> toString}})){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { queryItems.append(URLQueryItem(name: "{{baseName}}", value: {{> toString}})) } {{/required}}
             {{/queryParams}}
             components?.queryItems = queryItems
             {{/hasQueryParams}}
@@ -153,7 +153,7 @@ open class {{classname}} {
             {{! Begin form urlencoded }}
             var formEncodedItems: [String] = []
             {{#formParams}}
-            {{#required}}formEncodedItems.append("{{paramName}}=\({{> toString}})"){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { formEncodedItems.append("{{paramName}}=\({{> toString}})") } {{/required}}
+            {{#required}}formEncodedItems.append("{{baseName}}=\({{> toString}})"){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { formEncodedItems.append("{{baseName}}=\({{> toString}})") } {{/required}}
             {{/formParams}}
             request.httpBody = formEncodedItems.joined(separator: "&").data(using: .utf8)
             request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
