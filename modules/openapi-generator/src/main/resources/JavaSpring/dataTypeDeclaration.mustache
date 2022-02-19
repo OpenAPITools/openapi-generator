@@ -1,0 +1,1 @@
+{{#isMap}}{{>nullableDataType}}{{/isMap}}{{#isArray}}{{>nullableDataType}}{{/isArray}}{{^isMap}}{{^isArray}}{{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{>optionalDataTypeWithEnum}}{{/required}}{{/isArray}}{{/isMap}}

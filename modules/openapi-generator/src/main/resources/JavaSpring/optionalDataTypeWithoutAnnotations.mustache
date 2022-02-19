@@ -1,0 +1,1 @@
+{{#isEnum}}{{#useOptional}}Optional<{{/useOptional}}{{{datatypeWithEnum}}}{{#useOptional}}>{{/useOptional}}{{/isEnum}}{{^isEnum}}{{#useOptional}}{{#required}}{{{dataType}}}{{/required}}{{^required}}Optional<{{{dataType}}}>{{/required}}{{/useOptional}}{{^useOptional}}{{{dataType}}}{{/useOptional}}{{/isEnum}}

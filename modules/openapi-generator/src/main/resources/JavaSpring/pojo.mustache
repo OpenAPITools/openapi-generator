@@ -89,7 +89,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   private {{>nullableDataType}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/required}}
   {{^required}}
-  private {{>optionalDataTypeWithEnum}} {{name}} = {{#defaultValue}}Optional.ofNullable({{{.}}}){{/defaultValue}}{{^defaultValue}}Optional.empty(){{/defaultValue}};
+  private {{>optionalDataTypeWithoutAnnotations}} {{name}} = {{#defaultValue}}Optional.ofNullable({{{.}}}){{/defaultValue}}{{^defaultValue}}Optional.empty(){{/defaultValue}};
   {{/required}}
   {{/useOptional}}
   {{^useOptional}}
@@ -106,7 +106,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   private {{>nullableDataType}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
   {{/required}}
   {{^required}}
-  private {{>optionalDataTypeWithEnum}} {{name}} = {{#defaultValue}}Optional.ofNullable({{{.}}}){{/defaultValue}}{{^defaultValue}}Optional.empty(){{/defaultValue}};
+  private {{>optionalDataTypeWithoutAnnotations}} {{name}} = {{#defaultValue}}Optional.ofNullable({{{.}}}){{/defaultValue}}{{^defaultValue}}Optional.empty(){{/defaultValue}};
   {{/required}}
   {{/useOptional}}
   {{/openApiNullable}}
@@ -223,7 +223,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   public {{>nullableDataType}} {{getter}}() {
   {{/isNullable}}
   {{^isNullable}}
-  public {{#isMap}}{{>nullableDataType}}{{/isMap}}{{#isArray}}{{>nullableDataType}}{{/isArray}}{{^isMap}}{{^isArray}}{{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{>optionalDataTypeWithEnum}}{{/required}}{{/isArray}}{{/isMap}} {{getter}}() {
+  public {{>dataTypeDeclaration}} {{getter}}() {
   {{/isNullable}}
   {{/openApiNullable}}
   {{^openApiNullable}}
@@ -231,7 +231,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   public {{>nullableDataType}} {{getter}}() {
   {{/useOptional}}
   {{#useOptional}}
-  public {{#isMap}}{{>nullableDataType}}{{/isMap}}{{#isArray}}{{>nullableDataType}}{{/isArray}}{{^isMap}}{{^isArray}}{{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{>optionalDataTypeWithEnum}}{{/required}}{{/isArray}}{{/isMap}} {{getter}}() {
+  public {{>dataTypeDeclaration}} {{getter}}() {
   {{/useOptional}}
   {{/openApiNullable}}
     return {{name}};
@@ -245,7 +245,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   public void {{setter}}({{>nullableDataType}} {{name}}) {
   {{/isNullable}}
   {{^isNullable}}
-  public void {{setter}}({{#isMap}}{{>nullableDataType}}{{/isMap}}{{#isArray}}{{>nullableDataType}}{{/isArray}}{{^isMap}}{{^isArray}}{{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{>optionalDataTypeWithEnum}}{{/required}}{{/isArray}}{{/isMap}} {{name}}) {
+  public void {{setter}}({{>dataTypeDeclaration}} {{name}}) {
   {{/isNullable}}
   {{/openApiNullable}}
   {{^openApiNullable}}
@@ -253,7 +253,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   public void {{setter}}({{>nullableDataType}} {{name}}) {
   {{/useOptional}}
   {{#useOptional}}
-  public void {{setter}}({{#isMap}}{{>nullableDataType}}{{/isMap}}{{#isArray}}{{>nullableDataType}}{{/isArray}}{{^isMap}}{{^isArray}}{{#required}}{{>nullableDataType}}{{/required}}{{^required}}{{>optionalDataTypeWithEnum}}{{/required}}{{/isArray}}{{/isMap}} {{name}}) {
+  public void {{setter}}({{>dataTypeDeclaration}} {{name}}) {
   {{/useOptional}}
   {{/openApiNullable}}
     this.{{name}} = {{name}};

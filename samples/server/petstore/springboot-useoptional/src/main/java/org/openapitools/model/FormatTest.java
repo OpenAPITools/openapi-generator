@@ -31,10 +31,10 @@ import javax.annotation.Generated;
 public class FormatTest   {
 
   @JsonProperty("integer")
-  private Optional<@Min(10) @Max(100) Integer> integer = Optional.empty();
+  private Optional<Integer> integer = Optional.empty();
 
   @JsonProperty("int32")
-  private Optional<@Min(20) @Max(200) Integer> int32 = Optional.empty();
+  private Optional<Integer> int32 = Optional.empty();
 
   @JsonProperty("int64")
   private Optional<Long> int64 = Optional.empty();
@@ -43,13 +43,13 @@ public class FormatTest   {
   private BigDecimal number;
 
   @JsonProperty("float")
-  private Optional<@DecimalMin("54.3") @DecimalMax("987.6") Float> _float = Optional.empty();
+  private Optional<Float> _float = Optional.empty();
 
   @JsonProperty("double")
-  private Optional<@DecimalMin("67.8") @DecimalMax("123.4") Double> _double = Optional.empty();
+  private Optional<Double> _double = Optional.empty();
 
   @JsonProperty("string")
-  private Optional<@Pattern(regexp = "/[a-z]/i") String> string = Optional.empty();
+  private Optional<String> string = Optional.empty();
 
   @JsonProperty("byte")
   private byte[] _byte;
