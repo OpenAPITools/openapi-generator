@@ -38,6 +38,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
      * may be represented as 'int', 'int32', 'Integer', etc, depending on the programming language.
      */
     public String dataType;
+    public String wrapperType;
+    public String wrapperFunc;
+    public boolean isWrapped;
     public String datatypeWithEnum;
     public String dataFormat;
     /**
