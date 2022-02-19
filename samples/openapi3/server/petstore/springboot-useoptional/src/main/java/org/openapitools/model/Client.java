@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -22,10 +23,10 @@ import javax.annotation.Generated;
 public class Client   {
 
   @JsonProperty("client")
-  private String client;
+  private Optional<String> client = Optional.empty();
 
   public Client client(String client) {
-    this.client = client;
+    this.client = Optional.ofNullable(client);
     return this;
   }
 
@@ -35,12 +36,12 @@ public class Client   {
   */
   
   @Schema(name = "client", required = false)
-  public String getClient() {
+  public Optional<String> getClient() {
     return client;
   }
 
   public void setClient(String client) {
-    this.client = client;
+    this.client = Optional.ofNullable(client);
   }
 
   @Override

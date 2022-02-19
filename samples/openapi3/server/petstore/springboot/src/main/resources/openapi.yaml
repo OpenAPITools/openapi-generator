@@ -704,9 +704,11 @@ components:
           type: integer
         quantity:
           format: int32
+          nullable: true
           type: integer
         shipDate:
           format: date-time
+          nullable: true
           type: string
         status:
           description: Order Status
@@ -760,6 +762,7 @@ components:
         lastName:
           type: string
         email:
+          nullable: true
           type: string
         password:
           type: string

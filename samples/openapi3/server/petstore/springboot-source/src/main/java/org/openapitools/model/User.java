@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -21,31 +22,31 @@ import javax.annotation.Generated;
 public class User   {
 
   @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id = Optional.empty();
 
   @JsonProperty("username")
-  private String username;
+  private Optional<String> username = Optional.empty();
 
   @JsonProperty("firstName")
-  private String firstName;
+  private Optional<String> firstName = Optional.empty();
 
   @JsonProperty("lastName")
-  private String lastName;
+  private Optional<String> lastName = Optional.empty();
 
   @JsonProperty("email")
-  private String email;
+  private Optional<String> email = Optional.empty();
 
   @JsonProperty("password")
-  private String password;
+  private Optional<String> password = Optional.empty();
 
   @JsonProperty("phone")
-  private String phone;
+  private Optional<String> phone = Optional.empty();
 
   @JsonProperty("userStatus")
-  private Integer userStatus;
+  private Optional<Integer> userStatus = Optional.empty();
 
   public User id(Long id) {
-    this.id = id;
+    this.id = Optional.ofNullable(id);
     return this;
   }
 
@@ -54,16 +55,16 @@ public class User   {
    * @return id
   */
   
-  public Long getId() {
+  public Optional<Long> getId() {
     return id;
   }
 
   public void setId(Long id) {
-    this.id = id;
+    this.id = Optional.ofNullable(id);
   }
 
   public User username(String username) {
-    this.username = username;
+    this.username = Optional.ofNullable(username);
     return this;
   }
 
@@ -72,16 +73,16 @@ public class User   {
    * @return username
   */
   
-  public String getUsername() {
+  public Optional<String> getUsername() {
     return username;
   }
 
   public void setUsername(String username) {
-    this.username = username;
+    this.username = Optional.ofNullable(username);
   }
 
   public User firstName(String firstName) {
-    this.firstName = firstName;
+    this.firstName = Optional.ofNullable(firstName);
     return this;
   }
 
@@ -90,16 +91,16 @@ public class User   {
    * @return firstName
   */
   
-  public String getFirstName() {
+  public Optional<String> getFirstName() {
     return firstName;
   }
 
   public void setFirstName(String firstName) {
-    this.firstName = firstName;
+    this.firstName = Optional.ofNullable(firstName);
   }
 
   public User lastName(String lastName) {
-    this.lastName = lastName;
+    this.lastName = Optional.ofNullable(lastName);
     return this;
   }
 
@@ -108,16 +109,16 @@ public class User   {
    * @return lastName
   */
   
-  public String getLastName() {
+  public Optional<String> getLastName() {
     return lastName;
   }
 
   public void setLastName(String lastName) {
-    this.lastName = lastName;
+    this.lastName = Optional.ofNullable(lastName);
   }
 
   public User email(String email) {
-    this.email = email;
+    this.email = Optional.ofNullable(email);
     return this;
   }
 
@@ -126,16 +127,16 @@ public class User   {
    * @return email
   */
   
-  public String getEmail() {
+  public Optional<String> getEmail() {
     return email;
   }
 
   public void setEmail(String email) {
-    this.email = email;
+    this.email = Optional.ofNullable(email);
   }
 
   public User password(String password) {
-    this.password = password;
+    this.password = Optional.ofNullable(password);
     return this;
   }
 
@@ -144,16 +145,16 @@ public class User   {
    * @return password
   */
   
-  public String getPassword() {
+  public Optional<String> getPassword() {
     return password;
   }
 
   public void setPassword(String password) {
-    this.password = password;
+    this.password = Optional.ofNullable(password);
   }
 
   public User phone(String phone) {
-    this.phone = phone;
+    this.phone = Optional.ofNullable(phone);
     return this;
   }
 
@@ -162,16 +163,16 @@ public class User   {
    * @return phone
   */
   
-  public String getPhone() {
+  public Optional<String> getPhone() {
     return phone;
   }
 
   public void setPhone(String phone) {
-    this.phone = phone;
+    this.phone = Optional.ofNullable(phone);
   }
 
   public User userStatus(Integer userStatus) {
-    this.userStatus = userStatus;
+    this.userStatus = Optional.ofNullable(userStatus);
     return this;
   }
 
@@ -180,12 +181,12 @@ public class User   {
    * @return userStatus
   */
   
-  public Integer getUserStatus() {
+  public Optional<Integer> getUserStatus() {
     return userStatus;
   }
 
   public void setUserStatus(Integer userStatus) {
-    this.userStatus = userStatus;
+    this.userStatus = Optional.ofNullable(userStatus);
   }
 
   @Override

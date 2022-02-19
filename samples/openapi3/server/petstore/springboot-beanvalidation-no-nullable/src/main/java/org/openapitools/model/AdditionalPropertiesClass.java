@@ -26,35 +26,35 @@ public class AdditionalPropertiesClass   {
 
   @JsonProperty("map_string")
   @Valid
-  private Map<String, String> mapString = null;
+  private Map<String, String> mapString = new HashMap<>();
 
   @JsonProperty("map_number")
   @Valid
-  private Map<String, BigDecimal> mapNumber = null;
+  private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   @JsonProperty("map_integer")
   @Valid
-  private Map<String, Integer> mapInteger = null;
+  private Map<String, Integer> mapInteger = new HashMap<>();
 
   @JsonProperty("map_boolean")
   @Valid
-  private Map<String, Boolean> mapBoolean = null;
+  private Map<String, Boolean> mapBoolean = new HashMap<>();
 
   @JsonProperty("map_array_integer")
   @Valid
-  private Map<String, List<Integer>> mapArrayInteger = null;
+  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   @JsonProperty("map_array_anytype")
   @Valid
-  private Map<String, List<Object>> mapArrayAnytype = null;
+  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   @JsonProperty("map_map_string")
   @Valid
-  private Map<String, Map<String, String>> mapMapString = null;
+  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
   @JsonProperty("map_map_anytype")
   @Valid
-  private Map<String, Map<String, Object>> mapMapAnytype = null;
+  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   @JsonProperty("anytype_1")
   private Object anytype1;

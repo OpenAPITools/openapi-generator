@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Optional;
 import org.openapitools.model.Animal;
 import org.openapitools.model.CatAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -24,10 +25,10 @@ import javax.annotation.Generated;
 public class Cat extends Animal  {
 
   @JsonProperty("declawed")
-  private Boolean declawed;
+  private Optional<Boolean> declawed = Optional.empty();
 
   public Cat declawed(Boolean declawed) {
-    this.declawed = declawed;
+    this.declawed = Optional.ofNullable(declawed);
     return this;
   }
 
@@ -37,12 +38,12 @@ public class Cat extends Animal  {
   */
   
   @Schema(name = "declawed", required = false)
-  public Boolean getDeclawed() {
+  public Optional<Boolean> getDeclawed() {
     return declawed;
   }
 
   public void setDeclawed(Boolean declawed) {
-    this.declawed = declawed;
+    this.declawed = Optional.ofNullable(declawed);
   }
 
   @Override

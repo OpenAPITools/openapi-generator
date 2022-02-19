@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -32,27 +33,27 @@ public class ObjectWithUniqueItems   {
 
   @JsonProperty("nullSet")
   @Valid
-  private JsonNullable<Set<String>> nullSet = JsonNullable.undefined();
+  private JsonNullable<Set<String>> nullSet = JsonNullable.of(new LinkedHashSet<>());
 
   @JsonProperty("notNullSet")
   @Valid
-  private Set<String> notNullSet = null;
+  private Set<String> notNullSet = new LinkedHashSet<>();
 
   @JsonProperty("nullList")
   @Valid
-  private JsonNullable<List<String>> nullList = JsonNullable.undefined();
+  private JsonNullable<List<String>> nullList = JsonNullable.of(new ArrayList<>());
 
   @JsonProperty("notNullList")
   @Valid
-  private List<String> notNullList = null;
+  private List<String> notNullList = new ArrayList<>();
 
   @JsonProperty("notNullDateField")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime notNullDateField;
+  private Optional<OffsetDateTime> notNullDateField = Optional.empty();
 
   @JsonProperty("nullDateField")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime nullDateField;
+  private Optional<OffsetDateTime> nullDateField = Optional.empty();
 
   public ObjectWithUniqueItems nullSet(Set<String> nullSet) {
     this.nullSet = JsonNullable.of(nullSet);
@@ -77,8 +78,8 @@ public class ObjectWithUniqueItems   {
     return nullSet;
   }
 
-  public void setNullSet(JsonNullable<Set<String>> nullSet) {
-    this.nullSet = nullSet;
+  public void setNullSet(Set<String> nullSet) {
+    this.nullSet = JsonNullable.of(nullSet);
   }
 
   public ObjectWithUniqueItems notNullSet(Set<String> notNullSet) {
@@ -132,8 +133,8 @@ public class ObjectWithUniqueItems   {
     return nullList;
   }
 
-  public void setNullList(JsonNullable<List<String>> nullList) {
-    this.nullList = nullList;
+  public void setNullList(List<String> nullList) {
+    this.nullList = JsonNullable.of(nullList);
   }
 
   public ObjectWithUniqueItems notNullList(List<String> notNullList) {
@@ -164,7 +165,7 @@ public class ObjectWithUniqueItems   {
   }
 
   public ObjectWithUniqueItems notNullDateField(OffsetDateTime notNullDateField) {
-    this.notNullDateField = notNullDateField;
+    this.notNullDateField = Optional.ofNullable(notNullDateField);
     return this;
   }
 
@@ -174,16 +175,16 @@ public class ObjectWithUniqueItems   {
   */
   @Valid 
   @Schema(name = "notNullDateField", required = false)
-  public OffsetDateTime getNotNullDateField() {
+  public Optional<OffsetDateTime> getNotNullDateField() {
     return notNullDateField;
   }
 
   public void setNotNullDateField(OffsetDateTime notNullDateField) {
-    this.notNullDateField = notNullDateField;
+    this.notNullDateField = Optional.ofNullable(notNullDateField);
   }
 
   public ObjectWithUniqueItems nullDateField(OffsetDateTime nullDateField) {
-    this.nullDateField = nullDateField;
+    this.nullDateField = Optional.ofNullable(nullDateField);
     return this;
   }
 
@@ -193,12 +194,12 @@ public class ObjectWithUniqueItems   {
   */
   @Valid 
   @Schema(name = "nullDateField", required = false)
-  public OffsetDateTime getNullDateField() {
+  public Optional<OffsetDateTime> getNullDateField() {
     return nullDateField;
   }
 
   public void setNullDateField(OffsetDateTime nullDateField) {
-    this.nullDateField = nullDateField;
+    this.nullDateField = Optional.ofNullable(nullDateField);
   }
 
   @Override

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Optional;
 import org.openapitools.virtualan.model.Animal;
 import org.openapitools.virtualan.model.DogAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -25,10 +26,10 @@ import javax.annotation.Generated;
 public class Dog extends Animal  {
 
   @JsonProperty("breed")
-  private String breed;
+  private Optional<String> breed = Optional.empty();
 
   public Dog breed(String breed) {
-    this.breed = breed;
+    this.breed = Optional.ofNullable(breed);
     return this;
   }
 
@@ -38,12 +39,12 @@ public class Dog extends Animal  {
   */
   
   @ApiModelProperty(value = "")
-  public String getBreed() {
+  public Optional<String> getBreed() {
     return breed;
   }
 
   public void setBreed(String breed) {
-    this.breed = breed;
+    this.breed = Optional.ofNullable(breed);
   }
 
   @Override

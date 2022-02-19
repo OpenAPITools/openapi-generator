@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -22,13 +23,13 @@ import javax.annotation.Generated;
 public class Tag   {
 
   @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id = Optional.empty();
 
   @JsonProperty("name")
-  private String name;
+  private Optional<String> name = Optional.empty();
 
   public Tag id(Long id) {
-    this.id = id;
+    this.id = Optional.ofNullable(id);
     return this;
   }
 
@@ -38,16 +39,16 @@ public class Tag   {
   */
   
   @Schema(name = "id", required = false)
-  public Long getId() {
+  public Optional<Long> getId() {
     return id;
   }
 
   public void setId(Long id) {
-    this.id = id;
+    this.id = Optional.ofNullable(id);
   }
 
   public Tag name(String name) {
-    this.name = name;
+    this.name = Optional.ofNullable(name);
     return this;
   }
 
@@ -57,12 +58,12 @@ public class Tag   {
   */
   
   @Schema(name = "name", required = false)
-  public String getName() {
+  public Optional<String> getName() {
     return name;
   }
 
   public void setName(String name) {
-    this.name = name;
+    this.name = Optional.ofNullable(name);
   }
 
   @Override

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -33,7 +34,7 @@ public class Animal   {
   private String className;
 
   @JsonProperty("color")
-  private String color = "red";
+  private Optional<String> color = Optional.of("red");
 
   public Animal className(String className) {
     this.className = className;
@@ -55,7 +56,7 @@ public class Animal   {
   }
 
   public Animal color(String color) {
-    this.color = color;
+    this.color = Optional.ofNullable(color);
     return this;
   }
 
@@ -65,12 +66,12 @@ public class Animal   {
   */
   
   @Schema(name = "color", required = false)
-  public String getColor() {
+  public Optional<String> getColor() {
     return color;
   }
 
   public void setColor(String color) {
-    this.color = color;
+    this.color = Optional.ofNullable(color);
   }
 
   @Override

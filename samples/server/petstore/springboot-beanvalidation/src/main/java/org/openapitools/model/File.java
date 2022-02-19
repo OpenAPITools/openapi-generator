@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,10 +25,10 @@ import javax.annotation.Generated;
 public class File   {
 
   @JsonProperty("sourceURI")
-  private String sourceURI;
+  private Optional<String> sourceURI = Optional.empty();
 
   public File sourceURI(String sourceURI) {
-    this.sourceURI = sourceURI;
+    this.sourceURI = Optional.ofNullable(sourceURI);
     return this;
   }
 
@@ -37,12 +38,12 @@ public class File   {
   */
   
   @ApiModelProperty(value = "Test capitalization")
-  public String getSourceURI() {
+  public Optional<String> getSourceURI() {
     return sourceURI;
   }
 
   public void setSourceURI(String sourceURI) {
-    this.sourceURI = sourceURI;
+    this.sourceURI = Optional.ofNullable(sourceURI);
   }
 
   @Override

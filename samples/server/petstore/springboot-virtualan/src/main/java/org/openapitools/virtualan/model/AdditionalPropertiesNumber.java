@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -26,10 +27,10 @@ import javax.annotation.Generated;
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
 
   @JsonProperty("name")
-  private String name;
+  private Optional<String> name = Optional.empty();
 
   public AdditionalPropertiesNumber name(String name) {
-    this.name = name;
+    this.name = Optional.ofNullable(name);
     return this;
   }
 
@@ -39,12 +40,12 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
   */
   
   @ApiModelProperty(value = "")
-  public String getName() {
+  public Optional<String> getName() {
     return name;
   }
 
   public void setName(String name) {
-    this.name = name;
+    this.name = Optional.ofNullable(name);
   }
 
   @Override

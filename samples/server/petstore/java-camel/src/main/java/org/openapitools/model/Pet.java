@@ -55,7 +55,7 @@ public class Pet   {
   @JsonProperty("tags")
   @JacksonXmlProperty(localName = "tag")
   @Valid
-  private List<Tag> tags = null;
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store

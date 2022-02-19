@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,16 +25,16 @@ import javax.annotation.Generated;
 public class OuterComposite   {
 
   @JsonProperty("my_number")
-  private BigDecimal myNumber;
+  private Optional<BigDecimal> myNumber = Optional.empty();
 
   @JsonProperty("my_string")
-  private String myString;
+  private Optional<String> myString = Optional.empty();
 
   @JsonProperty("my_boolean")
-  private Boolean myBoolean;
+  private Optional<Boolean> myBoolean = Optional.empty();
 
   public OuterComposite myNumber(BigDecimal myNumber) {
-    this.myNumber = myNumber;
+    this.myNumber = Optional.ofNullable(myNumber);
     return this;
   }
 
@@ -43,16 +44,16 @@ public class OuterComposite   {
   */
   @Valid 
   @ApiModelProperty(value = "")
-  public BigDecimal getMyNumber() {
+  public Optional<BigDecimal> getMyNumber() {
     return myNumber;
   }
 
   public void setMyNumber(BigDecimal myNumber) {
-    this.myNumber = myNumber;
+    this.myNumber = Optional.ofNullable(myNumber);
   }
 
   public OuterComposite myString(String myString) {
-    this.myString = myString;
+    this.myString = Optional.ofNullable(myString);
     return this;
   }
 
@@ -62,16 +63,16 @@ public class OuterComposite   {
   */
   
   @ApiModelProperty(value = "")
-  public String getMyString() {
+  public Optional<String> getMyString() {
     return myString;
   }
 
   public void setMyString(String myString) {
-    this.myString = myString;
+    this.myString = Optional.ofNullable(myString);
   }
 
   public OuterComposite myBoolean(Boolean myBoolean) {
-    this.myBoolean = myBoolean;
+    this.myBoolean = Optional.ofNullable(myBoolean);
     return this;
   }
 
@@ -81,12 +82,12 @@ public class OuterComposite   {
   */
   
   @ApiModelProperty(value = "")
-  public Boolean getMyBoolean() {
+  public Optional<Boolean> getMyBoolean() {
     return myBoolean;
   }
 
   public void setMyBoolean(Boolean myBoolean) {
-    this.myBoolean = myBoolean;
+    this.myBoolean = Optional.ofNullable(myBoolean);
   }
 
   @Override
