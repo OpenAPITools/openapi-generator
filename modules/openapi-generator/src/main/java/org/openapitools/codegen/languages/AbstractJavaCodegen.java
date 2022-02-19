@@ -70,6 +70,7 @@ import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
+import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -81,7 +82,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig,
-        DocumentationProviderFeatures {
+        DocumentationProviderFeatures, OptionalFeatures {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
@@ -148,6 +149,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String outputTestFolder = "";
     protected DocumentationProvider documentationProvider;
     protected AnnotationLibrary annotationLibrary;
+    protected boolean useOptional = false;
 
     public AbstractJavaCodegen() {
         super();
@@ -1334,8 +1336,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     property.defaultValue = "JsonNullable.undefined()";
                 }
             }
-            if (SpringCodegen.class.equals(this.getClass()) && Boolean.FALSE.equals(property.required) && Boolean.FALSE.equals(property.isNullable)
-                    && !property.isArray && !property.isMap) {
+        }
+        if (useOptional) {
+            if (Boolean.FALSE.equals(property.required) && Boolean.FALSE.equals(property.isNullable)
+                && !property.isArray && !property.isMap) {
                 // Only add import when needed
                 model.imports.add("Optional");
                 // Wrap dataType and defaults
@@ -1864,6 +1868,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public void setAnnotationLibrary(AnnotationLibrary annotationLibrary) {
         this.annotationLibrary = annotationLibrary;
+    }
+
+    @Override
+    public void setUseOptional(boolean useOptional) {
+        this.useOptional = useOptional;
     }
 
     @Override
