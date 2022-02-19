@@ -30,11 +30,11 @@ import javax.annotation.Generated;
 public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   @JsonProperty("uuid")
-  private Optional<UUID> uuid;
+  private Optional<UUID> uuid = Optional.empty();
 
   @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private Optional<OffsetDateTime> dateTime;
+  private Optional<OffsetDateTime> dateTime = Optional.empty();
 
   @JsonProperty("map")
   @Valid

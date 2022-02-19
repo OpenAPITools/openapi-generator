@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 public class Category   {
 
   @JsonProperty("id")
-  private Optional<Long> id;
+  private Optional<Long> id = Optional.empty();
 
   @JsonProperty("name")
   private String name = "default-name";

@@ -92,6 +92,10 @@ components:
         - requiredNullableSet
         - requiredStringMap
         - requiredNullableStringMap
+        - requiredDate
+        - requiredNullableDate
+        - requiredDateTime
+        - requiredNullableDateTime
       properties:
         requiredString:
           type: string
@@ -207,6 +211,35 @@ components:
           type: object
           additionalProperties:
             type: string
+        optionalDate:
+          type: string
+          format: date
+        requiredDate:
+          type: string
+          format: date
+        optionalNullableDate:
+          type: string
+          nullable: true
+          format: date
+        requiredNullableDate:
+          type: string
+          nullable: true
+          format: date
+        optionalDateTime:
+          type: string
+          format: date-time
+        requiredDateTime:
+          type: string
+          format: date-time
+        optionalNullableDateTime:
+          type: string
+          nullable: true
+          format: date-time
+        requiredNullableDateTime:
+          type: string
+          nullable: true
+          format: date-time
+
 
 
     Category:

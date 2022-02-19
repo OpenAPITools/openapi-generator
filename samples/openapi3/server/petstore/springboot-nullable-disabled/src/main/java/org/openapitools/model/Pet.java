@@ -27,10 +27,10 @@ import javax.annotation.Generated;
 public class Pet   {
 
   @JsonProperty("id")
-  private Optional<Long> id;
+  private Optional<Long> id = Optional.empty();
 
   @JsonProperty("category")
-  private Optional<Category> category;
+  private Optional<Category> category = Optional.empty();
 
   @JsonProperty("name")
   private String name = null;

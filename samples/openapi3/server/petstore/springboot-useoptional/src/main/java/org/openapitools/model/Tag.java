@@ -22,10 +22,10 @@ import javax.annotation.Generated;
 public class Tag   {
 
   @JsonProperty("id")
-  private Optional<Long> id;
+  private Optional<Long> id = Optional.empty();
 
   @JsonProperty("name")
-  private Optional<String> name;
+  private Optional<String> name = Optional.empty();
 
   public Tag id(Long id) {
     this.id = Optional.of(id);

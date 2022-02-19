@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 public class ModelList   {
 
   @JsonProperty("123-list")
-  private Optional<String> _123list;
+  private Optional<String> _123list = Optional.empty();
 
   public ModelList _123list(String _123list) {
     this._123list = Optional.of(_123list);

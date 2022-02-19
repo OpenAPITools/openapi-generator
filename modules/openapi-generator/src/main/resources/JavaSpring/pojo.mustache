@@ -89,7 +89,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   private {{>nullableDataType}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/required}}
   {{^required}}
-  private {{>optionalDataTypeWithEnum}} {{name}}{{#defaultValue}} = Optional.ofNullable({{{.}}}){{/defaultValue}};
+  private {{>optionalDataTypeWithEnum}} {{name}} = {{#defaultValue}}Optional.ofNullable({{{.}}}){{/defaultValue}}{{^defaultValue}}Optional.empty(){{/defaultValue}};
   {{/required}}
   {{/useOptional}}
   {{^useOptional}}
@@ -106,7 +106,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   private {{>nullableDataType}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
   {{/required}}
   {{^required}}
-  private {{>optionalDataTypeWithEnum}} {{name}}{{#isNullable}} = Optional.empty(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = Optional.ofNullable({{{.}}}){{/defaultValue}}{{/isNullable}};
+  private {{>optionalDataTypeWithEnum}} {{name}} = {{#defaultValue}}Optional.ofNullable({{{.}}}){{/defaultValue}}{{^defaultValue}}Optional.empty(){{/defaultValue}};
   {{/required}}
   {{/useOptional}}
   {{/openApiNullable}}

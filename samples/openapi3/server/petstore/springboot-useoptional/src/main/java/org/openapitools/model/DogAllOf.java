@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 public class DogAllOf   {
 
   @JsonProperty("breed")
-  private Optional<String> breed;
+  private Optional<String> breed = Optional.empty();
 
   public DogAllOf breed(String breed) {
     this.breed = Optional.of(breed);

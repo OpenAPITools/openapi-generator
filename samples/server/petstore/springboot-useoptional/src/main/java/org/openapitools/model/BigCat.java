@@ -65,7 +65,7 @@ public class BigCat extends Cat  {
   }
 
   @JsonProperty("kind")
-  private Optional<KindEnum> kind;
+  private Optional<KindEnum> kind = Optional.empty();
 
   public BigCat kind(KindEnum kind) {
     this.kind = Optional.of(kind);

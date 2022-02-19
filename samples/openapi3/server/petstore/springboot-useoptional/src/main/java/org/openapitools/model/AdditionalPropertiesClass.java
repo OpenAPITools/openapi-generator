@@ -58,13 +58,13 @@ public class AdditionalPropertiesClass   {
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   @JsonProperty("anytype_1")
-  private Optional<Object> anytype1;
+  private Optional<Object> anytype1 = Optional.empty();
 
   @JsonProperty("anytype_2")
-  private Optional<Object> anytype2;
+  private Optional<Object> anytype2 = Optional.empty();
 
   @JsonProperty("anytype_3")
-  private Optional<Object> anytype3;
+  private Optional<Object> anytype3 = Optional.empty();
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;

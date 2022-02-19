@@ -24,10 +24,10 @@ import javax.annotation.Generated;
 public class HasOnlyReadOnly   {
 
   @JsonProperty("bar")
-  private Optional<String> bar;
+  private Optional<String> bar = Optional.empty();
 
   @JsonProperty("foo")
-  private Optional<String> foo;
+  private Optional<String> foo = Optional.empty();
 
   public HasOnlyReadOnly bar(String bar) {
     this.bar = Optional.of(bar);

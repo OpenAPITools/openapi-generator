@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 public class File   {
 
   @JsonProperty("sourceURI")
-  private Optional<String> sourceURI;
+  private Optional<String> sourceURI = Optional.empty();
 
   public File sourceURI(String sourceURI) {
     this.sourceURI = Optional.of(sourceURI);

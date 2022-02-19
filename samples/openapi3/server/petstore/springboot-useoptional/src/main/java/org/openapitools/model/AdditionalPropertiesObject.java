@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 public class AdditionalPropertiesObject extends HashMap<String, Map>  {
 
   @JsonProperty("name")
-  private Optional<String> name;
+  private Optional<String> name = Optional.empty();
 
   public AdditionalPropertiesObject name(String name) {
     this.name = Optional.of(name);

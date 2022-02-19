@@ -22,22 +22,22 @@ import javax.annotation.Generated;
 public class Capitalization   {
 
   @JsonProperty("smallCamel")
-  private Optional<String> smallCamel;
+  private Optional<String> smallCamel = Optional.empty();
 
   @JsonProperty("CapitalCamel")
-  private Optional<String> capitalCamel;
+  private Optional<String> capitalCamel = Optional.empty();
 
   @JsonProperty("small_Snake")
-  private Optional<String> smallSnake;
+  private Optional<String> smallSnake = Optional.empty();
 
   @JsonProperty("Capital_Snake")
-  private Optional<String> capitalSnake;
+  private Optional<String> capitalSnake = Optional.empty();
 
   @JsonProperty("SCA_ETH_Flow_Points")
-  private Optional<String> scAETHFlowPoints;
+  private Optional<String> scAETHFlowPoints = Optional.empty();
 
   @JsonProperty("ATT_NAME")
-  private Optional<String> ATT_NAME;
+  private Optional<String> ATT_NAME = Optional.empty();
 
   public Capitalization smallCamel(String smallCamel) {
     this.smallCamel = Optional.of(smallCamel);

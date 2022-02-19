@@ -26,7 +26,7 @@ import javax.annotation.Generated;
 public class ModelReturn   {
 
   @JsonProperty("return")
-  private Optional<Integer> _return;
+  private Optional<Integer> _return = Optional.empty();
 
   public ModelReturn _return(Integer _return) {
     this._return = Optional.of(_return);

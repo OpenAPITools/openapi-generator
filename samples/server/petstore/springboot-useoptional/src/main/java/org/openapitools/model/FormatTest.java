@@ -31,31 +31,31 @@ import javax.annotation.Generated;
 public class FormatTest   {
 
   @JsonProperty("integer")
-  private Optional<@Min(10) @Max(100) Integer> integer;
+  private Optional<@Min(10) @Max(100) Integer> integer = Optional.empty();
 
   @JsonProperty("int32")
-  private Optional<@Min(20) @Max(200) Integer> int32;
+  private Optional<@Min(20) @Max(200) Integer> int32 = Optional.empty();
 
   @JsonProperty("int64")
-  private Optional<Long> int64;
+  private Optional<Long> int64 = Optional.empty();
 
   @JsonProperty("number")
   private BigDecimal number;
 
   @JsonProperty("float")
-  private Optional<@DecimalMin("54.3") @DecimalMax("987.6") Float> _float;
+  private Optional<@DecimalMin("54.3") @DecimalMax("987.6") Float> _float = Optional.empty();
 
   @JsonProperty("double")
-  private Optional<@DecimalMin("67.8") @DecimalMax("123.4") Double> _double;
+  private Optional<@DecimalMin("67.8") @DecimalMax("123.4") Double> _double = Optional.empty();
 
   @JsonProperty("string")
-  private Optional<@Pattern(regexp = "/[a-z]/i") String> string;
+  private Optional<@Pattern(regexp = "/[a-z]/i") String> string = Optional.empty();
 
   @JsonProperty("byte")
   private byte[] _byte;
 
   @JsonProperty("binary")
-  private Optional<org.springframework.core.io.Resource> binary;
+  private Optional<org.springframework.core.io.Resource> binary = Optional.empty();
 
   @JsonProperty("date")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -63,16 +63,16 @@ public class FormatTest   {
 
   @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private Optional<OffsetDateTime> dateTime;
+  private Optional<OffsetDateTime> dateTime = Optional.empty();
 
   @JsonProperty("uuid")
-  private Optional<UUID> uuid;
+  private Optional<UUID> uuid = Optional.empty();
 
   @JsonProperty("password")
   private String password;
 
   @JsonProperty("BigDecimal")
-  private Optional<BigDecimal> bigDecimal;
+  private Optional<BigDecimal> bigDecimal = Optional.empty();
 
   public FormatTest integer(Integer integer) {
     this.integer = Optional.of(integer);

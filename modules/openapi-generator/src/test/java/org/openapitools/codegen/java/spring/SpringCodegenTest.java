@@ -791,7 +791,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Params.java"),
-                "private Optional<String> optionalString;",
+                "private Optional<String> optionalString = Optional.empty();",
                 "private JsonNullable<String> requiredNullableString = JsonNullable.undefined();");
 
     }

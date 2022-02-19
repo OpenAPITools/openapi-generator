@@ -25,17 +25,17 @@ import javax.annotation.Generated;
 public class Order   {
 
   @JsonProperty("id")
-  private Optional<Long> id;
+  private Optional<Long> id = Optional.empty();
 
   @JsonProperty("petId")
-  private Optional<Long> petId;
+  private Optional<Long> petId = Optional.empty();
 
   @JsonProperty("quantity")
-  private Optional<Integer> quantity;
+  private Optional<Integer> quantity = Optional.empty();
 
   @JsonProperty("shipDate")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private Optional<OffsetDateTime> shipDate;
+  private Optional<OffsetDateTime> shipDate = Optional.empty();
 
   /**
    * Order Status
@@ -75,7 +75,7 @@ public class Order   {
   }
 
   @JsonProperty("status")
-  private Optional<StatusEnum> status;
+  private Optional<StatusEnum> status = Optional.empty();
 
   @JsonProperty("complete")
   private Optional<Boolean> complete = Optional.ofNullable(false);

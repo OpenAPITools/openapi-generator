@@ -26,32 +26,32 @@ import javax.annotation.Generated;
 public class XmlItem   {
 
   @JsonProperty("attribute_string")
-  private Optional<String> attributeString;
+  private Optional<String> attributeString = Optional.empty();
 
   @JsonProperty("attribute_number")
-  private Optional<BigDecimal> attributeNumber;
+  private Optional<BigDecimal> attributeNumber = Optional.empty();
 
   @JsonProperty("attribute_integer")
-  private Optional<Integer> attributeInteger;
+  private Optional<Integer> attributeInteger = Optional.empty();
 
   @JsonProperty("attribute_boolean")
-  private Optional<Boolean> attributeBoolean;
+  private Optional<Boolean> attributeBoolean = Optional.empty();
 
   @JsonProperty("wrapped_array")
   @Valid
   private List<Integer> wrappedArray = new ArrayList<>();
 
   @JsonProperty("name_string")
-  private Optional<String> nameString;
+  private Optional<String> nameString = Optional.empty();
 
   @JsonProperty("name_number")
-  private Optional<BigDecimal> nameNumber;
+  private Optional<BigDecimal> nameNumber = Optional.empty();
 
   @JsonProperty("name_integer")
-  private Optional<Integer> nameInteger;
+  private Optional<Integer> nameInteger = Optional.empty();
 
   @JsonProperty("name_boolean")
-  private Optional<Boolean> nameBoolean;
+  private Optional<Boolean> nameBoolean = Optional.empty();
 
   @JsonProperty("name_array")
   @Valid
@@ -62,16 +62,16 @@ public class XmlItem   {
   private List<Integer> nameWrappedArray = new ArrayList<>();
 
   @JsonProperty("prefix_string")
-  private Optional<String> prefixString;
+  private Optional<String> prefixString = Optional.empty();
 
   @JsonProperty("prefix_number")
-  private Optional<BigDecimal> prefixNumber;
+  private Optional<BigDecimal> prefixNumber = Optional.empty();
 
   @JsonProperty("prefix_integer")
-  private Optional<Integer> prefixInteger;
+  private Optional<Integer> prefixInteger = Optional.empty();
 
   @JsonProperty("prefix_boolean")
-  private Optional<Boolean> prefixBoolean;
+  private Optional<Boolean> prefixBoolean = Optional.empty();
 
   @JsonProperty("prefix_array")
   @Valid
@@ -82,16 +82,16 @@ public class XmlItem   {
   private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   @JsonProperty("namespace_string")
-  private Optional<String> namespaceString;
+  private Optional<String> namespaceString = Optional.empty();
 
   @JsonProperty("namespace_number")
-  private Optional<BigDecimal> namespaceNumber;
+  private Optional<BigDecimal> namespaceNumber = Optional.empty();
 
   @JsonProperty("namespace_integer")
-  private Optional<Integer> namespaceInteger;
+  private Optional<Integer> namespaceInteger = Optional.empty();
 
   @JsonProperty("namespace_boolean")
-  private Optional<Boolean> namespaceBoolean;
+  private Optional<Boolean> namespaceBoolean = Optional.empty();
 
   @JsonProperty("namespace_array")
   @Valid
@@ -102,16 +102,16 @@ public class XmlItem   {
   private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   @JsonProperty("prefix_ns_string")
-  private Optional<String> prefixNsString;
+  private Optional<String> prefixNsString = Optional.empty();
 
   @JsonProperty("prefix_ns_number")
-  private Optional<BigDecimal> prefixNsNumber;
+  private Optional<BigDecimal> prefixNsNumber = Optional.empty();
 
   @JsonProperty("prefix_ns_integer")
-  private Optional<Integer> prefixNsInteger;
+  private Optional<Integer> prefixNsInteger = Optional.empty();
 
   @JsonProperty("prefix_ns_boolean")
-  private Optional<Boolean> prefixNsBoolean;
+  private Optional<Boolean> prefixNsBoolean = Optional.empty();
 
   @JsonProperty("prefix_ns_array")
   @Valid

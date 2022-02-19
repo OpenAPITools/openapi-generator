@@ -26,7 +26,7 @@ import javax.annotation.Generated;
 public class FileSchemaTestClass   {
 
   @JsonProperty("file")
-  private Optional<File> file;
+  private Optional<File> file = Optional.empty();
 
   @JsonProperty("files")
   @Valid

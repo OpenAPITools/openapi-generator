@@ -22,10 +22,10 @@ import javax.annotation.Generated;
 public class ReadOnlyFirst   {
 
   @JsonProperty("bar")
-  private Optional<String> bar;
+  private Optional<String> bar = Optional.empty();
 
   @JsonProperty("baz")
-  private Optional<String> baz;
+  private Optional<String> baz = Optional.empty();
 
   public ReadOnlyFirst bar(String bar) {
     this.bar = Optional.of(bar);

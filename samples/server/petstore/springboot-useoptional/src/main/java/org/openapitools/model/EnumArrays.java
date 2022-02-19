@@ -61,7 +61,7 @@ public class EnumArrays   {
   }
 
   @JsonProperty("just_symbol")
-  private Optional<JustSymbolEnum> justSymbol;
+  private Optional<JustSymbolEnum> justSymbol = Optional.empty();
 
   /**
    * Gets or Sets arrayEnum

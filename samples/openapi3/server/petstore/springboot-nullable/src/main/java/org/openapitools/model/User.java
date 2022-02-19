@@ -23,28 +23,28 @@ import javax.annotation.Generated;
 public class User   {
 
   @JsonProperty("id")
-  private Optional<Long> id;
+  private Optional<Long> id = Optional.empty();
 
   @JsonProperty("username")
-  private Optional<String> username;
+  private Optional<String> username = Optional.empty();
 
   @JsonProperty("firstName")
-  private Optional<String> firstName;
+  private Optional<String> firstName = Optional.empty();
 
   @JsonProperty("lastName")
-  private Optional<String> lastName;
+  private Optional<String> lastName = Optional.empty();
 
   @JsonProperty("email")
-  private Optional<String> email;
+  private Optional<String> email = Optional.empty();
 
   @JsonProperty("password")
-  private Optional<String> password;
+  private Optional<String> password = Optional.empty();
 
   @JsonProperty("phone")
-  private Optional<String> phone;
+  private Optional<String> phone = Optional.empty();
 
   @JsonProperty("userStatus")
-  private Optional<Integer> userStatus;
+  private Optional<Integer> userStatus = Optional.empty();
 
   public User id(Long id) {
     this.id = Optional.of(id);

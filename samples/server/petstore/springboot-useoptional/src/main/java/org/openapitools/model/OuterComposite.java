@@ -24,13 +24,13 @@ import javax.annotation.Generated;
 public class OuterComposite   {
 
   @JsonProperty("my_number")
-  private Optional<BigDecimal> myNumber;
+  private Optional<BigDecimal> myNumber = Optional.empty();
 
   @JsonProperty("my_string")
-  private Optional<String> myString;
+  private Optional<String> myString = Optional.empty();
 
   @JsonProperty("my_boolean")
-  private Optional<Boolean> myBoolean;
+  private Optional<Boolean> myBoolean = Optional.empty();
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = Optional.of(myNumber);

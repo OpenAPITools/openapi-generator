@@ -63,7 +63,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_string")
-  private Optional<EnumStringEnum> enumString;
+  private Optional<EnumStringEnum> enumString = Optional.empty();
 
   /**
    * Gets or Sets enumStringRequired
@@ -141,7 +141,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_integer")
-  private Optional<EnumIntegerEnum> enumInteger;
+  private Optional<EnumIntegerEnum> enumInteger = Optional.empty();
 
   /**
    * Gets or Sets enumNumber
@@ -179,10 +179,10 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_number")
-  private Optional<EnumNumberEnum> enumNumber;
+  private Optional<EnumNumberEnum> enumNumber = Optional.empty();
 
   @JsonProperty("outerEnum")
-  private Optional<OuterEnum> outerEnum;
+  private Optional<OuterEnum> outerEnum = Optional.empty();
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = Optional.of(enumString);

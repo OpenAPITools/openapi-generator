@@ -26,10 +26,10 @@ import javax.annotation.Generated;
 public class Model200Response   {
 
   @JsonProperty("name")
-  private Optional<Integer> name;
+  private Optional<Integer> name = Optional.empty();
 
   @JsonProperty("class")
-  private Optional<String> propertyClass;
+  private Optional<String> propertyClass = Optional.empty();
 
   public Model200Response name(Integer name) {
     this.name = Optional.of(name);

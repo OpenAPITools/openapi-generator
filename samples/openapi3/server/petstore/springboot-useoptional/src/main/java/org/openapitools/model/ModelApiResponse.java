@@ -24,13 +24,13 @@ import javax.annotation.Generated;
 public class ModelApiResponse   {
 
   @JsonProperty("code")
-  private Optional<Integer> code;
+  private Optional<Integer> code = Optional.empty();
 
   @JsonProperty("type")
-  private Optional<String> type;
+  private Optional<String> type = Optional.empty();
 
   @JsonProperty("message")
-  private Optional<String> message;
+  private Optional<String> message = Optional.empty();
 
   public ModelApiResponse code(Integer code) {
     this.code = Optional.of(code);

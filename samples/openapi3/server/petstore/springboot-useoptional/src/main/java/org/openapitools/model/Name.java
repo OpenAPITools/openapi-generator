@@ -26,13 +26,13 @@ public class Name   {
   private Integer name;
 
   @JsonProperty("snake_case")
-  private Optional<Integer> snakeCase;
+  private Optional<Integer> snakeCase = Optional.empty();
 
   @JsonProperty("property")
-  private Optional<String> property;
+  private Optional<String> property = Optional.empty();
 
   @JsonProperty("123Number")
-  private Optional<Integer> _123number;
+  private Optional<Integer> _123number = Optional.empty();
 
   public Name name(Integer name) {
     this.name = name;
