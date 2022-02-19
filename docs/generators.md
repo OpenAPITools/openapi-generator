@@ -30,7 +30,6 @@ The following generators are available:
 * [erlang-client](generators/erlang-client.md)  
 * [erlang-proper](generators/erlang-proper.md)  
 * [go](generators/go.md)  
-* [go-deprecated (deprecated)](generators/go-deprecated.md)  
 * [groovy](generators/groovy.md)  
 * [haskell-http-client](generators/haskell-http-client.md)  
 * [java](generators/java.md)  

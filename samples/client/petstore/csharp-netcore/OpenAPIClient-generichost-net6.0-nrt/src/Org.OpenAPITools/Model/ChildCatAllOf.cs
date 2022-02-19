@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name.</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat).</param>
-        public ChildCatAllOf(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat)
+        public ChildCatAllOf(string? name = default, PetTypeEnum? petType = PetTypeEnum.ChildCat)
         {
             this.Name = name;
             this.PetType = petType;
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

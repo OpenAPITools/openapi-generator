@@ -1160,53 +1160,12 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <!-- servers -->
                 <module>samples/server/petstore/java-camel</module>
-                <module>samples/server/petstore/jaxrs-jersey</module>
-                <module>samples/server/petstore/jaxrs-spec</module>
-                <module>samples/server/petstore/jaxrs-spec-interface</module>
-                <module>samples/server/petstore/jaxrs-spec-interface-response</module>
                 <module>samples/server/petstore/java-vertx-web</module>
                 <module>samples/server/petstore/java-inflector</module>
                 <module>samples/server/petstore/java-pkmst</module>
                 <module>samples/server/petstore/java-undertow</module>
-                <module>samples/server/petstore/jaxrs/jersey1</module>
-                <module>samples/server/petstore/jaxrs/jersey1-useTags</module>
-                <!-- move to other CI as the following fails often in CircleCI
-                <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs/jersey2-useTags</module> -->
-                <module>samples/server/petstore/jaxrs-datelib-j8</module>
-                <module>samples/server/petstore/jaxrs-resteasy/default</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
-                <module>samples/server/petstore/jaxrs-resteasy/joda</module>
-                <module>samples/server/petstore/jaxrs-resteasy/default-value</module>
-                <!--<module>samples/server/petstore/kotlin-server/ktor</module>-->
-                <module>samples/client/petstore/spring-cloud</module>
-                <module>samples/openapi3/client/petstore/spring-cloud</module>
-                <module>samples/client/petstore/spring-cloud-date-time</module>
-                <module>samples/openapi3/client/petstore/spring-cloud-date-time</module>
-                <module>samples/server/petstore/springboot</module>
-                <module>samples/server/petstore/spring-boot-nullable-set</module>
-                <module>samples/openapi3/server/petstore/springboot</module>
-                <module>samples/server/petstore/springboot-beanvalidation</module>
-                <module>samples/server/petstore/springboot-useoptional</module>
-                <module>samples/openapi3/server/petstore/springboot-useoptional</module>
-                <module>samples/server/petstore/springboot-reactive</module>
-                <module>samples/openapi3/server/petstore/springboot-reactive</module>
-                <module>samples/server/petstore/springboot-implicitHeaders</module>
-                <module>samples/openapi3/server/petstore/springboot-implicitHeaders</module>
-                <module>samples/server/petstore/springboot-delegate</module>
-                <module>samples/openapi3/server/petstore/springboot-delegate</module>
-                <module>samples/server/petstore/jaxrs-cxf</module>
-                <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
-                <module>samples/server/petstore/jaxrs-cxf-cdi</module>
-                <module>samples/server/petstore/jaxrs-cxf-cdi-default-value</module>
-                <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
-                <module>samples/server/petstore/java-msf4j</module>
             </modules>
         </profile>
         <profile>
@@ -1296,29 +1255,10 @@
                 <module>samples/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/java/feign</module>
-                <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
                 <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
                 <module>samples/client/others/java/okhttp-gson-streaming</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit2</module>
-                <module>samples/client/petstore/java/retrofit2rx2</module>
-                <module>samples/client/petstore/java/retrofit2rx3</module>
-                <module>samples/client/petstore/java/retrofit2-play26</module>
-                <module>samples/client/petstore/jaxrs-cxf-client</module>
-                <module>samples/client/petstore/java/resttemplate</module>
-                <module>samples/client/petstore/java/resttemplate-withXml</module>
-                <module>samples/client/petstore/java/webclient</module>
-                <module>samples/client/petstore/java/webclient-nulable-arrays</module>
-                <module>samples/client/petstore/java/vertx</module>
-                <module>samples/client/petstore/java/jersey2-java8-localdatetime</module>
-                <module>samples/client/petstore/java/resteasy</module>
-                <module>samples/client/petstore/java/google-api-client</module>
-                <module>samples/client/petstore/java/rest-assured</module>
-                <module>samples/client/petstore/java/rest-assured-jackson</module>
-                <module>samples/client/petstore/java/microprofile-rest-client</module>
-                <module>samples/client/petstore/java/apache-httpclient</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->
@@ -1336,24 +1276,6 @@
                 <!--<module>samples/client/petstore/elixir</module>-->
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
-                <module>samples/client/petstore/kotlin</module>
-                <module>samples/client/petstore/kotlin-gson</module>
-                <module>samples/client/petstore/kotlin-jackson</module>
-                <module>samples/client/petstore/kotlin-json-request-string</module>
-                <module>samples/client/petstore/kotlin-jvm-okhttp4-coroutines</module>
-                <module>samples/client/petstore/kotlin-moshi-codegen</module>
-                <module>samples/client/petstore/kotlin-multiplatform</module>
-                <module>samples/client/petstore/kotlin-nonpublic</module>
-                <module>samples/client/petstore/kotlin-nullable</module>
-                <module>samples/client/petstore/kotlin-okhttp3</module>
-                <module>samples/client/petstore/kotlin-retrofit2</module>
-                <module>samples/client/petstore/kotlin-retrofit2-rx3</module>
-                <module>samples/client/petstore/kotlin-string</module>
-                <module>samples/client/petstore/kotlin-threetenbp</module>
-                <module>samples/client/petstore/kotlin-uppercase-enum</module>
-                <!-- servers -->
-                <module>samples/server/petstore/kotlin-springboot</module>
-                <!--<module>samples/server/petstore/kotlin/vertx</module>-->
                 <!--<module>samples/server/petstore/erlang-server</module>-->
             </modules>
         </profile>

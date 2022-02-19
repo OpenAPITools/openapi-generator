@@ -8,7 +8,7 @@ $properties = @(
     'apiName=Api',
     'targetFramework=netstandard2.0',
     'validatable=true',
-    'nullableReferenceTypes=false',
+    'nullableReferenceTypes=',
     'hideGenerationTimestamp=true',
     'packageVersion=1.0.0',
     'packageAuthors=OpenAPI',
@@ -232,7 +232,7 @@ Authentication schemes defined for the API:
 - modelPropertyNaming: 
 - netCoreProjectFile: false
 - nonPublicApi: false
-- nullableReferenceTypes: false
+- nullableReferenceTypes: 
 - optionalAssemblyInfo: 
 - optionalEmitDefaultValues: false
 - optionalMethodArgument: true

@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -84,12 +84,12 @@ class AppleReq(
         *args: typing.Union[dict, frozendict, ],
         cultivar: cultivar,
         mealy: typing.Union[mealy, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
     ) -> 'AppleReq':
         return super().__new__(
             cls,
             *args,
             cultivar=cultivar,
             mealy=mealy,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
         )

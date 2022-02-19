@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name (required).</param>
         /// <param name="property">property.</param>
-        public Name(int name = default(int), string property = default(string))
+        public Name(int name, string property = default)
         {
             this._Name = name;
             this.Property = property;

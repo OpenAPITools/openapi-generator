@@ -44,8 +44,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DanishPig" /> class.
         /// </summary>
         /// <param name="className">className (required).</param>
-        public DanishPig(string className = default(string))
+        public DanishPig(string className)
         {
+            // to ensure "className" is required (not null)
+            if (className == null) {
+                throw new ArgumentNullException("className is a required property for DanishPig and cannot be null");
+            }
             this.ClassName = className;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
