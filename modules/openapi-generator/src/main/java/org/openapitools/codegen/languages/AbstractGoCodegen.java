@@ -850,5 +850,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.GO; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.GO;
+    }
 }
