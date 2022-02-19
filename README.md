@@ -650,6 +650,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [PLAID, Inc.](https://plaid.co.jp/)
 - [Ponicode](https://ponicode.dev/)
 - [Pricefx](https://www.pricefx.com/)
+- [PrintNanny](https://www.print-nanny.com/)
 - [Prometheus/Alertmanager](https://github.com/prometheus/alertmanager)
 - [Qavar](https://www.qavar.com)
 - [QEDIT](https://qed-it.com)
