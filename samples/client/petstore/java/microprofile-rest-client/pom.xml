@@ -153,7 +153,7 @@
     <swagger-core-version>1.5.18</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <junit-version>4.13.1</junit-version>
-    <logback-version>1.2.0</logback-version>
+    <logback-version>1.2.10</logback-version>
     <cxf-version>3.2.7</cxf-version>
     <jackson-jaxrs-version>2.9.7</jackson-jaxrs-version>
     <jakarta.activation-version>1.2.2</jakarta.activation-version>

@@ -24,9 +24,9 @@ type {{classname}} interface {
 	{{{unescapedNotes}}}
 	{{/notes}}
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
-	 @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
-	 @return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
+	@param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
+	@return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
 	{{#isDeprecated}}
 
 	Deprecated
@@ -58,7 +58,9 @@ type {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request s
 	{{paramName}} {{^isPathParam}}*{{/isPathParam}}{{{dataType}}}
 {{/allParams}}
 }
-{{#allParams}}{{^isPathParam}}
+
+{{#allParams}}
+{{^isPathParam}}
 {{#description}}
 // {{.}}
 {{/description}}
@@ -68,8 +70,10 @@ type {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request s
 func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
 	r.{{paramName}} = &{{paramName}}
 	return r
-}{{/isPathParam}}{{/allParams}}
+}
 
+{{/isPathParam}}
+{{/allParams}}
 func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) Execute() ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}*{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error) {
 	return r.ApiService.{{nickname}}Execute(r)
 }
