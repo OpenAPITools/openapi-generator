@@ -47,8 +47,8 @@ public class Tag   {
    * Get id
    * @return id
   */
-  @Schema(name = "id", required = false)
   
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -66,8 +66,8 @@ public class Tag   {
    * Get name
    * @return name
   */
-  @Schema(name = "name", required = false)
   
+  @Schema(name = "name", required = false)
   public String getName() {
     return name;
   }

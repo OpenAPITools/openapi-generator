@@ -104,8 +104,8 @@ public class Order   {
    * Get id
    * @return id
   */
-  @Schema(name = "id", required = false)
   
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -123,8 +123,8 @@ public class Order   {
    * Get petId
    * @return petId
   */
-  @Schema(name = "petId", required = false)
   
+  @Schema(name = "petId", required = false)
   public Long getPetId() {
     return petId;
   }
@@ -142,8 +142,8 @@ public class Order   {
    * Get quantity
    * @return quantity
   */
-  @Schema(name = "quantity", required = false)
   
+  @Schema(name = "quantity", required = false)
   public Integer getQuantity() {
     return quantity;
   }
@@ -161,8 +161,8 @@ public class Order   {
    * Get shipDate
    * @return shipDate
   */
-  @Schema(name = "shipDate", required = false)
   @Valid 
+  @Schema(name = "shipDate", required = false)
   public Date getShipDate() {
     return shipDate;
   }
@@ -180,8 +180,8 @@ public class Order   {
    * Order Status
    * @return status
   */
-  @Schema(name = "status", description = "Order Status", required = false)
   
+  @Schema(name = "status", description = "Order Status", required = false)
   public StatusEnum getStatus() {
     return status;
   }
@@ -199,8 +199,8 @@ public class Order   {
    * Get complete
    * @return complete
   */
-  @Schema(name = "complete", required = false)
   
+  @Schema(name = "complete", required = false)
   public Boolean getComplete() {
     return complete;
   }

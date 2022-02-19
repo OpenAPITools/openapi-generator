@@ -53,8 +53,8 @@ public class ModelApiResponse   {
    * Get code
    * @return code
   */
-  @Schema(name = "code", required = false)
   
+  @Schema(name = "code", required = false)
   public Integer getCode() {
     return code;
   }
@@ -72,8 +72,8 @@ public class ModelApiResponse   {
    * Get type
    * @return type
   */
-  @Schema(name = "type", required = false)
   
+  @Schema(name = "type", required = false)
   public String getType() {
     return type;
   }
@@ -91,8 +91,8 @@ public class ModelApiResponse   {
    * Get message
    * @return message
   */
-  @Schema(name = "message", required = false)
   
+  @Schema(name = "message", required = false)
   public String getMessage() {
     return message;
   }
