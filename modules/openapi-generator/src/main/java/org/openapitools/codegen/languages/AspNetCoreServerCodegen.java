@@ -49,7 +49,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String GENERATE_BODY = "generateBody";
     public static final String BUILD_TARGET = "buildTarget";
     public static final String MODEL_CLASS_MODIFIER = "modelClassModifier";
-    public static final String TARGET_FRAMEWORK= "targetFramework";
+    public static final String TARGET_FRAMEWORK = "targetFramework";
 
     public static final String PROJECT_SDK = "projectSdk";
     public static final String SDK_WEB = "Microsoft.NET.Sdk.Web";
@@ -150,8 +150,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         // CLI options
         addOption(CodegenConstants.PACKAGE_DESCRIPTION,
-                  CodegenConstants.PACKAGE_DESCRIPTION_DESC,
-                  packageDescription);
+                CodegenConstants.PACKAGE_DESCRIPTION_DESC,
+                packageDescription);
 
         addOption(CodegenConstants.LICENSE_URL,
                 CodegenConstants.LICENSE_URL_DESC,
@@ -472,10 +472,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                             continue;
                         }
 
-                        if(consumesString.toString().isEmpty()) {
+                        if (consumesString.toString().isEmpty()) {
                             consumesString = new StringBuilder("\"" + consume.get("mediaType") + "\"");
-                        }
-                        else {
+                        } else {
                             consumesString.append(", \"").append(consume.get("mediaType")).append("\"");
                         }
 
@@ -500,7 +499,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                         }
                     }
 
-                    if(!consumesString.toString().isEmpty()) {
+                    if (!consumesString.toString().isEmpty()) {
                         operation.vendorExtensions.put("x-aspnetcore-consumes", consumesString.toString());
                     }
                 }
@@ -596,7 +595,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private void setBuildTarget() {
         setCliOption(buildTarget);
         if ("library".equals(buildTarget.getOptValue())) {
-            LOGGER.warn("buildTarget is {} so changing default isLibrary to true",  buildTarget.getOptValue());
+            LOGGER.warn("buildTarget is {} so changing default isLibrary to true", buildTarget.getOptValue());
             isLibrary = true;
             projectSdk = SDK_LIB;
             additionalProperties.put(CLASS_MODIFIER, "abstract");
@@ -619,7 +618,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
         }
         LOGGER.info("ASP.NET core version: {}", aspnetCoreVersion.getOptValue());
-        if(!additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)){
+        if (!additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)) {
             templateDir = embeddedTemplateDir = "aspnetcore" + File.separator + determineTemplateVersion(aspnetCoreVersion.getOptValue());
         }
         additionalProperties.put(COMPATIBILITY_VERSION, compatibilityVersion);
