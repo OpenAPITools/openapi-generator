@@ -332,7 +332,18 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
         }
         additionalProperties.put("packageGuid", packageGuid);
-        additionalProperties.put("userSecretsGuid", userSecretsGuid);
+
+        if (!additionalProperties.containsKey("packageGuid")) {
+            additionalProperties.put("packageGuid", packageGuid);
+        } else {
+            packageGuid = (String) additionalProperties.get("packageGuid");
+        }
+
+        if (!additionalProperties.containsKey("userSecretsGuid")) {
+            additionalProperties.put("userSecretsGuid", userSecretsGuid);
+        } else {
+            userSecretsGuid = (String) additionalProperties.get("userSecretsGuid");
+        }
 
         if (!additionalProperties.containsKey(NEWTONSOFT_VERSION)) {
             additionalProperties.put(NEWTONSOFT_VERSION, newtonsoftVersion);
@@ -734,13 +745,11 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 5.0.0.", aspnetCoreVersion.getOptValue());
             swashbuckleVersion.setOptValue("5.0.0");
             additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
-        }
-        else if(aspnetCoreVersion.getOptValue().startsWith("6.")) {
+        } else if (aspnetCoreVersion.getOptValue().startsWith("6.")) {
             LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 6.0.0.", aspnetCoreVersion.getOptValue());
             swashbuckleVersion.setOptValue("6.0.0");
             additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
-        }
-        else {
+        } else {
             // default, do nothing
             LOGGER.info("Swashbuckle version: {}", swashbuckleVersion.getOptValue());
         }
