@@ -42,11 +42,11 @@ elif [ "$NODE_INDEX" = "2" ]; then
   sudo apt-get -y build-dep libcurl4-gnutls-dev
   sudo apt-get -y install libcurl4-gnutls-dev
 
-  # Install golang version 1.14
+  # Install golang version 1.16.14
   go version
-  sudo mkdir /usr/local/go1.14
-  wget -c https://dl.google.com/go/go1.14.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.14
-  export PATH="/usr/local/go1.14/go/bin:$PATH"
+  sudo mkdir /usr/local/go1.16.14
+  wget -c https://dl.google.com/go/go1.16.14.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.16.14
+  export PATH="/usr/local/go1.16.14/go/bin:$PATH"
   go version
 
   # run integration tests
