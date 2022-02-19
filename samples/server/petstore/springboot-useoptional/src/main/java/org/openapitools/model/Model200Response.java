@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -26,13 +27,13 @@ import javax.annotation.Generated;
 public class Model200Response   {
 
   @JsonProperty("name")
-  private Integer name;
+  private Optional<Integer> name = Optional.empty();
 
   @JsonProperty("class")
-  private String propertyClass;
+  private Optional<String> propertyClass = Optional.empty();
 
   public Model200Response name(Integer name) {
-    this.name = name;
+    this.name = Optional.ofNullable(name);
     return this;
   }
 
@@ -40,18 +41,17 @@ public class Model200Response   {
    * Get name
    * @return name
   */
-  
   @ApiModelProperty(value = "")
-  public Integer getName() {
+  public Optional<Integer> getName() {
     return name;
   }
 
-  public void setName(Integer name) {
+  public void setName(Optional<Integer> name) {
     this.name = name;
   }
 
   public Model200Response propertyClass(String propertyClass) {
-    this.propertyClass = propertyClass;
+    this.propertyClass = Optional.ofNullable(propertyClass);
     return this;
   }
 
@@ -59,13 +59,12 @@ public class Model200Response   {
    * Get propertyClass
    * @return propertyClass
   */
-  
   @ApiModelProperty(value = "")
-  public String getPropertyClass() {
+  public Optional<String> getPropertyClass() {
     return propertyClass;
   }
 
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClass(Optional<String> propertyClass) {
     this.propertyClass = propertyClass;
   }
 

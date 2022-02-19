@@ -47,8 +47,8 @@ public class Category   {
    * Get id
    * @return id
   */
-  
   @Schema(name = "id", required = false)
+  
   public Long getId() {
     return id;
   }
@@ -66,8 +66,8 @@ public class Category   {
    * Get name
    * @return name
   */
-  @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
   @Schema(name = "name", required = false)
+  @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
   public String getName() {
     return name;
   }

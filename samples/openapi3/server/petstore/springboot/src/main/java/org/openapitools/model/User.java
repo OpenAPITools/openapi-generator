@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Arrays;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -25,31 +26,31 @@ import javax.annotation.Generated;
 public class User   {
 
   @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id = Optional.empty();
 
   @JsonProperty("username")
-  private String username;
+  private Optional<String> username = Optional.empty();
 
   @JsonProperty("firstName")
-  private String firstName;
+  private Optional<String> firstName = Optional.empty();
 
   @JsonProperty("lastName")
-  private String lastName;
+  private Optional<String> lastName = Optional.empty();
 
   @JsonProperty("email")
   private JsonNullable<String> email = JsonNullable.undefined();
 
   @JsonProperty("password")
-  private String password;
+  private Optional<String> password = Optional.empty();
 
   @JsonProperty("phone")
-  private String phone;
+  private Optional<String> phone = Optional.empty();
 
   @JsonProperty("userStatus")
-  private Integer userStatus;
+  private Optional<Integer> userStatus = Optional.empty();
 
   public User id(Long id) {
-    this.id = id;
+    this.id = Optional.ofNullable(id);
     return this;
   }
 
@@ -57,18 +58,17 @@ public class User   {
    * Get id
    * @return id
   */
-  
   @Schema(name = "id", required = false)
-  public Long getId() {
+  public Optional<Long> getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
   public User username(String username) {
-    this.username = username;
+    this.username = Optional.ofNullable(username);
     return this;
   }
 
@@ -76,18 +76,17 @@ public class User   {
    * Get username
    * @return username
   */
-  
   @Schema(name = "username", required = false)
-  public String getUsername() {
+  public Optional<String> getUsername() {
     return username;
   }
 
-  public void setUsername(String username) {
+  public void setUsername(Optional<String> username) {
     this.username = username;
   }
 
   public User firstName(String firstName) {
-    this.firstName = firstName;
+    this.firstName = Optional.ofNullable(firstName);
     return this;
   }
 
@@ -95,18 +94,17 @@ public class User   {
    * Get firstName
    * @return firstName
   */
-  
   @Schema(name = "firstName", required = false)
-  public String getFirstName() {
+  public Optional<String> getFirstName() {
     return firstName;
   }
 
-  public void setFirstName(String firstName) {
+  public void setFirstName(Optional<String> firstName) {
     this.firstName = firstName;
   }
 
   public User lastName(String lastName) {
-    this.lastName = lastName;
+    this.lastName = Optional.ofNullable(lastName);
     return this;
   }
 
@@ -114,13 +112,12 @@ public class User   {
    * Get lastName
    * @return lastName
   */
-  
   @Schema(name = "lastName", required = false)
-  public String getLastName() {
+  public Optional<String> getLastName() {
     return lastName;
   }
 
-  public void setLastName(String lastName) {
+  public void setLastName(Optional<String> lastName) {
     this.lastName = lastName;
   }
 
@@ -133,18 +130,17 @@ public class User   {
    * Get email
    * @return email
   */
-  
   @Schema(name = "email", required = false)
   public JsonNullable<String> getEmail() {
     return email;
   }
 
-  public void setEmail(String email) {
-    this.email = JsonNullable.of(email);
+  public void setEmail(JsonNullable<String> email) {
+    this.email = email;
   }
 
   public User password(String password) {
-    this.password = password;
+    this.password = Optional.ofNullable(password);
     return this;
   }
 
@@ -152,18 +148,17 @@ public class User   {
    * Get password
    * @return password
   */
-  
   @Schema(name = "password", required = false)
-  public String getPassword() {
+  public Optional<String> getPassword() {
     return password;
   }
 
-  public void setPassword(String password) {
+  public void setPassword(Optional<String> password) {
     this.password = password;
   }
 
   public User phone(String phone) {
-    this.phone = phone;
+    this.phone = Optional.ofNullable(phone);
     return this;
   }
 
@@ -171,18 +166,17 @@ public class User   {
    * Get phone
    * @return phone
   */
-  
   @Schema(name = "phone", required = false)
-  public String getPhone() {
+  public Optional<String> getPhone() {
     return phone;
   }
 
-  public void setPhone(String phone) {
+  public void setPhone(Optional<String> phone) {
     this.phone = phone;
   }
 
   public User userStatus(Integer userStatus) {
-    this.userStatus = userStatus;
+    this.userStatus = Optional.ofNullable(userStatus);
     return this;
   }
 
@@ -190,13 +184,12 @@ public class User   {
    * User Status
    * @return userStatus
   */
-  
   @Schema(name = "userStatus", description = "User Status", required = false)
-  public Integer getUserStatus() {
+  public Optional<Integer> getUserStatus() {
     return userStatus;
   }
 
-  public void setUserStatus(Integer userStatus) {
+  public void setUserStatus(Optional<Integer> userStatus) {
     this.userStatus = userStatus;
   }
 

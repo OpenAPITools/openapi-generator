@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -26,14 +27,14 @@ import javax.annotation.Generated;
 public class FileSchemaTestClass   {
 
   @JsonProperty("file")
-  private File file;
+  private Optional<File> file = Optional.empty();
 
   @JsonProperty("files")
   @Valid
   private List<File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(File file) {
-    this.file = file;
+    this.file = Optional.ofNullable(file);
     return this;
   }
 
@@ -41,13 +42,12 @@ public class FileSchemaTestClass   {
    * Get file
    * @return file
   */
-  @Valid 
   @ApiModelProperty(value = "")
-  public File getFile() {
+  public Optional<File> getFile() {
     return file;
   }
 
-  public void setFile(File file) {
+  public void setFile(Optional<File> file) {
     this.file = file;
   }
 

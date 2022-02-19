@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,13 +25,13 @@ import javax.annotation.Generated;
 public class HasOnlyReadOnly   {
 
   @JsonProperty("bar")
-  private String bar;
+  private Optional<String> bar = Optional.empty();
 
   @JsonProperty("foo")
-  private String foo;
+  private Optional<String> foo = Optional.empty();
 
   public HasOnlyReadOnly bar(String bar) {
-    this.bar = bar;
+    this.bar = Optional.ofNullable(bar);
     return this;
   }
 
@@ -38,18 +39,17 @@ public class HasOnlyReadOnly   {
    * Get bar
    * @return bar
   */
-  
   @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, required = false)
-  public String getBar() {
+  public Optional<String> getBar() {
     return bar;
   }
 
-  public void setBar(String bar) {
+  public void setBar(Optional<String> bar) {
     this.bar = bar;
   }
 
   public HasOnlyReadOnly foo(String foo) {
-    this.foo = foo;
+    this.foo = Optional.ofNullable(foo);
     return this;
   }
 
@@ -57,13 +57,12 @@ public class HasOnlyReadOnly   {
    * Get foo
    * @return foo
   */
-  
   @Schema(name = "foo", accessMode = Schema.AccessMode.READ_ONLY, required = false)
-  public String getFoo() {
+  public Optional<String> getFoo() {
     return foo;
   }
 
-  public void setFoo(String foo) {
+  public void setFoo(Optional<String> foo) {
     this.foo = foo;
   }
 

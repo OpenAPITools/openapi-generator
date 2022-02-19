@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -22,13 +23,13 @@ import javax.annotation.Generated;
 public class ReadOnlyFirst   {
 
   @JsonProperty("bar")
-  private String bar;
+  private Optional<String> bar = Optional.empty();
 
   @JsonProperty("baz")
-  private String baz;
+  private Optional<String> baz = Optional.empty();
 
   public ReadOnlyFirst bar(String bar) {
-    this.bar = bar;
+    this.bar = Optional.ofNullable(bar);
     return this;
   }
 
@@ -36,18 +37,17 @@ public class ReadOnlyFirst   {
    * Get bar
    * @return bar
   */
-  
   @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, required = false)
-  public String getBar() {
+  public Optional<String> getBar() {
     return bar;
   }
 
-  public void setBar(String bar) {
+  public void setBar(Optional<String> bar) {
     this.bar = bar;
   }
 
   public ReadOnlyFirst baz(String baz) {
-    this.baz = baz;
+    this.baz = Optional.ofNullable(baz);
     return this;
   }
 
@@ -55,13 +55,12 @@ public class ReadOnlyFirst   {
    * Get baz
    * @return baz
   */
-  
   @Schema(name = "baz", required = false)
-  public String getBaz() {
+  public Optional<String> getBaz() {
     return baz;
   }
 
-  public void setBaz(String baz) {
+  public void setBaz(Optional<String> baz) {
     this.baz = baz;
   }
 

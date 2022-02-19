@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -34,7 +35,7 @@ public class Animal   {
   private String className;
 
   @JsonProperty("color")
-  private String color = "red";
+  private Optional<String> color = Optional.of("red");
 
   public Animal className(String className) {
     this.className = className;
@@ -56,7 +57,7 @@ public class Animal   {
   }
 
   public Animal color(String color) {
-    this.color = color;
+    this.color = Optional.ofNullable(color);
     return this;
   }
 
@@ -64,13 +65,12 @@ public class Animal   {
    * Get color
    * @return color
   */
-  
   @ApiModelProperty(value = "")
-  public String getColor() {
+  public Optional<String> getColor() {
     return color;
   }
 
-  public void setColor(String color) {
+  public void setColor(Optional<String> color) {
     this.color = color;
   }
 

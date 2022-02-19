@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -22,25 +23,25 @@ import javax.annotation.Generated;
 public class Capitalization   {
 
   @JsonProperty("smallCamel")
-  private String smallCamel;
+  private Optional<String> smallCamel = Optional.empty();
 
   @JsonProperty("CapitalCamel")
-  private String capitalCamel;
+  private Optional<String> capitalCamel = Optional.empty();
 
   @JsonProperty("small_Snake")
-  private String smallSnake;
+  private Optional<String> smallSnake = Optional.empty();
 
   @JsonProperty("Capital_Snake")
-  private String capitalSnake;
+  private Optional<String> capitalSnake = Optional.empty();
 
   @JsonProperty("SCA_ETH_Flow_Points")
-  private String scAETHFlowPoints;
+  private Optional<String> scAETHFlowPoints = Optional.empty();
 
   @JsonProperty("ATT_NAME")
-  private String ATT_NAME;
+  private Optional<String> ATT_NAME = Optional.empty();
 
   public Capitalization smallCamel(String smallCamel) {
-    this.smallCamel = smallCamel;
+    this.smallCamel = Optional.ofNullable(smallCamel);
     return this;
   }
 
@@ -48,18 +49,17 @@ public class Capitalization   {
    * Get smallCamel
    * @return smallCamel
   */
-  
   @Schema(name = "smallCamel", required = false)
-  public String getSmallCamel() {
+  public Optional<String> getSmallCamel() {
     return smallCamel;
   }
 
-  public void setSmallCamel(String smallCamel) {
+  public void setSmallCamel(Optional<String> smallCamel) {
     this.smallCamel = smallCamel;
   }
 
   public Capitalization capitalCamel(String capitalCamel) {
-    this.capitalCamel = capitalCamel;
+    this.capitalCamel = Optional.ofNullable(capitalCamel);
     return this;
   }
 
@@ -67,18 +67,17 @@ public class Capitalization   {
    * Get capitalCamel
    * @return capitalCamel
   */
-  
   @Schema(name = "CapitalCamel", required = false)
-  public String getCapitalCamel() {
+  public Optional<String> getCapitalCamel() {
     return capitalCamel;
   }
 
-  public void setCapitalCamel(String capitalCamel) {
+  public void setCapitalCamel(Optional<String> capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
 
   public Capitalization smallSnake(String smallSnake) {
-    this.smallSnake = smallSnake;
+    this.smallSnake = Optional.ofNullable(smallSnake);
     return this;
   }
 
@@ -86,18 +85,17 @@ public class Capitalization   {
    * Get smallSnake
    * @return smallSnake
   */
-  
   @Schema(name = "small_Snake", required = false)
-  public String getSmallSnake() {
+  public Optional<String> getSmallSnake() {
     return smallSnake;
   }
 
-  public void setSmallSnake(String smallSnake) {
+  public void setSmallSnake(Optional<String> smallSnake) {
     this.smallSnake = smallSnake;
   }
 
   public Capitalization capitalSnake(String capitalSnake) {
-    this.capitalSnake = capitalSnake;
+    this.capitalSnake = Optional.ofNullable(capitalSnake);
     return this;
   }
 
@@ -105,18 +103,17 @@ public class Capitalization   {
    * Get capitalSnake
    * @return capitalSnake
   */
-  
   @Schema(name = "Capital_Snake", required = false)
-  public String getCapitalSnake() {
+  public Optional<String> getCapitalSnake() {
     return capitalSnake;
   }
 
-  public void setCapitalSnake(String capitalSnake) {
+  public void setCapitalSnake(Optional<String> capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
 
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
-    this.scAETHFlowPoints = scAETHFlowPoints;
+    this.scAETHFlowPoints = Optional.ofNullable(scAETHFlowPoints);
     return this;
   }
 
@@ -124,18 +121,17 @@ public class Capitalization   {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   */
-  
   @Schema(name = "SCA_ETH_Flow_Points", required = false)
-  public String getScAETHFlowPoints() {
+  public Optional<String> getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
 
-  public void setScAETHFlowPoints(String scAETHFlowPoints) {
+  public void setScAETHFlowPoints(Optional<String> scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
   public Capitalization ATT_NAME(String ATT_NAME) {
-    this.ATT_NAME = ATT_NAME;
+    this.ATT_NAME = Optional.ofNullable(ATT_NAME);
     return this;
   }
 
@@ -143,13 +139,12 @@ public class Capitalization   {
    * Name of the pet 
    * @return ATT_NAME
   */
-  
   @Schema(name = "ATT_NAME", description = "Name of the pet ", required = false)
-  public String getATTNAME() {
+  public Optional<String> getATTNAME() {
     return ATT_NAME;
   }
 
-  public void setATTNAME(String ATT_NAME) {
+  public void setATTNAME(Optional<String> ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
 

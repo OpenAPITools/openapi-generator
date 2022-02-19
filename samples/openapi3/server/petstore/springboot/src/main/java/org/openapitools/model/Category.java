@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -26,7 +27,7 @@ public class Category   {
   private Long id;
 
   @JsonProperty("name")
-  private String name;
+  private Optional<String> name = Optional.empty();
 
   public Category id(Long id) {
     this.id = id;
@@ -35,10 +36,11 @@ public class Category   {
 
   /**
    * Get id
+   * minimum: 1
    * @return id
   */
-  
-  @Schema(name = "id", required = false)
+  @NotNull @Min(1L) 
+  @Schema(name = "id", required = true)
   public Long getId() {
     return id;
   }
@@ -48,7 +50,7 @@ public class Category   {
   }
 
   public Category name(String name) {
-    this.name = name;
+    this.name = Optional.ofNullable(name);
     return this;
   }
 
@@ -56,13 +58,12 @@ public class Category   {
    * Get name
    * @return name
   */
-  @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
   @Schema(name = "name", required = false)
-  public String getName() {
+  public Optional<@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String> getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(Optional<String> name) {
     this.name = name;
   }
 

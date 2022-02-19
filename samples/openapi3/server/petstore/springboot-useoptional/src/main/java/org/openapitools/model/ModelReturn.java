@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -25,10 +26,10 @@ import javax.annotation.Generated;
 public class ModelReturn   {
 
   @JsonProperty("return")
-  private Integer _return;
+  private Optional<Integer> _return = Optional.empty();
 
   public ModelReturn _return(Integer _return) {
-    this._return = _return;
+    this._return = Optional.ofNullable(_return);
     return this;
   }
 
@@ -36,13 +37,12 @@ public class ModelReturn   {
    * Get _return
    * @return _return
   */
-  
   @Schema(name = "return", required = false)
-  public Integer getReturn() {
+  public Optional<Integer> getReturn() {
     return _return;
   }
 
-  public void setReturn(Integer _return) {
+  public void setReturn(Optional<Integer> _return) {
     this._return = _return;
   }
 

@@ -728,14 +728,17 @@ components:
       description: A category for a pet
       example:
         name: name
-        id: 6
+        id: 1
       properties:
         id:
           format: int64
+          minimum: 1
           type: integer
         name:
           pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
           type: string
+      required:
+      - id
       title: Pet category
       type: object
       xml:
@@ -801,7 +804,7 @@ components:
         id: 0
         category:
           name: name
-          id: 6
+          id: 1
         tags:
         - name: name
           id: 1

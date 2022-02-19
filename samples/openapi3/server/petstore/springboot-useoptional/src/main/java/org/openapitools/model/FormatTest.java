@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -30,31 +31,31 @@ import javax.annotation.Generated;
 public class FormatTest   {
 
   @JsonProperty("integer")
-  private Integer integer;
+  private Optional<Integer> integer = Optional.empty();
 
   @JsonProperty("int32")
-  private Integer int32;
+  private Optional<Integer> int32 = Optional.empty();
 
   @JsonProperty("int64")
-  private Long int64;
+  private Optional<Long> int64 = Optional.empty();
 
   @JsonProperty("number")
   private BigDecimal number;
 
   @JsonProperty("float")
-  private Float _float;
+  private Optional<Float> _float = Optional.empty();
 
   @JsonProperty("double")
-  private Double _double;
+  private Optional<Double> _double = Optional.empty();
 
   @JsonProperty("string")
-  private String string;
+  private Optional<String> string = Optional.empty();
 
   @JsonProperty("byte")
   private byte[] _byte;
 
   @JsonProperty("binary")
-  private org.springframework.core.io.Resource binary;
+  private Optional<org.springframework.core.io.Resource> binary = Optional.empty();
 
   @JsonProperty("date")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -62,19 +63,19 @@ public class FormatTest   {
 
   @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime dateTime;
+  private Optional<OffsetDateTime> dateTime = Optional.empty();
 
   @JsonProperty("uuid")
-  private UUID uuid;
+  private Optional<UUID> uuid = Optional.empty();
 
   @JsonProperty("password")
   private String password;
 
   @JsonProperty("BigDecimal")
-  private BigDecimal bigDecimal;
+  private Optional<BigDecimal> bigDecimal = Optional.empty();
 
   public FormatTest integer(Integer integer) {
-    this.integer = integer;
+    this.integer = Optional.ofNullable(integer);
     return this;
   }
 
@@ -84,18 +85,17 @@ public class FormatTest   {
    * maximum: 100
    * @return integer
   */
-  @Min(10) @Max(100) 
   @Schema(name = "integer", required = false)
-  public Integer getInteger() {
+  public Optional<@Min(10) @Max(100) Integer> getInteger() {
     return integer;
   }
 
-  public void setInteger(Integer integer) {
+  public void setInteger(Optional<Integer> integer) {
     this.integer = integer;
   }
 
   public FormatTest int32(Integer int32) {
-    this.int32 = int32;
+    this.int32 = Optional.ofNullable(int32);
     return this;
   }
 
@@ -105,18 +105,17 @@ public class FormatTest   {
    * maximum: 200
    * @return int32
   */
-  @Min(20) @Max(200) 
   @Schema(name = "int32", required = false)
-  public Integer getInt32() {
+  public Optional<@Min(20) @Max(200) Integer> getInt32() {
     return int32;
   }
 
-  public void setInt32(Integer int32) {
+  public void setInt32(Optional<Integer> int32) {
     this.int32 = int32;
   }
 
   public FormatTest int64(Long int64) {
-    this.int64 = int64;
+    this.int64 = Optional.ofNullable(int64);
     return this;
   }
 
@@ -124,13 +123,12 @@ public class FormatTest   {
    * Get int64
    * @return int64
   */
-  
   @Schema(name = "int64", required = false)
-  public Long getInt64() {
+  public Optional<Long> getInt64() {
     return int64;
   }
 
-  public void setInt64(Long int64) {
+  public void setInt64(Optional<Long> int64) {
     this.int64 = int64;
   }
 
@@ -156,7 +154,7 @@ public class FormatTest   {
   }
 
   public FormatTest _float(Float _float) {
-    this._float = _float;
+    this._float = Optional.ofNullable(_float);
     return this;
   }
 
@@ -166,18 +164,17 @@ public class FormatTest   {
    * maximum: 987.6
    * @return _float
   */
-  @DecimalMin("54.3") @DecimalMax("987.6") 
   @Schema(name = "float", required = false)
-  public Float getFloat() {
+  public Optional<@DecimalMin("54.3") @DecimalMax("987.6") Float> getFloat() {
     return _float;
   }
 
-  public void setFloat(Float _float) {
+  public void setFloat(Optional<Float> _float) {
     this._float = _float;
   }
 
   public FormatTest _double(Double _double) {
-    this._double = _double;
+    this._double = Optional.ofNullable(_double);
     return this;
   }
 
@@ -187,18 +184,17 @@ public class FormatTest   {
    * maximum: 123.4
    * @return _double
   */
-  @DecimalMin("67.8") @DecimalMax("123.4") 
   @Schema(name = "double", required = false)
-  public Double getDouble() {
+  public Optional<@DecimalMin("67.8") @DecimalMax("123.4") Double> getDouble() {
     return _double;
   }
 
-  public void setDouble(Double _double) {
+  public void setDouble(Optional<Double> _double) {
     this._double = _double;
   }
 
   public FormatTest string(String string) {
-    this.string = string;
+    this.string = Optional.ofNullable(string);
     return this;
   }
 
@@ -206,13 +202,12 @@ public class FormatTest   {
    * Get string
    * @return string
   */
-  @Pattern(regexp = "/[a-z]/i") 
   @Schema(name = "string", required = false)
-  public String getString() {
+  public Optional<@Pattern(regexp = "/[a-z]/i") String> getString() {
     return string;
   }
 
-  public void setString(String string) {
+  public void setString(Optional<String> string) {
     this.string = string;
   }
 
@@ -236,7 +231,7 @@ public class FormatTest   {
   }
 
   public FormatTest binary(org.springframework.core.io.Resource binary) {
-    this.binary = binary;
+    this.binary = Optional.ofNullable(binary);
     return this;
   }
 
@@ -244,13 +239,12 @@ public class FormatTest   {
    * Get binary
    * @return binary
   */
-  @Valid 
   @Schema(name = "binary", required = false)
-  public org.springframework.core.io.Resource getBinary() {
+  public Optional<org.springframework.core.io.Resource> getBinary() {
     return binary;
   }
 
-  public void setBinary(org.springframework.core.io.Resource binary) {
+  public void setBinary(Optional<org.springframework.core.io.Resource> binary) {
     this.binary = binary;
   }
 
@@ -274,7 +268,7 @@ public class FormatTest   {
   }
 
   public FormatTest dateTime(OffsetDateTime dateTime) {
-    this.dateTime = dateTime;
+    this.dateTime = Optional.ofNullable(dateTime);
     return this;
   }
 
@@ -282,18 +276,17 @@ public class FormatTest   {
    * Get dateTime
    * @return dateTime
   */
-  @Valid 
   @Schema(name = "dateTime", required = false)
-  public OffsetDateTime getDateTime() {
+  public Optional<OffsetDateTime> getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(Optional<OffsetDateTime> dateTime) {
     this.dateTime = dateTime;
   }
 
   public FormatTest uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.uuid = Optional.ofNullable(uuid);
     return this;
   }
 
@@ -301,13 +294,12 @@ public class FormatTest   {
    * Get uuid
    * @return uuid
   */
-  @Valid 
   @Schema(name = "uuid", example = "72f98069-206d-4f12-9f12-3d1e525a8e84", required = false)
-  public UUID getUuid() {
+  public Optional<UUID> getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  public void setUuid(Optional<UUID> uuid) {
     this.uuid = uuid;
   }
 
@@ -331,7 +323,7 @@ public class FormatTest   {
   }
 
   public FormatTest bigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+    this.bigDecimal = Optional.ofNullable(bigDecimal);
     return this;
   }
 
@@ -339,13 +331,12 @@ public class FormatTest   {
    * Get bigDecimal
    * @return bigDecimal
   */
-  @Valid 
   @Schema(name = "BigDecimal", required = false)
-  public BigDecimal getBigDecimal() {
+  public Optional<BigDecimal> getBigDecimal() {
     return bigDecimal;
   }
 
-  public void setBigDecimal(BigDecimal bigDecimal) {
+  public void setBigDecimal(Optional<BigDecimal> bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
 

@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,10 +25,10 @@ import javax.annotation.Generated;
 public class CatAllOf   {
 
   @JsonProperty("declawed")
-  private Boolean declawed;
+  private Optional<Boolean> declawed = Optional.empty();
 
   public CatAllOf declawed(Boolean declawed) {
-    this.declawed = declawed;
+    this.declawed = Optional.ofNullable(declawed);
     return this;
   }
 
@@ -35,13 +36,12 @@ public class CatAllOf   {
    * Get declawed
    * @return declawed
   */
-  
   @Schema(name = "declawed", required = false)
-  public Boolean getDeclawed() {
+  public Optional<Boolean> getDeclawed() {
     return declawed;
   }
 
-  public void setDeclawed(Boolean declawed) {
+  public void setDeclawed(Optional<Boolean> declawed) {
     this.declawed = declawed;
   }
 

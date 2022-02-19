@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Optional;
 import org.openapitools.model.OuterEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -63,7 +64,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_string")
-  private EnumStringEnum enumString;
+  private Optional<EnumStringEnum> enumString = Optional.empty();
 
   /**
    * Gets or Sets enumStringRequired
@@ -141,7 +142,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_integer")
-  private EnumIntegerEnum enumInteger;
+  private Optional<EnumIntegerEnum> enumInteger = Optional.empty();
 
   /**
    * Gets or Sets enumNumber
@@ -179,13 +180,13 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_number")
-  private EnumNumberEnum enumNumber;
+  private Optional<EnumNumberEnum> enumNumber = Optional.empty();
 
   @JsonProperty("outerEnum")
-  private OuterEnum outerEnum;
+  private Optional<OuterEnum> outerEnum = Optional.empty();
 
   public EnumTest enumString(EnumStringEnum enumString) {
-    this.enumString = enumString;
+    this.enumString = Optional.ofNullable(enumString);
     return this;
   }
 
@@ -193,13 +194,12 @@ public class EnumTest   {
    * Get enumString
    * @return enumString
   */
-  
   @Schema(name = "enum_string", required = false)
-  public EnumStringEnum getEnumString() {
+  public Optional<EnumStringEnum> getEnumString() {
     return enumString;
   }
 
-  public void setEnumString(EnumStringEnum enumString) {
+  public void setEnumString(Optional<EnumStringEnum> enumString) {
     this.enumString = enumString;
   }
 
@@ -223,7 +223,7 @@ public class EnumTest   {
   }
 
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
-    this.enumInteger = enumInteger;
+    this.enumInteger = Optional.ofNullable(enumInteger);
     return this;
   }
 
@@ -231,18 +231,17 @@ public class EnumTest   {
    * Get enumInteger
    * @return enumInteger
   */
-  
   @Schema(name = "enum_integer", required = false)
-  public EnumIntegerEnum getEnumInteger() {
+  public Optional<EnumIntegerEnum> getEnumInteger() {
     return enumInteger;
   }
 
-  public void setEnumInteger(EnumIntegerEnum enumInteger) {
+  public void setEnumInteger(Optional<EnumIntegerEnum> enumInteger) {
     this.enumInteger = enumInteger;
   }
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
-    this.enumNumber = enumNumber;
+    this.enumNumber = Optional.ofNullable(enumNumber);
     return this;
   }
 
@@ -250,18 +249,17 @@ public class EnumTest   {
    * Get enumNumber
    * @return enumNumber
   */
-  
   @Schema(name = "enum_number", required = false)
-  public EnumNumberEnum getEnumNumber() {
+  public Optional<EnumNumberEnum> getEnumNumber() {
     return enumNumber;
   }
 
-  public void setEnumNumber(EnumNumberEnum enumNumber) {
+  public void setEnumNumber(Optional<EnumNumberEnum> enumNumber) {
     this.enumNumber = enumNumber;
   }
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
-    this.outerEnum = outerEnum;
+    this.outerEnum = Optional.ofNullable(outerEnum);
     return this;
   }
 
@@ -269,13 +267,12 @@ public class EnumTest   {
    * Get outerEnum
    * @return outerEnum
   */
-  @Valid 
   @Schema(name = "outerEnum", required = false)
-  public OuterEnum getOuterEnum() {
+  public Optional<OuterEnum> getOuterEnum() {
     return outerEnum;
   }
 
-  public void setOuterEnum(OuterEnum outerEnum) {
+  public void setOuterEnum(Optional<OuterEnum> outerEnum) {
     this.outerEnum = outerEnum;
   }
 

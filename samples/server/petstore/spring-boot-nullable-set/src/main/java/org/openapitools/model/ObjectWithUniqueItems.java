@@ -71,14 +71,13 @@ public class ObjectWithUniqueItems   {
    * Get nullSet
    * @return nullSet
   */
-  
   @Schema(name = "nullSet", required = false)
   public JsonNullable<Set<String>> getNullSet() {
     return nullSet;
   }
 
-  public void setNullSet(Set<String> nullSet) {
-    this.nullSet = JsonNullable.of(nullSet);
+  public void setNullSet(JsonNullable<Set<String>> nullSet) {
+    this.nullSet = nullSet;
   }
 
   public ObjectWithUniqueItems notNullSet(Set<String> notNullSet) {
@@ -126,14 +125,13 @@ public class ObjectWithUniqueItems   {
    * Get nullList
    * @return nullList
   */
-  
   @Schema(name = "nullList", required = false)
   public JsonNullable<List<String>> getNullList() {
     return nullList;
   }
 
-  public void setNullList(List<String> nullList) {
-    this.nullList = JsonNullable.of(nullList);
+  public void setNullList(JsonNullable<List<String>> nullList) {
+    this.nullList = nullList;
   }
 
   public ObjectWithUniqueItems notNullList(List<String> notNullList) {

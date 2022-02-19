@@ -107,8 +107,8 @@ public class Pet   {
    * Get id
    * @return id
   */
-  
   @Schema(name = "id", required = false)
+  
   public Long getId() {
     return id;
   }
@@ -126,8 +126,8 @@ public class Pet   {
    * Get category
    * @return category
   */
-  @Valid 
   @Schema(name = "category", required = false)
+  @Valid 
   public Category getCategory() {
     return category;
   }
@@ -145,8 +145,8 @@ public class Pet   {
    * Get name
    * @return name
   */
-  @NotNull 
   @Schema(name = "name", example = "doggie", required = true)
+  @NotNull 
   public String getName() {
     return name;
   }
@@ -169,8 +169,8 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
   */
-  @NotNull 
   @Schema(name = "photoUrls", required = true)
+  @NotNull 
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -196,8 +196,8 @@ public class Pet   {
    * Get tags
    * @return tags
   */
-  @Valid 
   @Schema(name = "tags", required = false)
+  @Valid 
   public List<Tag> getTags() {
     return tags;
   }
@@ -215,8 +215,8 @@ public class Pet   {
    * pet status in the store
    * @return status
   */
-  
   @Schema(name = "status", description = "pet status in the store", required = false)
+  
   public StatusEnum getStatus() {
     return status;
   }
