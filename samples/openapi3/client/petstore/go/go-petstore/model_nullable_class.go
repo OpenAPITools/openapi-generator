@@ -65,7 +65,7 @@ func (o *NullableClass) GetIntegerProp() int32 {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetIntegerPropOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.IntegerProp.Get(), o.IntegerProp.IsSet()
@@ -107,7 +107,7 @@ func (o *NullableClass) GetNumberProp() float32 {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetNumberPropOk() (*float32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.NumberProp.Get(), o.NumberProp.IsSet()
@@ -149,7 +149,7 @@ func (o *NullableClass) GetBooleanProp() bool {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetBooleanPropOk() (*bool, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.BooleanProp.Get(), o.BooleanProp.IsSet()
@@ -191,7 +191,7 @@ func (o *NullableClass) GetStringProp() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetStringPropOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.StringProp.Get(), o.StringProp.IsSet()
@@ -233,7 +233,7 @@ func (o *NullableClass) GetDateProp() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetDatePropOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.DateProp.Get(), o.DateProp.IsSet()
@@ -275,7 +275,7 @@ func (o *NullableClass) GetDatetimeProp() time.Time {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NullableClass) GetDatetimePropOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.DatetimeProp.Get(), o.DatetimeProp.IsSet()
@@ -306,7 +306,7 @@ func (o *NullableClass) UnsetDatetimeProp() {
 
 // GetArrayNullableProp returns the ArrayNullableProp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NullableClass) GetArrayNullableProp() []map[string]interface{} {
-	if o == nil  {
+	if o == nil {
 		var ret []map[string]interface{}
 		return ret
 	}
@@ -339,7 +339,7 @@ func (o *NullableClass) SetArrayNullableProp(v []map[string]interface{}) {
 
 // GetArrayAndItemsNullableProp returns the ArrayAndItemsNullableProp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NullableClass) GetArrayAndItemsNullableProp() []*map[string]interface{} {
-	if o == nil  {
+	if o == nil {
 		var ret []*map[string]interface{}
 		return ret
 	}
@@ -404,7 +404,7 @@ func (o *NullableClass) SetArrayItemsNullable(v []*map[string]interface{}) {
 
 // GetObjectNullableProp returns the ObjectNullableProp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NullableClass) GetObjectNullableProp() map[string]map[string]interface{} {
-	if o == nil  {
+	if o == nil {
 		var ret map[string]map[string]interface{}
 		return ret
 	}
@@ -437,7 +437,7 @@ func (o *NullableClass) SetObjectNullableProp(v map[string]map[string]interface{
 
 // GetObjectAndItemsNullableProp returns the ObjectAndItemsNullableProp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NullableClass) GetObjectAndItemsNullableProp() map[string]map[string]interface{} {
-	if o == nil  {
+	if o == nil {
 		var ret map[string]map[string]interface{}
 		return ret
 	}
