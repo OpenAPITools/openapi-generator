@@ -48,6 +48,7 @@ public interface UserApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 
@@ -66,6 +67,7 @@ public interface UserApi {
          @Valid @RequestBody List<User> user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -86,6 +88,7 @@ public interface UserApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 
@@ -105,6 +108,7 @@ public interface UserApi {
          @PathVariable("username") String username
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -141,6 +145,7 @@ public interface UserApi {
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 
@@ -163,6 +168,7 @@ public interface UserApi {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
 
@@ -179,6 +185,7 @@ public interface UserApi {
         
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -202,6 +209,7 @@ public interface UserApi {
          @Valid @RequestBody User user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 

@@ -36,6 +36,7 @@ public interface StoreApiDelegate {
     default ResponseEntity<Void> deleteOrder(String orderId) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
     /**
@@ -47,6 +48,7 @@ public interface StoreApiDelegate {
      */
     default ResponseEntity<Map<String, Integer>> getInventory() {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
@@ -77,6 +79,7 @@ public interface StoreApiDelegate {
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+
     }
 
     /**
@@ -103,6 +106,7 @@ public interface StoreApiDelegate {
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
 
     }
 
