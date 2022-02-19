@@ -27,9 +27,6 @@ import okhttp3.logging.HttpLoggingInterceptor.Level;
 import okio.Buffer;
 import okio.BufferedSink;
 import okio.Okio;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
 
@@ -52,6 +49,9 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
@@ -184,7 +184,7 @@ public class ApiClient {
                 throw new IllegalArgumentException("OAuth2 token URL must be an absolute URL");
             }
         }
-        RetryingOAuth retryingOAuth = new RetryingOAuth(tokenUrl, clientId, OAuthFlow.implicit, clientSecret, parameters);
+        RetryingOAuth retryingOAuth = new RetryingOAuth(tokenUrl, clientId, OAuthFlow.IMPLICIT, clientSecret, parameters);
         authentications.put(
                 "petstore_auth",
                 retryingOAuth
@@ -1169,6 +1169,7 @@ public class ApiClient {
     /**
      * Build HTTP call with the given options.
      *
+     * @param baseUrl The base URL
      * @param path The sub-path of the HTTP URL
      * @param method The request method, one of "GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH" and "DELETE"
      * @param queryParams The query parameters
@@ -1191,6 +1192,7 @@ public class ApiClient {
     /**
      * Build an HTTP request with the given options.
      *
+     * @param baseUrl The base URL
      * @param path The sub-path of the HTTP URL
      * @param method The request method, one of "GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH" and "DELETE"
      * @param queryParams The query parameters
@@ -1259,6 +1261,7 @@ public class ApiClient {
     /**
      * Build full URL by concatenating base path, the given sub path and query parameters.
      *
+     * @param baseUrl The base URL
      * @param path The sub path
      * @param queryParams The query parameters
      * @param collectionQueryParams The collection query parameters
@@ -1353,6 +1356,7 @@ public class ApiClient {
      * @param payload HTTP request body
      * @param method HTTP method
      * @param uri URI
+     * @throws org.openapitools.client.ApiException If fails to update the parameters
      */
     public void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams,
                                     Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException {
@@ -1391,9 +1395,12 @@ public class ApiClient {
         for (Entry<String, Object> param : formParams.entrySet()) {
             if (param.getValue() instanceof File) {
                 File file = (File) param.getValue();
-                Headers partHeaders = Headers.of("Content-Disposition", "form-data; name=\"" + param.getKey() + "\"; filename=\"" + file.getName() + "\"");
-                MediaType mediaType = MediaType.parse(guessContentTypeFromFile(file));
-                mpBuilder.addPart(partHeaders, RequestBody.create(file, mediaType));
+                addPartToMultiPartBuilder(mpBuilder, param.getKey(), file);
+            } else if (param.getValue() instanceof List) {
+                List<File> files = (List<File>) param.getValue();
+                for (File file : files) {
+                    addPartToMultiPartBuilder(mpBuilder, param.getKey(), file);
+                }
             } else {
                 Headers partHeaders = Headers.of("Content-Disposition", "form-data; name=\"" + param.getKey() + "\"");
                 mpBuilder.addPart(partHeaders, RequestBody.create(parameterToString(param.getValue()), null));
@@ -1415,6 +1422,19 @@ public class ApiClient {
         } else {
             return contentType;
         }
+    }
+
+    /**
+     * Add a Content-Disposition Header for the given key and file to the MultipartBody Builder.
+     *
+     * @param mpBuilder MultipartBody.Builder 
+     * @param key The key of the Header element
+     * @param file The file to add to the Header
+     */ 
+    private void addPartToMultiPartBuilder(MultipartBody.Builder mpBuilder, String key, File file) {
+        Headers partHeaders = Headers.of("Content-Disposition", "form-data; name=\"" + key + "\"; filename=\"" + file.getName() + "\"");
+        MediaType mediaType = MediaType.parse(guessContentTypeFromFile(file));
+        mpBuilder.addPart(partHeaders, RequestBody.create(file, mediaType));
     }
 
     /**

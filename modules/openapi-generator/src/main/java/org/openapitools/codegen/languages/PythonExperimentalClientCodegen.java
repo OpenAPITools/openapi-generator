@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
+import org.apache.commons.lang3.tuple.Triple;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
 import org.openapitools.codegen.templating.*;
@@ -51,6 +52,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -919,6 +921,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * With this customization, we ensure that when schemas are passed to getSchemaType
      * - if they have ref in them they are a model
      * - if they do not have ref in them they are not a model
+     * and code is also customized to allow anyType request body schemas
      *
      * @param codegenParameter the body parameter
      * @param name model schema ref key in components
@@ -936,7 +939,75 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 forceSimpleRef = true;
             }
         }
-        super.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, forceSimpleRef);
+
+        CodegenModel codegenModel = null;
+        if (StringUtils.isNotBlank(name)) {
+            schema.setName(name);
+            codegenModel = fromModel(name, schema);
+        }
+        if (codegenModel != null) {
+            codegenParameter.isModel = true;
+        }
+
+        if (codegenModel != null && (codegenModel.hasVars || forceSimpleRef)) {
+            if (StringUtils.isEmpty(bodyParameterName)) {
+                codegenParameter.baseName = codegenModel.classname;
+            } else {
+                codegenParameter.baseName = bodyParameterName;
+            }
+            codegenParameter.paramName = toParamName(codegenParameter.baseName);
+            codegenParameter.baseType = codegenModel.classname;
+            codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
+            codegenParameter.description = codegenModel.description;
+            codegenParameter.isNullable = codegenModel.isNullable;
+            imports.add(codegenParameter.baseType);
+        } else {
+            CodegenProperty codegenProperty = fromProperty("property", schema);
+
+            if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
+                List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
+                imports.addAll(parts);
+                String codegenModelName = codegenProperty.getComplexType();
+                codegenParameter.baseName = codegenModelName;
+                codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                codegenParameter.baseType = codegenParameter.baseName;
+                codegenParameter.dataType = getTypeDeclaration(codegenModelName);
+                codegenParameter.description = codegenProperty.getDescription();
+                codegenParameter.isNullable = codegenProperty.isNullable;
+            } else {
+                if (ModelUtils.isMapSchema(schema)) {// http body is map
+                    LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
+                } else if (codegenProperty != null) {
+                    String codegenModelName, codegenModelDescription;
+
+                    if (codegenModel != null) {
+                        codegenModelName = codegenModel.classname;
+                        codegenModelDescription = codegenModel.description;
+                    } else {
+                        codegenModelName = "anyType";
+                        codegenModelDescription = "";
+                    }
+
+                    if (StringUtils.isEmpty(bodyParameterName)) {
+                        codegenParameter.baseName = codegenModelName;
+                    } else {
+                        codegenParameter.baseName = bodyParameterName;
+                    }
+
+                    codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                    codegenParameter.baseType = codegenModelName;
+                    codegenParameter.dataType = getTypeDeclaration(codegenModelName);
+                    codegenParameter.description = codegenModelDescription;
+
+                    if (codegenProperty.complexType != null) {
+                        imports.add(codegenProperty.complexType);
+                    }
+                }
+            }
+
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
+        }
 
     }
 
@@ -1283,7 +1354,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     public String toExampleValue(Schema schema, Object objExample) {
         String modelName = getModelName(schema);
-        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0);
+        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0, new ArrayList<>());
     }
 
     private Boolean simpleStringSchema(Schema schema) {
@@ -1329,9 +1400,17 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      *                    ModelName( line 0
      *                        some_property='some_property_example' line 1
      *                    ) line 2
+     * @param includedSchemas are a list of schemas that we have moved through to get here. If the new schemas that we
+     *                        are looking at is in includedSchemas then we have hit a cycle.
      * @return the string example
      */
-    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine) {
+    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, List<Schema> includedSchemas) {
+        boolean couldHaveCycle = includedSchemas.size() > 0 && potentiallySelfReferencingSchema(schema);
+        // If we have seen the ContextAwareSchemaNode more than once before, we must be in a cycle.
+        boolean cycleFound = false;
+        if (couldHaveCycle) {
+            cycleFound = includedSchemas.subList(0, includedSchemas.size()-1).stream().anyMatch(s -> schema.equals(s));
+        }
         final String indentionConst = "    ";
         String currentIndentation = "";
         String closingIndentation = "";
@@ -1364,7 +1443,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 return fullPrefix + "None" + closeChars;
             }
             String refModelName = getModelName(schema);
-            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine);
+            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, includedSchemas);
         } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
@@ -1462,8 +1541,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
-            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1) + ",\n" + closingIndentation + "]" + closeChars;
-            return example;
+            includedSchemas.add(schema);
+            String itemExample = toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, includedSchemas);
+            if (StringUtils.isEmpty(itemExample) || cycleFound) {
+                return fullPrefix + "[]";
+            } else {
+                return fullPrefix + "[" + "\n" + itemExample + "\n" + closingIndentation + "]" + closeChars;
+            }
         } else if (ModelUtils.isMapSchema(schema)) {
             if (modelName == null) {
                 fullPrefix += "dict(";
@@ -1471,7 +1555,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             }
             Object addPropsObj = schema.getAdditionalProperties();
             // TODO handle true case for additionalProperties
-            if (addPropsObj instanceof Schema) {
+            if (addPropsObj instanceof Schema && !cycleFound) {
                 Schema addPropsSchema = (Schema) addPropsObj;
                 String key = "key";
                 Object addPropsExample = getObjectExample(addPropsSchema);
@@ -1484,7 +1568,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     addPropPrefix = ensureQuotes(key) + ": ";
                 }
                 String addPropsModelName = getModelName(addPropsSchema);
-                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1) + ",\n" + closingIndentation + closeChars;
+                includedSchemas.add(schema);
+                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, includedSchemas) + ",\n" + closingIndentation + closeChars;
             } else {
                 example = fullPrefix + closeChars;
             }
@@ -1493,6 +1578,9 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             if (modelName == null) {
                 fullPrefix += "dict(";
                 closeChars = ")";
+            }
+            if (cycleFound) {
+                return fullPrefix + closeChars;
             }
             CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
             if (disc != null) {
@@ -1507,8 +1595,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     return fullPrefix + closeChars;
                 }
             }
-            return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation);
+            return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, includedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) {
+            if (cycleFound) {
+                return fullPrefix + closeChars;
+            }
             // TODO add examples for composed schema models without discriminators
 
             CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
@@ -1521,7 +1612,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     CodegenProperty cp = new CodegenProperty();
                     cp.setName(disc.getPropertyName());
                     cp.setExample(discPropNameValue);
-                    return exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation);
+                    return exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, includedSchemas);
                 } else {
                     return fullPrefix + closeChars;
                 }
@@ -1534,7 +1625,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return example;
     }
 
-    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation) {
+    private boolean potentiallySelfReferencingSchema(Schema schema) {
+        return null != schema.get$ref() || ModelUtils.isArraySchema(schema) || ModelUtils.isMapSchema(schema) || ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema);
+    }
+
+    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, List<Schema> includedSchemas) {
         Map<String, Schema> requiredAndOptionalProps = schema.getProperties();
         if (requiredAndOptionalProps == null || requiredAndOptionalProps.isEmpty()) {
             return fullPrefix + closeChars;
@@ -1554,7 +1649,8 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 propModelName = getModelName(propSchema);
                 propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
             }
-            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1) + ",\n";
+            includedSchemas.add(schema);
+            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1, includedSchemas) + ",\n";
         }
         // TODO handle additionalProperties also
         example += closingIndentation + closeChars;

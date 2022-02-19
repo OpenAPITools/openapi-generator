@@ -35,7 +35,6 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   AdditionalPropertiesInteger.JSON_PROPERTY_NAME
 })
-@JsonTypeName("AdditionalPropertiesInteger")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
   public static final String JSON_PROPERTY_NAME = "name";

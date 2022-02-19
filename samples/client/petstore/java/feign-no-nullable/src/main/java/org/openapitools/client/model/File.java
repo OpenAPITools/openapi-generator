@@ -32,7 +32,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   File.JSON_PROPERTY_SOURCE_U_R_I
 })
-@JsonTypeName("File")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class File {

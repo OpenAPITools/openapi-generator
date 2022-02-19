@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,6 +19,7 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "200_response", description = "Model for testing model name starting with number")
+@JsonTypeName("200_response")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Model200Response   {
 

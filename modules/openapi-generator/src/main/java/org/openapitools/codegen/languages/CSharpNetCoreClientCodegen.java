@@ -395,36 +395,39 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
-        Comparator<CodegenProperty> comparatorByDefaultValue = new Comparator<CodegenProperty>() {
-        @Override
-            public int compare(CodegenProperty one, CodegenProperty another) {
-                if (one.defaultValue == another.defaultValue) 
-                    return 0;
-                else if (Boolean.FALSE.equals(one.defaultValue)) 
-                    return -1;
-                else 
-                    return 1;
-            }
-        };
-
-        Comparator<CodegenProperty> comparatorByRequired = new Comparator<CodegenProperty>() {
+        // avoid breaking changes
+        if (GENERICHOST.equals(getLibrary())){
+            Comparator<CodegenProperty> comparatorByDefaultValue = new Comparator<CodegenProperty>() {
             @Override
-            public int compare(CodegenProperty one, CodegenProperty another) {
-                if (one.required == another.required) 
-                    return 0;
-                else if (Boolean.TRUE.equals(one.required))
-                    return -1;
-                else 
-                    return 1;
-            }
-        };
+                public int compare(CodegenProperty one, CodegenProperty another) {
+                    if (one.defaultValue == another.defaultValue) 
+                        return 0;
+                    else if (Boolean.FALSE.equals(one.defaultValue)) 
+                        return -1;
+                    else 
+                        return 1;
+                }
+            };
 
-        Collections.sort(codegenModel.vars, comparatorByDefaultValue);
-        Collections.sort(codegenModel.vars, comparatorByRequired);
-        Collections.sort(codegenModel.allVars, comparatorByDefaultValue);
-        Collections.sort(codegenModel.allVars, comparatorByRequired);
-        Collections.sort(codegenModel.readWriteVars, comparatorByDefaultValue);
-        Collections.sort(codegenModel.readWriteVars, comparatorByRequired);
+            Comparator<CodegenProperty> comparatorByRequired = new Comparator<CodegenProperty>() {
+                @Override
+                public int compare(CodegenProperty one, CodegenProperty another) {
+                    if (one.required == another.required) 
+                        return 0;
+                    else if (Boolean.TRUE.equals(one.required))
+                        return -1;
+                    else 
+                        return 1;
+                }
+            };
+
+            Collections.sort(codegenModel.vars, comparatorByDefaultValue);
+            Collections.sort(codegenModel.vars, comparatorByRequired);
+            Collections.sort(codegenModel.allVars, comparatorByDefaultValue);
+            Collections.sort(codegenModel.allVars, comparatorByRequired);
+            Collections.sort(codegenModel.readWriteVars, comparatorByDefaultValue);
+            Collections.sort(codegenModel.readWriteVars, comparatorByRequired);
+        }
 
         return codegenModel;
     }

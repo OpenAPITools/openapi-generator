@@ -34,7 +34,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-@JsonTypeName("OuterComposite")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class OuterComposite {

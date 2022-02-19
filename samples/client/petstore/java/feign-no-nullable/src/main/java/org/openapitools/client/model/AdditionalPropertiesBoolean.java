@@ -33,7 +33,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   AdditionalPropertiesBoolean.JSON_PROPERTY_NAME
 })
-@JsonTypeName("AdditionalPropertiesBoolean")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {

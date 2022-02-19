@@ -35,7 +35,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@JsonTypeName("FileSchemaTestClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
@@ -82,7 +81,7 @@ public class FileSchemaTestClass {
 
   public FileSchemaTestClass addFilesItem(File filesItem) {
     if (this.files == null) {
-      this.files = new ArrayList<File>();
+      this.files = new ArrayList<>();
     }
     this.files.add(filesItem);
     return this;

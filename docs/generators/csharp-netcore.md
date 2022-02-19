@@ -41,7 +41,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageVersion|C# package version.| |1.0.0|
 |releaseNote|Release note, default to 'Minor update'.| |Minor update|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
 |targetFramework|The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.1`|<dl><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3 compatible</dd><dt>**netstandard1.4**</dt><dd>.NET Standard 1.4 compatible</dd><dt>**netstandard1.5**</dt><dd>.NET Standard 1.5 compatible</dd><dt>**netstandard1.6**</dt><dd>.NET Standard 1.6 compatible</dd><dt>**netstandard2.0**</dt><dd>.NET Standard 2.0 compatible</dd><dt>**netstandard2.1**</dt><dd>.NET Standard 2.1 compatible</dd><dt>**netcoreapp2.0**</dt><dd>.NET Core 2.0 compatible (deprecated)</dd><dt>**netcoreapp2.1**</dt><dd>.NET Core 2.1 compatible (deprecated)</dd><dt>**netcoreapp3.0**</dt><dd>.NET Core 3.0 compatible (deprecated)</dd><dt>**netcoreapp3.1**</dt><dd>.NET Core 3.1 compatible</dd><dt>**net47**</dt><dd>.NET Framework 4.7 compatible</dd><dt>**net5.0**</dt><dd>.NET 5.0 compatible</dd><dt>**net6.0**</dt><dd>.NET 6.0 compatible</dd></dl>|netstandard2.0|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|

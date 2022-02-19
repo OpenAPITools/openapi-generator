@@ -247,7 +247,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         return "Generates a Kotlin client.";
     }
 
-    public boolean getGenerateRoomModels() { return generateRoomModels; }
+    public boolean getGenerateRoomModels() {
+        return generateRoomModels;
+    }
 
     public void setGenerateRoomModels(Boolean generateRoomModels) {
         this.generateRoomModels = generateRoomModels;
@@ -343,12 +345,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             // Set the value to defaults if we haven't overridden
             if (MULTIPLATFORM.equals(getLibrary())) {
                 setSourceFolder("src/commonMain/kotlin");
-            }
-            else if (JVM_VOLLEY.equals(getLibrary())){
+            } else if (JVM_VOLLEY.equals(getLibrary())) {
                 // Android plugin wants it's source in java
                 setSourceFolder("src/main/java");
-            }
-            else {
+            } else {
                 setSourceFolder(super.sourceFolder);
             }
             additionalProperties.put(CodegenConstants.SOURCE_FOLDER, this.sourceFolder);
@@ -440,8 +440,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         if (CollectionType.LIST.value.equals(collectionType)) {
-            typeMapping.put("array", "kotlin.collections.List");
-            typeMapping.put("list", "kotlin.collections.List");
+            if (isModelMutable()) {
+                typeMapping.put("array", "kotlin.collections.MutableList");
+                typeMapping.put("list", "kotlin.collections.MutableList");
+            } else {
+                typeMapping.put("array", "kotlin.collections.List");
+                typeMapping.put("list", "kotlin.collections.List");
+            }
             additionalProperties.put("isList", true);
         }
 
@@ -544,8 +549,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             this.setGenerateRoomModels(convertPropertyToBooleanAndWriteBack(GENERATE_ROOM_MODELS));
             // Hide this option behind a property getter and setter in case we need to check it elsewhere
             if (getGenerateRoomModels()) {
-                 modelTemplateFiles.put("model_room.mustache", "RoomModel.kt");
-                 supportingFiles.add(new SupportingFile("infrastructure/ITransformForStorage.mustache", infrastructureFolder, "ITransformForStorage.kt"));
+                modelTemplateFiles.put("model_room.mustache", "RoomModel.kt");
+                supportingFiles.add(new SupportingFile("infrastructure/ITransformForStorage.mustache", infrastructureFolder, "ITransformForStorage.kt"));
 
             }
         } else {

@@ -19,10 +19,6 @@ import (
 	"strings"
 )
 
-// Linger please
-var (
-	_ context.Context
-)
 
 type UserApi interface {
 

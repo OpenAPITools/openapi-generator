@@ -7,6 +7,7 @@ import org.openapitools.model.Category
 import org.openapitools.model.Tag
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.Email
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
@@ -30,7 +31,7 @@ data class Pet(
     @field:JsonProperty("name", required = true) var name: kotlin.String,
 
     @ApiModelProperty(example = "null", required = true, value = "")
-    @field:JsonProperty("photoUrls", required = true) var photoUrls: kotlin.collections.List<kotlin.String>,
+    @field:JsonProperty("photoUrls", required = true) var photoUrls: kotlin.collections.MutableList<kotlin.String>,
 
     @ApiModelProperty(example = "null", value = "")
     @field:JsonProperty("id") var id: kotlin.Long? = null,
@@ -41,7 +42,7 @@ data class Pet(
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("tags") var tags: kotlin.collections.List<Tag>? = null,
+    @field:JsonProperty("tags") var tags: kotlin.collections.MutableList<Tag>? = null,
 
     @ApiModelProperty(example = "null", value = "pet status in the store")
     @field:JsonProperty("status") var status: Pet.Status? = null
