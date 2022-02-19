@@ -1334,7 +1334,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     property.defaultValue = "JsonNullable.undefined()";
                 }
             }
-            if (SpringCodegen.class.equals(this.getClass()) && Boolean.FALSE.equals(property.required) && Boolean.FALSE.equals(property.isNullable)) {
+            if (SpringCodegen.class.equals(this.getClass()) && Boolean.FALSE.equals(property.required) && Boolean.FALSE.equals(property.isNullable)
+                    && !property.isArray && !property.isMap) {
                 // Only add import when needed
                 model.imports.add("Optional");
                 // Wrap dataType and defaults
