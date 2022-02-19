@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
-import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -29,10 +28,10 @@ import javax.annotation.Generated;
 public class Order   {
 
   @JsonProperty("id")
-  private Optional<Long> id = Optional.empty();
+  private Long id;
 
   @JsonProperty("petId")
-  private Optional<Long> petId = Optional.empty();
+  private Long petId;
 
   @JsonProperty("quantity")
   private JsonNullable<Integer> quantity = JsonNullable.undefined();
@@ -79,13 +78,13 @@ public class Order   {
   }
 
   @JsonProperty("status")
-  private Optional<StatusEnum> status = Optional.empty();
+  private StatusEnum status;
 
   @JsonProperty("complete")
-  private Optional<Boolean> complete = Optional.of(false);
+  private Boolean complete = false;
 
   public Order id(Long id) {
-    this.id = Optional.ofNullable(id);
+    this.id = id;
     return this;
   }
 
@@ -95,16 +94,16 @@ public class Order   {
   */
   
   @Schema(name = "id", required = false)
-  public Optional<Long> getId() {
+  public Long getId() {
     return id;
   }
 
   public void setId(Long id) {
-    this.id = Optional.ofNullable(id);
+    this.id = id;
   }
 
   public Order petId(Long petId) {
-    this.petId = Optional.ofNullable(petId);
+    this.petId = petId;
     return this;
   }
 
@@ -114,12 +113,12 @@ public class Order   {
   */
   
   @Schema(name = "petId", required = false)
-  public Optional<Long> getPetId() {
+  public Long getPetId() {
     return petId;
   }
 
   public void setPetId(Long petId) {
-    this.petId = Optional.ofNullable(petId);
+    this.petId = petId;
   }
 
   public Order quantity(Integer quantity) {
@@ -161,7 +160,7 @@ public class Order   {
   }
 
   public Order status(StatusEnum status) {
-    this.status = Optional.ofNullable(status);
+    this.status = status;
     return this;
   }
 
@@ -171,16 +170,16 @@ public class Order   {
   */
   
   @Schema(name = "status", description = "Order Status", required = false)
-  public Optional<StatusEnum> getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
   public void setStatus(StatusEnum status) {
-    this.status = Optional.ofNullable(status);
+    this.status = status;
   }
 
   public Order complete(Boolean complete) {
-    this.complete = Optional.ofNullable(complete);
+    this.complete = complete;
     return this;
   }
 
@@ -190,12 +189,12 @@ public class Order   {
   */
   
   @Schema(name = "complete", required = false)
-  public Optional<Boolean> getComplete() {
+  public Boolean getComplete() {
     return complete;
   }
 
   public void setComplete(Boolean complete) {
-    this.complete = Optional.ofNullable(complete);
+    this.complete = complete;
   }
 
   @Override

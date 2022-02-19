@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,10 +23,10 @@ import javax.annotation.Generated;
 public class Client   {
 
   @JsonProperty("client")
-  private Optional<String> client = Optional.empty();
+  private String client;
 
   public Client client(String client) {
-    this.client = Optional.ofNullable(client);
+    this.client = client;
     return this;
   }
 
@@ -37,12 +36,12 @@ public class Client   {
   */
   
   @ApiModelProperty(value = "")
-  public Optional<String> getClient() {
+  public String getClient() {
     return client;
   }
 
   public void setClient(String client) {
-    this.client = Optional.ofNullable(client);
+    this.client = client;
   }
 
   @Override

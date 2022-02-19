@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -26,10 +25,10 @@ import javax.annotation.Generated;
 public class AdditionalPropertiesArray extends HashMap<String, List>  {
 
   @JsonProperty("name")
-  private Optional<String> name = Optional.empty();
+  private String name;
 
   public AdditionalPropertiesArray name(String name) {
-    this.name = Optional.ofNullable(name);
+    this.name = name;
     return this;
   }
 
@@ -39,12 +38,12 @@ public class AdditionalPropertiesArray extends HashMap<String, List>  {
   */
   
   @Schema(name = "name", required = false)
-  public Optional<String> getName() {
+  public String getName() {
     return name;
   }
 
   public void setName(String name) {
-    this.name = Optional.ofNullable(name);
+    this.name = name;
   }
 
   @Override

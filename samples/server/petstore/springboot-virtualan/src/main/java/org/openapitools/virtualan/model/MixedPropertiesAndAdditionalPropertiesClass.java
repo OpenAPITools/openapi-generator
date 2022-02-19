@@ -10,7 +10,6 @@ import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import org.openapitools.virtualan.model.Animal;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -31,18 +30,18 @@ import javax.annotation.Generated;
 public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   @JsonProperty("uuid")
-  private Optional<UUID> uuid = Optional.empty();
+  private UUID uuid;
 
   @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private Optional<OffsetDateTime> dateTime = Optional.empty();
+  private OffsetDateTime dateTime;
 
   @JsonProperty("map")
   @Valid
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    this.uuid = Optional.ofNullable(uuid);
+    this.uuid = uuid;
     return this;
   }
 
@@ -52,16 +51,16 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   */
   @Valid 
   @ApiModelProperty(value = "")
-  public Optional<UUID> getUuid() {
+  public UUID getUuid() {
     return uuid;
   }
 
   public void setUuid(UUID uuid) {
-    this.uuid = Optional.ofNullable(uuid);
+    this.uuid = uuid;
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    this.dateTime = Optional.ofNullable(dateTime);
+    this.dateTime = dateTime;
     return this;
   }
 
@@ -71,12 +70,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   */
   @Valid 
   @ApiModelProperty(value = "")
-  public Optional<OffsetDateTime> getDateTime() {
+  public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
   public void setDateTime(OffsetDateTime dateTime) {
-    this.dateTime = Optional.ofNullable(dateTime);
+    this.dateTime = dateTime;
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {

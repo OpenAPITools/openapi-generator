@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -25,10 +24,10 @@ import javax.annotation.Generated;
 public class ModelList   {
 
   @JsonProperty("123-list")
-  private Optional<String> _123list = Optional.empty();
+  private String _123list;
 
   public ModelList _123list(String _123list) {
-    this._123list = Optional.ofNullable(_123list);
+    this._123list = _123list;
     return this;
   }
 
@@ -38,12 +37,12 @@ public class ModelList   {
   */
   
   @Schema(name = "123-list", required = false)
-  public Optional<String> get123list() {
+  public String get123list() {
     return _123list;
   }
 
   public void set123list(String _123list) {
-    this._123list = Optional.ofNullable(_123list);
+    this._123list = _123list;
   }
 
   @Override

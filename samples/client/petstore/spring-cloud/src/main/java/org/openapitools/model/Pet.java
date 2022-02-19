@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -30,10 +29,10 @@ import javax.annotation.Generated;
 public class Pet   {
 
   @JsonProperty("id")
-  private Optional<Long> id = Optional.empty();
+  private Long id;
 
   @JsonProperty("category")
-  private Optional<Category> category = Optional.empty();
+  private Category category;
 
   @JsonProperty("name")
   private String name;
@@ -84,10 +83,10 @@ public class Pet   {
   }
 
   @JsonProperty("status")
-  private Optional<StatusEnum> status = Optional.empty();
+  private StatusEnum status;
 
   public Pet id(Long id) {
-    this.id = Optional.ofNullable(id);
+    this.id = id;
     return this;
   }
 
@@ -97,16 +96,16 @@ public class Pet   {
   */
   
   @ApiModelProperty(value = "")
-  public Optional<Long> getId() {
+  public Long getId() {
     return id;
   }
 
   public void setId(Long id) {
-    this.id = Optional.ofNullable(id);
+    this.id = id;
   }
 
   public Pet category(Category category) {
-    this.category = Optional.ofNullable(category);
+    this.category = category;
     return this;
   }
 
@@ -116,12 +115,12 @@ public class Pet   {
   */
   @Valid 
   @ApiModelProperty(value = "")
-  public Optional<Category> getCategory() {
+  public Category getCategory() {
     return category;
   }
 
   public void setCategory(Category category) {
-    this.category = Optional.ofNullable(category);
+    this.category = category;
   }
 
   public Pet name(String name) {
@@ -195,7 +194,7 @@ public class Pet   {
   }
 
   public Pet status(StatusEnum status) {
-    this.status = Optional.ofNullable(status);
+    this.status = status;
     return this;
   }
 
@@ -205,12 +204,12 @@ public class Pet   {
   */
   
   @ApiModelProperty(value = "pet status in the store")
-  public Optional<StatusEnum> getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
   public void setStatus(StatusEnum status) {
-    this.status = Optional.ofNullable(status);
+    this.status = status;
   }
 
   @Override

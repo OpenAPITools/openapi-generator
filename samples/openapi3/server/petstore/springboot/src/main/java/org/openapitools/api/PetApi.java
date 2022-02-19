@@ -113,7 +113,7 @@ public interface PetApi {
     )
     default ResponseEntity<Void> deletePet(
         @Parameter(name = "petId", description = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
-        @Parameter(name = "api_key", description = "") @RequestHeader(value = "api_key", required = false) String apiKey
+        @Parameter(name = "api_key", description = "") @RequestHeader(value = "api_key", required = false) Optional<String> apiKey
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

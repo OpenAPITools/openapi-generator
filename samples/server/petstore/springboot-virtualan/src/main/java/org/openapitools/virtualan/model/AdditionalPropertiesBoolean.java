@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -26,10 +25,10 @@ import javax.annotation.Generated;
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
 
   @JsonProperty("name")
-  private Optional<String> name = Optional.empty();
+  private String name;
 
   public AdditionalPropertiesBoolean name(String name) {
-    this.name = Optional.ofNullable(name);
+    this.name = name;
     return this;
   }
 
@@ -39,12 +38,12 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
   */
   
   @ApiModelProperty(value = "")
-  public Optional<String> getName() {
+  public String getName() {
     return name;
   }
 
   public void setName(String name) {
-    this.name = Optional.ofNullable(name);
+    this.name = name;
   }
 
   @Override

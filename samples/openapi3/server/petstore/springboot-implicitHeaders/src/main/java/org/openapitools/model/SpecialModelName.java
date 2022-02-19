@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -25,10 +24,10 @@ import javax.annotation.Generated;
 public class SpecialModelName   {
 
   @JsonProperty("$special[property.name]")
-  private Optional<Long> $specialPropertyName = Optional.empty();
+  private Long $specialPropertyName;
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = Optional.ofNullable($specialPropertyName);
+    this.$specialPropertyName = $specialPropertyName;
     return this;
   }
 
@@ -38,12 +37,12 @@ public class SpecialModelName   {
   */
   
   @Schema(name = "$special[property.name]", required = false)
-  public Optional<Long> get$SpecialPropertyName() {
+  public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
 
   public void set$SpecialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = Optional.ofNullable($specialPropertyName);
+    this.$specialPropertyName = $specialPropertyName;
   }
 
   @Override

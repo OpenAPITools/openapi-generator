@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -26,13 +25,13 @@ import javax.annotation.Generated;
 public class HasOnlyReadOnly   {
 
   @JsonProperty("bar")
-  private Optional<String> bar = Optional.empty();
+  private String bar;
 
   @JsonProperty("foo")
-  private Optional<String> foo = Optional.empty();
+  private String foo;
 
   public HasOnlyReadOnly bar(String bar) {
-    this.bar = Optional.ofNullable(bar);
+    this.bar = bar;
     return this;
   }
 
@@ -42,16 +41,16 @@ public class HasOnlyReadOnly   {
   */
   
   @ApiModelProperty(readOnly = true, value = "")
-  public Optional<String> getBar() {
+  public String getBar() {
     return bar;
   }
 
   public void setBar(String bar) {
-    this.bar = Optional.ofNullable(bar);
+    this.bar = bar;
   }
 
   public HasOnlyReadOnly foo(String foo) {
-    this.foo = Optional.ofNullable(foo);
+    this.foo = foo;
     return this;
   }
 
@@ -61,12 +60,12 @@ public class HasOnlyReadOnly   {
   */
   
   @ApiModelProperty(readOnly = true, value = "")
-  public Optional<String> getFoo() {
+  public String getFoo() {
     return foo;
   }
 
   public void setFoo(String foo) {
-    this.foo = Optional.ofNullable(foo);
+    this.foo = foo;
   }
 
   @Override

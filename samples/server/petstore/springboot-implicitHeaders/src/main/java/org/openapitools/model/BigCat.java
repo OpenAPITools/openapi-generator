@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Optional;
 import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -66,10 +65,10 @@ public class BigCat extends Cat  {
   }
 
   @JsonProperty("kind")
-  private Optional<KindEnum> kind = Optional.empty();
+  private KindEnum kind;
 
   public BigCat kind(KindEnum kind) {
-    this.kind = Optional.ofNullable(kind);
+    this.kind = kind;
     return this;
   }
 
@@ -79,12 +78,12 @@ public class BigCat extends Cat  {
   */
   
   @ApiModelProperty(value = "")
-  public Optional<KindEnum> getKind() {
+  public KindEnum getKind() {
     return kind;
   }
 
   public void setKind(KindEnum kind) {
-    this.kind = Optional.ofNullable(kind);
+    this.kind = kind;
   }
 
   @Override

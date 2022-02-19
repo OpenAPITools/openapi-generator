@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -49,11 +48,11 @@ public class ObjectWithUniqueItems   {
 
   @JsonProperty("notNullDateField")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private Optional<OffsetDateTime> notNullDateField = Optional.empty();
+  private OffsetDateTime notNullDateField;
 
   @JsonProperty("nullDateField")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private Optional<OffsetDateTime> nullDateField = Optional.empty();
+  private OffsetDateTime nullDateField;
 
   public ObjectWithUniqueItems nullSet(Set<String> nullSet) {
     this.nullSet = JsonNullable.of(nullSet);
@@ -165,7 +164,7 @@ public class ObjectWithUniqueItems   {
   }
 
   public ObjectWithUniqueItems notNullDateField(OffsetDateTime notNullDateField) {
-    this.notNullDateField = Optional.ofNullable(notNullDateField);
+    this.notNullDateField = notNullDateField;
     return this;
   }
 
@@ -175,16 +174,16 @@ public class ObjectWithUniqueItems   {
   */
   @Valid 
   @Schema(name = "notNullDateField", required = false)
-  public Optional<OffsetDateTime> getNotNullDateField() {
+  public OffsetDateTime getNotNullDateField() {
     return notNullDateField;
   }
 
   public void setNotNullDateField(OffsetDateTime notNullDateField) {
-    this.notNullDateField = Optional.ofNullable(notNullDateField);
+    this.notNullDateField = notNullDateField;
   }
 
   public ObjectWithUniqueItems nullDateField(OffsetDateTime nullDateField) {
-    this.nullDateField = Optional.ofNullable(nullDateField);
+    this.nullDateField = nullDateField;
     return this;
   }
 
@@ -194,12 +193,12 @@ public class ObjectWithUniqueItems   {
   */
   @Valid 
   @Schema(name = "nullDateField", required = false)
-  public Optional<OffsetDateTime> getNullDateField() {
+  public OffsetDateTime getNullDateField() {
     return nullDateField;
   }
 
   public void setNullDateField(OffsetDateTime nullDateField) {
-    this.nullDateField = Optional.ofNullable(nullDateField);
+    this.nullDateField = nullDateField;
   }
 
   @Override

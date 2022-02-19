@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.Optional;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -30,21 +29,21 @@ public class Pet   {
   private String atType = "Pet";
 
   @JsonProperty("age")
-  private Optional<Integer> age = Optional.of(4);
+  private Integer age = 4;
 
   @JsonProperty("happy")
-  private Optional<Boolean> happy = Optional.of(true);
+  private Boolean happy = true;
 
   @JsonProperty("price")
-  private Optional<BigDecimal> price = Optional.of(new BigDecimal("32000000000"));
+  private BigDecimal price = new BigDecimal("32000000000");
 
   @JsonProperty("lastFeed")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private Optional<OffsetDateTime> lastFeed = Optional.of(OffsetDateTime.parse("1973-12-19T11:39:57Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())));
+  private OffsetDateTime lastFeed = OffsetDateTime.parse("1973-12-19T11:39:57Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
 
   @JsonProperty("dateOfBirth")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  private Optional<LocalDate> dateOfBirth = Optional.of(LocalDate.parse("2021-01-01"));
+  private LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
 
   public Pet atType(String atType) {
     this.atType = atType;
@@ -66,7 +65,7 @@ public class Pet   {
   }
 
   public Pet age(Integer age) {
-    this.age = Optional.ofNullable(age);
+    this.age = age;
     return this;
   }
 
@@ -76,16 +75,16 @@ public class Pet   {
   */
   
   @Schema(name = "age", required = false)
-  public Optional<Integer> getAge() {
+  public Integer getAge() {
     return age;
   }
 
   public void setAge(Integer age) {
-    this.age = Optional.ofNullable(age);
+    this.age = age;
   }
 
   public Pet happy(Boolean happy) {
-    this.happy = Optional.ofNullable(happy);
+    this.happy = happy;
     return this;
   }
 
@@ -95,16 +94,16 @@ public class Pet   {
   */
   
   @Schema(name = "happy", required = false)
-  public Optional<Boolean> getHappy() {
+  public Boolean getHappy() {
     return happy;
   }
 
   public void setHappy(Boolean happy) {
-    this.happy = Optional.ofNullable(happy);
+    this.happy = happy;
   }
 
   public Pet price(BigDecimal price) {
-    this.price = Optional.ofNullable(price);
+    this.price = price;
     return this;
   }
 
@@ -114,16 +113,16 @@ public class Pet   {
   */
   @Valid 
   @Schema(name = "price", required = false)
-  public Optional<BigDecimal> getPrice() {
+  public BigDecimal getPrice() {
     return price;
   }
 
   public void setPrice(BigDecimal price) {
-    this.price = Optional.ofNullable(price);
+    this.price = price;
   }
 
   public Pet lastFeed(OffsetDateTime lastFeed) {
-    this.lastFeed = Optional.ofNullable(lastFeed);
+    this.lastFeed = lastFeed;
     return this;
   }
 
@@ -133,16 +132,16 @@ public class Pet   {
   */
   @Valid 
   @Schema(name = "lastFeed", required = false)
-  public Optional<OffsetDateTime> getLastFeed() {
+  public OffsetDateTime getLastFeed() {
     return lastFeed;
   }
 
   public void setLastFeed(OffsetDateTime lastFeed) {
-    this.lastFeed = Optional.ofNullable(lastFeed);
+    this.lastFeed = lastFeed;
   }
 
   public Pet dateOfBirth(LocalDate dateOfBirth) {
-    this.dateOfBirth = Optional.ofNullable(dateOfBirth);
+    this.dateOfBirth = dateOfBirth;
     return this;
   }
 
@@ -152,12 +151,12 @@ public class Pet   {
   */
   @Valid 
   @Schema(name = "dateOfBirth", required = false)
-  public Optional<LocalDate> getDateOfBirth() {
+  public LocalDate getDateOfBirth() {
     return dateOfBirth;
   }
 
   public void setDateOfBirth(LocalDate dateOfBirth) {
-    this.dateOfBirth = Optional.ofNullable(dateOfBirth);
+    this.dateOfBirth = dateOfBirth;
   }
 
   @Override

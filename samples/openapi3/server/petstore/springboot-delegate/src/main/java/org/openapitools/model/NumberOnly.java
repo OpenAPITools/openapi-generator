@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
-import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,10 +23,10 @@ import javax.annotation.Generated;
 public class NumberOnly   {
 
   @JsonProperty("JustNumber")
-  private Optional<BigDecimal> justNumber = Optional.empty();
+  private BigDecimal justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {
-    this.justNumber = Optional.ofNullable(justNumber);
+    this.justNumber = justNumber;
     return this;
   }
 
@@ -37,12 +36,12 @@ public class NumberOnly   {
   */
   @Valid 
   @Schema(name = "JustNumber", required = false)
-  public Optional<BigDecimal> getJustNumber() {
+  public BigDecimal getJustNumber() {
     return justNumber;
   }
 
   public void setJustNumber(BigDecimal justNumber) {
-    this.justNumber = Optional.ofNullable(justNumber);
+    this.justNumber = justNumber;
   }
 
   @Override
