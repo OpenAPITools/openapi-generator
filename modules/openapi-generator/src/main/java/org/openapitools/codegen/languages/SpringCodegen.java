@@ -66,7 +66,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SpringCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures, SwaggerUIFeatures {
+        implements BeanValidationFeatures, PerformBeanValidationFeatures, SwaggerUIFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
 
     public static final String TITLE = "title";
@@ -111,7 +111,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean performBeanValidation = false;
     protected boolean implicitHeaders = false;
     protected boolean apiFirst = false;
-    protected boolean useOptional = false;
     protected boolean virtualService = false;
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
@@ -972,11 +971,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void setPerformBeanValidation(boolean performBeanValidation) {
         this.performBeanValidation = performBeanValidation;
-    }
-
-    @Override
-    public void setUseOptional(boolean useOptional) {
-        this.useOptional = useOptional;
     }
 
     @Override

@@ -126,29 +126,26 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
   {{/vendorExtensions.x-extra-annotation}}
+  {{^isWrapped}}
   {{#useBeanValidation}}
   {{>beanValidation}}
   {{/useBeanValidation}}
+  {{/isWrapped}}
   {{#swagger2AnnotationLibrary}}
   @Schema(name = "{{{baseName}}}", {{#isReadOnly}}accessMode = Schema.AccessMode.READ_ONLY, {{/isReadOnly}}{{#example}}example = "{{{.}}}", {{/example}}{{#description}}description = "{{{.}}}", {{/description}}required = {{{required}}})
   {{/swagger2AnnotationLibrary}}
   {{#swagger1AnnotationLibrary}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
   {{/swagger1AnnotationLibrary}}
-  public {{>dataType}} {{getter}}() {
+  public {{>dataType_beanValidation}} {{getter}}() {
     return {{name}};
   }
 
   {{#vendorExtensions.x-setter-extra-annotation}}
   {{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
-    {{#isWrapped}}
-    this.{{name}} = {{wrapperFunc}}({{name}});
-    {{/isWrapped}}
-    {{^isWrapped}}
+  public void {{setter}}({{>dataType}} {{name}}) {
     this.{{name}} = {{name}};
-    {{/isWrapped}}
   }
   {{! end feature: getter and setter }}
   {{/vars}}
