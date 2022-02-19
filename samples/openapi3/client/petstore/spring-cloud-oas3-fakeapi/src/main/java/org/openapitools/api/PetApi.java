@@ -291,7 +291,7 @@ public interface PetApi {
     ResponseEntity<ModelApiResponse> uploadFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @RequestParam(value="additionalMetadata", required=false) String additionalMetadata,
-        @Parameter(name = "file", description = "file to upload") @RequestParam("file") MultipartFile file
+        @Parameter(name = "file", description = "file to upload") @RequestPart("file") MultipartFile file
     );
 
 
@@ -324,7 +324,7 @@ public interface PetApi {
     )
     ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
-        @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestParam("requiredFile") MultipartFile requiredFile,
+        @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart("requiredFile") MultipartFile requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @RequestParam(value="additionalMetadata", required=false) String additionalMetadata
     );
 

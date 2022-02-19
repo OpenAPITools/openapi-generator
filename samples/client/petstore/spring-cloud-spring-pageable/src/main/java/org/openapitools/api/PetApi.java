@@ -305,7 +305,7 @@ public interface PetApi {
     ResponseEntity<ModelApiResponse> uploadFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @RequestParam(value="additionalMetadata", required=false) String additionalMetadata,
-        @ApiParam(value = "file to upload") @RequestParam("file") MultipartFile file
+        @ApiParam(value = "file to upload") @RequestPart("file") MultipartFile file
     );
 
 }

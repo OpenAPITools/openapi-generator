@@ -297,7 +297,7 @@ public interface FakeApi {
         @Parameter(name = "int64", description = "None") @RequestParam(value="int64", required=false) Long int64,
         @Parameter(name = "float", description = "None") @RequestParam(value="float", required=false) Float _float,
         @Parameter(name = "string", description = "None") @RequestParam(value="string", required=false) String string,
-        @Parameter(name = "binary", description = "None") @RequestParam("binary") MultipartFile binary,
+        @Parameter(name = "binary", description = "None") @RequestPart("binary") MultipartFile binary,
         @Parameter(name = "date", description = "None") @RequestParam(value="date", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @Parameter(name = "dateTime", description = "None") @RequestParam(value="dateTime", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
         @Parameter(name = "password", description = "None") @RequestParam(value="password", required=false) String password,
