@@ -24,8 +24,8 @@ type DefaultApi interface {
 	/*
 	FooGet Method for FooGet
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiFooGetRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiFooGetRequest
 	*/
 	FooGet(ctx context.Context) ApiFooGetRequest
 
@@ -41,7 +41,6 @@ type ApiFooGetRequest struct {
 	ctx context.Context
 	ApiService DefaultApi
 }
-
 
 func (r ApiFooGetRequest) Execute() (*InlineResponseDefault, *http.Response, error) {
 	return r.ApiService.FooGetExecute(r)

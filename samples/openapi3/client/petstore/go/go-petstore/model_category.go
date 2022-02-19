@@ -88,7 +88,7 @@ func (o *Category) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Category) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
