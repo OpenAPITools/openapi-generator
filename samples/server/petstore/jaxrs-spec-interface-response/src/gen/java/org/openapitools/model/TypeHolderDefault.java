@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   private @Valid BigDecimal numberItem;
   private @Valid Integer integerItem;
   private @Valid Boolean boolItem = true;
-  private @Valid List<Integer> arrayItem = new ArrayList<Integer>();
+  private @Valid List<Integer> arrayItem = new ArrayList<>();
 
   /**
    **/
@@ -137,6 +137,22 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayItem = arrayItem;
   }
 
+  public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
+
+    this.arrayItem.add(arrayItemItem);
+    return this;
+  }
+
+  public TypeHolderDefault removeArrayItemItem(Integer arrayItemItem) {
+    if (arrayItemItem != null && this.arrayItem != null) {
+      this.arrayItem.remove(arrayItemItem);
+    }
+
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

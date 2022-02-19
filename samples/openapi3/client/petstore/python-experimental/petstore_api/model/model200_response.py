@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -82,13 +82,13 @@ class Model200Response(
         cls,
         *args: typing.Union[dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes],
         name: typing.Union[name, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'Model200Response':
         return super().__new__(
             cls,
             *args,
             name=name,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )

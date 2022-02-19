@@ -1037,18 +1037,6 @@
             </modules>
         </profile>
         <profile>
-            <id>spring-mvc</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/server/petstore/spring-mvc</module>
-            </modules>
-        </profile>
-        <profile>
             <id>springboot-beanvalidation</id>
             <activation>
                 <property>
@@ -1094,18 +1082,6 @@
             </activation>
             <modules>
                 <module>samples/server/petstore/springboot-virtualan</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>scalatra-server</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/server/petstore/scalatra</module>
             </modules>
         </profile>
         <profile>
@@ -1184,70 +1160,12 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/spring-mvc-default-value</module>
-                <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
                 <!-- servers -->
                 <module>samples/server/petstore/java-camel</module>
-                <module>samples/server/petstore/jaxrs-jersey</module>
-                <module>samples/server/petstore/jaxrs-spec</module>
-                <module>samples/server/petstore/jaxrs-spec-interface</module>
-                <module>samples/server/petstore/jaxrs-spec-interface-response</module>
                 <module>samples/server/petstore/java-vertx-web</module>
                 <module>samples/server/petstore/java-inflector</module>
                 <module>samples/server/petstore/java-pkmst</module>
-                <module>samples/server/petstore/java-play-framework</module>
-                <module>samples/server/petstore/java-play-framework-no-wrap-calls</module>
-                <module>samples/server/petstore/java-play-framework-no-swagger-ui</module>
-                <module>samples/server/petstore/java-play-framework-no-interface</module>
-                <module>samples/server/petstore/java-play-framework-no-exception-handling</module>
-                <module>samples/server/petstore/java-play-framework-no-bean-validation</module>
-                <module>samples/server/petstore/java-play-framework-fake-endpoints</module>
-                <module>samples/server/petstore/java-play-framework-controller-only</module>
-                <module>samples/server/petstore/java-play-framework-api-package-override</module>
                 <module>samples/server/petstore/java-undertow</module>
-                <module>samples/server/petstore/jaxrs/jersey1</module>
-                <module>samples/server/petstore/jaxrs/jersey1-useTags</module>
-                <!-- move to other CI as the following fails often in CircleCI
-                <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs/jersey2-useTags</module> -->
-                <module>samples/server/petstore/jaxrs-datelib-j8</module>
-                <module>samples/server/petstore/jaxrs-resteasy/default</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
-                <module>samples/server/petstore/jaxrs-resteasy/joda</module>
-                <module>samples/server/petstore/jaxrs-resteasy/default-value</module>
-                <!--<module>samples/server/petstore/kotlin-server/ktor</module>-->
-                <module>samples/client/petstore/spring-cloud</module>
-                <module>samples/openapi3/client/petstore/spring-cloud</module>
-                <module>samples/client/petstore/spring-cloud-date-time</module>
-                <module>samples/openapi3/client/petstore/spring-cloud-date-time</module>
-                <module>samples/server/petstore/springboot</module>
-                <module>samples/openapi3/server/petstore/springboot</module>
-                <module>samples/server/petstore/springboot-beanvalidation</module>
-                <module>samples/server/petstore/springboot-useoptional</module>
-                <module>samples/openapi3/server/petstore/springboot-useoptional</module>
-                <module>samples/server/petstore/springboot-reactive</module>
-                <module>samples/openapi3/server/petstore/springboot-reactive</module>
-                <module>samples/server/petstore/springboot-implicitHeaders</module>
-                <module>samples/openapi3/server/petstore/springboot-implicitHeaders</module>
-                <module>samples/server/petstore/springboot-delegate</module>
-                <module>samples/openapi3/server/petstore/springboot-delegate</module>
-                <module>samples/server/petstore/jaxrs-cxf</module>
-                <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
-                <module>samples/server/petstore/jaxrs-cxf-cdi</module>
-                <module>samples/server/petstore/jaxrs-cxf-cdi-default-value</module>
-                <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
-                <module>samples/server/petstore/java-msf4j</module>
-                <module>samples/server/petstore/scala-lagom-server</module>
-                <module>samples/server/petstore/scala-play-server</module>
-                <module>samples/server/petstore/scala-akka-http-server</module>
-                <module>samples/server/petstore/scalatra</module>
-                <module>samples/server/petstore/scala-finch</module>
             </modules>
         </profile>
         <profile>
@@ -1333,37 +1251,14 @@
             <modules>
                 <!-- clients -->
                 <!-- test java-related projects -->
-                <!-- comment out below due to gradle no longer installed in circleci
-                <module>samples/client/petstore/groovy</module> -->
                 <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
-                <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/java/feign</module>
-                <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
                 <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
                 <module>samples/client/others/java/okhttp-gson-streaming</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
-                <!--<module>samples/client/petstore/java/okhttp-gson-nextgen</module>-->
-                <module>samples/client/petstore/java/retrofit2</module>
-                <module>samples/client/petstore/java/retrofit2rx2</module>
-                <module>samples/client/petstore/java/retrofit2rx3</module>
-                <module>samples/client/petstore/java/retrofit2-play26</module>
-                <module>samples/client/petstore/jaxrs-cxf-client</module>
-                <module>samples/client/petstore/java/resttemplate</module>
-                <module>samples/client/petstore/java/resttemplate-withXml</module>
-                <module>samples/client/petstore/java/webclient</module>
-                <module>samples/client/petstore/java/webclient-nulable-arrays</module>
-                <module>samples/client/petstore/java/vertx</module>
-                <module>samples/client/petstore/java/jersey2-java8-localdatetime</module>
-                <module>samples/client/petstore/java/resteasy</module>
-                <module>samples/client/petstore/java/google-api-client</module>
-                <module>samples/client/petstore/java/rest-assured</module>
-                <module>samples/client/petstore/java/rest-assured-jackson</module>
-                <module>samples/client/petstore/java/microprofile-rest-client</module>
-                <module>samples/client/petstore/java/apache-httpclient</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->
@@ -1381,39 +1276,7 @@
                 <!--<module>samples/client/petstore/elixir</module>-->
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
-                <module>samples/client/petstore/kotlin</module>
-                <module>samples/client/petstore/kotlin-gson</module>
-                <module>samples/client/petstore/kotlin-jackson</module>
-                <module>samples/client/petstore/kotlin-json-request-string</module>
-                <module>samples/client/petstore/kotlin-jvm-okhttp4-coroutines</module>
-                <module>samples/client/petstore/kotlin-moshi-codegen</module>
-                <module>samples/client/petstore/kotlin-multiplatform</module>
-                <module>samples/client/petstore/kotlin-nonpublic</module>
-                <module>samples/client/petstore/kotlin-nullable</module>
-                <module>samples/client/petstore/kotlin-okhttp3</module>
-                <module>samples/client/petstore/kotlin-retrofit2</module>
-                <module>samples/client/petstore/kotlin-retrofit2-rx3</module>
-                <module>samples/client/petstore/kotlin-string</module>
-                <module>samples/client/petstore/kotlin-threetenbp</module>
-                <module>samples/client/petstore/kotlin-uppercase-enum</module>
-                <!-- servers -->
-                <module>samples/server/petstore/kotlin-springboot</module>
-                <!--<module>samples/server/petstore/kotlin/vertx</module>-->
                 <!--<module>samples/server/petstore/erlang-server</module>-->
-            </modules>
-        </profile>
-        <!-- test with JDK11 in drone.io -->
-        <profile>
-            <id>samples.droneio</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>samples.droneio</value>
-                </property>
-            </activation>
-            <modules>
-                <!-- clients -->
-                <module>samples/client/petstore/java/native</module>
             </modules>
         </profile>
         <!-- test with Haskell -->
@@ -1600,7 +1463,7 @@
         <guava.version>30.1.1-jre</guava.version>
         <handlebars-java.version>4.2.1</handlebars-java.version>
         <jackson-threetenbp.version>2.10.0</jackson-threetenbp.version>
-        <jackson.version>2.10.2</jackson.version>
+        <jackson.version>2.12.1</jackson.version>
         <jacoco.version>0.8.7</jacoco.version>
         <jmustache.version>1.14</jmustache.version>
         <junit.version>4.13.2</junit.version>
@@ -1611,7 +1474,7 @@
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
-        <mockito.version>4.2.0</mockito.version>
+        <mockito.version>4.3.1</mockito.version>
         <pmd-plugin.version>3.12.0</pmd-plugin.version>
         <reflections.version>0.10</reflections.version>
         <rxgen.version>1.3</rxgen.version>
@@ -1619,7 +1482,7 @@
         <slf4j.version>1.7.32</slf4j.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
-        <swagger-core.version>2.1.2</swagger-core.version>
+        <swagger-core.version>2.1.12</swagger-core.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
         <swagger-parser.version>2.0.26</swagger-parser.version>
         <testng.version>7.3.0</testng.version>

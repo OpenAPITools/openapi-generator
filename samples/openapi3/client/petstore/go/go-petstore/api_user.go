@@ -19,10 +19,6 @@ import (
 	"strings"
 )
 
-// Linger please
-var (
-	_ context.Context
-)
 
 type UserApi interface {
 
@@ -31,8 +27,8 @@ type UserApi interface {
 
 	This can only be done by the logged in user.
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiCreateUserRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateUserRequest
 	*/
 	CreateUser(ctx context.Context) ApiCreateUserRequest
 
@@ -42,8 +38,8 @@ type UserApi interface {
 	/*
 	CreateUsersWithArrayInput Creates list of users with given input array
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiCreateUsersWithArrayInputRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateUsersWithArrayInputRequest
 	*/
 	CreateUsersWithArrayInput(ctx context.Context) ApiCreateUsersWithArrayInputRequest
 
@@ -53,8 +49,8 @@ type UserApi interface {
 	/*
 	CreateUsersWithListInput Creates list of users with given input array
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiCreateUsersWithListInputRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateUsersWithListInputRequest
 	*/
 	CreateUsersWithListInput(ctx context.Context) ApiCreateUsersWithListInputRequest
 
@@ -66,9 +62,9 @@ type UserApi interface {
 
 	This can only be done by the logged in user.
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param username The name that needs to be deleted
-	 @return ApiDeleteUserRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param username The name that needs to be deleted
+	@return ApiDeleteUserRequest
 	*/
 	DeleteUser(ctx context.Context, username string) ApiDeleteUserRequest
 
@@ -78,9 +74,9 @@ type UserApi interface {
 	/*
 	GetUserByName Get user by user name
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param username The name that needs to be fetched. Use user1 for testing.
-	 @return ApiGetUserByNameRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param username The name that needs to be fetched. Use user1 for testing.
+	@return ApiGetUserByNameRequest
 	*/
 	GetUserByName(ctx context.Context, username string) ApiGetUserByNameRequest
 
@@ -91,8 +87,8 @@ type UserApi interface {
 	/*
 	LoginUser Logs user into the system
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiLoginUserRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLoginUserRequest
 	*/
 	LoginUser(ctx context.Context) ApiLoginUserRequest
 
@@ -103,8 +99,8 @@ type UserApi interface {
 	/*
 	LogoutUser Logs out current logged in user session
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiLogoutUserRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLogoutUserRequest
 	*/
 	LogoutUser(ctx context.Context) ApiLogoutUserRequest
 
@@ -116,9 +112,9 @@ type UserApi interface {
 
 	This can only be done by the logged in user.
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param username name that need to be deleted
-	 @return ApiUpdateUserRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param username name that need to be deleted
+	@return ApiUpdateUserRequest
 	*/
 	UpdateUser(ctx context.Context, username string) ApiUpdateUserRequest
 
@@ -431,7 +427,6 @@ type ApiDeleteUserRequest struct {
 	username string
 }
 
-
 func (r ApiDeleteUserRequest) Execute() (*http.Response, error) {
 	return r.ApiService.DeleteUserExecute(r)
 }
@@ -523,7 +518,6 @@ type ApiGetUserByNameRequest struct {
 	ApiService UserApi
 	username string
 }
-
 
 func (r ApiGetUserByNameRequest) Execute() (*User, *http.Response, error) {
 	return r.ApiService.GetUserByNameExecute(r)
@@ -632,6 +626,7 @@ func (r ApiLoginUserRequest) Username(username string) ApiLoginUserRequest {
 	r.username = &username
 	return r
 }
+
 // The password for login in clear text
 func (r ApiLoginUserRequest) Password(password string) ApiLoginUserRequest {
 	r.password = &password
@@ -742,7 +737,6 @@ type ApiLogoutUserRequest struct {
 	ctx context.Context
 	ApiService UserApi
 }
-
 
 func (r ApiLogoutUserRequest) Execute() (*http.Response, error) {
 	return r.ApiService.LogoutUserExecute(r)

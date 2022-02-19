@@ -43,10 +43,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Whale" /> class.
         /// </summary>
+        /// <param name="className">className (required).</param>
         /// <param name="hasBaleen">hasBaleen.</param>
         /// <param name="hasTeeth">hasTeeth.</param>
-        /// <param name="className">className (required).</param>
-        public Whale(bool hasBaleen = default(bool), bool hasTeeth = default(bool), string className = default(string))
+        public Whale(string className, bool hasBaleen = default, bool hasTeeth = default)
         {
             // to ensure "className" is required (not null)
             if (className == null) {
@@ -59,6 +59,12 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
+        /// Gets or Sets ClassName
+        /// </summary>
+        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
+        public string ClassName { get; set; }
+
+        /// <summary>
         /// Gets or Sets HasBaleen
         /// </summary>
         [DataMember(Name = "hasBaleen", EmitDefaultValue = true)]
@@ -69,12 +75,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "hasTeeth", EmitDefaultValue = true)]
         public bool HasTeeth { get; set; }
-
-        /// <summary>
-        /// Gets or Sets ClassName
-        /// </summary>
-        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
-        public string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -90,9 +90,9 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Whale {\n");
+            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  HasBaleen: ").Append(HasBaleen).Append("\n");
             sb.Append("  HasTeeth: ").Append(HasTeeth).Append("\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -136,12 +136,12 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.HasBaleen.GetHashCode();
-                hashCode = (hashCode * 59) + this.HasTeeth.GetHashCode();
                 if (this.ClassName != null)
                 {
                     hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.HasBaleen.GetHashCode();
+                hashCode = (hashCode * 59) + this.HasTeeth.GetHashCode();
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

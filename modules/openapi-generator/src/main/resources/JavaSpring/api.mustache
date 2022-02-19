@@ -66,7 +66,7 @@ import java.util.Optional;
 {{/useOptional}}
 {{/jdk8-no-delegate}}
 {{#async}}
-import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture{{/jdk8}};
+import java.util.concurrent.CompletableFuture;
 {{/async}}
 import javax.annotation.Generated;
 
@@ -134,9 +134,9 @@ public interface {{classname}} {
         {{#summary}}
         summary = "{{{.}}}",
         {{/summary}}
-        {{#vendorExtensions.x-tags}}
+        {{#vendorExtensions.x-tags.size}}
         tags = { {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
-        {{/vendorExtensions.x-tags}}
+        {{/vendorExtensions.x-tags.size}}
         responses = {
             {{#responses}}
             @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = {
@@ -155,7 +155,9 @@ public interface {{classname}} {
     {{/swagger2AnnotationLibrary}}
     {{#swagger1AnnotationLibrary}}
     @ApiOperation(
+        {{#vendorExtensions.x-tags.size}}
         tags = { {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
+        {{/vendorExtensions.x-tags.size}}
         value = "{{{summary}}}",
         nickname = "{{{operationId}}}",
         notes = "{{{notes}}}"{{#returnBaseType}},
@@ -209,7 +211,7 @@ public interface {{classname}} {
         {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}},
         {{/hasParams}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true){{/swagger2AnnotationLibrary}}{{#springFoxDocumentationProvider}}@ApiIgnore{{/springFoxDocumentationProvider}} final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
         {{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore {{/springFoxDocumentationProvider}}{{#springDocDocumentationProvider}}@ParameterObject {{/springDocDocumentationProvider}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}
-    ){{^jdk8-default-interface}};{{/jdk8-default-interface}}{{#jdk8-default-interface}}{{#unhandledException}} throws Exception{{/unhandledException}} {
+    ){{#unhandledException}} throws Exception{{/unhandledException}}{{^jdk8-default-interface}};{{/jdk8-default-interface}}{{#jdk8-default-interface}} {
         {{#delegate-method}}
         return {{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}, pageable{{/vendorExtensions.x-spring-paginated}});
     }

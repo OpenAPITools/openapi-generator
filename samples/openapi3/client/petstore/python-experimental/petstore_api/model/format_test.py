@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -225,7 +225,7 @@ class FormatTest(
         pattern_with_digits: typing.Union[pattern_with_digits, Unset] = unset,
         pattern_with_digits_and_delimiter: typing.Union[pattern_with_digits_and_delimiter, Unset] = unset,
         noneProp: typing.Union[noneProp, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'FormatTest':
         return super().__new__(
@@ -251,6 +251,6 @@ class FormatTest(
             pattern_with_digits=pattern_with_digits,
             pattern_with_digits_and_delimiter=pattern_with_digits_and_delimiter,
             noneProp=noneProp,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )
