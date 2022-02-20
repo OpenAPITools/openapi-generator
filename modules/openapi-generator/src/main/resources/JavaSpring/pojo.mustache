@@ -59,7 +59,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{#isDateTime}}
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   {{/isDateTime}}
-  private {{>dataType}} {{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
+  private {{>dataType}} {{name}}{{>defaultValue}};
   {{/vars}}
   {{#vars}}
 
@@ -79,7 +79,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
     {{#openApiNullable}}
     {{^required}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}}{{>defaultValue}};
     }
     {{/required}}
     this.{{name}}{{#isNullable}}.get(){{/isNullable}}.add({{name}}Item);
@@ -159,12 +159,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{/vendorExtensions.x-expose-wrapper-in-setter}}
   {{#vendorExtensions.x-expose-wrapper-in-setter}}
   public void {{setter}}({{>dataType}} {{name}}) {
-    {{#isWrapped}}
-    this.{{name}} = Objects.requireNonNull({{name}}, "A parameter of type {{wrapperType}} must not be null.");
-    {{/isWrapped}}
-    {{^isWrapped}}
     this.{{name}} = {{name}};
-    {{/isWrapped}}
   }
   {{/vendorExtensions.x-expose-wrapper-in-setter}}
   {{! end feature: getter and setter }}

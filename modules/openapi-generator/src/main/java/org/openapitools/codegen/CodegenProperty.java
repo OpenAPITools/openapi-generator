@@ -60,6 +60,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
      * For example JsonNullable.of or Optional.ofNullable.
      */
     public String wrapperFunc;
+    /**
+     * The wrapped defaultValue.
+     */
+    public String wrappedDefault;
 
     /**
      * The name of this property in the OpenAPI schema.
@@ -980,6 +984,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", wrapperType=").append(wrapperType);
         sb.append(", wrappedType=").append(wrappedType);
         sb.append(", wrapperFunc=").append(wrapperFunc);
+        sb.append(", wrappedDefault=").append(wrappedDefault);
         sb.append('}');
         return sb.toString();
     }
@@ -1083,7 +1088,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isWrapped == that.isWrapped &&
                 Objects.equals(wrapperType, that.wrapperType) &&
                 Objects.equals(wrappedType, that.wrappedType) &&
-                Objects.equals(wrapperFunc, that.wrapperFunc);
+                Objects.equals(wrapperFunc, that.wrapperFunc) &&
+                Objects.equals(wrappedDefault, that.wrappedDefault);
     }
 
     @Override
@@ -1104,6 +1110,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped, isNull, additionalPropertiesIsAnyType, hasVars, hasRequired,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, isWrapped, wrapperType,
-                wrappedType, wrapperFunc);
+                wrappedType, wrapperFunc, wrappedDefault);
     }
 }

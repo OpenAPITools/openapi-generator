@@ -1324,21 +1324,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 // Only add import when needed
                 model.imports.add("JsonNullable");
                 model.getVendorExtensions().put("x-jackson-optional-nullable-helpers", true);
-            }
-            // TODO: adjust other java based mustache templates...
-            if (SpringCodegen.class.equals(this.getClass()) && Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
-                // Only add import when needed
                 property.getVendorExtensions().put("x-expose-wrapper-in-setter", true);
-                model.imports.add("Objects");
                 // Wrap dataType and defaults
                 property.isWrapped = true;
                 property.wrapperType = "JsonNullable";
                 property.wrappedType = "JsonNullable<" + property.datatypeWithEnum + ">";
                 property.wrapperFunc = "JsonNullable.of";
                 if (property.defaultValue != null) {
-                    property.defaultValue = "JsonNullable.of(" + property.defaultValue + ")";
+                    property.wrappedDefault = "JsonNullable.of(" + property.defaultValue + ")";
                 } else {
-                    property.defaultValue = "JsonNullable.undefined()";
+                    property.wrappedDefault = "JsonNullable.undefined()";
                 }
             }
         }
@@ -1348,7 +1343,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 // Only add import when needed
                 model.imports.add("Optional");
                 if (1 == 1) { // TODO: introduce cli option
-                    model.imports.add("Objects");
                     property.getVendorExtensions().put("x-expose-wrapper-in-setter", true);
                 } else {
                     model.imports.add("JsonIgnore");
@@ -1359,9 +1353,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 property.wrappedType = "Optional<" + property.datatypeWithEnum + ">";
                 property.wrapperFunc = "Optional.ofNullable";
                 if (property.defaultValue != null) {
-                    property.defaultValue = "Optional.of(" + property.defaultValue + ")";
+                    property.wrappedDefault = "Optional.of(" + property.defaultValue + ")";
                 } else {
-                    property.defaultValue = "Optional.empty()";
+                    property.wrappedDefault = "Optional.empty()";
                 }
             }
         }
