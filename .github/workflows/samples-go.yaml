@@ -1,0 +1,33 @@
+name: Samples Go
+
+on:
+  push:
+    paths:
+      - 'samples/server/petstore/go*/**'
+  pull_request:
+    paths:
+      - 'samples/server/petstore/go*/**'
+
+env:
+  GRADLE_VERSION: 6.9
+
+jobs:
+  build:
+    name: Build Go
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/client/petstore/go-gin-api-server
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '^1.17.1'
+      - name: Install
+        working-directory: ${{ matrix.sample }}
+        run: go get github.com/gin-gonic/gin
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        run: go test -v
