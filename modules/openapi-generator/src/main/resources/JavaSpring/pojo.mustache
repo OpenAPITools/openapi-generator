@@ -144,24 +144,29 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{#vendorExtensions.x-setter-extra-annotation}}
   {{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}
-  {{^x-expose-wrapper-in-setter}}
+  {{^vendorExtensions.x-expose-wrapper-in-setter}}
   {{#isWrapped}}
   @JsonIgnore
   {{/isWrapped}}
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
-  {{#isWrapped}}
+    {{#isWrapped}}
     this.{{name}} = {{wrapperFunc}}({{name}});
-  {{/isWrapped}}
-  {{^isWrapped}}
+    {{/isWrapped}}
+    {{^isWrapped}}
     this.{{name}} = {{name}};
-  {{/isWrapped}}
+    {{/isWrapped}}
   }
-  {{/x-expose-wrapper-in-setter}}
-  {{#x-expose-wrapper-in-setter}}
+  {{/vendorExtensions.x-expose-wrapper-in-setter}}
+  {{#vendorExtensions.x-expose-wrapper-in-setter}}
   public void {{setter}}({{>dataType}} {{name}}) {
+    {{#isWrapped}}
+    this.{{name}} = Objects.requireNonNull({{name}}, "A parameter of type {{wrapperType}} must not be null.");
+    {{/isWrapped}}
+    {{^isWrapped}}
     this.{{name}} = {{name}};
+    {{/isWrapped}}
   }
-  {{/x-expose-wrapper-in-setter}}
+  {{/vendorExtensions.x-expose-wrapper-in-setter}}
   {{! end feature: getter and setter }}
   {{/vars}}
 
