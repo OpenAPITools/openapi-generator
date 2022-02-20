@@ -47,12 +47,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
      */
     public boolean isWrapped;
     /**
-     * The Wrapper Type itself. Wrapper Types are for Example java.util.Optional or
+     * The Wrapper Type itself. Wrapper Types are for Example {@link Optional} or
      * org.openapitools.jackson.nullable.JsonNullable.
      */
     public String wrapperType;
     /**
-     * The concrete Wrapped Type declaration, ie JsonNullable<String> or Optional<String>.
+     * The concrete Wrapped Type declaration, ie {@code JsonNullable<String>} or {@code Optional<String>}.
      */
     public String wrappedType;
     /**
