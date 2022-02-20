@@ -116,8 +116,9 @@ public class EnumArrays   {
     return justSymbol;
   }
 
-  public void setJustSymbol(Optional<JustSymbolEnum> justSymbol) {
-    this.justSymbol = justSymbol;
+  @JsonIgnore
+  public void setJustSymbol(JustSymbolEnum justSymbol) {
+    this.justSymbol = Optional.ofNullable(justSymbol);
   }
 
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {

@@ -69,8 +69,9 @@ public class Animal   {
     return color;
   }
 
-  public void setColor(Optional<String> color) {
-    this.color = color;
+  @JsonIgnore
+  public void setColor(String color) {
+    this.color = Optional.ofNullable(color);
   }
 
   @Override

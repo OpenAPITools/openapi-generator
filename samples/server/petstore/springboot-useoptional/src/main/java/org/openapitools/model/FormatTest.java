@@ -91,8 +91,9 @@ public class FormatTest   {
     return integer;
   }
 
-  public void setInteger(Optional<Integer> integer) {
-    this.integer = integer;
+  @JsonIgnore
+  public void setInteger(Integer integer) {
+    this.integer = Optional.ofNullable(integer);
   }
 
   public FormatTest int32(Integer int32) {
@@ -111,8 +112,9 @@ public class FormatTest   {
     return int32;
   }
 
-  public void setInt32(Optional<Integer> int32) {
-    this.int32 = int32;
+  @JsonIgnore
+  public void setInt32(Integer int32) {
+    this.int32 = Optional.ofNullable(int32);
   }
 
   public FormatTest int64(Long int64) {
@@ -129,8 +131,9 @@ public class FormatTest   {
     return int64;
   }
 
-  public void setInt64(Optional<Long> int64) {
-    this.int64 = int64;
+  @JsonIgnore
+  public void setInt64(Long int64) {
+    this.int64 = Optional.ofNullable(int64);
   }
 
   public FormatTest number(BigDecimal number) {
@@ -170,8 +173,9 @@ public class FormatTest   {
     return _float;
   }
 
-  public void setFloat(Optional<Float> _float) {
-    this._float = _float;
+  @JsonIgnore
+  public void setFloat(Float _float) {
+    this._float = Optional.ofNullable(_float);
   }
 
   public FormatTest _double(Double _double) {
@@ -190,8 +194,9 @@ public class FormatTest   {
     return _double;
   }
 
-  public void setDouble(Optional<Double> _double) {
-    this._double = _double;
+  @JsonIgnore
+  public void setDouble(Double _double) {
+    this._double = Optional.ofNullable(_double);
   }
 
   public FormatTest string(String string) {
@@ -208,8 +213,9 @@ public class FormatTest   {
     return string;
   }
 
-  public void setString(Optional<String> string) {
-    this.string = string;
+  @JsonIgnore
+  public void setString(String string) {
+    this.string = Optional.ofNullable(string);
   }
 
   public FormatTest _byte(byte[] _byte) {
@@ -245,8 +251,9 @@ public class FormatTest   {
     return binary;
   }
 
-  public void setBinary(Optional<org.springframework.core.io.Resource> binary) {
-    this.binary = binary;
+  @JsonIgnore
+  public void setBinary(org.springframework.core.io.Resource binary) {
+    this.binary = Optional.ofNullable(binary);
   }
 
   public FormatTest date(LocalDate date) {
@@ -282,8 +289,9 @@ public class FormatTest   {
     return dateTime;
   }
 
-  public void setDateTime(Optional<OffsetDateTime> dateTime) {
-    this.dateTime = dateTime;
+  @JsonIgnore
+  public void setDateTime(OffsetDateTime dateTime) {
+    this.dateTime = Optional.ofNullable(dateTime);
   }
 
   public FormatTest uuid(UUID uuid) {
@@ -300,8 +308,9 @@ public class FormatTest   {
     return uuid;
   }
 
-  public void setUuid(Optional<UUID> uuid) {
-    this.uuid = uuid;
+  @JsonIgnore
+  public void setUuid(UUID uuid) {
+    this.uuid = Optional.ofNullable(uuid);
   }
 
   public FormatTest password(String password) {
@@ -337,8 +346,9 @@ public class FormatTest   {
     return bigDecimal;
   }
 
-  public void setBigDecimal(Optional<BigDecimal> bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  @JsonIgnore
+  public void setBigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = Optional.ofNullable(bigDecimal);
   }
 
   @Override

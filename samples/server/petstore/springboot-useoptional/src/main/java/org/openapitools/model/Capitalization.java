@@ -55,8 +55,9 @@ public class Capitalization   {
     return smallCamel;
   }
 
-  public void setSmallCamel(Optional<String> smallCamel) {
-    this.smallCamel = smallCamel;
+  @JsonIgnore
+  public void setSmallCamel(String smallCamel) {
+    this.smallCamel = Optional.ofNullable(smallCamel);
   }
 
   public Capitalization capitalCamel(String capitalCamel) {
@@ -73,8 +74,9 @@ public class Capitalization   {
     return capitalCamel;
   }
 
-  public void setCapitalCamel(Optional<String> capitalCamel) {
-    this.capitalCamel = capitalCamel;
+  @JsonIgnore
+  public void setCapitalCamel(String capitalCamel) {
+    this.capitalCamel = Optional.ofNullable(capitalCamel);
   }
 
   public Capitalization smallSnake(String smallSnake) {
@@ -91,8 +93,9 @@ public class Capitalization   {
     return smallSnake;
   }
 
-  public void setSmallSnake(Optional<String> smallSnake) {
-    this.smallSnake = smallSnake;
+  @JsonIgnore
+  public void setSmallSnake(String smallSnake) {
+    this.smallSnake = Optional.ofNullable(smallSnake);
   }
 
   public Capitalization capitalSnake(String capitalSnake) {
@@ -109,8 +112,9 @@ public class Capitalization   {
     return capitalSnake;
   }
 
-  public void setCapitalSnake(Optional<String> capitalSnake) {
-    this.capitalSnake = capitalSnake;
+  @JsonIgnore
+  public void setCapitalSnake(String capitalSnake) {
+    this.capitalSnake = Optional.ofNullable(capitalSnake);
   }
 
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
@@ -127,8 +131,9 @@ public class Capitalization   {
     return scAETHFlowPoints;
   }
 
-  public void setScAETHFlowPoints(Optional<String> scAETHFlowPoints) {
-    this.scAETHFlowPoints = scAETHFlowPoints;
+  @JsonIgnore
+  public void setScAETHFlowPoints(String scAETHFlowPoints) {
+    this.scAETHFlowPoints = Optional.ofNullable(scAETHFlowPoints);
   }
 
   public Capitalization ATT_NAME(String ATT_NAME) {
@@ -145,8 +150,9 @@ public class Capitalization   {
     return ATT_NAME;
   }
 
-  public void setATTNAME(Optional<String> ATT_NAME) {
-    this.ATT_NAME = ATT_NAME;
+  @JsonIgnore
+  public void setATTNAME(String ATT_NAME) {
+    this.ATT_NAME = Optional.ofNullable(ATT_NAME);
   }
 
   @Override

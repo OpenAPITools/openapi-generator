@@ -135,8 +135,9 @@ public class XmlItem   {
     return attributeString;
   }
 
-  public void setAttributeString(Optional<String> attributeString) {
-    this.attributeString = attributeString;
+  @JsonIgnore
+  public void setAttributeString(String attributeString) {
+    this.attributeString = Optional.ofNullable(attributeString);
   }
 
   public XmlItem attributeNumber(BigDecimal attributeNumber) {
@@ -153,8 +154,9 @@ public class XmlItem   {
     return attributeNumber;
   }
 
-  public void setAttributeNumber(Optional<BigDecimal> attributeNumber) {
-    this.attributeNumber = attributeNumber;
+  @JsonIgnore
+  public void setAttributeNumber(BigDecimal attributeNumber) {
+    this.attributeNumber = Optional.ofNullable(attributeNumber);
   }
 
   public XmlItem attributeInteger(Integer attributeInteger) {
@@ -171,8 +173,9 @@ public class XmlItem   {
     return attributeInteger;
   }
 
-  public void setAttributeInteger(Optional<Integer> attributeInteger) {
-    this.attributeInteger = attributeInteger;
+  @JsonIgnore
+  public void setAttributeInteger(Integer attributeInteger) {
+    this.attributeInteger = Optional.ofNullable(attributeInteger);
   }
 
   public XmlItem attributeBoolean(Boolean attributeBoolean) {
@@ -189,8 +192,9 @@ public class XmlItem   {
     return attributeBoolean;
   }
 
-  public void setAttributeBoolean(Optional<Boolean> attributeBoolean) {
-    this.attributeBoolean = attributeBoolean;
+  @JsonIgnore
+  public void setAttributeBoolean(Boolean attributeBoolean) {
+    this.attributeBoolean = Optional.ofNullable(attributeBoolean);
   }
 
   public XmlItem wrappedArray(List<Integer> wrappedArray) {
@@ -234,8 +238,9 @@ public class XmlItem   {
     return nameString;
   }
 
-  public void setNameString(Optional<String> nameString) {
-    this.nameString = nameString;
+  @JsonIgnore
+  public void setNameString(String nameString) {
+    this.nameString = Optional.ofNullable(nameString);
   }
 
   public XmlItem nameNumber(BigDecimal nameNumber) {
@@ -252,8 +257,9 @@ public class XmlItem   {
     return nameNumber;
   }
 
-  public void setNameNumber(Optional<BigDecimal> nameNumber) {
-    this.nameNumber = nameNumber;
+  @JsonIgnore
+  public void setNameNumber(BigDecimal nameNumber) {
+    this.nameNumber = Optional.ofNullable(nameNumber);
   }
 
   public XmlItem nameInteger(Integer nameInteger) {
@@ -270,8 +276,9 @@ public class XmlItem   {
     return nameInteger;
   }
 
-  public void setNameInteger(Optional<Integer> nameInteger) {
-    this.nameInteger = nameInteger;
+  @JsonIgnore
+  public void setNameInteger(Integer nameInteger) {
+    this.nameInteger = Optional.ofNullable(nameInteger);
   }
 
   public XmlItem nameBoolean(Boolean nameBoolean) {
@@ -288,8 +295,9 @@ public class XmlItem   {
     return nameBoolean;
   }
 
-  public void setNameBoolean(Optional<Boolean> nameBoolean) {
-    this.nameBoolean = nameBoolean;
+  @JsonIgnore
+  public void setNameBoolean(Boolean nameBoolean) {
+    this.nameBoolean = Optional.ofNullable(nameBoolean);
   }
 
   public XmlItem nameArray(List<Integer> nameArray) {
@@ -360,8 +368,9 @@ public class XmlItem   {
     return prefixString;
   }
 
-  public void setPrefixString(Optional<String> prefixString) {
-    this.prefixString = prefixString;
+  @JsonIgnore
+  public void setPrefixString(String prefixString) {
+    this.prefixString = Optional.ofNullable(prefixString);
   }
 
   public XmlItem prefixNumber(BigDecimal prefixNumber) {
@@ -378,8 +387,9 @@ public class XmlItem   {
     return prefixNumber;
   }
 
-  public void setPrefixNumber(Optional<BigDecimal> prefixNumber) {
-    this.prefixNumber = prefixNumber;
+  @JsonIgnore
+  public void setPrefixNumber(BigDecimal prefixNumber) {
+    this.prefixNumber = Optional.ofNullable(prefixNumber);
   }
 
   public XmlItem prefixInteger(Integer prefixInteger) {
@@ -396,8 +406,9 @@ public class XmlItem   {
     return prefixInteger;
   }
 
-  public void setPrefixInteger(Optional<Integer> prefixInteger) {
-    this.prefixInteger = prefixInteger;
+  @JsonIgnore
+  public void setPrefixInteger(Integer prefixInteger) {
+    this.prefixInteger = Optional.ofNullable(prefixInteger);
   }
 
   public XmlItem prefixBoolean(Boolean prefixBoolean) {
@@ -414,8 +425,9 @@ public class XmlItem   {
     return prefixBoolean;
   }
 
-  public void setPrefixBoolean(Optional<Boolean> prefixBoolean) {
-    this.prefixBoolean = prefixBoolean;
+  @JsonIgnore
+  public void setPrefixBoolean(Boolean prefixBoolean) {
+    this.prefixBoolean = Optional.ofNullable(prefixBoolean);
   }
 
   public XmlItem prefixArray(List<Integer> prefixArray) {
@@ -486,8 +498,9 @@ public class XmlItem   {
     return namespaceString;
   }
 
-  public void setNamespaceString(Optional<String> namespaceString) {
-    this.namespaceString = namespaceString;
+  @JsonIgnore
+  public void setNamespaceString(String namespaceString) {
+    this.namespaceString = Optional.ofNullable(namespaceString);
   }
 
   public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
@@ -504,8 +517,9 @@ public class XmlItem   {
     return namespaceNumber;
   }
 
-  public void setNamespaceNumber(Optional<BigDecimal> namespaceNumber) {
-    this.namespaceNumber = namespaceNumber;
+  @JsonIgnore
+  public void setNamespaceNumber(BigDecimal namespaceNumber) {
+    this.namespaceNumber = Optional.ofNullable(namespaceNumber);
   }
 
   public XmlItem namespaceInteger(Integer namespaceInteger) {
@@ -522,8 +536,9 @@ public class XmlItem   {
     return namespaceInteger;
   }
 
-  public void setNamespaceInteger(Optional<Integer> namespaceInteger) {
-    this.namespaceInteger = namespaceInteger;
+  @JsonIgnore
+  public void setNamespaceInteger(Integer namespaceInteger) {
+    this.namespaceInteger = Optional.ofNullable(namespaceInteger);
   }
 
   public XmlItem namespaceBoolean(Boolean namespaceBoolean) {
@@ -540,8 +555,9 @@ public class XmlItem   {
     return namespaceBoolean;
   }
 
-  public void setNamespaceBoolean(Optional<Boolean> namespaceBoolean) {
-    this.namespaceBoolean = namespaceBoolean;
+  @JsonIgnore
+  public void setNamespaceBoolean(Boolean namespaceBoolean) {
+    this.namespaceBoolean = Optional.ofNullable(namespaceBoolean);
   }
 
   public XmlItem namespaceArray(List<Integer> namespaceArray) {
@@ -612,8 +628,9 @@ public class XmlItem   {
     return prefixNsString;
   }
 
-  public void setPrefixNsString(Optional<String> prefixNsString) {
-    this.prefixNsString = prefixNsString;
+  @JsonIgnore
+  public void setPrefixNsString(String prefixNsString) {
+    this.prefixNsString = Optional.ofNullable(prefixNsString);
   }
 
   public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
@@ -630,8 +647,9 @@ public class XmlItem   {
     return prefixNsNumber;
   }
 
-  public void setPrefixNsNumber(Optional<BigDecimal> prefixNsNumber) {
-    this.prefixNsNumber = prefixNsNumber;
+  @JsonIgnore
+  public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
+    this.prefixNsNumber = Optional.ofNullable(prefixNsNumber);
   }
 
   public XmlItem prefixNsInteger(Integer prefixNsInteger) {
@@ -648,8 +666,9 @@ public class XmlItem   {
     return prefixNsInteger;
   }
 
-  public void setPrefixNsInteger(Optional<Integer> prefixNsInteger) {
-    this.prefixNsInteger = prefixNsInteger;
+  @JsonIgnore
+  public void setPrefixNsInteger(Integer prefixNsInteger) {
+    this.prefixNsInteger = Optional.ofNullable(prefixNsInteger);
   }
 
   public XmlItem prefixNsBoolean(Boolean prefixNsBoolean) {
@@ -666,8 +685,9 @@ public class XmlItem   {
     return prefixNsBoolean;
   }
 
-  public void setPrefixNsBoolean(Optional<Boolean> prefixNsBoolean) {
-    this.prefixNsBoolean = prefixNsBoolean;
+  @JsonIgnore
+  public void setPrefixNsBoolean(Boolean prefixNsBoolean) {
+    this.prefixNsBoolean = Optional.ofNullable(prefixNsBoolean);
   }
 
   public XmlItem prefixNsArray(List<Integer> prefixNsArray) {

@@ -60,8 +60,9 @@ public class User   {
     return id;
   }
 
-  public void setId(Optional<Long> id) {
-    this.id = id;
+  @JsonIgnore
+  public void setId(Long id) {
+    this.id = Optional.ofNullable(id);
   }
 
   public User username(String username) {
@@ -78,8 +79,9 @@ public class User   {
     return username;
   }
 
-  public void setUsername(Optional<String> username) {
-    this.username = username;
+  @JsonIgnore
+  public void setUsername(String username) {
+    this.username = Optional.ofNullable(username);
   }
 
   public User firstName(String firstName) {
@@ -96,8 +98,9 @@ public class User   {
     return firstName;
   }
 
-  public void setFirstName(Optional<String> firstName) {
-    this.firstName = firstName;
+  @JsonIgnore
+  public void setFirstName(String firstName) {
+    this.firstName = Optional.ofNullable(firstName);
   }
 
   public User lastName(String lastName) {
@@ -114,8 +117,9 @@ public class User   {
     return lastName;
   }
 
-  public void setLastName(Optional<String> lastName) {
-    this.lastName = lastName;
+  @JsonIgnore
+  public void setLastName(String lastName) {
+    this.lastName = Optional.ofNullable(lastName);
   }
 
   public User email(String email) {
@@ -132,8 +136,9 @@ public class User   {
     return email;
   }
 
-  public void setEmail(Optional<String> email) {
-    this.email = email;
+  @JsonIgnore
+  public void setEmail(String email) {
+    this.email = Optional.ofNullable(email);
   }
 
   public User password(String password) {
@@ -150,8 +155,9 @@ public class User   {
     return password;
   }
 
-  public void setPassword(Optional<String> password) {
-    this.password = password;
+  @JsonIgnore
+  public void setPassword(String password) {
+    this.password = Optional.ofNullable(password);
   }
 
   public User phone(String phone) {
@@ -168,8 +174,9 @@ public class User   {
     return phone;
   }
 
-  public void setPhone(Optional<String> phone) {
-    this.phone = phone;
+  @JsonIgnore
+  public void setPhone(String phone) {
+    this.phone = Optional.ofNullable(phone);
   }
 
   public User userStatus(Integer userStatus) {
@@ -186,8 +193,9 @@ public class User   {
     return userStatus;
   }
 
-  public void setUserStatus(Optional<Integer> userStatus) {
-    this.userStatus = userStatus;
+  @JsonIgnore
+  public void setUserStatus(Integer userStatus) {
+    this.userStatus = Optional.ofNullable(userStatus);
   }
 
   @Override

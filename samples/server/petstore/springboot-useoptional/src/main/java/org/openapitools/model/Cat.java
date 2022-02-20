@@ -42,8 +42,9 @@ public class Cat extends Animal  {
     return declawed;
   }
 
-  public void setDeclawed(Optional<Boolean> declawed) {
-    this.declawed = declawed;
+  @JsonIgnore
+  public void setDeclawed(Boolean declawed) {
+    this.declawed = Optional.ofNullable(declawed);
   }
 
   @Override

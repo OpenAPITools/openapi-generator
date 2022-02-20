@@ -43,8 +43,9 @@ public class Category   {
     return id;
   }
 
-  public void setId(Optional<Long> id) {
-    this.id = id;
+  @JsonIgnore
+  public void setId(Long id) {
+    this.id = Optional.ofNullable(id);
   }
 
   public Category name(String name) {

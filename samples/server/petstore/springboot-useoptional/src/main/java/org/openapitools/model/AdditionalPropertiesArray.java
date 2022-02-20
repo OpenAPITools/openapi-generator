@@ -43,8 +43,9 @@ public class AdditionalPropertiesArray extends HashMap<String, List>  {
     return name;
   }
 
-  public void setName(Optional<String> name) {
-    this.name = name;
+  @JsonIgnore
+  public void setName(String name) {
+    this.name = Optional.ofNullable(name);
   }
 
   @Override

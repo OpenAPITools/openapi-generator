@@ -41,8 +41,9 @@ public class File   {
     return sourceURI;
   }
 
-  public void setSourceURI(Optional<String> sourceURI) {
-    this.sourceURI = sourceURI;
+  @JsonIgnore
+  public void setSourceURI(String sourceURI) {
+    this.sourceURI = Optional.ofNullable(sourceURI);
   }
 
   @Override

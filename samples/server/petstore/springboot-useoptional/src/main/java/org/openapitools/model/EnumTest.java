@@ -200,8 +200,9 @@ public class EnumTest   {
     return enumString;
   }
 
-  public void setEnumString(Optional<EnumStringEnum> enumString) {
-    this.enumString = enumString;
+  @JsonIgnore
+  public void setEnumString(EnumStringEnum enumString) {
+    this.enumString = Optional.ofNullable(enumString);
   }
 
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
@@ -237,8 +238,9 @@ public class EnumTest   {
     return enumInteger;
   }
 
-  public void setEnumInteger(Optional<EnumIntegerEnum> enumInteger) {
-    this.enumInteger = enumInteger;
+  @JsonIgnore
+  public void setEnumInteger(EnumIntegerEnum enumInteger) {
+    this.enumInteger = Optional.ofNullable(enumInteger);
   }
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
@@ -255,8 +257,9 @@ public class EnumTest   {
     return enumNumber;
   }
 
-  public void setEnumNumber(Optional<EnumNumberEnum> enumNumber) {
-    this.enumNumber = enumNumber;
+  @JsonIgnore
+  public void setEnumNumber(EnumNumberEnum enumNumber) {
+    this.enumNumber = Optional.ofNullable(enumNumber);
   }
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
@@ -273,8 +276,9 @@ public class EnumTest   {
     return outerEnum;
   }
 
-  public void setOuterEnum(Optional<OuterEnum> outerEnum) {
-    this.outerEnum = outerEnum;
+  @JsonIgnore
+  public void setOuterEnum(OuterEnum outerEnum) {
+    this.outerEnum = Optional.ofNullable(outerEnum);
   }
 
   @Override

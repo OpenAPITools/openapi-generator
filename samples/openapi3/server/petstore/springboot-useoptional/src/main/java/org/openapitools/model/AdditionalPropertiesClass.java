@@ -297,8 +297,9 @@ public class AdditionalPropertiesClass   {
     return anytype1;
   }
 
-  public void setAnytype1(Optional<Object> anytype1) {
-    this.anytype1 = anytype1;
+  @JsonIgnore
+  public void setAnytype1(Object anytype1) {
+    this.anytype1 = Optional.ofNullable(anytype1);
   }
 
   public AdditionalPropertiesClass anytype2(Object anytype2) {
@@ -315,8 +316,9 @@ public class AdditionalPropertiesClass   {
     return anytype2;
   }
 
-  public void setAnytype2(Optional<Object> anytype2) {
-    this.anytype2 = anytype2;
+  @JsonIgnore
+  public void setAnytype2(Object anytype2) {
+    this.anytype2 = Optional.ofNullable(anytype2);
   }
 
   public AdditionalPropertiesClass anytype3(Object anytype3) {
@@ -333,8 +335,9 @@ public class AdditionalPropertiesClass   {
     return anytype3;
   }
 
-  public void setAnytype3(Optional<Object> anytype3) {
-    this.anytype3 = anytype3;
+  @JsonIgnore
+  public void setAnytype3(Object anytype3) {
+    this.anytype3 = Optional.ofNullable(anytype3);
   }
 
   @Override

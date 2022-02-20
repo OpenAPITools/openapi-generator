@@ -40,8 +40,9 @@ public class Client   {
     return client;
   }
 
-  public void setClient(Optional<String> client) {
-    this.client = client;
+  @JsonIgnore
+  public void setClient(String client) {
+    this.client = Optional.ofNullable(client);
   }
 
   @Override

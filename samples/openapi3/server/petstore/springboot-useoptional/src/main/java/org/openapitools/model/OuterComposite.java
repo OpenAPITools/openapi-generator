@@ -46,8 +46,9 @@ public class OuterComposite   {
     return myNumber;
   }
 
-  public void setMyNumber(Optional<BigDecimal> myNumber) {
-    this.myNumber = myNumber;
+  @JsonIgnore
+  public void setMyNumber(BigDecimal myNumber) {
+    this.myNumber = Optional.ofNullable(myNumber);
   }
 
   public OuterComposite myString(String myString) {
@@ -64,8 +65,9 @@ public class OuterComposite   {
     return myString;
   }
 
-  public void setMyString(Optional<String> myString) {
-    this.myString = myString;
+  @JsonIgnore
+  public void setMyString(String myString) {
+    this.myString = Optional.ofNullable(myString);
   }
 
   public OuterComposite myBoolean(Boolean myBoolean) {
@@ -82,8 +84,9 @@ public class OuterComposite   {
     return myBoolean;
   }
 
-  public void setMyBoolean(Optional<Boolean> myBoolean) {
-    this.myBoolean = myBoolean;
+  @JsonIgnore
+  public void setMyBoolean(Boolean myBoolean) {
+    this.myBoolean = Optional.ofNullable(myBoolean);
   }
 
   @Override

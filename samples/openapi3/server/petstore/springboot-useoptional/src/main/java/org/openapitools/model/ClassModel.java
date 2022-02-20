@@ -40,8 +40,9 @@ public class ClassModel   {
     return propertyClass;
   }
 
-  public void setPropertyClass(Optional<String> propertyClass) {
-    this.propertyClass = propertyClass;
+  @JsonIgnore
+  public void setPropertyClass(String propertyClass) {
+    this.propertyClass = Optional.ofNullable(propertyClass);
   }
 
   @Override

@@ -82,8 +82,9 @@ public class BigCat extends Cat  {
     return kind;
   }
 
-  public void setKind(Optional<KindEnum> kind) {
-    this.kind = kind;
+  @JsonIgnore
+  public void setKind(KindEnum kind) {
+    this.kind = Optional.ofNullable(kind);
   }
 
   @Override

@@ -68,8 +68,9 @@ public class Name   {
     return snakeCase;
   }
 
-  public void setSnakeCase(Optional<Integer> snakeCase) {
-    this.snakeCase = snakeCase;
+  @JsonIgnore
+  public void setSnakeCase(Integer snakeCase) {
+    this.snakeCase = Optional.ofNullable(snakeCase);
   }
 
   public Name property(String property) {
@@ -86,8 +87,9 @@ public class Name   {
     return property;
   }
 
-  public void setProperty(Optional<String> property) {
-    this.property = property;
+  @JsonIgnore
+  public void setProperty(String property) {
+    this.property = Optional.ofNullable(property);
   }
 
   public Name _123number(Integer _123number) {
@@ -104,8 +106,9 @@ public class Name   {
     return _123number;
   }
 
-  public void set123number(Optional<Integer> _123number) {
-    this._123number = _123number;
+  @JsonIgnore
+  public void set123number(Integer _123number) {
+    this._123number = Optional.ofNullable(_123number);
   }
 
   @Override

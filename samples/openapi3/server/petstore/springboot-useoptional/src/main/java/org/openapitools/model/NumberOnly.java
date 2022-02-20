@@ -40,8 +40,9 @@ public class NumberOnly   {
     return justNumber;
   }
 
-  public void setJustNumber(Optional<BigDecimal> justNumber) {
-    this.justNumber = justNumber;
+  @JsonIgnore
+  public void setJustNumber(BigDecimal justNumber) {
+    this.justNumber = Optional.ofNullable(justNumber);
   }
 
   @Override

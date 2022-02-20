@@ -98,8 +98,9 @@ public class Order   {
     return id;
   }
 
-  public void setId(Optional<Long> id) {
-    this.id = id;
+  @JsonIgnore
+  public void setId(Long id) {
+    this.id = Optional.ofNullable(id);
   }
 
   public Order petId(Long petId) {
@@ -116,8 +117,9 @@ public class Order   {
     return petId;
   }
 
-  public void setPetId(Optional<Long> petId) {
-    this.petId = petId;
+  @JsonIgnore
+  public void setPetId(Long petId) {
+    this.petId = Optional.ofNullable(petId);
   }
 
   public Order quantity(Integer quantity) {
@@ -134,8 +136,9 @@ public class Order   {
     return quantity;
   }
 
-  public void setQuantity(JsonNullable<Integer> quantity) {
-    this.quantity = quantity;
+  @JsonIgnore
+  public void setQuantity(Integer quantity) {
+    this.quantity = JsonNullable.of(quantity);
   }
 
   public Order shipDate(OffsetDateTime shipDate) {
@@ -152,8 +155,9 @@ public class Order   {
     return shipDate;
   }
 
-  public void setShipDate(JsonNullable<OffsetDateTime> shipDate) {
-    this.shipDate = shipDate;
+  @JsonIgnore
+  public void setShipDate(OffsetDateTime shipDate) {
+    this.shipDate = JsonNullable.of(shipDate);
   }
 
   public Order status(StatusEnum status) {
@@ -170,8 +174,9 @@ public class Order   {
     return status;
   }
 
-  public void setStatus(Optional<StatusEnum> status) {
-    this.status = status;
+  @JsonIgnore
+  public void setStatus(StatusEnum status) {
+    this.status = Optional.ofNullable(status);
   }
 
   public Order complete(Boolean complete) {
@@ -188,8 +193,9 @@ public class Order   {
     return complete;
   }
 
-  public void setComplete(Optional<Boolean> complete) {
-    this.complete = complete;
+  @JsonIgnore
+  public void setComplete(Boolean complete) {
+    this.complete = Optional.ofNullable(complete);
   }
 
   @Override

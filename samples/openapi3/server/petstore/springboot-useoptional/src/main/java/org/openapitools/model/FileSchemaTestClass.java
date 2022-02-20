@@ -46,8 +46,9 @@ public class FileSchemaTestClass   {
     return file;
   }
 
-  public void setFile(Optional<File> file) {
-    this.file = file;
+  @JsonIgnore
+  public void setFile(File file) {
+    this.file = Optional.ofNullable(file);
   }
 
   public FileSchemaTestClass files(List<File> files) {

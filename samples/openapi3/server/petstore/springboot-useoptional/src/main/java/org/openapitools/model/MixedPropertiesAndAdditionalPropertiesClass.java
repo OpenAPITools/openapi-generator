@@ -54,8 +54,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     return uuid;
   }
 
-  public void setUuid(Optional<UUID> uuid) {
-    this.uuid = uuid;
+  @JsonIgnore
+  public void setUuid(UUID uuid) {
+    this.uuid = Optional.ofNullable(uuid);
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
@@ -72,8 +73,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     return dateTime;
   }
 
-  public void setDateTime(Optional<OffsetDateTime> dateTime) {
-    this.dateTime = dateTime;
+  @JsonIgnore
+  public void setDateTime(OffsetDateTime dateTime) {
+    this.dateTime = Optional.ofNullable(dateTime);
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {

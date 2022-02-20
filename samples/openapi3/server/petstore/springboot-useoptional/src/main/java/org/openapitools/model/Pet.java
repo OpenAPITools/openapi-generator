@@ -101,8 +101,9 @@ public class Pet   {
     return id;
   }
 
-  public void setId(Optional<Long> id) {
-    this.id = id;
+  @JsonIgnore
+  public void setId(Long id) {
+    this.id = Optional.ofNullable(id);
   }
 
   public Pet category(Category category) {
@@ -119,8 +120,9 @@ public class Pet   {
     return category;
   }
 
-  public void setCategory(Optional<Category> category) {
-    this.category = category;
+  @JsonIgnore
+  public void setCategory(Category category) {
+    this.category = Optional.ofNullable(category);
   }
 
   public Pet name(String name) {
@@ -208,8 +210,9 @@ public class Pet   {
     return status;
   }
 
-  public void setStatus(Optional<StatusEnum> status) {
-    this.status = status;
+  @JsonIgnore
+  public void setStatus(StatusEnum status) {
+    this.status = Optional.ofNullable(status);
   }
 
   @Override

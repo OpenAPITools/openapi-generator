@@ -43,8 +43,9 @@ public class Tag   {
     return id;
   }
 
-  public void setId(Optional<Long> id) {
-    this.id = id;
+  @JsonIgnore
+  public void setId(Long id) {
+    this.id = Optional.ofNullable(id);
   }
 
   public Tag name(String name) {
@@ -61,8 +62,9 @@ public class Tag   {
     return name;
   }
 
-  public void setName(Optional<String> name) {
-    this.name = name;
+  @JsonIgnore
+  public void setName(String name) {
+    this.name = Optional.ofNullable(name);
   }
 
   @Override

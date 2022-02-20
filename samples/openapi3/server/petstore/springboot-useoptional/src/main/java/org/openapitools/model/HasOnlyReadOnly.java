@@ -44,8 +44,9 @@ public class HasOnlyReadOnly   {
     return bar;
   }
 
-  public void setBar(Optional<String> bar) {
-    this.bar = bar;
+  @JsonIgnore
+  public void setBar(String bar) {
+    this.bar = Optional.ofNullable(bar);
   }
 
   public HasOnlyReadOnly foo(String foo) {
@@ -62,8 +63,9 @@ public class HasOnlyReadOnly   {
     return foo;
   }
 
-  public void setFoo(Optional<String> foo) {
-    this.foo = foo;
+  @JsonIgnore
+  public void setFoo(String foo) {
+    this.foo = Optional.ofNullable(foo);
   }
 
   @Override

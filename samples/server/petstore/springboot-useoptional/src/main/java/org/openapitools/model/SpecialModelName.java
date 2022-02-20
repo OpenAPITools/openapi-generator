@@ -42,8 +42,9 @@ public class SpecialModelName   {
     return $specialPropertyName;
   }
 
-  public void set$SpecialPropertyName(Optional<Long> $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+  @JsonIgnore
+  public void set$SpecialPropertyName(Long $specialPropertyName) {
+    this.$specialPropertyName = Optional.ofNullable($specialPropertyName);
   }
 
   @Override

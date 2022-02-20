@@ -45,8 +45,9 @@ public class Model200Response   {
     return name;
   }
 
-  public void setName(Optional<Integer> name) {
-    this.name = name;
+  @JsonIgnore
+  public void setName(Integer name) {
+    this.name = Optional.ofNullable(name);
   }
 
   public Model200Response propertyClass(String propertyClass) {
@@ -63,8 +64,9 @@ public class Model200Response   {
     return propertyClass;
   }
 
-  public void setPropertyClass(Optional<String> propertyClass) {
-    this.propertyClass = propertyClass;
+  @JsonIgnore
+  public void setPropertyClass(String propertyClass) {
+    this.propertyClass = Optional.ofNullable(propertyClass);
   }
 
   @Override

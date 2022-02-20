@@ -41,8 +41,9 @@ public class DogAllOf   {
     return breed;
   }
 
-  public void setBreed(Optional<String> breed) {
-    this.breed = breed;
+  @JsonIgnore
+  public void setBreed(String breed) {
+    this.breed = Optional.ofNullable(breed);
   }
 
   @Override

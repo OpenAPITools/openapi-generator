@@ -43,8 +43,9 @@ public class ReadOnlyFirst   {
     return bar;
   }
 
-  public void setBar(Optional<String> bar) {
-    this.bar = bar;
+  @JsonIgnore
+  public void setBar(String bar) {
+    this.bar = Optional.ofNullable(bar);
   }
 
   public ReadOnlyFirst baz(String baz) {
@@ -61,8 +62,9 @@ public class ReadOnlyFirst   {
     return baz;
   }
 
-  public void setBaz(Optional<String> baz) {
-    this.baz = baz;
+  @JsonIgnore
+  public void setBaz(String baz) {
+    this.baz = Optional.ofNullable(baz);
   }
 
   @Override

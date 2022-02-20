@@ -76,8 +76,9 @@ public class ObjectWithUniqueItems   {
     return nullSet;
   }
 
-  public void setNullSet(JsonNullable<Set<String>> nullSet) {
-    this.nullSet = nullSet;
+  @JsonIgnore
+  public void setNullSet(Set<String> nullSet) {
+    this.nullSet = JsonNullable.of(nullSet);
   }
 
   public ObjectWithUniqueItems notNullSet(Set<String> notNullSet) {
@@ -130,8 +131,9 @@ public class ObjectWithUniqueItems   {
     return nullList;
   }
 
-  public void setNullList(JsonNullable<List<String>> nullList) {
-    this.nullList = nullList;
+  @JsonIgnore
+  public void setNullList(List<String> nullList) {
+    this.nullList = JsonNullable.of(nullList);
   }
 
   public ObjectWithUniqueItems notNullList(List<String> notNullList) {

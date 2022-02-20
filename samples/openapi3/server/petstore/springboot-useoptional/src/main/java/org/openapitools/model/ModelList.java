@@ -41,8 +41,9 @@ public class ModelList   {
     return _123list;
   }
 
-  public void set123list(Optional<String> _123list) {
-    this._123list = _123list;
+  @JsonIgnore
+  public void set123list(String _123list) {
+    this._123list = Optional.ofNullable(_123list);
   }
 
   @Override
