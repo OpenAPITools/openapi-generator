@@ -18,12 +18,16 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
+import org.apache.commons.io.IOUtils;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openrewrite.maven.internal.RawPom;
 import org.testng.Assert;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -123,6 +127,43 @@ public class TestUtils {
     public static void ensureDoesNotContainsFile(List<File> generatedFiles, File root, String filename) {
         Path path = root.toPath().resolve(filename);
         assertFalse(generatedFiles.contains(path.toFile()), "File '" + path.toAbsolutePath() + "' was found in the list of generated files");
+    }
+
+    public static void validatePomXmlFiles(final Map<String, String> fileMap) {
+        fileMap.forEach( (fileName, fileContents) -> {
+            if ("pom.xml".equals(fileName)) {
+                assertValidPomXml(fileContents);
+            }
+        });
+    }
+
+    public static void validatePomXmlFiles(final List<File> files) {
+        files.forEach( f -> {
+                    String fileName = f.getName();
+                    if ("pom.xml".equals(fileName)) {
+                        try {
+                            String fileContents = new String(Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8);
+                            assertValidPomXml(fileContents);
+                        } catch (IOException exception) {
+                            throw new RuntimeException(exception);
+                        }
+                    }
+                }
+        );
+    }
+
+    private static void assertValidPomXml(final String fileContents) {
+        final InputStream input = new ByteArrayInputStream(fileContents.getBytes(StandardCharsets.UTF_8));
+        try {
+            RawPom pom = RawPom.parse(input, null);
+            assertTrue(pom.getDependencies().getDependencies().size() > 0);
+            assertNotNull(pom.getName());
+            assertNotNull(pom.getArtifactId());
+            assertNotNull(pom.getGroupId());
+            assertNotNull(pom.getVersion());
+        } finally {
+            IOUtils.closeQuietly(input);
+        }
     }
 
     public static void validateJavaSourceFiles(Map<String, String> fileMap) {
