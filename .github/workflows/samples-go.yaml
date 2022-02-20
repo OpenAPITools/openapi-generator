@@ -27,4 +27,4 @@ jobs:
           go-version: '^1.17.1'
       - name: Build and Test
         working-directory: ${{ matrix.sample }}
-        run: test.bash
+        run: ./test.bash
