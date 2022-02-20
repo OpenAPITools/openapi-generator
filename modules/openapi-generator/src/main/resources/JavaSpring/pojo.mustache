@@ -144,9 +144,24 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{#vendorExtensions.x-setter-extra-annotation}}
   {{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}
+  {{^x-expose-wrapper-in-setter}}
+  {{#isWrapped}}
+  @JsonIgnore
+  {{/isWrapped}}
+  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#isWrapped}}
+    this.{{name}} = {{wrapperFunc}}({{name}});
+  {{/isWrapped}}
+  {{^isWrapped}}
+    this.{{name}} = {{name}};
+  {{/isWrapped}}
+  }
+  {{/x-expose-wrapper-in-setter}}
+  {{#x-expose-wrapper-in-setter}}
   public void {{setter}}({{>dataType}} {{name}}) {
     this.{{name}} = {{name}};
   }
+  {{/x-expose-wrapper-in-setter}}
   {{! end feature: getter and setter }}
   {{/vars}}
 

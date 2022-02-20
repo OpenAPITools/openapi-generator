@@ -1325,10 +1325,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 model.imports.add("JsonNullable");
                 model.getVendorExtensions().put("x-jackson-optional-nullable-helpers", true);
             }
+            // TODO: adjust other java based mustache templates...
             if (SpringCodegen.class.equals(this.getClass()) && Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
                 // Wrap dataType and defaults
                 property.isWrapped = true;
                 property.wrapperType = "JsonNullable";
+                property.wrappedType = "JsonNullable<" + property.datatypeWithEnum + ">";
                 property.wrapperFunc = "JsonNullable.of";
                 if (property.defaultValue != null) {
                     property.defaultValue = "JsonNullable.of(" + property.defaultValue + ")";
@@ -1345,6 +1347,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 // Wrap dataType and defaults
                 property.isWrapped = true;
                 property.wrapperType = "Optional";
+                property.wrappedType = "Optional<" + property.datatypeWithEnum + ">";
                 property.wrapperFunc = "Optional.ofNullable";
                 if (property.defaultValue != null) {
                     property.defaultValue = "Optional.of(" + property.defaultValue + ")";
