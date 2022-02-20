@@ -18,7 +18,6 @@ jobs:
         sample:
           - samples/server/petstore/go-gin-api-server
           - samples/server/petstore/go-api-server
-          - samples/server/petstore/go-gin-api-server
           - samples/server/petstore/go-echo-server
     steps:
       - uses: actions/checkout@v2
