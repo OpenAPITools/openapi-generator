@@ -2,10 +2,10 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -45,9 +45,8 @@ public class HasOnlyReadOnly   {
     return bar;
   }
 
-  @JsonIgnore
-  public void setBar(String bar) {
-    this.bar = Optional.ofNullable(bar);
+  public void setBar(Optional<String> bar) {
+    this.bar = Objects.requireNonNull(bar, "A parameter of type Optional must not be null.");
   }
 
   public HasOnlyReadOnly foo(String foo) {
@@ -64,9 +63,8 @@ public class HasOnlyReadOnly   {
     return foo;
   }
 
-  @JsonIgnore
-  public void setFoo(String foo) {
-    this.foo = Optional.ofNullable(foo);
+  public void setFoo(Optional<String> foo) {
+    this.foo = Objects.requireNonNull(foo, "A parameter of type Optional must not be null.");
   }
 
   @Override

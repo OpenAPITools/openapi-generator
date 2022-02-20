@@ -2,12 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -49,9 +49,8 @@ public class ModelApiResponse   {
     return code;
   }
 
-  @JsonIgnore
-  public void setCode(Integer code) {
-    this.code = Optional.ofNullable(code);
+  public void setCode(Optional<Integer> code) {
+    this.code = Objects.requireNonNull(code, "A parameter of type Optional must not be null.");
   }
 
   public ModelApiResponse type(String type) {
@@ -68,9 +67,8 @@ public class ModelApiResponse   {
     return type;
   }
 
-  @JsonIgnore
-  public void setType(String type) {
-    this.type = Optional.ofNullable(type);
+  public void setType(Optional<String> type) {
+    this.type = Objects.requireNonNull(type, "A parameter of type Optional must not be null.");
   }
 
   public ModelApiResponse message(String message) {
@@ -87,9 +85,8 @@ public class ModelApiResponse   {
     return message;
   }
 
-  @JsonIgnore
-  public void setMessage(String message) {
-    this.message = Optional.ofNullable(message);
+  public void setMessage(Optional<String> message) {
+    this.message = Objects.requireNonNull(message, "A parameter of type Optional must not be null.");
   }
 
   @Override

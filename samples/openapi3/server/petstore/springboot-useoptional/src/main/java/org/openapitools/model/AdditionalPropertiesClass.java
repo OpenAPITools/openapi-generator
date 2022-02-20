@@ -2,13 +2,13 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -298,9 +298,8 @@ public class AdditionalPropertiesClass   {
     return anytype1;
   }
 
-  @JsonIgnore
-  public void setAnytype1(Object anytype1) {
-    this.anytype1 = Optional.ofNullable(anytype1);
+  public void setAnytype1(Optional<Object> anytype1) {
+    this.anytype1 = Objects.requireNonNull(anytype1, "A parameter of type Optional must not be null.");
   }
 
   public AdditionalPropertiesClass anytype2(Object anytype2) {
@@ -317,9 +316,8 @@ public class AdditionalPropertiesClass   {
     return anytype2;
   }
 
-  @JsonIgnore
-  public void setAnytype2(Object anytype2) {
-    this.anytype2 = Optional.ofNullable(anytype2);
+  public void setAnytype2(Optional<Object> anytype2) {
+    this.anytype2 = Objects.requireNonNull(anytype2, "A parameter of type Optional must not be null.");
   }
 
   public AdditionalPropertiesClass anytype3(Object anytype3) {
@@ -336,9 +334,8 @@ public class AdditionalPropertiesClass   {
     return anytype3;
   }
 
-  @JsonIgnore
-  public void setAnytype3(Object anytype3) {
-    this.anytype3 = Optional.ofNullable(anytype3);
+  public void setAnytype3(Optional<Object> anytype3) {
+    this.anytype3 = Objects.requireNonNull(anytype3, "A parameter of type Optional must not be null.");
   }
 
   @Override

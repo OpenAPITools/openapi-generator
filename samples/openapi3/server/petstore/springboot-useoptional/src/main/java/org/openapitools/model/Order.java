@@ -2,11 +2,11 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
+import java.util.Objects;
 import java.util.Optional;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -96,9 +96,8 @@ public class Order   {
     return id;
   }
 
-  @JsonIgnore
-  public void setId(Long id) {
-    this.id = Optional.ofNullable(id);
+  public void setId(Optional<Long> id) {
+    this.id = Objects.requireNonNull(id, "A parameter of type Optional must not be null.");
   }
 
   public Order petId(Long petId) {
@@ -115,9 +114,8 @@ public class Order   {
     return petId;
   }
 
-  @JsonIgnore
-  public void setPetId(Long petId) {
-    this.petId = Optional.ofNullable(petId);
+  public void setPetId(Optional<Long> petId) {
+    this.petId = Objects.requireNonNull(petId, "A parameter of type Optional must not be null.");
   }
 
   public Order quantity(Integer quantity) {
@@ -134,9 +132,8 @@ public class Order   {
     return quantity;
   }
 
-  @JsonIgnore
-  public void setQuantity(Integer quantity) {
-    this.quantity = Optional.ofNullable(quantity);
+  public void setQuantity(Optional<Integer> quantity) {
+    this.quantity = Objects.requireNonNull(quantity, "A parameter of type Optional must not be null.");
   }
 
   public Order shipDate(OffsetDateTime shipDate) {
@@ -153,9 +150,8 @@ public class Order   {
     return shipDate;
   }
 
-  @JsonIgnore
-  public void setShipDate(OffsetDateTime shipDate) {
-    this.shipDate = Optional.ofNullable(shipDate);
+  public void setShipDate(Optional<OffsetDateTime> shipDate) {
+    this.shipDate = Objects.requireNonNull(shipDate, "A parameter of type Optional must not be null.");
   }
 
   public Order status(StatusEnum status) {
@@ -172,9 +168,8 @@ public class Order   {
     return status;
   }
 
-  @JsonIgnore
-  public void setStatus(StatusEnum status) {
-    this.status = Optional.ofNullable(status);
+  public void setStatus(Optional<StatusEnum> status) {
+    this.status = Objects.requireNonNull(status, "A parameter of type Optional must not be null.");
   }
 
   public Order complete(Boolean complete) {
@@ -191,9 +186,8 @@ public class Order   {
     return complete;
   }
 
-  @JsonIgnore
-  public void setComplete(Boolean complete) {
-    this.complete = Optional.ofNullable(complete);
+  public void setComplete(Optional<Boolean> complete) {
+    this.complete = Objects.requireNonNull(complete, "A parameter of type Optional must not be null.");
   }
 
   @Override

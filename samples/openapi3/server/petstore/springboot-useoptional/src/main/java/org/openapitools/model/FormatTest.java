@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -10,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -91,9 +91,8 @@ public class FormatTest   {
     return integer;
   }
 
-  @JsonIgnore
-  public void setInteger(Integer integer) {
-    this.integer = Optional.ofNullable(integer);
+  public void setInteger(Optional<Integer> integer) {
+    this.integer = Objects.requireNonNull(integer, "A parameter of type Optional must not be null.");
   }
 
   public FormatTest int32(Integer int32) {
@@ -112,9 +111,8 @@ public class FormatTest   {
     return int32;
   }
 
-  @JsonIgnore
-  public void setInt32(Integer int32) {
-    this.int32 = Optional.ofNullable(int32);
+  public void setInt32(Optional<Integer> int32) {
+    this.int32 = Objects.requireNonNull(int32, "A parameter of type Optional must not be null.");
   }
 
   public FormatTest int64(Long int64) {
@@ -131,9 +129,8 @@ public class FormatTest   {
     return int64;
   }
 
-  @JsonIgnore
-  public void setInt64(Long int64) {
-    this.int64 = Optional.ofNullable(int64);
+  public void setInt64(Optional<Long> int64) {
+    this.int64 = Objects.requireNonNull(int64, "A parameter of type Optional must not be null.");
   }
 
   public FormatTest number(BigDecimal number) {
@@ -173,9 +170,8 @@ public class FormatTest   {
     return _float;
   }
 
-  @JsonIgnore
-  public void setFloat(Float _float) {
-    this._float = Optional.ofNullable(_float);
+  public void setFloat(Optional<Float> _float) {
+    this._float = Objects.requireNonNull(_float, "A parameter of type Optional must not be null.");
   }
 
   public FormatTest _double(Double _double) {
@@ -194,9 +190,8 @@ public class FormatTest   {
     return _double;
   }
 
-  @JsonIgnore
-  public void setDouble(Double _double) {
-    this._double = Optional.ofNullable(_double);
+  public void setDouble(Optional<Double> _double) {
+    this._double = Objects.requireNonNull(_double, "A parameter of type Optional must not be null.");
   }
 
   public FormatTest string(String string) {
@@ -213,9 +208,8 @@ public class FormatTest   {
     return string;
   }
 
-  @JsonIgnore
-  public void setString(String string) {
-    this.string = Optional.ofNullable(string);
+  public void setString(Optional<String> string) {
+    this.string = Objects.requireNonNull(string, "A parameter of type Optional must not be null.");
   }
 
   public FormatTest _byte(byte[] _byte) {
@@ -251,9 +245,8 @@ public class FormatTest   {
     return binary;
   }
 
-  @JsonIgnore
-  public void setBinary(org.springframework.core.io.Resource binary) {
-    this.binary = Optional.ofNullable(binary);
+  public void setBinary(Optional<org.springframework.core.io.Resource> binary) {
+    this.binary = Objects.requireNonNull(binary, "A parameter of type Optional must not be null.");
   }
 
   public FormatTest date(LocalDate date) {
@@ -289,9 +282,8 @@ public class FormatTest   {
     return dateTime;
   }
 
-  @JsonIgnore
-  public void setDateTime(OffsetDateTime dateTime) {
-    this.dateTime = Optional.ofNullable(dateTime);
+  public void setDateTime(Optional<OffsetDateTime> dateTime) {
+    this.dateTime = Objects.requireNonNull(dateTime, "A parameter of type Optional must not be null.");
   }
 
   public FormatTest uuid(UUID uuid) {
@@ -308,9 +300,8 @@ public class FormatTest   {
     return uuid;
   }
 
-  @JsonIgnore
-  public void setUuid(UUID uuid) {
-    this.uuid = Optional.ofNullable(uuid);
+  public void setUuid(Optional<UUID> uuid) {
+    this.uuid = Objects.requireNonNull(uuid, "A parameter of type Optional must not be null.");
   }
 
   public FormatTest password(String password) {
@@ -346,9 +337,8 @@ public class FormatTest   {
     return bigDecimal;
   }
 
-  @JsonIgnore
-  public void setBigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = Optional.ofNullable(bigDecimal);
+  public void setBigDecimal(Optional<BigDecimal> bigDecimal) {
+    this.bigDecimal = Objects.requireNonNull(bigDecimal, "A parameter of type Optional must not be null.");
   }
 
   @Override

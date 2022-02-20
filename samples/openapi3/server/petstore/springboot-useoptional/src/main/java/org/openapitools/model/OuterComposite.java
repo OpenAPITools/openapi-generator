@@ -2,10 +2,10 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -47,9 +47,8 @@ public class OuterComposite   {
     return myNumber;
   }
 
-  @JsonIgnore
-  public void setMyNumber(BigDecimal myNumber) {
-    this.myNumber = Optional.ofNullable(myNumber);
+  public void setMyNumber(Optional<BigDecimal> myNumber) {
+    this.myNumber = Objects.requireNonNull(myNumber, "A parameter of type Optional must not be null.");
   }
 
   public OuterComposite myString(String myString) {
@@ -66,9 +65,8 @@ public class OuterComposite   {
     return myString;
   }
 
-  @JsonIgnore
-  public void setMyString(String myString) {
-    this.myString = Optional.ofNullable(myString);
+  public void setMyString(Optional<String> myString) {
+    this.myString = Objects.requireNonNull(myString, "A parameter of type Optional must not be null.");
   }
 
   public OuterComposite myBoolean(Boolean myBoolean) {
@@ -85,9 +83,8 @@ public class OuterComposite   {
     return myBoolean;
   }
 
-  @JsonIgnore
-  public void setMyBoolean(Boolean myBoolean) {
-    this.myBoolean = Optional.ofNullable(myBoolean);
+  public void setMyBoolean(Optional<Boolean> myBoolean) {
+    this.myBoolean = Objects.requireNonNull(myBoolean, "A parameter of type Optional must not be null.");
   }
 
   @Override

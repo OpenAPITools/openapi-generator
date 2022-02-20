@@ -2,12 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
@@ -83,9 +83,8 @@ public class BigCat extends Cat  {
     return kind;
   }
 
-  @JsonIgnore
-  public void setKind(KindEnum kind) {
-    this.kind = Optional.ofNullable(kind);
+  public void setKind(Optional<KindEnum> kind) {
+    this.kind = Objects.requireNonNull(kind, "A parameter of type Optional must not be null.");
   }
 
   @Override

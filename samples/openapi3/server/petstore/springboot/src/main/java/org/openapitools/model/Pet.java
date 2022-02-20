@@ -2,12 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
@@ -100,9 +100,8 @@ public class Pet   {
     return id;
   }
 
-  @JsonIgnore
-  public void setId(Long id) {
-    this.id = Optional.ofNullable(id);
+  public void setId(Optional<Long> id) {
+    this.id = Objects.requireNonNull(id, "A parameter of type Optional must not be null.");
   }
 
   public Pet category(Category category) {
@@ -119,9 +118,8 @@ public class Pet   {
     return category;
   }
 
-  @JsonIgnore
-  public void setCategory(Category category) {
-    this.category = Optional.ofNullable(category);
+  public void setCategory(Optional<Category> category) {
+    this.category = Objects.requireNonNull(category, "A parameter of type Optional must not be null.");
   }
 
   public Pet name(String name) {
@@ -208,9 +206,8 @@ public class Pet   {
     return status;
   }
 
-  @JsonIgnore
-  public void setStatus(StatusEnum status) {
-    this.status = Optional.ofNullable(status);
+  public void setStatus(Optional<StatusEnum> status) {
+    this.status = Objects.requireNonNull(status, "A parameter of type Optional must not be null.");
   }
 
   @Override

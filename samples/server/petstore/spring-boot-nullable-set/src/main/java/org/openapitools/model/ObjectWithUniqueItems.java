@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -77,9 +77,8 @@ public class ObjectWithUniqueItems   {
     return nullSet;
   }
 
-  @JsonIgnore
-  public void setNullSet(Set<String> nullSet) {
-    this.nullSet = JsonNullable.of(nullSet);
+  public void setNullSet(JsonNullable<Set<String>> nullSet) {
+    this.nullSet = Objects.requireNonNull(nullSet, "A parameter of type JsonNullable must not be null.");
   }
 
   public ObjectWithUniqueItems notNullSet(Set<String> notNullSet) {
@@ -132,9 +131,8 @@ public class ObjectWithUniqueItems   {
     return nullList;
   }
 
-  @JsonIgnore
-  public void setNullList(List<String> nullList) {
-    this.nullList = JsonNullable.of(nullList);
+  public void setNullList(JsonNullable<List<String>> nullList) {
+    this.nullList = Objects.requireNonNull(nullList, "A parameter of type JsonNullable must not be null.");
   }
 
   public ObjectWithUniqueItems notNullList(List<String> notNullList) {

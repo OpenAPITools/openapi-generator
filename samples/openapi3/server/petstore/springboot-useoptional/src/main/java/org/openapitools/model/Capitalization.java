@@ -2,9 +2,9 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -55,9 +55,8 @@ public class Capitalization   {
     return smallCamel;
   }
 
-  @JsonIgnore
-  public void setSmallCamel(String smallCamel) {
-    this.smallCamel = Optional.ofNullable(smallCamel);
+  public void setSmallCamel(Optional<String> smallCamel) {
+    this.smallCamel = Objects.requireNonNull(smallCamel, "A parameter of type Optional must not be null.");
   }
 
   public Capitalization capitalCamel(String capitalCamel) {
@@ -74,9 +73,8 @@ public class Capitalization   {
     return capitalCamel;
   }
 
-  @JsonIgnore
-  public void setCapitalCamel(String capitalCamel) {
-    this.capitalCamel = Optional.ofNullable(capitalCamel);
+  public void setCapitalCamel(Optional<String> capitalCamel) {
+    this.capitalCamel = Objects.requireNonNull(capitalCamel, "A parameter of type Optional must not be null.");
   }
 
   public Capitalization smallSnake(String smallSnake) {
@@ -93,9 +91,8 @@ public class Capitalization   {
     return smallSnake;
   }
 
-  @JsonIgnore
-  public void setSmallSnake(String smallSnake) {
-    this.smallSnake = Optional.ofNullable(smallSnake);
+  public void setSmallSnake(Optional<String> smallSnake) {
+    this.smallSnake = Objects.requireNonNull(smallSnake, "A parameter of type Optional must not be null.");
   }
 
   public Capitalization capitalSnake(String capitalSnake) {
@@ -112,9 +109,8 @@ public class Capitalization   {
     return capitalSnake;
   }
 
-  @JsonIgnore
-  public void setCapitalSnake(String capitalSnake) {
-    this.capitalSnake = Optional.ofNullable(capitalSnake);
+  public void setCapitalSnake(Optional<String> capitalSnake) {
+    this.capitalSnake = Objects.requireNonNull(capitalSnake, "A parameter of type Optional must not be null.");
   }
 
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
@@ -131,9 +127,8 @@ public class Capitalization   {
     return scAETHFlowPoints;
   }
 
-  @JsonIgnore
-  public void setScAETHFlowPoints(String scAETHFlowPoints) {
-    this.scAETHFlowPoints = Optional.ofNullable(scAETHFlowPoints);
+  public void setScAETHFlowPoints(Optional<String> scAETHFlowPoints) {
+    this.scAETHFlowPoints = Objects.requireNonNull(scAETHFlowPoints, "A parameter of type Optional must not be null.");
   }
 
   public Capitalization ATT_NAME(String ATT_NAME) {
@@ -150,9 +145,8 @@ public class Capitalization   {
     return ATT_NAME;
   }
 
-  @JsonIgnore
-  public void setATTNAME(String ATT_NAME) {
-    this.ATT_NAME = Optional.ofNullable(ATT_NAME);
+  public void setATTNAME(Optional<String> ATT_NAME) {
+    this.ATT_NAME = Objects.requireNonNull(ATT_NAME, "A parameter of type Optional must not be null.");
   }
 
   @Override

@@ -2,11 +2,11 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -70,9 +70,8 @@ public class Animal   {
     return color;
   }
 
-  @JsonIgnore
-  public void setColor(String color) {
-    this.color = Optional.ofNullable(color);
+  public void setColor(Optional<String> color) {
+    this.color = Objects.requireNonNull(color, "A parameter of type Optional must not be null.");
   }
 
   @Override

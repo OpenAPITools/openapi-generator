@@ -2,9 +2,9 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -43,9 +43,8 @@ public class Tag   {
     return id;
   }
 
-  @JsonIgnore
-  public void setId(Long id) {
-    this.id = Optional.ofNullable(id);
+  public void setId(Optional<Long> id) {
+    this.id = Objects.requireNonNull(id, "A parameter of type Optional must not be null.");
   }
 
   public Tag name(String name) {
@@ -62,9 +61,8 @@ public class Tag   {
     return name;
   }
 
-  @JsonIgnore
-  public void setName(String name) {
-    this.name = Optional.ofNullable(name);
+  public void setName(Optional<String> name) {
+    this.name = Objects.requireNonNull(name, "A parameter of type Optional must not be null.");
   }
 
   @Override

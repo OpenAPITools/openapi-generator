@@ -2,12 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -47,9 +47,8 @@ public class FileSchemaTestClass   {
     return file;
   }
 
-  @JsonIgnore
-  public void setFile(File file) {
-    this.file = Optional.ofNullable(file);
+  public void setFile(Optional<File> file) {
+    this.file = Objects.requireNonNull(file, "A parameter of type Optional must not be null.");
   }
 
   public FileSchemaTestClass files(List<File> files) {

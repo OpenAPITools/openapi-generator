@@ -2,10 +2,10 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -42,9 +42,8 @@ public class DogAllOf   {
     return breed;
   }
 
-  @JsonIgnore
-  public void setBreed(String breed) {
-    this.breed = Optional.ofNullable(breed);
+  public void setBreed(Optional<String> breed) {
+    this.breed = Objects.requireNonNull(breed, "A parameter of type Optional must not be null.");
   }
 
   @Override

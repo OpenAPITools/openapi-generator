@@ -2,11 +2,11 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -42,9 +42,8 @@ public class File   {
     return sourceURI;
   }
 
-  @JsonIgnore
-  public void setSourceURI(String sourceURI) {
-    this.sourceURI = Optional.ofNullable(sourceURI);
+  public void setSourceURI(Optional<String> sourceURI) {
+    this.sourceURI = Objects.requireNonNull(sourceURI, "A parameter of type Optional must not be null.");
   }
 
   @Override

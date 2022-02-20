@@ -2,12 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -43,9 +43,8 @@ public class CatAllOf   {
     return declawed;
   }
 
-  @JsonIgnore
-  public void setDeclawed(Boolean declawed) {
-    this.declawed = Optional.ofNullable(declawed);
+  public void setDeclawed(Optional<Boolean> declawed) {
+    this.declawed = Objects.requireNonNull(declawed, "A parameter of type Optional must not be null.");
   }
 
   @Override

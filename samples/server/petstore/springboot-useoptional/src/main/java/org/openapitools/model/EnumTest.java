@@ -2,13 +2,13 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.model.OuterEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -201,9 +201,8 @@ public class EnumTest   {
     return enumString;
   }
 
-  @JsonIgnore
-  public void setEnumString(EnumStringEnum enumString) {
-    this.enumString = Optional.ofNullable(enumString);
+  public void setEnumString(Optional<EnumStringEnum> enumString) {
+    this.enumString = Objects.requireNonNull(enumString, "A parameter of type Optional must not be null.");
   }
 
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
@@ -239,9 +238,8 @@ public class EnumTest   {
     return enumInteger;
   }
 
-  @JsonIgnore
-  public void setEnumInteger(EnumIntegerEnum enumInteger) {
-    this.enumInteger = Optional.ofNullable(enumInteger);
+  public void setEnumInteger(Optional<EnumIntegerEnum> enumInteger) {
+    this.enumInteger = Objects.requireNonNull(enumInteger, "A parameter of type Optional must not be null.");
   }
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
@@ -258,9 +256,8 @@ public class EnumTest   {
     return enumNumber;
   }
 
-  @JsonIgnore
-  public void setEnumNumber(EnumNumberEnum enumNumber) {
-    this.enumNumber = Optional.ofNullable(enumNumber);
+  public void setEnumNumber(Optional<EnumNumberEnum> enumNumber) {
+    this.enumNumber = Objects.requireNonNull(enumNumber, "A parameter of type Optional must not be null.");
   }
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
@@ -277,9 +274,8 @@ public class EnumTest   {
     return outerEnum;
   }
 
-  @JsonIgnore
-  public void setOuterEnum(OuterEnum outerEnum) {
-    this.outerEnum = Optional.ofNullable(outerEnum);
+  public void setOuterEnum(Optional<OuterEnum> outerEnum) {
+    this.outerEnum = Objects.requireNonNull(outerEnum, "A parameter of type Optional must not be null.");
   }
 
   @Override

@@ -2,9 +2,9 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -69,9 +69,8 @@ public class Name   {
     return snakeCase;
   }
 
-  @JsonIgnore
-  public void setSnakeCase(Integer snakeCase) {
-    this.snakeCase = Optional.ofNullable(snakeCase);
+  public void setSnakeCase(Optional<Integer> snakeCase) {
+    this.snakeCase = Objects.requireNonNull(snakeCase, "A parameter of type Optional must not be null.");
   }
 
   public Name property(String property) {
@@ -88,9 +87,8 @@ public class Name   {
     return property;
   }
 
-  @JsonIgnore
-  public void setProperty(String property) {
-    this.property = Optional.ofNullable(property);
+  public void setProperty(Optional<String> property) {
+    this.property = Objects.requireNonNull(property, "A parameter of type Optional must not be null.");
   }
 
   public Name _123number(Integer _123number) {
@@ -107,9 +105,8 @@ public class Name   {
     return _123number;
   }
 
-  @JsonIgnore
-  public void set123number(Integer _123number) {
-    this._123number = Optional.ofNullable(_123number);
+  public void set123number(Optional<Integer> _123number) {
+    this._123number = Objects.requireNonNull(_123number, "A parameter of type Optional must not be null.");
   }
 
   @Override

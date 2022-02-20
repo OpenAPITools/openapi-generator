@@ -2,9 +2,9 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.model.Animal;
 import org.openapitools.model.CatAllOf;
@@ -42,9 +42,8 @@ public class Cat extends Animal  {
     return declawed;
   }
 
-  @JsonIgnore
-  public void setDeclawed(Boolean declawed) {
-    this.declawed = Optional.ofNullable(declawed);
+  public void setDeclawed(Optional<Boolean> declawed) {
+    this.declawed = Objects.requireNonNull(declawed, "A parameter of type Optional must not be null.");
   }
 
   @Override

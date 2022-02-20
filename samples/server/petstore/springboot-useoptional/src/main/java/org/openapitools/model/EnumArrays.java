@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -10,6 +9,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -118,9 +118,8 @@ public class EnumArrays   {
     return justSymbol;
   }
 
-  @JsonIgnore
-  public void setJustSymbol(JustSymbolEnum justSymbol) {
-    this.justSymbol = Optional.ofNullable(justSymbol);
+  public void setJustSymbol(Optional<JustSymbolEnum> justSymbol) {
+    this.justSymbol = Objects.requireNonNull(justSymbol, "A parameter of type Optional must not be null.");
   }
 
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {

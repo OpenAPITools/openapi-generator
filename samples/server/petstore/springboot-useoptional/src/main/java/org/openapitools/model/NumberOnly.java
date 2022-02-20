@@ -2,12 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -42,9 +42,8 @@ public class NumberOnly   {
     return justNumber;
   }
 
-  @JsonIgnore
-  public void setJustNumber(BigDecimal justNumber) {
-    this.justNumber = Optional.ofNullable(justNumber);
+  public void setJustNumber(Optional<BigDecimal> justNumber) {
+    this.justNumber = Objects.requireNonNull(justNumber, "A parameter of type Optional must not be null.");
   }
 
   @Override

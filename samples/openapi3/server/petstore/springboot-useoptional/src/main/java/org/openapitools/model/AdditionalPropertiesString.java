@@ -2,11 +2,11 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -42,9 +42,8 @@ public class AdditionalPropertiesString extends HashMap<String, String>  {
     return name;
   }
 
-  @JsonIgnore
-  public void setName(String name) {
-    this.name = Optional.ofNullable(name);
+  public void setName(Optional<String> name) {
+    this.name = Objects.requireNonNull(name, "A parameter of type Optional must not be null.");
   }
 
   @Override

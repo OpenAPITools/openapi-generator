@@ -2,12 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -43,9 +43,8 @@ public class ModelList   {
     return _123list;
   }
 
-  @JsonIgnore
-  public void set123list(String _123list) {
-    this._123list = Optional.ofNullable(_123list);
+  public void set123list(Optional<String> _123list) {
+    this._123list = Objects.requireNonNull(_123list, "A parameter of type Optional must not be null.");
   }
 
   @Override

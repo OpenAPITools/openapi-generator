@@ -2,10 +2,10 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -43,9 +43,8 @@ public class ModelReturn   {
     return _return;
   }
 
-  @JsonIgnore
-  public void setReturn(Integer _return) {
-    this._return = Optional.ofNullable(_return);
+  public void setReturn(Optional<Integer> _return) {
+    this._return = Objects.requireNonNull(_return, "A parameter of type Optional must not be null.");
   }
 
   @Override

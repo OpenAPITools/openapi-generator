@@ -2,9 +2,9 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -40,9 +40,8 @@ public class Client   {
     return client;
   }
 
-  @JsonIgnore
-  public void setClient(String client) {
-    this.client = Optional.ofNullable(client);
+  public void setClient(Optional<String> client) {
+    this.client = Objects.requireNonNull(client, "A parameter of type Optional must not be null.");
   }
 
   @Override
