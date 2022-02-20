@@ -57,7 +57,7 @@ public class UserApi  {
       this.delegate = delegate;
    }
 
-    @POST
+    @javax.ws.rs.POST
     
     
     
@@ -69,7 +69,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.createUser(body, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/createWithArray")
     
     
@@ -81,7 +81,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.createUsersWithArrayInput(body, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/createWithList")
     
     
@@ -93,7 +93,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.createUsersWithListInput(body, securityContext);
     }
-    @DELETE
+    @javax.ws.rs.DELETE
     @Path("/{username}")
     
     
@@ -106,7 +106,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.deleteUser(username, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/{username}")
     
     @Produces({ "application/xml", "application/json" })
@@ -120,7 +120,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.getUserByName(username, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/login")
     
     @Produces({ "application/xml", "application/json" })
@@ -133,7 +133,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.loginUser(username, password, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/logout")
     
     
@@ -145,7 +145,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.logoutUser(securityContext);
     }
-    @PUT
+    @javax.ws.rs.PUT
     @Path("/{username}")
     
     
