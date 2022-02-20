@@ -8,9 +8,6 @@ on:
     paths:
       - 'samples/server/petstore/go*/**'
 
-env:
-  GRADLE_VERSION: 6.9
-
 jobs:
   build:
     name: Build Go
@@ -19,7 +16,10 @@ jobs:
       fail-fast: false
       matrix:
         sample:
-          - samples/client/petstore/go-gin-api-server
+          - samples/server/petstore/go-gin-api-server
+          - samples/server/petstore/go-api-server
+          - samples/server/petstore/go-gin-api-server
+          - samples/server/petstore/go-echo-server
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
