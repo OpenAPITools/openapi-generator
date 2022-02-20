@@ -1327,6 +1327,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             // TODO: adjust other java based mustache templates...
             if (SpringCodegen.class.equals(this.getClass()) && Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
+                // Only add import when needed
+                model.imports.add("JsonIgnore");
                 // Wrap dataType and defaults
                 property.isWrapped = true;
                 property.wrapperType = "JsonNullable";
@@ -1343,6 +1345,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (Boolean.FALSE.equals(property.required) && Boolean.FALSE.equals(property.isNullable)
                 && !property.isArray && !property.isMap) {
                 // Only add import when needed
+                model.imports.add("JsonIgnore");
                 model.imports.add("Optional");
                 // Wrap dataType and defaults
                 property.isWrapped = true;
