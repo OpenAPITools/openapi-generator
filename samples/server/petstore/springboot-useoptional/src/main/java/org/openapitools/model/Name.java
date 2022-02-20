@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -71,7 +70,7 @@ public class Name   {
   }
 
   public void setSnakeCase(Optional<Integer> snakeCase) {
-    this.snakeCase = Objects.requireNonNull(snakeCase, "A parameter of type Optional must not be null.");
+    this.snakeCase = snakeCase;
   }
 
   public Name property(String property) {
@@ -89,7 +88,7 @@ public class Name   {
   }
 
   public void setProperty(Optional<String> property) {
-    this.property = Objects.requireNonNull(property, "A parameter of type Optional must not be null.");
+    this.property = property;
   }
 
   public Name _123number(Integer _123number) {
@@ -107,7 +106,7 @@ public class Name   {
   }
 
   public void set123number(Optional<Integer> _123number) {
-    this._123number = Objects.requireNonNull(_123number, "A parameter of type Optional must not be null.");
+    this._123number = _123number;
   }
 
   @Override

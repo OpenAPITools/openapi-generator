@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -72,7 +71,7 @@ public class Animal   {
   }
 
   public void setColor(Optional<String> color) {
-    this.color = Objects.requireNonNull(color, "A parameter of type Optional must not be null.");
+    this.color = color;
   }
 
   @Override

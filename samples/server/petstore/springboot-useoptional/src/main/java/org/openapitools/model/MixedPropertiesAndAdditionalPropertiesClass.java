@@ -10,7 +10,6 @@ import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import org.openapitools.model.Animal;
@@ -57,7 +56,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   }
 
   public void setUuid(Optional<UUID> uuid) {
-    this.uuid = Objects.requireNonNull(uuid, "A parameter of type Optional must not be null.");
+    this.uuid = uuid;
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
@@ -75,7 +74,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   }
 
   public void setDateTime(Optional<OffsetDateTime> dateTime) {
-    this.dateTime = Objects.requireNonNull(dateTime, "A parameter of type Optional must not be null.");
+    this.dateTime = dateTime;
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {

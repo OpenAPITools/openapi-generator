@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -56,7 +55,7 @@ public class Capitalization   {
   }
 
   public void setSmallCamel(Optional<String> smallCamel) {
-    this.smallCamel = Objects.requireNonNull(smallCamel, "A parameter of type Optional must not be null.");
+    this.smallCamel = smallCamel;
   }
 
   public Capitalization capitalCamel(String capitalCamel) {
@@ -74,7 +73,7 @@ public class Capitalization   {
   }
 
   public void setCapitalCamel(Optional<String> capitalCamel) {
-    this.capitalCamel = Objects.requireNonNull(capitalCamel, "A parameter of type Optional must not be null.");
+    this.capitalCamel = capitalCamel;
   }
 
   public Capitalization smallSnake(String smallSnake) {
@@ -92,7 +91,7 @@ public class Capitalization   {
   }
 
   public void setSmallSnake(Optional<String> smallSnake) {
-    this.smallSnake = Objects.requireNonNull(smallSnake, "A parameter of type Optional must not be null.");
+    this.smallSnake = smallSnake;
   }
 
   public Capitalization capitalSnake(String capitalSnake) {
@@ -110,7 +109,7 @@ public class Capitalization   {
   }
 
   public void setCapitalSnake(Optional<String> capitalSnake) {
-    this.capitalSnake = Objects.requireNonNull(capitalSnake, "A parameter of type Optional must not be null.");
+    this.capitalSnake = capitalSnake;
   }
 
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
@@ -128,7 +127,7 @@ public class Capitalization   {
   }
 
   public void setScAETHFlowPoints(Optional<String> scAETHFlowPoints) {
-    this.scAETHFlowPoints = Objects.requireNonNull(scAETHFlowPoints, "A parameter of type Optional must not be null.");
+    this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
   public Capitalization ATT_NAME(String ATT_NAME) {
@@ -146,7 +145,7 @@ public class Capitalization   {
   }
 
   public void setATTNAME(Optional<String> ATT_NAME) {
-    this.ATT_NAME = Objects.requireNonNull(ATT_NAME, "A parameter of type Optional must not be null.");
+    this.ATT_NAME = ATT_NAME;
   }
 
   @Override

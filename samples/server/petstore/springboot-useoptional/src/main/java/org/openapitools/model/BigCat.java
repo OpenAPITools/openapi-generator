@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
@@ -84,7 +83,7 @@ public class BigCat extends Cat  {
   }
 
   public void setKind(Optional<KindEnum> kind) {
-    this.kind = Objects.requireNonNull(kind, "A parameter of type Optional must not be null.");
+    this.kind = kind;
   }
 
   @Override

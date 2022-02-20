@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -44,7 +43,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
   }
 
   public void setName(Optional<String> name) {
-    this.name = Objects.requireNonNull(name, "A parameter of type Optional must not be null.");
+    this.name = name;
   }
 
   @Override

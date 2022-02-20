@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -92,7 +91,7 @@ public class FormatTest   {
   }
 
   public void setInteger(Optional<Integer> integer) {
-    this.integer = Objects.requireNonNull(integer, "A parameter of type Optional must not be null.");
+    this.integer = integer;
   }
 
   public FormatTest int32(Integer int32) {
@@ -112,7 +111,7 @@ public class FormatTest   {
   }
 
   public void setInt32(Optional<Integer> int32) {
-    this.int32 = Objects.requireNonNull(int32, "A parameter of type Optional must not be null.");
+    this.int32 = int32;
   }
 
   public FormatTest int64(Long int64) {
@@ -130,7 +129,7 @@ public class FormatTest   {
   }
 
   public void setInt64(Optional<Long> int64) {
-    this.int64 = Objects.requireNonNull(int64, "A parameter of type Optional must not be null.");
+    this.int64 = int64;
   }
 
   public FormatTest number(BigDecimal number) {
@@ -171,7 +170,7 @@ public class FormatTest   {
   }
 
   public void setFloat(Optional<Float> _float) {
-    this._float = Objects.requireNonNull(_float, "A parameter of type Optional must not be null.");
+    this._float = _float;
   }
 
   public FormatTest _double(Double _double) {
@@ -191,7 +190,7 @@ public class FormatTest   {
   }
 
   public void setDouble(Optional<Double> _double) {
-    this._double = Objects.requireNonNull(_double, "A parameter of type Optional must not be null.");
+    this._double = _double;
   }
 
   public FormatTest string(String string) {
@@ -209,7 +208,7 @@ public class FormatTest   {
   }
 
   public void setString(Optional<String> string) {
-    this.string = Objects.requireNonNull(string, "A parameter of type Optional must not be null.");
+    this.string = string;
   }
 
   public FormatTest _byte(byte[] _byte) {
@@ -246,7 +245,7 @@ public class FormatTest   {
   }
 
   public void setBinary(Optional<org.springframework.core.io.Resource> binary) {
-    this.binary = Objects.requireNonNull(binary, "A parameter of type Optional must not be null.");
+    this.binary = binary;
   }
 
   public FormatTest date(LocalDate date) {
@@ -283,7 +282,7 @@ public class FormatTest   {
   }
 
   public void setDateTime(Optional<OffsetDateTime> dateTime) {
-    this.dateTime = Objects.requireNonNull(dateTime, "A parameter of type Optional must not be null.");
+    this.dateTime = dateTime;
   }
 
   public FormatTest uuid(UUID uuid) {
@@ -301,7 +300,7 @@ public class FormatTest   {
   }
 
   public void setUuid(Optional<UUID> uuid) {
-    this.uuid = Objects.requireNonNull(uuid, "A parameter of type Optional must not be null.");
+    this.uuid = uuid;
   }
 
   public FormatTest password(String password) {
@@ -338,7 +337,7 @@ public class FormatTest   {
   }
 
   public void setBigDecimal(Optional<BigDecimal> bigDecimal) {
-    this.bigDecimal = Objects.requireNonNull(bigDecimal, "A parameter of type Optional must not be null.");
+    this.bigDecimal = bigDecimal;
   }
 
   @Override

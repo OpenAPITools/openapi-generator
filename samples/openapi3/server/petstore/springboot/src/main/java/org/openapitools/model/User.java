@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -65,7 +64,7 @@ public class User   {
   }
 
   public void setId(Optional<Long> id) {
-    this.id = Objects.requireNonNull(id, "A parameter of type Optional must not be null.");
+    this.id = id;
   }
 
   public User username(String username) {
@@ -83,7 +82,7 @@ public class User   {
   }
 
   public void setUsername(Optional<String> username) {
-    this.username = Objects.requireNonNull(username, "A parameter of type Optional must not be null.");
+    this.username = username;
   }
 
   public User firstName(String firstName) {
@@ -101,7 +100,7 @@ public class User   {
   }
 
   public void setFirstName(Optional<String> firstName) {
-    this.firstName = Objects.requireNonNull(firstName, "A parameter of type Optional must not be null.");
+    this.firstName = firstName;
   }
 
   public User lastName(String lastName) {
@@ -119,7 +118,7 @@ public class User   {
   }
 
   public void setLastName(Optional<String> lastName) {
-    this.lastName = Objects.requireNonNull(lastName, "A parameter of type Optional must not be null.");
+    this.lastName = lastName;
   }
 
   public User email(String email) {
@@ -137,7 +136,7 @@ public class User   {
   }
 
   public void setEmail(JsonNullable<String> email) {
-    this.email = Objects.requireNonNull(email, "A parameter of type JsonNullable must not be null.");
+    this.email = email;
   }
 
   public User password(String password) {
@@ -155,7 +154,7 @@ public class User   {
   }
 
   public void setPassword(Optional<String> password) {
-    this.password = Objects.requireNonNull(password, "A parameter of type Optional must not be null.");
+    this.password = password;
   }
 
   public User phone(String phone) {
@@ -173,7 +172,7 @@ public class User   {
   }
 
   public void setPhone(Optional<String> phone) {
-    this.phone = Objects.requireNonNull(phone, "A parameter of type Optional must not be null.");
+    this.phone = phone;
   }
 
   public User userStatus(Integer userStatus) {
@@ -191,7 +190,7 @@ public class User   {
   }
 
   public void setUserStatus(Optional<Integer> userStatus) {
-    this.userStatus = Objects.requireNonNull(userStatus, "A parameter of type Optional must not be null.");
+    this.userStatus = userStatus;
   }
 
   @Override

@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -42,7 +41,7 @@ public class ClassModel   {
   }
 
   public void setPropertyClass(Optional<String> propertyClass) {
-    this.propertyClass = Objects.requireNonNull(propertyClass, "A parameter of type Optional must not be null.");
+    this.propertyClass = propertyClass;
   }
 
   @Override

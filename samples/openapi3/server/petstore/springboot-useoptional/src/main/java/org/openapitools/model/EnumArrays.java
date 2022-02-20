@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -118,7 +117,7 @@ public class EnumArrays   {
   }
 
   public void setJustSymbol(Optional<JustSymbolEnum> justSymbol) {
-    this.justSymbol = Objects.requireNonNull(justSymbol, "A parameter of type Optional must not be null.");
+    this.justSymbol = justSymbol;
   }
 
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {

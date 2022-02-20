@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -44,7 +43,7 @@ public class CatAllOf   {
   }
 
   public void setDeclawed(Optional<Boolean> declawed) {
-    this.declawed = Objects.requireNonNull(declawed, "A parameter of type Optional must not be null.");
+    this.declawed = declawed;
   }
 
   @Override

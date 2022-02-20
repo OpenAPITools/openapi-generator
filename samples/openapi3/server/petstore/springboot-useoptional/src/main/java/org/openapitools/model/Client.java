@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -41,7 +40,7 @@ public class Client   {
   }
 
   public void setClient(Optional<String> client) {
-    this.client = Objects.requireNonNull(client, "A parameter of type Optional must not be null.");
+    this.client = client;
   }
 
   @Override

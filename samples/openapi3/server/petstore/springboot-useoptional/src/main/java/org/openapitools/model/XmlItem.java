@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -137,7 +136,7 @@ public class XmlItem   {
   }
 
   public void setAttributeString(Optional<String> attributeString) {
-    this.attributeString = Objects.requireNonNull(attributeString, "A parameter of type Optional must not be null.");
+    this.attributeString = attributeString;
   }
 
   public XmlItem attributeNumber(BigDecimal attributeNumber) {
@@ -155,7 +154,7 @@ public class XmlItem   {
   }
 
   public void setAttributeNumber(Optional<BigDecimal> attributeNumber) {
-    this.attributeNumber = Objects.requireNonNull(attributeNumber, "A parameter of type Optional must not be null.");
+    this.attributeNumber = attributeNumber;
   }
 
   public XmlItem attributeInteger(Integer attributeInteger) {
@@ -173,7 +172,7 @@ public class XmlItem   {
   }
 
   public void setAttributeInteger(Optional<Integer> attributeInteger) {
-    this.attributeInteger = Objects.requireNonNull(attributeInteger, "A parameter of type Optional must not be null.");
+    this.attributeInteger = attributeInteger;
   }
 
   public XmlItem attributeBoolean(Boolean attributeBoolean) {
@@ -191,7 +190,7 @@ public class XmlItem   {
   }
 
   public void setAttributeBoolean(Optional<Boolean> attributeBoolean) {
-    this.attributeBoolean = Objects.requireNonNull(attributeBoolean, "A parameter of type Optional must not be null.");
+    this.attributeBoolean = attributeBoolean;
   }
 
   public XmlItem wrappedArray(List<Integer> wrappedArray) {
@@ -236,7 +235,7 @@ public class XmlItem   {
   }
 
   public void setNameString(Optional<String> nameString) {
-    this.nameString = Objects.requireNonNull(nameString, "A parameter of type Optional must not be null.");
+    this.nameString = nameString;
   }
 
   public XmlItem nameNumber(BigDecimal nameNumber) {
@@ -254,7 +253,7 @@ public class XmlItem   {
   }
 
   public void setNameNumber(Optional<BigDecimal> nameNumber) {
-    this.nameNumber = Objects.requireNonNull(nameNumber, "A parameter of type Optional must not be null.");
+    this.nameNumber = nameNumber;
   }
 
   public XmlItem nameInteger(Integer nameInteger) {
@@ -272,7 +271,7 @@ public class XmlItem   {
   }
 
   public void setNameInteger(Optional<Integer> nameInteger) {
-    this.nameInteger = Objects.requireNonNull(nameInteger, "A parameter of type Optional must not be null.");
+    this.nameInteger = nameInteger;
   }
 
   public XmlItem nameBoolean(Boolean nameBoolean) {
@@ -290,7 +289,7 @@ public class XmlItem   {
   }
 
   public void setNameBoolean(Optional<Boolean> nameBoolean) {
-    this.nameBoolean = Objects.requireNonNull(nameBoolean, "A parameter of type Optional must not be null.");
+    this.nameBoolean = nameBoolean;
   }
 
   public XmlItem nameArray(List<Integer> nameArray) {
@@ -362,7 +361,7 @@ public class XmlItem   {
   }
 
   public void setPrefixString(Optional<String> prefixString) {
-    this.prefixString = Objects.requireNonNull(prefixString, "A parameter of type Optional must not be null.");
+    this.prefixString = prefixString;
   }
 
   public XmlItem prefixNumber(BigDecimal prefixNumber) {
@@ -380,7 +379,7 @@ public class XmlItem   {
   }
 
   public void setPrefixNumber(Optional<BigDecimal> prefixNumber) {
-    this.prefixNumber = Objects.requireNonNull(prefixNumber, "A parameter of type Optional must not be null.");
+    this.prefixNumber = prefixNumber;
   }
 
   public XmlItem prefixInteger(Integer prefixInteger) {
@@ -398,7 +397,7 @@ public class XmlItem   {
   }
 
   public void setPrefixInteger(Optional<Integer> prefixInteger) {
-    this.prefixInteger = Objects.requireNonNull(prefixInteger, "A parameter of type Optional must not be null.");
+    this.prefixInteger = prefixInteger;
   }
 
   public XmlItem prefixBoolean(Boolean prefixBoolean) {
@@ -416,7 +415,7 @@ public class XmlItem   {
   }
 
   public void setPrefixBoolean(Optional<Boolean> prefixBoolean) {
-    this.prefixBoolean = Objects.requireNonNull(prefixBoolean, "A parameter of type Optional must not be null.");
+    this.prefixBoolean = prefixBoolean;
   }
 
   public XmlItem prefixArray(List<Integer> prefixArray) {
@@ -488,7 +487,7 @@ public class XmlItem   {
   }
 
   public void setNamespaceString(Optional<String> namespaceString) {
-    this.namespaceString = Objects.requireNonNull(namespaceString, "A parameter of type Optional must not be null.");
+    this.namespaceString = namespaceString;
   }
 
   public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
@@ -506,7 +505,7 @@ public class XmlItem   {
   }
 
   public void setNamespaceNumber(Optional<BigDecimal> namespaceNumber) {
-    this.namespaceNumber = Objects.requireNonNull(namespaceNumber, "A parameter of type Optional must not be null.");
+    this.namespaceNumber = namespaceNumber;
   }
 
   public XmlItem namespaceInteger(Integer namespaceInteger) {
@@ -524,7 +523,7 @@ public class XmlItem   {
   }
 
   public void setNamespaceInteger(Optional<Integer> namespaceInteger) {
-    this.namespaceInteger = Objects.requireNonNull(namespaceInteger, "A parameter of type Optional must not be null.");
+    this.namespaceInteger = namespaceInteger;
   }
 
   public XmlItem namespaceBoolean(Boolean namespaceBoolean) {
@@ -542,7 +541,7 @@ public class XmlItem   {
   }
 
   public void setNamespaceBoolean(Optional<Boolean> namespaceBoolean) {
-    this.namespaceBoolean = Objects.requireNonNull(namespaceBoolean, "A parameter of type Optional must not be null.");
+    this.namespaceBoolean = namespaceBoolean;
   }
 
   public XmlItem namespaceArray(List<Integer> namespaceArray) {
@@ -614,7 +613,7 @@ public class XmlItem   {
   }
 
   public void setPrefixNsString(Optional<String> prefixNsString) {
-    this.prefixNsString = Objects.requireNonNull(prefixNsString, "A parameter of type Optional must not be null.");
+    this.prefixNsString = prefixNsString;
   }
 
   public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
@@ -632,7 +631,7 @@ public class XmlItem   {
   }
 
   public void setPrefixNsNumber(Optional<BigDecimal> prefixNsNumber) {
-    this.prefixNsNumber = Objects.requireNonNull(prefixNsNumber, "A parameter of type Optional must not be null.");
+    this.prefixNsNumber = prefixNsNumber;
   }
 
   public XmlItem prefixNsInteger(Integer prefixNsInteger) {
@@ -650,7 +649,7 @@ public class XmlItem   {
   }
 
   public void setPrefixNsInteger(Optional<Integer> prefixNsInteger) {
-    this.prefixNsInteger = Objects.requireNonNull(prefixNsInteger, "A parameter of type Optional must not be null.");
+    this.prefixNsInteger = prefixNsInteger;
   }
 
   public XmlItem prefixNsBoolean(Boolean prefixNsBoolean) {
@@ -668,7 +667,7 @@ public class XmlItem   {
   }
 
   public void setPrefixNsBoolean(Optional<Boolean> prefixNsBoolean) {
-    this.prefixNsBoolean = Objects.requireNonNull(prefixNsBoolean, "A parameter of type Optional must not be null.");
+    this.prefixNsBoolean = prefixNsBoolean;
   }
 
   public XmlItem prefixNsArray(List<Integer> prefixNsArray) {

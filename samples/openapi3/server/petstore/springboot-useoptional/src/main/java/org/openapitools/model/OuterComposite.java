@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -48,7 +47,7 @@ public class OuterComposite   {
   }
 
   public void setMyNumber(Optional<BigDecimal> myNumber) {
-    this.myNumber = Objects.requireNonNull(myNumber, "A parameter of type Optional must not be null.");
+    this.myNumber = myNumber;
   }
 
   public OuterComposite myString(String myString) {
@@ -66,7 +65,7 @@ public class OuterComposite   {
   }
 
   public void setMyString(Optional<String> myString) {
-    this.myString = Objects.requireNonNull(myString, "A parameter of type Optional must not be null.");
+    this.myString = myString;
   }
 
   public OuterComposite myBoolean(Boolean myBoolean) {
@@ -84,7 +83,7 @@ public class OuterComposite   {
   }
 
   public void setMyBoolean(Optional<Boolean> myBoolean) {
-    this.myBoolean = Objects.requireNonNull(myBoolean, "A parameter of type Optional must not be null.");
+    this.myBoolean = myBoolean;
   }
 
   @Override

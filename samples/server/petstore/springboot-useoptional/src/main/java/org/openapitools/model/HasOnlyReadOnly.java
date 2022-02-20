@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -47,7 +46,7 @@ public class HasOnlyReadOnly   {
   }
 
   public void setBar(Optional<String> bar) {
-    this.bar = Objects.requireNonNull(bar, "A parameter of type Optional must not be null.");
+    this.bar = bar;
   }
 
   public HasOnlyReadOnly foo(String foo) {
@@ -65,7 +64,7 @@ public class HasOnlyReadOnly   {
   }
 
   public void setFoo(Optional<String> foo) {
-    this.foo = Objects.requireNonNull(foo, "A parameter of type Optional must not be null.");
+    this.foo = foo;
   }
 
   @Override

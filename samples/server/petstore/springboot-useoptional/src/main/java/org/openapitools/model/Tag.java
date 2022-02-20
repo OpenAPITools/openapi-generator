@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -45,7 +44,7 @@ public class Tag   {
   }
 
   public void setId(Optional<Long> id) {
-    this.id = Objects.requireNonNull(id, "A parameter of type Optional must not be null.");
+    this.id = id;
   }
 
   public Tag name(String name) {
@@ -63,7 +62,7 @@ public class Tag   {
   }
 
   public void setName(Optional<String> name) {
-    this.name = Objects.requireNonNull(name, "A parameter of type Optional must not be null.");
+    this.name = name;
   }
 
   @Override

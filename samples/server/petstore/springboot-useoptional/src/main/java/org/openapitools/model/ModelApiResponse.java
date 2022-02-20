@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -50,7 +49,7 @@ public class ModelApiResponse   {
   }
 
   public void setCode(Optional<Integer> code) {
-    this.code = Objects.requireNonNull(code, "A parameter of type Optional must not be null.");
+    this.code = code;
   }
 
   public ModelApiResponse type(String type) {
@@ -68,7 +67,7 @@ public class ModelApiResponse   {
   }
 
   public void setType(Optional<String> type) {
-    this.type = Objects.requireNonNull(type, "A parameter of type Optional must not be null.");
+    this.type = type;
   }
 
   public ModelApiResponse message(String message) {
@@ -86,7 +85,7 @@ public class ModelApiResponse   {
   }
 
   public void setMessage(Optional<String> message) {
-    this.message = Objects.requireNonNull(message, "A parameter of type Optional must not be null.");
+    this.message = message;
   }
 
   @Override

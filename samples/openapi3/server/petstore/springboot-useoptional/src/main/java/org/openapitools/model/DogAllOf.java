@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -43,7 +42,7 @@ public class DogAllOf   {
   }
 
   public void setBreed(Optional<String> breed) {
-    this.breed = Objects.requireNonNull(breed, "A parameter of type Optional must not be null.");
+    this.breed = breed;
   }
 
   @Override

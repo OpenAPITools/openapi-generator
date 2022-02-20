@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.model.OuterEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -202,7 +201,7 @@ public class EnumTest   {
   }
 
   public void setEnumString(Optional<EnumStringEnum> enumString) {
-    this.enumString = Objects.requireNonNull(enumString, "A parameter of type Optional must not be null.");
+    this.enumString = enumString;
   }
 
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
@@ -239,7 +238,7 @@ public class EnumTest   {
   }
 
   public void setEnumInteger(Optional<EnumIntegerEnum> enumInteger) {
-    this.enumInteger = Objects.requireNonNull(enumInteger, "A parameter of type Optional must not be null.");
+    this.enumInteger = enumInteger;
   }
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
@@ -257,7 +256,7 @@ public class EnumTest   {
   }
 
   public void setEnumNumber(Optional<EnumNumberEnum> enumNumber) {
-    this.enumNumber = Objects.requireNonNull(enumNumber, "A parameter of type Optional must not be null.");
+    this.enumNumber = enumNumber;
   }
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
@@ -275,7 +274,7 @@ public class EnumTest   {
   }
 
   public void setOuterEnum(Optional<OuterEnum> outerEnum) {
-    this.outerEnum = Objects.requireNonNull(outerEnum, "A parameter of type Optional must not be null.");
+    this.outerEnum = outerEnum;
   }
 
   @Override

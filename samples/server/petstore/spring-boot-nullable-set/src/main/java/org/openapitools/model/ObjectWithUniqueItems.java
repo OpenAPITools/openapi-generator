@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -78,7 +77,7 @@ public class ObjectWithUniqueItems   {
   }
 
   public void setNullSet(JsonNullable<Set<String>> nullSet) {
-    this.nullSet = Objects.requireNonNull(nullSet, "A parameter of type JsonNullable must not be null.");
+    this.nullSet = nullSet;
   }
 
   public ObjectWithUniqueItems notNullSet(Set<String> notNullSet) {
@@ -132,7 +131,7 @@ public class ObjectWithUniqueItems   {
   }
 
   public void setNullList(JsonNullable<List<String>> nullList) {
-    this.nullList = Objects.requireNonNull(nullList, "A parameter of type JsonNullable must not be null.");
+    this.nullList = nullList;
   }
 
   public ObjectWithUniqueItems notNullList(List<String> notNullList) {

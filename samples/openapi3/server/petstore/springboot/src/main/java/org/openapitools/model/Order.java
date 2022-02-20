@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -100,7 +99,7 @@ public class Order   {
   }
 
   public void setId(Optional<Long> id) {
-    this.id = Objects.requireNonNull(id, "A parameter of type Optional must not be null.");
+    this.id = id;
   }
 
   public Order petId(Long petId) {
@@ -118,7 +117,7 @@ public class Order   {
   }
 
   public void setPetId(Optional<Long> petId) {
-    this.petId = Objects.requireNonNull(petId, "A parameter of type Optional must not be null.");
+    this.petId = petId;
   }
 
   public Order quantity(Integer quantity) {
@@ -136,7 +135,7 @@ public class Order   {
   }
 
   public void setQuantity(JsonNullable<Integer> quantity) {
-    this.quantity = Objects.requireNonNull(quantity, "A parameter of type JsonNullable must not be null.");
+    this.quantity = quantity;
   }
 
   public Order shipDate(OffsetDateTime shipDate) {
@@ -154,7 +153,7 @@ public class Order   {
   }
 
   public void setShipDate(JsonNullable<OffsetDateTime> shipDate) {
-    this.shipDate = Objects.requireNonNull(shipDate, "A parameter of type JsonNullable must not be null.");
+    this.shipDate = shipDate;
   }
 
   public Order status(StatusEnum status) {
@@ -172,7 +171,7 @@ public class Order   {
   }
 
   public void setStatus(Optional<StatusEnum> status) {
-    this.status = Objects.requireNonNull(status, "A parameter of type Optional must not be null.");
+    this.status = status;
   }
 
   public Order complete(Boolean complete) {
@@ -190,7 +189,7 @@ public class Order   {
   }
 
   public void setComplete(Optional<Boolean> complete) {
-    this.complete = Objects.requireNonNull(complete, "A parameter of type Optional must not be null.");
+    this.complete = complete;
   }
 
   @Override

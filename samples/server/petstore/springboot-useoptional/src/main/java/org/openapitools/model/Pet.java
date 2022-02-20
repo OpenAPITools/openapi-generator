@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import org.openapitools.model.Category;
@@ -104,7 +103,7 @@ public class Pet   {
   }
 
   public void setId(Optional<Long> id) {
-    this.id = Objects.requireNonNull(id, "A parameter of type Optional must not be null.");
+    this.id = id;
   }
 
   public Pet category(Category category) {
@@ -122,7 +121,7 @@ public class Pet   {
   }
 
   public void setCategory(Optional<Category> category) {
-    this.category = Objects.requireNonNull(category, "A parameter of type Optional must not be null.");
+    this.category = category;
   }
 
   public Pet name(String name) {
@@ -211,7 +210,7 @@ public class Pet   {
   }
 
   public void setStatus(Optional<StatusEnum> status) {
-    this.status = Objects.requireNonNull(status, "A parameter of type Optional must not be null.");
+    this.status = status;
   }
 
   @Override

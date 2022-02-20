@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -44,7 +43,7 @@ public class Category   {
   }
 
   public void setId(Optional<Long> id) {
-    this.id = Objects.requireNonNull(id, "A parameter of type Optional must not be null.");
+    this.id = id;
   }
 
   public Category name(String name) {

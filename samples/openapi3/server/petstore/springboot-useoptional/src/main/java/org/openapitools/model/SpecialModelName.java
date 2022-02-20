@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -43,7 +42,7 @@ public class SpecialModelName   {
   }
 
   public void set$SpecialPropertyName(Optional<Long> $specialPropertyName) {
-    this.$specialPropertyName = Objects.requireNonNull($specialPropertyName, "A parameter of type Optional must not be null.");
+    this.$specialPropertyName = $specialPropertyName;
   }
 
   @Override

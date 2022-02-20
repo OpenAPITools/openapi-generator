@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.model.Animal;
 import org.openapitools.model.CatAllOf;
@@ -44,7 +43,7 @@ public class Cat extends Animal  {
   }
 
   public void setDeclawed(Optional<Boolean> declawed) {
-    this.declawed = Objects.requireNonNull(declawed, "A parameter of type Optional must not be null.");
+    this.declawed = declawed;
   }
 
   @Override

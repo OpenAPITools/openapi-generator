@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -45,7 +44,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List>  {
   }
 
   public void setName(Optional<String> name) {
-    this.name = Objects.requireNonNull(name, "A parameter of type Optional must not be null.");
+    this.name = name;
   }
 
   @Override

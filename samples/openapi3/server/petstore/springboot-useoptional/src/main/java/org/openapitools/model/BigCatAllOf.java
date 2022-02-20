@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -83,7 +82,7 @@ public class BigCatAllOf   {
   }
 
   public void setKind(Optional<KindEnum> kind) {
-    this.kind = Objects.requireNonNull(kind, "A parameter of type Optional must not be null.");
+    this.kind = kind;
   }
 
   @Override

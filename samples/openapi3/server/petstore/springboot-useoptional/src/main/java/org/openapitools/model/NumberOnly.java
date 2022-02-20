@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
-import java.util.Objects;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -42,7 +41,7 @@ public class NumberOnly   {
   }
 
   public void setJustNumber(Optional<BigDecimal> justNumber) {
-    this.justNumber = Objects.requireNonNull(justNumber, "A parameter of type Optional must not be null.");
+    this.justNumber = justNumber;
   }
 
   @Override
