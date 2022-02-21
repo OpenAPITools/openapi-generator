@@ -12,24 +12,24 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some imports may be unused
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
+// @ts-ignore: import may be unused
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+// @ts-ignore: some imports may be unused
 import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
+// @ts-ignore: some imports may be unused
 import {select, call} from "redux-saga/effects";
 
-import {
-    DefaultMetaOnlyResponse,
-} from './DefaultMetaOnlyResponse';
+// @ts-ignore: some imports may be unused
+import { DefaultMetaOnlyResponse } from './DefaultMetaOnlyResponse';
 
-import {
-    ResponseMeta,
-} from './ResponseMeta';
+// @ts-ignore: some imports may be unused
+import { ResponseMeta } from './ResponseMeta';
 
-import {
-    ResponseMetaRecord,
-    responseMetaRecordUtils
-} from './ResponseMetaRecord';
+// @ts-ignore: some imports may be unused
+import { ResponseMetaRecord, responseMetaRecordUtils } from './ResponseMetaRecord';
 
 export const DefaultMetaOnlyResponseRecordProps = {
     recType: "DefaultMetaOnlyResponseApiRecord" as "DefaultMetaOnlyResponseApiRecord",

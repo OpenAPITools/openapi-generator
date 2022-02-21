@@ -1,15 +1,8 @@
-import {
-    Configuration,
-    ConfigurationParameters,
-} from "../";
+// @ts-ignore: some imports may be unused
+import { Configuration, ConfigurationParameters } from "../";
 
-import {
-    BehaviorApi,
-    PetApi,
-    PetPartApi,
-    StoreApi,
-    UserApi,
-} from "./";
+// @ts-ignore: some imports may be unused
+import { BehaviorApi, PetApi, PetPartApi, StoreApi, UserApi } from "./";
 
 export class Api {
     public static behaviorApi: BehaviorApi;

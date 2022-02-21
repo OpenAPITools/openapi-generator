@@ -14,14 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    ModelApiResponse,
-    ModelApiResponseFromJSON,
-    ModelApiResponseToJSON,
-    Pet,
-    PetFromJSON,
-    PetToJSON,
-} from '../models';
+// @ts-ignore: some imports may be unused
+import { ModelApiResponse, ModelApiResponseFromJSON, ModelApiResponseToJSON, Pet, PetFromJSON, PetToJSON } from '../models';
 
 export interface PetApiAddPetRequest {
     body: Pet;

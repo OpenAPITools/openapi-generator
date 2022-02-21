@@ -14,11 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    Client,
-    ClientFromJSON,
-    ClientToJSON,
-} from '../models';
+// @ts-ignore: some imports may be unused
+import { Client, ClientFromJSON, ClientToJSON } from '../models';
 
 export interface 123testSpecialTagsRequest {
     client: Client;

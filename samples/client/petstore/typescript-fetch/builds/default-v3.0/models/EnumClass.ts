@@ -27,6 +27,7 @@ export function EnumClassFromJSON(json: any): EnumClass {
     return EnumClassFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator not used
 export function EnumClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumClass {
     return json as EnumClass;
 }

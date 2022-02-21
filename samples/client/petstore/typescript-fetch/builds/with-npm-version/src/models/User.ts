@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * A User who is purchasing from the pet store
@@ -73,6 +74,7 @@ export function UserFromJSON(json: any): User {
     return UserFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User {
     if ((json === undefined) || (json === null)) {
         return json;

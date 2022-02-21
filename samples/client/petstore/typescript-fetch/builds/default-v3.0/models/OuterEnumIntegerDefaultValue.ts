@@ -27,6 +27,7 @@ export function OuterEnumIntegerDefaultValueFromJSON(json: any): OuterEnumIntege
     return OuterEnumIntegerDefaultValueFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator not used
 export function OuterEnumIntegerDefaultValueFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterEnumIntegerDefaultValue {
     return json as OuterEnumIntegerDefaultValue;
 }

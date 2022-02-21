@@ -14,10 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    ModelApiResponse,
-    Pet,
-} from '../models';
+// @ts-ignore: some imports may be unused
+import { ModelApiResponse, Pet } from '../models';
 
 export interface AddPetRequest {
     body: Pet;

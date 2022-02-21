@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * 
@@ -31,6 +32,7 @@ export function DeprecatedObjectFromJSON(json: any): DeprecatedObject {
     return DeprecatedObjectFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function DeprecatedObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): DeprecatedObject {
     if ((json === undefined) || (json === null)) {
         return json;

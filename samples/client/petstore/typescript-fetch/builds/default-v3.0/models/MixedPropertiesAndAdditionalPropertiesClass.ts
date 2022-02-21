@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    Animal,
-    AnimalFromJSON,
-    AnimalFromJSONTyped,
-    AnimalToJSON,
-} from './Animal';
+// @ts-ignore: some imports may be unused
+import { Animal, AnimalFromJSON, AnimalFromJSONTyped, AnimalToJSON } from './Animal';
 
 /**
  * 
@@ -50,6 +47,7 @@ export function MixedPropertiesAndAdditionalPropertiesClassFromJSON(json: any): 
     return MixedPropertiesAndAdditionalPropertiesClassFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function MixedPropertiesAndAdditionalPropertiesClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): MixedPropertiesAndAdditionalPropertiesClass {
     if ((json === undefined) || (json === null)) {
         return json;

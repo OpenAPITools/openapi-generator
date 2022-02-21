@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * Describes the result of uploading an image resource
@@ -43,6 +44,7 @@ export function ModelApiResponseFromJSON(json: any): ModelApiResponse {
     return ModelApiResponseFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function ModelApiResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelApiResponse {
     if ((json === undefined) || (json === null)) {
         return json;

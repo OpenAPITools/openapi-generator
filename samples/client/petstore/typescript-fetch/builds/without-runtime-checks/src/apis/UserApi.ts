@@ -14,9 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    User,
-} from '../models';
+// @ts-ignore: some imports may be unused
+import { User } from '../models';
 
 export interface CreateUserRequest {
     body: User;

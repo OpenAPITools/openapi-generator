@@ -27,6 +27,7 @@ export function BehaviorTypeFromJSON(json: any): BehaviorType {
     return BehaviorTypeFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator not used
 export function BehaviorTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): BehaviorType {
     return json as BehaviorType;
 }

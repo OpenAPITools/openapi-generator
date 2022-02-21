@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * 
@@ -37,6 +38,7 @@ export function FileSchemaTestClassFromJSON(json: any): FileSchemaTestClass {
     return FileSchemaTestClassFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function FileSchemaTestClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileSchemaTestClass {
     if ((json === undefined) || (json === null)) {
         return json;

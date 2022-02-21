@@ -12,31 +12,16 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    OuterEnum,
-    OuterEnumFromJSON,
-    OuterEnumFromJSONTyped,
-    OuterEnumToJSON,
-} from './OuterEnum';
-import {
-    OuterEnumDefaultValue,
-    OuterEnumDefaultValueFromJSON,
-    OuterEnumDefaultValueFromJSONTyped,
-    OuterEnumDefaultValueToJSON,
-} from './OuterEnumDefaultValue';
-import {
-    OuterEnumInteger,
-    OuterEnumIntegerFromJSON,
-    OuterEnumIntegerFromJSONTyped,
-    OuterEnumIntegerToJSON,
-} from './OuterEnumInteger';
-import {
-    OuterEnumIntegerDefaultValue,
-    OuterEnumIntegerDefaultValueFromJSON,
-    OuterEnumIntegerDefaultValueFromJSONTyped,
-    OuterEnumIntegerDefaultValueToJSON,
-} from './OuterEnumIntegerDefaultValue';
+// @ts-ignore: some imports may be unused
+import { OuterEnum, OuterEnumFromJSON, OuterEnumFromJSONTyped, OuterEnumToJSON } from './OuterEnum';
+// @ts-ignore: some imports may be unused
+import { OuterEnumDefaultValue, OuterEnumDefaultValueFromJSON, OuterEnumDefaultValueFromJSONTyped, OuterEnumDefaultValueToJSON } from './OuterEnumDefaultValue';
+// @ts-ignore: some imports may be unused
+import { OuterEnumInteger, OuterEnumIntegerFromJSON, OuterEnumIntegerFromJSONTyped, OuterEnumIntegerToJSON } from './OuterEnumInteger';
+// @ts-ignore: some imports may be unused
+import { OuterEnumIntegerDefaultValue, OuterEnumIntegerDefaultValueFromJSON, OuterEnumIntegerDefaultValueFromJSONTyped, OuterEnumIntegerDefaultValueToJSON } from './OuterEnumIntegerDefaultValue';
 
 /**
  * 
@@ -130,6 +115,7 @@ export function EnumTestFromJSON(json: any): EnumTest {
     return EnumTestFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function EnumTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumTest {
     if ((json === undefined) || (json === null)) {
         return json;

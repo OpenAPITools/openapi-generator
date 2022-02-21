@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * 
@@ -31,6 +32,7 @@ export function FooFromJSON(json: any): Foo {
     return FooFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function FooFromJSONTyped(json: any, ignoreDiscriminator: boolean): Foo {
     if ((json === undefined) || (json === null)) {
         return json;

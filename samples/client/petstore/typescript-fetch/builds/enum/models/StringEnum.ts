@@ -27,6 +27,7 @@ export function StringEnumFromJSON(json: any): StringEnum {
     return StringEnumFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator not used
 export function StringEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): StringEnum {
     return json as StringEnum;
 }

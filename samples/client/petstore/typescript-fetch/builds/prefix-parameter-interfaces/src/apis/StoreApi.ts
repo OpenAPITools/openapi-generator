@@ -14,11 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    Order,
-    OrderFromJSON,
-    OrderToJSON,
-} from '../models';
+// @ts-ignore: some imports may be unused
+import { Order, OrderFromJSON, OrderToJSON } from '../models';
 
 export interface StoreApiDeleteOrderRequest {
     orderId: string;

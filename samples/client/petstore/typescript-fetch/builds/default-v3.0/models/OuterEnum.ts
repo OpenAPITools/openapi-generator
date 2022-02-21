@@ -27,6 +27,7 @@ export function OuterEnumFromJSON(json: any): OuterEnum {
     return OuterEnumFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator not used
 export function OuterEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterEnum {
     return json as OuterEnum;
 }

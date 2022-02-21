@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * 
@@ -37,6 +38,7 @@ export function ReadOnlyFirstFromJSON(json: any): ReadOnlyFirst {
     return ReadOnlyFirstFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function ReadOnlyFirstFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReadOnlyFirst {
     if ((json === undefined) || (json === null)) {
         return json;

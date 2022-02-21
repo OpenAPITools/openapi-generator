@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * 
@@ -67,6 +68,7 @@ export function InlineObjectFromJSON(json: any): InlineObject {
     return InlineObjectFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function InlineObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): InlineObject {
     if ((json === undefined) || (json === null)) {
         return json;

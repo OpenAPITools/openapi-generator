@@ -42,6 +42,7 @@ export function ErrorCodeFromJSON(json: any): ErrorCode {
     return ErrorCodeFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator not used
 export function ErrorCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean): ErrorCode {
     return json as ErrorCode;
 }

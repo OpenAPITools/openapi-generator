@@ -14,23 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    EnumPatternObject,
-    EnumPatternObjectFromJSON,
-    EnumPatternObjectToJSON,
-    InlineObject,
-    InlineObjectFromJSON,
-    InlineObjectToJSON,
-    InlineResponse200,
-    InlineResponse200FromJSON,
-    InlineResponse200ToJSON,
-    NumberEnum,
-    NumberEnumFromJSON,
-    NumberEnumToJSON,
-    StringEnum,
-    StringEnumFromJSON,
-    StringEnumToJSON,
-} from '../models';
+// @ts-ignore: some imports may be unused
+import { EnumPatternObject, EnumPatternObjectFromJSON, EnumPatternObjectToJSON, InlineObject, InlineObjectFromJSON, InlineObjectToJSON, InlineResponse200, InlineResponse200FromJSON, InlineResponse200ToJSON, NumberEnum, NumberEnumFromJSON, NumberEnumToJSON, StringEnum, StringEnumFromJSON, StringEnumToJSON } from '../models';
 
 export interface FakeEnumRequestGetInlineRequest {
     stringEnum?: FakeEnumRequestGetInlineStringEnumEnum;

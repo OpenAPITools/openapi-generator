@@ -12,19 +12,12 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    PetPartType,
-    PetPartTypeFromJSON,
-    PetPartTypeFromJSONTyped,
-    PetPartTypeToJSON,
-} from './PetPartType';
-import {
-    ResponseMeta,
-    ResponseMetaFromJSON,
-    ResponseMetaFromJSONTyped,
-    ResponseMetaToJSON,
-} from './ResponseMeta';
+// @ts-ignore: some imports may be unused
+import { PetPartType, PetPartTypeFromJSON, PetPartTypeFromJSONTyped, PetPartTypeToJSON } from './PetPartType';
+// @ts-ignore: some imports may be unused
+import { ResponseMeta, ResponseMetaFromJSON, ResponseMetaFromJSONTyped, ResponseMetaToJSON } from './ResponseMeta';
 
 /**
  * 
@@ -50,6 +43,7 @@ export function GetPetPartTypeResponseFromJSON(json: any): GetPetPartTypeRespons
     return GetPetPartTypeResponseFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function GetPetPartTypeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetPetPartTypeResponse {
     if ((json === undefined) || (json === null)) {
         return json;

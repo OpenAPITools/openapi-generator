@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    Foo,
-    FooFromJSON,
-    FooFromJSONTyped,
-    FooToJSON,
-} from './Foo';
+// @ts-ignore: some imports may be unused
+import { Foo, FooFromJSON, FooFromJSONTyped, FooToJSON } from './Foo';
 
 /**
  * 
@@ -38,6 +35,7 @@ export function InlineResponseDefaultFromJSON(json: any): InlineResponseDefault 
     return InlineResponseDefaultFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function InlineResponseDefaultFromJSONTyped(json: any, ignoreDiscriminator: boolean): InlineResponseDefault {
     if ((json === undefined) || (json === null)) {
         return json;

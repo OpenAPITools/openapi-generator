@@ -27,6 +27,7 @@ export function PetPartTypeFromJSON(json: any): PetPartType {
     return PetPartTypeFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator not used
 export function PetPartTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): PetPartType {
     return json as PetPartType;
 }

@@ -12,31 +12,28 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some imports may be unused
 import {ApiRecordUtils, knownRecordFactories, appFromJS, NormalizedRecordEntities} from "../runtimeSagasAndRecords";
+// @ts-ignore: import may be unused
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+// @ts-ignore: some imports may be unused
 import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
+// @ts-ignore: some imports may be unused
 import {select, call} from "redux-saga/effects";
 
-import {
-    FindPetsByUserResponse,
-} from './FindPetsByUserResponse';
+// @ts-ignore: some imports may be unused
+import { FindPetsByUserResponse } from './FindPetsByUserResponse';
 
-import {
-    ResponseMeta,
-} from './ResponseMeta';
-import {
-    User,
-} from './User';
+// @ts-ignore: some imports may be unused
+import { ResponseMeta } from './ResponseMeta';
+// @ts-ignore: some imports may be unused
+import { User } from './User';
 
-import {
-    ResponseMetaRecord,
-    responseMetaRecordUtils
-} from './ResponseMetaRecord';
-import {
-    UserRecord,
-    userRecordUtils
-} from './UserRecord';
+// @ts-ignore: some imports may be unused
+import { ResponseMetaRecord, responseMetaRecordUtils } from './ResponseMetaRecord';
+// @ts-ignore: some imports may be unused
+import { UserRecord, userRecordUtils } from './UserRecord';
 
 export const FindPetsByUserResponseRecordProps = {
     recType: "FindPetsByUserResponseApiRecord" as "FindPetsByUserResponseApiRecord",

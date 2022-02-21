@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    ResponseMeta,
-    ResponseMetaFromJSON,
-    ResponseMetaFromJSONTyped,
-    ResponseMetaToJSON,
-} from './ResponseMeta';
+// @ts-ignore: some imports may be unused
+import { ResponseMeta, ResponseMetaFromJSON, ResponseMetaFromJSONTyped, ResponseMetaToJSON } from './ResponseMeta';
 
 /**
  * 
@@ -38,6 +35,7 @@ export function DefaultMetaOnlyResponseFromJSON(json: any): DefaultMetaOnlyRespo
     return DefaultMetaOnlyResponseFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function DefaultMetaOnlyResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): DefaultMetaOnlyResponse {
     if ((json === undefined) || (json === null)) {
         return json;

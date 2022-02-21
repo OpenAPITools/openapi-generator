@@ -14,29 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    Client,
-    ClientFromJSON,
-    ClientToJSON,
-    FileSchemaTestClass,
-    FileSchemaTestClassFromJSON,
-    FileSchemaTestClassToJSON,
-    HealthCheckResult,
-    HealthCheckResultFromJSON,
-    HealthCheckResultToJSON,
-    OuterComposite,
-    OuterCompositeFromJSON,
-    OuterCompositeToJSON,
-    OuterObjectWithEnumProperty,
-    OuterObjectWithEnumPropertyFromJSON,
-    OuterObjectWithEnumPropertyToJSON,
-    Pet,
-    PetFromJSON,
-    PetToJSON,
-    User,
-    UserFromJSON,
-    UserToJSON,
-} from '../models';
+// @ts-ignore: some imports may be unused
+import { Client, ClientFromJSON, ClientToJSON, FileSchemaTestClass, FileSchemaTestClassFromJSON, FileSchemaTestClassToJSON, HealthCheckResult, HealthCheckResultFromJSON, HealthCheckResultToJSON, OuterComposite, OuterCompositeFromJSON, OuterCompositeToJSON, OuterObjectWithEnumProperty, OuterObjectWithEnumPropertyFromJSON, OuterObjectWithEnumPropertyToJSON, Pet, PetFromJSON, PetToJSON, User, UserFromJSON, UserToJSON } from '../models';
 
 export interface FakeHttpSignatureTestRequest {
     pet: Pet;

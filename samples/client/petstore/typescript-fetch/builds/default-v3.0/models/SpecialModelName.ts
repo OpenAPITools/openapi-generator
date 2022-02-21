@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * 
@@ -31,6 +32,7 @@ export function SpecialModelNameFromJSON(json: any): SpecialModelName {
     return SpecialModelNameFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function SpecialModelNameFromJSONTyped(json: any, ignoreDiscriminator: boolean): SpecialModelName {
     if ((json === undefined) || (json === null)) {
         return json;

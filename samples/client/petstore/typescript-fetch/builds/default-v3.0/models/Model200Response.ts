@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * Model for testing model name starting with number
@@ -37,6 +38,7 @@ export function Model200ResponseFromJSON(json: any): Model200Response {
     return Model200ResponseFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function Model200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): Model200Response {
     if ((json === undefined) || (json === null)) {
         return json;

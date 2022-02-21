@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
@@ -31,6 +32,7 @@ export function HealthCheckResultFromJSON(json: any): HealthCheckResult {
     return HealthCheckResultFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function HealthCheckResultFromJSONTyped(json: any, ignoreDiscriminator: boolean): HealthCheckResult {
     if ((json === undefined) || (json === null)) {
         return json;

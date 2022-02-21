@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * Model for testing reserved words
@@ -31,6 +32,7 @@ export function ReturnFromJSON(json: any): Return {
     return ReturnFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function ReturnFromJSONTyped(json: any, ignoreDiscriminator: boolean): Return {
     if ((json === undefined) || (json === null)) {
         return json;

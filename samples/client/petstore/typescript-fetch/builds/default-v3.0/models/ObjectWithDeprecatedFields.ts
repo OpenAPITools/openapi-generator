@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    DeprecatedObject,
-    DeprecatedObjectFromJSON,
-    DeprecatedObjectFromJSONTyped,
-    DeprecatedObjectToJSON,
-} from './DeprecatedObject';
+// @ts-ignore: some imports may be unused
+import { DeprecatedObject, DeprecatedObjectFromJSON, DeprecatedObjectFromJSONTyped, DeprecatedObjectToJSON } from './DeprecatedObject';
 
 /**
  * 
@@ -59,6 +56,7 @@ export function ObjectWithDeprecatedFieldsFromJSON(json: any): ObjectWithDepreca
     return ObjectWithDeprecatedFieldsFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function ObjectWithDeprecatedFieldsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ObjectWithDeprecatedFields {
     if ((json === undefined) || (json === null)) {
         return json;

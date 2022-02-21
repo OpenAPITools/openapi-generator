@@ -13,37 +13,22 @@
  */
 
 
+// @ts-ignore: import may be unused
 import {Api} from './';
+// @ts-ignore: import may be unused
 import {List} from 'immutable';
+// @ts-ignore: some imports may be unused
 import {all, fork, put, takeLatest} from "redux-saga/effects";
+// @ts-ignore: some imports may be unused
 import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
+// @ts-ignore: import may be unused
 import {Action} from "redux-ts-simple";
 
-import {
-    Category,
-    CategoryRecord,
-    categoryRecordUtils,
-    FindPetsByStatusResponse,
-    FindPetsByStatusResponseRecord,
-    findPetsByStatusResponseRecordUtils,
-    FindPetsByUserResponse,
-    FindPetsByUserResponseRecord,
-    findPetsByUserResponseRecordUtils,
-    ModelApiResponse,
-    ModelApiResponseRecord,
-    modelApiResponseRecordUtils,
-    Pet,
-    PetRecord,
-    petRecordUtils,
-    PetRegionsResponse,
-    PetRegionsResponseRecord,
-    petRegionsResponseRecordUtils,
-    UserRecord,
-} from '../models';
+// @ts-ignore: some imports may be unused
+import { Category, CategoryRecord, categoryRecordUtils, FindPetsByStatusResponse, FindPetsByStatusResponseRecord, findPetsByStatusResponseRecordUtils, FindPetsByUserResponse, FindPetsByUserResponseRecord, findPetsByUserResponseRecordUtils, ModelApiResponse, ModelApiResponseRecord, modelApiResponseRecordUtils, Pet, PetRecord, petRecordUtils, PetRegionsResponse, PetRegionsResponseRecord, petRegionsResponseRecordUtils, UserRecord } from '../models';
 
-import {
-    FindPetsByStatusStatusEnum,
-} from './PetApi';
+// @ts-ignore: import may be unused
+import { FindPetsByStatusStatusEnum } from './PetApi';
 
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_petApi"});
 

@@ -12,19 +12,12 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    Animal,
-    AnimalFromJSON,
-    AnimalFromJSONTyped,
-    AnimalToJSON,
-} from './Animal';
-import {
-    CatAllOf,
-    CatAllOfFromJSON,
-    CatAllOfFromJSONTyped,
-    CatAllOfToJSON,
-} from './CatAllOf';
+// @ts-ignore: some imports may be unused
+import { Animal, AnimalFromJSON, AnimalFromJSONTyped, AnimalToJSON } from './Animal';
+// @ts-ignore: some imports may be unused
+import { CatAllOf, CatAllOfFromJSON, CatAllOfFromJSONTyped, CatAllOfToJSON } from './CatAllOf';
 
 /**
  * 
@@ -44,6 +37,7 @@ export function CatFromJSON(json: any): Cat {
     return CatFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function CatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cat {
     if ((json === undefined) || (json === null)) {
         return json;

@@ -14,14 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    GetBehaviorPermissionsResponse,
-    GetBehaviorPermissionsResponseFromJSON,
-    GetBehaviorPermissionsResponseToJSON,
-    GetBehaviorTypeResponse,
-    GetBehaviorTypeResponseFromJSON,
-    GetBehaviorTypeResponseToJSON,
-} from '../models';
+// @ts-ignore: some imports may be unused
+import { GetBehaviorPermissionsResponse, GetBehaviorPermissionsResponseFromJSON, GetBehaviorPermissionsResponseToJSON, GetBehaviorTypeResponse, GetBehaviorTypeResponseFromJSON, GetBehaviorTypeResponseToJSON } from '../models';
 
 export interface GetBehaviorPermissionsRequest {
     behaviorId: number;

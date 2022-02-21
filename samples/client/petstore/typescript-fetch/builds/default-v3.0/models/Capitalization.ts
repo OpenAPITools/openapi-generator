@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * 
@@ -61,6 +62,7 @@ export function CapitalizationFromJSON(json: any): Capitalization {
     return CapitalizationFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function CapitalizationFromJSONTyped(json: any, ignoreDiscriminator: boolean): Capitalization {
     if ((json === undefined) || (json === null)) {
         return json;

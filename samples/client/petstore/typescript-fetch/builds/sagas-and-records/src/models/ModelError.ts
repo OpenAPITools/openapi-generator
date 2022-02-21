@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    ItemId,
-    ItemIdFromJSON,
-    ItemIdFromJSONTyped,
-    ItemIdToJSON,
-} from './ItemId';
+// @ts-ignore: some imports may be unused
+import { ItemId, ItemIdFromJSON, ItemIdFromJSONTyped, ItemIdToJSON } from './ItemId';
 
 /**
  * This represent an error normally linked to a specific item from a previous request
@@ -56,6 +53,7 @@ export function ModelErrorFromJSON(json: any): ModelError {
     return ModelErrorFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function ModelErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelError {
     if ((json === undefined) || (json === null)) {
         return json;

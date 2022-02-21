@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import {fromJS as originalFromJS, isIndexed, List, Map as ImmMap, RecordOf} from 'immutable';
+import {fromJS as originalFromJS, isIndexed, List, RecordOf} from 'immutable';
 import {normalize, NormalizedSchema, schema, Schema} from "normalizr";
 import {ActionDefinition, createAction} from "redux-ts-simple";
 

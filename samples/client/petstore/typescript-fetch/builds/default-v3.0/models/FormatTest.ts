@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    Decimal,
-    DecimalFromJSON,
-    DecimalFromJSONTyped,
-    DecimalToJSON,
-} from './Decimal';
+// @ts-ignore: some imports may be unused
+import { Decimal, DecimalFromJSON, DecimalFromJSONTyped, DecimalToJSON } from './Decimal';
 
 /**
  * 
@@ -128,6 +125,7 @@ export function FormatTestFromJSON(json: any): FormatTest {
     return FormatTestFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): FormatTest {
     if ((json === undefined) || (json === null)) {
         return json;

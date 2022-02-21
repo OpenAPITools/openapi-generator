@@ -12,19 +12,12 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    Animal,
-    AnimalFromJSON,
-    AnimalFromJSONTyped,
-    AnimalToJSON,
-} from './Animal';
-import {
-    DogAllOf,
-    DogAllOfFromJSON,
-    DogAllOfFromJSONTyped,
-    DogAllOfToJSON,
-} from './DogAllOf';
+// @ts-ignore: some imports may be unused
+import { Animal, AnimalFromJSON, AnimalFromJSONTyped, AnimalToJSON } from './Animal';
+// @ts-ignore: some imports may be unused
+import { DogAllOf, DogAllOfFromJSON, DogAllOfFromJSONTyped, DogAllOfToJSON } from './DogAllOf';
 
 /**
  * 
@@ -44,6 +37,7 @@ export function DogFromJSON(json: any): Dog {
     return DogFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function DogFromJSONTyped(json: any, ignoreDiscriminator: boolean): Dog {
     if ((json === undefined) || (json === null)) {
         return json;

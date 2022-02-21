@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * A tag for a pet
@@ -37,6 +38,7 @@ export function TagFromJSON(json: any): Tag {
     return TagFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function TagFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tag {
     if ((json === undefined) || (json === null)) {
         return json;

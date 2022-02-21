@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * Model for testing model name same as property name
@@ -49,6 +50,7 @@ export function NameFromJSON(json: any): Name {
     return NameFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function NameFromJSONTyped(json: any, ignoreDiscriminator: boolean): Name {
     if ((json === undefined) || (json === null)) {
         return json;

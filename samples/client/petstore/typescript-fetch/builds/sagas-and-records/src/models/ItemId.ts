@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * Simplified identifier of an item
@@ -37,6 +38,7 @@ export function ItemIdFromJSON(json: any): ItemId {
     return ItemIdFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function ItemIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): ItemId {
     if ((json === undefined) || (json === null)) {
         return json;

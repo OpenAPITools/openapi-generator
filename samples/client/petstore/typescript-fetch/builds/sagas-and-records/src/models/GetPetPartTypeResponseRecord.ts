@@ -12,27 +12,26 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some imports may be unused
 import {ApiRecordUtils, knownRecordFactories, appFromJS, NormalizedRecordEntities} from "../runtimeSagasAndRecords";
+// @ts-ignore: import may be unused
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+// @ts-ignore: some imports may be unused
 import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
+// @ts-ignore: some imports may be unused
 import {select, call} from "redux-saga/effects";
 
-import {
-    GetPetPartTypeResponse,
-} from './GetPetPartTypeResponse';
+// @ts-ignore: some imports may be unused
+import { GetPetPartTypeResponse } from './GetPetPartTypeResponse';
 
-import {
-    PetPartType,
-} from './PetPartType';
-import {
-    ResponseMeta,
-} from './ResponseMeta';
+// @ts-ignore: some imports may be unused
+import { PetPartType } from './PetPartType';
+// @ts-ignore: some imports may be unused
+import { ResponseMeta } from './ResponseMeta';
 
-import {
-    ResponseMetaRecord,
-    responseMetaRecordUtils
-} from './ResponseMetaRecord';
+// @ts-ignore: some imports may be unused
+import { ResponseMetaRecord, responseMetaRecordUtils } from './ResponseMetaRecord';
 
 export const GetPetPartTypeResponseRecordProps = {
     recType: "GetPetPartTypeResponseApiRecord" as "GetPetPartTypeResponseApiRecord",

@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * 
@@ -37,6 +38,7 @@ export function AdditionalPropertiesClassFromJSON(json: any): AdditionalProperti
     return AdditionalPropertiesClassFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function AdditionalPropertiesClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): AdditionalPropertiesClass {
     if ((json === undefined) || (json === null)) {
         return json;

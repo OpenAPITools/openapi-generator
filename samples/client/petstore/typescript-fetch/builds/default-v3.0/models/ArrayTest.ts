@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    ReadOnlyFirst,
-    ReadOnlyFirstFromJSON,
-    ReadOnlyFirstFromJSONTyped,
-    ReadOnlyFirstToJSON,
-} from './ReadOnlyFirst';
+// @ts-ignore: some imports may be unused
+import { ReadOnlyFirst, ReadOnlyFirstFromJSON, ReadOnlyFirstFromJSONTyped, ReadOnlyFirstToJSON } from './ReadOnlyFirst';
 
 /**
  * 
@@ -50,6 +47,7 @@ export function ArrayTestFromJSON(json: any): ArrayTest {
     return ArrayTestFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function ArrayTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArrayTest {
     if ((json === undefined) || (json === null)) {
         return json;

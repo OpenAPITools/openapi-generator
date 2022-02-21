@@ -12,19 +12,12 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    BehaviorType,
-    BehaviorTypeFromJSON,
-    BehaviorTypeFromJSONTyped,
-    BehaviorTypeToJSON,
-} from './BehaviorType';
-import {
-    ResponseMeta,
-    ResponseMetaFromJSON,
-    ResponseMetaFromJSONTyped,
-    ResponseMetaToJSON,
-} from './ResponseMeta';
+// @ts-ignore: some imports may be unused
+import { BehaviorType, BehaviorTypeFromJSON, BehaviorTypeFromJSONTyped, BehaviorTypeToJSON } from './BehaviorType';
+// @ts-ignore: some imports may be unused
+import { ResponseMeta, ResponseMetaFromJSON, ResponseMetaFromJSONTyped, ResponseMetaToJSON } from './ResponseMeta';
 
 /**
  * 
@@ -50,6 +43,7 @@ export function GetBehaviorTypeResponseFromJSON(json: any): GetBehaviorTypeRespo
     return GetBehaviorTypeResponseFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function GetBehaviorTypeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetBehaviorTypeResponse {
     if ((json === undefined) || (json === null)) {
         return json;

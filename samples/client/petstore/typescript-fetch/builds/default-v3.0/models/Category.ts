@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * 
@@ -37,6 +38,7 @@ export function CategoryFromJSON(json: any): Category {
     return CategoryFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function CategoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): Category {
     if ((json === undefined) || (json === null)) {
         return json;

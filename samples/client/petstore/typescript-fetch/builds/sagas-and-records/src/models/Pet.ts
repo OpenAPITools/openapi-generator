@@ -12,31 +12,16 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    Category,
-    CategoryFromJSON,
-    CategoryFromJSONTyped,
-    CategoryToJSON,
-} from './Category';
-import {
-    DeploymentRequestStatus,
-    DeploymentRequestStatusFromJSON,
-    DeploymentRequestStatusFromJSONTyped,
-    DeploymentRequestStatusToJSON,
-} from './DeploymentRequestStatus';
-import {
-    Tag,
-    TagFromJSON,
-    TagFromJSONTyped,
-    TagToJSON,
-} from './Tag';
-import {
-    WarningCode,
-    WarningCodeFromJSON,
-    WarningCodeFromJSONTyped,
-    WarningCodeToJSON,
-} from './WarningCode';
+// @ts-ignore: some imports may be unused
+import { Category, CategoryFromJSON, CategoryFromJSONTyped, CategoryToJSON } from './Category';
+// @ts-ignore: some imports may be unused
+import { DeploymentRequestStatus, DeploymentRequestStatusFromJSON, DeploymentRequestStatusFromJSONTyped, DeploymentRequestStatusToJSON } from './DeploymentRequestStatus';
+// @ts-ignore: some imports may be unused
+import { Tag, TagFromJSON, TagFromJSONTyped, TagToJSON } from './Tag';
+// @ts-ignore: some imports may be unused
+import { WarningCode, WarningCodeFromJSON, WarningCodeFromJSONTyped, WarningCodeToJSON } from './WarningCode';
 
 /**
  * A pet for sale in the pet store
@@ -186,6 +171,7 @@ export function PetFromJSON(json: any): Pet {
     return PetFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
     if ((json === undefined) || (json === null)) {
         return json;

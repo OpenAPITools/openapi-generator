@@ -12,38 +12,32 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some imports may be unused
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
+// @ts-ignore: import may be unused
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+// @ts-ignore: some imports may be unused
 import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
+// @ts-ignore: some imports may be unused
 import {select, call} from "redux-saga/effects";
 
-import {
-    Pet,
-    PetStatusEnum,
-} from './Pet';
+// @ts-ignore: some imports may be unused
+import { Pet, PetStatusEnum } from './Pet';
 
-import {
-    Category,
-} from './Category';
-import {
-    DeploymentRequestStatus,
-} from './DeploymentRequestStatus';
-import {
-    Tag,
-} from './Tag';
-import {
-    WarningCode,
-} from './WarningCode';
+// @ts-ignore: some imports may be unused
+import { Category } from './Category';
+// @ts-ignore: some imports may be unused
+import { DeploymentRequestStatus } from './DeploymentRequestStatus';
+// @ts-ignore: some imports may be unused
+import { Tag } from './Tag';
+// @ts-ignore: some imports may be unused
+import { WarningCode } from './WarningCode';
 
-import {
-    CategoryRecord,
-    categoryRecordUtils
-} from './CategoryRecord';
-import {
-    TagRecord,
-    tagRecordUtils
-} from './TagRecord';
+// @ts-ignore: some imports may be unused
+import { CategoryRecord, categoryRecordUtils } from './CategoryRecord';
+// @ts-ignore: some imports may be unused
+import { TagRecord, tagRecordUtils } from './TagRecord';
 
 export const PetRecordProps = {
     recType: "PetApiRecord" as "PetApiRecord",

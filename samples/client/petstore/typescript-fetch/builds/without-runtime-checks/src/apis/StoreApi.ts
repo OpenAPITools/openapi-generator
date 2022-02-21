@@ -14,9 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    Order,
-} from '../models';
+// @ts-ignore: some imports may be unused
+import { Order } from '../models';
 
 export interface DeleteOrderRequest {
     orderId: string;

@@ -14,14 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    GetMatchingPartsResponse,
-    GetMatchingPartsResponseFromJSON,
-    GetMatchingPartsResponseToJSON,
-    GetPetPartTypeResponse,
-    GetPetPartTypeResponseFromJSON,
-    GetPetPartTypeResponseToJSON,
-} from '../models';
+// @ts-ignore: some imports may be unused
+import { GetMatchingPartsResponse, GetMatchingPartsResponseFromJSON, GetMatchingPartsResponseToJSON, GetPetPartTypeResponse, GetPetPartTypeResponseFromJSON, GetPetPartTypeResponseToJSON } from '../models';
 
 export interface GetFakePetPartTypeRequest {
     fakePetPartId: number;

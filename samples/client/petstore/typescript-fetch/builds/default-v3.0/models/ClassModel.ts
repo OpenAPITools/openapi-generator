@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * Model for testing model with "_class" property
@@ -31,6 +32,7 @@ export function ClassModelFromJSON(json: any): ClassModel {
     return ClassModelFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function ClassModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClassModel {
     if ((json === undefined) || (json === null)) {
         return json;

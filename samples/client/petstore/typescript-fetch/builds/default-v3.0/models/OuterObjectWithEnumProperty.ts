@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    OuterEnumInteger,
-    OuterEnumIntegerFromJSON,
-    OuterEnumIntegerFromJSONTyped,
-    OuterEnumIntegerToJSON,
-} from './OuterEnumInteger';
+// @ts-ignore: some imports may be unused
+import { OuterEnumInteger, OuterEnumIntegerFromJSON, OuterEnumIntegerFromJSONTyped, OuterEnumIntegerToJSON } from './OuterEnumInteger';
 
 /**
  * 
@@ -38,6 +35,7 @@ export function OuterObjectWithEnumPropertyFromJSON(json: any): OuterObjectWithE
     return OuterObjectWithEnumPropertyFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function OuterObjectWithEnumPropertyFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterObjectWithEnumProperty {
     if ((json === undefined) || (json === null)) {
         return json;

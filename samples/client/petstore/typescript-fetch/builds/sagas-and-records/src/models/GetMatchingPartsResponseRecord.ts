@@ -12,31 +12,28 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some imports may be unused
 import {ApiRecordUtils, knownRecordFactories, appFromJS, NormalizedRecordEntities} from "../runtimeSagasAndRecords";
+// @ts-ignore: import may be unused
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+// @ts-ignore: some imports may be unused
 import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
+// @ts-ignore: some imports may be unused
 import {select, call} from "redux-saga/effects";
 
-import {
-    GetMatchingPartsResponse,
-} from './GetMatchingPartsResponse';
+// @ts-ignore: some imports may be unused
+import { GetMatchingPartsResponse } from './GetMatchingPartsResponse';
 
-import {
-    MatchingParts,
-} from './MatchingParts';
-import {
-    ResponseMeta,
-} from './ResponseMeta';
+// @ts-ignore: some imports may be unused
+import { MatchingParts } from './MatchingParts';
+// @ts-ignore: some imports may be unused
+import { ResponseMeta } from './ResponseMeta';
 
-import {
-    MatchingPartsRecord,
-    matchingPartsRecordUtils
-} from './MatchingPartsRecord';
-import {
-    ResponseMetaRecord,
-    responseMetaRecordUtils
-} from './ResponseMetaRecord';
+// @ts-ignore: some imports may be unused
+import { MatchingPartsRecord, matchingPartsRecordUtils } from './MatchingPartsRecord';
+// @ts-ignore: some imports may be unused
+import { ResponseMetaRecord, responseMetaRecordUtils } from './ResponseMetaRecord';
 
 export const GetMatchingPartsResponseRecordProps = {
     recType: "GetMatchingPartsResponseApiRecord" as "GetMatchingPartsResponseApiRecord",

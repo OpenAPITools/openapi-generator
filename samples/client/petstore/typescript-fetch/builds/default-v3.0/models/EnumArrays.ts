@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * 
@@ -53,6 +54,7 @@ export function EnumArraysFromJSON(json: any): EnumArrays {
     return EnumArraysFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function EnumArraysFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumArrays {
     if ((json === undefined) || (json === null)) {
         return json;

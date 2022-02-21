@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * 
@@ -71,6 +72,7 @@ export function OrderFromJSON(json: any): Order {
     return OrderFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Order {
     if ((json === undefined) || (json === null)) {
         return json;

@@ -12,19 +12,12 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    MatchingParts,
-    MatchingPartsFromJSON,
-    MatchingPartsFromJSONTyped,
-    MatchingPartsToJSON,
-} from './MatchingParts';
-import {
-    ResponseMeta,
-    ResponseMetaFromJSON,
-    ResponseMetaFromJSONTyped,
-    ResponseMetaToJSON,
-} from './ResponseMeta';
+// @ts-ignore: some imports may be unused
+import { MatchingParts, MatchingPartsFromJSON, MatchingPartsFromJSONTyped, MatchingPartsToJSON } from './MatchingParts';
+// @ts-ignore: some imports may be unused
+import { ResponseMeta, ResponseMetaFromJSON, ResponseMetaFromJSONTyped, ResponseMetaToJSON } from './ResponseMeta';
 
 /**
  * 
@@ -50,6 +43,7 @@ export function GetMatchingPartsResponseFromJSON(json: any): GetMatchingPartsRes
     return GetMatchingPartsResponseFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function GetMatchingPartsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetMatchingPartsResponse {
     if ((json === undefined) || (json === null)) {
         return json;

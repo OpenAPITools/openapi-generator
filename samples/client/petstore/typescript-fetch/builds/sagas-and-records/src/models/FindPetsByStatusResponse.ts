@@ -12,19 +12,12 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    Pet,
-    PetFromJSON,
-    PetFromJSONTyped,
-    PetToJSON,
-} from './Pet';
-import {
-    ResponseMeta,
-    ResponseMetaFromJSON,
-    ResponseMetaFromJSONTyped,
-    ResponseMetaToJSON,
-} from './ResponseMeta';
+// @ts-ignore: some imports may be unused
+import { Pet, PetFromJSON, PetFromJSONTyped, PetToJSON } from './Pet';
+// @ts-ignore: some imports may be unused
+import { ResponseMeta, ResponseMetaFromJSON, ResponseMetaFromJSONTyped, ResponseMetaToJSON } from './ResponseMeta';
 
 /**
  * 
@@ -50,6 +43,7 @@ export function FindPetsByStatusResponseFromJSON(json: any): FindPetsByStatusRes
     return FindPetsByStatusResponseFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function FindPetsByStatusResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FindPetsByStatusResponse {
     if ((json === undefined) || (json === null)) {
         return json;

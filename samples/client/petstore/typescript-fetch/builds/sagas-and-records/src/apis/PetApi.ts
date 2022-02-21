@@ -14,26 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    Category,
-    CategoryFromJSON,
-    CategoryToJSON,
-    FindPetsByStatusResponse,
-    FindPetsByStatusResponseFromJSON,
-    FindPetsByStatusResponseToJSON,
-    FindPetsByUserResponse,
-    FindPetsByUserResponseFromJSON,
-    FindPetsByUserResponseToJSON,
-    ModelApiResponse,
-    ModelApiResponseFromJSON,
-    ModelApiResponseToJSON,
-    Pet,
-    PetFromJSON,
-    PetToJSON,
-    PetRegionsResponse,
-    PetRegionsResponseFromJSON,
-    PetRegionsResponseToJSON,
-} from '../models';
+// @ts-ignore: some imports may be unused
+import { Category, CategoryFromJSON, CategoryToJSON, FindPetsByStatusResponse, FindPetsByStatusResponseFromJSON, FindPetsByStatusResponseToJSON, FindPetsByUserResponse, FindPetsByUserResponseFromJSON, FindPetsByUserResponseToJSON, ModelApiResponse, ModelApiResponseFromJSON, ModelApiResponseToJSON, Pet, PetFromJSON, PetToJSON, PetRegionsResponse, PetRegionsResponseFromJSON, PetRegionsResponseToJSON } from '../models';
 
 export interface AddPetRequest {
     dummyCat: Category;

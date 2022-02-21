@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    ErrorCode,
-    ErrorCodeFromJSON,
-    ErrorCodeFromJSONTyped,
-    ErrorCodeToJSON,
-} from './ErrorCode';
+// @ts-ignore: some imports may be unused
+import { ErrorCode, ErrorCodeFromJSON, ErrorCodeFromJSONTyped, ErrorCodeToJSON } from './ErrorCode';
 
 /**
  * Mandatory part of each response given by our API
@@ -98,6 +95,7 @@ export function ResponseMetaFromJSON(json: any): ResponseMeta {
     return ResponseMetaFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function ResponseMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResponseMeta {
     if ((json === undefined) || (json === null)) {
         return json;

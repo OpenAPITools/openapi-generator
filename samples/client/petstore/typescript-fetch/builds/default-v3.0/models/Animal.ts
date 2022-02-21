@@ -12,11 +12,10 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-     CatFromJSONTyped,
-     DogFromJSONTyped
-} from './';
+// @ts-ignore: some imports may be unused
+import { CatFromJSONTyped, DogFromJSONTyped } from './';
 
 /**
  * 
@@ -42,6 +41,7 @@ export function AnimalFromJSON(json: any): Animal {
     return AnimalFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): Animal {
     if ((json === undefined) || (json === null)) {
         return json;

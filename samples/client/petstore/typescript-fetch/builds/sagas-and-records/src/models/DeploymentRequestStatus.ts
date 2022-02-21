@@ -36,6 +36,7 @@ export function DeploymentRequestStatusFromJSON(json: any): DeploymentRequestSta
     return DeploymentRequestStatusFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator not used
 export function DeploymentRequestStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): DeploymentRequestStatus {
     return json as DeploymentRequestStatus;
 }

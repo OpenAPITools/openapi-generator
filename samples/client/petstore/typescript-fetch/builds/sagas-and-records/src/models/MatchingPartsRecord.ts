@@ -12,24 +12,24 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some imports may be unused
 import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
+// @ts-ignore: import may be unused
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+// @ts-ignore: some imports may be unused
 import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
+// @ts-ignore: some imports may be unused
 import {select, call} from "redux-saga/effects";
 
-import {
-    MatchingParts,
-} from './MatchingParts';
+// @ts-ignore: some imports may be unused
+import { MatchingParts } from './MatchingParts';
 
-import {
-    Part,
-} from './Part';
+// @ts-ignore: some imports may be unused
+import { Part } from './Part';
 
-import {
-    PartRecord,
-    partRecordUtils
-} from './PartRecord';
+// @ts-ignore: some imports may be unused
+import { PartRecord, partRecordUtils } from './PartRecord';
 
 export const MatchingPartsRecordProps = {
     recType: "MatchingPartsApiRecord" as "MatchingPartsApiRecord",

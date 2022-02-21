@@ -14,14 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    DefaultMetaOnlyResponse,
-    DefaultMetaOnlyResponseFromJSON,
-    DefaultMetaOnlyResponseToJSON,
-    User,
-    UserFromJSON,
-    UserToJSON,
-} from '../models';
+// @ts-ignore: some imports may be unused
+import { DefaultMetaOnlyResponse, DefaultMetaOnlyResponseFromJSON, DefaultMetaOnlyResponseToJSON, User, UserFromJSON, UserToJSON } from '../models';
 
 export interface CreateUserRequest {
     body: User;

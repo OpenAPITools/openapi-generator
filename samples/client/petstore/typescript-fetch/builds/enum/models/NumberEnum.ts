@@ -27,6 +27,7 @@ export function NumberEnumFromJSON(json: any): NumberEnum {
     return NumberEnumFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator not used
 export function NumberEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): NumberEnum {
     return json as NumberEnum;
 }

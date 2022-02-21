@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * 
@@ -31,6 +32,7 @@ export function ArrayOfNumberOnlyFromJSON(json: any): ArrayOfNumberOnly {
     return ArrayOfNumberOnlyFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function ArrayOfNumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArrayOfNumberOnly {
     if ((json === undefined) || (json === null)) {
         return json;

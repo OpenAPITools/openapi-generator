@@ -12,19 +12,12 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
-import {
-    NumberEnum,
-    NumberEnumFromJSON,
-    NumberEnumFromJSONTyped,
-    NumberEnumToJSON,
-} from './NumberEnum';
-import {
-    StringEnum,
-    StringEnumFromJSON,
-    StringEnumFromJSONTyped,
-    StringEnumToJSON,
-} from './StringEnum';
+// @ts-ignore: some imports may be unused
+import { NumberEnum, NumberEnumFromJSON, NumberEnumFromJSONTyped, NumberEnumToJSON } from './NumberEnum';
+// @ts-ignore: some imports may be unused
+import { StringEnum, StringEnumFromJSON, StringEnumFromJSONTyped, StringEnumToJSON } from './StringEnum';
 
 /**
  * 
@@ -62,6 +55,7 @@ export function EnumPatternObjectFromJSON(json: any): EnumPatternObject {
     return EnumPatternObjectFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function EnumPatternObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumPatternObject {
     if ((json === undefined) || (json === null)) {
         return json;

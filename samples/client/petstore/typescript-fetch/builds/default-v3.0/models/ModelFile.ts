@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * Must be named `File` for test.
@@ -31,6 +32,7 @@ export function ModelFileFromJSON(json: any): ModelFile {
     return ModelFileFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function ModelFileFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelFile {
     if ((json === undefined) || (json === null)) {
         return json;

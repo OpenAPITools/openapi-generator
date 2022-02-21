@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+// @ts-ignore: some or all imports may be unused
 import { exists, mapValues } from '../runtime';
 /**
  * Contains all the info about a pet part
@@ -37,6 +38,7 @@ export function PartFromJSON(json: any): Part {
     return PartFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator may be unused
 export function PartFromJSONTyped(json: any, ignoreDiscriminator: boolean): Part {
     if ((json === undefined) || (json === null)) {
         return json;

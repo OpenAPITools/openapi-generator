@@ -14,11 +14,8 @@
 
 
 import * as runtime from '../runtime';
-import {
-    InlineResponseDefault,
-    InlineResponseDefaultFromJSON,
-    InlineResponseDefaultToJSON,
-} from '../models';
+// @ts-ignore: some imports may be unused
+import { InlineResponseDefault, InlineResponseDefaultFromJSON, InlineResponseDefaultToJSON } from '../models';
 
 /**
  * 

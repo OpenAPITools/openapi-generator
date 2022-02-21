@@ -27,6 +27,7 @@ export function WarningCodeFromJSON(json: any): WarningCode {
     return WarningCodeFromJSONTyped(json, false);
 }
 
+// @ts-ignore: ignoreDiscriminator not used
 export function WarningCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean): WarningCode {
     return json as WarningCode;
 }
