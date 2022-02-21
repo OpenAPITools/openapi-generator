@@ -71,6 +71,8 @@ void (empty response body)
 
 Creates list of users with given input array
 
+
+
 ### Example
 ```powershell
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
@@ -118,6 +120,8 @@ void (empty response body)
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject[]><br>
 
 Creates list of users with given input array
+
+
 
 ### Example
 ```powershell
@@ -217,6 +221,8 @@ void (empty response body)
 
 Get user by user name
 
+
+
 ### Example
 ```powershell
 $Username = "MyUsername" # String | The name that needs to be fetched. Use user1 for testing.
@@ -259,6 +265,8 @@ No authorization required
 
 Logs user into the system
 
+
+
 ### Example
 ```powershell
 $Username = "MyUsername" # String | The user name for login
@@ -300,6 +308,8 @@ No authorization required
 > void Invoke-PSLogoutUser<br>
 
 Logs out current logged in user session
+
+
 
 ### Example
 ```powershell

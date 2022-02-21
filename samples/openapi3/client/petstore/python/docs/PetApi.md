@@ -18,6 +18,8 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
+
+
 ### Example
 
 * OAuth Authentication (petstore_auth):
@@ -169,6 +171,8 @@ void (empty response body)
 > delete_pet(pet_id)
 
 Deletes a pet
+
+
 
 ### Example
 
@@ -614,6 +618,8 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
+
+
 ### Example
 
 * OAuth Authentication (petstore_auth):
@@ -767,6 +773,8 @@ void (empty response body)
 > update_pet_with_form(pet_id)
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 

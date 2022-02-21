@@ -30,6 +30,7 @@ getStoreOrderByInt64R orderId = notImplemented
 
 -- | Place an order for a pet
 --
+-- 
 -- operationId: placeOrder
 postStoreOrderR :: Handler Value
 postStoreOrderR = notImplemented
