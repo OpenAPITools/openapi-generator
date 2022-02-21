@@ -32,7 +32,7 @@ public class ObjectWithUniqueItems   {
 
   @JsonProperty("nullSet")
   @Valid
-  private JsonNullable<Set<String>> nullSet = JsonNullable.of(new LinkedHashSet<>());
+  private JsonNullable<Set<String>> nullSet = JsonNullable.undefined();
 
   @JsonProperty("notNullSet")
   @Valid
@@ -40,7 +40,7 @@ public class ObjectWithUniqueItems   {
 
   @JsonProperty("nullList")
   @Valid
-  private JsonNullable<List<String>> nullList = JsonNullable.of(new ArrayList<>());
+  private JsonNullable<List<String>> nullList = JsonNullable.undefined();
 
   @JsonProperty("notNullList")
   @Valid

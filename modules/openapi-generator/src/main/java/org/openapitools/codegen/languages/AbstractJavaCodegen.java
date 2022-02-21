@@ -1330,10 +1330,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 property.wrapperType = "JsonNullable";
                 property.wrappedType = "JsonNullable<" + property.datatypeWithEnum + ">";
                 property.wrapperFunc = "JsonNullable.of";
-                if (property.defaultValue != null) {
+                property.wrappedDefault = "JsonNullable.undefined()";
+                if (!property.isContainer && property.defaultValue != null) {
                     property.wrappedDefault = "JsonNullable.of(" + property.defaultValue + ")";
-                } else {
-                    property.wrappedDefault = "JsonNullable.undefined()";
                 }
             }
         }
