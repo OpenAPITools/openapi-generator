@@ -29,7 +29,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected String buildTool;
     protected String testTool;
     protected boolean requiredPropertiesInConstructor = true;
-    protected String micronautVersion = "3.2.6";
+    protected String micronautVersion = "3.3.1";
 
     public static final String CONTENT_TYPE_APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
@@ -86,18 +86,18 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         cliOptions.add(CliOption.newBoolean(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR, "Allow only to create models with all the required properties provided in constructor", requiredPropertiesInConstructor));
 
         CliOption buildToolOption = new CliOption(OPT_BUILD, "Specify for which build tool to generate files").defaultValue(buildTool);
-        buildToolOption.setEnum(new HashMap<String, String>() {{
-            put(OPT_BUILD_GRADLE, "Gradle configuration is generated for the project");
-            put(OPT_BUILD_MAVEN, "Maven configuration is generated for the project");
-            put(OPT_BUILD_ALL, "Both Gradle and Maven configurations are generated");
-        }});
+        Map buildToolOptionMap = new HashMap<String, String>();
+        buildToolOptionMap.put(OPT_BUILD_GRADLE, "Gradle configuration is generated for the project");
+        buildToolOptionMap.put(OPT_BUILD_MAVEN, "Maven configuration is generated for the project");
+        buildToolOptionMap.put(OPT_BUILD_ALL, "Both Gradle and Maven configurations are generated");
+        buildToolOption.setEnum(buildToolOptionMap);
         cliOptions.add(buildToolOption);
 
         CliOption testToolOption = new CliOption(OPT_TEST, "Specify which test tool to generate files for").defaultValue(testTool);
-        testToolOption.setEnum(new HashMap<String, String>() {{
-            put(OPT_TEST_JUNIT, "Use JUnit as test tool");
-            put(OPT_TEST_SPOCK, "Use Spock as test tool");
-        }});
+        Map testToolOptionMap = new HashMap<String, String>();
+        testToolOptionMap.put(OPT_TEST_JUNIT, "Use JUnit as test tool");
+        testToolOptionMap.put(OPT_TEST_SPOCK, "Use Spock as test tool");
+        testToolOption.setEnum(testToolOptionMap);
         cliOptions.add(testToolOption);
 
         // Remove the date library option

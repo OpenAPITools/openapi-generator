@@ -1228,5 +1228,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.KTORM; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.KTORM;
+    }
 }

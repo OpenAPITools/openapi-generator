@@ -308,7 +308,6 @@ public class EnumTest  implements Serializable {
     return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

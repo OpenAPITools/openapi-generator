@@ -122,7 +122,7 @@ func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
 // Deprecated
 {{/deprecated}}
 func (o *{{classname}}) Get{{name}}Ok() ({{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{vendorExtensions.x-go-base-type}}, bool) {
-	if o == nil {{#isNullable}}{{#vendorExtensions.x-golang-is-container}}|| o.{{name}} == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+	if o == nil{{#isNullable}}{{#vendorExtensions.x-golang-is-container}} || o.{{name}} == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
 		return nil, false
 	}
 {{#isNullable}}
@@ -163,7 +163,7 @@ func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
 // Deprecated
 {{/deprecated}}
 func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
-	if o == nil {{^isNullable}}|| o.{{name}} == nil{{/isNullable}}{{#isNullable}}{{^vendorExtensions.x-golang-is-container}}|| o.{{name}}.Get() == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+	if o == nil{{^isNullable}} || o.{{name}} == nil{{/isNullable}}{{#isNullable}}{{^vendorExtensions.x-golang-is-container}} || o.{{name}}.Get() == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
 		var ret {{vendorExtensions.x-go-base-type}}
 		return ret
 	}
@@ -189,7 +189,7 @@ func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
 // Deprecated
 {{/deprecated}}
 func (o *{{classname}}) Get{{name}}Ok() ({{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{vendorExtensions.x-go-base-type}}, bool) {
-	if o == nil {{^isNullable}}|| o.{{name}} == nil{{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}}|| o.{{name}} == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+	if o == nil{{^isNullable}} || o.{{name}} == nil{{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}} || o.{{name}} == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
 		return nil, false
 	}
 {{#isNullable}}
@@ -314,7 +314,7 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 	{{#deprecated}}
 		// Deprecated
 	{{/deprecated}}
-		{{name}} {{^required}}{{^isNullable}}*{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+		{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 	{{/vars}}
 	}
 

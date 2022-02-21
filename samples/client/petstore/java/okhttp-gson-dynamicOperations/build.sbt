@@ -18,7 +18,6 @@ lazy val root = (project in file(".")).
       "javax.ws.rs" % "javax.ws.rs-api" % "2.0",
       "org.openapitools" % "jackson-databind-nullable" % "0.2.2",
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1",
-      "org.threeten" % "threetenbp" % "1.4.3" % "compile",
       "io.swagger.parser.v3" % "swagger-parser-v3" "2.0.23" % "compile"
       "io.gsonfire" % "gson-fire" % "1.8.3" % "compile",
       "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5" % "compile",

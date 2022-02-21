@@ -4,7 +4,6 @@ namespace OpenAPI\Client;
 
 use GuzzleHttp\Psr7\Utils;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\StreamInterface;
 
 // test object serializer
 class ObjectSerializerTest extends TestCase
@@ -34,7 +33,7 @@ class ObjectSerializerTest extends TestCase
      * @covers ObjectSerializer::serialize
      * @dataProvider provideFileStreams
      */
-    public function testDeserializeFile(StreamInterface $stream, ?array $httpHeaders = null, ?string $expectedFilename = null): void
+    public function testDeserializeFile($stream, ?array $httpHeaders = null, ?string $expectedFilename = null): void
     {
         $s = new ObjectSerializer();
 
@@ -61,6 +60,11 @@ class ObjectSerializerTest extends TestCase
                 Utils::streamFor(\fopen(__FILE__, 'r')),
                 ['Content-Disposition' => 'inline; filename=\'foobar.php\''],
                 'foobar.php',
+            ],
+            'File path' => [
+                __FILE__,
+                null,
+                null,
             ],
         ];
     }

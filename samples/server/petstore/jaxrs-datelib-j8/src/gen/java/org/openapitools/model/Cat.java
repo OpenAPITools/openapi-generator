@@ -76,7 +76,6 @@ public class Cat extends Animal implements Serializable {
     return Objects.hash(declawed, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

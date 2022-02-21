@@ -54,7 +54,7 @@ func (o *BananaReq) GetLengthCm() float32 {
 // GetLengthCmOk returns a tuple with the LengthCm field value
 // and a boolean to check if the value has been set.
 func (o *BananaReq) GetLengthCmOk() (*float32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.LengthCm, true

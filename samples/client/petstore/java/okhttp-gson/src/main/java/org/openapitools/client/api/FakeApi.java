@@ -32,8 +32,8 @@ import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterEnum;
 import org.openapitools.client.model.User;
@@ -1238,7 +1238,7 @@ public class FakeApi {
      * @param string None (optional)
      * @param binary None (optional)
      * @param date None (optional)
-     * @param dateTime None (optional, default to OffsetDateTime.parse(&quot;2010-02-01T09:20:10.111110Z[UTC]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
+     * @param dateTime None (optional, default to 2010-02-01T10:20:10.111110+01:00)
      * @param password None (optional)
      * @param paramCallback None (optional)
      * @param _callback Callback for upload/download progress
@@ -1395,7 +1395,7 @@ public class FakeApi {
      * @param string None (optional)
      * @param binary None (optional)
      * @param date None (optional)
-     * @param dateTime None (optional, default to OffsetDateTime.parse(&quot;2010-02-01T09:20:10.111110Z[UTC]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
+     * @param dateTime None (optional, default to 2010-02-01T10:20:10.111110+01:00)
      * @param password None (optional)
      * @param paramCallback None (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -1424,7 +1424,7 @@ public class FakeApi {
      * @param string None (optional)
      * @param binary None (optional)
      * @param date None (optional)
-     * @param dateTime None (optional, default to OffsetDateTime.parse(&quot;2010-02-01T09:20:10.111110Z[UTC]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
+     * @param dateTime None (optional, default to 2010-02-01T10:20:10.111110+01:00)
      * @param password None (optional)
      * @param paramCallback None (optional)
      * @return ApiResponse&lt;Void&gt;
@@ -1455,7 +1455,7 @@ public class FakeApi {
      * @param string None (optional)
      * @param binary None (optional)
      * @param date None (optional)
-     * @param dateTime None (optional, default to OffsetDateTime.parse(&quot;2010-02-01T09:20:10.111110Z[UTC]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
+     * @param dateTime None (optional, default to 2010-02-01T10:20:10.111110+01:00)
      * @param password None (optional)
      * @param paramCallback None (optional)
      * @param _callback The callback to be executed when the API call finishes

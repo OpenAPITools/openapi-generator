@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -84,12 +84,12 @@ class BananaReq(
         *args: typing.Union[dict, frozendict, ],
         lengthCm: lengthCm,
         sweet: typing.Union[sweet, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
     ) -> 'BananaReq':
         return super().__new__(
             cls,
             *args,
             lengthCm=lengthCm,
             sweet=sweet,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
         )

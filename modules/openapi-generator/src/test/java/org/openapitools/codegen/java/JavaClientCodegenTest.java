@@ -275,7 +275,6 @@ public class JavaClientCodegenTest {
     @Test
     public void testGeneratePing() throws Exception {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
 
         File output = Files.createTempDirectory("test").toFile();
@@ -291,7 +290,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 39);
+        Assert.assertEquals(files.size(), 40);
         TestUtils.ensureContainsFile(files, output, ".gitignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
@@ -341,7 +340,6 @@ public class JavaClientCodegenTest {
     @Test
     public void testGeneratePingSomeObj() throws Exception {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(CodegenConstants.MODEL_PACKAGE, "zz.yyyy.model.xxxx");
         properties.put(CodegenConstants.API_PACKAGE, "zz.yyyy.api.xxxx");
         properties.put(CodegenConstants.INVOKER_PACKAGE, "zz.yyyy.invoker.xxxx");
@@ -360,7 +358,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 42);
+        Assert.assertEquals(files.size(), 43);
         TestUtils.ensureContainsFile(files, output, ".gitignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
@@ -415,7 +413,6 @@ public class JavaClientCodegenTest {
     @Test
     public void testJdkHttpClient() throws Exception {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
 
         File output = Files.createTempDirectory("test").toFile();
@@ -432,7 +429,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 31);
+        Assert.assertEquals(files.size(), 32);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
@@ -482,7 +479,6 @@ public class JavaClientCodegenTest {
     @Test
     public void testJdkHttpAsyncClient() throws Exception {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
         properties.put(JavaClientCodegen.ASYNC_NATIVE, true);
 
@@ -500,7 +496,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 34);
+        Assert.assertEquals(files.size(), 35);
         validateJavaSourceFiles(files);
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/PingApi.java");
@@ -649,7 +645,6 @@ public class JavaClientCodegenTest {
     public void testImportMapping() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
 
         Map<String, String> importMappings = new HashMap<>();
@@ -905,7 +900,6 @@ public class JavaClientCodegenTest {
     public void testRestTemplateFormMultipart() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
 
 
@@ -954,7 +948,6 @@ public class JavaClientCodegenTest {
     public void testWebClientFormMultipart() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
 
 
@@ -1005,7 +998,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 48);
+        Assert.assertEquals(files.size(), 49);
         TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/RealCommand.java");
         TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/Command.java");
 
@@ -1032,7 +1025,6 @@ public class JavaClientCodegenTest {
     public void testRestTemplateWithUseAbstractionForFiles() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
         properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
 
@@ -1162,7 +1154,6 @@ public class JavaClientCodegenTest {
     public void testWebClientWithUseAbstractionForFiles() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
         properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
 
@@ -1205,7 +1196,6 @@ public class JavaClientCodegenTest {
     @Test
     public void testRestTemplateWithFreeFormInQueryParameters() throws IOException {
         final Map<String, Object> properties = new HashMap<>();
-        properties.put(AbstractJavaCodegen.JAVA8_MODE, true);
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
 
         final File output = Files.createTempDirectory("test")
@@ -1234,7 +1224,6 @@ public class JavaClientCodegenTest {
     @Test
     public void testWebClientWithFreeFormInQueryParameters() throws IOException {
         final Map<String, Object> properties = new HashMap<>();
-        properties.put(AbstractJavaCodegen.JAVA8_MODE, true);
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
 
         final File output = Files.createTempDirectory("test")
@@ -1265,7 +1254,6 @@ public class JavaClientCodegenTest {
     @Test
     public void testNativeClientWhiteSpacePathParamEncoding() throws IOException {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
 
         File output = Files.createTempDirectory("test").toFile();
@@ -1282,7 +1270,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 34);
+        Assert.assertEquals(files.size(), 35);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java"),
