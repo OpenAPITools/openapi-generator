@@ -1,29 +1,31 @@
+// Some imports not used depending on template conditions
+// @ts-ignore
 import {ApiRecordUtils, knownRecordFactories{{#returnPassthrough}}, appFromJS, NormalizedRecordEntities{{/returnPassthrough}}} from "../runtimeSagasAndRecords";
+// Import not used depending on template conditions
+// @ts-ignore
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+// Some imports not used depending on template conditions
+// @ts-ignore
 import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
+// Some imports not used depending on template conditions
+// @ts-ignore
 import {select, call} from "redux-saga/effects";
 
-import {
-    {{classname}},
-{{#vars}}
-{{#isEnum}}
-    {{classname}}{{enumName}},
-{{/isEnum}}
-{{/vars}}
-} from './{{classname}}';
+// Some imports not used depending on template conditions
+// @ts-ignore
+import { {{classname}}{{#vars}}{{#isEnum}}, {{classname}}{{enumName}}{{/isEnum}}{{/vars}} } from './{{classname}}';
 
 {{#imports}}
-import {
-    {{{.}}},
-} from './{{{.}}}';
+// Some imports not used depending on template conditions
+// @ts-ignore
+import { {{{.}}} } from './{{{.}}}';
 {{/imports}}
 
 {{#modelImports}}
-import {
-    {{{.}}}Record,
-    {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}RecordUtils
-} from './{{{.}}}Record';
+// Some imports not used depending on template conditions
+// @ts-ignore
+import { {{{.}}}Record, {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}RecordUtils } from './{{{.}}}Record';
 {{/modelImports}}
 
 export const {{classname}}RecordProps = {

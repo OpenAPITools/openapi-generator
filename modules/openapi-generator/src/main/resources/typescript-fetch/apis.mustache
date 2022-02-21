@@ -4,15 +4,9 @@
 
 import * as runtime from '../runtime';
 {{#imports.0}}
-import {
-    {{#imports}}
-    {{className}},
-    {{^withoutRuntimeChecks}}
-    {{className}}FromJSON,
-    {{className}}ToJSON,
-    {{/withoutRuntimeChecks}}
-    {{/imports}}
-} from '../models';
+// Some imports not used depending on template conditions
+// @ts-ignore
+import { {{#imports}}{{className}}{{^withoutRuntimeChecks}}, {{className}}FromJSON, {{className}}ToJSON{{/withoutRuntimeChecks}}{{^-last}}, {{/-last}}{{/imports}} } from '../models';
 {{/imports.0}}
 
 {{#operations}}

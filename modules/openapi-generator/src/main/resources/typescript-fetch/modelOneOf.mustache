@@ -1,11 +1,8 @@
 {{#hasImports}}
 {{#oneOf}}
-import {
-    {{{.}}},
-    {{{.}}}FromJSON,
-    {{{.}}}FromJSONTyped,
-    {{{.}}}ToJSON,
-} from './{{.}}';
+// Some imports not used depending on template conditions
+// @ts-ignore
+import { {{{.}}}, {{{.}}}FromJSON, {{{.}}}FromJSONTyped, {{{.}}}ToJSON, } from './{{.}}';
 {{/oneOf}}
 
 {{/hasImports}}
@@ -15,6 +12,8 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
     return {{classname}}FromJSONTyped(json, false);
 }
 
+// ignoreDiscriminator not used depending on template conditions
+// @ts-ignore
 export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{classname}} {
     if ((json === undefined) || (json === null)) {
         return json;

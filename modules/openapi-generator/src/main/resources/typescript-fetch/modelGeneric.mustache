@@ -1,21 +1,18 @@
+// Some or all imports not used depending on template conditions
+// @ts-ignore
 import { exists, mapValues } from '../runtime';
 {{#hasImports}}
 {{#imports}}
-import {
-    {{{.}}},
-    {{.}}FromJSON,
-    {{.}}FromJSONTyped,
-    {{.}}ToJSON,
-} from './{{.}}';
+// Some imports not used depending on template conditions
+// @ts-ignore
+import { {{{.}}}, {{.}}FromJSON, {{.}}FromJSONTyped, {{.}}ToJSON } from './{{.}}';
 {{/imports}}
 
 {{/hasImports}}
 {{#discriminator}}
-import {
-{{#discriminator.mappedModels}}
-     {{modelName}}FromJSONTyped{{^-last}},{{/-last}}
-{{/discriminator.mappedModels}}
-} from './';
+// Some imports not used depending on template conditions
+// @ts-ignore
+import { {{#discriminator.mappedModels}}{{modelName}}FromJSONTyped{{^-last}}, {{/-last}}{{/discriminator.mappedModels}} } from './';
 
 {{/discriminator}}
 {{>modelGenericInterfaces}}
@@ -24,6 +21,8 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
     return {{classname}}FromJSONTyped(json, false);
 }
 
+// ignoreDiscriminator not used depending on template conditions
+// @ts-ignore
 export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{classname}} {
     {{#hasVars}}
     if ((json === undefined) || (json === null)) {

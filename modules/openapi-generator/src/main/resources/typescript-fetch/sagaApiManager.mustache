@@ -1,15 +1,10 @@
-import {
-    Configuration,
-    ConfigurationParameters,
-} from "../";
+// Some imports not used depending on template conditions
+// @ts-ignore
+import { Configuration, ConfigurationParameters } from "../";
 
-import {
-{{#apiInfo}}
-{{#apis}}
-    {{classFilename}},
-{{/apis}}
-{{/apiInfo}}
-} from "./";
+// Some imports not used depending on template conditions
+// @ts-ignore
+import { {{#apiInfo}}{{#apis}}{{classFilename}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}} } from "./";
 
 export class Api {
 {{#apiInfo}}
