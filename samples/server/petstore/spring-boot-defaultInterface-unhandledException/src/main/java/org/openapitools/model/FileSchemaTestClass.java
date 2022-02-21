@@ -4,14 +4,14 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -25,13 +25,13 @@ import javax.annotation.Generated;
 public class FileSchemaTestClass   {
 
   @JsonProperty("file")
-  private java.io.File file;
+  private File file;
 
   @JsonProperty("files")
   @Valid
-  private List<java.io.File> files = null;
+  private List<File> files = null;
 
-  public FileSchemaTestClass file(java.io.File file) {
+  public FileSchemaTestClass file(File file) {
     this.file = file;
     return this;
   }
@@ -41,20 +41,21 @@ public class FileSchemaTestClass   {
    * @return file
   */
   @Valid 
-  public java.io.File getFile() {
+  @Schema(name = "file", required = false)
+  public File getFile() {
     return file;
   }
 
-  public void setFile(java.io.File file) {
+  public void setFile(File file) {
     this.file = file;
   }
 
-  public FileSchemaTestClass files(List<java.io.File> files) {
+  public FileSchemaTestClass files(List<File> files) {
     this.files = files;
     return this;
   }
 
-  public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
+  public FileSchemaTestClass addFilesItem(File filesItem) {
     if (this.files == null) {
       this.files = new ArrayList<>();
     }
@@ -67,11 +68,12 @@ public class FileSchemaTestClass   {
    * @return files
   */
   @Valid 
-  public List<java.io.File> getFiles() {
+  @Schema(name = "files", required = false)
+  public List<File> getFiles() {
     return files;
   }
 
-  public void setFiles(List<java.io.File> files) {
+  public void setFiles(List<File> files) {
     this.files = files;
   }
 

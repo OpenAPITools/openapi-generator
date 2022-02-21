@@ -4,12 +4,11 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -19,6 +18,7 @@ import javax.annotation.Generated;
  * Model for testing model name same as property name
  */
 
+@Schema(name = "Name", description = "Model for testing model name same as property name")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Name   {
 
@@ -44,6 +44,7 @@ public class Name   {
    * @return name
   */
   @NotNull 
+  @Schema(name = "name", required = true)
   public Integer getName() {
     return name;
   }
@@ -62,6 +63,7 @@ public class Name   {
    * @return snakeCase
   */
   
+  @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -80,6 +82,7 @@ public class Name   {
    * @return property
   */
   
+  @Schema(name = "property", required = false)
   public String getProperty() {
     return property;
   }
@@ -98,6 +101,7 @@ public class Name   {
    * @return _123number
   */
   
+  @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, required = false)
   public Integer get123number() {
     return _123number;
   }

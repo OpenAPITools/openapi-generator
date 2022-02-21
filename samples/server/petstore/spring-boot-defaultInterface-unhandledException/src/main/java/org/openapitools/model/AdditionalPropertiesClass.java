@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +12,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -85,6 +84,7 @@ public class AdditionalPropertiesClass   {
    * @return mapString
   */
   
+  @Schema(name = "map_string", required = false)
   public Map<String, String> getMapString() {
     return mapString;
   }
@@ -111,6 +111,7 @@ public class AdditionalPropertiesClass   {
    * @return mapNumber
   */
   @Valid 
+  @Schema(name = "map_number", required = false)
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
@@ -137,6 +138,7 @@ public class AdditionalPropertiesClass   {
    * @return mapInteger
   */
   
+  @Schema(name = "map_integer", required = false)
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
@@ -163,6 +165,7 @@ public class AdditionalPropertiesClass   {
    * @return mapBoolean
   */
   
+  @Schema(name = "map_boolean", required = false)
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
   }
@@ -189,6 +192,7 @@ public class AdditionalPropertiesClass   {
    * @return mapArrayInteger
   */
   @Valid 
+  @Schema(name = "map_array_integer", required = false)
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
@@ -215,6 +219,7 @@ public class AdditionalPropertiesClass   {
    * @return mapArrayAnytype
   */
   @Valid 
+  @Schema(name = "map_array_anytype", required = false)
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
@@ -241,6 +246,7 @@ public class AdditionalPropertiesClass   {
    * @return mapMapString
   */
   @Valid 
+  @Schema(name = "map_map_string", required = false)
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
@@ -267,6 +273,7 @@ public class AdditionalPropertiesClass   {
    * @return mapMapAnytype
   */
   @Valid 
+  @Schema(name = "map_map_anytype", required = false)
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
@@ -285,6 +292,7 @@ public class AdditionalPropertiesClass   {
    * @return anytype1
   */
   
+  @Schema(name = "anytype_1", required = false)
   public Object getAnytype1() {
     return anytype1;
   }
@@ -303,6 +311,7 @@ public class AdditionalPropertiesClass   {
    * @return anytype2
   */
   
+  @Schema(name = "anytype_2", required = false)
   public Object getAnytype2() {
     return anytype2;
   }
@@ -321,6 +330,7 @@ public class AdditionalPropertiesClass   {
    * @return anytype3
   */
   
+  @Schema(name = "anytype_3", required = false)
   public Object getAnytype3() {
     return anytype3;
   }

@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import java.math.BigDecimal;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -16,32 +15,33 @@ import java.util.*;
 import javax.annotation.Generated;
 
 /**
- * NumberOnly
+ * Must be named &#x60;File&#x60; for test.
  */
 
+@Schema(name = "File", description = "Must be named `File` for test.")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class NumberOnly   {
+public class File   {
 
-  @JsonProperty("JustNumber")
-  private BigDecimal justNumber;
+  @JsonProperty("sourceURI")
+  private String sourceURI;
 
-  public NumberOnly justNumber(BigDecimal justNumber) {
-    this.justNumber = justNumber;
+  public File sourceURI(String sourceURI) {
+    this.sourceURI = sourceURI;
     return this;
   }
 
   /**
-   * Get justNumber
-   * @return justNumber
+   * Test capitalization
+   * @return sourceURI
   */
-  @Valid 
-  @Schema(name = "JustNumber", required = false)
-  public BigDecimal getJustNumber() {
-    return justNumber;
+  
+  @Schema(name = "sourceURI", description = "Test capitalization", required = false)
+  public String getSourceURI() {
+    return sourceURI;
   }
 
-  public void setJustNumber(BigDecimal justNumber) {
-    this.justNumber = justNumber;
+  public void setSourceURI(String sourceURI) {
+    this.sourceURI = sourceURI;
   }
 
   @Override
@@ -52,20 +52,20 @@ public class NumberOnly   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    NumberOnly numberOnly = (NumberOnly) o;
-    return Objects.equals(this.justNumber, numberOnly.justNumber);
+    File file = (File) o;
+    return Objects.equals(this.sourceURI, file.sourceURI);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(justNumber);
+    return Objects.hash(sourceURI);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class NumberOnly {\n");
-    sb.append("    justNumber: ").append(toIndentedString(justNumber)).append("\n");
+    sb.append("class File {\n");
+    sb.append("    sourceURI: ").append(toIndentedString(sourceURI)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -4,12 +4,11 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -50,6 +49,7 @@ public class Capitalization   {
    * @return smallCamel
   */
   
+  @Schema(name = "smallCamel", required = false)
   public String getSmallCamel() {
     return smallCamel;
   }
@@ -68,6 +68,7 @@ public class Capitalization   {
    * @return capitalCamel
   */
   
+  @Schema(name = "CapitalCamel", required = false)
   public String getCapitalCamel() {
     return capitalCamel;
   }
@@ -86,6 +87,7 @@ public class Capitalization   {
    * @return smallSnake
   */
   
+  @Schema(name = "small_Snake", required = false)
   public String getSmallSnake() {
     return smallSnake;
   }
@@ -104,6 +106,7 @@ public class Capitalization   {
    * @return capitalSnake
   */
   
+  @Schema(name = "Capital_Snake", required = false)
   public String getCapitalSnake() {
     return capitalSnake;
   }
@@ -122,6 +125,7 @@ public class Capitalization   {
    * @return scAETHFlowPoints
   */
   
+  @Schema(name = "SCA_ETH_Flow_Points", required = false)
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
@@ -140,6 +144,7 @@ public class Capitalization   {
    * @return ATT_NAME
   */
   
+  @Schema(name = "ATT_NAME", description = "Name of the pet ", required = false)
   public String getATTNAME() {
     return ATT_NAME;
   }

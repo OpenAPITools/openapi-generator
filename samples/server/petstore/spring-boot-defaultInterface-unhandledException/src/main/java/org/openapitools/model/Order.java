@@ -5,13 +5,13 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -90,6 +90,7 @@ public class Order   {
    * @return id
   */
   
+  @Schema(name = "id", required = false)
   public Long getId() {
     return id;
   }
@@ -108,6 +109,7 @@ public class Order   {
    * @return petId
   */
   
+  @Schema(name = "petId", required = false)
   public Long getPetId() {
     return petId;
   }
@@ -126,6 +128,7 @@ public class Order   {
    * @return quantity
   */
   
+  @Schema(name = "quantity", required = false)
   public Integer getQuantity() {
     return quantity;
   }
@@ -144,6 +147,7 @@ public class Order   {
    * @return shipDate
   */
   @Valid 
+  @Schema(name = "shipDate", required = false)
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -162,6 +166,7 @@ public class Order   {
    * @return status
   */
   
+  @Schema(name = "status", description = "Order Status", required = false)
   public StatusEnum getStatus() {
     return status;
   }
@@ -180,6 +185,7 @@ public class Order   {
    * @return complete
   */
   
+  @Schema(name = "complete", required = false)
   public Boolean getComplete() {
     return complete;
   }
