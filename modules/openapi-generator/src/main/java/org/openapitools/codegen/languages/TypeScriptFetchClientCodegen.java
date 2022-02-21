@@ -975,6 +975,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             return TypeScriptFetchClientCodegen.getItemsDataType(this.items);
         }
 
+        public boolean isDateType() {
+            return isDate && "Date".equals(dataType);
+        }
+
+        public boolean isDateTimeType() {
+            return isDateTime && "Date".equals(dataType);
+        }
+
         public ExtendedCodegenParameter(CodegenParameter cp) {
             super();
 
@@ -1104,6 +1112,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         public String getItemsDataType() {
             return TypeScriptFetchClientCodegen.getItemsDataType(this.items);
+        }
+
+        public boolean isDateType() {
+            return isDate && "Date".equals(dataType);
+        }
+
+        public boolean isDateTimeType() {
+            return isDateTime && "Date".equals(dataType);
         }
 
         public ExtendedCodegenProperty(CodegenProperty cp) {
@@ -1344,6 +1360,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;
         public boolean hasReturnPassthroughVoid;
+
+        public boolean isDateType() {
+            return isDate && "Date".equals(dataType);
+        }
+
+        public boolean isDateTimeType() {
+            return isDateTime && "Date".equals(dataType);
+        }
 
         public ExtendedCodegenModel(CodegenModel cm) {
             super();
