@@ -252,7 +252,6 @@ class {{classname}}(object):
         # HTTP header `Content-Type`
         content_types_list = self.api_client.select_header_content_type(  # noqa: E501
             [{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}])  # noqa: E501
-            [{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}])  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
