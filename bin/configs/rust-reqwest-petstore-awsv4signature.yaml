@@ -1,0 +1,9 @@
+generatorName: rust
+outputDir: samples/client/petstore/rust/reqwest/petstore-awsv4signature
+library: reqwest
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: false
+  packageName: petstore-reqwest-awsv4signature
+  withAWSV4Signature: true
