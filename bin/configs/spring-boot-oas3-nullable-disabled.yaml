@@ -1,0 +1,12 @@
+generatorName: spring
+outputDir: samples/openapi3/server/petstore/springboot-nullable-disabled
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-nullable-required.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  groupId: org.openapitools.openapi3
+  documentationProvider: springdoc
+  artifactId: springboot-nullable-disabled
+  snapshotVersion: "true"
+  hideGenerationTimestamp: "true"
+  openApiNullable: "false"
+  useOptional: "true"
