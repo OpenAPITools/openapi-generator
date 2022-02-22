@@ -843,8 +843,7 @@ class Endpoint(object):
             if content_type_headers_list:
                 if params['body'] != "":
                     content_types_list = self.api_client.select_header_content_type(
-                        content_type_headers_list,
-                        self.settings['http_method'],
+                        content_type_headers_list, self.settings['http_method'],
                         params['body'])
                     if content_types_list:
                         params['header']['Content-Type'] = content_types_list
