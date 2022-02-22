@@ -1,7 +1,10 @@
 package org.openapitools.codegen.typescript;
 
+import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -39,6 +42,16 @@ public class TypeScriptClientCodegenTest {
 
         ModelUtils.setGenerateAliasAsModel(true);
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Child; }");
+    }
+
+    @Test
+    public void testComposedSchemasImportTypesIndividually() {
+        final TypeScriptClientCodegen codegen = new TypeScriptClientCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed-schemas.yaml");
+        codegen.setOpenAPI(openApi);
+        PathItem path = openApi.getPaths().get("/pets");
+        CodegenOperation operation = codegen.fromOperation("/pets", "patch", path.getPatch(), path.getServers());
+        Assert.assertEquals(operation.imports, Sets.newHashSet("Cat", "Dog"));
     }
 
 }

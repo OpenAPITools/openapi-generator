@@ -24,10 +24,10 @@
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <memory>
+#include <optional>
 
 #include <UserApi.h>
 
-#include <pistache/optional.h>
 
 #include "User.h"
 #include <string>
@@ -48,7 +48,7 @@ public:
     void create_users_with_list_input(const std::vector<User> &body, Pistache::Http::ResponseWriter &response);
     void delete_user(const std::string &username, Pistache::Http::ResponseWriter &response);
     void get_user_by_name(const std::string &username, Pistache::Http::ResponseWriter &response);
-    void login_user(const Pistache::Optional<std::string> &username, const Pistache::Optional<std::string> &password, Pistache::Http::ResponseWriter &response);
+    void login_user(const std::optional<std::string> &username, const std::optional<std::string> &password, Pistache::Http::ResponseWriter &response);
     void logout_user(Pistache::Http::ResponseWriter &response);
     void update_user(const std::string &username, const User &body, Pistache::Http::ResponseWriter &response);
 

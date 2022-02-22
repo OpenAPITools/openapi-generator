@@ -50,11 +50,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   @JsonProperty("{{baseName}}")
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
-  {{#isListContainer}}
+  {{#isArray}}
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
@@ -71,8 +72,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-  {{/isListContainer}}
-  {{#isMapContainer}}
+  {{/isArray}}
+  {{#isMap}}
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
@@ -89,7 +90,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-  {{/isMapContainer}}
+  {{/isMap}}
   {{/vars}}
 
   @Override

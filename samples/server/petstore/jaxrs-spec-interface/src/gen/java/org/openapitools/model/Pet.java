@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -146,10 +147,27 @@ public enum StatusEnum {
   }
 
   @JsonProperty("photoUrls")
+  @JsonDeserialize(as = LinkedHashSet.class)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
+  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<String>();
+    }
+
+    this.photoUrls.add(photoUrlsItem);
+    return this;
+  }
+
+  public Pet removePhotoUrlsItem(String photoUrlsItem) {
+    if (photoUrlsItem != null && this.photoUrls != null) {
+      this.photoUrls.remove(photoUrlsItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public Pet tags(List<Tag> tags) {
@@ -171,6 +189,22 @@ public enum StatusEnum {
     this.tags = tags;
   }
 
+  public Pet addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<Tag>();
+    }
+
+    this.tags.add(tagsItem);
+    return this;
+  }
+
+  public Pet removeTagsItem(Tag tagsItem) {
+    if (tagsItem != null && this.tags != null) {
+      this.tags.remove(tagsItem);
+    }
+
+    return this;
+  }
 /**
    * pet status in the store
    **/

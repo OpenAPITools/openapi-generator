@@ -17,7 +17,7 @@ dependencies {
     compile         'org.jboss.resteasy:resteasy-jackson2-provider:3.0.11.Final'
     providedCompile 'jakarta.validation:jakarta.validation-api:2.0.2'
     compile         'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.9'
-    testCompile     'junit:junit:4.13',
+    testCompile     'junit:junit:4.13.1',
                     'org.hamcrest:hamcrest-core:1.3'
 }
 

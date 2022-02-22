@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class List {\n");
             sb.Append("  _123List: ").Append(_123List).Append("\n");
             sb.Append("}\n");
@@ -99,7 +99,9 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this._123List != null)
-                    hashCode = hashCode * 59 + this._123List.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this._123List.GetHashCode();
+                }
                 return hashCode;
             }
         }

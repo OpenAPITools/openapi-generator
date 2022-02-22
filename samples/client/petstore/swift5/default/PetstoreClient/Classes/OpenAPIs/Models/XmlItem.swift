@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct XmlItem: Codable, Hashable {
+public struct XmlItem: Codable, JSONEncodable, Hashable {
 
     public var attributeString: String?
     public var attributeNumber: Double?

@@ -536,6 +536,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.isUnboundedInteger = isUnboundedInteger;
     }
 
+    @Override
+    public boolean getIsPrimitiveType() { return isPrimitiveType; }
+
+    @Override
+    public void setIsPrimitiveType(boolean isPrimitiveType)  {
+        this.isPrimitiveType = isPrimitiveType;
+    }
+
     public Map<String, Object> getVendorExtensions() {
         return vendorExtensions;
     }
@@ -776,6 +784,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     @Override
     public void setHasDiscriminatorWithNonEmptyMapping(boolean hasDiscriminatorWithNonEmptyMapping) {
         this.hasDiscriminatorWithNonEmptyMapping = hasDiscriminatorWithNonEmptyMapping;
+    }
+
+    public boolean getHasItems() {
+        return this.items != null;
     }
 
     @Override

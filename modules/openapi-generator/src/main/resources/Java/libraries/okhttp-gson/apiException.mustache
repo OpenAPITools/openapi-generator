@@ -12,6 +12,7 @@ import java.util.TreeMap;
 /**
  * <p>ApiException class.</p>
  */
+@SuppressWarnings("serial")
 {{>generatedAnnotation}}
 public class ApiException extends{{#useRuntimeException}} RuntimeException {{/useRuntimeException}}{{^useRuntimeException}} Exception {{/useRuntimeException}}{
     private int code = 0;

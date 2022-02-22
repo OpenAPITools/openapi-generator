@@ -700,4 +700,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     protected static String dropDots(String str) {
         return str.replaceAll("\\.", "_");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PYTHON; }
 }

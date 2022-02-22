@@ -18,7 +18,7 @@ import {
     ItemIdFromJSON,
     ItemIdFromJSONTyped,
     ItemIdToJSON,
-} from './';
+} from './ItemId';
 
 /**
  * This represent an error normally linked to a specific item from a previous request

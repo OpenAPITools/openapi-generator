@@ -1,0 +1,170 @@
+openapi: 3.0.1
+info:
+  description: desc
+  title: toto
+  version: 1.0.0
+servers:
+- description: /
+  url: /
+tags:
+- description: verify-default-value
+  name: verify-default-value
+paths:
+  /test-headers:
+    get:
+      description: desc
+      operationId: headersTest
+      parameters:
+      - explode: false
+        in: header
+        name: headerNumber
+        required: false
+        schema:
+          default: 11.2
+          type: number
+        style: simple
+      - explode: false
+        in: header
+        name: headerString
+        required: false
+        schema:
+          default: qwerty
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: headerStringWrapped
+        required: false
+        schema:
+          default: qwerty
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: headerStringQuotes
+        required: false
+        schema:
+          default: qwerty"with quotes" test
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: headerStringQuotesWrapped
+        required: false
+        schema:
+          default: qwerty"with quotes" test
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: headerBoolean
+        required: false
+        schema:
+          default: true
+          type: boolean
+        style: simple
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResponse'
+          description: default response
+      summary: test headers
+      tags:
+      - verify-default-value
+      x-accepts: application/json
+      x-tags:
+      - tag: verify-default-value
+  /test-query-params:
+    get:
+      description: desc
+      operationId: queryParamsTest
+      parameters:
+      - explode: true
+        in: query
+        name: queryNumber
+        required: false
+        schema:
+          default: 11.2
+          type: number
+        style: form
+      - explode: true
+        in: query
+        name: queryString
+        required: false
+        schema:
+          default: qwerty
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: queryStringWrapped
+        required: false
+        schema:
+          default: qwerty
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: queryStringQuotes
+        required: false
+        schema:
+          default: qwerty"with quotes" test
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: queryStringQuotesWrapped
+        required: false
+        schema:
+          default: qwerty"with quotes" test
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: queryBoolean
+        required: false
+        schema:
+          default: true
+          type: boolean
+        style: form
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResponse'
+          description: default response
+      summary: test query params
+      tags:
+      - verify-default-value
+      x-accepts: application/json
+      x-tags:
+      - tag: verify-default-value
+components:
+  schemas:
+    TestResponse:
+      example:
+        numberField: 6.027456183070403
+        booleanField: true
+        id: 0
+        stringField: asd
+      properties:
+        id:
+          type: integer
+        stringField:
+          default: asd
+          type: string
+        numberField:
+          default: 11
+          type: number
+        booleanField:
+          default: true
+          type: boolean
+      required:
+      - booleanField
+      - id
+      - numberField
+      - stringField
+      type: object

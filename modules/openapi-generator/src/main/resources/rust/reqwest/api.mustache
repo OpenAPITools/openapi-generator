@@ -101,11 +101,27 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
 
     {{#queryParams}}
     {{#required}}
-    local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string())]);
+    {{#isArray}}
+    local_var_req_builder = match "{{collectionFormat}}" {
+        "multi" => local_var_req_builder.query(&{{{paramName}}}.into_iter().map(|p| ("{{{baseName}}}".to_owned(), p)).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+    };
+    {{/isArray}}
+    {{^isArray}}
+    local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.to_string())]);
+    {{/isArray}}
     {{/required}}
     {{^required}}
     if let Some(ref local_var_str) = {{{paramName}}} {
-        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string())]);
+        {{#isArray}}
+        local_var_req_builder = match "{{collectionFormat}}" {
+            "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("{{{baseName}}}".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+            _ => local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        };
+        {{/isArray}}
+        {{^isArray}}
+        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.to_string())]);
+        {{/isArray}}
     }
     {{/required}}
     {{/queryParams}}

@@ -98,6 +98,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
         // as well as keywords from https://kotlinlang.org/docs/reference/keyword-reference.html
         reservedWords = new HashSet<>(Arrays.asList(
+                "ApiResponse", // Used in the auto-generated api client
                 "abstract",
                 "actual",
                 "annotation",
@@ -415,6 +416,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
+        if (additionalProperties.containsKey(MODEL_MUTABLE)) {
+            additionalProperties.put(MODEL_MUTABLE, Boolean.parseBoolean(additionalProperties.get(MODEL_MUTABLE).toString()));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
             setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
         }
@@ -472,6 +477,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             this.setSerializableModel(convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL));
         } else {
             additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
@@ -1015,4 +1024,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         return null;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.KOTLIN; }
 }

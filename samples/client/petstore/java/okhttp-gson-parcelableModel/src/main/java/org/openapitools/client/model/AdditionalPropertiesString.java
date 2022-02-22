@@ -37,7 +37,7 @@ public class AdditionalPropertiesString extends HashMap<String, String> implemen
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public AdditionalPropertiesString() {
+  public AdditionalPropertiesString() { 
     super();
   }
 
