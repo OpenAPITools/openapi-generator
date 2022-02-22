@@ -133,6 +133,7 @@ pub fn create_user(configuration: &configuration::Configuration, user: crate::mo
     }
 }
 
+/// 
 pub fn create_users_with_array_input(configuration: &configuration::Configuration, user: Vec<crate::models::User>) -> Result<(), Error<CreateUsersWithArrayInputError>> {
     let local_var_configuration = configuration;
 
@@ -182,6 +183,7 @@ pub fn create_users_with_array_input(configuration: &configuration::Configuratio
     }
 }
 
+/// 
 pub fn create_users_with_list_input(configuration: &configuration::Configuration, user: Vec<crate::models::User>) -> Result<(), Error<CreateUsersWithListInputError>> {
     let local_var_configuration = configuration;
 
@@ -280,6 +282,7 @@ pub fn delete_user(configuration: &configuration::Configuration, username: &str)
     }
 }
 
+/// 
 pub fn get_user_by_name(configuration: &configuration::Configuration, username: &str) -> Result<crate::models::User, Error<GetUserByNameError>> {
     let local_var_configuration = configuration;
 
@@ -307,6 +310,7 @@ pub fn get_user_by_name(configuration: &configuration::Configuration, username: 
     }
 }
 
+/// 
 pub fn login_user(configuration: &configuration::Configuration, username: &str, password: &str) -> Result<String, Error<LoginUserError>> {
     let local_var_configuration = configuration;
 
@@ -336,6 +340,7 @@ pub fn login_user(configuration: &configuration::Configuration, username: &str, 
     }
 }
 
+/// 
 pub fn logout_user(configuration: &configuration::Configuration, ) -> Result<(), Error<LogoutUserError>> {
     let local_var_configuration = configuration;
 
