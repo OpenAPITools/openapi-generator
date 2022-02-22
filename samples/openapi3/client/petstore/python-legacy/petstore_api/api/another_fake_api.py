@@ -151,8 +151,10 @@ class AnotherFakeApi(object):
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'PATCH', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 

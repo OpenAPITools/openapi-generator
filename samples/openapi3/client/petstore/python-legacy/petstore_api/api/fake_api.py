@@ -284,8 +284,10 @@ class FakeApi(object):
         if 'pet' in local_var_params:
             body_params = local_var_params['pet']
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json', 'application/xml'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json', 'application/xml'],
+                'GET', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
@@ -422,8 +424,10 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
@@ -562,8 +566,10 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
@@ -702,8 +708,10 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
@@ -842,8 +850,10 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
@@ -986,8 +996,10 @@ class FakeApi(object):
             ['*/*'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
@@ -1122,8 +1134,10 @@ class FakeApi(object):
         if 'body' in local_var_params:
             body_params = local_var_params['body']
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['image/png'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['image/png'],
+                'PUT', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
@@ -1260,8 +1274,10 @@ class FakeApi(object):
         if 'file_schema_test_class' in local_var_params:
             body_params = local_var_params['file_schema_test_class']
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'PUT', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
@@ -1407,8 +1423,10 @@ class FakeApi(object):
         if 'user' in local_var_params:
             body_params = local_var_params['user']
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'PUT', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
@@ -1549,8 +1567,10 @@ class FakeApi(object):
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'PATCH', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
@@ -1820,8 +1840,10 @@ class FakeApi(object):
 
         body_params = None
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/x-www-form-urlencoded'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/x-www-form-urlencoded'],
+                'POST', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
@@ -2006,8 +2028,10 @@ class FakeApi(object):
 
         body_params = None
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/x-www-form-urlencoded'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/x-www-form-urlencoded'],
+                'GET', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
@@ -2319,8 +2343,10 @@ class FakeApi(object):
         if 'request_body' in local_var_params:
             body_params = local_var_params['request_body']
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'POST', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
@@ -2468,8 +2494,10 @@ class FakeApi(object):
 
         body_params = None
         # HTTP header `Content-Type`
-        content_types_list = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/x-www-form-urlencoded'])  # noqa: E501
+        content_types_list = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/x-www-form-urlencoded'],
+                'GET', body_params))  # noqa: E501
         if content_types_list:
                 header_params['Content-Type'] = content_types_list
 
