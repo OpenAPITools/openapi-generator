@@ -830,7 +830,7 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Params.java"),
                 "private Optional<String> optionalString = Optional.empty();",
                 "private Optional<String> optionalNullableString = Optional.empty();",
-                "private String requiredNullableString;");
+                "private String requiredNullableString = null;");
     }
 
     @Test
@@ -899,8 +899,8 @@ public class SpringCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Params.java"),
                 "private String optionalString;",
-                "private String optionalNullableString;",
-                "private String requiredNullableString;");
+                "private String optionalNullableString = null;",
+                "private String requiredNullableString = null;");
     }
 
     /**define the destinationFilename*/
