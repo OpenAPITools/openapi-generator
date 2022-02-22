@@ -795,7 +795,7 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Params.java"),
                 "private Optional<String> optionalString = Optional.empty();",
                 "private JsonNullable<String> optionalNullableString = JsonNullable.undefined();",
-                "private JsonNullable<String> requiredNullableString = JsonNullable.undefined();");
+                "private String requiredNullableString;");
     }
 
     @Test
@@ -829,8 +829,9 @@ public class SpringCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Params.java"),
                 "private Optional<String> optionalString = Optional.empty();",
-                "private Optional<String> optionalNullableString = Optional.empty();",
-                "private String requiredNullableString = null;");
+//                "private Optional<String> optionalNullableString = Optional.empty();",
+                "private String optionalNullableString;",
+                "private String requiredNullableString");
     }
 
     @Test
@@ -845,8 +846,8 @@ public class SpringCodegenTest {
         codegen.setOutputDir(output.getAbsolutePath());
 
         codegen.additionalProperties().put(SpringCodegen.DELEGATE_PATTERN, "true");
-        codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, "false");
-        codegen.additionalProperties().put(OptionalFeatures.USE_OPTIONAL, "true");
+        codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, "true");
+        codegen.additionalProperties().put(OptionalFeatures.USE_OPTIONAL, "false");
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -864,8 +865,9 @@ public class SpringCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Params.java"),
                 "private String optionalString;",
-                "private JsonNullable<String> optionalNullableString = JsonNullable.undefined();",
-                "private JsonNullable<String> requiredNullableString = JsonNullable.undefined();");
+                "private JsonNullable<String> optionalNullableString = JsonNullable.undefined();"
+//                "private JsonNullable<String> requiredNullableString = JsonNullable.undefined();"
+        );
     }
 
     @Test
@@ -881,7 +883,7 @@ public class SpringCodegenTest {
 
         codegen.additionalProperties().put(SpringCodegen.DELEGATE_PATTERN, "true");
         codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, "false");
-        codegen.additionalProperties().put(OptionalFeatures.USE_OPTIONAL, "true");
+        codegen.additionalProperties().put(OptionalFeatures.USE_OPTIONAL, "false");
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -899,8 +901,8 @@ public class SpringCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Params.java"),
                 "private String optionalString;",
-                "private String optionalNullableString = null;",
-                "private String requiredNullableString = null;");
+                "private String optionalNullableString;",
+                "private String requiredNullableString;");
     }
 
     /**define the destinationFilename*/
