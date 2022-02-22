@@ -866,7 +866,7 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Params.java"),
                 "private String optionalString;",
                 "private JsonNullable<String> optionalNullableString = JsonNullable.undefined();"
-//                "private JsonNullable<String> requiredNullableString = JsonNullable.undefined();"
+                //"private JsonNullable<String> requiredNullableString = JsonNullable.undefined();"
         );
     }
 
