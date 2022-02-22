@@ -442,6 +442,7 @@ class StoreApi(object):
     def place_order(self, order, **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -471,6 +472,7 @@ class StoreApi(object):
     def place_order_with_http_info(self, order, **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 

@@ -177,6 +177,7 @@ class UserApi(object):
     def create_users_with_array_input(self, user, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -206,6 +207,7 @@ class UserApi(object):
     def create_users_with_array_input_with_http_info(self, user, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -313,6 +315,7 @@ class UserApi(object):
     def create_users_with_list_input(self, user, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -342,6 +345,7 @@ class UserApi(object):
     def create_users_with_list_input_with_http_info(self, user, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -581,6 +585,7 @@ class UserApi(object):
     def get_user_by_name(self, username, **kwargs):  # noqa: E501
         """Get user by user name  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -610,6 +615,7 @@ class UserApi(object):
     def get_user_by_name_with_http_info(self, username, **kwargs):  # noqa: E501
         """Get user by user name  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -719,6 +725,7 @@ class UserApi(object):
     def login_user(self, username, password, **kwargs):  # noqa: E501
         """Logs user into the system  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -750,6 +757,7 @@ class UserApi(object):
     def login_user_with_http_info(self, username, password, **kwargs):  # noqa: E501
         """Logs user into the system  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -867,6 +875,7 @@ class UserApi(object):
     def logout_user(self, **kwargs):  # noqa: E501
         """Logs out current logged in user session  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -894,6 +903,7 @@ class UserApi(object):
     def logout_user_with_http_info(self, **kwargs):  # noqa: E501
         """Logs out current logged in user session  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 

@@ -176,6 +176,8 @@ type FakeApi interface {
 	/*
 	TestInlineAdditionalProperties test inline additionalProperties
 
+	
+
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiTestInlineAdditionalPropertiesRequest
 	*/
@@ -186,6 +188,8 @@ type FakeApi interface {
 
 	/*
 	TestJsonFormData test json serialization of form data
+
+	
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiTestJsonFormDataRequest
@@ -1680,6 +1684,8 @@ func (r ApiTestInlineAdditionalPropertiesRequest) Execute() (*http.Response, err
 /*
 TestInlineAdditionalProperties test inline additionalProperties
 
+
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiTestInlineAdditionalPropertiesRequest
 */
@@ -1784,6 +1790,8 @@ func (r ApiTestJsonFormDataRequest) Execute() (*http.Response, error) {
 
 /*
 TestJsonFormData test json serialization of form data
+
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiTestJsonFormDataRequest

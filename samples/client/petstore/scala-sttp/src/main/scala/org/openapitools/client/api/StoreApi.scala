@@ -74,6 +74,8 @@ class StoreApi(baseUrl: String) {
       .response(asJson[Order])
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 200 : Order (successful operation)
    *   code 400 :  (Invalid Order)

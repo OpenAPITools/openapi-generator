@@ -133,6 +133,7 @@ export class StoreApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * Place an order for a pet
      */
     async placeOrderRaw(requestParameters: PlaceOrderRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Order>> {
@@ -158,6 +159,7 @@ export class StoreApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * Place an order for a pet
      */
     async placeOrder(requestParameters: PlaceOrderRequest, initOverrides?: RequestInit): Promise<Order> {

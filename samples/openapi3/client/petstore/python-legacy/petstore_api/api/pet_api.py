@@ -39,6 +39,7 @@ class PetApi(object):
     def add_pet(self, pet, **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -68,6 +69,7 @@ class PetApi(object):
     def add_pet_with_http_info(self, pet, **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -189,6 +191,7 @@ class PetApi(object):
     def delete_pet(self, pet_id, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -220,6 +223,7 @@ class PetApi(object):
     def delete_pet_with_http_info(self, pet_id, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -746,6 +750,7 @@ class PetApi(object):
     def update_pet(self, pet, **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -775,6 +780,7 @@ class PetApi(object):
     def update_pet_with_http_info(self, pet, **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -896,6 +902,7 @@ class PetApi(object):
     def update_pet_with_form(self, pet_id, **kwargs):  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -929,6 +936,7 @@ class PetApi(object):
     def update_pet_with_form_with_http_info(self, pet_id, **kwargs):  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -1046,6 +1054,7 @@ class PetApi(object):
     def upload_file(self, pet_id, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -1079,6 +1088,7 @@ class PetApi(object):
     def upload_file_with_http_info(self, pet_id, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -1202,6 +1212,7 @@ class PetApi(object):
     def upload_file_with_required_file(self, pet_id, required_file, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -1235,6 +1246,7 @@ class PetApi(object):
     def upload_file_with_required_file_with_http_info(self, pet_id, required_file, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 

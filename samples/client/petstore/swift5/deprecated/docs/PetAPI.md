@@ -21,6 +21,8 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
+
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -68,6 +70,8 @@ Void (empty response body)
 ```
 
 Deletes a pet
+
+
 
 ### Example
 ```swift
@@ -269,6 +273,8 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
+
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -316,6 +322,8 @@ Void (empty response body)
 ```
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 ```swift
@@ -368,6 +376,8 @@ Void (empty response body)
 ```
 
 uploads an image
+
+
 
 ### Example
 ```swift

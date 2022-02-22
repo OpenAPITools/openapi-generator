@@ -8,6 +8,7 @@ servers:
 paths:
   /xml:
     post:
+      description: ""
       requestBody:
         content:
           application/xml:
@@ -640,7 +641,6 @@ components:
           nullable: true
           type: string
         nullableWithNullDefault:
-          default: "null"
           nullable: true
           type: string
         nullableWithPresentDefault:
