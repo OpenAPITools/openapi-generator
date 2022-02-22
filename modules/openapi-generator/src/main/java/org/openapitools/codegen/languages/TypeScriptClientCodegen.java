@@ -1577,6 +1577,19 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
     }
 
+    protected void addImport(Set<String> importsToBeAddedTo, String type) {
+        if (type == null) {
+            return;
+        }
+
+        String[] parts = type.split("( [|&] )|[<>]");
+        for (String s : parts) {
+            if (shouldAddImport(s)) {
+                importsToBeAddedTo.add(s);
+            }
+        }
+    }
+
     @Override
     public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.TYPESCRIPT; }
 }
