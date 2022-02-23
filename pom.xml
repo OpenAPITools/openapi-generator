@@ -1436,6 +1436,12 @@
                 <version>${testng.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.openrewrite</groupId>
+                <artifactId>rewrite-maven</artifactId>
+                <version>${openrewrite.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <repositories>
@@ -1483,6 +1489,7 @@
         <slf4j.version>1.7.32</slf4j.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <openrewrite.version>7.18.2</openrewrite.version>
         <swagger-core.version>2.1.12</swagger-core.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
         <swagger-parser.version>2.0.29</swagger-parser.version>

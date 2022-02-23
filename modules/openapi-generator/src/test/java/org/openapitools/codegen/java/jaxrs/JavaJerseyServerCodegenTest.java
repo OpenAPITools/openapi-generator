@@ -126,6 +126,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
 
         Assert.assertTrue(files.size() > 0);
         TestUtils.validateJavaSourceFiles(files);
+        TestUtils.validatePomXmlFiles(files);
 
         return files.stream().collect(Collectors.toMap(e -> e.getName().replace(outputPath, ""), i -> i));
     }

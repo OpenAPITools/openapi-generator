@@ -38,6 +38,7 @@ jobs:
           - samples/server/petstore/springboot-delegate
           - samples/openapi3/server/petstore/springboot-delegate
           - samples/server/petstore/spring-boot-nullable-set
+          - samples/server/petstore/spring-boot-defaultInterface-unhandledException
           - samples/openapi3/server/petstore/spring-boot-oneof
     steps:
       - uses: actions/checkout@v2
