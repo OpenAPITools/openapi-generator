@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -25,16 +24,16 @@ import javax.annotation.Generated;
 public class ModelApiResponse   {
 
   @JsonProperty("code")
-  private Optional<Integer> code = Optional.empty();
+  private Integer code;
 
   @JsonProperty("type")
-  private Optional<String> type = Optional.empty();
+  private String type;
 
   @JsonProperty("message")
-  private Optional<String> message = Optional.empty();
+  private String message;
 
   public ModelApiResponse code(Integer code) {
-    this.code = Optional.ofNullable(code);
+    this.code = code;
     return this;
   }
 
@@ -42,17 +41,18 @@ public class ModelApiResponse   {
    * Get code
    * @return code
   */
+  
   @Schema(name = "code", required = false)
-  public Optional<Integer> getCode() {
+  public Integer getCode() {
     return code;
   }
 
-  public void setCode(Optional<Integer> code) {
+  public void setCode(Integer code) {
     this.code = code;
   }
 
   public ModelApiResponse type(String type) {
-    this.type = Optional.ofNullable(type);
+    this.type = type;
     return this;
   }
 
@@ -60,17 +60,18 @@ public class ModelApiResponse   {
    * Get type
    * @return type
   */
+  
   @Schema(name = "type", required = false)
-  public Optional<String> getType() {
+  public String getType() {
     return type;
   }
 
-  public void setType(Optional<String> type) {
+  public void setType(String type) {
     this.type = type;
   }
 
   public ModelApiResponse message(String message) {
-    this.message = Optional.ofNullable(message);
+    this.message = message;
     return this;
   }
 
@@ -78,12 +79,13 @@ public class ModelApiResponse   {
    * Get message
    * @return message
   */
+  
   @Schema(name = "message", required = false)
-  public Optional<String> getMessage() {
+  public String getMessage() {
     return message;
   }
 
-  public void setMessage(Optional<String> message) {
+  public void setMessage(String message) {
     this.message = message;
   }
 

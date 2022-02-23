@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -27,13 +26,13 @@ public class Name   {
   private Integer name;
 
   @JsonProperty("snake_case")
-  private Optional<Integer> snakeCase = Optional.empty();
+  private Integer snakeCase;
 
   @JsonProperty("property")
-  private Optional<String> property = Optional.empty();
+  private String property;
 
   @JsonProperty("123Number")
-  private Optional<Integer> _123number = Optional.empty();
+  private Integer _123number;
 
   public Name name(Integer name) {
     this.name = name;
@@ -55,7 +54,7 @@ public class Name   {
   }
 
   public Name snakeCase(Integer snakeCase) {
-    this.snakeCase = Optional.ofNullable(snakeCase);
+    this.snakeCase = snakeCase;
     return this;
   }
 
@@ -63,17 +62,18 @@ public class Name   {
    * Get snakeCase
    * @return snakeCase
   */
+  
   @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, required = false)
-  public Optional<Integer> getSnakeCase() {
+  public Integer getSnakeCase() {
     return snakeCase;
   }
 
-  public void setSnakeCase(Optional<Integer> snakeCase) {
+  public void setSnakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
 
   public Name property(String property) {
-    this.property = Optional.ofNullable(property);
+    this.property = property;
     return this;
   }
 
@@ -81,17 +81,18 @@ public class Name   {
    * Get property
    * @return property
   */
+  
   @Schema(name = "property", required = false)
-  public Optional<String> getProperty() {
+  public String getProperty() {
     return property;
   }
 
-  public void setProperty(Optional<String> property) {
+  public void setProperty(String property) {
     this.property = property;
   }
 
   public Name _123number(Integer _123number) {
-    this._123number = Optional.ofNullable(_123number);
+    this._123number = _123number;
     return this;
   }
 
@@ -99,12 +100,13 @@ public class Name   {
    * Get _123number
    * @return _123number
   */
+  
   @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, required = false)
-  public Optional<Integer> get123number() {
+  public Integer get123number() {
     return _123number;
   }
 
-  public void set123number(Optional<Integer> _123number) {
+  public void set123number(Integer _123number) {
     this._123number = _123number;
   }
 

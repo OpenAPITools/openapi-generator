@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -25,10 +24,10 @@ import javax.annotation.Generated;
 public class ClassModel   {
 
   @JsonProperty("_class")
-  private Optional<String> propertyClass = Optional.empty();
+  private String propertyClass;
 
   public ClassModel propertyClass(String propertyClass) {
-    this.propertyClass = Optional.ofNullable(propertyClass);
+    this.propertyClass = propertyClass;
     return this;
   }
 
@@ -36,12 +35,13 @@ public class ClassModel   {
    * Get propertyClass
    * @return propertyClass
   */
+  
   @ApiModelProperty(value = "")
-  public Optional<String> getPropertyClass() {
+  public String getPropertyClass() {
     return propertyClass;
   }
 
-  public void setPropertyClass(Optional<String> propertyClass) {
+  public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
 

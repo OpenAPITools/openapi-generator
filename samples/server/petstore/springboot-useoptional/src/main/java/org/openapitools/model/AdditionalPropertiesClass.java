@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -60,13 +59,13 @@ public class AdditionalPropertiesClass   {
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   @JsonProperty("anytype_1")
-  private Optional<Object> anytype1 = Optional.empty();
+  private Object anytype1;
 
   @JsonProperty("anytype_2")
-  private Optional<Object> anytype2 = Optional.empty();
+  private Object anytype2;
 
   @JsonProperty("anytype_3")
-  private Optional<Object> anytype3 = Optional.empty();
+  private Object anytype3;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;
@@ -285,7 +284,7 @@ public class AdditionalPropertiesClass   {
   }
 
   public AdditionalPropertiesClass anytype1(Object anytype1) {
-    this.anytype1 = Optional.ofNullable(anytype1);
+    this.anytype1 = anytype1;
     return this;
   }
 
@@ -293,17 +292,18 @@ public class AdditionalPropertiesClass   {
    * Get anytype1
    * @return anytype1
   */
+  
   @ApiModelProperty(value = "")
-  public Optional<Object> getAnytype1() {
+  public Object getAnytype1() {
     return anytype1;
   }
 
-  public void setAnytype1(Optional<Object> anytype1) {
+  public void setAnytype1(Object anytype1) {
     this.anytype1 = anytype1;
   }
 
   public AdditionalPropertiesClass anytype2(Object anytype2) {
-    this.anytype2 = Optional.ofNullable(anytype2);
+    this.anytype2 = anytype2;
     return this;
   }
 
@@ -311,17 +311,18 @@ public class AdditionalPropertiesClass   {
    * Get anytype2
    * @return anytype2
   */
+  
   @ApiModelProperty(value = "")
-  public Optional<Object> getAnytype2() {
+  public Object getAnytype2() {
     return anytype2;
   }
 
-  public void setAnytype2(Optional<Object> anytype2) {
+  public void setAnytype2(Object anytype2) {
     this.anytype2 = anytype2;
   }
 
   public AdditionalPropertiesClass anytype3(Object anytype3) {
-    this.anytype3 = Optional.ofNullable(anytype3);
+    this.anytype3 = anytype3;
     return this;
   }
 
@@ -329,12 +330,13 @@ public class AdditionalPropertiesClass   {
    * Get anytype3
    * @return anytype3
   */
+  
   @ApiModelProperty(value = "")
-  public Optional<Object> getAnytype3() {
+  public Object getAnytype3() {
     return anytype3;
   }
 
-  public void setAnytype3(Optional<Object> anytype3) {
+  public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;
   }
 

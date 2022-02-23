@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -26,14 +25,14 @@ import javax.annotation.Generated;
 public class FileSchemaTestClass   {
 
   @JsonProperty("file")
-  private Optional<File> file = Optional.empty();
+  private File file;
 
   @JsonProperty("files")
   @Valid
   private List<File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(File file) {
-    this.file = Optional.ofNullable(file);
+    this.file = file;
     return this;
   }
 
@@ -41,12 +40,13 @@ public class FileSchemaTestClass   {
    * Get file
    * @return file
   */
+  @Valid 
   @Schema(name = "file", required = false)
-  public Optional<File> getFile() {
+  public File getFile() {
     return file;
   }
 
-  public void setFile(Optional<File> file) {
+  public void setFile(File file) {
     this.file = file;
   }
 

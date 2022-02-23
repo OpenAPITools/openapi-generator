@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Optional;
@@ -63,8 +64,9 @@ public class Category   {
     return name;
   }
 
-  public void setName(Optional<String> name) {
-    this.name = name;
+  @JsonIgnore
+  public void setName(String name) {
+    this.name = Optional.ofNullable(name);
   }
 
   @Override

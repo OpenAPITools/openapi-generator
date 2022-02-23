@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -48,8 +49,9 @@ public class ModelApiResponse   {
     return code;
   }
 
-  public void setCode(Optional<Integer> code) {
-    this.code = code;
+  @JsonIgnore
+  public void setCode(Integer code) {
+    this.code = Optional.ofNullable(code);
   }
 
   public ModelApiResponse type(String type) {
@@ -66,8 +68,9 @@ public class ModelApiResponse   {
     return type;
   }
 
-  public void setType(Optional<String> type) {
-    this.type = type;
+  @JsonIgnore
+  public void setType(String type) {
+    this.type = Optional.ofNullable(type);
   }
 
   public ModelApiResponse message(String message) {
@@ -84,8 +87,9 @@ public class ModelApiResponse   {
     return message;
   }
 
-  public void setMessage(Optional<String> message) {
-    this.message = message;
+  @JsonIgnore
+  public void setMessage(String message) {
+    this.message = Optional.ofNullable(message);
   }
 
   @Override

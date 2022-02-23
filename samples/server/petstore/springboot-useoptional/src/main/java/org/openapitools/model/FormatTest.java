@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -32,31 +31,31 @@ import javax.annotation.Generated;
 public class FormatTest   {
 
   @JsonProperty("integer")
-  private Optional<Integer> integer = Optional.empty();
+  private Integer integer;
 
   @JsonProperty("int32")
-  private Optional<Integer> int32 = Optional.empty();
+  private Integer int32;
 
   @JsonProperty("int64")
-  private Optional<Long> int64 = Optional.empty();
+  private Long int64;
 
   @JsonProperty("number")
   private BigDecimal number;
 
   @JsonProperty("float")
-  private Optional<Float> _float = Optional.empty();
+  private Float _float;
 
   @JsonProperty("double")
-  private Optional<Double> _double = Optional.empty();
+  private Double _double;
 
   @JsonProperty("string")
-  private Optional<String> string = Optional.empty();
+  private String string;
 
   @JsonProperty("byte")
   private byte[] _byte;
 
   @JsonProperty("binary")
-  private Optional<org.springframework.core.io.Resource> binary = Optional.empty();
+  private org.springframework.core.io.Resource binary;
 
   @JsonProperty("date")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -64,19 +63,19 @@ public class FormatTest   {
 
   @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private Optional<OffsetDateTime> dateTime = Optional.empty();
+  private OffsetDateTime dateTime;
 
   @JsonProperty("uuid")
-  private Optional<UUID> uuid = Optional.empty();
+  private UUID uuid;
 
   @JsonProperty("password")
   private String password;
 
   @JsonProperty("BigDecimal")
-  private Optional<BigDecimal> bigDecimal = Optional.empty();
+  private BigDecimal bigDecimal;
 
   public FormatTest integer(Integer integer) {
-    this.integer = Optional.ofNullable(integer);
+    this.integer = integer;
     return this;
   }
 
@@ -86,17 +85,18 @@ public class FormatTest   {
    * maximum: 100
    * @return integer
   */
+  @Min(10) @Max(100) 
   @ApiModelProperty(value = "")
-  public Optional<@Min(10) @Max(100) Integer> getInteger() {
+  public Integer getInteger() {
     return integer;
   }
 
-  public void setInteger(Optional<Integer> integer) {
+  public void setInteger(Integer integer) {
     this.integer = integer;
   }
 
   public FormatTest int32(Integer int32) {
-    this.int32 = Optional.ofNullable(int32);
+    this.int32 = int32;
     return this;
   }
 
@@ -106,17 +106,18 @@ public class FormatTest   {
    * maximum: 200
    * @return int32
   */
+  @Min(20) @Max(200) 
   @ApiModelProperty(value = "")
-  public Optional<@Min(20) @Max(200) Integer> getInt32() {
+  public Integer getInt32() {
     return int32;
   }
 
-  public void setInt32(Optional<Integer> int32) {
+  public void setInt32(Integer int32) {
     this.int32 = int32;
   }
 
   public FormatTest int64(Long int64) {
-    this.int64 = Optional.ofNullable(int64);
+    this.int64 = int64;
     return this;
   }
 
@@ -124,12 +125,13 @@ public class FormatTest   {
    * Get int64
    * @return int64
   */
+  
   @ApiModelProperty(value = "")
-  public Optional<Long> getInt64() {
+  public Long getInt64() {
     return int64;
   }
 
-  public void setInt64(Optional<Long> int64) {
+  public void setInt64(Long int64) {
     this.int64 = int64;
   }
 
@@ -155,7 +157,7 @@ public class FormatTest   {
   }
 
   public FormatTest _float(Float _float) {
-    this._float = Optional.ofNullable(_float);
+    this._float = _float;
     return this;
   }
 
@@ -165,17 +167,18 @@ public class FormatTest   {
    * maximum: 987.6
    * @return _float
   */
+  @DecimalMin("54.3") @DecimalMax("987.6") 
   @ApiModelProperty(value = "")
-  public Optional<@DecimalMin("54.3") @DecimalMax("987.6") Float> getFloat() {
+  public Float getFloat() {
     return _float;
   }
 
-  public void setFloat(Optional<Float> _float) {
+  public void setFloat(Float _float) {
     this._float = _float;
   }
 
   public FormatTest _double(Double _double) {
-    this._double = Optional.ofNullable(_double);
+    this._double = _double;
     return this;
   }
 
@@ -185,17 +188,18 @@ public class FormatTest   {
    * maximum: 123.4
    * @return _double
   */
+  @DecimalMin("67.8") @DecimalMax("123.4") 
   @ApiModelProperty(value = "")
-  public Optional<@DecimalMin("67.8") @DecimalMax("123.4") Double> getDouble() {
+  public Double getDouble() {
     return _double;
   }
 
-  public void setDouble(Optional<Double> _double) {
+  public void setDouble(Double _double) {
     this._double = _double;
   }
 
   public FormatTest string(String string) {
-    this.string = Optional.ofNullable(string);
+    this.string = string;
     return this;
   }
 
@@ -203,12 +207,13 @@ public class FormatTest   {
    * Get string
    * @return string
   */
+  @Pattern(regexp = "/[a-z]/i") 
   @ApiModelProperty(value = "")
-  public Optional<@Pattern(regexp = "/[a-z]/i") String> getString() {
+  public String getString() {
     return string;
   }
 
-  public void setString(Optional<String> string) {
+  public void setString(String string) {
     this.string = string;
   }
 
@@ -232,7 +237,7 @@ public class FormatTest   {
   }
 
   public FormatTest binary(org.springframework.core.io.Resource binary) {
-    this.binary = Optional.ofNullable(binary);
+    this.binary = binary;
     return this;
   }
 
@@ -240,12 +245,13 @@ public class FormatTest   {
    * Get binary
    * @return binary
   */
+  @Valid 
   @ApiModelProperty(value = "")
-  public Optional<org.springframework.core.io.Resource> getBinary() {
+  public org.springframework.core.io.Resource getBinary() {
     return binary;
   }
 
-  public void setBinary(Optional<org.springframework.core.io.Resource> binary) {
+  public void setBinary(org.springframework.core.io.Resource binary) {
     this.binary = binary;
   }
 
@@ -269,7 +275,7 @@ public class FormatTest   {
   }
 
   public FormatTest dateTime(OffsetDateTime dateTime) {
-    this.dateTime = Optional.ofNullable(dateTime);
+    this.dateTime = dateTime;
     return this;
   }
 
@@ -277,17 +283,18 @@ public class FormatTest   {
    * Get dateTime
    * @return dateTime
   */
+  @Valid 
   @ApiModelProperty(value = "")
-  public Optional<OffsetDateTime> getDateTime() {
+  public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(Optional<OffsetDateTime> dateTime) {
+  public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
   public FormatTest uuid(UUID uuid) {
-    this.uuid = Optional.ofNullable(uuid);
+    this.uuid = uuid;
     return this;
   }
 
@@ -295,12 +302,13 @@ public class FormatTest   {
    * Get uuid
    * @return uuid
   */
+  @Valid 
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
-  public Optional<UUID> getUuid() {
+  public UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(Optional<UUID> uuid) {
+  public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
@@ -324,7 +332,7 @@ public class FormatTest   {
   }
 
   public FormatTest bigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = Optional.ofNullable(bigDecimal);
+    this.bigDecimal = bigDecimal;
     return this;
   }
 
@@ -332,12 +340,13 @@ public class FormatTest   {
    * Get bigDecimal
    * @return bigDecimal
   */
+  @Valid 
   @ApiModelProperty(value = "")
-  public Optional<BigDecimal> getBigDecimal() {
+  public BigDecimal getBigDecimal() {
     return bigDecimal;
   }
 
-  public void setBigDecimal(Optional<BigDecimal> bigDecimal) {
+  public void setBigDecimal(BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
 

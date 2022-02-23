@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -98,8 +99,9 @@ public class Order   {
     return id;
   }
 
-  public void setId(Optional<Long> id) {
-    this.id = id;
+  @JsonIgnore
+  public void setId(Long id) {
+    this.id = Optional.ofNullable(id);
   }
 
   public Order petId(Long petId) {
@@ -116,8 +118,9 @@ public class Order   {
     return petId;
   }
 
-  public void setPetId(Optional<Long> petId) {
-    this.petId = petId;
+  @JsonIgnore
+  public void setPetId(Long petId) {
+    this.petId = Optional.ofNullable(petId);
   }
 
   public Order quantity(Integer quantity) {
@@ -170,8 +173,9 @@ public class Order   {
     return status;
   }
 
-  public void setStatus(Optional<StatusEnum> status) {
-    this.status = status;
+  @JsonIgnore
+  public void setStatus(StatusEnum status) {
+    this.status = Optional.ofNullable(status);
   }
 
   public Order complete(Boolean complete) {
@@ -188,8 +192,9 @@ public class Order   {
     return complete;
   }
 
-  public void setComplete(Optional<Boolean> complete) {
-    this.complete = complete;
+  @JsonIgnore
+  public void setComplete(Boolean complete) {
+    this.complete = Optional.ofNullable(complete);
   }
 
   @Override

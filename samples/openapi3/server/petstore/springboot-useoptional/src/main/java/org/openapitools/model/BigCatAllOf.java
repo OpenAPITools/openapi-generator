@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -65,10 +64,10 @@ public class BigCatAllOf   {
   }
 
   @JsonProperty("kind")
-  private Optional<KindEnum> kind = Optional.empty();
+  private KindEnum kind;
 
   public BigCatAllOf kind(KindEnum kind) {
-    this.kind = Optional.ofNullable(kind);
+    this.kind = kind;
     return this;
   }
 
@@ -76,12 +75,13 @@ public class BigCatAllOf   {
    * Get kind
    * @return kind
   */
+  
   @Schema(name = "kind", required = false)
-  public Optional<KindEnum> getKind() {
+  public KindEnum getKind() {
     return kind;
   }
 
-  public void setKind(Optional<KindEnum> kind) {
+  public void setKind(KindEnum kind) {
     this.kind = kind;
   }
 
