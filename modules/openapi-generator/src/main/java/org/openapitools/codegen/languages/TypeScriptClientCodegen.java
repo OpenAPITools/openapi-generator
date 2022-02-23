@@ -1585,9 +1585,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         String[] parts = splitComposedType(type);
         for (String s : parts) {
-            if (super.shouldAddImport(s)) {
-                importsToBeAddedTo.add(s);
-            }
+            super.addImport(importsToBeAddedTo, s);
         }
     }
 
