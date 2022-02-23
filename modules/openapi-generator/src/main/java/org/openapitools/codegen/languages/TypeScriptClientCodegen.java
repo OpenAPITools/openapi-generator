@@ -1593,7 +1593,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
      * Split composed types
      * e.g. TheFirstType | TheSecondType to TheFirstType and TheSecondType
      *
-     * @param String with composed types
+     * @param type String with composed types
      * @return list of types
      */
     protected String[] splitComposedType(String type) {
