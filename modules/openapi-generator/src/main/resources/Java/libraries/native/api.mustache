@@ -313,7 +313,12 @@ public class {{classname}} {
         {{#isDeepObject}}
     if ({{paramName}} != null) {
           {{#items.vars}}
+              {{#isArray}}
+      localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "{{baseName}}", {{paramName}}.{{getter}}()));
+              {{/isArray}}
+              {{^isArray}}
       localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}.{{getter}}()));
+              {{/isArray}}
           {{/items.vars}}
     }
         {{/isDeepObject}}
