@@ -1589,8 +1589,15 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
     }
 
-    protected String[] splitComposedType (String name) {
-        return name.replace(" ","").split("[|&<>]");
+    /**
+     * Split composed types
+     * e.g. TheFirstType | TheSecondType to TheFirstType and TheSecondType
+     *
+     * @param String with composed types
+     * @return list of types
+     */
+    protected String[] splitComposedType(String type) {
+        return type.replace(" ","").split("[|&<>]");
     }
 
     @Override
