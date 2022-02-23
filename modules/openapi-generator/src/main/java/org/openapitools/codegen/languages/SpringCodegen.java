@@ -50,7 +50,6 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
-import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -185,6 +184,10 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
         cliOptions
                 .add(CliOption.newBoolean(USE_OPTIONAL, "Use Optional container for optional parameters", useOptional));
+        cliOptions
+            .add(CliOption.newBoolean(USE_OPTIONAL_IN_MODEL, "Experimental: Use Optional container for optional model properties", useOptional));
+        cliOptions
+            .add(CliOption.newBoolean(EXPOSE_OPTIONAL_IN_SETTER, "Experimental: When using Optional container for optional model properties, expose Optional container in generated setter method", useOptional));
         cliOptions.add(
                 CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
         cliOptions
@@ -366,6 +369,17 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(USE_OPTIONAL)) {
             this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
         }
+        writePropertyBack(USE_OPTIONAL, useOptional);
+
+        if (additionalProperties.containsKey(USE_OPTIONAL_IN_MODEL)) {
+            this.setUseOptionalInModel(convertPropertyToBoolean(USE_OPTIONAL_IN_MODEL));
+        }
+        writePropertyBack(USE_OPTIONAL_IN_MODEL, useOptionalInModel);
+
+        if (additionalProperties.containsKey(EXPOSE_OPTIONAL_IN_SETTER)) {
+            this.setExposeOptionalInSetter(convertPropertyToBoolean(EXPOSE_OPTIONAL_IN_SETTER));
+        }
+        writePropertyBack(EXPOSE_OPTIONAL_IN_SETTER, exposeOptionalInSetter);
 
         if (additionalProperties.containsKey(IMPLICIT_HEADERS)) {
             this.setImplicitHeaders(Boolean.parseBoolean(additionalProperties.get(IMPLICIT_HEADERS).toString()));
@@ -410,10 +424,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
-
-        if (useOptional) {
-            writePropertyBack(USE_OPTIONAL, useOptional);
-        }
 
         if (interfaceOnly && delegatePattern) {
             delegateMethod = true;

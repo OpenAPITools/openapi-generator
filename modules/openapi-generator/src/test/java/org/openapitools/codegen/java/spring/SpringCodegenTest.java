@@ -776,7 +776,7 @@ public class SpringCodegenTest {
 
         codegen.additionalProperties().put(SpringCodegen.DELEGATE_PATTERN, "true");
         codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, "true");
-        codegen.additionalProperties().put(OptionalFeatures.USE_OPTIONAL, "true");
+        codegen.additionalProperties().put(OptionalFeatures.USE_OPTIONAL_IN_MODEL, "true");
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -795,7 +795,9 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Params.java"),
                 "private Optional<String> optionalString = Optional.empty();",
                 "private JsonNullable<String> optionalNullableString = JsonNullable.undefined();",
-                "private JsonNullable<String> requiredNullableString = JsonNullable.undefined();");
+//                "private JsonNullable<String> requiredNullableString = JsonNullable.undefined();"
+                "private String requiredNullableString;"
+        );
     }
 
     @Test
@@ -811,7 +813,7 @@ public class SpringCodegenTest {
 
         codegen.additionalProperties().put(SpringCodegen.DELEGATE_PATTERN, "true");
         codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, "false");
-        codegen.additionalProperties().put(OptionalFeatures.USE_OPTIONAL, "true");
+        codegen.additionalProperties().put(OptionalFeatures.USE_OPTIONAL_IN_MODEL, "true");
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);

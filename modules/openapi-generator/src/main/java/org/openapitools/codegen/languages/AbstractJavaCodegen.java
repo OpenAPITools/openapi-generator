@@ -150,6 +150,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected DocumentationProvider documentationProvider;
     protected AnnotationLibrary annotationLibrary;
     protected boolean useOptional = false;
+    protected boolean useOptionalInModel = false;
+    protected boolean exposeOptionalInSetter = false;
 
     public AbstractJavaCodegen() {
         super();
@@ -1320,7 +1322,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (openApiNullable) {
-            if (Boolean.TRUE.equals(property.isNullable)) {
+            // see org.openapitools.codegen.java.JavaCXFClientCodegenTest.testPostProcessNullableModelPropertyWithOpenApiNullableEnabledForRequiredProperties
+            if (Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
                 // Only add import when needed
                 model.imports.add("JsonNullable");
                 model.getVendorExtensions().put("x-jackson-optional-nullable-helpers", true);
@@ -1336,12 +1339,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
         }
-        if (useOptional) {
+        if (useOptionalInModel) {
             if (Boolean.FALSE.equals(property.required) && Boolean.FALSE.equals(property.isNullable)
                 && !property.isArray && !property.isMap) {
                 // Only add import when needed
                 model.imports.add("Optional");
-                if (1 == 1) { // TODO: introduce cli option
+                if (exposeOptionalInSetter) {
                     property.getVendorExtensions().put("x-expose-wrapper-in-setter", true);
                 } else {
                     model.imports.add("JsonIgnore");
@@ -1878,6 +1881,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public void setUseOptional(boolean useOptional) {
         this.useOptional = useOptional;
+    }
+
+    @Override
+    public void setUseOptionalInModel(boolean useOptionalInModel) {
+        this.useOptionalInModel = useOptionalInModel;
+    }
+
+    @Override
+    public void setExposeOptionalInSetter(boolean exposeOptionalInSetter) {
+        this.exposeOptionalInSetter = exposeOptionalInSetter;
     }
 
     @Override
