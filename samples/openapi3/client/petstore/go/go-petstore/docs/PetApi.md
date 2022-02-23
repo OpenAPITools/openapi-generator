@@ -22,6 +22,8 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
+
+
 ### Example
 
 ```go
@@ -83,6 +85,8 @@ Name | Type | Description  | Notes
 > DeletePet(ctx, petId).ApiKey(apiKey).Execute()
 
 Deletes a pet
+
+
 
 ### Example
 
@@ -354,6 +358,8 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
+
+
 ### Example
 
 ```go
@@ -415,6 +421,8 @@ Name | Type | Description  | Notes
 > UpdatePetWithForm(ctx, petId).Name(name).Status(status).Execute()
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 
@@ -485,6 +493,8 @@ Name | Type | Description  | Notes
 > ApiResponse UploadFile(ctx, petId).AdditionalMetadata(additionalMetadata).File(file).Execute()
 
 uploads an image
+
+
 
 ### Example
 
@@ -557,6 +567,8 @@ Name | Type | Description  | Notes
 > ApiResponse UploadFileWithRequiredFile(ctx, petId).RequiredFile(requiredFile).AdditionalMetadata(additionalMetadata).Execute()
 
 uploads an image (required)
+
+
 
 ### Example
 

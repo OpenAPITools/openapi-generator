@@ -210,6 +210,8 @@ No authorization required
 
 Place an order for a pet
 
+
+
 ### Example
 
 ```python

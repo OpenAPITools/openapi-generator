@@ -237,6 +237,7 @@ pub async fn create_user(configuration: &configuration::Configuration, params: C
     }
 }
 
+/// 
 pub async fn create_users_with_array_input(configuration: &configuration::Configuration, params: CreateUsersWithArrayInputParams) -> Result<ResponseContent<CreateUsersWithArrayInputSuccess>, Error<CreateUsersWithArrayInputError>> {
     let local_var_configuration = configuration;
 
@@ -279,6 +280,7 @@ pub async fn create_users_with_array_input(configuration: &configuration::Config
     }
 }
 
+/// 
 pub async fn create_users_with_list_input(configuration: &configuration::Configuration, params: CreateUsersWithListInputParams) -> Result<ResponseContent<CreateUsersWithListInputSuccess>, Error<CreateUsersWithListInputError>> {
     let local_var_configuration = configuration;
 
@@ -363,6 +365,7 @@ pub async fn delete_user(configuration: &configuration::Configuration, params: D
     }
 }
 
+/// 
 pub async fn get_user_by_name(configuration: &configuration::Configuration, params: GetUserByNameParams) -> Result<ResponseContent<GetUserByNameSuccess>, Error<GetUserByNameError>> {
     let local_var_configuration = configuration;
 
@@ -396,6 +399,7 @@ pub async fn get_user_by_name(configuration: &configuration::Configuration, para
     }
 }
 
+/// 
 pub async fn login_user(configuration: &configuration::Configuration, params: LoginUserParams) -> Result<ResponseContent<LoginUserSuccess>, Error<LoginUserError>> {
     let local_var_configuration = configuration;
 
@@ -432,6 +436,7 @@ pub async fn login_user(configuration: &configuration::Configuration, params: Lo
     }
 }
 
+/// 
 pub async fn logout_user(configuration: &configuration::Configuration) -> Result<ResponseContent<LogoutUserSuccess>, Error<LogoutUserError>> {
     let local_var_configuration = configuration;
 

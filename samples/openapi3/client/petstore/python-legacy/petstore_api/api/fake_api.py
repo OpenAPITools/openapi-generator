@@ -2211,6 +2211,7 @@ class FakeApi(object):
     def test_inline_additional_properties(self, request_body, **kwargs):  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -2240,6 +2241,7 @@ class FakeApi(object):
     def test_inline_additional_properties_with_http_info(self, request_body, **kwargs):  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -2347,6 +2349,7 @@ class FakeApi(object):
     def test_json_form_data(self, param, param2, **kwargs):  # noqa: E501
         """test json serialization of form data  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -2378,6 +2381,7 @@ class FakeApi(object):
     def test_json_form_data_with_http_info(self, param, param2, **kwargs):  # noqa: E501
         """test json serialization of form data  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 

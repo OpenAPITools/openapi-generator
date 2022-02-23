@@ -320,13 +320,13 @@
         <dependency>
             <groupId>com.tngtech.archunit</groupId>
             <artifactId>archunit</artifactId>
-            <version>0.20.1</version>
+            <version>${archunit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.tngtech.archunit</groupId>
             <artifactId>archunit-junit4</artifactId>
-            <version>0.20.1</version>
+            <version>${archunit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

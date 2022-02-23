@@ -49,7 +49,7 @@ public class DefaultApi {
     /**
      * 
      * 
-     * <p><b>200</b>
+     * <p><b>200</b> - 
      * @return List&lt;ByteArrayObject&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
@@ -79,7 +79,7 @@ public class DefaultApi {
     /**
      * 
      * 
-     * <p><b>200</b>
+     * <p><b>200</b> - 
      * @return List&lt;ByteArrayObject&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */

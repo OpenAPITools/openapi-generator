@@ -5181,7 +5181,6 @@ public class DefaultCodegen implements CodegenConfig {
         m.hasRequired = false;
         if (properties != null && !properties.isEmpty()) {
             m.hasVars = true;
-            m.hasEnums = false; // TODO need to fix as its false in both cases
 
             Set<String> mandatory = required == null ? Collections.emptySet()
                     : new TreeSet<>(required);
@@ -5192,7 +5191,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             m.emptyVars = true;
             m.hasVars = false;
-            m.hasEnums = false; // TODO need to fix as its false in both cases
+            m.hasEnums = false;
         }
 
         if (allProperties != null) {

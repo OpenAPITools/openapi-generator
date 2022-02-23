@@ -148,6 +148,8 @@ No authorization required
 
 Place an order for a pet
 
+
+
 ### Example
 ```powershell
 $Order = Initialize-Order -Id 0 -PetId 0 -Quantity 0 -ShipDate (Get-Date) -Status "placed" -Complete $false # Order | order placed for purchasing the pet
