@@ -37,7 +37,7 @@ public class Pet   {
   private Optional<Category> category = Optional.empty();
 
   @JsonProperty("name")
-  private String name;
+  private JsonNullable<String> name = JsonNullable.undefined();
 
   @JsonProperty("photoUrls")
   @Valid
@@ -124,7 +124,7 @@ public class Pet   {
   }
 
   public Pet name(String name) {
-    this.name = name;
+    this.name = JsonNullable.of(name);
     return this;
   }
 
@@ -132,13 +132,12 @@ public class Pet   {
    * Get name
    * @return name
   */
-  @NotNull 
   @Schema(name = "name", example = "doggie", required = true)
-  public String getName() {
+  public JsonNullable<String> getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(JsonNullable<String> name) {
     this.name = name;
   }
 
