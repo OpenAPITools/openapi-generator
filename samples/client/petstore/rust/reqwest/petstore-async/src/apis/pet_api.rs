@@ -209,6 +209,7 @@ pub enum UploadFileError {
 }
 
 
+/// 
 pub async fn add_pet(configuration: &configuration::Configuration, params: AddPetParams) -> Result<ResponseContent<AddPetSuccess>, Error<AddPetError>> {
     let local_var_configuration = configuration;
 
@@ -246,6 +247,7 @@ pub async fn add_pet(configuration: &configuration::Configuration, params: AddPe
     }
 }
 
+/// 
 pub async fn delete_pet(configuration: &configuration::Configuration, params: DeletePetParams) -> Result<ResponseContent<DeletePetSuccess>, Error<DeletePetError>> {
     let local_var_configuration = configuration;
 
@@ -410,6 +412,7 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, params:
     }
 }
 
+/// 
 pub async fn update_pet(configuration: &configuration::Configuration, params: UpdatePetParams) -> Result<ResponseContent<UpdatePetSuccess>, Error<UpdatePetError>> {
     let local_var_configuration = configuration;
 
@@ -447,6 +450,7 @@ pub async fn update_pet(configuration: &configuration::Configuration, params: Up
     }
 }
 
+/// 
 pub async fn update_pet_with_form(configuration: &configuration::Configuration, params: UpdatePetWithFormParams) -> Result<ResponseContent<UpdatePetWithFormSuccess>, Error<UpdatePetWithFormError>> {
     let local_var_configuration = configuration;
 
@@ -493,6 +497,7 @@ pub async fn update_pet_with_form(configuration: &configuration::Configuration, 
     }
 }
 
+/// 
 pub async fn upload_file(configuration: &configuration::Configuration, params: UploadFileParams) -> Result<ResponseContent<UploadFileSuccess>, Error<UploadFileError>> {
     let local_var_configuration = configuration;
 

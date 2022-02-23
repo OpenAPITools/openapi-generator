@@ -11,6 +11,7 @@
 from dataclasses import dataclass
 from decimal import Decimal
 import enum
+import email
 import json
 import os
 import io
@@ -34,7 +35,6 @@ from petstore_api.schemas import (
     Schema,
     FileIO,
     BinarySchema,
-    InstantiationMetadata,
     date,
     datetime,
     none_type,
@@ -781,6 +781,20 @@ class OpenApiResponse:
         else:
             return response.data
 
+    @staticmethod
+    def __deserialize_multipart_form_data(
+        response: urllib3.HTTPResponse
+    ) -> typing.Dict[str, typing.Any]:
+        msg = email.message_from_bytes(response.data)
+        return {
+            part.get_param("name", header="Content-Disposition"): part.get_payload(
+                decode=True
+            ).decode(part.get_content_charset())
+            if part.get_content_charset()
+            else part.get_payload()
+            for part in msg.get_payload()
+        }
+
     def deserialize(self, response: urllib3.HTTPResponse, configuration: Configuration) -> ApiResponse:
         content_type = response.getheader('content-type')
         deserialized_body = unset
@@ -790,12 +804,14 @@ class OpenApiResponse:
                 body_data = self.__deserialize_json(response)
             elif content_type == 'application/octet-stream':
                 body_data = self.__deserialize_application_octet_stream(response)
+            elif content_type.startswith('multipart/form-data'):
+                body_data = self.__deserialize_multipart_form_data(response)
+                content_type = 'multipart/form-data'
             else:
                 raise NotImplementedError('Deserialization of {} has not yet been implemented'.format(content_type))
             body_schema = self.content[content_type].schema
-            _instantiation_metadata = InstantiationMetadata(from_server=True, configuration=configuration)
             deserialized_body = body_schema._from_openapi_data(
-                body_data, _instantiation_metadata=_instantiation_metadata)
+                body_data, _configuration=configuration)
         elif streamed:
             response.release_conn()
 

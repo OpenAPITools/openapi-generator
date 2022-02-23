@@ -1,22 +1,14 @@
 package {{invokerPackage}};
 
-{{#threetenbp}}
-import org.threeten.bp.*;
-{{/threetenbp}}
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
-{{#java8}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-{{/java8}}
 {{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
-{{#threetenbp}}
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
-{{/threetenbp}}
 {{#models.0}}
 import {{modelPackage}}.*;
 {{/models.0}}
@@ -41,19 +33,10 @@ public class JSON {
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     mapper.setDateFormat(new RFC3339DateFormat());
-    {{#java8}}
     mapper.registerModule(new JavaTimeModule());
-    {{/java8}}
     {{#joda}}
     mapper.registerModule(new JodaModule());
     {{/joda}}
-    {{#threetenbp}}
-    ThreeTenModule module = new ThreeTenModule();
-    module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-    mapper.registerModule(module);
-    {{/threetenbp}}
     {{#openApiNullable}}
     JsonNullableModule jnm = new JsonNullableModule();
     mapper.registerModule(jnm);
@@ -62,6 +45,7 @@ public class JSON {
 
   /**
    * Set the date format for JSON (de)serialization with Date properties.
+   *
    * @param dateFormat Date format
    */
   public void setDateFormat(DateFormat dateFormat) {
@@ -81,6 +65,8 @@ public class JSON {
    *
    * @param node The input data.
    * @param modelClass The class that contains the discriminator mappings.
+   *
+   * @return the target model class.
    */
   public static Class<?> getClassForElement(JsonNode node, Class<?> modelClass) {
     ClassDiscriminatorMapping cdm = modelDiscriminators.get(modelClass);
@@ -140,6 +126,8 @@ public class JSON {
      *
      * @param node The input data.
      * @param visitedClasses The set of classes that have already been visited.
+     *
+     * @return the target model class.
      */
     Class<?> getClassForElement(JsonNode node, Set<Class<?>> visitedClasses) {
       if (visitedClasses.contains(modelClass)) {
@@ -186,6 +174,9 @@ public class JSON {
    *
    * @param modelClass A OpenAPI model class.
    * @param inst The instance object.
+   * @param visitedClasses The set of classes that have already been visited.
+   *
+   * @return true if inst is an instance of modelClass in the OpenAPI model hierarchy.
    */
   public static boolean isInstanceOf(Class<?> modelClass, Object inst, Set<Class<?>> visitedClasses) {
     if (modelClass.isInstance(inst)) {

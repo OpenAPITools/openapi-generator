@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,6 +47,10 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
     DateBase,
     DateTimeBase,
@@ -84,7 +88,7 @@ class Capitalization(
         Capital_Snake: typing.Union[Capital_Snake, Unset] = unset,
         SCA_ETH_Flow_Points: typing.Union[SCA_ETH_Flow_Points, Unset] = unset,
         ATT_NAME: typing.Union[ATT_NAME, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'Capitalization':
         return super().__new__(
@@ -96,6 +100,6 @@ class Capitalization(
             Capital_Snake=Capital_Snake,
             SCA_ETH_Flow_Points=SCA_ETH_Flow_Points,
             ATT_NAME=ATT_NAME,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )

@@ -37,6 +37,7 @@ import java.util.Map;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.PythonExperimentalClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -439,6 +440,21 @@ public class PythonClientTest {
         Assert.assertEquals((int) model.getMinProperties(), 1);
     }
 
+    @Test(description = "tests RegexObjects")
+    public void testRegexObjects() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_11521.yaml");
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "DateTimeObject";
+        Schema modelSchema = ModelUtils.getSchema(openAPI, modelName);
+        final CodegenModel model = codegen.fromModel(modelName, modelSchema);
+        final CodegenProperty property1 = model.vars.get(0);
+        Assert.assertEquals(property1.baseName, "datetime");
+        Assert.assertEquals(property1.pattern, "/[\\d]{4}-[\\d]{2}-[\\d]{2}T[\\d]{1,2}:[\\d]{2}Z/");
+        Assert.assertEquals(property1.vendorExtensions.get("x-regex"), "[\\d]{4}-[\\d]{2}-[\\d]{2}T[\\d]{1,2}:[\\d]{2}Z");
+    }
+
     @Test(description = "tests RecursiveToExample")
     public void testRecursiveToExample() throws IOException {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8052_recursive_model.yaml");
@@ -485,6 +501,22 @@ public class PythonClientTest {
             Path p = output.toPath().resolve(f);
             TestUtils.assertFileContains(p, "no_proxy");
         }
+    }
+
+    @Test(description = "tests RecursiveExampleValueWithCycle")
+    public void testRecursiveExampleValueWithCycle() throws Exception {
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7532.yaml");
+        final PythonExperimentalClientCodegen codegen = new PythonExperimentalClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        Schema schemaWithCycleInTreesProperty = openAPI.getComponents().getSchemas().get("Forest");
+        String exampleValue = codegen.toExampleValue(schemaWithCycleInTreesProperty, null);
+
+        String expectedValue = Resources.toString(
+                Resources.getResource("3_0/issue_7532_tree_example_value_expected.txt"),
+                StandardCharsets.UTF_8);
+        expectedValue = expectedValue.replaceAll("\\r\\n", "\n");
+        Assert.assertEquals(exampleValue.trim(), expectedValue.trim());
     }
 
 }

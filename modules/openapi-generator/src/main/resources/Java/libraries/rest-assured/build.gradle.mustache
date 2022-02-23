@@ -107,9 +107,6 @@ ext {
     jackson_databind_nullable_version = "0.2.2"
     {{/openApiNullable}}
     jakarta_annotation_version = "1.3.5"
-    {{#threetenbp}}
-    jackson_threetenbp_version = "2.10.0"
-    {{/threetenbp}}
 {{/jackson}}
 {{#gson}}
     gson_version = "2.8.6"
@@ -118,9 +115,6 @@ ext {
 {{#joda}}
     jodatime_version = "2.10.5"
 {{/joda}}
-{{#threetenbp}}
-    threetenbp_version = "1.4.3"
-{{/threetenbp}}
     okio_version = "1.17.5"
 }
 
@@ -142,12 +136,7 @@ dependencies {
     {{#joda}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}
-    {{#java8}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    {{/java8}}
-    {{#threetenbp}}
-    implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threetenbp_version"
-    {{/threetenbp}}
 {{/jackson}}
 {{#gson}}
     implementation "io.gsonfire:gson-fire:$gson_fire_version"
@@ -156,9 +145,6 @@ dependencies {
 {{#joda}}
     implementation "joda-time:joda-time:$jodatime_version"
 {{/joda}}
-{{#threetenbp}}
-    implementation "org.threeten:threetenbp:$threetenbp_version"
-{{/threetenbp}}
     implementation "com.squareup.okio:okio:$okio_version"
 {{#useBeanValidation}}
     implementation "jakarta.validation:jakarta.validation-api:2.0.2"

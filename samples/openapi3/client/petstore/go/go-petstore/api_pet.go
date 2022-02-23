@@ -20,18 +20,16 @@ import (
 	"os"
 )
 
-// Linger please
-var (
-	_ context.Context
-)
 
 type PetApi interface {
 
 	/*
 	AddPet Add a new pet to the store
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiAddPetRequest
+	
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiAddPetRequest
 	*/
 	AddPet(ctx context.Context) ApiAddPetRequest
 
@@ -41,9 +39,11 @@ type PetApi interface {
 	/*
 	DeletePet Deletes a pet
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param petId Pet id to delete
-	 @return ApiDeletePetRequest
+	
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param petId Pet id to delete
+	@return ApiDeletePetRequest
 	*/
 	DeletePet(ctx context.Context, petId int64) ApiDeletePetRequest
 
@@ -55,8 +55,8 @@ type PetApi interface {
 
 	Multiple status values can be provided with comma separated strings
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiFindPetsByStatusRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiFindPetsByStatusRequest
 	*/
 	FindPetsByStatus(ctx context.Context) ApiFindPetsByStatusRequest
 
@@ -69,8 +69,8 @@ type PetApi interface {
 
 	Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiFindPetsByTagsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiFindPetsByTagsRequest
 
 	Deprecated
 	*/
@@ -86,9 +86,9 @@ type PetApi interface {
 
 	Returns a single pet
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param petId ID of pet to return
-	 @return ApiGetPetByIdRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param petId ID of pet to return
+	@return ApiGetPetByIdRequest
 	*/
 	GetPetById(ctx context.Context, petId int64) ApiGetPetByIdRequest
 
@@ -99,8 +99,10 @@ type PetApi interface {
 	/*
 	UpdatePet Update an existing pet
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiUpdatePetRequest
+	
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpdatePetRequest
 	*/
 	UpdatePet(ctx context.Context) ApiUpdatePetRequest
 
@@ -110,9 +112,11 @@ type PetApi interface {
 	/*
 	UpdatePetWithForm Updates a pet in the store with form data
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param petId ID of pet that needs to be updated
-	 @return ApiUpdatePetWithFormRequest
+	
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param petId ID of pet that needs to be updated
+	@return ApiUpdatePetWithFormRequest
 	*/
 	UpdatePetWithForm(ctx context.Context, petId int64) ApiUpdatePetWithFormRequest
 
@@ -122,9 +126,11 @@ type PetApi interface {
 	/*
 	UploadFile uploads an image
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param petId ID of pet to update
-	 @return ApiUploadFileRequest
+	
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param petId ID of pet to update
+	@return ApiUploadFileRequest
 	*/
 	UploadFile(ctx context.Context, petId int64) ApiUploadFileRequest
 
@@ -135,9 +141,11 @@ type PetApi interface {
 	/*
 	UploadFileWithRequiredFile uploads an image (required)
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param petId ID of pet to update
-	 @return ApiUploadFileWithRequiredFileRequest
+	
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param petId ID of pet to update
+	@return ApiUploadFileWithRequiredFileRequest
 	*/
 	UploadFileWithRequiredFile(ctx context.Context, petId int64) ApiUploadFileWithRequiredFileRequest
 
@@ -167,6 +175,8 @@ func (r ApiAddPetRequest) Execute() (*http.Response, error) {
 
 /*
 AddPet Add a new pet to the store
+
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiAddPetRequest
@@ -265,6 +275,8 @@ func (r ApiDeletePetRequest) Execute() (*http.Response, error) {
 
 /*
 DeletePet Deletes a pet
+
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param petId Pet id to delete
@@ -576,7 +588,6 @@ type ApiGetPetByIdRequest struct {
 	petId int64
 }
 
-
 func (r ApiGetPetByIdRequest) Execute() (*Pet, *http.Response, error) {
 	return r.ApiService.GetPetByIdExecute(r)
 }
@@ -707,6 +718,8 @@ func (r ApiUpdatePetRequest) Execute() (*http.Response, error) {
 /*
 UpdatePet Update an existing pet
 
+
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiUpdatePetRequest
 */
@@ -799,6 +812,7 @@ func (r ApiUpdatePetWithFormRequest) Name(name string) ApiUpdatePetWithFormReque
 	r.name = &name
 	return r
 }
+
 // Updated status of the pet
 func (r ApiUpdatePetWithFormRequest) Status(status string) ApiUpdatePetWithFormRequest {
 	r.status = &status
@@ -811,6 +825,8 @@ func (r ApiUpdatePetWithFormRequest) Execute() (*http.Response, error) {
 
 /*
 UpdatePetWithForm Updates a pet in the store with form data
+
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param petId ID of pet that needs to be updated
@@ -908,6 +924,7 @@ func (r ApiUploadFileRequest) AdditionalMetadata(additionalMetadata string) ApiU
 	r.additionalMetadata = &additionalMetadata
 	return r
 }
+
 // file to upload
 func (r ApiUploadFileRequest) File(file *os.File) ApiUploadFileRequest {
 	r.file = &file
@@ -920,6 +937,8 @@ func (r ApiUploadFileRequest) Execute() (*ApiResponse, *http.Response, error) {
 
 /*
 UploadFile uploads an image
+
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param petId ID of pet to update
@@ -1042,6 +1061,7 @@ func (r ApiUploadFileWithRequiredFileRequest) RequiredFile(requiredFile *os.File
 	r.requiredFile = &requiredFile
 	return r
 }
+
 // Additional data to pass to server
 func (r ApiUploadFileWithRequiredFileRequest) AdditionalMetadata(additionalMetadata string) ApiUploadFileWithRequiredFileRequest {
 	r.additionalMetadata = &additionalMetadata
@@ -1054,6 +1074,8 @@ func (r ApiUploadFileWithRequiredFileRequest) Execute() (*ApiResponse, *http.Res
 
 /*
 UploadFileWithRequiredFile uploads an image (required)
+
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param petId ID of pet to update

@@ -788,6 +788,8 @@ Name | Type | Description  | Notes
 
 test inline additionalProperties
 
+
+
 ### Example
 
 ```go
@@ -849,6 +851,8 @@ No authorization required
 > TestJsonFormData(ctx).Param(param).Param2(param2).Execute()
 
 test json serialization of form data
+
+
 
 ### Example
 

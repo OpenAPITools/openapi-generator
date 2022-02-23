@@ -15,21 +15,29 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "store", description = "the store API")
 public interface StoreApi {
+
+    default Optional<NativeWebRequest> getRequest() {
+        return Optional.empty();
+    }
 
     /**
      * DELETE /store/order/{order_id} : Delete purchase order by ID
@@ -52,9 +60,12 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = "/store/order/{order_id}"
     )
-    ResponseEntity<Void> deleteOrder(
-        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("order_id") String orderId
-    );
+    default ResponseEntity<Void> deleteOrder(
+        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
 
     /**
@@ -68,7 +79,9 @@ public interface StoreApi {
         summary = "Returns pet inventories by status",
         tags = { "store" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Map.class)))
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class))
+            })
         },
         security = {
             @SecurityRequirement(name = "api_key")
@@ -79,9 +92,12 @@ public interface StoreApi {
         value = "/store/inventory",
         produces = { "application/json" }
     )
-    ResponseEntity<Map<String, Integer>> getInventory(
+    default ResponseEntity<Map<String, Integer>> getInventory(
         
-    );
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
 
     /**
@@ -98,7 +114,10 @@ public interface StoreApi {
         summary = "Find purchase order by ID",
         tags = { "store" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Order.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Order.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Order.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "Order not found")
         }
@@ -108,9 +127,26 @@ public interface StoreApi {
         value = "/store/order/{order_id}",
         produces = { "application/xml", "application/json" }
     )
-    ResponseEntity<Order> getOrderById(
-        @Min(1L) @Max(5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, schema = @Schema(description = "")) @PathVariable("order_id") Long orderId
-    );
+    default ResponseEntity<Order> getOrderById(
+        @Min(1L) @Max(5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
 
     /**
@@ -125,7 +161,10 @@ public interface StoreApi {
         summary = "Place an order for a pet",
         tags = { "store" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Order.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = Order.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Order.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid Order")
         }
     )
@@ -134,8 +173,25 @@ public interface StoreApi {
         value = "/store/order",
         produces = { "application/xml", "application/json" }
     )
-    ResponseEntity<Order> placeOrder(
-        @Parameter(name = "body", description = "order placed for purchasing the pet", required = true, schema = @Schema(description = "")) @Valid @RequestBody Order body
-    );
+    default ResponseEntity<Order> placeOrder(
+        @Parameter(name = "body", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
 }

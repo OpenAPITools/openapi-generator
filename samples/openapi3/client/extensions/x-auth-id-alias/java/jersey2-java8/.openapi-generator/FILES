@@ -1,3 +1,4 @@
+.github/workflows/maven.yml
 .gitignore
 .travis.yml
 README.md
@@ -18,7 +19,6 @@ src/main/java/org/openapitools/client/ApiClient.java
 src/main/java/org/openapitools/client/ApiException.java
 src/main/java/org/openapitools/client/ApiResponse.java
 src/main/java/org/openapitools/client/Configuration.java
-src/main/java/org/openapitools/client/CustomInstantDeserializer.java
 src/main/java/org/openapitools/client/JSON.java
 src/main/java/org/openapitools/client/JavaTimeFormatter.java
 src/main/java/org/openapitools/client/Pair.java

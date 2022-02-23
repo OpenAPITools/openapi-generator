@@ -50,7 +50,9 @@ public interface AnotherFakeApi {
         summary = "To test special tags",
         tags = { "$another-fake?" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Client.class)))
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Client.class))
+            })
         }
     )
     @RequestMapping(
@@ -60,7 +62,7 @@ public interface AnotherFakeApi {
         consumes = { "application/json" }
     )
     default Mono<ResponseEntity<Client>> call123testSpecialTags(
-        @Parameter(name = "body", description = "client model", required = true, schema = @Schema(description = "")) @Valid @RequestBody Mono<Client> body,
+        @Parameter(name = "body", description = "client model", required = true) @Valid @RequestBody Mono<Client> body,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().call123testSpecialTags(body, exchange);

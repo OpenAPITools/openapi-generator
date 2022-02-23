@@ -18,6 +18,8 @@ class PetApi {
 
   /// Add a new pet to the store
   ///
+  /// 
+  ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
@@ -53,6 +55,8 @@ class PetApi {
 
   /// Add a new pet to the store
   ///
+  /// 
+  ///
   /// Parameters:
   ///
   /// * [Pet] pet (required):
@@ -65,6 +69,8 @@ class PetApi {
   }
 
   /// Deletes a pet
+  ///
+  /// 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -107,6 +113,8 @@ class PetApi {
   }
 
   /// Deletes a pet
+  ///
+  /// 
   ///
   /// Parameters:
   ///
@@ -314,6 +322,8 @@ class PetApi {
 
   /// Update an existing pet
   ///
+  /// 
+  ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
@@ -349,6 +359,8 @@ class PetApi {
 
   /// Update an existing pet
   ///
+  /// 
+  ///
   /// Parameters:
   ///
   /// * [Pet] pet (required):
@@ -361,6 +373,8 @@ class PetApi {
   }
 
   /// Updates a pet in the store with form data
+  ///
+  /// 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -410,6 +424,8 @@ class PetApi {
 
   /// Updates a pet in the store with form data
   ///
+  /// 
+  ///
   /// Parameters:
   ///
   /// * [int] petId (required):
@@ -428,6 +444,8 @@ class PetApi {
   }
 
   /// uploads an image
+  ///
+  /// 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -485,6 +503,8 @@ class PetApi {
 
   /// uploads an image
   ///
+  /// 
+  ///
   /// Parameters:
   ///
   /// * [int] petId (required):
@@ -511,6 +531,8 @@ class PetApi {
   }
 
   /// uploads an image (required)
+  ///
+  /// 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -567,6 +589,8 @@ class PetApi {
   }
 
   /// uploads an image (required)
+  ///
+  /// 
   ///
   /// Parameters:
   ///

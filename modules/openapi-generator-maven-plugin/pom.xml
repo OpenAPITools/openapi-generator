@@ -126,13 +126,12 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-invoker-plugin</artifactId>
-                        <version>3.2.1</version>
+                        <version>3.2.2</version>
                         <configuration>
+                            <debug>false</debug>
+                            <failIfNoProjects>true</failIfNoProjects>
                             <postBuildHookScript>verify</postBuildHookScript>
-                            <showVersion>true</showVersion>
-                            <streamLogs>true</streamLogs>
-                            <noLog>false</noLog>
-                            <showErrors>true</showErrors>
+                            <streamLogsOnFailures>true</streamLogsOnFailures>
                         </configuration>
                         <dependencies>
                             <dependency>
@@ -146,6 +145,7 @@
                             <execution>
                                 <id>integration-test</id>
                                 <goals>
+                                    <goal>install</goal>
                                     <goal>run</goal>
                                 </goals>
                             </execution>
