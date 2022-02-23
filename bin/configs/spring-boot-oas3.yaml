@@ -6,6 +6,7 @@ additionalProperties:
   groupId: org.openapitools.openapi3
   documentationProvider: springdoc
   useOptional: true
+  useOptionalInModel: "true"
   artifactId: springboot
   snapshotVersion: "true"
   hideGenerationTimestamp: "true"

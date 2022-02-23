@@ -10,3 +10,5 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   openApiNullable: "false"
   useOptional: "true"
+  useOptionalInModel: "true"
+  exposeOptionalInSetter: "true"
