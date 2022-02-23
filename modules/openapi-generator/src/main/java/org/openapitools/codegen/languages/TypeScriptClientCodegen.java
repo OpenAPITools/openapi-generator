@@ -1569,7 +1569,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             return;
         }
 
-        String[] parts = type.split("( [|&] )|[<>]");
+        String[] parts = splitComposedType(type);
         for (String s : parts) {
             if (needToImport(s)) {
                 m.imports.add(s);
@@ -1577,17 +1577,22 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
     }
 
+    @Override
     protected void addImport(Set<String> importsToBeAddedTo, String type) {
         if (type == null) {
             return;
         }
 
-        String[] parts = type.split("( [|&] )|[<>]");
+        String[] parts = splitComposedType(type);
         for (String s : parts) {
-            if (shouldAddImport(s)) {
+            if (super.shouldAddImport(s)) {
                 importsToBeAddedTo.add(s);
             }
         }
+    }
+
+    protected String[] splitComposedType (String name) {
+        return name.replace(" ","").split("[|&<>]");
     }
 
     @Override
