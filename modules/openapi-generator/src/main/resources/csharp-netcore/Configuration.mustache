@@ -565,7 +565,8 @@ namespace {{packageName}}.Client
                 HttpSigningConfiguration = second.HttpSigningConfiguration ?? first.HttpSigningConfiguration,
                 {{/hasHttpSignatureMethods}}
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
-                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat
+                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
+                ClientCertificates = second.ClientCertificates ?? first.ClientCertificates,
             };
             return config;
         }
