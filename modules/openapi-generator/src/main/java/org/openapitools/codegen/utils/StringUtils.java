@@ -270,4 +270,15 @@ public class StringUtils {
             throw new RuntimeException("Word '" + name + "' could not be escaped.");
         });
     }
+
+    /**
+     * Capitalize the string
+     *
+     * @param name string to be capitalized
+     * @return capitalized string
+     */
+    @SuppressWarnings("static-method")
+    public static String initialCaps(String name) {
+        return org.apache.commons.lang3.StringUtils.capitalize(name);
+    }
 }
