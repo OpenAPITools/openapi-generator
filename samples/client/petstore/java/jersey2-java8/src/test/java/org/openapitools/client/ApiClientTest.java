@@ -1,6 +1,7 @@
 package org.openapitools.client;
 
 import org.openapitools.client.auth.*;
+import org.openapitools.client.RFC3339DateFormat;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,6 +17,13 @@ public class ApiClientTest {
     @Before
     public void setup() {
         apiClient = new ApiClient();
+    }
+
+    @Test
+    public void testRFC3339DateFormat() {
+        // test the constructor and the clone method
+        RFC3339DateFormat r = new RFC3339DateFormat();
+        RFC3339DateFormat r2 = (RFC3339DateFormat) r.clone();
     }
 
     @Test
