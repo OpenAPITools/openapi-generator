@@ -21,7 +21,7 @@ public class ApiClientTest {
 
     @Test
     public void testRFC3339DateFormat() {
-        // test the constructor and the clone method
+        // test the constructor and the clone method to ensure there's no NPE
         RFC3339DateFormat r = new RFC3339DateFormat();
         RFC3339DateFormat r2 = (RFC3339DateFormat) r.clone();
     }
