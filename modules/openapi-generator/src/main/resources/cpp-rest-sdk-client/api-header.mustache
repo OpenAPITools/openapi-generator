@@ -10,8 +10,8 @@
 
 {{{defaultInclude}}}
 
-#include "ApiClient.h"
-{{^hasModelImport}}#include "ModelBase.h"{{/hasModelImport}}
+#include "{{packageName}}/ApiClient.h"
+{{^hasModelImport}}#include "{{packageName}}/ModelBase.h"{{/hasModelImport}}
 {{#imports}}{{{import}}}
 {{/imports}}
 #include <boost/optional.hpp>
