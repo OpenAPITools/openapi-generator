@@ -36,6 +36,7 @@ import org.openapitools.client.JSON;
   Whale.JSON_PROPERTY_HAS_TEETH,
   Whale.JSON_PROPERTY_CLASS_NAME
 })
+@JsonTypeName("whale")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Whale {
   public static final String JSON_PROPERTY_HAS_BALEEN = "hasBaleen";
@@ -47,6 +48,8 @@ public class Whale {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   private String className;
 
+  public Whale() { 
+  }
 
   public Whale hasBaleen(Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;

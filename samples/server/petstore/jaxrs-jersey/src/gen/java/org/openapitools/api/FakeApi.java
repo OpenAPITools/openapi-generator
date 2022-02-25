@@ -66,7 +66,7 @@ public class FakeApi  {
       this.delegate = delegate;
    }
 
-    @GET
+    @javax.ws.rs.GET
     @Path("/health")
     
     @Produces({ "application/json" })
@@ -78,7 +78,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.fakeHealthGet(securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/http-signature-test")
     @Consumes({ "application/json", "application/xml" })
     
@@ -92,7 +92,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.fakeHttpSignatureTest(pet, query1, header1, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/outer/boolean")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
@@ -104,7 +104,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.fakeOuterBooleanSerialize(body, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/outer/composite")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
@@ -116,7 +116,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.fakeOuterCompositeSerialize(outerComposite, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/outer/number")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
@@ -128,7 +128,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.fakeOuterNumberSerialize(body, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/outer/string")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
@@ -140,7 +140,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.fakeOuterStringSerialize(body, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/property/enum-int")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
@@ -152,7 +152,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, securityContext);
     }
-    @PUT
+    @javax.ws.rs.PUT
     @Path("/body-with-binary")
     @Consumes({ "image/png" })
     
@@ -164,7 +164,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testBodyWithBinary(body, securityContext);
     }
-    @PUT
+    @javax.ws.rs.PUT
     @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
     
@@ -176,7 +176,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testBodyWithFileSchema(fileSchemaTestClass, securityContext);
     }
-    @PUT
+    @javax.ws.rs.PUT
     @Path("/body-with-query-params")
     @Consumes({ "application/json" })
     
@@ -188,7 +188,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testBodyWithQueryParams(query, user, securityContext);
     }
-    @PATCH
+    @javax.ws.rs.PATCH
     
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
@@ -200,7 +200,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testClientModel(client, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     
     @Consumes({ "application/x-www-form-urlencoded" })
     
@@ -216,7 +216,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binaryBodypart, date, dateTime, password, paramCallback, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     
     @Consumes({ "application/x-www-form-urlencoded" })
     
@@ -229,7 +229,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, securityContext);
     }
-    @DELETE
+    @javax.ws.rs.DELETE
     
     
     
@@ -243,7 +243,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })
     
@@ -255,7 +255,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testInlineAdditionalProperties(requestBody, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
     
@@ -267,7 +267,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testJsonFormData(param, param2, securityContext);
     }
-    @PUT
+    @javax.ws.rs.PUT
     @Path("/test-query-parameters")
     
     
@@ -279,7 +279,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })

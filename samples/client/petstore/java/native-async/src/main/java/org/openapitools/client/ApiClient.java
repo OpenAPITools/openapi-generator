@@ -81,7 +81,7 @@ public class ApiClient {
    * @return URL-encoded representation of the input string.
    */
   public static String urlEncode(String s) {
-    return URLEncoder.encode(s, UTF_8);
+    return URLEncoder.encode(s, UTF_8).replaceAll("\\+", "%20");
   }
 
   /**
@@ -159,7 +159,7 @@ public class ApiClient {
   }
 
   /**
-   * Ctor.
+   * Create an instance of ApiClient.
    */
   public ApiClient() {
     this.builder = createDefaultHttpClientBuilder();
@@ -172,7 +172,11 @@ public class ApiClient {
   }
 
   /**
-   * Ctor.
+   * Create an instance of ApiClient.
+   *
+   * @param builder Http client builder.
+   * @param mapper Object mapper.
+   * @param baseUri Base URI
    */
   public ApiClient(HttpClient.Builder builder, ObjectMapper mapper, String baseUri) {
     this.builder = builder;

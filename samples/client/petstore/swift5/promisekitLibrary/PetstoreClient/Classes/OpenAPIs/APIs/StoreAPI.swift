@@ -17,12 +17,11 @@ open class StoreAPI {
      Delete purchase order by ID
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Void>
      */
-    open class func deleteOrder( orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
+    open class func deleteOrder( orderId: String) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
+        deleteOrderWithRequestBuilder(orderId: orderId).execute { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -64,15 +63,14 @@ open class StoreAPI {
     /**
      Returns pet inventories by status
      
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<[String: Int]>
      */
-    open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<[String: Int]> {
+    open class func getInventory() -> Promise<[String: Int]> {
         let deferred = Promise<[String: Int]>.pending()
-        getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
+        getInventoryWithRequestBuilder().execute { result in
             switch result {
             case let .success(response):
-                deferred.resolver.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body)
             case let .failure(error):
                 deferred.resolver.reject(error)
             }
@@ -111,15 +109,14 @@ open class StoreAPI {
      Find purchase order by ID
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Order>
      */
-    open class func getOrderById( orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Order> {
+    open class func getOrderById( orderId: Int64) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
-        getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
+        getOrderByIdWithRequestBuilder(orderId: orderId).execute { result in
             switch result {
             case let .success(response):
-                deferred.resolver.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body)
             case let .failure(error):
                 deferred.resolver.reject(error)
             }
@@ -159,15 +156,14 @@ open class StoreAPI {
      Place an order for a pet
      
      - parameter body: (body) order placed for purchasing the pet 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Order>
      */
-    open class func placeOrder( body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Order> {
+    open class func placeOrder( body: Order) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
-        placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+        placeOrderWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
-                deferred.resolver.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body)
             case let .failure(error):
                 deferred.resolver.reject(error)
             }

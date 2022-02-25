@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class ComplexQuadrilateral {\n");
             sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
             sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
@@ -133,11 +133,17 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.ShapeType != null)
-                    hashCode = hashCode * 59 + this.ShapeType.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ShapeType.GetHashCode();
+                }
                 if (this.QuadrilateralType != null)
-                    hashCode = hashCode * 59 + this.QuadrilateralType.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.QuadrilateralType.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

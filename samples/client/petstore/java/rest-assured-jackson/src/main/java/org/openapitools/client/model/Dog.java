@@ -38,7 +38,6 @@ import org.hibernate.validator.constraints.*;
 @JsonPropertyOrder({
   Dog.JSON_PROPERTY_BREED
 })
-@JsonTypeName("Dog")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 
@@ -46,6 +45,8 @@ public class Dog extends Animal {
   public static final String JSON_PROPERTY_BREED = "breed";
   private String breed;
 
+  public Dog() { 
+  }
 
   public Dog breed(String breed) {
     

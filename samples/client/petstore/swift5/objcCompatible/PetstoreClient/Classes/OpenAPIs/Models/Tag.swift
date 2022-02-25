@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc public class Tag: NSObject, Codable {
+@objc public class Tag: NSObject, Codable, JSONEncodable {
 
     public var _id: Int64?
     public var _idNum: NSNumber? {

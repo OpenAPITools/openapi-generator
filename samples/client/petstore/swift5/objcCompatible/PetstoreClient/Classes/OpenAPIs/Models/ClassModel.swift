@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Model for testing model with \&quot;_class\&quot; property */
-@objc public class ClassModel: NSObject, Codable {
+@objc public class ClassModel: NSObject, Codable, JSONEncodable {
 
     public var _class: String?
 

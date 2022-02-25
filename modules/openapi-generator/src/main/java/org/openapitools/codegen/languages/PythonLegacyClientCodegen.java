@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -215,6 +214,9 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
             }
         }
 
+        String modelPath = packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
+        String apiPath = packagePath() + File.separatorChar + apiPackage.replace('.', File.separatorChar);
+
         String readmePath = "README.md";
         String readmeTemplate = "README.mustache";
         if (generateSourceCodeOnly) {
@@ -237,8 +239,8 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
         }
         supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
         supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + modelPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + apiPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__model.mustache", modelPath, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__api.mustache", apiPath, "__init__.py"));
 
         // If the package name consists of dots(openapi.client), then we need to create the directory structure like openapi/client with __init__ files.
         String[] packageNameSplits = packageName.split("\\.");
@@ -309,6 +311,13 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
      * The OpenAPI pattern spec follows the Perl convention and style of modifiers. Python
      * does not support this in as natural a way so it needs to convert it. See
      * https://docs.python.org/2/howto/regex.html#compilation-flags for details.
+     *
+     * @param pattern (the String pattern to convert from python to Perl convention)
+     * @param vendorExtensions (list of custom x-* properties for extra functionality-see https://swagger.io/docs/specification/openapi-extensions/)
+     * @return void
+     * @throws IllegalArgumentException if pattern does not follow the Perl /pattern/modifiers convention
+     *
+     * Includes fix for issue #6675
      */
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
@@ -432,4 +441,7 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
     public String generatePackageName(String packageName) {
         return underscore(packageName.replaceAll("[^\\w]+", ""));
     }
+
+    @Override
+    public String generatorLanguageVersion() { return "2.7 and 3.4+"; };
 }

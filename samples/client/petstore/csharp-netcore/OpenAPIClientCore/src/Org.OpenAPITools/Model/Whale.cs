@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Whale {\n");
             sb.Append("  HasBaleen: ").Append(HasBaleen).Append("\n");
             sb.Append("  HasTeeth: ").Append(HasTeeth).Append("\n");
@@ -125,10 +125,12 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.HasBaleen.GetHashCode();
-                hashCode = hashCode * 59 + this.HasTeeth.GetHashCode();
+                hashCode = (hashCode * 59) + this.HasBaleen.GetHashCode();
+                hashCode = (hashCode * 59) + this.HasTeeth.GetHashCode();
                 if (this.ClassName != null)
-                    hashCode = hashCode * 59 + this.ClassName.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
+                }
                 return hashCode;
             }
         }

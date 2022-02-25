@@ -1,14 +1,14 @@
 {{>licenseInfo}}
 {{#operations}}
 
-#include "{{classname}}.h"
-#include "IHttpBody.h"
-#include "JsonBody.h"
-#include "MultipartFormData.h"
-
-#include <unordered_set>
+#include "{{packageName}}/api/{{classname}}.h"
+#include "{{packageName}}/IHttpBody.h"
+#include "{{packageName}}/JsonBody.h"
+#include "{{packageName}}/MultipartFormData.h"
 
 #include <boost/algorithm/string/replace.hpp>
+
+#include <unordered_set>
 
 {{#apiNamespaceDeclarations}}
 namespace {{this}} {

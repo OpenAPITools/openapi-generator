@@ -143,7 +143,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class NullableClass {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  IntegerProp: ").Append(IntegerProp).Append("\n");
@@ -201,29 +201,53 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = base.GetHashCode();
                 if (this.IntegerProp != null)
-                    hashCode = hashCode * 59 + this.IntegerProp.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.IntegerProp.GetHashCode();
+                }
                 if (this.NumberProp != null)
-                    hashCode = hashCode * 59 + this.NumberProp.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.NumberProp.GetHashCode();
+                }
                 if (this.BooleanProp != null)
-                    hashCode = hashCode * 59 + this.BooleanProp.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.BooleanProp.GetHashCode();
+                }
                 if (this.StringProp != null)
-                    hashCode = hashCode * 59 + this.StringProp.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.StringProp.GetHashCode();
+                }
                 if (this.DateProp != null)
-                    hashCode = hashCode * 59 + this.DateProp.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.DateProp.GetHashCode();
+                }
                 if (this.DatetimeProp != null)
-                    hashCode = hashCode * 59 + this.DatetimeProp.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.DatetimeProp.GetHashCode();
+                }
                 if (this.ArrayNullableProp != null)
-                    hashCode = hashCode * 59 + this.ArrayNullableProp.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ArrayNullableProp.GetHashCode();
+                }
                 if (this.ArrayAndItemsNullableProp != null)
-                    hashCode = hashCode * 59 + this.ArrayAndItemsNullableProp.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ArrayAndItemsNullableProp.GetHashCode();
+                }
                 if (this.ArrayItemsNullable != null)
-                    hashCode = hashCode * 59 + this.ArrayItemsNullable.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ArrayItemsNullable.GetHashCode();
+                }
                 if (this.ObjectNullableProp != null)
-                    hashCode = hashCode * 59 + this.ObjectNullableProp.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ObjectNullableProp.GetHashCode();
+                }
                 if (this.ObjectAndItemsNullableProp != null)
-                    hashCode = hashCode * 59 + this.ObjectAndItemsNullableProp.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ObjectAndItemsNullableProp.GetHashCode();
+                }
                 if (this.ObjectItemsNullable != null)
-                    hashCode = hashCode * 59 + this.ObjectItemsNullable.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ObjectItemsNullable.GetHashCode();
+                }
                 return hashCode;
             }
         }

@@ -5,7 +5,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>5.3.0-SNAPSHOT</version>
+        <version>6.0.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -17,7 +17,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.exclusions>**/src/main/java/org/openapitools/codegen/plugin/**/*</sonar.exclusions>
         <!-- used for integration tests verification scripts, managed by the test harness plugin -->
-        <groovy.version>3.0.5</groovy.version>
     </properties>
     <dependencies>
         <dependency>
@@ -59,7 +58,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-<!--             <version>4.12</version> -->
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -127,13 +126,12 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-invoker-plugin</artifactId>
-                        <version>3.2.1</version>
+                        <version>3.2.2</version>
                         <configuration>
+                            <debug>false</debug>
+                            <failIfNoProjects>true</failIfNoProjects>
                             <postBuildHookScript>verify</postBuildHookScript>
-                            <showVersion>true</showVersion>
-                            <streamLogs>true</streamLogs>
-                            <noLog>false</noLog>
-                            <showErrors>true</showErrors>
+                            <streamLogsOnFailures>true</streamLogsOnFailures>
                         </configuration>
                         <dependencies>
                             <dependency>
@@ -147,6 +145,7 @@
                             <execution>
                                 <id>integration-test</id>
                                 <goals>
+                                    <goal>install</goal>
                                     <goal>run</goal>
                                 </goals>
                             </execution>

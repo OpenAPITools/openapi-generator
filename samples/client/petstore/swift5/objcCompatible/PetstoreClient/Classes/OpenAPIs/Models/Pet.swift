@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc public class Pet: NSObject, Codable {
+@objc public class Pet: NSObject, Codable, JSONEncodable {
 
     public enum Status: String, Codable, CaseIterable {
         case available = "available"
@@ -28,9 +28,9 @@ import AnyCodable
     public var photoUrls: [String]
     public var tags: [Tag]?
     /** pet status in the store */
-    public var status: Status?
+    public var status: NullEncodable<Status>
 
-    public init(_id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: Status? = nil) {
+    public init(_id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: NullEncodable<Status> = .encodeNull) {
         self._id = _id
         self.category = category
         self.name = name
@@ -57,7 +57,10 @@ import AnyCodable
         try container.encode(name, forKey: .name)
         try container.encode(photoUrls, forKey: .photoUrls)
         try container.encodeIfPresent(tags, forKey: .tags)
-        try container.encodeIfPresent(status, forKey: .status)
+        switch status {
+        case .encodeNothing: break
+        case .encodeNull, .encodeValue: try container.encode(status, forKey: .status)
+        }
     }
 }
 

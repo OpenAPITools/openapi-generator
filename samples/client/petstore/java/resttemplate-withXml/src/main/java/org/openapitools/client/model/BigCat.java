@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   BigCat.JSON_PROPERTY_KIND
 })
-@JsonTypeName("BigCat")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 
@@ -94,6 +93,8 @@ public class BigCat extends Cat {
   @XmlElement(name = "kind")
   private KindEnum kind;
 
+  public BigCat() { 
+  }
 
   public BigCat kind(KindEnum kind) {
     

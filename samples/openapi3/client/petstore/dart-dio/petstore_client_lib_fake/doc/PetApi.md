@@ -25,6 +25,8 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
+
+
 ### Example
 ```dart
 import 'package:openapi/api.dart';
@@ -66,6 +68,8 @@ void (empty response body)
 > deletePet(petId, apiKey)
 
 Deletes a pet
+
+
 
 ### Example
 ```dart
@@ -248,6 +252,8 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
+
+
 ### Example
 ```dart
 import 'package:openapi/api.dart';
@@ -289,6 +295,8 @@ void (empty response body)
 > updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 ```dart
@@ -336,6 +344,8 @@ void (empty response body)
 
 uploads an image
 
+
+
 ### Example
 ```dart
 import 'package:openapi/api.dart';
@@ -382,6 +392,8 @@ Name | Type | Description  | Notes
 > ApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
+
+
 
 ### Example
 ```dart

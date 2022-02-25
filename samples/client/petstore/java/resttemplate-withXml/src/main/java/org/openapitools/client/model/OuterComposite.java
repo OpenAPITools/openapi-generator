@@ -36,7 +36,6 @@ import javax.xml.bind.annotation.*;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-@JsonTypeName("OuterComposite")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "OuterComposite")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -54,6 +53,8 @@ public class OuterComposite {
   @XmlElement(name = "my_boolean")
   private Boolean myBoolean;
 
+  public OuterComposite() { 
+  }
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     

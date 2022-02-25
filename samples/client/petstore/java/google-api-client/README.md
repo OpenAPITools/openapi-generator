@@ -13,7 +13,7 @@ This spec is mainly for testing Petstore server and contains fake endpoints, mod
 
 Building the API client library requires:
 
-1. Java 1.7+
+1. Java 1.8+
 2. Maven/Gradle
 
 ## Installation
@@ -186,6 +186,8 @@ Class | Method | HTTP request | Description
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
+ - [ModelFile](docs/ModelFile.md)
+ - [ModelList](docs/ModelList.md)
  - [ModelReturn](docs/ModelReturn.md)
  - [Name](docs/Name.md)
  - [NumberOnly](docs/NumberOnly.md)

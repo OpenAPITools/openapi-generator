@@ -11,7 +11,9 @@ export NODE_ENV=test
 
 function cleanup {
   # Show logs of 'petstore.swagger' container to troubleshoot Unit Test failures, if any.
-  docker logs petstore.swagger # container name specified in circle.yml
+  if [ "$NODE_INDEX" != "4" ]; then
+    docker logs petstore.swagger # container name specified in circle.yml
+  fi
 }
 
 trap cleanup EXIT
@@ -40,6 +42,13 @@ elif [ "$NODE_INDEX" = "2" ]; then
   sudo apt-get -y build-dep libcurl4-gnutls-dev
   sudo apt-get -y install libcurl4-gnutls-dev
 
+  # Install golang version 1.14
+  go version
+  sudo mkdir /usr/local/go1.14
+  wget -c https://dl.google.com/go/go1.14.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.14
+  export PATH="/usr/local/go1.14/go/bin:$PATH"
+  go version
+
   # run integration tests
   mvn --no-snapshot-updates --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 elif [ "$NODE_INDEX" = "3" ]; then
@@ -52,22 +61,44 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #sudo make altinstall
   pyenv install --list 
   pyenv install 3.6.3
+  pyenv install 2.7.14
   pyenv global 3.6.3
-  python3 --version
+
+  # Install node@stable (for angular 6)
+  set +e
+  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+  export NVM_DIR="/opt/circleci/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  #nvm install stable
+  # install v16 instead of the latest stable version
+  nvm install 16
+  nvm alias default 16
+  node --version
+
+  # Each step uses the same `$BASH_ENV`, so need to modify it
+  echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+  echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+
+elif [ "$NODE_INDEX" = "4" ]; then
+
+  echo "Running node $NODE_INDEX to test 'samples.circleci.node4' defined in pom.xml ..."
+
+  # install maven and java so we can use them to run our tests
+  apt-get update && apt-get install -y default-jdk maven sudo
+  java -version
+  export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
+  echo $JAVA_HOME
+  # show os version
+  uname -a
+
+  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node4 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
   #sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
   java -version
-
-  # Install golang version 1.14
-  go version
-  sudo mkdir /usr/local/go1.14
-  wget -c https://dl.google.com/go/go1.14.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.14
-  export PATH="/usr/local/go1.14/go/bin:$PATH"
-  go version
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   mvn --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error

@@ -78,7 +78,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         supportsInheritance = true;
         setSortModelPropertiesByRequiredFlag(true);
 
-        languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
+        languageSpecificPrimitives = new HashSet<>(Arrays.asList(
                 "kotlin.Byte",
                 "kotlin.ByteArray",
                 "kotlin.Short",
@@ -91,13 +91,17 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "kotlin.String",
                 "kotlin.Array",
                 "kotlin.collections.List",
+                "kotlin.collections.MutableList",
                 "kotlin.collections.Map",
-                "kotlin.collections.Set"
+                "kotlin.collections.MutableMap",
+                "kotlin.collections.Set",
+                "kotlin.collections.MutableSet"
         ));
 
         // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
         // as well as keywords from https://kotlinlang.org/docs/reference/keyword-reference.html
-        reservedWords = new HashSet<String>(Arrays.asList(
+        reservedWords = new HashSet<>(Arrays.asList(
+                "ApiResponse", // Used in the auto-generated api client
                 "abstract",
                 "actual",
                 "annotation",
@@ -171,7 +175,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "while"
         ));
 
-        defaultIncludes = new HashSet<String>(Arrays.asList(
+        defaultIncludes = new HashSet<>(Arrays.asList(
                 "kotlin.Byte",
                 "kotlin.ByteArray",
                 "kotlin.Short",
@@ -183,11 +187,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "kotlin.Char",
                 "kotlin.Array",
                 "kotlin.collections.List",
+                "kotlin.collections.MutableList",
                 "kotlin.collections.Set",
-                "kotlin.collections.Map"
+                "kotlin.collections.MutableSet",
+                "kotlin.collections.Map",
+                "kotlin.collections.MutableMap"
         ));
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("string", "kotlin.String");
         typeMapping.put("boolean", "kotlin.Boolean");
         typeMapping.put("integer", "kotlin.Int");
@@ -214,7 +221,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         instantiationTypes.put("list", "kotlin.collections.ArrayList");
         instantiationTypes.put("map", "kotlin.collections.HashMap");
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
         importMapping.put("URI", "java.net.URI");
@@ -415,6 +422,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
+        if (additionalProperties.containsKey(MODEL_MUTABLE)) {
+            additionalProperties.put(MODEL_MUTABLE, Boolean.parseBoolean(additionalProperties.get(MODEL_MUTABLE).toString()));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
             setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
         }
@@ -474,6 +485,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
             this.setParcelizeModels(convertPropertyToBooleanAndWriteBack(CodegenConstants.PARCELIZE_MODELS));
         } else {
@@ -494,6 +509,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
+
+        if (isModelMutable()) {
+            typeMapping.put("list", "kotlin.collections.MutableList");
+            typeMapping.put("set", "kotlin.collections.MutableSet");
+            typeMapping.put("map", "kotlin.collections.MutableMap");
+        }
+    }
+
+    protected boolean isModelMutable() {
+        return Boolean.TRUE.equals(additionalProperties.get(MODEL_MUTABLE));
     }
 
     public void setArtifactId(String artifactId) {
@@ -601,6 +626,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
         // NOTE: another sanitize because camelize can create an invalid name
         return sanitizeKotlinSpecificNames(modified);
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        return property.nameInCamelCase;
     }
 
     @Override
@@ -891,7 +921,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // If name contains special chars -> replace them.
-        if ((name.chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character))))) {
+        if ((name.chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character))))) {
             List<String> allowedCharacters = new ArrayList<>();
             allowedCharacters.add("_");
             allowedCharacters.add("$");
@@ -936,7 +966,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         // only process files with kt extension
         if ("kt".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = kotlinPostProcessFile + " " + file.toString();
+            String command = kotlinPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
@@ -1009,5 +1039,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         return null;
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.KOTLIN;
     }
 }

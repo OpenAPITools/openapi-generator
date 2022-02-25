@@ -35,7 +35,6 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   AdditionalPropertiesInteger.JSON_PROPERTY_NAME
 })
-@JsonTypeName("AdditionalPropertiesInteger")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "AdditionalPropertiesInteger")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -45,6 +44,8 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
   @XmlElement(name = "name")
   private String name;
 
+  public AdditionalPropertiesInteger() { 
+  }
 
   public AdditionalPropertiesInteger name(String name) {
     

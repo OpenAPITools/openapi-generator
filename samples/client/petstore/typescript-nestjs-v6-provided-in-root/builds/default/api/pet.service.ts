@@ -23,7 +23,7 @@ import { Configuration } from '../configuration';
 export class PetService {
 
     protected basePath = 'http://petstore.swagger.io/v2';
-    public defaultHeaders = new Map()
+    public defaultHeaders: Record<string,string> = {};
     public configuration = new Configuration();
 
     constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
@@ -153,8 +153,8 @@ export class PetService {
         }
 
         let queryParameters = {};
-        if (status !== undefined && status !== null) {
-            queryParameters['status'] = <any>status;
+        if (status) {
+            queryParameters['status'] = status.join(COLLECTION_FORMATS['csv']);
         }
 
         let headers = this.defaultHeaders;
@@ -203,8 +203,8 @@ export class PetService {
         }
 
         let queryParameters = {};
-        if (tags !== undefined && tags !== null) {
-            queryParameters['tags'] = <any>tags;
+        if (tags) {
+            queryParameters['tags'] = tags.join(COLLECTION_FORMATS['csv']);
         }
 
         let headers = this.defaultHeaders;

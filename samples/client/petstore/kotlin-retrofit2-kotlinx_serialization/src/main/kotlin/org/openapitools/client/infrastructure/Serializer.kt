@@ -1,6 +1,5 @@
 package org.openapitools.client.infrastructure
 
-import java.util.Date
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.LocalDate
@@ -20,7 +19,6 @@ object Serializer {
     val kotlinSerializationAdapters = SerializersModule {
         contextual(BigDecimal::class, BigDecimalAdapter)
         contextual(BigInteger::class, BigIntegerAdapter)
-        contextual(Date::class, DateAdapter)
         contextual(LocalDate::class, LocalDateAdapter)
         contextual(LocalDateTime::class, LocalDateTimeAdapter)
         contextual(OffsetDateTime::class, OffsetDateTimeAdapter)

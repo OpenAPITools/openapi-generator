@@ -44,6 +44,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static enum PROVIDED_IN_LEVEL {none, root, any, platform}
 
     private static final String DEFAULT_IMPORT_PREFIX = "./";
+    private static final String DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX = "../";
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
@@ -65,7 +66,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
 
-    protected String ngVersion = "12.0.0";
+    protected String ngVersion = "13.0.1";
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
@@ -144,7 +145,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular (6.x - 12.x) client library.";
+        return "Generates a TypeScript Angular (6.x - 13.x) client library.";
     }
 
     @Override
@@ -292,7 +293,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the typescript version compatible to the Angular version
-        if (ngVersion.atLeast("12.0.0")) {
+        if (ngVersion.atLeast("13.0.0")) {
+            additionalProperties.put("tsVersion", ">=4.4.2 <4.5.0");
+        } else if (ngVersion.atLeast("12.0.0")) {
             additionalProperties.put("tsVersion", ">=4.3.0 <4.4.0");
         } else if (ngVersion.atLeast("11.0.0")) {
             additionalProperties.put("tsVersion", ">=4.0.0 <4.1.0");
@@ -310,7 +313,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the rxJS version compatible to the Angular version
-        if (ngVersion.atLeast("10.0.0")) {
+        if (ngVersion.atLeast("13.0.0")) {
+            additionalProperties.put("rxjsVersion", "7.4.0");
+        } else if (ngVersion.atLeast("10.0.0")) {
             additionalProperties.put("rxjsVersion", "6.6.0");
         } else if (ngVersion.atLeast("9.0.0")) {
             additionalProperties.put("rxjsVersion", "6.5.3");
@@ -326,7 +331,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("ng-package.mustache", getIndexDirectory(), "ng-package.json"));
 
         // Specific ng-packagr configuration
-        if (ngVersion.atLeast("12.0.0")) {
+        if (ngVersion.atLeast("13.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "13.0.3");
+            additionalProperties.put("tsickleVersion", "0.43.0");
+        } else if (ngVersion.atLeast("12.0.0")) {
             additionalProperties.put("ngPackagrVersion", "12.2.1");
             additionalProperties.put("tsickleVersion", "0.43.0");
         } else if (ngVersion.atLeast("11.0.0")) {
@@ -534,8 +542,19 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                             setChildDiscriminatorValue(cm, child);
                         }
                     }
+
+                    // with tagged union, a child model doesn't extend the parent (all properties are just copied over)
+                    // it means we don't need to import that parent any more
                     if (cm.parent != null) {
                         cm.imports.remove(cm.parent);
+
+                        // however, it's possible that the child model contains a recursive reference to the parent
+                        // in order to support this case, we update the list of imports from properties once again
+                        for (CodegenProperty cp: cm.allVars) {
+                            addImportsForPropertyType(cm, cp);
+                        }
+                        removeSelfReferenceImports(cm);
+
                     }
                 }
                 // Add additional filename information for imports
@@ -569,7 +588,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      * Parse imports
      */
     private Set<String> parseImports(CodegenModel cm) {
-        Set<String> newImports = new HashSet<String>();
+        Set<String> newImports = new HashSet<>();
         if (cm.imports.size() > 0) {
             for (String name : cm.imports) {
                 if (name.indexOf(" | ") >= 0) {
@@ -634,7 +653,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
-        return modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
+        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
     }
 
     public String getNpmRepository() {

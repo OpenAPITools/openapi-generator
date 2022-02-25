@@ -46,7 +46,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     protected String dateLibrary = DateLibraries.java8.name();
 
     protected enum DateLibraries {
-        java8("Java 8 native JSR310 (prefered for JDK 1.8+)"),
+        java8("Java 8 native JSR310 (preferred for JDK 1.8+)"),
         joda( "Joda (for legacy app)"),
         legacy( "Backport to http-client (deprecated)");
 
@@ -540,7 +540,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
         // only process files with scala extension
         if ("scala".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = scalaPostProcessFile + " " + file.toString();
+            String command = scalaPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -586,4 +586,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         this.invokerPackage = invokerPackage;
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SCALA; }
 }

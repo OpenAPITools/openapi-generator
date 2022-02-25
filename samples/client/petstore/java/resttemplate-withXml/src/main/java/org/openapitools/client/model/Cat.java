@@ -38,7 +38,6 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   Cat.JSON_PROPERTY_DECLAWED
 })
-@JsonTypeName("Cat")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
@@ -53,6 +52,8 @@ public class Cat extends Animal {
   @XmlElement(name = "declawed")
   private Boolean declawed;
 
+  public Cat() { 
+  }
 
   public Cat declawed(Boolean declawed) {
     

@@ -48,5 +48,6 @@ public class ScalaHttpClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setSourceFolder(ScalaHttpClientOptionsProvider.SOURCE_FOLDER_VALUE);
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(ScalaHttpClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
         verify(clientCodegen).setDateLibrary(ScalaHttpClientOptionsProvider.DATE_LIBRARY,false);
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(ScalaHttpClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

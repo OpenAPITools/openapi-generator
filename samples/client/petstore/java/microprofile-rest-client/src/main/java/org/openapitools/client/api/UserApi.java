@@ -12,6 +12,7 @@
 
 package org.openapitools.client.api;
 
+import java.util.Date;
 import org.openapitools.client.model.User;
 
 import java.io.InputStream;
@@ -34,7 +35,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  *
  */
 
-@RegisterRestClient
+@RegisterRestClient(configKey="petstore")
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/user")
 public interface UserApi  {

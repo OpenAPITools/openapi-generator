@@ -50,14 +50,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-  repositories {
-    mavenCentral()     // Needed if the 'petstore-apache-httpclient' jar has been published to maven central.
-    mavenLocal()       // Needed if the 'petstore-apache-httpclient' jar has been published to the local maven repo.
-  }
-
-  dependencies {
-     implementation "org.openapitools:petstore-apache-httpclient:1.0.0"
-  }
+compile "org.openapitools:petstore-apache-httpclient:1.0.0"
 ```
 
 ### Others
@@ -186,6 +179,8 @@ Class | Method | HTTP request | Description
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
+ - [ModelFile](docs/ModelFile.md)
+ - [ModelList](docs/ModelList.md)
  - [ModelReturn](docs/ModelReturn.md)
  - [Name](docs/Name.md)
  - [NumberOnly](docs/NumberOnly.md)
