@@ -9,9 +9,9 @@ title: Documentation for the javascript-flowtyped Generator
 | generator name | javascript-flowtyped | pass this to the generate command after -g |
 | generator stability | STABLE | |
 | generator type | CLIENT | |
-| generator language | Javascript | |
+| generator language | JavaScript | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Javascript client library (beta) using Flow types and Fetch API. | |
+| helpTxt | Generates a JavaScript client library (beta) using Flow types and Fetch API. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.

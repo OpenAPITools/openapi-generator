@@ -906,9 +906,9 @@ Here is a list of template creators:
    * Java (Java 11 Native HTTP client): @bbdouglas
    * Java (Apache HttpClient): @harrywhite4
    * Javascript/NodeJS: @jfiala
-   * Javascript (Apollo DataSource): @erithmetic
-   * Javascript (Closure-annotated Angular) @achew22
-   * Javascript (Flow types) @jaypea
+   * JavaScript (Apollo DataSource): @erithmetic
+   * JavaScript (Closure-annotated Angular) @achew22
+   * JavaScript (Flow types) @jaypea
    * JMeter: @davidkiss
    * Kotlin: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * Kotlin (MultiPlatform): @andrewemery

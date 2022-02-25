@@ -9,7 +9,7 @@ title: Documentation for the javascript Generator
 | generator name | javascript | pass this to the generate command after -g |
 | generator stability | STABLE | |
 | generator type | CLIENT | |
-| generator language | Javascript | |
+| generator language | JavaScript | |
 | generator default templating engine | mustache | |
 | helpTxt | Generates a JavaScript client library. | |
 

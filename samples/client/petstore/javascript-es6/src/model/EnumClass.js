@@ -42,7 +42,7 @@ export default class EnumClass {
     
 
     /**
-    * Returns a <code>EnumClass</code> enum value from a Javascript object name.
+    * Returns a <code>EnumClass</code> enum value from a JavaScript object name.
     * @param {Object} data The plain JavaScript object containing the name of the enum value.
     * @return {module:model/EnumClass} The enum <code>EnumClass</code> value.
     */
