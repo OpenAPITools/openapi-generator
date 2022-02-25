@@ -204,7 +204,7 @@ public class FileSchemaTestClass implements Parcelable {
       if (jsonObj == null) {
         if (FileSchemaTestClass.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in FileSchemaTestClass is not found in the empty JSON string", FileSchemaTestClass.openapiRequiredFields.toString()));
         }
       }

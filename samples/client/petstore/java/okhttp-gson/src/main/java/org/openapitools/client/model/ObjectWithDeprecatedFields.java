@@ -246,7 +246,7 @@ public class ObjectWithDeprecatedFields {
       if (jsonObj == null) {
         if (ObjectWithDeprecatedFields.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in ObjectWithDeprecatedFields is not found in the empty JSON string", ObjectWithDeprecatedFields.openapiRequiredFields.toString()));
         }
       }

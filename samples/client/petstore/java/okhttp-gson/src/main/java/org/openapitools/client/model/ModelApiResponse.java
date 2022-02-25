@@ -198,7 +198,7 @@ public class ModelApiResponse {
       if (jsonObj == null) {
         if (ModelApiResponse.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in ModelApiResponse is not found in the empty JSON string", ModelApiResponse.openapiRequiredFields.toString()));
         }
       }

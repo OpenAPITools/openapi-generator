@@ -172,7 +172,7 @@ public class ComplexQuadrilateral {
       if (jsonObj == null) {
         if (ComplexQuadrilateral.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in ComplexQuadrilateral is not found in the empty JSON string", ComplexQuadrilateral.openapiRequiredFields.toString()));
         }
       }
