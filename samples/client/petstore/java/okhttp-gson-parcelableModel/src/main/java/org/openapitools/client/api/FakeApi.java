@@ -1688,7 +1688,7 @@ public class FakeApi {
          * @http.response.details
          <table summary="Response Details" border="1">
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
          </table>
          */
         public okhttp3.Call buildCall(final ApiCallback _callback) throws ApiException {
@@ -1701,7 +1701,7 @@ public class FakeApi {
          * @http.response.details
          <table summary="Response Details" border="1">
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
          </table>
          */
         public void execute() throws ApiException {
@@ -1715,7 +1715,7 @@ public class FakeApi {
          * @http.response.details
          <table summary="Response Details" border="1">
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
          </table>
          */
         public ApiResponse<Void> executeWithHttpInfo() throws ApiException {
@@ -1730,7 +1730,7 @@ public class FakeApi {
          * @http.response.details
          <table summary="Response Details" border="1">
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
          </table>
          */
         public okhttp3.Call executeAsync(final ApiCallback<Void> _callback) throws ApiException {
@@ -1748,7 +1748,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
      </table>
      */
     public APItestGroupParametersRequest testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group) {

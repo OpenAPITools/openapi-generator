@@ -903,7 +903,7 @@
         "responses" : {
           "400" : {
             "content" : { },
-            "description" : "Someting wrong"
+            "description" : "Something wrong"
           }
         },
         "summary" : "Fake endpoint to test group parameters (optional)",

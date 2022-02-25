@@ -413,7 +413,7 @@ public interface FakeApi {
      * @param stringGroup String in group parameters (optional)
      * @param booleanGroup Boolean in group parameters (optional)
      * @param int64Group Integer in group parameters (optional)
-     * @return Someting wrong (status code 400)
+     * @return Something wrong (status code 400)
      */
     @ApiOperation(
         tags = { "fake" },
@@ -422,7 +422,7 @@ public interface FakeApi {
         notes = "Fake endpoint to test group parameters (optional)"
     )
     @ApiResponses({
-        @ApiResponse(code = 400, message = "Someting wrong")
+        @ApiResponse(code = 400, message = "Something wrong")
     })
     @RequestMapping(
         method = RequestMethod.DELETE,

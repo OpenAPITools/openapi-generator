@@ -210,7 +210,7 @@ namespace Org.OpenAPITools.Test
             Assert.IsType<System.IO.MemoryStream>(response);
             StreamReader reader = new StreamReader(response);
             // the following will fail for sure
-            //Assert.Equal("someting", reader.ReadToEnd());
+            //Assert.Equal("something", reader.ReadToEnd());
         }
         */
 

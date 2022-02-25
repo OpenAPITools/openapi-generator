@@ -1313,7 +1313,7 @@ Type | Description | Notes
 Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
-400 | ApiResponseFor400 | Someting wrong 
+400 | ApiResponseFor400 | Something wrong 
 
 #### ApiResponseFor400
 Name | Type | Description  | Notes

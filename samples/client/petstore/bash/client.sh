@@ -1100,7 +1100,7 @@ print_testGroupParameters_help() {
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=400
-    echo -e "${result_color_table[${code:0:1}]}  400;Someting wrong${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    echo -e "${result_color_table[${code:0:1}]}  400;Something wrong${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #

@@ -703,7 +703,7 @@ paths:
         style: form
       responses:
         "400":
-          description: Someting wrong
+          description: Something wrong
       security:
       - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)
