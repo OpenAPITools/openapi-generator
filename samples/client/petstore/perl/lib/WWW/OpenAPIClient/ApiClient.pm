@@ -122,16 +122,13 @@ sub call_api {
 
     }
     elsif ($method eq 'GET') {
-        my $headers = HTTP::Headers->new(%$header_params);
         $_request = GET($_url, %$header_params);
     }
     elsif ($method eq 'HEAD') {
-        my $headers = HTTP::Headers->new(%$header_params);
-        $_request = HEAD($_url,%$header_params);
+        $_request = HEAD($_url,%$header_params); 
     }
     elsif ($method eq 'DELETE') { #TODO support form data
-        my $headers = HTTP::Headers->new(%$header_params);
-        $_request = DELETE($_url, %$headers);
+        $_request = DELETE($_url, %$header_params);
     }
     elsif ($method eq 'PATCH') { #TODO
     }
