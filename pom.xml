@@ -1298,7 +1298,8 @@
                 <module>samples/client/petstore/go</module>
                 <module>samples/openapi3/client/petstore/go</module>
                 <module>samples/server/petstore/go-api-server</module>
-                <module>samples/server/petstore/go-gin-api-server</module>
+                <!-- comment out due to Go version
+                <module>samples/server/petstore/go-gin-api-server</module>-->
                 <module>samples/server/petstore/go-echo-server</module>
             </modules>
         </profile>
