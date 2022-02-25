@@ -1,9 +1,7 @@
-// Some imports not used depending on template conditions
-// @ts-ignore
+// @ts-ignore: some imports may be unused
 import { Configuration, ConfigurationParameters } from "../";
 
-// Some imports not used depending on template conditions
-// @ts-ignore
+// @ts-ignore: some imports may be unused
 import { {{#apiInfo}}{{#apis}}{{classFilename}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}} } from "./";
 
 export class Api {

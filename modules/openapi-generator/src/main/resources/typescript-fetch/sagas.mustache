@@ -2,25 +2,19 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
-// Import not used depending on template conditions
-// @ts-ignore
+// @ts-ignore: import may be unused
 import {Api} from './';
-// Import not used depending on template conditions
-// @ts-ignore
+// @ts-ignore: import may be unused
 import {List} from 'immutable';
-// Some imports not used depending on template conditions
-// @ts-ignore
+// @ts-ignore: some imports may be unused
 import {all, fork, put, takeLatest} from "redux-saga/effects";
-// Some imports not used depending on template conditions
-// @ts-ignore
+// @ts-ignore: some imports may be unused
 import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
-// Import not used depending on template conditions
-// @ts-ignore
+// @ts-ignore: import may be unused
 import {Action} from "redux-ts-simple";
 
 {{#imports.0}}
-// Some imports not used depending on template conditions
-// @ts-ignore
+// @ts-ignore: some imports may be unused
 import { {{#imports}}{{className}}, {{className}}Record, {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils{{^-last}}, {{/-last}}{{/imports}}{{#passthroughImports}}, {{.}}{{/passthroughImports}} } from '../models';
 {{/imports.0}}
 {{#hasEnums}}
@@ -29,8 +23,7 @@ import { {{#imports}}{{className}}, {{className}}Record, {{#lambda.camelcase}}{{
 {{#allParams}}
 {{#isEnum}}
 
-// Import not used depending on template conditions
-// @ts-ignore
+// @ts-ignore: import may be unused
 import { {{operationIdCamelCase}}{{enumName}} } from './{{classname}}';
 {{/isEnum}}
 {{/allParams}}

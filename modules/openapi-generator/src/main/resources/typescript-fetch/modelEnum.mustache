@@ -4,8 +4,7 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
     return {{classname}}FromJSONTyped(json, false);
 }
 
-// ignoreDiscriminator not used
-// @ts-ignore
+// @ts-ignore: ignoreDiscriminator not used
 export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{classname}} {
     return json as {{classname}};
 }
