@@ -1,0 +1,121 @@
+openapi: 3.0.0
+servers:
+  - url: 'localhost:8080'
+info:
+  version: 1.0.0
+  title: OpenAPI Zoo
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /monkeys:
+    get:
+      operationId: getMonkeys
+      parameters:
+        - $ref: '#/components/parameters/refDate'
+  /elephants:
+    get:
+      operationId: getElephants
+      parameters:
+        - in: query
+          name: someDate
+          required: true
+          schema:
+            type: string
+            format: date
+  /girafes:
+    get:
+      operationId: getGirafes
+      parameters:
+        - $ref: '#/components/parameters/refStatus'
+  /zebras:
+    get:
+      operationId: getZebras
+      parameters:
+        - in: query
+          name: status
+          required: true
+          schema:
+            type: integer
+            enum: [0,1]
+            default: 0
+  /bears:
+    get:
+      operationId: getBears
+      parameters:
+        - $ref: '#/components/parameters/refCondition'
+  /camels:
+    get:
+      operationId: getCamels
+      parameters:
+        - in: query
+          name: condition
+          required: true
+          schema:
+            type: string
+            enum:
+              - sleeping
+              - awake
+  /pandas:
+    get:
+      operationId: getPandas
+      parameters:
+        - $ref: '#/components/parameters/refName'
+  /crocodiles:
+    get:
+      operationId: getCrocodiles
+      parameters:
+        - in: query
+          name: name
+          required: true
+          schema:
+            type: string
+  /polarBears:
+    get:
+      operationId: getPolarBears
+      parameters:
+        - $ref: '#/components/parameters/refAge'
+  /birds:
+    get:
+      operationId: getBirds
+      parameters:
+        - in: query
+          name: age
+          required: true
+          schema:
+            type: integer
+components:
+  parameters:
+    refDate:
+      in: query
+      name: refDate
+      required: true
+      schema:
+        type: string
+        format: date
+    refStatus:
+      in: query
+      name: refStatus
+      required: true
+      schema:
+        type: integer
+        enum: [0,1]
+        default: 0
+    refCondition:
+      in: query
+      name: refCondition
+      schema:
+        type: string
+        enum:
+          - sleeping
+          - awake
+    refName:
+      in: query
+      name: refName
+      schema:
+        type: string
+    refAge:
+      in: query
+      name: refAge
+      schema:
+        type: integer

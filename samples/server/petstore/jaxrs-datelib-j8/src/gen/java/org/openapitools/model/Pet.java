@@ -17,10 +17,13 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -39,7 +42,7 @@ import javax.validation.Valid;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class Pet  implements Serializable {
   public static final String JSON_PROPERTY_ID = "id";
   @JsonProperty(JSON_PROPERTY_ID)
@@ -55,7 +58,7 @@ public class Pet  implements Serializable {
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
-  private List<String> photoUrls = new ArrayList<>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @JsonProperty(JSON_PROPERTY_TAGS)
@@ -107,7 +110,7 @@ public class Pet  implements Serializable {
    * Get id
    * @return id
    **/
-  @JsonProperty("id")
+  @JsonProperty(value = "id")
   @ApiModelProperty(value = "")
   
   public Long getId() {
@@ -127,7 +130,7 @@ public class Pet  implements Serializable {
    * Get category
    * @return category
    **/
-  @JsonProperty("category")
+  @JsonProperty(value = "category")
   @ApiModelProperty(value = "")
   @Valid 
   public Category getCategory() {
@@ -147,7 +150,7 @@ public class Pet  implements Serializable {
    * Get name
    * @return name
    **/
-  @JsonProperty("name")
+  @JsonProperty(value = "name")
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @NotNull 
   public String getName() {
@@ -158,7 +161,7 @@ public class Pet  implements Serializable {
     this.name = name;
   }
 
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -172,14 +175,15 @@ public class Pet  implements Serializable {
    * Get photoUrls
    * @return photoUrls
    **/
-  @JsonProperty("photoUrls")
+  @JsonProperty(value = "photoUrls")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
-  public List<String> getPhotoUrls() {
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
-  public void setPhotoUrls(List<String> photoUrls) {
+  @JsonDeserialize(as = LinkedHashSet.class)
+  public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
@@ -200,7 +204,7 @@ public class Pet  implements Serializable {
    * Get tags
    * @return tags
    **/
-  @JsonProperty("tags")
+  @JsonProperty(value = "tags")
   @ApiModelProperty(value = "")
   @Valid 
   public List<Tag> getTags() {
@@ -220,7 +224,7 @@ public class Pet  implements Serializable {
    * pet status in the store
    * @return status
    **/
-  @JsonProperty("status")
+  @JsonProperty(value = "status")
   @ApiModelProperty(value = "pet status in the store")
   
   public StatusEnum getStatus() {
@@ -233,7 +237,7 @@ public class Pet  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -254,7 +258,6 @@ public class Pet  implements Serializable {
     return Objects.hash(id, category, name, photoUrls, tags, status);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -274,7 +277,7 @@ public class Pet  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

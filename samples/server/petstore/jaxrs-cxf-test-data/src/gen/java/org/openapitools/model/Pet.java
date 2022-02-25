@@ -1,22 +1,21 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class Pet  {
   
@@ -25,25 +24,23 @@ public class Pet  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private Category category = null;
+  private Category category;
 
   @ApiModelProperty(example = "doggie", required = true, value = "")
   private String name;
 
   @ApiModelProperty(required = true, value = "")
-  private List<String> photoUrls = new ArrayList<>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   @ApiModelProperty(value = "")
   @Valid
   private List<Tag> tags = null;
 
-@XmlType(name="StatusEnum")
-@XmlEnum(String.class)
 public enum StatusEnum {
 
-    @XmlEnumValue("available") @JsonProperty("available") AVAILABLE(String.valueOf("available")), 
-    @XmlEnumValue("pending") @JsonProperty("pending") PENDING(String.valueOf("pending")), 
-    @XmlEnumValue("sold") @JsonProperty("sold") SOLD(String.valueOf("sold"));
+    @JsonProperty("available") AVAILABLE(String.valueOf("available")),
+    @JsonProperty("pending") PENDING(String.valueOf("pending")),
+    @JsonProperty("sold") SOLD(String.valueOf("sold"));
 
     private String value;
 
@@ -87,7 +84,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>id</code> property.
    */
-  public void setId(Long id) {
+ public void setId(Long id) {
     this.id = id;
   }
 
@@ -111,7 +108,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>category</code> property.
    */
-  public void setCategory(Category category) {
+ public void setCategory(Category category) {
     this.category = category;
   }
 
@@ -136,7 +133,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>name</code> property.
    */
-  public void setName(String name) {
+ public void setName(String name) {
     this.name = name;
   }
 
@@ -154,21 +151,22 @@ public enum StatusEnum {
   */
   @JsonProperty("photoUrls")
   @NotNull
-  public List<String> getPhotoUrls() {
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
   /**
    * Sets the <code>photoUrls</code> property.
    */
-  public void setPhotoUrls(List<String> photoUrls) {
+ @JsonDeserialize(as = LinkedHashSet.class)
+ public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
   /**
    * Sets the <code>photoUrls</code> property.
    */
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -193,7 +191,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>tags</code> property.
    */
-  public void setTags(List<Tag> tags) {
+ public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
@@ -225,7 +223,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>status</code> property.
    */
-  public void setStatus(StatusEnum status) {
+ public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
@@ -257,7 +255,7 @@ public enum StatusEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

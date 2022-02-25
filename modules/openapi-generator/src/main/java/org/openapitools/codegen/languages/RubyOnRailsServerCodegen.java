@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,12 +22,12 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.util.EnumSet;
 import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -35,7 +35,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RubyOnRailsServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(RubyOnRailsServerCodegen.class);
 
     protected String gemName;
     protected String moduleName;
@@ -71,6 +71,25 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
 
     public RubyOnRailsServerCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
+
         outputFolder = "generated-code" + File.separator + "rails5";
         apiPackage = "app/controllers";
         apiTemplateFiles.put("controller.mustache", ".rb");
@@ -117,7 +136,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         } else if ("mysql".equals(databaseAdapter)) {
             additionalProperties.put("isDBMySQL", Boolean.TRUE);
         } else {
-            LOGGER.warn("Unknown database {}. Defaul to 'sqlite'.", databaseAdapter);
+            LOGGER.warn("Unknown database {}. Default to 'sqlite'.", databaseAdapter);
             additionalProperties.put("isDBSQLite", Boolean.TRUE);
         }
 
@@ -219,7 +238,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = camelize("Model" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
@@ -233,7 +252,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String filename = underscore("model_" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + filename);
+            LOGGER.warn("{} (reserved word) cannot be used as model filename. Renamed to {}", name, filename);
             return filename;
         }
 

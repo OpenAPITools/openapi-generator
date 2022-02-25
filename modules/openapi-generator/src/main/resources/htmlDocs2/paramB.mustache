@@ -1,10 +1,14 @@
-<tr><td style="width:150px;">{{paramName}} {{^required}}{{/required}}{{#required}}<span style="color:red;">*</span>{{/required}}</td>
+<tr><td style="width:150px;">{{paramName}} {{#required}}<span style="color:red;">*</span>{{/required}}</td>
 <td>
 <p class="marked">{{description}}</p>
 <script>
 $(document).ready(function() {
   var schemaWrapper = {{{jsonSchema}}};
-  var schema = schemaWrapper.schema;
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {

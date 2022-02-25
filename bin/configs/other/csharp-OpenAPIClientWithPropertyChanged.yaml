@@ -1,0 +1,8 @@
+generatorName: csharp
+outputDir: samples/client/petstore/csharp/OpenAPIClientWithPropertyChanged
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp
+additionalProperties:
+  packageGuid: '{5CD900DE-8266-412F-A758-28E1F9C623D5}'
+  generatePropertyChanged: "true"
+  optionalEmitDefaultValues: "true"

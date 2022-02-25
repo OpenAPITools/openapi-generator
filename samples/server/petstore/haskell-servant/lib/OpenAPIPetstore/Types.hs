@@ -6,8 +6,6 @@
 module OpenAPIPetstore.Types (
   ApiResponse (..),
   Category (..),
-  InlineObject (..),
-  InlineObject1 (..),
   Order (..),
   Pet (..),
   Tag (..),
@@ -63,38 +61,6 @@ instance ToSchema Category where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
     $ removeFieldLabelPrefix False "category"
-
-
--- | 
-data InlineObject = InlineObject
-  { inlineObjectName :: Maybe Text -- ^ Updated name of the pet
-  , inlineObjectStatus :: Maybe Text -- ^ Updated status of the pet
-  } deriving (Show, Eq, Generic, Data)
-
-instance FromJSON InlineObject where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "inlineObject")
-instance ToJSON InlineObject where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "inlineObject")
-instance ToSchema InlineObject where
-  declareNamedSchema = Swagger.genericDeclareNamedSchema
-    $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix False "inlineObject"
-
-
--- | 
-data InlineObject1 = InlineObject1
-  { inlineObject1AdditionalMetadata :: Maybe Text -- ^ Additional data to pass to server
-  , inlineObject1File :: Maybe FilePath -- ^ file to upload
-  } deriving (Show, Eq, Generic, Data)
-
-instance FromJSON InlineObject1 where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "inlineObject1")
-instance ToJSON InlineObject1 where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "inlineObject1")
-instance ToSchema InlineObject1 where
-  declareNamedSchema = Swagger.genericDeclareNamedSchema
-    $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix False "inlineObject1"
 
 
 -- | An order for a pets from the pet store
@@ -184,7 +150,7 @@ uncapitalize [] = []
 --   The @forParsing@ parameter is to distinguish between the cases in which we're using this
 --   to power a @FromJSON@ or a @ToJSON@ instance. In the first case we're parsing, and we want
 --   to replace special characters with their quoted equivalents (because we cannot have special
---   chars in identifier names), while we want to do viceversa when sending data instead.
+--   chars in identifier names), while we want to do vice versa when sending data instead.
 removeFieldLabelPrefix :: Bool -> String -> Options
 removeFieldLabelPrefix forParsing prefix =
   defaultOptions
@@ -218,6 +184,7 @@ removeFieldLabelPrefix forParsing prefix =
       , (".", "'Period")
       , ("/", "'Slash")
       , (":", "'Colon")
+      , (";", "'Semicolon")
       , ("{", "'Left_Curly_Bracket")
       , ("|", "'Pipe")
       , ("<", "'LessThan")
@@ -228,6 +195,7 @@ removeFieldLabelPrefix forParsing prefix =
       , ("~", "'Tilde")
       , ("?", "'Question_Mark")
       , (">=", "'Greater_Than_Or_Equal_To")
+      , ("~=", "'Tilde_Equal")
       ]
     mkCharReplacement (replaceStr, searchStr) = T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
     replacer =

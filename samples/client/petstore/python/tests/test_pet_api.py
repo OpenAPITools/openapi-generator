@@ -11,18 +11,35 @@ $ cd petstore_api-python
 $ nosetests -v
 """
 
+from collections import namedtuple
+import json
 import os
 import unittest
 
 import petstore_api
 from petstore_api import Configuration
-from petstore_api.rest import ApiException
+from petstore_api.rest import (
+    RESTClientObject,
+    RESTResponse
+)
 
+import six
+
+from petstore_api.exceptions import (
+    ApiException,
+    ApiValueError,
+    ApiTypeError,
+)
+from petstore_api.api.pet_api import PetApi
+from petstore_api.model import pet
 from .util import id_gen
 
-import json
-
 import urllib3
+
+if six.PY3:
+    from unittest.mock import patch
+else:
+    from mock import patch
 
 HOST = 'http://localhost/v2'
 
@@ -57,19 +74,21 @@ class PetApiTests(unittest.TestCase):
     def setUp(self):
         config = Configuration()
         config.host = HOST
+        config.access_token = 'ACCESS_TOKEN'
         self.api_client = petstore_api.ApiClient(config)
-        self.pet_api = petstore_api.PetApi(self.api_client)
+        self.pet_api = PetApi(self.api_client)
         self.setUpModels()
         self.setUpFiles()
 
     def setUpModels(self):
-        self.category = petstore_api.Category()
+        from petstore_api.model import category, tag
+        self.category = category.Category()
         self.category.id = id_gen()
         self.category.name = "dog"
-        self.tag = petstore_api.Tag()
+        self.tag = tag.Tag()
         self.tag.id = id_gen()
         self.tag.name = "python-pet-tag"
-        self.pet = petstore_api.Pet(name="hello kity", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
+        self.pet = pet.Pet(name="hello kity", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet.id = id_gen()
         self.pet.status = "sold"
         self.pet.category = self.category
@@ -78,7 +97,6 @@ class PetApiTests(unittest.TestCase):
     def setUpFiles(self):
         self.test_file_dir = os.path.join(os.path.dirname(__file__), "..", "testfiles")
         self.test_file_dir = os.path.realpath(self.test_file_dir)
-        self.foo = os.path.join(self.test_file_dir, "foo.png")
 
     def test_preload_content_flag(self):
         self.pet_api.add_pet(self.pet)
@@ -100,6 +118,31 @@ class PetApiTests(unittest.TestCase):
         resp.close()
         resp.release_conn()
 
+    def test_config(self):
+        config = Configuration(host=HOST)
+        self.assertIsNotNone(config.get_host_settings())
+        self.assertEqual(config.get_basic_auth_token(),
+                          urllib3.util.make_headers(basic_auth=":").get('authorization'))
+        # No authentication scheme has been configured at this point, so auth_settings()
+        # should return an empty list.
+        self.assertEqual(len(config.auth_settings()), 0)
+        # Configure OAuth2 access token and verify the auth_settings have OAuth2 parameters.
+        config.access_token = 'MY-ACCESS_TOKEN'
+        self.assertEqual(len(config.auth_settings()), 1)
+        self.assertIn("petstore_auth", config.auth_settings().keys())
+        config.username = "user"
+        config.password = "password"
+        self.assertEqual(
+            config.get_basic_auth_token(),
+            urllib3.util.make_headers(basic_auth="user:password").get('authorization'))
+        self.assertEqual(len(config.auth_settings()), 2)
+        self.assertIn("petstore_auth", config.auth_settings().keys())
+        self.assertIn("http_basic_test", config.auth_settings().keys())
+        config.username = None
+        config.password = None
+        self.assertEqual(len(config.auth_settings()), 1)
+        self.assertIn("petstore_auth", config.auth_settings().keys())
+
     def test_timeout(self):
         mock_pool = MockPoolManager(self)
         self.api_client.rest_client.pool_manager = mock_pool
@@ -107,13 +150,13 @@ class PetApiTests(unittest.TestCase):
         mock_pool.expect_request('POST', 'http://localhost/v2/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Bearer ',
+                                          'Authorization': 'Bearer ACCESS_TOKEN',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(total=5))
         mock_pool.expect_request('POST', 'http://localhost/v2/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Bearer ',
+                                          'Authorization': 'Bearer ACCESS_TOKEN',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(connect=1, read=2))
 
@@ -121,8 +164,8 @@ class PetApiTests(unittest.TestCase):
         self.pet_api.add_pet(self.pet, _request_timeout=(1, 2))
 
     def test_separate_default_client_instances(self):
-        pet_api = petstore_api.PetApi()
-        pet_api2 = petstore_api.PetApi()
+        pet_api = PetApi()
+        pet_api2 = PetApi()
         self.assertNotEqual(pet_api.api_client, pet_api2.api_client)
 
         pet_api.api_client.user_agent = 'api client 3'
@@ -131,8 +174,8 @@ class PetApiTests(unittest.TestCase):
         self.assertNotEqual(pet_api.api_client.user_agent, pet_api2.api_client.user_agent)
 
     def test_separate_default_config_instances(self):
-        pet_api = petstore_api.PetApi()
-        pet_api2 = petstore_api.PetApi()
+        pet_api = PetApi()
+        pet_api2 = PetApi()
         self.assertNotEqual(pet_api.api_client.configuration, pet_api2.api_client.configuration)
 
         pet_api.api_client.configuration.host = 'somehost'
@@ -146,7 +189,7 @@ class PetApiTests(unittest.TestCase):
 
         thread = self.pet_api.get_pet_by_id(self.pet.id, async_req=True)
         result = thread.get()
-        self.assertIsInstance(result, petstore_api.Pet)
+        self.assertIsInstance(result, pet.Pet)
 
     def test_async_with_result(self):
         self.pet_api.add_pet(self.pet, async_req=False)
@@ -157,22 +200,23 @@ class PetApiTests(unittest.TestCase):
         response = thread.get()
         response2 = thread2.get()
 
-        self.assertEquals(response.id, self.pet.id)
+        self.assertEqual(response.id, self.pet.id)
         self.assertIsNotNone(response2.id, self.pet.id)
 
     def test_async_with_http_info(self):
         self.pet_api.add_pet(self.pet)
 
-        thread = self.pet_api.get_pet_by_id_with_http_info(self.pet.id, async_req=True)
+        thread = self.pet_api.get_pet_by_id(self.pet.id, async_req=True,
+                                            _return_http_data_only=False)
         data, status, headers = thread.get()
 
-        self.assertIsInstance(data, petstore_api.Pet)
-        self.assertEquals(status, 200)
+        self.assertIsInstance(data, pet.Pet)
+        self.assertEqual(status, 200)
 
     def test_async_exception(self):
         self.pet_api.add_pet(self.pet)
 
-        thread = self.pet_api.get_pet_by_id("-9999999999999", async_req=True)
+        thread = self.pet_api.get_pet_by_id(-9999999999999, async_req=True)
 
         exception = None
         try:
@@ -195,7 +239,10 @@ class PetApiTests(unittest.TestCase):
     def test_add_pet_and_get_pet_by_id_with_http_info(self):
         self.pet_api.add_pet(self.pet)
 
-        fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
+        fetched = self.pet_api.get_pet_by_id(
+            pet_id=self.pet.id,
+            _return_http_data_only=False
+        )
         self.assertIsNotNone(fetched)
         self.assertEqual(self.pet.id, fetched[0].id)
         self.assertIsNotNone(fetched[0].category)
@@ -242,21 +289,107 @@ class PetApiTests(unittest.TestCase):
 
     def test_upload_file(self):
         # upload file with form parameter
+        file_path1 = os.path.join(self.test_file_dir, "1px_pic1.png")
+        file_path2 = os.path.join(self.test_file_dir, "1px_pic2.png")
         try:
+            file = open(file_path1, "rb")
             additional_metadata = "special"
             self.pet_api.upload_file(
                 pet_id=self.pet.id,
                 additional_metadata=additional_metadata,
-                file=self.foo
+                file=file
             )
         except ApiException as e:
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file.close()
 
-        # upload only file
+        # upload only one file
         try:
-            self.pet_api.upload_file(pet_id=self.pet.id, file=self.foo)
+            file = open(file_path1, "rb")
+            self.pet_api.upload_file(pet_id=self.pet.id, file=file)
         except ApiException as e:
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file.close()
+
+        # upload multiple files
+        HTTPResponse = namedtuple(
+            'urllib3_response_HTTPResponse',
+            ['status', 'reason', 'data', 'getheaders', 'getheader']
+        )
+        headers = {}
+        def get_headers():
+            return headers
+        def get_header(name, default=None):
+            return headers.get(name, default)
+        api_respponse = {
+            'code': 200,
+            'type': 'blah',
+            'message': 'file upload succeeded'
+        }
+        http_response = HTTPResponse(
+            status=200,
+            reason='OK',
+            data=json.dumps(api_respponse).encode('utf-8'),
+            getheaders=get_headers,
+            getheader=get_header
+        )
+        mock_response = RESTResponse(http_response)
+        try:
+            file1 = open(file_path1, "rb")
+            file2 = open(file_path2, "rb")
+            with patch.object(RESTClientObject, 'request') as mock_method:
+                mock_method.return_value = mock_response
+                res = self.pet_api.upload_file(
+                    pet_id=684696917, files=[file1, file2])
+                mock_method.assert_called_with(
+                    'POST',
+                    'http://localhost/v2/pet/684696917/uploadImage',
+                    _preload_content=True,
+                    _request_timeout=None,
+                    body=None,
+                    headers={
+                        'Accept': 'application/json',
+                        'Content-Type': 'multipart/form-data',
+                        'User-Agent': 'OpenAPI-Generator/1.0.0/python',
+                        'Authorization': 'Bearer ACCESS_TOKEN'
+                    },
+                    post_params=[
+                        ('files', ('1px_pic1.png', b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x00\x00\x00\x00:~\x9bU\x00\x00\x00\nIDATx\x9cc\xfa\x0f\x00\x01\x05\x01\x02\xcf\xa0.\xcd\x00\x00\x00\x00IEND\xaeB`\x82', 'image/png')),
+                        ('files', ('1px_pic2.png', b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x00\x00\x00\x00:~\x9bU\x00\x00\x00\nIDATx\x9cc\xfa\x0f\x00\x01\x05\x01\x02\xcf\xa0.\xcd\x00\x00\x00\x00IEND\xaeB`\x82', 'image/png'))
+                    ],
+                    query_params=[]
+                )
+        except ApiException as e:
+            self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file1.close()
+            file2.close()
+
+        # passing in an array of files to when file only allows one
+        # raises an exceptions
+        try:
+            file = open(file_path1, "rb")
+            with self.assertRaises(ApiTypeError) as exc:
+                self.pet_api.upload_file(pet_id=self.pet.id, file=[file])
+        finally:
+            file.close()
+
+        # passing in a single file when an array of file is required
+        # raises an exception
+        try:
+            file = open(file_path1, "rb")
+            with self.assertRaises(ApiTypeError) as exc:
+                self.pet_api.upload_file(pet_id=self.pet.id, files=file)
+        finally:
+            file.close()
+
+        # passing in a closed file raises an exception
+        with self.assertRaises(ApiValueError) as exc:
+            file = open(file_path1, "rb")
+            file.close()
+            self.pet_api.upload_file(pet_id=self.pet.id, file=file)
 
     def test_delete_pet(self):
         self.pet_api.add_pet(self.pet)
@@ -267,6 +400,30 @@ class PetApiTests(unittest.TestCase):
             raise Exception("expected an error")
         except ApiException as e:
             self.assertEqual(404, e.status)
+
+    @patch.object(petstore_api.ApiClient, 'call_api') 
+    @patch.object(petstore_api.ApiClient, 'select_header_content_type')
+    def test_call_select_header_content_type(self, mock_select_ct, mock_call_api):
+        mock_select_ct.return_value = 'application/json'
+        self.pet_api.add_pet(self.pet)
+        # check if all arguments are passed to select_header_content_type
+        mock_select_ct.assert_called_once_with(
+            ['application/json', 'application/xml'],
+            'POST',
+            self.pet)
+        mock_call_api.assert_called_once()
+        self.assertEqual(mock_call_api.mock_calls[0][1][4],
+            {'Content-Type': 'application/json'})
+
+    @patch.object(petstore_api.ApiClient, 'call_api')
+    def test_call_with_forced_content_type(self, mock_call_api):
+        # force content-type
+        self.pet_api.add_pet(self.pet, _content_type='application/xml')
+        mock_call_api.assert_called_once()
+        # check if content-type is used 
+        self.assertEqual(mock_call_api.mock_calls[0][1][4],
+            {'Content-Type': 'application/xml'})
+
 
 if __name__ == '__main__':
     unittest.main()

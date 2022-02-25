@@ -36,9 +36,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.GenericType;
 
 public class PetApi {
     private ApiClient localVarApiClient;
+    private int localHostIndex;
+    private String localCustomBaseUrl;
 
     public PetApi() {
         this(Configuration.getDefaultApiClient());
@@ -56,21 +59,49 @@ public class PetApi {
         this.localVarApiClient = apiClient;
     }
 
+    public int getHostIndex() {
+        return localHostIndex;
+    }
+
+    public void setHostIndex(int hostIndex) {
+        this.localHostIndex = hostIndex;
+    }
+
+    public String getCustomBaseUrl() {
+        return localCustomBaseUrl;
+    }
+
+    public void setCustomBaseUrl(String customBaseUrl) {
+        this.localCustomBaseUrl = customBaseUrl;
+    }
+
     /**
      * Build call for addPet
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call addPetCall(Pet body, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = body;
+    public okhttp3.Call addPetCall(Pet pet, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] { "http://petstore.swagger.io/v2", "http://path-server-test.petstore.local/v2" };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = pet;
 
         // create path and map variables
         String localVarPath = "/pet";
@@ -78,7 +109,9 @@ public class PetApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
         final String[] localVarAccepts = {
             
         };
@@ -91,22 +124,24 @@ public class PetApi {
             "application/json", "application/xml"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
 
-        String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call addPetValidateBeforeCall(Pet body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call addPetValidateBeforeCall(Pet pet, final ApiCallback _callback) throws ApiException {
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling addPet(Async)");
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            throw new ApiException("Missing the required parameter 'pet' when calling addPet(Async)");
         }
         
 
-        okhttp3.Call localVarCall = addPetCall(body, _callback);
+        okhttp3.Call localVarCall = addPetCall(pet, _callback);
         return localVarCall;
 
     }
@@ -114,54 +149,51 @@ public class PetApi {
     /**
      * Add a new pet to the store
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public void addPet(Pet body) throws ApiException {
-        addPetWithHttpInfo(body);
+    public void addPet(Pet pet) throws ApiException {
+        addPetWithHttpInfo(pet);
     }
 
     /**
      * Add a new pet to the store
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
-        okhttp3.Call localVarCall = addPetValidateBeforeCall(body, null);
+    public ApiResponse<Void> addPetWithHttpInfo(Pet pet) throws ApiException {
+        okhttp3.Call localVarCall = addPetValidateBeforeCall(pet, null);
         return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Add a new pet to the store (asynchronously)
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call addPetAsync(Pet body, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call addPetAsync(Pet pet, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = addPetValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = addPetValidateBeforeCall(pet, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
@@ -175,11 +207,23 @@ public class PetApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
         <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call deletePetCall(Long petId, String apiKey, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -189,11 +233,13 @@ public class PetApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
         if (apiKey != null) {
             localVarHeaderParams.put("api_key", localVarApiClient.parameterToString(apiKey));
         }
 
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             
         };
@@ -206,10 +252,12 @@ public class PetApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -235,7 +283,6 @@ public class PetApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
         <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
      */
@@ -253,7 +300,6 @@ public class PetApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
         <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
      */
@@ -273,7 +319,6 @@ public class PetApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
         <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
      */
@@ -297,6 +342,19 @@ public class PetApi {
      </table>
      */
     public okhttp3.Call findPetsByStatusCall(List<String> status, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -304,12 +362,14 @@ public class PetApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
         if (status != null) {
             localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("csv", "status", status));
         }
 
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             "application/xml", "application/json"
         };
@@ -322,10 +382,12 @@ public class PetApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
 
-        String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -375,8 +437,14 @@ public class PetApi {
      */
     public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
         okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, null);
-        Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<List<Pet>>(){}.getType()));
+            e.setErrorObjectType(new GenericType<List<Pet>>(){});
+            throw e;
+        }
     }
 
     /**
@@ -416,6 +484,19 @@ public class PetApi {
      */
     @Deprecated
     public okhttp3.Call findPetsByTagsCall(List<String> tags, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -423,12 +504,14 @@ public class PetApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
         if (tags != null) {
             localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("csv", "tags", tags));
         }
 
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             "application/xml", "application/json"
         };
@@ -441,10 +524,12 @@ public class PetApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
 
-        String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @Deprecated
@@ -499,8 +584,14 @@ public class PetApi {
     @Deprecated
     public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
         okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, null);
-        Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<List<Pet>>(){}.getType()));
+            e.setErrorObjectType(new GenericType<List<Pet>>(){});
+            throw e;
+        }
     }
 
     /**
@@ -541,6 +632,19 @@ public class PetApi {
      </table>
      */
     public okhttp3.Call getPetByIdCall(Long petId, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -550,7 +654,9 @@ public class PetApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
         final String[] localVarAccepts = {
             "application/xml", "application/json"
         };
@@ -563,10 +669,12 @@ public class PetApi {
             
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
 
         String[] localVarAuthNames = new String[] { "api_key" };
-        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -618,8 +726,14 @@ public class PetApi {
      */
     public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
         okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, null);
-        Type localVarReturnType = new TypeToken<Pet>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<Pet>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Pet>(){}.getType()));
+            e.setErrorObjectType(new GenericType<Pet>(){});
+            throw e;
+        }
     }
 
     /**
@@ -646,21 +760,33 @@ public class PetApi {
     }
     /**
      * Build call for updatePet
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
         <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
         <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updatePetCall(Pet body, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = body;
+    public okhttp3.Call updatePetCall(Pet pet, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] { "http://petstore.swagger.io/v2", "http://path-server-test.petstore.local/v2" };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = pet;
 
         // create path and map variables
         String localVarPath = "/pet";
@@ -668,7 +794,9 @@ public class PetApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
         final String[] localVarAccepts = {
             
         };
@@ -681,22 +809,24 @@ public class PetApi {
             "application/json", "application/xml"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
 
-        String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updatePetValidateBeforeCall(Pet body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updatePetValidateBeforeCall(Pet pet, final ApiCallback _callback) throws ApiException {
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling updatePet(Async)");
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            throw new ApiException("Missing the required parameter 'pet' when calling updatePet(Async)");
         }
         
 
-        okhttp3.Call localVarCall = updatePetCall(body, _callback);
+        okhttp3.Call localVarCall = updatePetCall(pet, _callback);
         return localVarCall;
 
     }
@@ -704,60 +834,57 @@ public class PetApi {
     /**
      * Update an existing pet
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
         <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
         <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
      */
-    public void updatePet(Pet body) throws ApiException {
-        updatePetWithHttpInfo(body);
+    public void updatePet(Pet pet) throws ApiException {
+        updatePetWithHttpInfo(pet);
     }
 
     /**
      * Update an existing pet
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
         <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
         <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
-        okhttp3.Call localVarCall = updatePetValidateBeforeCall(body, null);
+    public ApiResponse<Void> updatePetWithHttpInfo(Pet pet) throws ApiException {
+        okhttp3.Call localVarCall = updatePetValidateBeforeCall(pet, null);
         return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Update an existing pet (asynchronously)
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
         <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
         <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updatePetAsync(Pet body, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call updatePetAsync(Pet pet, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = updatePetValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = updatePetValidateBeforeCall(pet, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
@@ -776,6 +903,19 @@ public class PetApi {
      </table>
      */
     public okhttp3.Call updatePetWithFormCall(Long petId, String name, String status, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -785,7 +925,9 @@ public class PetApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
         if (name != null) {
             localVarFormParams.put("name", name);
         }
@@ -806,10 +948,12 @@ public class PetApi {
             "application/x-www-form-urlencoded"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -887,7 +1031,7 @@ public class PetApi {
      * Build call for uploadFile
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param _file file to upload (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -897,7 +1041,20 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call uploadFileCall(Long petId, String additionalMetadata, File file, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call uploadFileCall(Long petId, String additionalMetadata, File _file, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -907,13 +1064,15 @@ public class PetApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
         if (additionalMetadata != null) {
             localVarFormParams.put("additionalMetadata", additionalMetadata);
         }
 
-        if (file != null) {
-            localVarFormParams.put("file", file);
+        if (_file != null) {
+            localVarFormParams.put("file", _file);
         }
 
         final String[] localVarAccepts = {
@@ -928,14 +1087,16 @@ public class PetApi {
             "multipart/form-data"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call uploadFileValidateBeforeCall(Long petId, String additionalMetadata, File file, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call uploadFileValidateBeforeCall(Long petId, String additionalMetadata, File _file, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -943,7 +1104,7 @@ public class PetApi {
         }
         
 
-        okhttp3.Call localVarCall = uploadFileCall(petId, additionalMetadata, file, _callback);
+        okhttp3.Call localVarCall = uploadFileCall(petId, additionalMetadata, _file, _callback);
         return localVarCall;
 
     }
@@ -953,7 +1114,7 @@ public class PetApi {
      * 
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param _file file to upload (optional)
      * @return ModelApiResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -962,8 +1123,8 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
-        ApiResponse<ModelApiResponse> localVarResp = uploadFileWithHttpInfo(petId, additionalMetadata, file);
+    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File _file) throws ApiException {
+        ApiResponse<ModelApiResponse> localVarResp = uploadFileWithHttpInfo(petId, additionalMetadata, _file);
         return localVarResp.getData();
     }
 
@@ -972,7 +1133,7 @@ public class PetApi {
      * 
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param _file file to upload (optional)
      * @return ApiResponse&lt;ModelApiResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -981,10 +1142,16 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
-        okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, file, null);
-        Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws ApiException {
+        okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, _file, null);
+        try {
+            Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<ModelApiResponse>(){}.getType()));
+            e.setErrorObjectType(new GenericType<ModelApiResponse>(){});
+            throw e;
+        }
     }
 
     /**
@@ -992,7 +1159,7 @@ public class PetApi {
      * 
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param _file file to upload (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -1002,9 +1169,9 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call uploadFileAsync(Long petId, String additionalMetadata, File file, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
+    public okhttp3.Call uploadFileAsync(Long petId, String additionalMetadata, File _file, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, file, _callback);
+        okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, _file, _callback);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -1024,6 +1191,19 @@ public class PetApi {
      </table>
      */
     public okhttp3.Call uploadFileWithRequiredFileCall(Long petId, File requiredFile, String additionalMetadata, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -1033,7 +1213,9 @@ public class PetApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
         if (additionalMetadata != null) {
             localVarFormParams.put("additionalMetadata", additionalMetadata);
         }
@@ -1054,10 +1236,12 @@ public class PetApi {
             "multipart/form-data"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
@@ -1114,8 +1298,14 @@ public class PetApi {
      */
     public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
         okhttp3.Call localVarCall = uploadFileWithRequiredFileValidateBeforeCall(petId, requiredFile, additionalMetadata, null);
-        Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<ModelApiResponse>(){}.getType()));
+            e.setErrorObjectType(new GenericType<ModelApiResponse>(){});
+            throw e;
+        }
     }
 
     /**

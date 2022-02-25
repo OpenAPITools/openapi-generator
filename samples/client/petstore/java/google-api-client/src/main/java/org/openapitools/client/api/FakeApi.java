@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -144,7 +144,7 @@ public class FakeApi {
     **/
     public Boolean fakeOuterBooleanSerialize(Boolean body) throws IOException {
         HttpResponse response = fakeOuterBooleanSerializeForHttpResponse(body);
-        TypeReference typeRef = new TypeReference<Boolean>() {};
+        TypeReference<Boolean> typeRef = new TypeReference<Boolean>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -157,7 +157,7 @@ public class FakeApi {
     **/
     public Boolean fakeOuterBooleanSerialize(Boolean body, Map<String, Object> params) throws IOException {
         HttpResponse response = fakeOuterBooleanSerializeForHttpResponse(body, params);
-        TypeReference typeRef = new TypeReference<Boolean>() {};
+        TypeReference<Boolean> typeRef = new TypeReference<Boolean>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -224,7 +224,7 @@ public class FakeApi {
     **/
     public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws IOException {
         HttpResponse response = fakeOuterCompositeSerializeForHttpResponse(body);
-        TypeReference typeRef = new TypeReference<OuterComposite>() {};
+        TypeReference<OuterComposite> typeRef = new TypeReference<OuterComposite>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -237,7 +237,7 @@ public class FakeApi {
     **/
     public OuterComposite fakeOuterCompositeSerialize(OuterComposite body, Map<String, Object> params) throws IOException {
         HttpResponse response = fakeOuterCompositeSerializeForHttpResponse(body, params);
-        TypeReference typeRef = new TypeReference<OuterComposite>() {};
+        TypeReference<OuterComposite> typeRef = new TypeReference<OuterComposite>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -304,7 +304,7 @@ public class FakeApi {
     **/
     public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws IOException {
         HttpResponse response = fakeOuterNumberSerializeForHttpResponse(body);
-        TypeReference typeRef = new TypeReference<BigDecimal>() {};
+        TypeReference<BigDecimal> typeRef = new TypeReference<BigDecimal>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -317,7 +317,7 @@ public class FakeApi {
     **/
     public BigDecimal fakeOuterNumberSerialize(BigDecimal body, Map<String, Object> params) throws IOException {
         HttpResponse response = fakeOuterNumberSerializeForHttpResponse(body, params);
-        TypeReference typeRef = new TypeReference<BigDecimal>() {};
+        TypeReference<BigDecimal> typeRef = new TypeReference<BigDecimal>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -384,7 +384,7 @@ public class FakeApi {
     **/
     public String fakeOuterStringSerialize(String body) throws IOException {
         HttpResponse response = fakeOuterStringSerializeForHttpResponse(body);
-        TypeReference typeRef = new TypeReference<String>() {};
+        TypeReference<String> typeRef = new TypeReference<String>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -397,7 +397,7 @@ public class FakeApi {
     **/
     public String fakeOuterStringSerialize(String body, Map<String, Object> params) throws IOException {
         HttpResponse response = fakeOuterStringSerializeForHttpResponse(body, params);
-        TypeReference typeRef = new TypeReference<String>() {};
+        TypeReference<String> typeRef = new TypeReference<String>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -666,7 +666,7 @@ public class FakeApi {
     **/
     public Client testClientModel(Client body) throws IOException {
         HttpResponse response = testClientModelForHttpResponse(body);
-        TypeReference typeRef = new TypeReference<Client>() {};
+        TypeReference<Client> typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -681,7 +681,7 @@ public class FakeApi {
     **/
     public Client testClientModel(Client body, Map<String, Object> params) throws IOException {
         HttpResponse response = testClientModelForHttpResponse(body, params);
-        TypeReference typeRef = new TypeReference<Client>() {};
+        TypeReference<Client> typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -749,8 +749,8 @@ public class FakeApi {
 
 
   /**
-    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
     * <p><b>400</b> - Invalid username supplied
     * <p><b>404</b> - User not found
     * @param number None
@@ -774,8 +774,8 @@ public class FakeApi {
     }
 
   /**
-    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
     * <p><b>400</b> - Invalid username supplied
     * <p><b>404</b> - User not found
     * @param number None
@@ -1307,7 +1307,7 @@ public class FakeApi {
         if (context == null) {
             throw new IllegalArgumentException("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
         }
-        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/test-query-paramters");
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/test-query-parameters");
         if (pipe != null) {
             String key = "pipe";
             Object value = pipe;
@@ -1384,7 +1384,7 @@ public class FakeApi {
         if (context == null) {
             throw new IllegalArgumentException("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
         }
-        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/test-query-paramters");
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/test-query-parameters");
 
         // Copy the params argument if present, to allow passing in immutable maps
         Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);

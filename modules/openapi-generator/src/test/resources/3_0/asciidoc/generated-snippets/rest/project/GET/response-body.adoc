@@ -1,0 +1,4 @@
+[source,options="nowrap"]
+----
+[{"id":-3,"name":"a third inactive project","active":false,"projectLeads":[{"id":-1,"name":"a first test lead and user","userId":"tlead1"},{"id":-2,"name":"another second lead","userId":"tlead2"}]},{"id":-2,"name":"a second active project","active":true,"projectLeads":[{"id":-1,"name":"a first test lead and user","userId":"tlead1"}]},{"id":-1,"name":"a first active project","active":true,"projectLeads":[{"id":-1,"name":"a first test lead and user","userId":"tlead1"},{"id":-2,"name":"another second lead","userId":"tlead2"}]}]
+----

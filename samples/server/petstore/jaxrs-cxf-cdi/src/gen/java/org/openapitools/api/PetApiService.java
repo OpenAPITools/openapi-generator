@@ -17,7 +17,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen")
 public interface PetApiService {
       public Response addPet(Pet body, SecurityContext securityContext);
       public Response deletePet(Long petId, String apiKey, SecurityContext securityContext);
@@ -26,5 +26,5 @@ public interface PetApiService {
       public Response getPetById(Long petId, SecurityContext securityContext);
       public Response updatePet(Pet body, SecurityContext securityContext);
       public Response updatePetWithForm(Long petId, String name, String status, SecurityContext securityContext);
-      public Response uploadFile(Long petId, String additionalMetadata, InputStream fileInputStream, Attachment fileDetail, SecurityContext securityContext);
+      public Response uploadFile(Long petId, String additionalMetadata, InputStream _fileInputStream, Attachment _fileDetail, SecurityContext securityContext);
 }

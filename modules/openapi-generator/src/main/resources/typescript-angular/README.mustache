@@ -10,12 +10,7 @@ npm run build
 
 ### publishing
 
-{{#useNgPackagr}}
 First build the package then run ```npm publish dist``` (don't forget to specify the `dist` folder!)
-{{/useNgPackagr}}
-{{^useNgPackagr}}
-First build the package then run ```npm publish```
-{{/useNgPackagr}}
 
 ### consuming
 
@@ -30,24 +25,14 @@ npm install {{npmName}}@{{npmVersion}} --save
 _without publishing (not recommended):_
 
 ```
-{{#useNgPackagr}}
 npm install PATH_TO_GENERATED_PACKAGE/dist.tgz --save
-{{/useNgPackagr}}
-{{^useNgPackagr}}
-npm install PATH_TO_GENERATED_PACKAGE/{{npmName}}-{{npmVersion}}.tgz --save
-{{/useNgPackagr}}
 ```
 
 _It's important to take the tgz file, otherwise you'll get trouble with links on windows_
 
 _using `npm link`:_
 
-{{#useNgPackagr}}
 In PATH_TO_GENERATED_PACKAGE/dist:
-{{/useNgPackagr}}
-{{^useNgPackagr}}
-In PATH_TO_GENERATED_PACKAGE:
-{{/useNgPackagr}}
 ```
 npm link
 ```
@@ -69,16 +54,15 @@ In your Angular project:
 
 ```
 // without configuring providers
-import { ApiModule } from '{{npmName}}';
-{{#useHttpClient}}import { HttpClientModule } from '@angular/common/http';{{/useHttpClient}}
-{{^useHttpClient}}import { HttpModule } from '@angular/http';{{/useHttpClient}}
+import { {{apiModuleClassName}} } from '{{npmName}}';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     imports: [
-        ApiModule,
-        {{#useHttpClient}}// make sure to import the HttpClientModule in the AppModule only,
+        {{apiModuleClassName}},
+        // make sure to import the HttpClientModule in the AppModule only,
         // see https://github.com/angular/angular/issues/20575
-        HttpClientModule{{/useHttpClient}}{{^useHttpClient}}HttpModule{{/useHttpClient}}
+        HttpClientModule
     ],
     declarations: [ AppComponent ],
     providers: [],
@@ -89,19 +73,44 @@ export class AppModule {}
 
 ```
 // configuring providers
-import { ApiModule, Configuration, ConfigurationParameters } from '{{npmName}}';
+import { {{apiModuleClassName}}, {{configurationClassName}}, {{configurationParametersInterfaceName}} } from '{{npmName}}';
 
-export function apiConfigFactory (): Configuration => {
-  const params: ConfigurationParameters = {
+export function apiConfigFactory (): {{configurationClassName}} {
+  const params: {{configurationParametersInterfaceName}} = {
     // set configuration parameters here.
   }
-  return new Configuration(params);
+  return new {{configurationClassName}}(params);
 }
 
 @NgModule({
-    imports: [ ApiModule.forRoot(apiConfigFactory) ],
+    imports: [ {{apiModuleClassName}}.forRoot(apiConfigFactory) ],
     declarations: [ AppComponent ],
     providers: [],
+    bootstrap: [ AppComponent ]
+})
+export class AppModule {}
+```
+
+```
+// configuring providers with an authentication service that manages your access tokens
+import { {{apiModuleClassName}}, {{configurationClassName}} } from '{{npmName}}';
+
+@NgModule({
+    imports: [ {{apiModuleClassName}} ],
+    declarations: [ AppComponent ],
+    providers: [
+      {
+        provide: {{configurationClassName}},
+        useFactory: (authService: AuthService) => new {{configurationClassName}}(
+          {
+            basePath: environment.apiUrl,
+            accessToken: authService.getAccessToken.bind(authService)
+          }
+        ),
+        deps: [AuthService],
+        multi: false
+      }
+    ],
     bootstrap: [ AppComponent ]
 })
 export class AppModule {}
@@ -111,30 +120,29 @@ export class AppModule {}
 import { DefaultApi } from '{{npmName}}';
 
 export class AppComponent {
-	 constructor(private apiGateway: DefaultApi) { }
+    constructor(private apiGateway: DefaultApi) { }
 }
 ```
 
-Note: The ApiModule is restricted to being instantiated once app wide.
+Note: The {{apiModuleClassName}} is restricted to being instantiated once app wide.
 This is to ensure that all services are treated as singletons.
 
-#### Using multiple OpenAPI files / APIs / ApiModules
-In order to use multiple `ApiModules` generated from different OpenAPI files,
+#### Using multiple OpenAPI files / APIs / {{apiModuleClassName}}s
+In order to use multiple `{{apiModuleClassName}}s` generated from different OpenAPI files,
 you can create an alias name when importing the modules
 in order to avoid naming conflicts:
 ```
-import { ApiModule } from 'my-api-path';
-import { ApiModule as OtherApiModule } from 'my-other-api-path';
-{{#useHttpClient}}import { HttpClientModule } from '@angular/common/http';{{/useHttpClient}}
-{{^useHttpClient}}import { HttpModule } from '@angular/http';{{/useHttpClient}}
+import { {{apiModuleClassName}} } from 'my-api-path';
+import { {{apiModuleClassName}} as OtherApiModule } from 'my-other-api-path';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
-    ApiModule,
+    {{apiModuleClassName}},
     OtherApiModule,
-    {{#useHttpClient}}// make sure to import the HttpClientModule in the AppModule only,
+    // make sure to import the HttpClientModule in the AppModule only,
     // see https://github.com/angular/angular/issues/20575
-    HttpClientModule{{/useHttpClient}}{{^useHttpClient}}HttpModule{{/useHttpClient}}
+    HttpClientModule
   ]
 })
 export class AppModule {
@@ -144,7 +152,7 @@ export class AppModule {
 
 
 ### Set service base path
-If different than the generated base path, during app bootstrap, you can provide the base path to your service. 
+If different than the generated base path, during app bootstrap, you can provide the base path to your service.
 
 ```
 import { BASE_PATH } from '{{npmName}}';
@@ -192,4 +200,4 @@ import { environment } from '../environments/environment';
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
-```  
+```

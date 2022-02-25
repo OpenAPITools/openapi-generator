@@ -120,13 +120,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name="name", EmitDefaultValue=true)]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
-        [DataMember(Name="photoUrls", EmitDefaultValue=false)]
+        [DataMember(Name="photoUrls", EmitDefaultValue=true)]
         public List<string> PhotoUrls { get; set; }
 
         /// <summary>

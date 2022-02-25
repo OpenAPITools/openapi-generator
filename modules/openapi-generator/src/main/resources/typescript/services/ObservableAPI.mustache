@@ -1,0 +1,23 @@
+import type { HttpFile } from "../http/http";
+import type { Observable } from {{#useRxJS}}"rxjs"{{/useRxJS}}{{^useRxJS}}"../rxjsStub"{{/useRxJS}};
+import type { Configuration } from "../configuration";
+
+{{#models}}
+{{#model}}
+import { {{{ classname }}} } from "../models/{{{ classFilename }}}";
+{{/model}}
+{{/models}}
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+
+
+export abstract class AbstractObservable{{classname}} {
+    {{#operation}}
+    public abstract {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Observable<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
+
+    {{/operation}}
+}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

@@ -9,7 +9,7 @@ class PetApi {
     String versionPath = ""
     ApiUtils apiUtils = new ApiUtils();
 
-    def addPet ( Pet body, Closure onSuccess, Closure onFailure)  {
+    def addPet ( Pet pet, Closure onSuccess, Closure onFailure)  {
         String resourcePath = "/pet"
 
         // params
@@ -19,19 +19,19 @@ class PetApi {
         def contentType
 
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (pet == null) {
+            throw new RuntimeException("missing required params pet")
         }
 
 
 
         contentType = 'application/json';
-        bodyParams = body
+        bodyParams = pet
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
                     "POST", "",
-                    null )
+                    Pet.class )
 
     }
 
@@ -140,7 +140,7 @@ class PetApi {
 
     }
 
-    def updatePet ( Pet body, Closure onSuccess, Closure onFailure)  {
+    def updatePet ( Pet pet, Closure onSuccess, Closure onFailure)  {
         String resourcePath = "/pet"
 
         // params
@@ -150,19 +150,19 @@ class PetApi {
         def contentType
 
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (pet == null) {
+            throw new RuntimeException("missing required params pet")
         }
 
 
 
         contentType = 'application/json';
-        bodyParams = body
+        bodyParams = pet
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
                     "PUT", "",
-                    null )
+                    Pet.class )
 
     }
 
@@ -194,7 +194,7 @@ class PetApi {
 
     }
 
-    def uploadFile ( Long petId, String additionalMetadata, File file, Closure onSuccess, Closure onFailure)  {
+    def uploadFile ( Long petId, String additionalMetadata, File _file, Closure onSuccess, Closure onFailure)  {
         String resourcePath = "/pet/${petId}/uploadImage"
 
         // params
@@ -214,7 +214,7 @@ class PetApi {
         contentType = 'multipart/form-data';
         bodyParams = [:]
         bodyParams.put("additionalMetadata", additionalMetadata)
-        bodyParams.put("file", file)
+        bodyParams.put("file", _file)
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
                     "POST", "",

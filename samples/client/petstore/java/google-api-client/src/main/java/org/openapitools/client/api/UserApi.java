@@ -2,6 +2,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -21,7 +22,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class UserApi {
     private ApiClient apiClient;
 
@@ -384,7 +385,7 @@ public class UserApi {
     **/
     public User getUserByName(String username) throws IOException {
         HttpResponse response = getUserByNameForHttpResponse(username);
-        TypeReference typeRef = new TypeReference<User>() {};
+        TypeReference<User> typeRef = new TypeReference<User>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -400,7 +401,7 @@ public class UserApi {
     **/
     public User getUserByName(String username, Map<String, Object> params) throws IOException {
         HttpResponse response = getUserByNameForHttpResponse(username, params);
-        TypeReference typeRef = new TypeReference<User>() {};
+        TypeReference<User> typeRef = new TypeReference<User>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -468,7 +469,7 @@ public class UserApi {
     **/
     public String loginUser(String username, String password) throws IOException {
         HttpResponse response = loginUserForHttpResponse(username, password);
-        TypeReference typeRef = new TypeReference<String>() {};
+        TypeReference<String> typeRef = new TypeReference<String>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -484,7 +485,7 @@ public class UserApi {
     **/
     public String loginUser(String username, String password, Map<String, Object> params) throws IOException {
         HttpResponse response = loginUserForHttpResponse(username, password, params);
-        TypeReference typeRef = new TypeReference<String>() {};
+        TypeReference<String> typeRef = new TypeReference<String>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 

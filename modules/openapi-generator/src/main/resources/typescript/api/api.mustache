@@ -1,0 +1,249 @@
+// TODO: better import syntax?
+import {BaseAPIRequestFactory, RequiredError} from './baseapi{{extensionForDeno}}';
+import {Configuration} from '../configuration{{extensionForDeno}}';
+import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{extensionForDeno}}';
+{{#platforms}}
+{{#node}}
+import * as FormData from "form-data";
+import { URLSearchParams } from 'url';
+{{/node}}
+{{/platforms}}
+import {ObjectSerializer} from '../models/ObjectSerializer{{extensionForDeno}}';
+import {ApiException} from './exception{{extensionForDeno}}';
+import {canConsumeForm, isCodeInRange} from '../util{{extensionForDeno}}';
+import {SecurityAuthentication} from '../auth/auth';
+
+{{#useInversify}}
+import { injectable } from "inversify";
+{{/useInversify}}
+
+{{#imports}}
+import { {{classname}} } from '..{{filename}}{{extensionForDeno}}';
+{{/imports}}
+{{#operations}}
+
+/**
+ * {{{description}}}{{^description}}no description{{/description}}
+ */
+{{#useInversify}}
+@injectable()
+{{/useInversify}}
+export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
+
+    {{#operation}}
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{paramName}} {{description}}
+     {{/allParams}}
+     */
+    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+        {{#allParams}}
+
+        {{#required}}
+        // verify required parameter '{{paramName}}' is not null or undefined
+        if ({{paramName}} === null || {{paramName}} === undefined) {
+            throw new RequiredError("{{classname}}", "{{nickname}}", "{{paramName}}");
+        }
+
+        {{/required}}
+        {{/allParams}}
+
+        // Path Params
+        const localVarPath = '{{{path}}}'{{#pathParams}}
+            .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+        {{#queryParams}}
+
+        // Query Params
+        if ({{paramName}} !== undefined) {
+            requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
+        }
+        {{/queryParams}}
+        {{#headerParams}}
+
+        // Header Params
+        requestContext.setHeaderParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
+        {{/headerParams}}
+        {{#hasFormParams}}
+
+        // Form Params
+        const useForm = canConsumeForm([
+        {{#consumes}}
+            '{{{mediaType}}}',
+        {{/consumes}}
+        ]);
+
+        let localVarFormParams
+        if (useForm) {
+            localVarFormParams = new FormData();
+        } else {
+            localVarFormParams = new URLSearchParams();
+        }
+        {{/hasFormParams}}
+
+        {{#formParams}}
+        {{#isArray}}
+        if ({{paramName}}) {
+        {{#isCollectionFormatMulti}}
+            {{paramName}}.forEach((element) => {
+                localVarFormParams.append('{{baseName}}', element as any);
+            })
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+            // TODO: replace .append with .set
+            localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+        {{/isCollectionFormatMulti}}
+        }
+        {{/isArray}}
+        {{^isArray}}
+        if ({{paramName}} !== undefined) {
+             // TODO: replace .append with .set
+             {{^isFile}}
+             localVarFormParams.append('{{baseName}}', {{paramName}} as any);
+             {{/isFile}}
+             {{#isFile}}
+             if (localVarFormParams instanceof FormData) {
+                 {{#platforms}}
+                 {{#node}}
+                 localVarFormParams.append('{{baseName}}', {{paramName}}.data, {{paramName}}.name);
+                 {{/node}}
+                 {{^node}}
+                 localVarFormParams.append('{{baseName}}', {{paramName}}, {{paramName}}.name);
+                 {{/node}}
+                 {{/platforms}}
+             }
+             {{/isFile}}
+        }
+        {{/isArray}}
+        {{/formParams}}
+        {{#hasFormParams}}
+
+        requestContext.setBody(localVarFormParams);
+
+        if(!useForm) {
+            const contentType = ObjectSerializer.getPreferredMediaType([{{#consumes}}
+                "{{{mediaType}}}"{{^-last}},{{/-last}}
+            {{/consumes}}]);
+            requestContext.setHeaderParam("Content-Type", contentType);
+        }
+        {{/hasFormParams}}
+        {{#bodyParam}}
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([{{#consumes}}
+            "{{{mediaType}}}"{{^-last}},{{/-last}}
+        {{/consumes}}]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+        {{/bodyParam}}
+
+        {{#hasAuthMethods}}
+        let authMethod: SecurityAuthentication | undefined;
+        {{/hasAuthMethods}}
+        {{#authMethods}}
+        // Apply auth methods
+        authMethod = _config.authMethods["{{name}}"]
+        if (authMethod?.applySecurityAuthentication) {
+            await authMethod?.applySecurityAuthentication(requestContext);
+        }
+        {{/authMethods}}
+        
+        {{^useInversify}}
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+        {{/useInversify}}
+
+        return requestContext;
+    }
+
+    {{/operation}}
+}
+{{/operations}}
+{{#operations}}
+
+{{#useInversify}}
+@injectable()
+{{/useInversify}}
+export class {{classname}}ResponseProcessor {
+
+    {{#operation}}
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to {{nickname}}
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async {{nickname}}(response: ResponseContext): Promise<{{{returnType}}} {{^returnType}}void{{/returnType}}> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        {{#responses}}
+        if (isCodeInRange("{{code}}", response.httpStatusCode)) {
+            {{#dataType}}
+            {{#isBinary}}
+            const body: {{{dataType}}} = await response.getBodyAsFile() as any as {{{returnType}}};
+            {{/isBinary}}
+            {{^isBinary}}
+            const body: {{{dataType}}} = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "{{{dataType}}}", "{{returnFormat}}"
+            ) as {{{dataType}}};
+            {{/isBinary}}
+            {{#is2xx}}
+            return body;
+            {{/is2xx}}
+            {{^is2xx}}
+            throw new ApiException<{{{dataType}}}>({{code}}, "{{message}}", body, response.headers);
+            {{/is2xx}}
+            {{/dataType}}
+            {{^dataType}}
+            {{#is2xx}}
+            return;
+            {{/is2xx}}
+            {{^is2xx}}
+            throw new ApiException<undefined>(response.httpStatusCode, "{{message}}", undefined, response.headers);
+            {{/is2xx}}
+            {{/dataType}}
+        }
+        {{/responses}}
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            {{#returnType}}
+            {{#isBinary}}
+            const body: {{{returnType}}} = await response.getBodyAsFile() as any as {{{returnType}}};
+            {{/isBinary}}
+            {{^isBinary}}
+            const body: {{{returnType}}} = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "{{{returnType}}}", "{{returnFormat}}"
+            ) as {{{returnType}}};
+            {{/isBinary}}
+            return body;
+            {{/returnType}}
+            {{^returnType}}
+            return;
+            {{/returnType}}
+        }
+
+        throw new ApiException<string | {{{fileContentDataType}}} | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    {{/operation}}
+}
+{{/operations}}

@@ -24,9 +24,9 @@ public:
     ~{{classname}}Mock() override = default;
 
     {{#operation}}
-    MOCK_METHOD{{allParams.size}}( {{operationId}}, pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> (
+    MOCK_METHOD{{allParams.size}}( {{operationId}}, pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> (
         {{#allParams}}
-        {{^required}}boost::optional<{{/required}}{{#isFile}}std::shared_ptr<{{/isFile}}{{{dataType}}}{{#isFile}}>{{/isFile}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}},{{/hasMore}}
+        {{^required}}boost::optional<{{/required}}{{#isFile}}std::shared_ptr<{{/isFile}}{{{dataType}}}{{#isFile}}>{{/isFile}}{{^required}}>{{/required}} {{paramName}}{{^-last}},{{/-last}}
         {{/allParams}}
     ) );
     {{/operation}}

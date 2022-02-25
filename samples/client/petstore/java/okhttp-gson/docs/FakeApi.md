@@ -4,11 +4,12 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createXmlItem**](FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
+[**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**getArrayOfEnums**](FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums
 [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -17,16 +18,14 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 
 
-<a name="createXmlItem"></a>
-# **createXmlItem**
-> createXmlItem(xmlItem)
+<a name="fakeHealthGet"></a>
+# **fakeHealthGet**
+> HealthCheckResult fakeHealthGet()
 
-creates an XmlItem
-
-this route creates an XmlItem
+Health check endpoint
 
 ### Example
 ```java
@@ -43,11 +42,11 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     FakeApi apiInstance = new FakeApi(defaultClient);
-    XmlItem xmlItem = new XmlItem(); // XmlItem | XmlItem Body
     try {
-      apiInstance.createXmlItem(xmlItem);
+      HealthCheckResult result = apiInstance.fakeHealthGet();
+      System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#createXmlItem");
+      System.err.println("Exception when calling FakeApi#fakeHealthGet");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -58,14 +57,11 @@ public class Example {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xmlItem** | [**XmlItem**](XmlItem.md)| XmlItem Body |
+This endpoint does not need any parameter.
 
 ### Return type
 
-null (empty response body)
+[**HealthCheckResult**](HealthCheckResult.md)
 
 ### Authorization
 
@@ -73,13 +69,13 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
- - **Accept**: Not defined
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  -  |
+**200** | The instance started successfully |  -  |
 
 <a name="fakeOuterBooleanSerialize"></a>
 # **fakeOuterBooleanSerialize**
@@ -135,7 +131,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 ### HTTP response details
@@ -145,7 +141,7 @@ No authorization required
 
 <a name="fakeOuterCompositeSerialize"></a>
 # **fakeOuterCompositeSerialize**
-> OuterComposite fakeOuterCompositeSerialize(body)
+> OuterComposite fakeOuterCompositeSerialize(outerComposite)
 
 
 
@@ -166,9 +162,9 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     FakeApi apiInstance = new FakeApi(defaultClient);
-    OuterComposite body = new OuterComposite(); // OuterComposite | Input composite as post body
+    OuterComposite outerComposite = new OuterComposite(); // OuterComposite | Input composite as post body
     try {
-      OuterComposite result = apiInstance.fakeOuterCompositeSerialize(body);
+      OuterComposite result = apiInstance.fakeOuterCompositeSerialize(outerComposite);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling FakeApi#fakeOuterCompositeSerialize");
@@ -185,7 +181,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
+ **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
 
 ### Return type
 
@@ -197,7 +193,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 ### HTTP response details
@@ -228,7 +224,7 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     FakeApi apiInstance = new FakeApi(defaultClient);
-    BigDecimal body = new BigDecimal(); // BigDecimal | Input number as post body
+    BigDecimal body = new BigDecimal(78); // BigDecimal | Input number as post body
     try {
       BigDecimal result = apiInstance.fakeOuterNumberSerialize(body);
       System.out.println(result);
@@ -259,7 +255,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 ### HTTP response details
@@ -321,7 +317,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 ### HTTP response details
@@ -329,9 +325,65 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | Output string |  -  |
 
+<a name="getArrayOfEnums"></a>
+# **getArrayOfEnums**
+> List&lt;OuterEnum&gt; getArrayOfEnums()
+
+Array of Enums
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    try {
+      List<OuterEnum> result = apiInstance.getArrayOfEnums();
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#getArrayOfEnums");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List&lt;OuterEnum&gt;**](OuterEnum.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Got named array of enums |  -  |
+
 <a name="testBodyWithFileSchema"></a>
 # **testBodyWithFileSchema**
-> testBodyWithFileSchema(body)
+> testBodyWithFileSchema(fileSchemaTestClass)
 
 
 
@@ -352,9 +404,9 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     FakeApi apiInstance = new FakeApi(defaultClient);
-    FileSchemaTestClass body = new FileSchemaTestClass(); // FileSchemaTestClass | 
+    FileSchemaTestClass fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
     try {
-      apiInstance.testBodyWithFileSchema(body);
+      apiInstance.testBodyWithFileSchema(fileSchemaTestClass);
     } catch (ApiException e) {
       System.err.println("Exception when calling FakeApi#testBodyWithFileSchema");
       System.err.println("Status code: " + e.getCode());
@@ -370,7 +422,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  |
+ **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  |
 
 ### Return type
 
@@ -392,7 +444,7 @@ No authorization required
 
 <a name="testBodyWithQueryParams"></a>
 # **testBodyWithQueryParams**
-> testBodyWithQueryParams(query, body)
+> testBodyWithQueryParams(query, user)
 
 
 
@@ -412,9 +464,9 @@ public class Example {
 
     FakeApi apiInstance = new FakeApi(defaultClient);
     String query = "query_example"; // String | 
-    User body = new User(); // User | 
+    User user = new User(); // User | 
     try {
-      apiInstance.testBodyWithQueryParams(query, body);
+      apiInstance.testBodyWithQueryParams(query, user);
     } catch (ApiException e) {
       System.err.println("Exception when calling FakeApi#testBodyWithQueryParams");
       System.err.println("Status code: " + e.getCode());
@@ -431,7 +483,7 @@ public class Example {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **String**|  |
- **body** | [**User**](User.md)|  |
+ **user** | [**User**](User.md)|  |
 
 ### Return type
 
@@ -453,7 +505,7 @@ No authorization required
 
 <a name="testClientModel"></a>
 # **testClientModel**
-> Client testClientModel(body)
+> Client testClientModel(client)
 
 To test \&quot;client\&quot; model
 
@@ -474,9 +526,9 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     FakeApi apiInstance = new FakeApi(defaultClient);
-    Client body = new Client(); // Client | client model
+    Client client = new Client(); // Client | client model
     try {
-      Client result = apiInstance.testClientModel(body);
+      Client result = apiInstance.testClientModel(client);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling FakeApi#testClientModel");
@@ -493,7 +545,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model |
+ **client** | [**Client**](Client.md)| client model |
 
 ### Return type
 
@@ -542,7 +594,7 @@ public class Example {
     http_basic_test.setPassword("YOUR PASSWORD");
 
     FakeApi apiInstance = new FakeApi(defaultClient);
-    BigDecimal number = new BigDecimal(); // BigDecimal | None
+    BigDecimal number = new BigDecimal(78); // BigDecimal | None
     Double _double = 3.4D; // Double | None
     String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
     byte[] _byte = null; // byte[] | None
@@ -552,8 +604,8 @@ public class Example {
     Float _float = 3.4F; // Float | None
     String string = "string_example"; // String | None
     File binary = new File("/path/to/file"); // File | None
-    LocalDate date = new LocalDate(); // LocalDate | None
-    OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
+    LocalDate date = LocalDate.now(); // LocalDate | None
+    OffsetDateTime dateTime = OffsetDateTime.parse("2010-02-01T10:20:10.111110+01:00"); // OffsetDateTime | None
     String password = "password_example"; // String | None
     String paramCallback = "paramCallback_example"; // String | None
     try {
@@ -584,7 +636,7 @@ Name | Type | Description  | Notes
  **string** | **String**| None | [optional]
  **binary** | **File**| None | [optional]
  **date** | **LocalDate**| None | [optional]
- **dateTime** | **OffsetDateTime**| None | [optional]
+ **dateTime** | **OffsetDateTime**| None | [optional] [default to 2010-02-01T10:20:10.111110+01:00]
  **password** | **String**| None | [optional]
  **paramCallback** | **String**| None | [optional]
 
@@ -631,13 +683,13 @@ public class Example {
 
     FakeApi apiInstance = new FakeApi(defaultClient);
     List<String> enumHeaderStringArray = Arrays.asList("$"); // List<String> | Header parameter enum test (string array)
-    String enumHeaderString = "-efg"; // String | Header parameter enum test (string)
+    String enumHeaderString = "_abc"; // String | Header parameter enum test (string)
     List<String> enumQueryStringArray = Arrays.asList("$"); // List<String> | Query parameter enum test (string array)
-    String enumQueryString = "-efg"; // String | Query parameter enum test (string)
-    Integer enumQueryInteger = 56; // Integer | Query parameter enum test (double)
-    Double enumQueryDouble = 3.4D; // Double | Query parameter enum test (double)
-    List<String> enumFormStringArray = "$"; // List<String> | Form parameter enum test (string array)
-    String enumFormString = "-efg"; // String | Form parameter enum test (string)
+    String enumQueryString = "_abc"; // String | Query parameter enum test (string)
+    Integer enumQueryInteger = 1; // Integer | Query parameter enum test (double)
+    Double enumQueryDouble = 1.1D; // Double | Query parameter enum test (double)
+    List<String> enumFormStringArray = Arrays.asList("$"); // List<String> | Form parameter enum test (string array)
+    String enumFormString = "_abc"; // String | Form parameter enum test (string)
     try {
       apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
     } catch (ApiException e) {
@@ -697,6 +749,7 @@ Fake endpoint to test group parameters (optional)
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -704,6 +757,10 @@ public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+    
+    // Configure HTTP bearer authorization: bearer_test
+    HttpBearerAuth bearer_test = (HttpBearerAuth) defaultClient.getAuthentication("bearer_test");
+    bearer_test.setBearerToken("BEARER TOKEN");
 
     FakeApi apiInstance = new FakeApi(defaultClient);
     Integer requiredStringGroup = 56; // Integer | Required String in group parameters
@@ -746,7 +803,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearer_test](../README.md#bearer_test)
 
 ### HTTP request headers
 
@@ -760,9 +817,11 @@ No authorization required
 
 <a name="testInlineAdditionalProperties"></a>
 # **testInlineAdditionalProperties**
-> testInlineAdditionalProperties(param)
+> testInlineAdditionalProperties(requestBody)
 
 test inline additionalProperties
+
+
 
 ### Example
 ```java
@@ -779,9 +838,9 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     FakeApi apiInstance = new FakeApi(defaultClient);
-    Map<String, String> param = new HashMap(); // Map<String, String> | request body
+    Map<String, String> requestBody = new HashMap(); // Map<String, String> | request body
     try {
-      apiInstance.testInlineAdditionalProperties(param);
+      apiInstance.testInlineAdditionalProperties(requestBody);
     } catch (ApiException e) {
       System.err.println("Exception when calling FakeApi#testInlineAdditionalProperties");
       System.err.println("Status code: " + e.getCode());
@@ -797,7 +856,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**Map&lt;String, String&gt;**](String.md)| request body |
+ **requestBody** | [**Map&lt;String, String&gt;**](String.md)| request body |
 
 ### Return type
 
@@ -822,6 +881,8 @@ No authorization required
 > testJsonFormData(param, param2)
 
 test json serialization of form data
+
+
 
 ### Example
 ```java

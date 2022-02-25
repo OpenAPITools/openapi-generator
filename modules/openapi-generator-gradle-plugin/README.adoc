@@ -9,7 +9,6 @@ These map almost fully 1:1 with the options you'd pass to the CLI or Maven plugi
 
 Tasks are listed under the "OpenAPI Tools" tasks heading.
 
-
 .OpenAPI Tools Tasks
 |===
 |task name |description
@@ -38,6 +37,59 @@ compileJava.dependsOn tasks.openApiGenerate
 ```
 ====
 
+All extensions can be rewritten as tasks. Where you can have only a single extension defined in your gradle file, you may have multiple tasks.
+
+.One Extension, multiple tasks
+[source,groovy]
+----
+// Validating a single specification
+openApiValidate {
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+}
+
+// Define a task for validating one specification
+task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+}
+
+// Define a task for validating another specification
+task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+}
+
+// Define a task for batch validations
+task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])
+----
+
+[NOTE]
+====
+The tasks support Gradle Up-To-Date checking and Gradle Cache. Enable caching globally by setting `org.gradle.caching=true` in the `gradle.settings`
+file or by passing the command line property `--build-cache` when executing on the command line.
+
+Disable up-to-date checks and caching by setting the following property when using the extension:
+
+.Disable caching for extension
+[source,groovy]
+----
+tasks.withType(org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    outputs.upToDateWhen { false }
+    outputs.cacheIf { false }
+}
+----
+Disable up-to-date checks and caching for a custom task:
+
+.Disable caching for custom task
+[source,groovy]
+----
+task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    outputs.upToDateWhen { false }
+    outputs.cacheIf { false }
+
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+}
+----
+====
+
 == Plugin Setup
 
 //# RELEASE_VERSION
@@ -45,7 +97,7 @@ compileJava.dependsOn tasks.openApiGenerate
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "4.1.1"
+  id "org.openapi.generator" version "5.3.0"
 }
 ----
 
@@ -56,12 +108,12 @@ Using https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_appl
 buildscript {
   repositories {
     mavenLocal()
-    mavenCentral()
+    maven { url "https://repo1.maven.org/maven2" }
     // or, via Gradle Plugin Portal:
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:4.1.1"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:5.3.0"
   }
 }
 
@@ -112,10 +164,10 @@ apply plugin: 'org.openapi.generator'
 |None
 |Adds authorization headers when fetching the OpenAPI definitions remotely. Pass in a URL-encoded string of name:header with a comma separating multiple values.
 
-|systemProperties
+|globalProperties
 |Map(String,String)
 |None
-|Sets specified system properties.
+|Sets specified global properties.
 
 |configFile
 |String
@@ -160,10 +212,10 @@ apply plugin: 'org.openapi.generator'
 |typeMappings
 |Map(String,String)
 |None
-|Sets mappings between OpenAPI spec types and generated code types.
+|Sets mappings between OpenAPI spec types and generated code types in the format of OpenAPIType=generatedType,OpenAPIType=generatedType. For example: `array=List,map=Map,string=String`. You can also have multiple occurrences of this option. To map a specified format, use type+format, e.g. string+password=EncryptedString will map `type: string, format: password` to `EncryptedString`.
 
 |additionalProperties
-|Map(String,String)
+|Map(String,Any)
 |None
 |Sets additional properties that can be referenced by the mustache templates.
 
@@ -225,7 +277,7 @@ apply plugin: 'org.openapi.generator'
 |httpUserAgent
 |String
 |None
-|HTTP user agent, e.g. codegen_csharp_api_client. Generator default is 'OpenAPI-Generator/{packageVersion}}/{language}', but may be generator-specific.
+|HTTP user agent, e.g. codegen_csharp_api_client. Generator default is 'OpenAPI-Generator/{packageVersion}/{language}', but may be generator-specific.
 
 |reservedWordsMappings
 |Map(String,String)
@@ -241,6 +293,11 @@ apply plugin: 'org.openapi.generator'
 |Boolean
 |false
 |Remove prefix of operationId, e.g. config_getId => getId.
+
+|skipOperationExample
+|Boolean
+|false
+|Skip examples defined in the operation
 
 |apiFilesConstrainedTo
 |List(String)
@@ -285,7 +342,7 @@ apply plugin: 'org.openapi.generator'
 |configOptions
 |Map(String,String)
 |None
-|A map of options specific to a generator. To see the full list of generator-specified parameters, please refer to [generators docs](https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators.md)
+|A map of options specific to a generator. To see the full list of generator-specified parameters, please refer to [generators docs](https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators.md). Note that any config options from a generator specific document may go here, and some generators may duplicate other options which are siblings to `configOptions`.
 
 |logToStderr
 |Boolean
@@ -307,6 +364,10 @@ apply plugin: 'org.openapi.generator'
 |false
 |To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions. When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
 
+|engine
+|String
+|mustache
+|Templating engine: "mustache" (default) or "handlebars" (beta)
 |===
 
 [NOTE]
@@ -319,12 +380,12 @@ For more control over generation of individual files, configure an ignore file a
 
 [NOTE]
 ====
-When configuring `systemProperties` in order to perform selective generation you can disable generation of some parts by providing `"false"` value:
+When configuring `globalProperties` in order to perform selective generation you can disable generation of some parts by providing `"false"` value:
 [source,groovy]
 ----
 openApiGenerate {
     // other settings omitted
-    systemProperties = [
+    globalProperties = [
         modelDocs: "false",
         apis: "false"
     ]
@@ -335,9 +396,9 @@ When enabling generation of only specific parts you either have to provide CSV l
 ----
 openApiGenerate {
     // other settings omitted
-    systemProperties = [
+    globalProperties = [
         apis: "",
-        models: "User,Pet"
+        models: "User:Pet"
     ]
 }
 ----
@@ -353,6 +414,11 @@ openApiGenerate {
 |String
 |None
 |The input specification to validate. Supports all formats supported by the Parser.
+
+|recommend
+|Boolean
+|true
+|Whether or not to offer recommendations related to the validated specification document.
 
 |===
 
@@ -408,9 +474,6 @@ openApiGenerate {
     apiPackage = "org.openapi.example.api"
     invokerPackage = "org.openapi.example.invoker"
     modelPackage = "org.openapi.example.model"
-    modelFilesConstrainedTo = [
-            "Error"
-    ]
     configOptions = [
         dateLibrary: "java8"
     ]
@@ -493,11 +556,12 @@ BUILD SUCCESSFUL in 0s
 
 === openApiValidate
 
-.in buid.gradle
+.in build.gradle
 [source,groovy]
 ----
 openApiValidate {
    inputSpec = "/src/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
+   recommend = true
 }
 ----
 
@@ -576,7 +640,7 @@ task buildKotlinClient(type: org.openapitools.generator.gradle.plugin.tasks.Gene
     configOptions = [
             dateLibrary: "java8"
     ]
-    systemProperties = [
+    globalProperties = [
             modelDocs: "false"
     ]
 }
@@ -613,7 +677,7 @@ You can run `gradle tasks --debug` to see this registration.
 
 === Android Studio
 
-Android Studio may experience a Windows-specific Guava dependency conflict with openapig-enerator-gradle-plugin versions greater than 3.0.0.
+Android Studio may experience a Windows-specific Guava dependency conflict with openapi-generator-gradle-plugin versions greater than 3.0.0.
 
 As a workaround, you may force exclude conflicting Guava dependencies.
 
@@ -626,7 +690,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:4.1.1') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:5.3.0') {
             exclude group: 'com.google.guava'
         }
     }

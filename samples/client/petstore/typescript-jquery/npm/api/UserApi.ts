@@ -22,7 +22,7 @@ import { Configuration } from '../configuration';
 export class UserApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Array<string> = [];
-    public defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings = null;
+    public defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings = undefined;
     public configuration: Configuration = new Configuration();
 
     constructor(basePath?: string, configuration?: Configuration, defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings) {
@@ -37,7 +37,7 @@ export class UserApi {
         }
     }
 
-    private extendObj<T1, T2 extends T1>(objA: T2, objB: T2): T1|T2 {
+    private extendObj<T1 extends object, T2 extends T1>(objA: T2, objB: T2): T1|T2 {
         for (let key in objB) {
             if (objB.hasOwnProperty(key)) {
                 objA[key] = objB[key];

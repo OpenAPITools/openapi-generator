@@ -2,7 +2,7 @@
 
 {{moduleName}}::Role - a Moose role for the {{appName}}
 
-{{#appDescription}}{{{appDescription}}}{{/appDescription}}
+{{{appDescriptionWithNewLines}}}
 
 # VERSION
 
@@ -223,6 +223,15 @@ spec. If so, this is available via the `class_documentation()` and
 
 Each of these calls returns a hashref with various useful pieces of information.
 
+# Installation Prerequisites
+
+Use [cpanm](https://metacpan.org/pod/distribution/App-cpanminus/bin/cpanm) to install the module dependencies:
+
+```
+cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+cpanm --quiet --no-interactive Class::Accessor Test::Exception Test::More Log::Any LWP::UserAgent URI::Query Module::Runtime DateTime Module::Find Moose::Role JSON
+```
+
 # LOAD THE MODULES
 
 To load the API packages:
@@ -252,27 +261,35 @@ use warnings;
 {{/model}}{{/models}}
 # for displaying the API response data
 use Data::Dumper;
-use {{moduleName}}::{{classname}};
 
+{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
 my $api_instance = {{moduleName}}::{{classname}}->new(
-{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}{{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{#isBasic}}
     # Configure HTTP basic authorization: {{{name}}}
     username => 'YOUR_USERNAME',
-    password => 'YOUR_PASSWORD',{{/isBasic}}{{#isApiKey}}
+    password => 'YOUR_PASSWORD',
+{{/isBasic}}
+{{#isApiKey}}
     # Configure API key authorization: {{{name}}}
     api_key => {'{{{keyParamName}}}' => 'YOUR_API_KEY'},
     # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-    #api_key_prefix => {'{{{keyParamName}}}' => 'Bearer'},{{/isApiKey}}{{#isOAuth}}
+    #api_key_prefix => {'{{{keyParamName}}}' => 'Bearer'},
+{{/isApiKey}}
+{{#isOAuth}}
     # Configure OAuth2 access token for authorization: {{{name}}}
-    access_token => 'YOUR_ACCESS_TOKEN',{{/isOAuth}}{{/authMethods}}
+    access_token => 'YOUR_ACCESS_TOKEN',
+{{/isOAuth}}
+{{/authMethods}}
 {{/hasAuthMethods}}
 );
 
-{{#allParams}}my ${{paramName}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{{moduleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}; # {{{dataType}}} | {{{description}}}
+{{#allParams}}my ${{paramName}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}{{{moduleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isArray}}]{{/isArray}}; # {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
 eval {
-    {{#returnType}}my $result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}{{paramName}} => ${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+    {{#returnType}}my $result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}{{paramName}} => ${{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
     print Dumper($result);{{/returnType}}
 };
 if ($@) {
@@ -287,7 +304,7 @@ All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{nickname}}**]({{apiDocPath}}{{classname}}.md#{{nickname}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{nickname}}**]({{apiDocPath}}{{classname}}.md#{{nickname}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 # DOCUMENTATION FOR MODELS

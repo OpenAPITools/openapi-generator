@@ -12,10 +12,11 @@ Feature | HTTP request | Description
 [**update_pet**](PET_API.md#update_pet) | **Put** /pet | Update an existing pet
 [**update_pet_with_form**](PET_API.md#update_pet_with_form) | **Post** /pet/{petId} | Updates a pet in the store with form data
 [**upload_file**](PET_API.md#upload_file) | **Post** /pet/{petId}/uploadImage | uploads an image
+[**upload_file_with_required_file**](PET_API.md#upload_file_with_required_file) | **Post** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 # **add_pet**
-> add_pet (pet: PET )
+> add_pet (body: PET )
 	
 
 Add a new pet to the store
@@ -25,7 +26,7 @@ Add a new pet to the store
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**PET**](PET.md)| Pet object that needs to be added to the store | 
+ **body** | [**PET**](PET.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -53,8 +54,8 @@ Deletes a pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **INTEGER_64**| Pet id to delete | 
- **api_key** | **STRING_32**|  | [optional] 
+ **pet_id** | **INTEGER_64**| Pet id to delete | [default to null]
+ **api_key** | **STRING_32**|  | [optional] [default to null]
 
 ### Return type
 
@@ -84,7 +85,7 @@ Multiple status values can be provided with comma separated strings
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**LIST [STRING_32]**](STRING_32.md)| Status values that need to be considered for filter | 
+ **status** | [**LIST [STRING_32]**](STRING_32.md)| Status values that need to be considered for filter | [default to null]
 
 ### Return type
 
@@ -114,7 +115,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**LIST [STRING_32]**](STRING_32.md)| Tags to filter by | 
+ **tags** | [**LIST [STRING_32]**](STRING_32.md)| Tags to filter by | [default to null]
 
 ### Return type
 
@@ -144,7 +145,7 @@ Returns a single pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **INTEGER_64**| ID of pet to return | 
+ **pet_id** | **INTEGER_64**| ID of pet to return | [default to null]
 
 ### Return type
 
@@ -162,7 +163,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet**
-> update_pet (pet: PET )
+> update_pet (body: PET )
 	
 
 Update an existing pet
@@ -172,7 +173,7 @@ Update an existing pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**PET**](PET.md)| Pet object that needs to be added to the store | 
+ **body** | [**PET**](PET.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -200,7 +201,7 @@ Updates a pet in the store with form data
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **INTEGER_64**| ID of pet that needs to be updated | 
+ **pet_id** | **INTEGER_64**| ID of pet that needs to be updated | [default to null]
  **name** | **STRING_32**| Updated name of the pet | [optional] [default to null]
  **status** | **STRING_32**| Updated status of the pet | [optional] [default to null]
 
@@ -230,9 +231,39 @@ uploads an image
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **INTEGER_64**| ID of pet to update | 
+ **pet_id** | **INTEGER_64**| ID of pet to update | [default to null]
  **additional_metadata** | **STRING_32**| Additional data to pass to server | [optional] [default to null]
  **file** | **FILE**| file to upload | [optional] [default to null]
+
+### Return type
+
+[**API_RESPONSE**](ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **upload_file_with_required_file**
+> upload_file_with_required_file (pet_id: INTEGER_64 ; required_file: FILE ; additional_metadata:  detachable STRING_32 ): detachable API_RESPONSE
+	
+
+uploads an image (required)
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet_id** | **INTEGER_64**| ID of pet to update | [default to null]
+ **required_file** | **FILE**| file to upload | [default to null]
+ **additional_metadata** | **STRING_32**| Additional data to pass to server | [optional] [default to null]
 
 ### Return type
 

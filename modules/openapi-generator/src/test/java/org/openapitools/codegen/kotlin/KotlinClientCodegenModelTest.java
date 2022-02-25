@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -66,6 +66,7 @@ public class KotlinClientCodegenModelTest {
     public void simpleModelTest() {
         final Schema schema = getSimpleSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
+        codegen.processOpts();
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -82,7 +83,6 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "kotlin.Long");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
         Assert.assertFalse(property1.isContainer);
@@ -93,18 +93,16 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "kotlin.String");
-        Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
         Assert.assertFalse(property2.isContainer);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "java.time.LocalDateTime");
+        Assert.assertEquals(property3.dataType, "java.time.OffsetDateTime");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
-        Assert.assertEquals(property3.baseType, "java.time.LocalDateTime");
-        Assert.assertFalse(property3.hasMore);
+        Assert.assertEquals(property3.baseType, "java.time.OffsetDateTime");
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }
@@ -122,11 +120,33 @@ public class KotlinClientCodegenModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
+        Assert.assertEquals(property3.dataType, "org.threeten.bp.OffsetDateTime");
+        Assert.assertEquals(property3.name, "createdAt");
+        Assert.assertEquals(property3.defaultValue, null);
+        Assert.assertEquals(property3.baseType, "org.threeten.bp.OffsetDateTime");
+        Assert.assertFalse(property3.required);
+        Assert.assertFalse(property3.isContainer);
+    }
+
+    @Test(description = "convert a simple model: threetenbp-localdatetime")
+    public void selectDateLibraryAsThreetenbpLocalDateTime() {
+        final Schema schema = getSimpleSchema();
+        final KotlinClientCodegen codegen = new KotlinClientCodegen();
+        String value = KotlinClientCodegen.DateLibrary.THREETENBP_LOCALDATETIME.value;
+        Assert.assertEquals(value, "threetenbp-localdatetime");
+        codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.THREETENBP_LOCALDATETIME.value);
+        codegen.processOpts();
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.dataType, "org.threeten.bp.LocalDateTime");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "org.threeten.bp.LocalDateTime");
-        Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }
@@ -148,7 +168,6 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "kotlin.String");
-        Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }
@@ -166,11 +185,33 @@ public class KotlinClientCodegenModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
+        Assert.assertEquals(property3.dataType, "java.time.OffsetDateTime");
+        Assert.assertEquals(property3.name, "createdAt");
+        Assert.assertEquals(property3.defaultValue, null);
+        Assert.assertEquals(property3.baseType, "java.time.OffsetDateTime");
+        Assert.assertFalse(property3.required);
+        Assert.assertFalse(property3.isContainer);
+    }
+
+    @Test(description = "convert a simple model: date java8-localdatetime")
+    public void selectDateLibraryAsJava8LocalDateTime() {
+        final Schema schema = getSimpleSchema();
+        final KotlinClientCodegen codegen = new KotlinClientCodegen();
+        String value = KotlinClientCodegen.DateLibrary.JAVA8_LOCALDATETIME.value;
+        Assert.assertEquals(value, "java8-localdatetime");
+        codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.JAVA8_LOCALDATETIME.value);
+        codegen.processOpts();
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.dataType, "java.time.LocalDateTime");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "java.time.LocalDateTime");
-        Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }

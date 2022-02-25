@@ -27,7 +27,7 @@ class {{classname}}(Model):
 {{/-last}}
 {{/enumVars}}{{/allowableValues}}
 
-    def __init__(self{{#vars}}, {{name}}{{^supportPython2}}: {{datatype}}{{/supportPython2}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
+    def __init__(self{{#vars}}, {{name}}{{^supportPython2}}: {{datatype}}{{/supportPython2}}={{{defaultValue}}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
         """{{classname}} - a model defined in Swagger
 
         {{#vars}}
@@ -37,13 +37,13 @@ class {{classname}}(Model):
         """
         self.swagger_types = {
 {{#vars}}
-            '{{name}}': {{{datatype}}}{{#hasMore}},{{/hasMore}}
+            '{{name}}': {{{datatype}}}{{^-last}},{{/-last}}
 {{/vars}}
         }
 
         self.attribute_map = {
 {{#vars}}
-            '{{name}}': '{{baseName}}'{{#hasMore}},{{/hasMore}}
+            '{{name}}': '{{baseName}}'{{^-last}},{{/-last}}
 {{/vars}}
         }
 {{#vars}}{{#-first}}
@@ -68,7 +68,7 @@ class {{classname}}(Model):
         """Gets the {{name}} of this {{classname}}.
 
         {{#description}}
-        {{{description}}}  # noqa: E501
+        {{{.}}}  # noqa: E501
         {{/description}}
 
         :return: The {{name}} of this {{classname}}.
@@ -81,7 +81,7 @@ class {{classname}}(Model):
         """Sets the {{name}} of this {{classname}}.
 
         {{#description}}
-        {{{description}}}  # noqa: E501
+        {{{.}}}  # noqa: E501
         {{/description}}
 
         :param {{name}}: The {{name}} of this {{classname}}.
@@ -90,22 +90,22 @@ class {{classname}}(Model):
 {{#isEnum}}
         allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]  # noqa: E501
 {{#isContainer}}
-{{#isListContainer}}
+{{#isArray}}
         if not set({{{name}}}).issubset(set(allowed_values)):
             raise ValueError(
                 "Invalid values for `{{{name}}}` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set({{{name}}}) - set(allowed_values))),  # noqa: E501
                         ", ".join(map(str, allowed_values)))
             )
-{{/isListContainer}}
-{{#isMapContainer}}
+{{/isArray}}
+{{#isMap}}
         if not set({{{name}}}.keys()).issubset(set(allowed_values)):
             raise ValueError(
                 "Invalid keys in `{{{name}}}` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set({{{name}}}.keys()) - set(allowed_values))),  # noqa: E501
                         ", ".join(map(str, allowed_values)))
             )
-{{/isMapContainer}}
+{{/isMap}}
 {{/isContainer}}
 {{^isContainer}}
         if {{{name}}} not in allowed_values:

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" bootstrap="./vendor/autoload.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" beStrictAboutTestsThatDoNotTestAnything="false" stopOnFailure="false">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">{{apiSrcPath}}</directory>
+      <file>./{{srcBasePath}}/BaseModel.php</file>
+      <directory suffix=".php">{{modelSrcPath}}</directory>
+    </include>
+  </coverage>
+  <testsuites>
+    {{#generateApiTests}}
+    <testsuite name="Apis">
+      <directory>{{apiTestPath}}</directory>
+    </testsuite>
+    {{/generateApiTests}}
+    {{#generateModelTests}}
+    <testsuite name="Models">
+      <file>./{{testBasePath}}/BaseModelTest.php</file>
+      <directory>{{modelTestPath}}</directory>
+    </testsuite>
+    {{/generateModelTests}}
+  </testsuites>
+  <php>
+    <ini name="error_reporting" value="E_ALL"/>
+  </php>
+</phpunit>

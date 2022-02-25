@@ -28,7 +28,7 @@ import java.io.IOException;
  * Model for testing model name same as property name
  */
 @ApiModel(description = "Model for testing model name same as property name")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -46,6 +46,18 @@ public class Name {
   @SerializedName(SERIALIZED_NAME_123NUMBER)
   private Integer _123number;
 
+  public Name() { 
+  }
+
+  
+  public Name(
+     Integer snakeCase, 
+     Integer _123number
+  ) {
+    this();
+    this.snakeCase = snakeCase;
+    this._123number = _123number;
+  }
 
   public Name name(Integer name) {
     
@@ -57,12 +69,12 @@ public class Name {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public Integer getName() {
     return name;
   }
-
 
 
   public void setName(Integer name) {
@@ -102,7 +114,6 @@ public class Name {
   }
 
 
-
   public void setProperty(String property) {
     this.property = property;
   }
@@ -123,7 +134,7 @@ public class Name {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -142,7 +153,6 @@ public class Name {
     return Objects.hash(name, snakeCase, property, _123number);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -159,7 +169,7 @@ public class Name {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

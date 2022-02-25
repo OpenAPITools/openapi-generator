@@ -24,14 +24,16 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 
 /**
  * Pet
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -47,7 +49,7 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  private List<String> photoUrls = new ArrayList<String>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
@@ -106,6 +108,8 @@ public class Pet {
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
 
+  public Pet() { 
+  }
 
   public Pet id(Long id) {
     
@@ -123,7 +127,6 @@ public class Pet {
   public Long getId() {
     return id;
   }
-
 
 
   public void setId(Long id) {
@@ -149,7 +152,6 @@ public class Pet {
   }
 
 
-
   public void setCategory(Category category) {
     this.category = category;
   }
@@ -165,6 +167,7 @@ public class Pet {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "doggie", required = true, value = "")
 
   public String getName() {
@@ -172,13 +175,12 @@ public class Pet {
   }
 
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(Set<String> photoUrls) {
     
     this.photoUrls = photoUrls;
     return this;
@@ -193,15 +195,15 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
-  public List<String> getPhotoUrls() {
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
 
-
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
@@ -214,7 +216,7 @@ public class Pet {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<Tag>();
+      this.tags = new ArrayList<>();
     }
     this.tags.add(tagsItem);
     return this;
@@ -230,7 +232,6 @@ public class Pet {
   public List<Tag> getTags() {
     return tags;
   }
-
 
 
   public void setTags(List<Tag> tags) {
@@ -256,14 +257,13 @@ public class Pet {
   }
 
 
-
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -284,7 +284,6 @@ public class Pet {
     return Objects.hash(id, category, name, photoUrls, tags, status);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -303,7 +302,7 @@ public class Pet {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

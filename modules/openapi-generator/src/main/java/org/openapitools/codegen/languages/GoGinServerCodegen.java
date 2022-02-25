@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,21 +16,24 @@
 
 package org.openapitools.codegen.languages;
 
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
 public class GoGinServerCodegen extends AbstractGoCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GoGinServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(GoGinServerCodegen.class);
 
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
@@ -39,6 +42,26 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
 
     public GoGinServerCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.noneOf(
+                        SecurityFeature.class
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
 
         // set the output folder here
         outputFolder = "generated-code/go";
@@ -85,6 +108,16 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
                         "continue", "for", "import", "return", "var", "error", "nil")
                 // Added "error" as it's used so frequently that it may as well be a keyword
         );
+
+        cliOptions.add(new CliOption("apiPath", "Name of the folder that contains the Go source code")
+                .defaultValue(apiPath));
+
+        CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
+        optServerPort.setType("int");
+        optServerPort.defaultValue(Integer.toString(serverPort));
+        cliOptions.add(optServerPort);
+
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_CLASS_PREFIX, CodegenConstants.ENUM_CLASS_PREFIX_DESC));
     }
 
     @Override
@@ -109,16 +142,37 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
             setPackageName("openapi");
+            additionalProperties.put(CodegenConstants.PACKAGE_NAME, this.packageName);
         }
 
         /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
          */
-        additionalProperties.put("apiVersion", apiVersion);
-        additionalProperties.put("serverPort", serverPort);
-        additionalProperties.put("apiPath", apiPath);
-        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        if (additionalProperties.containsKey("apiVersion")) {
+            this.apiVersion = (String) additionalProperties.get("apiVersion");
+        } else {
+            additionalProperties.put("apiVersion", apiVersion);
+        }
+
+        if (additionalProperties.containsKey("serverPort")) {
+            this.serverPort = Integer.parseInt((String) additionalProperties.get("serverPort"));
+        } else {
+            additionalProperties.put("serverPort", serverPort);
+        }
+
+        if (additionalProperties.containsKey("apiPath")) {
+            this.apiPath = (String) additionalProperties.get("apiPath");
+        } else {
+            additionalProperties.put("apiPath", apiPath);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
+            setEnumClassPrefix(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_CLASS_PREFIX).toString()));
+            if (enumClassPrefix) {
+                additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, true);
+            }
+        }
 
         modelPackage = packageName;
         apiPackage = packageName;
@@ -132,7 +186,8 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         supportingFiles.add(new SupportingFile("routers.mustache", apiPath, "routers.go"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", apiPath, "README.md"));
+        supportingFiles.add(new SupportingFile("README.mustache", apiPath, "README.md")
+                .doNotOverwrite());
     }
 
     @Override

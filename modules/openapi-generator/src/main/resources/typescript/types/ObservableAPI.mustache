@@ -1,0 +1,88 @@
+import { ResponseContext, RequestContext, HttpFile } from '../http/http{{extensionForDeno}}';
+import * as models from '../models/all{{extensionForDeno}}';
+import { Configuration} from '../configuration{{extensionForDeno}}'
+import { Observable, of, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
+import {mergeMap, map} from  {{#useRxJS}}'rxjs/operators'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
+{{#useInversify}}
+import { injectable, inject, optional } from "inversify";
+import { AbstractConfiguration } from "../services/configuration{{extensionForDeno}}";
+{{/useInversify}}
+{{#models}}
+{{#model}}
+import { {{{ classname }}} } from '../models/{{{ classFilename }}}{{extensionForDeno}}';
+{{/model}}
+{{/models}}
+{{#apiInfo}}
+{{#apis}}
+
+{{#operations}}
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{extensionForDeno}}";
+{{#useInversify}}
+import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../apis/{{classname}}.service{{extensionForDeno}}";
+
+@injectable()
+{{/useInversify}}
+export class Observable{{classname}} {
+    {{#useInversify}}
+    private requestFactory: Abstract{{classname}}RequestFactory;
+    private responseProcessor: Abstract{{classname}}ResponseProcessor;
+    {{/useInversify}}
+    {{^useInversify}}
+    private requestFactory: {{classname}}RequestFactory;
+    private responseProcessor: {{classname}}ResponseProcessor;
+    {{/useInversify}}
+    private configuration: Configuration;
+
+    public constructor(
+        {{#useInversify}}
+        @inject(AbstractConfiguration) configuration: Configuration,
+        @inject(Abstract{{classname}}RequestFactory) @optional() requestFactory?: Abstract{{classname}}RequestFactory,
+        @inject(Abstract{{classname}}ResponseProcessor) @optional() responseProcessor?: Abstract{{classname}}ResponseProcessor
+        {{/useInversify}}
+        {{^useInversify}}
+        configuration: Configuration,
+        requestFactory?: {{classname}}RequestFactory,
+        responseProcessor?: {{classname}}ResponseProcessor
+        {{/useInversify}}
+    ) {
+        this.configuration = configuration;
+        this.requestFactory = requestFactory || new {{classname}}RequestFactory(configuration);
+        this.responseProcessor = responseProcessor || new {{classname}}ResponseProcessor();
+    }
+
+{{#operation}}
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{paramName}} {{description}}
+     {{/allParams}}
+     */
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Observable<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+        const requestContextPromise = this.requestFactory.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}_options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (let middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (let middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.{{nickname}}(rsp)));
+            }));
+    }
+
+{{/operation}}
+}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

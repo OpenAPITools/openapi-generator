@@ -12,10 +12,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-public class Order  implements Serializable {
+@JsonTypeName("Order")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Order  implements Serializable {
   
   private @Valid Long id;
   private @Valid Long petId;
@@ -44,13 +46,13 @@ public enum StatusEnum {
     }
 
     @JsonCreator
-    public static StatusEnum fromValue(String v) {
+    public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
@@ -65,16 +67,20 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
+
+  @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
   }
 
-  /**
+/**
    **/
   public Order petId(Long petId) {
     this.petId = petId;
@@ -82,16 +88,20 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("petId")
   public Long getPetId() {
     return petId;
   }
+
+  @JsonProperty("petId")
   public void setPetId(Long petId) {
     this.petId = petId;
   }
 
-  /**
+/**
    **/
   public Order quantity(Integer quantity) {
     this.quantity = quantity;
@@ -99,16 +109,20 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("quantity")
   public Integer getQuantity() {
     return quantity;
   }
+
+  @JsonProperty("quantity")
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
 
-  /**
+/**
    **/
   public Order shipDate(Date shipDate) {
     this.shipDate = shipDate;
@@ -116,16 +130,20 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
   public Date getShipDate() {
     return shipDate;
   }
+
+  @JsonProperty("shipDate")
   public void setShipDate(Date shipDate) {
     this.shipDate = shipDate;
   }
 
-  /**
+/**
    * Order Status
    **/
   public Order status(StatusEnum status) {
@@ -134,16 +152,20 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
+
+  @JsonProperty("status")
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
-  /**
+/**
    **/
   public Order complete(Boolean complete) {
     this.complete = complete;
@@ -151,18 +173,22 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("complete")
   public Boolean getComplete() {
     return complete;
   }
+
+  @JsonProperty("complete")
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -170,12 +196,12 @@ public enum StatusEnum {
       return false;
     }
     Order order = (Order) o;
-    return Objects.equals(id, order.id) &&
-        Objects.equals(petId, order.petId) &&
-        Objects.equals(quantity, order.quantity) &&
-        Objects.equals(shipDate, order.shipDate) &&
-        Objects.equals(status, order.status) &&
-        Objects.equals(complete, order.complete);
+    return Objects.equals(this.id, order.id) &&
+        Objects.equals(this.petId, order.petId) &&
+        Objects.equals(this.quantity, order.quantity) &&
+        Objects.equals(this.shipDate, order.shipDate) &&
+        Objects.equals(this.status, order.status) &&
+        Objects.equals(this.complete, order.complete);
   }
 
   @Override
@@ -202,11 +228,13 @@ public enum StatusEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

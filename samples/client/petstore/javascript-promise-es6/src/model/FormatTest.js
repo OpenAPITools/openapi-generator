@@ -22,14 +22,14 @@ class FormatTest {
     /**
      * Constructs a new <code>FormatTest</code>.
      * @alias module:model/FormatTest
-     * @param _number {Number} 
+     * @param number {Number} 
      * @param _byte {Blob} 
-     * @param _date {Date} 
+     * @param date {Date} 
      * @param password {String} 
      */
-    constructor(_number, _byte, _date, password) { 
+    constructor(number, _byte, date, password) { 
         
-        FormatTest.initialize(this, _number, _byte, _date, password);
+        FormatTest.initialize(this, number, _byte, date, password);
     }
 
     /**
@@ -37,10 +37,10 @@ class FormatTest {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, _number, _byte, _date, password) { 
-        obj['number'] = _number;
+    static initialize(obj, number, _byte, date, password) { 
+        obj['number'] = number;
         obj['byte'] = _byte;
-        obj['date'] = _date;
+        obj['date'] = date;
         obj['password'] = password;
     }
 
@@ -73,6 +73,9 @@ class FormatTest {
             if (data.hasOwnProperty('double')) {
                 obj['double'] = ApiClient.convertToType(data['double'], 'Number');
             }
+            if (data.hasOwnProperty('decimal')) {
+                obj['decimal'] = ApiClient.convertToType(data['decimal'], 'Number');
+            }
             if (data.hasOwnProperty('string')) {
                 obj['string'] = ApiClient.convertToType(data['string'], 'String');
             }
@@ -93,6 +96,12 @@ class FormatTest {
             }
             if (data.hasOwnProperty('password')) {
                 obj['password'] = ApiClient.convertToType(data['password'], 'String');
+            }
+            if (data.hasOwnProperty('pattern_with_digits')) {
+                obj['pattern_with_digits'] = ApiClient.convertToType(data['pattern_with_digits'], 'String');
+            }
+            if (data.hasOwnProperty('pattern_with_digits_and_delimiter')) {
+                obj['pattern_with_digits_and_delimiter'] = ApiClient.convertToType(data['pattern_with_digits_and_delimiter'], 'String');
             }
         }
         return obj;
@@ -132,6 +141,11 @@ FormatTest.prototype['float'] = undefined;
 FormatTest.prototype['double'] = undefined;
 
 /**
+ * @member {Number} decimal
+ */
+FormatTest.prototype['decimal'] = undefined;
+
+/**
  * @member {String} string
  */
 FormatTest.prototype['string'] = undefined;
@@ -165,6 +179,18 @@ FormatTest.prototype['uuid'] = undefined;
  * @member {String} password
  */
 FormatTest.prototype['password'] = undefined;
+
+/**
+ * A string that is a 10 digit number. Can have leading zeros.
+ * @member {String} pattern_with_digits
+ */
+FormatTest.prototype['pattern_with_digits'] = undefined;
+
+/**
+ * A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+ * @member {String} pattern_with_digits_and_delimiter
+ */
+FormatTest.prototype['pattern_with_digits_and_delimiter'] = undefined;
 
 
 

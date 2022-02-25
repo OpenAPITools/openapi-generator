@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,7 +22,10 @@ import io.swagger.v3.oas.models.OpenAPI;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +50,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
     @SuppressWarnings("hiding")
-    protected Logger LOGGER = LoggerFactory.getLogger(FsharpGiraffeServerCodegen.class);
+    protected final Logger LOGGER = LoggerFactory.getLogger(FsharpGiraffeServerCodegen.class);
 
     private boolean useSwashbuckle = false;
     protected int serverPort = 8080;
@@ -58,6 +61,12 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
 
     public FsharpGiraffeServerCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         modelPackage = "Model";
 
@@ -167,7 +176,6 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-        boolean isLibrary = false;
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID)) {
             setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
@@ -182,12 +190,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
 
         additionalProperties.put(PROJECT_SDK, projectSdk);
 
-        // TODO - should we be supporting a Giraffe class library?
-        if (isLibrary)
-            LOGGER.warn("Library flag not currently supported.");
-
         String authFolder = sourceFolder + File.separator + "auth";
-        String serviceFolder = sourceFolder + File.separator + "services";
         String implFolder = sourceFolder + File.separator + "impl";
         String helperFolder = sourceFolder + File.separator + "helpers";
 
@@ -226,7 +229,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
         return outputFolder + File.separator + sourceFolder + File.separator + "impl";
     }
 
-    @Override()
+    @Override
     public String toModelImport(String name) {
         return packageName + "." + modelPackage() + "." + name;
     }
@@ -259,12 +262,12 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
             String original = operation.path;
             operation.path = operation.path.replace("?", "/");
             if (!original.equals(operation.path)) {
-                LOGGER.warn("Normalized " + original + " to " + operation.path + ". Please verify generated source.");
+                LOGGER.warn("Normalized {} to {}. Please verify generated source.", original, operation.path);
             }
         }
 
         // Converts, for example, PUT to HttpPut for controller attributes
-        operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+        operation.httpMethod = "Http" + operation.httpMethod.charAt(0) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
     }
 
     @Override
@@ -277,4 +280,17 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
     }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator's contributed by Nick Fisher (https://github.com/nmfisher)    #");
+        System.out.println("# Please support his work directly via https://paypal.me/nickfisher1984 \uD83D\uDE4F     #");
+        System.out.println("################################################################################");
+    }
+
 }

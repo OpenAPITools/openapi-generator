@@ -1,7 +1,7 @@
 /**
- * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
- */
-public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfaces}}{{#-first}} implements {{/-first}}{{^-first}}, {{/-first}}{{.}}{{/interfaces}} {
+ * {{description}}{{^description}}{{classname}}{{/description}}
+ */{{>additionalModelTypeAnnotations}}
+public class {{classname}}{{#parent}} extends {{{.}}}{{/parent}}{{#interfaces}}{{#-first}} implements {{/-first}}{{^-first}}, {{/-first}}{{.}}{{/interfaces}} {
   {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
@@ -17,16 +17,16 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfac
     {{/items.isEnum}}
     /**
     {{#description}}
-     * {{{description}}}
+     * {{{.}}}
     {{/description}}
     {{^description}}
      * Get {{name}}
     {{/description}}
     {{#minimum}}
-     * minimum: {{minimum}}
+     * minimum: {{.}}
     {{/minimum}}
     {{#maximum}}
-     * maximum: {{maximum}}
+     * maximum: {{.}}
     {{/maximum}}
      * @return {{name}}
      */
@@ -34,19 +34,19 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfac
 
   {{/vars}}
 {{#vendorExtensions}}
-  {{#hasPropertyMappings}}
+  {{#x-property-mappings}}
     private static final Map<String, String> propertyMappings = new Map<String, String>{
-      {{#propertyMappings}}
+      {{#x-property-mappings}}
         '{{externalName}}' => '{{internalName}}'{{^-last}},{{/-last}}
-      {{/propertyMappings}}
+      {{/x-property-mappings}}
     };
 
     public Map<String, String> getPropertyMappings() {
         return propertyMappings;
     }
 
-  {{/hasPropertyMappings}}
-  {{#hasDefaultValues}}
+  {{/x-property-mappings}}
+  {{#x-has-default-values}}
     public {{classname}}() {
     {{#vars}}
       {{#defaultValue}}
@@ -55,7 +55,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfac
     {{/vars}}
     }
 
-  {{/hasDefaultValues}}
+  {{/x-has-default-values}}
 {{/vendorExtensions}}
     public static {{classname}} getExample() {
         {{classname}} {{classVarName}} = new {{classname}}();
@@ -68,8 +68,8 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfac
     public Boolean equals(Object obj) {
         if (obj instanceof {{classname}}) {           {{#hasVars}}
             {{classname}} {{classVarName}} = ({{classname}}) obj;
-            return {{#vars}}this.{{name}} == {{classVarName}}.{{name}}{{#hasMore}}
-                && {{/hasMore}}{{/vars}};{{/hasVars}}{{^hasVars}}
+            return {{#vars}}this.{{name}} == {{classVarName}}.{{name}}{{^-last}}
+                && {{/-last}}{{/vars}};{{/hasVars}}{{^hasVars}}
                 return true;{{/hasVars}}
         }
         return false;

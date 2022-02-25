@@ -10,31 +10,32 @@ import java.util.List;
 
 import org.openapitools.model.*;
 
+import java.util.Date;
 import java.util.List;
 import org.openapitools.model.User;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class UserController  {
-  /** 
+  /**
    * Uncomment and implement as you see fit.  These operations will map
    * Directly to operation calls from the routing logic.  Because the inflector
    * Code allows you to implement logic incrementally, they are disabled.
    **/
 
   /*
-    public ResponseContext createUser(RequestContext request , User user) {
+    public ResponseContext createUser(RequestContext request , User body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
 
   /*
-    public ResponseContext createUsersWithArrayInput(RequestContext request , List<User> user) {
+    public ResponseContext createUsersWithArrayInput(RequestContext request , List<User> body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
 
   /*
-    public ResponseContext createUsersWithListInput(RequestContext request , List<User> user) {
+    public ResponseContext createUsersWithListInput(RequestContext request , List<User> body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
@@ -64,10 +65,9 @@ public class UserController  {
   */
 
   /*
-    public ResponseContext updateUser(RequestContext request , String username, User user) {
+    public ResponseContext updateUser(RequestContext request , String username, User body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
 
 }
-

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,7 +36,6 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
         outputFolder = "generated-code/typescript-aurelia";
         embeddedTemplateDir = templateDir = "typescript-aurelia";
-
     }
 
     @Override
@@ -95,7 +94,7 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
             // Collect models to be imported
             for (CodegenParameter param : op.allParams) {
-                if (!param.isPrimitiveType && !param.isListContainer && !param.dataType.equals("any")) {
+                if (!param.isPrimitiveType && !param.isArray && !"any".equals(param.dataType)) {
                     modelImports.add(param.dataType);
                 }
             }
@@ -118,7 +117,7 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
             CodegenModel cm = (CodegenModel) mo.get("model");
             cm.imports = new TreeSet(cm.imports);
             for (CodegenProperty var : cm.vars) {
-                // name enum with model name, e.g. StatuEnum => PetStatusEnum
+                // name enum with model name, e.g. StatusEnum => PetStatusEnum
                 if (Boolean.TRUE.equals(var.isEnum)) {
                     var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                     var.enumName = cm.classname + var.enumName;

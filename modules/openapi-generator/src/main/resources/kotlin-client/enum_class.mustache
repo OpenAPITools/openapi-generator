@@ -1,34 +1,82 @@
+{{^multiplatform}}
 {{#gson}}
 import com.google.gson.annotations.SerializedName
 {{/gson}}
 {{#moshi}}
 import com.squareup.moshi.Json
 {{/moshi}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonProperty
+{{/jackson}}
+{{#kotlinx_serialization}}
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+{{/kotlinx_serialization}}
+{{/multiplatform}}
+{{#multiplatform}}
+import kotlinx.serialization.*
+{{/multiplatform}}
 
 /**
-* {{{description}}}
-* Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
-*/
-enum class {{classname}}(val value: {{{dataType}}}){
-
+ * {{{description}}}
+ *
+ * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+ */
+{{#multiplatform}}@Serializable{{/multiplatform}}{{#kotlinx_serialization}}@Serializable{{/kotlinx_serialization}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{classname}}(val value: {{{dataType}}}) {
 {{#allowableValues}}{{#enumVars}}
+    {{^multiplatform}}
     {{#moshi}}
     @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{/moshi}}
     {{#gson}}
     @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{/gson}}
-    {{#isListContainer}}
+    {{#jackson}}
+    @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    {{/jackson}}
+    {{#kotlinx_serialization}}
+    @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    {{/kotlinx_serialization}}
+    {{/multiplatform}}
+    {{#multiplatform}}
+    @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    {{/multiplatform}}
+    {{#isArray}}
     {{#isList}}
     {{&name}}(listOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isList}}
     {{^isList}}
     {{&name}}(arrayOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isList}}
-    {{/isListContainer}}
-    {{^isListContainer}}
+    {{/isArray}}
+    {{^isArray}}
     {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
-    {{/isListContainer}}
-
+    {{/isArray}}
 {{/enumVars}}{{/allowableValues}}
+    /**
+     * Override toString() to avoid using the enum variable name as the value, and instead use
+     * the actual value defined in the API spec file.
+     *
+     * This solves a problem when the variable name and its value are different, and ensures that
+     * the client sends the correct enum values to the server always.
+     */
+    override fun toString(): String = value{{^isString}}.toString(){{/isString}}
+
+    companion object {
+        /**
+         * Converts the provided [data] to a [String] on success, null otherwise.
+         */
+        fun encode(data: kotlin.Any?): kotlin.String? = if (data is {{classname}}) "$data" else null
+
+        /**
+         * Returns a valid [{{classname}}] for [data], null otherwise.
+         */
+        fun decode(data: kotlin.Any?): {{classname}}? = data?.let {
+          val normalizedData = "$it".lowercase()
+          values().firstOrNull { value ->
+            it == value || normalizedData == "$value".lowercase()
+          }
+        }
+    }
 }

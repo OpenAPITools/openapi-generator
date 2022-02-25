@@ -15,8 +15,8 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import javax.servlet.ServletConfig;
 import javax.ws.rs.core.Context;
@@ -26,11 +26,11 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("")
+@Path("/fake_classname_test")
 
 
 @io.swagger.annotations.Api(description = "the FakeClassnameTags123 API")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class FakeClassnameTags123Api  {
    private final FakeClassnameTags123ApiService delegate;
 
@@ -45,7 +45,7 @@ public class FakeClassnameTags123Api  {
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
-         } 
+         }
       }
 
       if (delegate == null) {
@@ -55,17 +55,17 @@ public class FakeClassnameTags123Api  {
       this.delegate = delegate;
    }
 
-    @PATCH
-    @Path("/fake_classname_test")
+    @javax.ws.rs.PATCH
+    
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "To test class name in snake case", notes = "To test class name in snake case", response = Client.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "api_key_query")
     }, tags={ "fake_classname_tags 123#$%^", })
-    @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Response testClassname(@ApiParam(value = "client model" ,required=true) @NotNull @Valid Client body
-,@Context SecurityContext securityContext)
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class)
+    })
+    public Response testClassname(@ApiParam(value = "client model", required = true) @NotNull @Valid  Client body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testClassname(body, securityContext);
     }

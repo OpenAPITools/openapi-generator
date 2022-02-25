@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -59,7 +59,6 @@ public class GoModelTest {
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int64");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
 
@@ -69,7 +68,6 @@ public class GoModelTest {
         Assert.assertEquals(property2.name, "Name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "string");
-        Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
 
@@ -80,7 +78,6 @@ public class GoModelTest {
         Assert.assertEquals(property3.name, "CreatedAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "time.Time");
-        Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
     }
 
@@ -108,7 +105,6 @@ public class GoModelTest {
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int64");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
 
@@ -117,7 +113,6 @@ public class GoModelTest {
         Assert.assertEquals(property2.dataType, "[]string");
         Assert.assertEquals(property2.name, "Urls");
         Assert.assertEquals(property2.baseType, "array");
-        Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);

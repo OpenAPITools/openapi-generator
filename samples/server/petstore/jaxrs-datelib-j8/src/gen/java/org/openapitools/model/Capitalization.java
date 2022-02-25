@@ -34,7 +34,7 @@ import javax.validation.Valid;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class Capitalization  implements Serializable {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
@@ -69,7 +69,7 @@ public class Capitalization  implements Serializable {
    * Get smallCamel
    * @return smallCamel
    **/
-  @JsonProperty("smallCamel")
+  @JsonProperty(value = "smallCamel")
   @ApiModelProperty(value = "")
   
   public String getSmallCamel() {
@@ -89,7 +89,7 @@ public class Capitalization  implements Serializable {
    * Get capitalCamel
    * @return capitalCamel
    **/
-  @JsonProperty("CapitalCamel")
+  @JsonProperty(value = "CapitalCamel")
   @ApiModelProperty(value = "")
   
   public String getCapitalCamel() {
@@ -109,7 +109,7 @@ public class Capitalization  implements Serializable {
    * Get smallSnake
    * @return smallSnake
    **/
-  @JsonProperty("small_Snake")
+  @JsonProperty(value = "small_Snake")
   @ApiModelProperty(value = "")
   
   public String getSmallSnake() {
@@ -129,7 +129,7 @@ public class Capitalization  implements Serializable {
    * Get capitalSnake
    * @return capitalSnake
    **/
-  @JsonProperty("Capital_Snake")
+  @JsonProperty(value = "Capital_Snake")
   @ApiModelProperty(value = "")
   
   public String getCapitalSnake() {
@@ -149,7 +149,7 @@ public class Capitalization  implements Serializable {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
    **/
-  @JsonProperty("SCA_ETH_Flow_Points")
+  @JsonProperty(value = "SCA_ETH_Flow_Points")
   @ApiModelProperty(value = "")
   
   public String getScAETHFlowPoints() {
@@ -169,7 +169,7 @@ public class Capitalization  implements Serializable {
    * Name of the pet 
    * @return ATT_NAME
    **/
-  @JsonProperty("ATT_NAME")
+  @JsonProperty(value = "ATT_NAME")
   @ApiModelProperty(value = "Name of the pet ")
   
   public String getATTNAME() {
@@ -182,7 +182,7 @@ public class Capitalization  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -203,7 +203,6 @@ public class Capitalization  implements Serializable {
     return Objects.hash(smallCamel, capitalCamel, smallSnake, capitalSnake, scAETHFlowPoints, ATT_NAME);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -223,7 +222,7 @@ public class Capitalization  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -1,0 +1,9 @@
+generatorName: rust
+outputDir: samples/client/petstore/rust/hyper/fileResponseTest
+library: hyper
+inputSpec: modules/openapi-generator/src/test/resources/2_0/fileResponseTest.json
+templateDir: modules/openapi-generator/src/main/resources/rust
+generateAliasAsModel: true
+additionalProperties:
+  supportAsync: "false"
+  packageName: fileResponseTest-hyper

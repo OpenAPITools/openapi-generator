@@ -10,10 +10,15 @@
 """
 
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-
 import six
+
+from petstore_api.configuration import Configuration
 
 
 class MixedPropertiesAndAdditionalPropertiesClass(object):
@@ -42,8 +47,11 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         'map': 'map'
     }
 
-    def __init__(self, uuid=None, date_time=None, map=None):  # noqa: E501
+    def __init__(self, uuid=None, date_time=None, map=None, local_vars_configuration=None):  # noqa: E501
         """MixedPropertiesAndAdditionalPropertiesClass - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration.get_default_copy()
+        self.local_vars_configuration = local_vars_configuration
 
         self._uuid = None
         self._date_time = None
@@ -73,7 +81,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         :param uuid: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :type: str
+        :type uuid: str
         """
 
         self._uuid = uuid
@@ -94,7 +102,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         :param date_time: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :type: datetime
+        :type date_time: datetime
         """
 
         self._date_time = date_time
@@ -115,32 +123,40 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         :param map: The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, Animal)
+        :type map: dict(str, Animal)
         """
 
         self._map = map
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = getfullargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 
@@ -157,8 +173,11 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         if not isinstance(other, MixedPropertiesAndAdditionalPropertiesClass):
             return False
 
-        return self.__dict__ == other.__dict__
+        return self.to_dict() == other.to_dict()
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
-        return not self == other
+        if not isinstance(other, MixedPropertiesAndAdditionalPropertiesClass):
+            return True
+
+        return self.to_dict() != other.to_dict()

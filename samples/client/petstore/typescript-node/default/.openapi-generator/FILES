@@ -1,0 +1,14 @@
+.gitignore
+api.ts
+api/apis.ts
+api/petApi.ts
+api/storeApi.ts
+api/userApi.ts
+git_push.sh
+model/apiResponse.ts
+model/category.ts
+model/models.ts
+model/order.ts
+model/pet.ts
+model/tag.ts
+model/user.ts

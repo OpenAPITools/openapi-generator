@@ -1,13 +1,11 @@
-{{#hasAuthMethods}}
-
-{{#authMethods}}
+{{#hasAuthMethods}}{{#authMethods}}
 {{#isBasic}}
-{{^isBasicBearer}}
+{{#isBasicBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 $config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()
               ->setUsername('YOUR_USERNAME')
               ->setPassword('YOUR_PASSWORD');
-{{/isBasicBearer}}
+{{/isBasicBasic}}
 {{#isBasicBearer}}
 // Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} authorization: {{{name}}}
 $config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
@@ -22,7 +20,4 @@ $config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiK
 {{#isOAuth}}
 // Configure OAuth2 access token for authorization: {{{name}}}
 $config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-{{/isOAuth}}
-
-{{/authMethods}}
-{{/hasAuthMethods}}
+{{/isOAuth}}{{/authMethods}}{{/hasAuthMethods}}

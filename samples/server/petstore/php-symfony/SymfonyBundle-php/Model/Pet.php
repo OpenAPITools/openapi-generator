@@ -2,7 +2,7 @@
 /**
  * Pet
  *
- * PHP version 5
+ * PHP version 7.1.3
  *
  * @category Class
  * @package  OpenAPI\Server\Model
@@ -143,7 +143,7 @@ class Pet
      *
      * @return OpenAPI\Server\Model\Category|null
      */
-    public function getCategory()
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
@@ -191,7 +191,7 @@ class Pet
      *
      * @return string[]
      */
-    public function getPhotoUrls()
+    public function getPhotoUrls(): array
     {
         return $this->photoUrls;
     }
@@ -215,7 +215,7 @@ class Pet
      *
      * @return OpenAPI\Server\Model\Tag[]|null
      */
-    public function getTags()
+    public function getTags(): ?array
     {
         return $this->tags;
     }

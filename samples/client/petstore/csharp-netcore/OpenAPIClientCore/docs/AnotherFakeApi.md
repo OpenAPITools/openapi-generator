@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="call123testspecialtags"></a>
 # **Call123TestSpecialTags**
-> ModelClient Call123TestSpecialTags (ModelClient body)
+> ModelClient Call123TestSpecialTags (ModelClient modelClient)
 
 To test special tags
 
@@ -29,14 +29,15 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new AnotherFakeApi(Configuration.Default);
-            var body = new ModelClient(); // ModelClient | client model
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new AnotherFakeApi(config);
+            var modelClient = new ModelClient(); // ModelClient | client model
 
             try
             {
                 // To test special tags
-                ModelClient result = apiInstance.Call123TestSpecialTags(body);
+                ModelClient result = apiInstance.Call123TestSpecialTags(modelClient);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -54,7 +55,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**ModelClient**](ModelClient.md)| client model | 
+ **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 
@@ -68,6 +69,7 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

@@ -5,15 +5,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class OuterComposite  {
   
@@ -38,7 +32,7 @@ public class OuterComposite  {
   /**
    * Sets the <code>myNumber</code> property.
    */
-  public void setMyNumber(BigDecimal myNumber) {
+ public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
@@ -62,7 +56,7 @@ public class OuterComposite  {
   /**
    * Sets the <code>myString</code> property.
    */
-  public void setMyString(String myString) {
+ public void setMyString(String myString) {
     this.myString = myString;
   }
 
@@ -86,7 +80,7 @@ public class OuterComposite  {
   /**
    * Sets the <code>myBoolean</code> property.
    */
-  public void setMyBoolean(Boolean myBoolean) {
+ public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
 
@@ -115,7 +109,7 @@ public class OuterComposite  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

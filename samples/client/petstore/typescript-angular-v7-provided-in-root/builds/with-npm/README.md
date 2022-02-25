@@ -57,7 +57,6 @@ In your Angular project:
 import { ApiModule } from '@openapitools/typescript-angular-petstore';
 import { HttpClientModule } from '@angular/common/http';
 
-
 @NgModule({
     imports: [
         ApiModule,
@@ -76,7 +75,7 @@ export class AppModule {}
 // configuring providers
 import { ApiModule, Configuration, ConfigurationParameters } from '@openapitools/typescript-angular-petstore';
 
-export function apiConfigFactory (): Configuration => {
+export function apiConfigFactory (): Configuration {
   const params: ConfigurationParameters = {
     // set configuration parameters here.
   }
@@ -93,10 +92,35 @@ export class AppModule {}
 ```
 
 ```
+// configuring providers with an authentication service that manages your access tokens
+import { ApiModule, Configuration } from '@openapitools/typescript-angular-petstore';
+
+@NgModule({
+    imports: [ ApiModule ],
+    declarations: [ AppComponent ],
+    providers: [
+      {
+        provide: Configuration,
+        useFactory: (authService: AuthService) => new Configuration(
+          {
+            basePath: environment.apiUrl,
+            accessToken: authService.getAccessToken.bind(authService)
+          }
+        ),
+        deps: [AuthService],
+        multi: false
+      }
+    ],
+    bootstrap: [ AppComponent ]
+})
+export class AppModule {}
+```
+
+```
 import { DefaultApi } from '@openapitools/typescript-angular-petstore';
 
 export class AppComponent {
-	 constructor(private apiGateway: DefaultApi) { }
+    constructor(private apiGateway: DefaultApi) { }
 }
 ```
 
@@ -111,7 +135,6 @@ in order to avoid naming conflicts:
 import { ApiModule } from 'my-api-path';
 import { ApiModule as OtherApiModule } from 'my-other-api-path';
 import { HttpClientModule } from '@angular/common/http';
-
 
 @NgModule({
   imports: [
@@ -129,7 +152,7 @@ export class AppModule {
 
 
 ### Set service base path
-If different than the generated base path, during app bootstrap, you can provide the base path to your service. 
+If different than the generated base path, during app bootstrap, you can provide the base path to your service.
 
 ```
 import { BASE_PATH } from '@openapitools/typescript-angular-petstore';
@@ -177,4 +200,4 @@ import { environment } from '../environments/environment';
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
-```  
+```

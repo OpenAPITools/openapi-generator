@@ -1,0 +1,11 @@
+generatorName: java
+outputDir: samples/client/petstore/java/feign-no-nullable
+library: feign
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  booleanGetterPrefix: is
+  artifactId: petstore-feign-no-nullable
+  hideGenerationTimestamp: "true"
+  additionalModelTypeAnnotations: '@javax.annotation.concurrent.Immutable'
+  openApiNullable: "false"

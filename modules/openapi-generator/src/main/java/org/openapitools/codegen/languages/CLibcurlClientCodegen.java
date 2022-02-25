@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,18 +22,20 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     protected String moduleName;
@@ -49,6 +51,28 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public CLibcurlClientCodegen() {
         super();
 
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(
+                        DocumentationFeature.Readme
+                )
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey
+                ))
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeWireFormatFeatures(
+                        WireFormatFeature.JSON,
+                        WireFormatFeature.XML
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Union
+                )
+        );
+
         modelPackage = "models";
         apiPackage = "api";
         outputFolder = "generated-code" + File.separator + "C-libcurl";
@@ -56,12 +80,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         modelTemplateFiles.put("model-body.mustache", ".c");
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-body.mustache", ".c");
-        //modelDocTemplateFiles.put("model_doc.mustache", ".md");
-        //apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "C-libcurl";
 
         // TODO add auto-generated test files
-        //modelTestTemplateFiles.put("model_test.mustache", ".c");
+        modelTestTemplateFiles.put("model_test.mustache", ".c");
         //apiTestTemplateFiles.put("api_test.mustache", ".c");
 
         // default HIDE_GENERATION_TIMESTAMP to true
@@ -117,7 +141,116 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                         "_Imaginary",
                         "_Noreturn",
                         "_Static_assert",
-                        "_Thread_local")
+                        "_Thread_local",
+
+                        // cpp reserved keywords
+                        // ref: https://en.cppreference.com/w/cpp/keyword
+                        "alignas",
+                        "alignof",
+                        "and",
+                        "and_eq",
+                        "asm",
+                        "atomic_cancel",
+                        "atomic_commit",
+                        "atomic_noexcept",
+                        //"auto",
+                        "bitand",
+                        "bitor",
+                        "bool",
+                        //"break",
+                        //"case",
+                        "catch",
+                        //"char",
+                        "char8_t",
+                        "char16_t",
+                        "char32_t",
+                        "class",
+                        "compl",
+                        "concept",
+                        //"const",
+                        "consteval",
+                        "constexpr",
+                        "constinit",
+                        "const_cast",
+                        //"continue",
+                        "co_await",
+                        "co_return",
+                        "co_yield",
+                        "decltype",
+                        //"default",
+                        "delete",
+                        //"do",
+                        //"double",
+                        "dynamic_cast",
+                        //"else",
+                        //"enum",
+                        "explicit",
+                        "export",
+                        //"extern",
+                        "false",
+                        //"float",
+                        //"for",
+                        "friend",
+                        //"goto",
+                        //"if",
+                        //"inline",
+                        //"int",
+                        //"long",
+                        "mutable",
+                        "namespace",
+                        "new",
+                        "noexcept",
+                        "not",
+                        "not_eq",
+                        "nullptr",
+                        "operator",
+                        "or",
+                        "or_eq",
+                        "private",
+                        "protected",
+                        "public",
+                        "reflexpr",
+                        //"register",
+                        "reinterpret_cast",
+                        "requires",
+                        //"return",
+                        //"short",
+                        //"signed",
+                        //"sizeof",
+                        //"static",
+                        "static_assert",
+                        "static_cast",
+                        //"struct",
+                        //"switch",
+                        "synchronized",
+                        "template",
+                        "this",
+                        "thread_local",
+                        "throw",
+                        "true",
+                        "try",
+                        //"typedef",
+                        "typeid",
+                        "typename",
+                        //"union",
+                        //"unsigned",
+                        "using",
+                        "virtual",
+                        //"void",
+                        //"volatile",
+                        "wchar_t",
+                        //"while",
+                        "xor",
+                        "xor_eq",
+                        "final",
+                        "override",
+                        "transaction_safe",
+                        "transaction_safe_dynamic",
+
+                        // VC++ reserved keywords
+                        "stdin",
+                        "stdout",
+                        "stderr")
         );
 
         instantiationTypes.clear();
@@ -190,6 +323,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         // root folder
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", "", "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("Packing.cmake.mustache", "", "Packing.cmake"));
         supportingFiles.add(new SupportingFile("libcurl.licence.mustache", "", "libcurl.licence"));
         supportingFiles.add(new SupportingFile("uncrustify-rules.cfg.mustache", "", "uncrustify-rules.cfg"));
         supportingFiles.add(new SupportingFile("README.md.mustache", "", "README.md"));
@@ -197,10 +331,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("apiClient.c.mustache", "src", "apiClient.c"));
         supportingFiles.add(new SupportingFile("apiKey.c.mustache", "src", "apiKey.c"));
         supportingFiles.add(new SupportingFile("list.c.mustache", "src", "list.c"));
+        supportingFiles.add(new SupportingFile("binary.c.mustache", "src", "binary.c"));
         // include folder
         supportingFiles.add(new SupportingFile("apiClient.h.mustache", "include", "apiClient.h"));
         supportingFiles.add(new SupportingFile("keyValuePair.h.mustache", "include", "keyValuePair.h"));
         supportingFiles.add(new SupportingFile("list.h.mustache", "include", "list.h"));
+        supportingFiles.add(new SupportingFile("binary.h.mustache", "include", "binary.h"));
         // external folder
         supportingFiles.add(new SupportingFile("cJSON.licence.mustache", "external", "cJSON.licence"));
         supportingFiles.add(new SupportingFile("cJSON.c.mustache", "external", "cJSON.c"));
@@ -296,6 +432,110 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public String toExampleValue(Schema schema) {
+        String example = super.toExampleValue(schema);
+
+        if (ModelUtils.isNullType(schema) && null != example) {
+            // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
+            // though this tooling supports it.
+            return "NULL";
+        }
+        // correct "&#39;"s into "'"s after toString()
+        if (ModelUtils.isStringSchema(schema) && schema.getDefault() != null) {
+            example = (String) schema.getDefault();
+        }
+        if (StringUtils.isNotBlank(example) && !"null".equals(example)) {
+            if (ModelUtils.isStringSchema(schema)) {
+                example = "\"" + example + "\"";
+            }
+            return example;
+        }
+
+        if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+            // Enum case:
+            example = schema.getEnum().get(0).toString();
+/*            if (ModelUtils.isStringSchema(schema)) {
+                example = "'" + escapeText(example) + "'";
+            }*/
+            if (null == example)
+                LOGGER.warn("Empty enum. Cannot built an example!");
+
+            return example;
+        } else if (null != schema.get$ref()) {
+            // $ref case:
+            Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+            String ref = ModelUtils.getSimpleRef(schema.get$ref());
+            if (allDefinitions != null) {
+                Schema refSchema = allDefinitions.get(ref);
+                if (null == refSchema) {
+                    return "None";
+                } else {
+                    String refTitle = refSchema.getTitle();
+                    if (StringUtils.isBlank(refTitle) || "null".equals(refTitle)) {
+                        refSchema.setTitle(ref);
+                    }
+                    return toExampleValue(refSchema);
+                }
+            } else {
+                LOGGER.warn("allDefinitions not defined in toExampleValue!\n");
+            }
+        }
+        if (ModelUtils.isDateSchema(schema)) {
+            example = "\"2013-10-20\"";
+            return example;
+        } else if (ModelUtils.isDateTimeSchema(schema)) {
+            example = "\"2013-10-20T19:20:30+01:00\"";
+            return example;
+        } else if (ModelUtils.isBinarySchema(schema)) {
+            example = "instantiate_binary_t(\"blah\", 5)";
+            return example;
+        } else if (ModelUtils.isByteArraySchema(schema)) {
+            example = "YQ==";
+        } else if (ModelUtils.isStringSchema(schema)) {
+            // decimal (type: string, format: decimal)
+            if ("number".equalsIgnoreCase(schema.getFormat())) {
+                return "1";
+            }
+            if (StringUtils.isNotBlank(schema.getPattern()))
+                return "\"a\""; // I cheat here, since it would be too complicated to generate a string from a regexp
+            int len = 0;
+            if (null != schema.getMinLength())
+                len = schema.getMinLength().intValue();
+            if (len < 1)
+                len = 1;
+            example = "";
+            for (int i = 0; i < len; i++)
+                example += i;
+        } else if (ModelUtils.isIntegerSchema(schema)) {
+            if (schema.getMinimum() != null)
+                example = schema.getMinimum().toString();
+            else
+                example = "56";
+        } else if (ModelUtils.isNumberSchema(schema)) {
+            if (schema.getMinimum() != null)
+                example = schema.getMinimum().toString();
+            else
+                example = "1.337";
+        } else if (ModelUtils.isBooleanSchema(schema)) {
+            example = "1";
+        } else if (ModelUtils.isArraySchema(schema)) {
+            example = "list_createList()";
+        } else if (ModelUtils.isMapSchema(schema)) {
+            example = "list_createList()";
+        } else if (ModelUtils.isObjectSchema(schema)) {
+            return null; // models are managed at moustache level
+        } else {
+            LOGGER.warn("Type {} not handled properly in toExampleValue", schema.getType());
+        }
+
+        if (ModelUtils.isStringSchema(schema)) {
+            example = "\"" + escapeText(example) + "\"";
+        }
+
+        return example;
+    }
+
+    @Override
     public String getSchemaType(Schema schema) {
         String openAPIType = super.getSchemaType(schema);
         String type = null;
@@ -319,7 +559,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public String toVarName(String name) {
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase(Locale.ROOT);
         }
@@ -337,10 +577,10 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toParamName(String name) {
         // should be the same as variable name
-        if (name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
-        name = name.replaceAll("-","_");
+        name = name.replaceAll("-", "_");
         return name;
     }
 
@@ -359,13 +599,14 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = camelize("Model" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -405,7 +646,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toModelTestFilename(String name) {
-        return ("test_" + toModelFilename(name)).replaceAll("_", "-");
+        return ("test_" + toModelFilename(name));
     }
 
     @Override
@@ -419,7 +660,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        value = value.replaceAll("-","_");
+        value = value.replaceAll("-", "_");
         if (isReservedWord(value)) {
             value = escapeReservedWord(value);
         }
@@ -485,21 +726,21 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // rename to empty_method_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
             operationId = camelize("empty_method_name_" + emptyMethodNameCounter++);
-            LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
+            LOGGER.warn("Empty method name (operationId) found. Renamed to {}", operationId);
             return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize(sanitizeName("call_" + operationId), true);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             String newOperationId = camelize(sanitizeName("call_" + operationId), true);
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
@@ -514,9 +755,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toModelImport(String name) {
         if (importMapping.containsKey(name)) {
-            return "#include \"" +"../model/" + importMapping.get(name) + ".h\"";
+            return "#include \"" + "../model/" + importMapping.get(name) + ".h\"";
         } else
-            return "#include \"" +"../model/" + name + ".h\"";
+            return "#include \"" + "../model/" + name + ".h\"";
     }
 
     @Override
@@ -574,9 +815,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         if (example == null) {
             example = "nil";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
             example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "{'key' => " + example + "}";
         }
 
@@ -595,7 +836,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     public void setProjectName(String projectName) {
-        this.projectName = underscore(projectName.toLowerCase(Locale.ROOT));
+        this.projectName = underscore(sanitizeName(projectName.toLowerCase(Locale.ROOT)));
     }
 
     @Override
@@ -611,12 +852,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty cm = super.fromProperty(name,p);
+        CodegenProperty cm = super.fromProperty(name, p);
         Schema ref = ModelUtils.getReferencedSchema(openAPI, p);
         if (ref != null) {
-           if (ref.getEnum() != null) {
-               cm.isEnum = true;
-           }
+            if (ref.getEnum() != null) {
+                cm.isEnum = true;
+            }
         }
         return cm;
     }
@@ -633,8 +874,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             return; // skip if C_POST_PROCESS_FILE env variable is not defined
         }
 
-        // only procees the following type (or we can simply rely on the file extension to check if it's a .c or .h file)
-        Set<String> supportedFileType = new HashSet<String>(
+        // only process the following type (or we can simply rely on the file extension to check if it's a .c or .h file)
+        Set<String> supportedFileType = new HashSet<>(
                 Arrays.asList(
                         "supporting-mustache",
                         "model-test",
@@ -648,18 +889,38 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // only process files with .c or .h extension
         if ("c".equals(FilenameUtils.getExtension(file.toString())) ||
                 "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = cPostProcessFile + " " + file.toString();
+            String command = cPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator is contributed by Hemant Zope (https://github.com/zhemant)    #");
+        System.out.println("# and Niklas Werner (https://github.com/PowerOfCreation).                      #");
+        System.out.println("# Please support their work directly \uD83D\uDE4F                                        #");
+        System.out.println("# > Hemant Zope - https://www.patreon.com/zhemant                              #");
+        System.out.println("# > Niklas Werner - https://paypal.me/wernerdevelopment                        #");
+        System.out.println("################################################################################");
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.C; }
 }

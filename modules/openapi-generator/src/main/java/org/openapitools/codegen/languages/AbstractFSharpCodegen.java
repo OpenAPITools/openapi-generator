@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap.Builder;
+import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
 
 import io.swagger.v3.core.util.Json;
@@ -31,9 +31,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractFSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -71,10 +73,10 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     // true if nullable types will be supported (as option)
     protected boolean supportNullable = Boolean.TRUE;
 
-    protected Set<String> nullableType = new HashSet<String>();
+    protected Set<String> nullableType = new HashSet<>();
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractFSharpCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractFSharpCodegen.class);
 
     public AbstractFSharpCodegen() {
         super();
@@ -87,9 +89,9 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         outputFolder = this.getName();
         embeddedTemplateDir = templateDir = this.getName();
 
-        collectionTypes = new HashSet<String>(Arrays.asList("list", "seq"));
+        collectionTypes = new HashSet<>(Arrays.asList("list", "seq"));
 
-        mapTypes = new HashSet<String>(
+        mapTypes = new HashSet<>(
                 Arrays.asList("IDictionary")
         );
 
@@ -112,7 +114,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         );
 
         // TODO - these are based on C# generator, do we need to add any more?
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "String",
                         "string",
@@ -154,7 +156,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         instantiationTypes.put("map", "IDictionary");
 
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("string", "string");
         typeMapping.put("binary", "byte[]");
         typeMapping.put("ByteArray", "byte[]");
@@ -175,7 +177,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("URI", "string");
 
         // nullable type
-        nullableType = new HashSet<String>(
+        nullableType = new HashSet<>(
                 Arrays.asList("decimal", "bool", "int", "float", "long", "double", "string", "Guid", "apiKey")
         );
     }
@@ -246,11 +248,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            LOGGER.warn(String.format(Locale.ROOT, "%s is not used by F# generators. Please use %s",
-                    CodegenConstants.INVOKER_PACKAGE, CodegenConstants.PACKAGE_NAME));
-        }
-
         // {{packageTitle}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_TITLE)) {
             setPackageTitle((String) additionalProperties.get(CodegenConstants.PACKAGE_TITLE));
@@ -300,32 +297,8 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.USE_DATETIME_OFFSET, useDateTimeOffsetFlag);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.USE_COLLECTION)) {
-            setUseCollection(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_COLLECTION));
-        } else {
-            additionalProperties.put(CodegenConstants.USE_COLLECTION, useCollection);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.RETURN_ICOLLECTION)) {
-            setReturnICollection(convertPropertyToBooleanAndWriteBack(CodegenConstants.RETURN_ICOLLECTION));
-        } else {
-            additionalProperties.put(CodegenConstants.RETURN_ICOLLECTION, returnICollection);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.NETCORE_PROJECT_FILE)) {
-            setNetCoreProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.NETCORE_PROJECT_FILE));
-        } else {
-            additionalProperties.put(CodegenConstants.NETCORE_PROJECT_FILE, netCoreProjectFileFlag);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
-            String useInterfacePrefix = additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
-            if ("false".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
-                setInterfacePrefix("");
-            } else if (!"true".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
-                // NOTE: if user passes "true" explicitly, we use the default I- prefix. The other supported case here is a custom prefix.
-                setInterfacePrefix(sanitizeName(useInterfacePrefix));
-            }
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
+            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
 
         // This either updates additionalProperties with the above fixes, or sets the default if the option was not specified.
@@ -333,7 +306,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    protected Builder<String, Lambda> addMustacheLambdas() {
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true));
     }
@@ -373,63 +346,47 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
     /*
      * F# does not allow forward declarations, so files must be imported in the correct order.
-     * Output of CodeGen models must therefore bein dependency order (rather than alphabetical order, which seems to be the default).
-     * We achieve this by creating a comparator to check whether the first model contains any properties of the comparison model's type
+     * Output of CodeGen models must therefore be in dependency order (rather than alphabetical order, which seems to be the default).
      * This could probably be made more efficient if absolutely needed.
      */
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessDependencyOrders(final Map<String, Object> objs) {
-        Comparator<String> comparator = new Comparator<String>() {
-            @Override
-            public int compare(String key1, String key2) {
-                // Get the corresponding models
-                CodegenModel model1 = ModelUtils.getModelByName(key1, objs);
-                CodegenModel model2 = ModelUtils.getModelByName(key2, objs);
 
-                List<String> complexVars1 = new ArrayList<String>();
-                List<String> complexVars2 = new ArrayList<String>();
+        Map<String, Set<String>> dependencies = new HashMap<>();
 
-                for (CodegenProperty prop : model1.vars) {
-                    if (prop.complexType != null)
-                        complexVars1.add(prop.complexType);
-                }
-                for (CodegenProperty prop : model2.vars) {
-                    if (prop.complexType != null)
-                        complexVars2.add(prop.complexType);
-                }
+        List<String> classNames = new ArrayList<>();
 
-                // if first has complex vars and second has none, first is greater
-                if (complexVars1.size() > 0 && complexVars2.size() == 0)
-                    return 1;
-
-                // if second has complex vars and first has none, first is lesser
-                if (complexVars1.size() == 0 && complexVars2.size() > 0)
-                    return -1;
-
-                // if first has complex var that matches the second's key, first is greater
-                if (complexVars1.contains(key2))
-                    return 1;
-
-                // if second has complex var that matches the first's key, first is lesser
-                if (complexVars2.contains(key1))
-                    return -1;
-
-                // if none of the above, don't care
-                return 0;
-
+        for (String k : objs.keySet()) {
+            CodegenModel model = ModelUtils.getModelByName(k, objs);
+            if (model == null || model.classname == null) {
+                throw new RuntimeException("Null model encountered");
             }
-        };
-        PriorityQueue<String> queue = new PriorityQueue<String>(objs.size(), comparator);
-        for (Object k : objs.keySet()) {
-            queue.add(k.toString());
+            dependencies.put(model.classname, model.imports);
+
+            classNames.add(model.classname);
         }
 
-        Map<String, Object> sorted = new LinkedHashMap<String, Object>();
+        Object[] sortedKeys = classNames.toArray();
 
-        while (queue.size() > 0) {
-            String key = queue.poll();
-            sorted.put(key, objs.get(key));
+        for (int i1 = 0; i1 < sortedKeys.length; i1++) {
+            String k1 = sortedKeys[i1].toString();
+            for (int i2 = i1 + 1; i2 < sortedKeys.length; i2++) {
+                String k2 = sortedKeys[i2].toString();
+                if (dependencies.get(k2).contains(k1)) {
+                    sortedKeys[i2] = k1;
+                    sortedKeys[i1] = k2;
+                    i1 = -1;
+                    break;
+                }
+            }
         }
+
+        Map<String, Object> sorted = new LinkedHashMap<>();
+        for (int i = sortedKeys.length - 1; i >= 0; i--) {
+            Object k = sortedKeys[i];
+            sorted.put(k.toString(), objs.get(k));
+        }
+
         return sorted;
     }
 
@@ -443,9 +400,9 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
      *
      * @param models processed models to be further processed for enum references
      */
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     private void postProcessEnumRefs(final Map<String, Object> models) {
-        Map<String, CodegenModel> enumRefs = new HashMap<String, CodegenModel>();
+        Map<String, CodegenModel> enumRefs = new HashMap<>();
         for (Map.Entry<String, Object> entry : models.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
             if (model.isEnum) {
@@ -495,13 +452,12 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                         model.vendorExtensions.put("x-enum-string", true);
                     }
 
-                    // Since we iterate enumVars for modelnnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
+                    // Since we iterate enumVars for modelInnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
                     // we can take advantage of Mustache's contextual lookup to add the same "properties" to the model's enumVars scope rather than CodegenProperty's scope.
                     List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>) model.allowableValues.get("enumVars");
-                    List<Map<String, Object>> newEnumVars = new ArrayList<Map<String, Object>>();
+                    List<Map<String, Object>> newEnumVars = new ArrayList<>();
                     for (Map<String, String> enumVar : enumVars) {
-                        Map<String, Object> mixedVars = new HashMap<String, Object>();
-                        mixedVars.putAll(enumVar);
+                        Map<String, Object> mixedVars = new HashMap<>(enumVar);
 
                         mixedVars.put("isString", isString);
                         mixedVars.put("isLong", isLong);
@@ -516,7 +472,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                     }
                 }
             } else {
-                LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
+                LOGGER.warn("Expected to retrieve model {} by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
             }
         }
     }
@@ -577,7 +533,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                         }
 
                         if (this.collectionTypes.contains(typeMapping)) {
-                            operation.isListContainer = true;
+                            operation.isArray = true;
                             operation.returnContainer = operation.returnType;
                             if (this.returnICollection && (
                                     typeMapping.startsWith("List") ||
@@ -590,7 +546,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                             }
                         } else {
                             operation.returnContainer = operation.returnType;
-                            operation.isMapContainer = this.mapTypes.contains(typeMapping);
+                            operation.isMap = this.mapTypes.contains(typeMapping);
                         }
                     }
 
@@ -671,17 +627,50 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         return camelize(sanitizeName(operationId));
+    }
+
+    public String getModelPropertyNaming() {
+        return this.modelPropertyNaming;
+    }
+
+    public void setModelPropertyNaming(String naming) {
+        if ("original".equals(naming) || "camelCase".equals(naming) ||
+                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
+            this.modelPropertyNaming = naming;
+        } else {
+            throw new IllegalArgumentException("Invalid model property naming '" +
+                    naming + "'. Must be 'original', 'camelCase', " +
+                    "'PascalCase' or 'snake_case'");
+        }
+    }
+
+
+    public String getNameUsingModelPropertyNaming(String name) {
+        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            default:
+                throw new IllegalArgumentException("Invalid model property naming '" +
+                        name + "'. Must be 'original', 'camelCase', " +
+                        "'PascalCase' or 'snake_case'");
+        }
     }
 
     @Override
@@ -689,14 +678,13 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         // sanitize name
         name = sanitizeName(name);
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
 
-        // camelize the variable name
-        // pet_id => PetId
-        name = camelize(name);
+        name = getNameUsingModelPropertyNaming(name);
+
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
@@ -712,7 +700,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_");
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -891,7 +879,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
             return getArrayTypeDeclaration((ArraySchema) p);
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
@@ -911,13 +899,14 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -1125,18 +1114,23 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         // only process files with .fs extension
         if ("fs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = fsharpPostProcessFile + " " + file.toString();
+            String command = fsharpPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.F_SHARP; }
 }

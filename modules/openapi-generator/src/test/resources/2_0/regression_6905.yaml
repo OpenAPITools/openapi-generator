@@ -1,0 +1,172 @@
+swagger: '2.0'
+
+info:
+  title: Test Command model generation
+  description: Test Command model generation
+  version: 1.0.0
+definitions:
+  PartyType:
+    description: type
+    type: string
+    enum:
+      - customer
+      - contact
+
+  CustomerType:
+    description: type
+    type: string
+    enum:
+      - person
+      - organization
+
+  Entity:
+    type: object
+    properties:
+      id:
+        type: string
+        readOnly: true
+
+  Party:
+    allOf:
+      - $ref: '#/definitions/Entity'
+      - type: object
+        discriminator: party_type
+        required:
+          - party_type
+        properties:
+          party_type:
+            readOnly: true
+            $ref: '#/definitions/PartyType'
+          tax_id_number:
+            type: string
+
+  Contact:
+    x-discriminator-value: contact
+    allOf:
+      - $ref: '#/definitions/Party'
+      - type: object
+        properties:
+          first_name:
+            type: string
+          last_name:
+            type: string
+          suffix:
+            type: string
+          dob:
+            type: string
+            format: date
+
+  Customer:
+    x-discriminator-value: customer
+    allOf:
+      - $ref: '#/definitions/Party'
+      - type: object
+        discriminator: customer_type
+        required:
+          - customer_type
+        properties:
+          customer_type:
+            readOnly: true
+            $ref: '#/definitions/CustomerType'
+          customer_num:
+            type: string
+          external_customer_num:
+            type: string
+  Person:
+    x-discriminator-value: person
+    allOf:
+      - $ref: '#/definitions/Customer'
+      - type: object
+        properties:
+          first_name:
+            type: string
+          last_name:
+            type: string
+
+  Organization:
+    x-discriminator-value: organization
+    allOf:
+      - $ref: '#/definitions/Customer'
+      - type: object
+        required:
+          - organization_name
+        properties:
+          organization_name:
+            type: string
+
+  ApiError:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+        readOnly: true
+      message:
+        type: string
+        readOnly: true
+
+paths:
+  /customers:
+    get:
+      consumes: []
+      operationId: queryCustomers
+      tags:
+        - Customer
+      summary: Get customers
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Customer'
+        400:
+          description: Bad request.
+          schema:
+            $ref: '#/definitions/ApiError'
+        default:
+          description: Unknown error.
+          schema:
+            $ref: '#/definitions/ApiError'
+  /contacts:
+    get:
+      consumes: []
+      operationId: queryContacts
+      tags:
+        - Contact
+      summary: Get contact
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Contact'
+        400:
+          description: Bad request.
+          schema:
+            $ref: '#/definitions/ApiError'
+        default:
+          description: Unknown error.
+          schema:
+            $ref: '#/definitions/ApiError'
+  /parties:
+    get:
+      consumes: []
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Party'
+        400:
+          description: Bad request.
+          schema:
+            $ref: '#/definitions/ApiError'
+        default:
+          description: Unknown error.
+          schema:
+            $ref: '#/definitions/ApiError'

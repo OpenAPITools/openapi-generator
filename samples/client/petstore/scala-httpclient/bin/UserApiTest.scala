@@ -54,7 +54,7 @@ class UserApiTest extends FlatSpec with Matchers with BeforeAndAfterAll {
 
   it should "authenticate a user" in {
     api.loginUser("scala-test-username", "SCALATEST") match {
-      case Some(status) => status.startsWith("logged in user session") match {
+      case Some(status) => status.contains("logged in user session") match {
         case true => // success!
         case _ => fail("didn't get expected message " + status)
       }

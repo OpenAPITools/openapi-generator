@@ -1,0 +1,21 @@
+#Empty configuration placeholder, remove when you add any real configuration settings to this file
+{}
+
+#Enable configuration cache
+#cache_configuration: true
+
+#Articus\PathHandler\RouteInjection\Factory:
+#  #Enable routing table cache
+#  router:
+#    cache:
+#      directory: ./data/cache/PathHandler
+
+#Enable handler metadata cache
+#Articus\PathHandler\MetadataProvider\Annotation:
+#  cache:
+#    directory: ./data/cache/PathHandler
+
+#Enable data transfer metadata cache for DTOs
+#Articus\DataTransfer\MetadataProvider\Annotation:
+#  cache:
+#    directory: ./data/cache/DataTransfer

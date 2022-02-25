@@ -12,6 +12,7 @@
 package org.openapitools.server.models
 
 
+import java.io.Serializable
 /**
  * A User who is purchasing from the pet store
  * @param id 
@@ -23,7 +24,7 @@ package org.openapitools.server.models
  * @param phone 
  * @param userStatus User Status
  */
-data class User (
+data class User(
     val id: kotlin.Long? = null,
     val username: kotlin.String? = null,
     val firstName: kotlin.String? = null,
@@ -33,7 +34,10 @@ data class User (
     val phone: kotlin.String? = null,
     /* User Status */
     val userStatus: kotlin.Int? = null
-) {
-
+) : Serializable 
+{
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 }
 

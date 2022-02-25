@@ -1,0 +1,31 @@
+public enum {{classname}}: {{#useVapor}}Content{{/useVapor}}{{^useVapor}}Codable, JSONEncodable{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}}{{/useVapor}} {
+    {{#oneOf}}
+    case type{{.}}({{.}})
+    {{/oneOf}}
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        {{#oneOf}}
+        case .type{{.}}(let value):
+            try container.encode(value)
+        {{/oneOf}}
+        }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        {{#oneOf}}
+        {{#-first}}
+        if let value = try? container.decode({{.}}.self) {
+        {{/-first}}
+        {{^-first}}
+        } else if let value = try? container.decode({{.}}.self) {
+        {{/-first}}
+            self = .type{{.}}(value)
+        {{/oneOf}}
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of {{classname}}"))
+        }
+    }
+}

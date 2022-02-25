@@ -14,12 +14,14 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-public class ArrayOfNumberOnly  implements Serializable {
+@JsonTypeName("ArrayOfNumberOnly")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ArrayOfNumberOnly  implements Serializable {
   
-  private @Valid List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();
+  private @Valid List<BigDecimal> arrayNumber = new ArrayList<>();
 
   /**
    **/
@@ -29,18 +31,38 @@ public class ArrayOfNumberOnly  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
+
+  @JsonProperty("ArrayNumber")
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
 
+  public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
+    if (this.arrayNumber == null) {
+      this.arrayNumber = new ArrayList<>();
+    }
+
+    this.arrayNumber.add(arrayNumberItem);
+    return this;
+  }
+
+  public ArrayOfNumberOnly removeArrayNumberItem(BigDecimal arrayNumberItem) {
+    if (arrayNumberItem != null && this.arrayNumber != null) {
+      this.arrayNumber.remove(arrayNumberItem);
+    }
+
+    return this;
+  }
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -70,11 +92,13 @@ public class ArrayOfNumberOnly  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

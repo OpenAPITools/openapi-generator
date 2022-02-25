@@ -1,7 +1,12 @@
 {{>licenseInfo}}
+pragma Warnings (Off, "*is not referenced");
 with Swagger.Streams;
 with Swagger.Servers.Operation;
 package body {{package}}.Skeletons is
+   pragma Style_Checks ("-mr");
+   pragma Warnings (Off, "*use clause for package*");
+
+   use Swagger.Streams;
 
    package body Skeleton is
 
@@ -29,7 +34,7 @@ package body {{package}}.Skeletons is
          {{paramName}} : {{dataType}};
          {{/allParams}}
          {{#returnType}}
-         Result : {{returnType}};
+         Result : {{.}};
          {{/returnType}}
       begin
          {{#vendorExtensions.x-auth-scopes}}
@@ -58,15 +63,15 @@ package body {{package}}.Skeletons is
          {{#hasParams}}
          {{#hasBodyParam}}
          Swagger.Servers.Read (Req, Input);
-         {{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
+{{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
          {{package}}.Models.Deserialize (Input, "{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{#isFile}}
          --  TODO: Serialize (Input.Stream, "{{basename}}", {{paramName}});{{/isFile}}{{^isFile}}{{^isLong}}
          Deserialize (Input, "{{baseName}}", {{paramName}});{{/isLong}}{{#isLong}}
          Deserialize (Input, "{{baseName}}", {{paramName}});{{/isLong}}{{/isFile}}{{/vendorExtensions.x-is-model-type}}{{/bodyParams}}
          {{/hasBodyParam}}
          Impl.{{operationId}}
-            ({{#allParams}}{{paramName}}{{#hasMore}},
-             {{/hasMore}}{{/allParams}}{{#returnType}}{{#hasParams}}, {{/hasParams}}Result{{/returnType}}, Context);
+            ({{#allParams}}{{paramName}}{{^-last}},
+             {{/-last}}{{/allParams}}{{#returnType}}{{#hasParams}}, {{/hasParams}}Result{{/returnType}}, Context);
          {{/hasParams}}
          {{^hasParams}}
          {{#returnType}}
@@ -125,7 +130,7 @@ package body {{package}}.Skeletons is
          {{paramName}} : {{dataType}};
          {{/allParams}}
          {{#returnType}}
-         Result : {{returnType}};
+         Result : {{.}};
          {{/returnType}}
       begin
          {{#vendorExtensions.x-auth-scopes}}
@@ -161,8 +166,8 @@ package body {{package}}.Skeletons is
          Deserialize (Input, "{{baseName}}", {{paramName}});{{/isLong}}{{/isFile}}{{/vendorExtensions.x-is-model-type}}{{/bodyParams}}
          {{/hasBodyParam}}
          Server.{{operationId}}
-            ({{#allParams}}{{paramName}}{{#hasMore}},
-             {{/hasMore}}{{/allParams}}{{#returnType}}{{#hasParams}}, {{/hasParams}}Result{{/returnType}}, Context);
+            ({{#allParams}}{{paramName}}{{^-last}},
+             {{/-last}}{{/allParams}}{{#returnType}}{{#hasParams}}, {{/hasParams}}Result{{/returnType}}, Context);
          {{/hasParams}}
          {{^hasParams}}
          {{#returnType}}
@@ -212,14 +217,14 @@ package body {{package}}.Skeletons is
          --  {{summary}}
          {{#hasParams}}
          procedure {{operationId}}
-            ({{#allParams}}{{paramName}} : in {{dataType}}{{#hasMore}};
-             {{/hasMore}}{{/allParams}}{{#returnType}};
-             Result : out {{returnType}}{{/returnType}};
+            ({{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
+             {{/-last}}{{/allParams}}{{#returnType}};
+             Result : out {{.}}{{/returnType}};
              Context : in out Swagger.Servers.Context_Type) is
          begin
             Impl.{{operationId}}
-               ({{#allParams}}{{paramName}}{{#hasMore}},
-                {{/hasMore}}{{/allParams}}{{#returnType}},
+               ({{#allParams}}{{paramName}}{{^-last}},
+                {{/-last}}{{/allParams}}{{#returnType}},
                 Result{{/returnType}},
                 Context);
          end {{operationId}};

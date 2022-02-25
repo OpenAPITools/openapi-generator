@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,11 @@ import java.util.Locale;
 import java.util.ServiceLoader;
 
 public class TemplatingEngineLoader {
+    private TemplatingEngineLoader() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    @SuppressWarnings("java:S112") // ignore java:S112 as generic RuntimeException is acceptable here
     public static TemplatingEngineAdapter byIdentifier(String id) {
         ServiceLoader<TemplatingEngineAdapter> loader = ServiceLoader.load(TemplatingEngineAdapter.class, TemplatingEngineLoader.class.getClassLoader());
 
@@ -37,7 +42,7 @@ public class TemplatingEngineLoader {
             // Attempt to load skipping SPI
             return (TemplatingEngineAdapter) Class.forName(id).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new RuntimeException(String.format(Locale.ROOT, "Couldn't load template engine adapter %s. Available options: \n%s", id, sb.toString()), e);
+            throw new RuntimeException(String.format(Locale.ROOT, "Couldn't load template engine adapter %s. Available options: %n%s", id, sb), e);
         }
     }
 }

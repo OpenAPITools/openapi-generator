@@ -32,7 +32,7 @@ import javax.validation.Valid;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_PROPERTY,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class AdditionalPropertiesClass   {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
@@ -49,7 +49,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapPropertyItem(String key, String mapPropertyItem) {
     if (this.mapProperty == null) {
-      this.mapProperty = new HashMap<String, String>();
+      this.mapProperty = new HashMap<>();
     }
     this.mapProperty.put(key, mapPropertyItem);
     return this;
@@ -59,7 +59,7 @@ public class AdditionalPropertiesClass   {
    * Get mapProperty
    * @return mapProperty
    **/
-  @JsonProperty("map_property")
+  @JsonProperty(value = "map_property")
   @ApiModelProperty(value = "")
   
   public Map<String, String> getMapProperty() {
@@ -77,7 +77,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapOfMapPropertyItem(String key, Map<String, String> mapOfMapPropertyItem) {
     if (this.mapOfMapProperty == null) {
-      this.mapOfMapProperty = new HashMap<String, Map<String, String>>();
+      this.mapOfMapProperty = new HashMap<>();
     }
     this.mapOfMapProperty.put(key, mapOfMapPropertyItem);
     return this;
@@ -87,7 +87,7 @@ public class AdditionalPropertiesClass   {
    * Get mapOfMapProperty
    * @return mapOfMapProperty
    **/
-  @JsonProperty("map_of_map_property")
+  @JsonProperty(value = "map_of_map_property")
   @ApiModelProperty(value = "")
   @Valid 
   public Map<String, Map<String, String>> getMapOfMapProperty() {
@@ -100,7 +100,7 @@ public class AdditionalPropertiesClass   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -117,7 +117,6 @@ public class AdditionalPropertiesClass   {
     return Objects.hash(mapProperty, mapOfMapProperty);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -133,7 +132,7 @@ public class AdditionalPropertiesClass   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

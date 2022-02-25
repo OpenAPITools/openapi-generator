@@ -1,0 +1,53 @@
+<Project Sdk="{{projectSdk}}">
+  <PropertyGroup>
+    <Description>{{packageDescription}}{{^packageDescription}}{{packageName}}{{/packageDescription}}</Description>
+    <Copyright>{{packageCopyright}}</Copyright>
+    <Authors>{{packageAuthors}}</Authors>
+    <TargetFramework>{{targetFramework}}</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <Version>{{packageVersion}}</Version>
+{{#nullableReferenceTypes}}
+    <Nullable>annotations</Nullable>
+{{/nullableReferenceTypes}}
+{{#isLibrary}}
+    <OutputType>Library</OutputType>
+{{/isLibrary}}
+    <AssemblyName>{{packageName}}</AssemblyName>
+    <PackageId>{{packageName}}</PackageId>
+    <UserSecretsId>{{userSecretsGuid}}</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+  <ItemGroup>
+{{#useFrameworkReference}}
+{{#isLibrary}}
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+{{/isLibrary}}
+{{/useFrameworkReference}}
+{{^useFrameworkReference}}
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+{{/useFrameworkReference}}
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="{{aspnetCoreVersion}}.0"/>
+{{#useSwashbuckle}}
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
+{{#useNewtonsoft}}
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="{{swashbuckleVersion}}"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="{{swashbuckleVersion}}"/>
+{{/useNewtonsoft}}
+{{^useNewtonsoft}}
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="{{swashbuckleVersion}}"/>
+{{/useNewtonsoft}}
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="{{swashbuckleVersion}}" />
+{{/useSwashbuckle}}
+{{^useSwashbuckle}}
+{{#useNewtonsoft}}
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="{{newtonsoftVersion}}" />
+{{/useNewtonsoft}}
+{{/useSwashbuckle}}
+    <PackageReference Include="JsonSubTypes" Version="1.8.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <!--<DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="{{aspnetCoreVersion}}.0" />-->
+  </ItemGroup>
+</Project>

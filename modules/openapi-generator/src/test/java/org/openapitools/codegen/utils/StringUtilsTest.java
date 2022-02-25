@@ -11,6 +11,7 @@ public class StringUtilsTest {
     public void testUnderscore() {
         Assert.assertEquals(underscore("abcd"), "abcd");
         Assert.assertEquals(underscore("abCd"), "ab_cd");
+        Assert.assertEquals(underscore("ListABCs"), "list_abcs");
     }
 
     @Test
@@ -35,5 +36,7 @@ public class StringUtilsTest {
         Assert.assertEquals(dashize("abcd"), "abcd");
         Assert.assertEquals(dashize("some-value"), "some-value");
         Assert.assertEquals(dashize("some_value"), "some-value");
+        Assert.assertEquals(dashize("Foo_Response__links"), "foo-response-links");
+        Assert.assertEquals(dashize("Foo Response _links"), "foo-response-links");
     }
 }

@@ -1,0 +1,9 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-useoptional
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  documentationProvider: springfox
+  useOptional: true
+  artifactId: spring-boot-useoptional
+  hideGenerationTimestamp: "true"

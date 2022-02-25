@@ -7,7 +7,6 @@ version = '1.0.0'
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.+'
@@ -16,7 +15,7 @@ buildscript {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 
@@ -33,8 +32,8 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 25
         }
         compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
         }
 
         // Rename the aar correctly
@@ -49,7 +48,7 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
 
@@ -77,14 +76,17 @@ if(hasProperty('target') && target == 'android') {
 } else {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = 'petstore-retrofit2-rx2'
+    publishing {
+        publications {
+            maven(MavenPublication) {
+               artifactId = 'petstore-retrofit2-rx2'
+               from components.java
+            }
         }
     }
 
@@ -98,25 +100,23 @@ ext {
     oltu_version = "1.0.1"
     retrofit_version = "2.3.0"
     swagger_annotations_version = "1.5.22"
-    junit_version = "4.12"
+    junit_version = "4.13.1"
     rx_java_version = "2.1.1"
-    threetenbp_version = "1.3.5"
     json_fire_version = "1.8.0"
 }
 
 dependencies {
-    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
-    compile "com.squareup.retrofit2:converter-scalars:$retrofit_version"
-    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    compile "io.reactivex.rxjava2:rxjava:$rx_java_version"
-    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "com.google.code.findbugs:jsr305:3.0.2"
-    compile ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"){
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+    implementation ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"){
         exclude group:'org.apache.oltu.oauth2' , module: 'org.apache.oltu.oauth2.common'
     }
-    compile "io.gsonfire:gson-fire:$json_fire_version"
-    compile "org.threeten:threetenbp:$threetenbp_version"
-
-    testCompile "junit:junit:$junit_version"
+    implementation "io.gsonfire:gson-fire:$json_fire_version"
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    testImplementation "junit:junit:$junit_version"
 }

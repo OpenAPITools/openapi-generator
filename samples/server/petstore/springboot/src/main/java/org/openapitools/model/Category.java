@@ -1,19 +1,27 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Category
  */
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Category   {
+
   @JsonProperty("id")
   private Long id;
 
@@ -29,9 +37,8 @@ public class Category   {
    * Get id
    * @return id
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Long getId() {
     return id;
   }
@@ -49,10 +56,8 @@ public class Category   {
    * Get name
    * @return name
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public String getName() {
     return name;
   }
@@ -61,9 +66,8 @@ public class Category   {
     this.name = name;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -84,7 +88,6 @@ public class Category   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Category {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
@@ -95,7 +98,7 @@ public class Category   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

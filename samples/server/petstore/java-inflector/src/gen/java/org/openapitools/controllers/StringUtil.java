@@ -1,6 +1,6 @@
 package org.openapitools.controllers;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class StringUtil {
   /**
    * Check if the given array contains the given value (with case-insensitive comparison).

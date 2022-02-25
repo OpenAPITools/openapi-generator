@@ -1,0 +1,6 @@
+generatorName: java-play-framework
+outputDir: samples/server/petstore/java-play-framework
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaPlayFramework
+additionalProperties:
+  hideGenerationTimestamp: "true"

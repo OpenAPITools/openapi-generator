@@ -1,0 +1,4 @@
+{{#description}}
+    /* {{{.}}} */
+{{/description}}
+    @SerializedName("{{{name}}}") private {{>modelMutable}} _{{{name}}}: {{#isEnum}}{{classname}}.{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}?

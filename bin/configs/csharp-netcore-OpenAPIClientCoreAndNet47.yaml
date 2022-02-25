@@ -1,0 +1,8 @@
+generatorName: csharp-netcore
+outputDir: samples/client/petstore/csharp-netcore/OpenAPIClientCoreAndNet47
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp-netcore
+additionalProperties:
+  packageGuid: '{321C8C3F-0156-40C1-AE42-D59761FB9B6C}'
+  targetFramework: netstandard2.1;net47
+  useCompareNetObjects: "true"

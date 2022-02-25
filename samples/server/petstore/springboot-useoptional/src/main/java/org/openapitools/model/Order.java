@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -7,15 +8,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Order
  */
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Order   {
+
   @JsonProperty("id")
   private Long id;
 
@@ -26,6 +35,7 @@ public class Order   {
   private Integer quantity;
 
   @JsonProperty("shipDate")
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime shipDate;
 
   /**
@@ -44,8 +54,12 @@ public class Order   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
@@ -76,9 +90,8 @@ public class Order   {
    * Get id
    * @return id
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Long getId() {
     return id;
   }
@@ -96,9 +109,8 @@ public class Order   {
    * Get petId
    * @return petId
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Long getPetId() {
     return petId;
   }
@@ -116,9 +128,8 @@ public class Order   {
    * Get quantity
    * @return quantity
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Integer getQuantity() {
     return quantity;
   }
@@ -136,10 +147,8 @@ public class Order   {
    * Get shipDate
    * @return shipDate
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -157,9 +166,8 @@ public class Order   {
    * Order Status
    * @return status
   */
+  
   @ApiModelProperty(value = "Order Status")
-
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -177,9 +185,8 @@ public class Order   {
    * Get complete
    * @return complete
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Boolean getComplete() {
     return complete;
   }
@@ -188,9 +195,8 @@ public class Order   {
     this.complete = complete;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -215,7 +221,6 @@ public class Order   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Order {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
@@ -230,7 +235,7 @@ public class Order   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

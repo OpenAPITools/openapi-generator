@@ -57,7 +57,7 @@ Configure petstore_auth:
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 <a name="deletePet"></a>
@@ -110,7 +110,7 @@ Configure petstore_auth:
 
 <a name="findPetsByStatus"></a>
 # **findPetsByStatus**
-> kotlin.Array&lt;Pet&gt; findPetsByStatus(status)
+> kotlin.collections.List&lt;Pet&gt; findPetsByStatus(status)
 
 Finds Pets by status
 
@@ -123,9 +123,9 @@ Multiple status values can be provided with comma separated strings
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val status : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | Status values that need to be considered for filter
+val status : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Status values that need to be considered for filter
 try {
-    val result : kotlin.Array<Pet> = apiInstance.findPetsByStatus(status)
+    val result : kotlin.collections.List<Pet> = apiInstance.findPetsByStatus(status)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#findPetsByStatus")
@@ -140,11 +140,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+ **status** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
 
 ### Return type
 
-[**kotlin.Array&lt;Pet&gt;**](Pet.md)
+[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -155,11 +155,11 @@ Configure petstore_auth:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
-> kotlin.Array&lt;Pet&gt; findPetsByTags(tags)
+> kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -172,9 +172,9 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val tags : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | Tags to filter by
+val tags : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Tags to filter by
 try {
-    val result : kotlin.Array<Pet> = apiInstance.findPetsByTags(tags)
+    val result : kotlin.collections.List<Pet> = apiInstance.findPetsByTags(tags)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#findPetsByTags")
@@ -189,11 +189,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by |
+ **tags** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by |
 
 ### Return type
 
-[**kotlin.Array&lt;Pet&gt;**](Pet.md)
+[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -204,7 +204,7 @@ Configure petstore_auth:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
 <a name="getPetById"></a>
 # **getPetById**
@@ -254,7 +254,7 @@ Configure api_key:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
 <a name="updatePet"></a>
 # **updatePet**
@@ -299,7 +299,7 @@ Configure petstore_auth:
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 <a name="updatePetWithForm"></a>
@@ -354,7 +354,7 @@ Configure petstore_auth:
 
 <a name="uploadFile"></a>
 # **uploadFile**
-> ApiResponse uploadFile(petId, additionalMetadata, file)
+> ModelApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
 
@@ -369,7 +369,7 @@ val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
 val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
 val file : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
 try {
-    val result : ApiResponse = apiInstance.uploadFile(petId, additionalMetadata, file)
+    val result : ModelApiResponse = apiInstance.uploadFile(petId, additionalMetadata, file)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#uploadFile")
@@ -390,7 +390,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ApiResponse**](ApiResponse.md)
+[**ModelApiResponse**](ModelApiResponse.md)
 
 ### Authorization
 

@@ -1,0 +1,46 @@
+Pod::Spec.new do |s|
+  s.name = '{{projectName}}'{{#projectDescription}}
+  s.summary = '{{.}}'{{/projectDescription}}
+  {{#useAlamofire}}
+  s.ios.deployment_target = '10.0'
+  s.osx.deployment_target = '10.12'
+  s.tvos.deployment_target = '10.0'
+  {{/useAlamofire}}
+  {{^useAlamofire}}
+  s.ios.deployment_target = '9.0'
+  s.osx.deployment_target = '10.11'
+  s.tvos.deployment_target = '9.0'
+  {{/useAlamofire}}
+  s.watchos.deployment_target = '3.0'
+  s.version = '{{podVersion}}{{^podVersion}}{{#apiInfo}}{{version}}{{/apiInfo}}{{^apiInfo}}}0.0.1{{/apiInfo}}{{/podVersion}}'
+  s.source = {{#podSource}}{{& podSource}}{{/podSource}}{{^podSource}}{ :git => 'git@github.com:OpenAPITools/openapi-generator.git', :tag => 'v{{#apiInfo}}{{version}}{{/apiInfo}}{{^apiInfo}}}0.0.1{{/apiInfo}}' }{{/podSource}}
+  {{#podAuthors}}
+  s.authors = '{{.}}'
+  {{/podAuthors}}
+  {{#podSocialMediaURL}}
+  s.social_media_url = '{{.}}'
+  {{/podSocialMediaURL}}
+  s.license = {{#podLicense}}{{& podLicense}}{{/podLicense}}{{^podLicense}}'Proprietary'{{/podLicense}}
+  s.homepage = '{{podHomepage}}{{^podHomepage}}https://github.com/OpenAPITools/openapi-generator{{/podHomepage}}'
+  s.summary = '{{podSummary}}{{^podSummary}}{{projectName}} Swift SDK{{/podSummary}}'
+  {{#podDescription}}
+  s.description = '{{.}}'
+  {{/podDescription}}
+  {{#podScreenshots}}
+  s.screenshots = {{& podScreenshots}}
+  {{/podScreenshots}}
+  {{#podDocumentationURL}}
+  s.documentation_url = '{{.}}'
+  {{/podDocumentationURL}}
+  s.source_files = '{{swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}/**/*.swift'
+  s.dependency 'AnyCodable-FlightSchool', '~> 0.6.1'
+  {{#useAlamofire}}
+  s.dependency 'Alamofire', '~> 5.4.3'
+  {{/useAlamofire}}
+  {{#usePromiseKit}}
+  s.dependency 'PromiseKit/CorePromise', '~> 6.15.3'
+  {{/usePromiseKit}}
+  {{#useRxSwift}}
+  s.dependency 'RxSwift', '~> 6.2.0'
+  {{/useRxSwift}}
+end

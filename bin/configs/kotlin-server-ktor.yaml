@@ -1,0 +1,8 @@
+generatorName: kotlin-server
+outputDir: samples/server/petstore/kotlin-server/ktor
+library: ktor
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-server
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  serializableModel: "true"

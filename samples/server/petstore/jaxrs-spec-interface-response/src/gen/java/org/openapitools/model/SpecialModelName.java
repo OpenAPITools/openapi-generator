@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -11,10 +12,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-public class SpecialModelName  implements Serializable {
+@JsonTypeName("$special[model.name]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class SpecialModelName  implements Serializable {
   
   private @Valid Long $specialPropertyName;
 
@@ -26,18 +29,22 @@ public class SpecialModelName  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
+
+  @JsonProperty("$special[property.name]")
   public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -45,7 +52,7 @@ public class SpecialModelName  implements Serializable {
       return false;
     }
     SpecialModelName $specialModelName = (SpecialModelName) o;
-    return Objects.equals($specialPropertyName, $specialModelName.$specialPropertyName);
+    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
   }
 
   @Override
@@ -67,11 +74,13 @@ public class SpecialModelName  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

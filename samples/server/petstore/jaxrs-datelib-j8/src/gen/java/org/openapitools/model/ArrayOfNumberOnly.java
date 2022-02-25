@@ -32,7 +32,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class ArrayOfNumberOnly  implements Serializable {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
   @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
@@ -55,7 +55,7 @@ public class ArrayOfNumberOnly  implements Serializable {
    * Get arrayNumber
    * @return arrayNumber
    **/
-  @JsonProperty("ArrayNumber")
+  @JsonProperty(value = "ArrayNumber")
   @ApiModelProperty(value = "")
   @Valid 
   public List<BigDecimal> getArrayNumber() {
@@ -68,7 +68,7 @@ public class ArrayOfNumberOnly  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -84,7 +84,6 @@ public class ArrayOfNumberOnly  implements Serializable {
     return Objects.hash(arrayNumber);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -99,7 +98,7 @@ public class ArrayOfNumberOnly  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

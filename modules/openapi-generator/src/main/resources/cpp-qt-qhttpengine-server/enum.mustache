@@ -1,0 +1,57 @@
+{{>licenseInfo}}
+#ifndef {{prefix}}_ENUM_H
+#define {{prefix}}_ENUM_H
+
+#include <QJsonValue>
+#include <QMetaType>
+#include <QString>
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+class {{prefix}}Enum {
+public:
+    {{prefix}}Enum() {}
+
+    {{prefix}}Enum(QString jsonString) {
+        fromJson(jsonString);
+    }
+
+    virtual ~{{prefix}}Enum() {}
+
+    virtual QJsonValue asJsonValue() const {
+        return QJsonValue(jstr);
+    }
+
+    virtual QString asJson() const {
+        return jstr;
+    }
+
+    virtual void fromJson(QString jsonString) {
+        jstr = jsonString;
+    }
+
+    virtual void fromJsonValue(QJsonValue jval) {
+        jstr = jval.toString();
+    }
+
+    virtual bool isSet() const {
+        return false;
+    }
+
+    virtual bool isValid() const {
+        return true;
+    }
+
+private:
+    QString jstr;
+};
+
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}
+
+Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{prefix}}Enum)
+
+#endif // {{prefix}}_ENUM_H

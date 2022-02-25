@@ -1,0 +1,4 @@
+generatorName: nodejs-express-server
+outputDir: samples/server/petstore/nodejs-express-server
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/nodejs-express-server

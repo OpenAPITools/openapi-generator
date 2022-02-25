@@ -1,0 +1,62 @@
+namespace {{packageName}}
+
+open {{classname}}HandlerParams
+open {{classname}}ServiceImplementation
+open Microsoft.AspNetCore.Mvc
+open Microsoft.AspNetCore.Http
+open Newtonsoft.Json
+open Microsoft.Azure.WebJobs
+open System.IO
+
+module {{classname}}Handlers =
+
+    {{#operations}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+
+    {{#operation}}
+    //#region {{operationId}}
+    /// <summary>
+    /// {{summary}}
+    /// </summary>
+   [<FunctionName("{{operationId}}")>]
+    let {{operationId}}
+        ([<HttpTrigger(Extensions.Http.AuthorizationLevel.Anonymous, "{{httpMethod}}", Route = "{{contextPath}}{{path}}")>]
+        req:HttpRequest ) =
+
+      {{#hasBodyParam}}
+      use reader = StreamReader(req.Body)
+
+      let mediaTypes = [{{#consumes}}"{{mediaType}}";{{/consumes}}] // currently unused
+
+      {{#bodyParam}}
+      let bind (contentType:string) body  =
+        match (contentType.ToLower()) with
+        | "application/json" ->
+          body |> JsonConvert.DeserializeObject<{{operationId}}BodyParams>
+        | _ -> failwith (sprintf "TODO - ContentType %s not currently supported" contentType)
+      {{/bodyParam}}
+
+      let bodyParams = reader.ReadToEnd() |> bind req.ContentType
+      let result = {{classname}}Service.{{operationId}} bodyParams
+      {{/hasBodyParam}}
+      {{^hasBodyParam}}
+      let result = {{classname}}Service.{{operationId}} ()
+      {{/hasBodyParam}}
+      match result with
+      {{#responses}}
+      | {{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}} resolved ->
+        {{^primitiveType}}
+          let content = JsonConvert.SerializeObject resolved.content
+          let responseContentType = "application/json"
+        {{/primitiveType}}
+        {{#primitiveType}}
+          let content = resolved.content
+          let responseContentType = "text/plain"
+        {{/primitiveType}}
+          ContentResult(Content = content, ContentType = responseContentType, StatusCode = System.Nullable({{code}}))
+      {{/responses}}
+
+    {{/operation}}
+    {{/operations}}

@@ -72,7 +72,7 @@ instance Arbitrary A.Value where
       sizedObject n =
         liftM (A.object . map mapF) $
         replicateM n $ (,) <$> (arbitrary :: Gen String) <*> simpleAndArrays
-    
+
 -- | Checks if a given list has no duplicates in _O(n log n)_.
 hasNoDups
   :: (Ord a)
@@ -87,7 +87,7 @@ hasNoDups = go Set.empty
 
 instance ApproxEq TI.Day where
   (=~) = (==)
-    
+
 arbitraryReduced :: Arbitrary a => Int -> Gen a
 arbitraryReduced n = resize (n `div` 2) arbitrary
 
@@ -104,7 +104,7 @@ arbitraryReducedMaybeValue n = do
     else return generated
 
 -- * Models
- 
+
 {{#models}}
 {{#model}}
 {{^isEnum}}
@@ -115,14 +115,14 @@ gen{{classname}} :: Int -> Gen {{classname}}
 gen{{classname}} n =
   {{#isAlias}}{{classname}} <$> arbitrary{{/isAlias}}{{^isAlias}}{{^hasVars}}
   pure {{/hasVars}}{{classname}}
-  {{#hasVars}}  <$>{{/hasVars}} {{#vars}}{{#required}}{{#isPrimitiveType}}arbitrary{{/isPrimitiveType}}{{^isPrimitiveType}}arbitraryReduced n{{/isPrimitiveType}}{{/required}}{{^required}}{{^vendorExtensions.x-isMaybeValue}}arbitraryReducedMaybe n{{/vendorExtensions.x-isMaybeValue}}{{#vendorExtensions.x-isMaybeValue}}arbitraryReducedMaybeValue n{{/vendorExtensions.x-isMaybeValue}}{{/required}} -- {{name}} :: {{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}
-  {{#hasMore}}  <*> {{/hasMore}}{{/vars}}{{/isAlias}}
+  {{#hasVars}}  <$>{{/hasVars}} {{#vars}}{{#required}}{{#isPrimitiveType}}arbitrary{{/isPrimitiveType}}{{^isPrimitiveType}}arbitraryReduced n{{/isPrimitiveType}}{{/required}}{{^required}}{{^vendorExtensions.x-is-maybe-value}}arbitraryReducedMaybe n{{/vendorExtensions.x-is-maybe-value}}{{#vendorExtensions.x-is-maybe-value}}arbitraryReducedMaybeValue n{{/vendorExtensions.x-is-maybe-value}}{{/required}} -- {{name}} :: {{^required}}Maybe {{/required}}{{{vendorExtensions.x-data-type}}}
+  {{^-last}}  <*> {{/-last}}{{/vars}}{{/isAlias}}
 {{/isEnum}}
 {{/model}}
 {{/models}}
 
 
 {{#x-allUniqueParams}}{{#x-enum}}
-instance Arbitrary {{{x-paramNameType}}} where
+instance Arbitrary {{{x-param-name-type}}} where
   arbitrary = arbitraryBoundedEnum
 {{/x-enum}}{{/x-allUniqueParams}}

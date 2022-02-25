@@ -10,188 +10,216 @@
 package petstoreserver
 
 import (
-	"fmt"
-	"net/http"
-	"strings"
-
+	"encoding/json"
+	"errors"
 	"github.com/gorilla/mux"
+	"io/ioutil"
+	"mime/multipart"
+	"net/http"
+	"os"
+	"strconv"
+	"strings"
 )
 
+// A Route defines the parameters for an api endpoint
 type Route struct {
-	Name        string
-	Method      string
-	Pattern     string
+	Name		string
+	Method	  string
+	Pattern	 string
 	HandlerFunc http.HandlerFunc
 }
 
+// Routes are a collection of defined api endpoints
 type Routes []Route
 
-func NewRouter() *mux.Router {
-	router := mux.NewRouter().StrictSlash(true)
-	for _, route := range routes {
-		var handler http.Handler
-		handler = route.HandlerFunc
-		handler = Logger(handler, route.Name)
+// Router defines the required methods for retrieving api routes
+type Router interface {
+	Routes() Routes
+}
 
-		router.
-			Methods(route.Method).
-			Path(route.Pattern).
-			Name(route.Name).
-			Handler(handler)
+const errMsgRequiredMissing = "required parameter is missing"
+
+// NewRouter creates a new router for any number of api routers
+func NewRouter(routers ...Router) *mux.Router {
+	router := mux.NewRouter().StrictSlash(true)
+	for _, api := range routers {
+		for _, route := range api.Routes() {
+			var handler http.Handler
+			handler = route.HandlerFunc
+			handler = Logger(handler, route.Name)
+
+			router.
+				Methods(route.Method).
+				Path(route.Pattern).
+				Name(route.Name).
+				Handler(handler)
+		}
 	}
 
 	return router
 }
 
-func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World!")
+// EncodeJSONResponse uses the json encoder to write an interface to the http response with an optional status code
+func EncodeJSONResponse(i interface{}, status *int, headers map[string][]string, w http.ResponseWriter) error {
+	wHeader := w.Header()
+	if headers != nil {
+		for key, values := range headers {
+			for _, value := range values {
+				wHeader.Add(key, value)
+			}
+		}
+	}
+	wHeader.Set("Content-Type", "application/json; charset=UTF-8")
+	if status != nil {
+		w.WriteHeader(*status)
+	} else {
+		w.WriteHeader(http.StatusOK)
+	}
+
+	return json.NewEncoder(w).Encode(i)
 }
 
-var routes = Routes{
-	{
-		"Index",
-		"GET",
-		"/v2/",
-		Index,
-	},
+// ReadFormFileToTempFile reads file data from a request form and writes it to a temporary file
+func ReadFormFileToTempFile(r *http.Request, key string) (*os.File, error) {
+	_, fileHeader, err := r.FormFile(key)
+	if err != nil {
+		return nil, err
+	}
 
-	{
-		"AddPet",
-		strings.ToUpper("Post"),
-		"/v2/pet",
-		AddPet,
-	},
+	return readFileHeaderToTempFile(fileHeader)
+}
 
-	{
-		"DeletePet",
-		strings.ToUpper("Delete"),
-		"/v2/pet/{petId}",
-		DeletePet,
-	},
+// ReadFormFilesToTempFiles reads files array data from a request form and writes it to a temporary files
+func ReadFormFilesToTempFiles(r *http.Request, key string) ([]*os.File, error) {
+	if err := r.ParseMultipartForm(32 << 20); err != nil {
+		return nil, err
+	}
 
-	{
-		"FindPetsByStatus",
-		strings.ToUpper("Get"),
-		"/v2/pet/findByStatus",
-		FindPetsByStatus,
-	},
+	files := make([]*os.File, 0, len(r.MultipartForm.File[key]))
 
-	{
-		"FindPetsByTags",
-		strings.ToUpper("Get"),
-		"/v2/pet/findByTags",
-		FindPetsByTags,
-	},
+	for _, fileHeader := range r.MultipartForm.File[key] {
+		file, err := readFileHeaderToTempFile(fileHeader)
+		if err != nil {
+			return nil, err
+		}
 
-	{
-		"GetPetById",
-		strings.ToUpper("Get"),
-		"/v2/pet/{petId}",
-		GetPetById,
-	},
+		files = append(files, file)
+	}
 
-	{
-		"UpdatePet",
-		strings.ToUpper("Put"),
-		"/v2/pet",
-		UpdatePet,
-	},
+	return files, nil
+}
 
-	{
-		"UpdatePetWithForm",
-		strings.ToUpper("Post"),
-		"/v2/pet/{petId}",
-		UpdatePetWithForm,
-	},
+// readFileHeaderToTempFile reads multipart.FileHeader and writes it to a temporary file
+func readFileHeaderToTempFile(fileHeader *multipart.FileHeader) (*os.File, error) {
+	formFile, err := fileHeader.Open()
+	if err != nil {
+		return nil, err
+	}
 
-	{
-		"UploadFile",
-		strings.ToUpper("Post"),
-		"/v2/pet/{petId}/uploadImage",
-		UploadFile,
-	},
+	defer formFile.Close()
 
-	{
-		"DeleteOrder",
-		strings.ToUpper("Delete"),
-		"/v2/store/order/{orderId}",
-		DeleteOrder,
-	},
+	fileBytes, err := ioutil.ReadAll(formFile)
+	if err != nil {
+		return nil, err
+	}
 
-	{
-		"GetInventory",
-		strings.ToUpper("Get"),
-		"/v2/store/inventory",
-		GetInventory,
-	},
+	file, err := ioutil.TempFile("", fileHeader.Filename)
+	if err != nil {
+		return nil, err
+	}
 
-	{
-		"GetOrderById",
-		strings.ToUpper("Get"),
-		"/v2/store/order/{orderId}",
-		GetOrderById,
-	},
+	defer file.Close()
 
-	{
-		"PlaceOrder",
-		strings.ToUpper("Post"),
-		"/v2/store/order",
-		PlaceOrder,
-	},
+	file.Write(fileBytes)
 
-	{
-		"CreateUser",
-		strings.ToUpper("Post"),
-		"/v2/user",
-		CreateUser,
-	},
+	return file, nil
+}
 
-	{
-		"CreateUsersWithArrayInput",
-		strings.ToUpper("Post"),
-		"/v2/user/createWithArray",
-		CreateUsersWithArrayInput,
-	},
+// parseInt64Parameter parses a string parameter to an int64.
+func parseInt64Parameter(param string, required bool) (int64, error) {
+	if param == "" {
+		if required {
+			return 0, errors.New(errMsgRequiredMissing)
+		}
 
-	{
-		"CreateUsersWithListInput",
-		strings.ToUpper("Post"),
-		"/v2/user/createWithList",
-		CreateUsersWithListInput,
-	},
+		return 0, nil
+	}
 
-	{
-		"DeleteUser",
-		strings.ToUpper("Delete"),
-		"/v2/user/{username}",
-		DeleteUser,
-	},
+	return strconv.ParseInt(param, 10, 64)
+}
 
-	{
-		"GetUserByName",
-		strings.ToUpper("Get"),
-		"/v2/user/{username}",
-		GetUserByName,
-	},
+// parseInt32Parameter parses a string parameter to an int32.
+func parseInt32Parameter(param string, required bool) (int32, error) {
+	if param == "" {
+		if required {
+			return 0, errors.New(errMsgRequiredMissing)
+		}
 
-	{
-		"LoginUser",
-		strings.ToUpper("Get"),
-		"/v2/user/login",
-		LoginUser,
-	},
+		return 0, nil
+	}
 
-	{
-		"LogoutUser",
-		strings.ToUpper("Get"),
-		"/v2/user/logout",
-		LogoutUser,
-	},
+	val, err := strconv.ParseInt(param, 10, 32)
+	if err != nil {
+		return -1, err
+	}
 
-	{
-		"UpdateUser",
-		strings.ToUpper("Put"),
-		"/v2/user/{username}",
-		UpdateUser,
-	},
+	return int32(val), nil
+}
+
+// parseBoolParameter parses a string parameter to a bool
+func parseBoolParameter(param string) (bool, error) {
+	val, err := strconv.ParseBool(param)
+	if err != nil {
+		return false, err
+	}
+
+	return bool(val), nil
+}
+
+// parseInt64ArrayParameter parses a string parameter containing array of values to []int64.
+func parseInt64ArrayParameter(param, delim string, required bool) ([]int64, error) {
+	if param == "" {
+		if required {
+			return nil, errors.New(errMsgRequiredMissing)
+		}
+
+		return nil, nil
+	}
+
+	str := strings.Split(param, delim)
+	ints := make([]int64, len(str))
+
+	for i, s := range str {
+		if v, err := strconv.ParseInt(s, 10, 64); err != nil {
+			return nil, err
+		} else {
+			ints[i] = v
+		}
+	}
+
+	return ints, nil
+}
+
+// parseInt32ArrayParameter parses a string parameter containing array of values to []int32.
+func parseInt32ArrayParameter(param, delim string, required bool) ([]int32, error) {
+	if param == "" {
+		if required {
+			return nil, errors.New(errMsgRequiredMissing)
+		}
+
+		return nil, nil
+	}
+
+	str := strings.Split(param, delim)
+	ints := make([]int32, len(str))
+
+	for i, s := range str {
+		if v, err := strconv.ParseInt(s, 10, 32); err != nil {
+			return nil, err
+		} else {
+			ints[i] = int32(v)
+		}
+	}
+
+	return ints, nil
 }

@@ -1,0 +1,36 @@
+group 'org.openapitools'
+version '1.0.0'
+
+wrapper {
+    gradleVersion = '6.8.3'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+buildscript {
+    ext.kotlin_version = '1.5.10'
+
+    repositories {
+        maven { url "https://repo1.maven.org/maven2" }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+
+repositories {
+    maven { url "https://repo1.maven.org/maven2" }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
+    implementation "com.google.code.gson:gson:2.8.7"
+    implementation "com.squareup.okhttp3:okhttp:4.9.1"
+    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
+}

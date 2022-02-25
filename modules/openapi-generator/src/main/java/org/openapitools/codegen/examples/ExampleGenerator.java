@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,7 +30,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class ExampleGenerator {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExampleGenerator.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ExampleGenerator.class);
 
     // TODO: move constants to more appropriate location
     private static final String MIME_TYPE_JSON = "application/json";
@@ -80,7 +80,7 @@ public class ExampleGenerator {
 
         if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
             ArraySchema as = (ArraySchema) responseSchema;
-            if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // arary of primtive types
+            if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // array of primitive types
                 return generate((Map<String, Object>) responseSchema.getExample(),
                         new ArrayList<String>(producesInfo), as.getItems());
             } else if (as.getItems() != null && !StringUtils.isEmpty(as.getItems().get$ref())) { // array of model
@@ -90,7 +90,7 @@ public class ExampleGenerator {
                 // TODO log warning message as such case is not handled at the moment
                 return null;
             }
-        } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primtiive type (e.g. integer, string)
+        } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primitive type (e.g. integer, string)
             return generate((Map<String, Object>) responseSchema.getExample(),
                     new ArrayList<String>(producesInfo), responseSchema);
         } else { // model
@@ -165,7 +165,7 @@ public class ExampleGenerator {
                     }
                 } else if (modelName != null && mediaType.startsWith(MIME_TYPE_XML)) {
                     final Schema schema = this.examples.get(modelName);
-                    String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.<String>emptySet());
+                    String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.emptySet());
                     if (example != null) {
                         kv.put(EXAMPLE, example);
                         output.add(kv);
@@ -204,7 +204,7 @@ public class ExampleGenerator {
                     output.add(kv);
                 } else if (mediaType.startsWith(MIME_TYPE_XML)) {
                     // TODO
-                    LOGGER.warn("XML example value of (array/primitive) is not handled at the moment: " + example);
+                    LOGGER.warn("XML example value of (array/primitive) is not handled at the moment: {}", example);
                 }
             }
         }
@@ -269,10 +269,10 @@ public class ExampleGenerator {
             Map<String, Object> mp = new HashMap<String, Object>();
             if (property.getName() != null) {
                 mp.put(property.getName(),
-                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(property), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(openAPI, property), processedModels));
             } else {
                 mp.put("key",
-                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(property), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(openAPI, property), processedModels));
             }
             return mp;
         } else if (ModelUtils.isUUIDSchema(property)) {
@@ -296,7 +296,7 @@ public class ExampleGenerator {
                 LOGGER.debug("URI or URL format, without default or enum, generating random one.");
                 return "http://example.com/aeiou";
             }
-            LOGGER.debug("No values found, using property name " + propertyName + " as example");
+            LOGGER.debug("No values found, using property name {} as example", propertyName);
             return propertyName;
         } else if (!StringUtils.isEmpty(property.get$ref())) { // model
             String simpleName = ModelUtils.getSimpleRef(property.get$ref());

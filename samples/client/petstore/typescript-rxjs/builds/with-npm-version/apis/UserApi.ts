@@ -11,9 +11,11 @@
  * Do not edit the class manually.
  */
 
-import { Observable } from 'rxjs';
-import { BaseAPI, HttpHeaders, HttpQuery, throwIfRequired, encodeURI } from '../runtime';
-import {
+import type { Observable } from 'rxjs';
+import type { AjaxResponse } from 'rxjs/ajax';
+import { BaseAPI, throwIfNullOrUndefined, encodeURI } from '../runtime';
+import type { OperationOpts, HttpHeaders, HttpQuery } from '../runtime';
+import type {
     User,
 } from '../models';
 
@@ -56,129 +58,145 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Create user
      */
-    createUser = (requestParameters: CreateUserRequest): Observable<void> => {
-        throwIfRequired(requestParameters, 'body', 'createUser');
+    createUser({ body }: CreateUserRequest): Observable<void>
+    createUser({ body }: CreateUserRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>>
+    createUser({ body }: CreateUserRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>> {
+        throwIfNullOrUndefined(body, 'body', 'createUser');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
         };
 
         return this.request<void>({
-            path: '/user',
+            url: '/user',
             method: 'POST',
             headers,
-            body: requestParameters.body,
-        });
+            body: body,
+        }, opts?.responseOpts);
     };
 
     /**
      * Creates list of users with given input array
      */
-    createUsersWithArrayInput = (requestParameters: CreateUsersWithArrayInputRequest): Observable<void> => {
-        throwIfRequired(requestParameters, 'body', 'createUsersWithArrayInput');
+    createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest): Observable<void>
+    createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>>
+    createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>> {
+        throwIfNullOrUndefined(body, 'body', 'createUsersWithArrayInput');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
         };
 
         return this.request<void>({
-            path: '/user/createWithArray',
+            url: '/user/createWithArray',
             method: 'POST',
             headers,
-            body: requestParameters.body,
-        });
+            body: body,
+        }, opts?.responseOpts);
     };
 
     /**
      * Creates list of users with given input array
      */
-    createUsersWithListInput = (requestParameters: CreateUsersWithListInputRequest): Observable<void> => {
-        throwIfRequired(requestParameters, 'body', 'createUsersWithListInput');
+    createUsersWithListInput({ body }: CreateUsersWithListInputRequest): Observable<void>
+    createUsersWithListInput({ body }: CreateUsersWithListInputRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>>
+    createUsersWithListInput({ body }: CreateUsersWithListInputRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>> {
+        throwIfNullOrUndefined(body, 'body', 'createUsersWithListInput');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
         };
 
         return this.request<void>({
-            path: '/user/createWithList',
+            url: '/user/createWithList',
             method: 'POST',
             headers,
-            body: requestParameters.body,
-        });
+            body: body,
+        }, opts?.responseOpts);
     };
 
     /**
      * This can only be done by the logged in user.
      * Delete user
      */
-    deleteUser = (requestParameters: DeleteUserRequest): Observable<void> => {
-        throwIfRequired(requestParameters, 'username', 'deleteUser');
+    deleteUser({ username }: DeleteUserRequest): Observable<void>
+    deleteUser({ username }: DeleteUserRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>>
+    deleteUser({ username }: DeleteUserRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>> {
+        throwIfNullOrUndefined(username, 'username', 'deleteUser');
 
         return this.request<void>({
-            path: '/user/{username}'.replace('{username}', encodeURI(requestParameters.username)),
+            url: '/user/{username}'.replace('{username}', encodeURI(username)),
             method: 'DELETE',
-        });
+        }, opts?.responseOpts);
     };
 
     /**
      * Get user by user name
      */
-    getUserByName = (requestParameters: GetUserByNameRequest): Observable<User> => {
-        throwIfRequired(requestParameters, 'username', 'getUserByName');
+    getUserByName({ username }: GetUserByNameRequest): Observable<User>
+    getUserByName({ username }: GetUserByNameRequest, opts?: OperationOpts): Observable<AjaxResponse<User>>
+    getUserByName({ username }: GetUserByNameRequest, opts?: OperationOpts): Observable<User | AjaxResponse<User>> {
+        throwIfNullOrUndefined(username, 'username', 'getUserByName');
 
         return this.request<User>({
-            path: '/user/{username}'.replace('{username}', encodeURI(requestParameters.username)),
+            url: '/user/{username}'.replace('{username}', encodeURI(username)),
             method: 'GET',
-        });
+        }, opts?.responseOpts);
     };
 
     /**
      * Logs user into the system
      */
-    loginUser = (requestParameters: LoginUserRequest): Observable<string> => {
-        throwIfRequired(requestParameters, 'username', 'loginUser');
-        throwIfRequired(requestParameters, 'password', 'loginUser');
+    loginUser({ username, password }: LoginUserRequest): Observable<string>
+    loginUser({ username, password }: LoginUserRequest, opts?: OperationOpts): Observable<AjaxResponse<string>>
+    loginUser({ username, password }: LoginUserRequest, opts?: OperationOpts): Observable<string | AjaxResponse<string>> {
+        throwIfNullOrUndefined(username, 'username', 'loginUser');
+        throwIfNullOrUndefined(password, 'password', 'loginUser');
 
-        const query: HttpQuery = {
-            ...(requestParameters.username && { 'username': requestParameters.username }),
-            ...(requestParameters.password && { 'password': requestParameters.password }),
+        const query: HttpQuery = { // required parameters are used directly since they are already checked by throwIfNullOrUndefined
+            'username': username,
+            'password': password,
         };
 
         return this.request<string>({
-            path: '/user/login',
+            url: '/user/login',
             method: 'GET',
             query,
-        });
+        }, opts?.responseOpts);
     };
 
     /**
      * Logs out current logged in user session
      */
-    logoutUser = (): Observable<void> => {
+    logoutUser(): Observable<void>
+    logoutUser(opts?: OperationOpts): Observable<void | AjaxResponse<void>>
+    logoutUser(opts?: OperationOpts): Observable<void | AjaxResponse<void>> {
         return this.request<void>({
-            path: '/user/logout',
+            url: '/user/logout',
             method: 'GET',
-        });
+        }, opts?.responseOpts);
     };
 
     /**
      * This can only be done by the logged in user.
      * Updated user
      */
-    updateUser = (requestParameters: UpdateUserRequest): Observable<void> => {
-        throwIfRequired(requestParameters, 'username', 'updateUser');
-        throwIfRequired(requestParameters, 'body', 'updateUser');
+    updateUser({ username, body }: UpdateUserRequest): Observable<void>
+    updateUser({ username, body }: UpdateUserRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>>
+    updateUser({ username, body }: UpdateUserRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>> {
+        throwIfNullOrUndefined(username, 'username', 'updateUser');
+        throwIfNullOrUndefined(body, 'body', 'updateUser');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
         };
 
         return this.request<void>({
-            path: '/user/{username}'.replace('{username}', encodeURI(requestParameters.username)),
+            url: '/user/{username}'.replace('{username}', encodeURI(username)),
             method: 'PUT',
             headers,
-            body: requestParameters.body,
-        });
+            body: body,
+        }, opts?.responseOpts);
     };
 
 }

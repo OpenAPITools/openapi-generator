@@ -1,0 +1,59 @@
+openapi: 3.0.1
+info:
+  title: ping test
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8000/'
+paths:
+  /ping:
+    get:
+      operationId: pingGet
+      responses:
+        '201':
+          description: OK
+components:
+  schemas:
+    AnyValue: {}
+    AnyValueWithDesc:
+      description: Can be any value - string, number, boolean, array or object.
+    AnyValueNullable:
+      nullable: true
+      description: Can be any value, including `null`.
+    AnyValueModel:
+      description: test any value
+      type: object
+      properties:
+        any_value:
+          $ref: '#/components/schemas/AnyValue'
+        any_value_with_desc:
+          $ref: '#/components/schemas/AnyValueWithDesc'
+        any_value_nullable:
+          $ref: '#/components/schemas/AnyValueNullable'
+    AnyValueModelInline:
+      description: test any value inline
+      type: object
+      properties:
+        any_value: {}
+        any_value_with_desc:
+          description: inline any value
+        any_value_nullable:
+          nullable: true
+          description: inline any value nullable
+        map_any_value:
+          additionalProperties: {}
+        map_any_value_with_desc:
+          additionalProperties: 
+            description: inline any value
+        map_any_value_nullable:
+          additionalProperties:
+            nullable: true
+            description: inline any value nullable
+        array_any_value:
+          items: {}
+        array_any_value_with_desc:
+          items: 
+            description: inline any value
+        array_any_value_nullable:
+          items:
+            nullable: true
+            description: inline any value nullable

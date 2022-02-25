@@ -1,0 +1,12 @@
+generatorName: typescript-angular
+outputDir: samples/client/petstore/typescript-angular-v7-not-provided-in-root/builds/with-npm
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-angular
+additionalProperties:
+  ngVersion: 7.0.0
+  npmVersion: 1.0.0
+  providedInRoot: "false"
+  stringEnums: "true"
+  npmName: '@openapitools/typescript-angular-petstore'
+  npmRepository: https://skimdb.npmjs.com/registry
+  snapshot: false

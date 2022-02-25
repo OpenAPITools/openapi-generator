@@ -1,12 +1,21 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 {{>licenseInfo}}
 
 {{^withSeparateModelsAndApi}}
-import * as globalImportUrl from 'url';
 import { Configuration } from './configuration';
-import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
+import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+{{#withNodeImports}}
+// URLSearchParams not necessarily used
+// @ts-ignore
+import { URL, URLSearchParams } from 'url';
+{{#multipartFormData}}
+import FormData from 'form-data'
+{{/multipartFormData}}
+{{/withNodeImports}}
 // Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
@@ -17,6 +26,6 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 {{>apiInner}}
 {{/apis}}{{/apiInfo}}
 {{/withSeparateModelsAndApi}}{{#withSeparateModelsAndApi}}
-{{#apiInfo}}{{#apis}}{{#operations}}export * from './{{apiPackage}}/{{classFilename}}';
+{{#apiInfo}}{{#apis}}{{#operations}}export * from './{{tsApiPackage}}/{{classFilename}}';
 {{/operations}}{{/apis}}{{/apiInfo}}
 {{/withSeparateModelsAndApi}}

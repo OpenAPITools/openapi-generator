@@ -1,0 +1,13 @@
+encode{{classname}} : {{classname}} -> Json.Encode.Value
+encode{{classname}} model =
+    case model of{{^discriminator}}{{#oneOf}}
+        {{classname}}{{{.}}} subModel ->
+            encode{{{.}}} subModel
+
+{{/oneOf}}{{/discriminator}}{{#discriminator}}
+{{#mappedModels}}
+        {{classname}}{{modelName}} subModel ->
+            encode{{modelName}}WithTag ("{{discriminatorName}}", "{{mappingName}}") subModel
+
+{{/mappedModels}}
+{{/discriminator}}

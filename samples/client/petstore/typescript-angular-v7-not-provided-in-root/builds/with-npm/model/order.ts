@@ -18,14 +18,14 @@ export interface Order {
     id?: number;
     petId?: number;
     quantity?: number;
-    shipDate?: Date;
+    shipDate?: string;
     /**
      * Order Status
      */
-    status?: OrderStatus;
+    status?: OrderStatusEnum;
     complete?: boolean;
 }
-export enum OrderStatus {
+export enum OrderStatusEnum {
     Placed = 'placed',
     Approved = 'approved',
     Delivered = 'delivered'

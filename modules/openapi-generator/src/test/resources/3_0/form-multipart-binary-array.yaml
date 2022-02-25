@@ -1,0 +1,72 @@
+openapi: '3.0.1'
+info:
+  version: 1.0.0
+  title: MultipartFile test
+paths:
+  /multipart-array:
+    post:
+      tags:
+        - multipart
+      description: MultipartFile array test
+      operationId: multipartArray
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  description: "Many files"
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '204':
+          description: Successful operation
+  /multipart-single:
+    post:
+      tags:
+        - multipart
+      description: Single MultipartFile test
+      operationId: multipartSingle
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  description: "One file"
+                  type: string
+                  format: binary
+      responses:
+        '204':
+          description: Successful operation
+  /multipart-mixed:
+    post:
+      tags:
+        - multipart
+      description: Mixed MultipartFile test
+      operationId: multipartMixed
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                marker:
+                  description: "additional object"
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                file:
+                  description: "a file"
+                  type: string
+                  format: binary
+      responses:
+        '204':
+          description: Successful operation

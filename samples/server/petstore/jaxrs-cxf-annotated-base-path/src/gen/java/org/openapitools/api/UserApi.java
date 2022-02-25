@@ -1,5 +1,6 @@
 package org.openapitools.api;
 
+import java.util.Date;
 import java.util.List;
 import org.openapitools.model.User;
 
@@ -26,7 +27,7 @@ import javax.validation.Valid;
  * <p>This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  */
-@Path("/v2")
+@Path("/v2/user")
 @Api(value = "/", description = "")
 public interface UserApi  {
 
@@ -37,33 +38,33 @@ public interface UserApi  {
      *
      */
     @POST
-    @Path("/user")
-    @ApiOperation(value = "Create user", tags={ "user",  })
+    
+    @ApiOperation(value = "Create user", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUser(@Valid User body);
+    public void createUser(@Valid @NotNull User body);
 
     /**
      * Creates list of users with given input array
      *
      */
     @POST
-    @Path("/user/createWithArray")
-    @ApiOperation(value = "Creates list of users with given input array", tags={ "user",  })
+    @Path("/createWithArray")
+    @ApiOperation(value = "Creates list of users with given input array", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUsersWithArrayInput(@Valid List<User> body);
+    public void createUsersWithArrayInput(@Valid @NotNull List<User> body);
 
     /**
      * Creates list of users with given input array
      *
      */
     @POST
-    @Path("/user/createWithList")
-    @ApiOperation(value = "Creates list of users with given input array", tags={ "user",  })
+    @Path("/createWithList")
+    @ApiOperation(value = "Creates list of users with given input array", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUsersWithListInput(@Valid List<User> body);
+    public void createUsersWithListInput(@Valid @NotNull List<User> body);
 
     /**
      * Delete user
@@ -72,8 +73,8 @@ public interface UserApi  {
      *
      */
     @DELETE
-    @Path("/user/{username}")
-    @ApiOperation(value = "Delete user", tags={ "user",  })
+    @Path("/{username}")
+    @ApiOperation(value = "Delete user", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found") })
@@ -84,9 +85,9 @@ public interface UserApi  {
      *
      */
     @GET
-    @Path("/user/{username}")
+    @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Get user by user name", tags={ "user",  })
+    @ApiOperation(value = "Get user by user name", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 400, message = "Invalid username supplied"),
@@ -98,21 +99,21 @@ public interface UserApi  {
      *
      */
     @GET
-    @Path("/user/login")
+    @Path("/login")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Logs user into the system", tags={ "user",  })
+    @ApiOperation(value = "Logs user into the system", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied") })
-    public String loginUser(@QueryParam("username") @NotNull  String username, @QueryParam("password") @NotNull  String password);
+    public String loginUser(@QueryParam("username") @NotNull String username, @QueryParam("password") @NotNull String password);
 
     /**
      * Logs out current logged in user session
      *
      */
     @GET
-    @Path("/user/logout")
-    @ApiOperation(value = "Logs out current logged in user session", tags={ "user",  })
+    @Path("/logout")
+    @ApiOperation(value = "Logs out current logged in user session", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     public void logoutUser();
@@ -124,11 +125,10 @@ public interface UserApi  {
      *
      */
     @PUT
-    @Path("/user/{username}")
+    @Path("/{username}")
     @ApiOperation(value = "Updated user", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied"),
         @ApiResponse(code = 404, message = "User not found") })
-    public void updateUser(@PathParam("username") String username, @Valid User body);
+    public void updateUser(@PathParam("username") String username, @Valid @NotNull User body);
 }
-

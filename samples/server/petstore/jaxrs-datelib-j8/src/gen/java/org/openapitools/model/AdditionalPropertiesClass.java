@@ -43,7 +43,7 @@ import javax.validation.Valid;
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class AdditionalPropertiesClass  implements Serializable {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   @JsonProperty(JSON_PROPERTY_MAP_STRING)
@@ -106,7 +106,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    * Get mapString
    * @return mapString
    **/
-  @JsonProperty("map_string")
+  @JsonProperty(value = "map_string")
   @ApiModelProperty(value = "")
   
   public Map<String, String> getMapString() {
@@ -134,7 +134,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    * Get mapNumber
    * @return mapNumber
    **/
-  @JsonProperty("map_number")
+  @JsonProperty(value = "map_number")
   @ApiModelProperty(value = "")
   @Valid 
   public Map<String, BigDecimal> getMapNumber() {
@@ -162,7 +162,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    * Get mapInteger
    * @return mapInteger
    **/
-  @JsonProperty("map_integer")
+  @JsonProperty(value = "map_integer")
   @ApiModelProperty(value = "")
   
   public Map<String, Integer> getMapInteger() {
@@ -190,7 +190,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    * Get mapBoolean
    * @return mapBoolean
    **/
-  @JsonProperty("map_boolean")
+  @JsonProperty(value = "map_boolean")
   @ApiModelProperty(value = "")
   
   public Map<String, Boolean> getMapBoolean() {
@@ -218,7 +218,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    * Get mapArrayInteger
    * @return mapArrayInteger
    **/
-  @JsonProperty("map_array_integer")
+  @JsonProperty(value = "map_array_integer")
   @ApiModelProperty(value = "")
   @Valid 
   public Map<String, List<Integer>> getMapArrayInteger() {
@@ -246,7 +246,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
    **/
-  @JsonProperty("map_array_anytype")
+  @JsonProperty(value = "map_array_anytype")
   @ApiModelProperty(value = "")
   @Valid 
   public Map<String, List<Object>> getMapArrayAnytype() {
@@ -274,7 +274,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    * Get mapMapString
    * @return mapMapString
    **/
-  @JsonProperty("map_map_string")
+  @JsonProperty(value = "map_map_string")
   @ApiModelProperty(value = "")
   @Valid 
   public Map<String, Map<String, String>> getMapMapString() {
@@ -302,7 +302,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    * Get mapMapAnytype
    * @return mapMapAnytype
    **/
-  @JsonProperty("map_map_anytype")
+  @JsonProperty(value = "map_map_anytype")
   @ApiModelProperty(value = "")
   @Valid 
   public Map<String, Map<String, Object>> getMapMapAnytype() {
@@ -322,9 +322,9 @@ public class AdditionalPropertiesClass  implements Serializable {
    * Get anytype1
    * @return anytype1
    **/
-  @JsonProperty("anytype_1")
+  @JsonProperty(value = "anytype_1")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Object getAnytype1() {
     return anytype1;
   }
@@ -342,9 +342,9 @@ public class AdditionalPropertiesClass  implements Serializable {
    * Get anytype2
    * @return anytype2
    **/
-  @JsonProperty("anytype_2")
+  @JsonProperty(value = "anytype_2")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Object getAnytype2() {
     return anytype2;
   }
@@ -362,9 +362,9 @@ public class AdditionalPropertiesClass  implements Serializable {
    * Get anytype3
    * @return anytype3
    **/
-  @JsonProperty("anytype_3")
+  @JsonProperty(value = "anytype_3")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Object getAnytype3() {
     return anytype3;
   }
@@ -375,7 +375,7 @@ public class AdditionalPropertiesClass  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -401,7 +401,6 @@ public class AdditionalPropertiesClass  implements Serializable {
     return Objects.hash(mapString, mapNumber, mapInteger, mapBoolean, mapArrayInteger, mapArrayAnytype, mapMapString, mapMapAnytype, anytype1, anytype2, anytype3);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -426,7 +425,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

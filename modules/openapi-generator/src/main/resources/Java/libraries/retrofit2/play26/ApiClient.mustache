@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -13,7 +14,9 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+{{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/openApiNullable}}
 
 import play.libs.Json;
 import play.libs.ws.WSClient;
@@ -58,7 +61,7 @@ public class ApiClient {
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<>();{{#authMethods}}{{#isBasic}}
         // authentications.put("{{name}}", new HttpBasicAuth());{{/isBasic}}{{#isApiKey}}
-        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
+        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         // authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
@@ -73,25 +76,28 @@ public class ApiClient {
         }
 
         Map<String, String> extraHeaders = new HashMap<>();
+        Map<String, String> extraCookies = new HashMap<>();
         List<Pair> extraQueryParams = new ArrayList<>();
 
         for (String authName : authentications.keySet()) {
             Authentication auth = authentications.get(authName);
             if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
 
-            auth.applyToParams(extraQueryParams, extraHeaders);
+            auth.applyToParams(extraQueryParams, extraHeaders, extraCookies);
         }
 
         if (callFactory == null) {
-            callFactory = new Play26CallFactory(wsClient, extraHeaders, extraQueryParams);
+            callFactory = new Play26CallFactory(wsClient, extraHeaders, extraCookies, extraQueryParams);
         }
         if (callAdapterFactory == null) {
             callAdapterFactory = new Play26CallAdapterFactory();
         }
         if (defaultMapper == null) {
             defaultMapper = Json.mapper();
+            {{#openApiNullable}}
             JsonNullableModule jnm = new JsonNullableModule();
             defaultMapper.registerModule(jnm);
+            {{/openApiNullable}}
         }
 
         return new Retrofit.Builder()
@@ -197,9 +203,9 @@ public class ApiClient {
                 @Override
                 public File convert(ResponseBody value) throws IOException {
 
-                    File file = File.createTempFile("retrofit-file", ".tmp");
-                    Files.write(Paths.get(file.getPath()), value.bytes());
-                    return file;
+                    Path path = Files.createTempFile("retrofit-file", ".tmp");
+                    Files.write(path, value.bytes());
+                    return path.toFile();
                 }
             };
         }

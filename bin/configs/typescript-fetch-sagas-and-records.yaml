@@ -1,0 +1,17 @@
+generatorName: typescript-fetch
+outputDir: samples/client/petstore/typescript-fetch/builds/sagas-and-records
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing-saga-and-records.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-fetch
+additionalProperties:
+  npmVersion: 1.0.0
+  npmName: '@openapitools/typescript-fetch-petstore'
+  npmRepository: https://skimdb.npmjs.com/registry
+  useSingleRequestParameter: false
+  supportsES6: true
+  typescriptThreePlus: true
+  sagasAndRecords: true
+  detectPassthroughModelsWithSuffixAndField: 'Response.data'
+  inferUniqueIdFromNameSuffix: true
+  inferEntityFromUniqueIdWithName: id
+  packageAsSourceOnlyLibrary: false
+  snapshot: false

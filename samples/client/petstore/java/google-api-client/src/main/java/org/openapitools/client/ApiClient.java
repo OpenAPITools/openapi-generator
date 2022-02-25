@@ -5,8 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.openapitools.jackson.nullable.JsonNullableModule;
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
-import org.threeten.bp.*;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.api.client.googleapis.util.Utils;
 import com.google.api.client.http.AbstractHttpContent;
 import com.google.api.client.http.HttpRequestFactory;
@@ -17,7 +16,7 @@ import com.google.api.client.json.Json;
 import java.io.IOException;
 import java.io.OutputStream;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient {
     private final String basePath;
     private final HttpRequestFactory httpRequestFactory;
@@ -31,11 +30,7 @@ public class ApiClient {
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             .setDateFormat(new RFC3339DateFormat());
-        ThreeTenModule module = new ThreeTenModule();
-        module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-        module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-        module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-        objectMapper.registerModule(module);
+        objectMapper.registerModule(new JavaTimeModule());
         JsonNullableModule jnm = new JsonNullableModule();
         objectMapper.registerModule(jnm);
         return objectMapper;

@@ -1,0 +1,71 @@
+openapi: "3.0.0"
+info:
+  title: Example API
+  version: "3.0.0"
+paths:
+  /:
+    get:
+      summary: Empty Route
+      responses:
+        "200":
+          description: Good Request.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FreeformObjectTypes'
+        "400":
+          description: Bad Request.
+        "403":
+          description: Forbidden. Access denied.
+
+components:
+  schemas:
+    ExampleModel:
+      type: object
+      properties:
+        id:
+          type: string
+        withAdditinalProperties:
+          $ref: '#/components/schemas/ModelWithAdditionalProperties'
+    ModelWithAdditionalProperties:
+      type: object
+      properties:
+        id:
+          type: string
+      additionalProperties: {}
+    ModelWithStringToStringMapping:
+      type: object
+      additionalProperties:
+        type: string
+    ModelWithStringToModelMapping:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/ComplexModel'
+    ComplexModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      required:
+        - name
+      example:
+        name: Puma
+        id: 1
+    FreeformObjectTypes:
+      type: object
+      properties:
+        ExampleModel:
+          $ref: '#/components/schemas/ExampleModel'
+        ModelWithAdditionalProperties:
+          $ref: '#/components/schemas/ModelWithAdditionalProperties'
+        ModelWithStringToStringMapping:
+          $ref: '#/components/schemas/ModelWithStringToStringMapping'
+        ModelWithStringToModelMapping:
+          $ref: '#/components/schemas/ModelWithStringToModelMapping'
+        ComplexModel:
+          $ref: '#/components/schemas/ComplexModel'

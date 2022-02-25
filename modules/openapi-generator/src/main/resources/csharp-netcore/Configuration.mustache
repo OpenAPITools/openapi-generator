@@ -1,13 +1,15 @@
 {{>partial_header}}
 
 using System;
-using System.Reflection;
 {{^net35}}
 using System.Collections.Concurrent;
 {{/net35}}
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace {{packageName}}.Client
@@ -45,14 +47,16 @@ namespace {{packageName}}.Client
             if (status >= 400)
             {
                 return new ApiException(status,
-                    string.Format("Error calling {0}: {1}", methodName, response.Content),
-                    response.Content);
+                    string.Format("Error calling {0}: {1}", methodName, response.RawContent),
+                    response.RawContent, response.Headers);
             }
-            {{^netStandard}}if (status == 0)
+            {{^netStandard}}
+            if (status == 0)
             {
                 return new ApiException(status,
                     string.Format("Error calling {0}: {1}", methodName, response.ErrorText), response.ErrorText);
-            }{{/netStandard}}
+            }
+            {{/netStandard}}
             return null;
         };
 
@@ -64,11 +68,11 @@ namespace {{packageName}}.Client
         /// Defines the base path of the target API server.
         /// Example: http://localhost:3000/v1/
         /// </summary>
-        private String _basePath;
+        private string _basePath;
 
         /// <summary>
         /// Gets or sets the API key based on the authentication name.
-        /// This is the key and value comprising the "secret" for acessing an API.
+        /// This is the key and value comprising the "secret" for accessing an API.
         /// </summary>
         /// <value>The API key.</value>
         private IDictionary<string, string> _apiKey;
@@ -81,7 +85,21 @@ namespace {{packageName}}.Client
 
         private string _dateTimeFormat = ISO8601_DATETIME_FORMAT;
         private string _tempFolderPath = Path.GetTempPath();
+        {{#servers.0}}
 
+        /// <summary>
+        /// Gets or sets the servers defined in the OpenAPI spec.
+        /// </summary>
+        /// <value>The servers</value>
+        private IList<IReadOnlyDictionary<string, object>> _servers;
+        {{/servers.0}}
+        {{#hasHttpSignatureMethods}}
+
+        /// <summary>
+        /// HttpSigning configuration
+        /// </summary>
+        private HttpSigningConfiguration _HttpSigningConfiguration = null;
+        {{/hasHttpSignatureMethods}}
         #endregion Private Members
 
         #region Constructors
@@ -92,11 +110,54 @@ namespace {{packageName}}.Client
         [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
         public Configuration()
         {
-            UserAgent = "{{#httpUserAgent}}{{.}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{packageVersion}}/csharp{{/httpUserAgent}}";
+            Proxy = null;
+            UserAgent = "{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{packageVersion}}/csharp{{/httpUserAgent}}";
             BasePath = "{{{basePath}}}";
             DefaultHeaders = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
             ApiKey = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
             ApiKeyPrefix = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
+            {{#servers}}
+            {{#-first}}
+            Servers = new List<IReadOnlyDictionary<string, object>>()
+            {
+            {{/-first}}
+                {
+                    new Dictionary<string, object> {
+                        {"url", "{{{url}}}"},
+                        {"description", "{{{description}}}{{^description}}No description provided{{/description}}"},
+                        {{#variables}}
+                        {{#-first}}
+                        {
+                            "variables", new Dictionary<string, object> {
+                        {{/-first}}
+                                {
+                                    "{{{name}}}", new Dictionary<string, object> {
+                                        {"description", "{{{description}}}{{^description}}No description provided{{/description}}"},
+                                        {"default_value", "{{{defaultValue}}}"},
+                                        {{#enumValues}}
+                                        {{#-first}}
+                                        {
+                                            "enum_values", new List<string>() {
+                                        {{/-first}}
+                                                "{{{.}}}"{{^-last}},{{/-last}}
+                                        {{#-last}}
+                                            }
+                                        }
+                                        {{/-last}}
+                                        {{/enumValues}}
+                                    }
+                                }{{^-last}},{{/-last}}
+                        {{#-last}}
+                            }
+                        }
+                        {{/-last}}
+                        {{/variables}}
+                    }
+                }{{^-last}},{{/-last}}
+            {{#-last}}
+            };
+            {{/-last}}
+            {{/servers}}
 
             // Setting Timeout has side effects (forces ApiClient creation).
             Timeout = 100000;
@@ -148,9 +209,7 @@ namespace {{packageName}}.Client
         /// </summary>
         public virtual string BasePath {
             get { return _basePath; }
-            set {
-                _basePath = value;
-            }
+            set { _basePath = value; }
         }
 
         /// <summary>
@@ -180,6 +239,12 @@ namespace {{packageName}}.Client
         public virtual int Timeout { get; set; }
 
         /// <summary>
+        /// Gets or sets the proxy
+        /// </summary>
+        /// <value>Proxy.</value>
+        public virtual WebProxy Proxy { get; set; }
+
+        /// <summary>
         /// Gets or sets the HTTP user agent.
         /// </summary>
         /// <value>Http user agent.</value>
@@ -205,19 +270,25 @@ namespace {{packageName}}.Client
         public string GetApiKeyWithPrefix(string apiKeyIdentifier)
         {
             string apiKeyValue;
-            ApiKey.TryGetValue (apiKeyIdentifier, out apiKeyValue);
+            ApiKey.TryGetValue(apiKeyIdentifier, out apiKeyValue);
             string apiKeyPrefix;
             if (ApiKeyPrefix.TryGetValue(apiKeyIdentifier, out apiKeyPrefix))
             {
                 return apiKeyPrefix + " " + apiKeyValue;
             }
-            
+
             return apiKeyValue;
         }
 
         /// <summary>
+        /// Gets or sets certificate collection to be sent with requests.
+        /// </summary>
+        /// <value>X509 Certificate collection.</value>
+        public X509CertificateCollection ClientCertificates { get; set; }
+
+        /// <summary>
         /// Gets or sets the access token for OAuth2 authentication.
-        /// 
+        ///
         /// This helper property simplifies code generation.
         /// </summary>
         /// <value>The access token.</value>
@@ -287,13 +358,13 @@ namespace {{packageName}}.Client
         /// Gets or sets the prefix (e.g. Token) of the API key based on the authentication name.
         ///
         /// Whatever you set here will be prepended to the value defined in AddApiKey.
-        /// 
+        ///
         /// An example invocation here might be:
         /// <example>
         /// ApiKeyPrefix["Authorization"] = "Bearer";
         /// </example>
         /// … where ApiKey["Authorization"] would then be used to set the value of your bearer token.
-        /// 
+        ///
         /// <remarks>
         /// OAuth2 workflows should set tokens via AccessToken.
         /// </remarks>
@@ -328,6 +399,95 @@ namespace {{packageName}}.Client
                 _apiKey = value;
             }
         }
+        {{#servers.0}}
+
+        /// <summary>
+        /// Gets or sets the servers.
+        /// </summary>
+        /// <value>The servers.</value>
+        public virtual IList<IReadOnlyDictionary<string, object>> Servers
+        {
+            get { return _servers; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new InvalidOperationException("Servers may not be null.");
+                }
+                _servers = value;
+            }
+        }
+
+        /// <summary>
+        /// Returns URL based on server settings without providing values
+        /// for the variables
+        /// </summary>
+        /// <param name="index">Array index of the server settings.</param>
+        /// <return>The server URL.</return>
+        public string GetServerUrl(int index)
+        {
+            return GetServerUrl(index, null);
+        }
+
+        /// <summary>
+        /// Returns URL based on server settings.
+        /// </summary>
+        /// <param name="index">Array index of the server settings.</param>
+        /// <param name="inputVariables">Dictionary of the variables and the corresponding values.</param>
+        /// <return>The server URL.</return>
+        public string GetServerUrl(int index, Dictionary<string, string> inputVariables)
+        {
+            if (index < 0 || index >= Servers.Count)
+            {
+                throw new InvalidOperationException($"Invalid index {index} when selecting the server. Must be less than {Servers.Count}.");
+            }
+
+            if (inputVariables == null)
+            {
+                inputVariables = new Dictionary<string, string>();
+            }
+
+            IReadOnlyDictionary<string, object> server = Servers[index];
+            string url = (string)server["url"];
+
+            // go through variable and assign a value
+            foreach (KeyValuePair<string, object> variable in (IReadOnlyDictionary<string, object>)server["variables"])
+            {
+
+                IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)(variable.Value);
+
+                if (inputVariables.ContainsKey(variable.Key))
+                {
+                    if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
+                    {
+                        url = url.Replace("{" + variable.Key + "}", inputVariables[variable.Key]);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>)serverVariables["enum_values"]}");
+                    }
+                }
+                else
+                {
+                    // use default value
+                    url = url.Replace("{" + variable.Key + "}", (string)serverVariables["default_value"]);
+                }
+            }
+
+            return url;
+        }
+        {{/servers.0}}
+        {{#hasHttpSignatureMethods}}
+
+        /// <summary>
+        /// Gets and Sets the HttpSigningConfiguration
+        /// </summary>
+        public HttpSigningConfiguration HttpSigningConfiguration
+        {
+            get { return _HttpSigningConfiguration; }
+            set { _HttpSigningConfiguration = value; }
+        }
+        {{/hasHttpSignatureMethods}}
 
         #endregion Properties
 
@@ -336,18 +496,11 @@ namespace {{packageName}}.Client
         /// <summary>
         /// Returns a string with essential information for debugging.
         /// </summary>
-        public static String ToDebugReport()
+        public static string ToDebugReport()
         {
-            String report = "C# SDK ({{{packageName}}}) Debug Report:\n";
-            {{^netStandard}}
-            {{^supportsUWP}}
+            string report = "C# SDK ({{{packageName}}}) Debug Report:\n";
             report += "    OS: " + System.Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + System.Environment.Version  + "\n";
-            {{/supportsUWP}}
-            {{/netStandard}}
-            {{#netStandard}}
-            report += "    OS: " + System.Runtime.InteropServices.RuntimeInformation.OSDescription + "\n";
-            {{/netStandard}}
             report += "    Version of the API: {{{version}}}\n";
             report += "    SDK Package Version: {{{packageVersion}}}\n";
 
@@ -387,11 +540,11 @@ namespace {{packageName}}.Client
         public static IReadableConfiguration MergeConfigurations(IReadableConfiguration first, IReadableConfiguration second)
         {
             if (second == null) return first ?? GlobalConfiguration.Instance;
-            
+
             Dictionary<string, string> apiKey = first.ApiKey.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             Dictionary<string, string> apiKeyPrefix = first.ApiKeyPrefix.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             Dictionary<string, string> defaultHeaders = first.DefaultHeaders.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            
+
             foreach (var kvp in second.ApiKey) apiKey[kvp.Key] = kvp.Value;
             foreach (var kvp in second.ApiKeyPrefix) apiKeyPrefix[kvp.Key] = kvp.Value;
             foreach (var kvp in second.DefaultHeaders) defaultHeaders[kvp.Key] = kvp.Value;
@@ -403,10 +556,14 @@ namespace {{packageName}}.Client
                 DefaultHeaders = defaultHeaders,
                 BasePath = second.BasePath ?? first.BasePath,
                 Timeout = second.Timeout,
+                Proxy = second.Proxy ?? first.Proxy,
                 UserAgent = second.UserAgent ?? first.UserAgent,
                 Username = second.Username ?? first.Username,
                 Password = second.Password ?? first.Password,
                 AccessToken = second.AccessToken ?? first.AccessToken,
+                {{#hasHttpSignatureMethods}}
+                HttpSigningConfiguration = second.HttpSigningConfiguration ?? first.HttpSigningConfiguration,
+                {{/hasHttpSignatureMethods}}
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
                 DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat
             };

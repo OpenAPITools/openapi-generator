@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,27 +17,20 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RubyClientCodegen extends AbstractRubyCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
-    private static final String NUMERIC_ENUM_PREFIX = "N";
     public static final String GEM_VERSION = "gemVersion";
     public static final String GEM_LICENSE = "gemLicense";
     public static final String GEM_REQUIRED_RUBY_VERSION = "gemRequiredRubyVersion";
@@ -48,7 +41,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
     public static final String FARADAY = "faraday";
     public static final String TYPHOEUS = "typhoeus";
-
+    private final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
+    private static final String NUMERIC_ENUM_PREFIX = "N";
+    protected static int emptyMethodNameCounter = 0;
     protected String gemName;
     protected String moduleName;
     protected String gemVersion = "1.0.0";
@@ -64,10 +59,37 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
-    protected static int emptyMethodNameCounter = 0;
-
     public RubyClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling,
+                        GlobalFeature.ParameterizedServer,
+                        GlobalFeature.MultiServer
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath,
+                        ClientModificationFeature.UserAgent
+                )
+        );
 
         supportsInheritance = true;
 
@@ -104,14 +126,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         languageSpecificPrimitives.add("string");
 
         // remove modelPackage and apiPackage added by default
-        Iterator<CliOption> itr = cliOptions.iterator();
-        while (itr.hasNext()) {
-            CliOption opt = itr.next();
-            if (CodegenConstants.MODEL_PACKAGE.equals(opt.getOpt()) ||
-                    CodegenConstants.API_PACKAGE.equals(opt.getOpt())) {
-                itr.remove();
-            }
-        }
+        cliOptions.removeIf(opt -> CodegenConstants.MODEL_PACKAGE.equals(opt.getOpt()) ||
+                CodegenConstants.API_PACKAGE.equals(opt.getOpt()));
 
         cliOptions.add(new CliOption(CodegenConstants.GEM_NAME, CodegenConstants.GEM_NAME_DESC).
                 defaultValue("openapi_client"));
@@ -125,10 +141,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 defaultValue("unlicense"));
 
         cliOptions.add(new CliOption(GEM_REQUIRED_RUBY_VERSION, "gem required Ruby version. ").
-                defaultValue(">= 1.9"));
+                defaultValue(">= 2.4"));
 
         cliOptions.add(new CliOption(GEM_HOMEPAGE, "gem homepage. ").
-                defaultValue("http://org.openapitools"));
+                defaultValue("https://openapi-generator.tech"));
 
         cliOptions.add(new CliOption(GEM_SUMMARY, "gem summary. ").
                 defaultValue("A ruby wrapper for the REST APIs"));
@@ -136,7 +152,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         cliOptions.add(new CliOption(GEM_DESCRIPTION, "gem description. ").
                 defaultValue("This gem maps to a REST API"));
 
-        cliOptions.add(new CliOption(GEM_AUTHOR, "gem author (only one is supported)."));
+        cliOptions.add(new CliOption(GEM_AUTHOR, "gem author (only one is supported).").defaultValue("OpenAPI-Generator"));
 
         cliOptions.add(new CliOption(GEM_AUTHOR_EMAIL, "gem author email (only one is supported)."));
 
@@ -223,7 +239,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("gem.mustache", libFolder, gemName + ".rb"));
         String gemFolder = libFolder + File.separator + gemName;
         supportingFiles.add(new SupportingFile("api_error.mustache", gemFolder, "api_error.rb"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
         supportingFiles.add(new SupportingFile("version.mustache", gemFolder, "version.rb"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
@@ -242,16 +257,18 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             // for Faraday
             additionalProperties.put("isFaraday", Boolean.TRUE);
         } else {
-            throw new RuntimeException("Invalid HTTP library " +  getLibrary() + ". Only faraday, typhoeus are supported.");
+            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only faraday, typhoeus are supported.");
         }
 
         // test files should not be overwritten
-        writeOptional(outputFolder, new SupportingFile("rspec.mustache", "", ".rspec"));
-        writeOptional(outputFolder, new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.rb"));
-        writeOptional(outputFolder, new SupportingFile("configuration_spec.mustache", specFolder, "configuration_spec.rb"));
-        writeOptional(outputFolder, new SupportingFile("api_client_spec.mustache", specFolder, "api_client_spec.rb"));
-        // not including base object test as the moment as not all API has model
-        //writeOptional(outputFolder, new SupportingFile("base_object_spec.mustache", specFolder, "base_object_spec.rb"));
+        supportingFiles.add(new SupportingFile("rspec.mustache", "", ".rspec")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.rb")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("configuration_spec.mustache", specFolder, "configuration_spec.rb")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("api_client_spec.mustache", specFolder, "api_client_spec.rb")
+                .doNotOverwrite());
     }
 
     @Override
@@ -273,7 +290,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
      * Generate Ruby module name from the gem name, e.g. use "OpenAPIClient" for "openapi_client".
      *
      * @param gemName Ruby gem name
-     * @return Ruby module naame
+     *
+     * @return Ruby module name
      */
     @SuppressWarnings("static-method")
     public String generateModuleName(String gemName) {
@@ -283,7 +301,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     /**
      * Generate Ruby gem name from the module name, e.g. use "openapi_client" for "OpenAPIClient".
      *
-     * @param moduleName Ruby module naame
+     * @param moduleName Ruby module name
+     *
      * @return Ruby gem name
      */
     @SuppressWarnings("static-method")
@@ -342,33 +361,35 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+    public String toModelName(final String name) {
+        String modelName;
+        modelName = sanitizeName(name);
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
+            modelName = modelNamePrefix + "_" + modelName;
         }
 
         if (!StringUtils.isEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
+            modelName = modelName + "_" + modelNameSuffix;
         }
 
         // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            String modelName = camelize("Model" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+        if (isReservedWord(modelName)) {
+            modelName = camelize("Model" + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        if (modelName.matches("^\\d.*")) {
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", modelName,
+                    camelize("model_" + modelName));
+            modelName = "model_" + modelName; // e.g. 200Response => Model200Response (after camelize)
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return camelize(modelName);
     }
 
     @Override
@@ -382,12 +403,17 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toApiFilename(String name) {
+    public String toApiFilename(final String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        String filename = name;
+        if (apiNameSuffix != null && apiNameSuffix.length() > 0) {
+            filename = filename + "_" + apiNameSuffix;
+        }
+
+        filename = filename.replaceAll("-", "_");
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
-        return underscore(name) + "_api";
+        return underscore(filename);
     }
 
     @Override
@@ -407,11 +433,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toApiName(String name) {
-        if (name.length() == 0) {
-            return "DefaultApi";
-        }
-        // e.g. phone_number_api => PhoneNumberApi
-        return camelize(name) + "Api";
+        return super.toApiName(name);
     }
 
     @Override
@@ -474,20 +496,20 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         // rename to empty_method_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
             operationId = underscore("empty_method_name_" + emptyMethodNameCounter++);
-            LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
+            LOGGER.warn("Empty method name (operationId) found. Renamed to {}", operationId);
             return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = underscore("call_" + operationId);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -497,98 +519,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     @Override
     public String toApiImport(String name) {
         return gemName + "/" + apiPackage() + "/" + toApiFilename(name);
-    }
-
-    @Override
-    public void setParameterExampleValue(CodegenParameter p) {
-        String example;
-
-        if (p.defaultValue == null) {
-            example = p.example;
-        } else {
-            p.example = p.defaultValue;
-            return;
-        }
-
-        String type = p.baseType;
-        if (type == null) {
-            type = p.dataType;
-        }
-
-        if ("String".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = p.paramName + "_example";
-            }
-            example = "'" + escapeText(example) + "'";
-        } else if ("Integer".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "56";
-            }
-        } else if ("Float".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "3.4";
-            }
-        } else if ("BOOLEAN".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "true";
-            }
-        } else if ("File".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "/path/to/file";
-            }
-            example = "File.new('" + escapeText(example) + "')";
-        } else if ("Date".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "2013-10-20";
-            }
-            example = "Date.parse('" + escapeText(example) + "')";
-        } else if ("DateTime".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "2013-10-20T19:20:30+01:00";
-            }
-            example = "DateTime.parse('" + escapeText(example) + "')";
-        } else if (!languageSpecificPrimitives.contains(type)) {
-            // type is a model class, e.g. User
-            example = moduleName + "::" + type + ".new";
-        }
-
-        if (example == null) {
-            example = "nil";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
-            example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
-            example = "{'key' => " + example + "}";
-        }
-
-        p.example = example;
-    }
-
-    /**
-     * Return the example value of the parameter. Overrides the
-     * setParameterExampleValue(CodegenParameter, Parameter) method in
-     * DefaultCodegen to always call setParameterExampleValue(CodegenParameter)
-     * in this class, which adds single quotes around strings from the
-     * x-example property.
-     *
-     * @param codegenParameter Codegen parameter
-     * @param parameter        Parameter
-     */
-    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
-        if (parameter.getExample() != null) {
-            codegenParameter.example = parameter.getExample().toString();
-        } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
-            Example example = parameter.getExamples().values().iterator().next();
-            if (example.getValue() != null) {
-                codegenParameter.example = example.getValue().toString();
-            }
-        } else {
-            Schema schema = parameter.getSchema();
-            if (schema != null && schema.getExample() != null) {
-                codegenParameter.example = schema.getExample().toString();
-            }
-        }
-
-        setParameterExampleValue(codegenParameter);
     }
 
     public void setGemName(String gemName) {
@@ -633,10 +563,222 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+        final Schema additionalProperties = getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
         }
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
+        HashMap<String, Integer> processedModelMaps = new HashMap<String, Integer>();
+
+        for (Object o : allModels) {
+            HashMap<String, Object> h = (HashMap<String, Object>) o;
+            CodegenModel m = (CodegenModel) h.get("model");
+            modelMaps.put(m.classname, m);
+        }
+
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            for (CodegenParameter p : op.allParams) {
+                p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));
+            }
+            processedModelMaps.clear();
+            for (CodegenParameter p : op.requiredParams) {
+                p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));
+            }
+            processedModelMaps.clear();
+            for (CodegenParameter p : op.optionalParams) {
+                p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));
+            }
+            processedModelMaps.clear();
+            for (CodegenParameter p : op.bodyParams) {
+                p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));
+            }
+            processedModelMaps.clear();
+            for (CodegenParameter p : op.pathParams) {
+                p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));
+            }
+            processedModelMaps.clear();
+        }
+
+        return objs;
+    }
+
+    private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
+        if (codegenParameter.isArray) { // array
+            return "[" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "]";
+        } else if (codegenParameter.isMap) {
+            return "{ key: " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
+        } else if (codegenParameter.isPrimitiveType) { // primitive type
+            if (codegenParameter.isEnum) {
+                // When inline enum, set example to first allowable value
+                List<Object> values = (List<Object>) codegenParameter.allowableValues.get("values");
+                codegenParameter.example = String.valueOf(values.get(0));
+            }
+            if (codegenParameter.isString || "String".equalsIgnoreCase(codegenParameter.baseType)) {
+                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                    return "'" + codegenParameter.example + "'";
+                }
+                return "'" + codegenParameter.paramName + "_example'";
+            } else if (codegenParameter.isBoolean) { // boolean
+                if (Boolean.parseBoolean(codegenParameter.example)) {
+                    return "true";
+                }
+                return "false";
+            } else if (codegenParameter.isUri) {
+                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                    return "'" + codegenParameter.example + "'";
+                }
+                return "'https://example.com'";
+            } else if (codegenParameter.isDateTime) {
+                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                    return "Time.parse('" + codegenParameter.example + "')";
+                }
+                return "Time.now";
+            } else if (codegenParameter.isDate) {
+                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                    return "Date.parse('" + codegenParameter.example + "')";
+                }
+                return "Date.today";
+            } else if (codegenParameter.isFile) {
+                return "File.new('/path/to/some/file')";
+            } else if (codegenParameter.isInteger) {
+                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                    return codegenParameter.example;
+                }
+                return "37";
+            } else { // number
+                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                    return codegenParameter.example;
+                }
+                return "3.56";
+            }
+        } else { // model
+            // look up the model
+            if (modelMaps.containsKey(codegenParameter.dataType)) {
+                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap);
+            } else {
+                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
+                return "TODO";
+            }
+        }
+    }
+
+    private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
+        if (codegenProperty.isArray) { // array
+            if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                String value = codegenProperty.example;
+                value = value.replaceAll(",", ", ");
+                value = value.replaceAll(":", ": ");
+                return value;
+            }
+            return "[" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "]";
+        } else if (codegenProperty.isMap) {
+            if (codegenProperty.items != null) {
+                return "{ key: " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            } else {
+                return "{ ... }";
+            }
+        } else if (codegenProperty.isPrimitiveType) { // primitive type
+            if (codegenProperty.isEnum) {
+                // When inline enum, set example to first allowable value
+                List<Object> values = (List<Object>) codegenProperty.allowableValues.get("values");
+                codegenProperty.example = String.valueOf(values.get(0));
+            }
+            if (codegenProperty.isString || "String".equalsIgnoreCase(codegenProperty.baseType)) {
+                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                    return "'" + codegenProperty.example + "'";
+                } else {
+                    return "'" + codegenProperty.name + "_example'";
+                }
+            } else if (codegenProperty.isBoolean) { // boolean
+                if (Boolean.parseBoolean(codegenProperty.example)) {
+                    return "true";
+                } else {
+                    return "false";
+                }
+            } else if (codegenProperty.isUri) {
+                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                    return "'" + codegenProperty.example + "'";
+                }
+                return "'https://example.com'";
+            } else if (codegenProperty.isDateTime) {
+                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                    return "Time.parse('" + codegenProperty.example + "')";
+                }
+                return "Time.now";
+            } else if (codegenProperty.isDate) {
+                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                    return "Date.parse('" + codegenProperty.example + "')";
+                }
+                return "Date.today";
+            } else if (codegenProperty.isFile) {
+                return "File.new('/path/to/some/file')";
+            } else if (codegenProperty.isInteger) {
+                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                    return codegenProperty.example;
+                }
+                return "37";
+            } else { // number
+                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                    return codegenProperty.example;
+                }
+                return "3.56";
+            }
+        } else { // model
+            // look up the model
+            if (modelMaps.containsKey(codegenProperty.dataType)) {
+                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap);
+            } else {
+                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
+                return "TODO";
+            }
+        }
+    }
+
+    private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
+        // break infinite recursion. Return, in case a model is already processed in the current context.
+        String model = codegenModel.name;
+        if (processedModelMap.containsKey(model)) {
+            int count = processedModelMap.get(model);
+            if (count == 1) {
+                processedModelMap.put(model, 2);
+            } else if (count == 2) {
+                return "";
+            } else {
+                throw new RuntimeException("Invalid count when constructing example: " + count);
+            }
+        } else if (codegenModel.isEnum) {
+            List<Map<String, String>> enumVars = (List<Map<String, String>>) codegenModel.allowableValues.get("enumVars");
+            return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).get("name");
+        } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
+            String subModel = (String) codegenModel.oneOf.toArray()[0];
+            if (modelMaps.containsKey(subModel)) {
+                // oneOf models
+                return constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap);
+            } else {
+                // TODO oneOf primitive type not supported at the moment
+                LOGGER.warn("oneOf example value not supported at the moment.");
+                return "nil";
+            }
+        } else {
+            processedModelMap.put(model, 1);
+        }
+
+        List<String> propertyExamples = new ArrayList<>();
+        for (CodegenProperty codegenProperty : codegenModel.requiredVars) {
+            propertyExamples.add(codegenProperty.name + ": " + constructExampleCode(codegenProperty, modelMaps, processedModelMap));
+        }
+        String example = moduleName + "::" + toModelName(model) + ".new";
+        if (!propertyExamples.isEmpty()) {
+            example += "({" + StringUtils.join(propertyExamples, ", ") + "})";
+        }
+        return example;
     }
 }

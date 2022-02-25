@@ -1,0 +1,31 @@
+{
+  "name": "ts-petstore-client",
+  "version": "1.0.0",
+  "description": "OpenAPI client for ts-petstore-client",
+  "author": "OpenAPI-Generator Contributors",
+  "keywords": [
+    "fetch",
+    "typescript",
+    "openapi-client",
+    "openapi-generator"
+  ],
+  "license": "Unlicense",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.0",
+    "@types/node-fetch": "^2.5.7",
+    "@types/node": "*",
+    "form-data": "^2.5.0",
+    "btoa": "^1.2.1",
+    "es6-promise": "^4.2.4",
+    "url-parse": "^1.4.3"
+  },
+  "devDependencies": {
+    "typescript": "^3.9.3"
+  }
+}

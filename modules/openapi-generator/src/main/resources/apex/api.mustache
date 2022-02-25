@@ -23,11 +23,11 @@ public class {{classname}} {
      * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
      {{/allParams}}
      {{#returnType}}
-     * @return {{{returnType}}}
+     * @return {{{.}}}
      {{/returnType}}
      * @throws OAS.ApiException if fails to make API call
      */
-    public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#hasParams}}Map<String, Object> params{{/hasParams}}) {
+    public {{{returnType}}}{{^returnType}}void{{/returnType}} {{operationId}}({{#hasParams}}Map<String, Object> params{{/hasParams}}) {
     {{#allParams}}
       {{#required}}
         client.assertNotNull(params.get('{{paramName}}'), '{{paramName}}');
@@ -39,20 +39,20 @@ public class {{classname}} {
         // cast query params to verify their expected type
     {{/hasQueryParams}}
     {{#queryParams}}
-      {{#isListContainer}}
+      {{#isArray}}
         {{#isCollectionFormatMulti}}
         query.addAll(client.makeParams('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}')));
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
         query.addAll(client.makeParam('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}'), '{{collectionFormat}}'));
         {{/isCollectionFormatMulti}}
-      {{/isListContainer}}
-      {{^isListContainer}}
+      {{/isArray}}
+      {{^isArray}}
         query.addAll(client.makeParam('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}')));
-      {{/isListContainer}}
-      {{^hasMore}}
+      {{/isArray}}
+      {{#-last}}
 
-      {{/hasMore}}
+      {{/-last}}
     {{/queryParams}}
         List<OAS.Param> form = new List<OAS.Param>();
     {{#hasFormParams}}
@@ -60,53 +60,53 @@ public class {{classname}} {
         // cast form params to verify their expected type
     {{/hasFormParams}}
     {{#formParams}}
-      {{#isListContainer}}
+      {{#isArray}}
         {{#isCollectionFormatMulti}}
         form.addAll(client.makeParams('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}')));
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
         form.addAll(client.makeParam('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}'), '{{collectionFormat}}'));
         {{/isCollectionFormatMulti}}
-      {{/isListContainer}}
-      {{^isListContainer}}
+      {{/isArray}}
+      {{^isArray}}
         form.addAll(client.makeParam('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}')));
-      {{/isListContainer}}
+      {{/isArray}}
     {{/formParams}}
 
-        {{#returnType}}return ({{{returnType}}}) {{/returnType}}client.invoke(
+        {{#returnType}}return ({{{.}}}) {{/returnType}}client.invoke(
             '{{httpMethod}}', '{{path}}',{{#bodyParam}}
             ({{{dataType}}}) params.get('{{paramName}}'){{/bodyParam}}{{^bodyParam}} ''{{/bodyParam}},
             query, form,
             new Map<String, Object>{{#hasPathParams}}{
               {{#pathParams}}
-                '{{baseName}}' => ({{{dataType}}}) params.get('{{paramName}}'){{#hasMore}},{{/hasMore}}
+                '{{baseName}}' => ({{{dataType}}}) params.get('{{paramName}}'){{^-last}},{{/-last}}
               {{/pathParams}}
             }{{/hasPathParams}}{{^hasPathParams}}(){{/hasPathParams}},
             new Map<String, Object>{{#hasHeaderParams}}{
               {{#headerParams}}
-                '{{baseName}}' => ({{{dataType}}}) params.get('{{paramName}}'){{#hasMore}},{{/hasMore}}
+                '{{baseName}}' => ({{{dataType}}}) params.get('{{paramName}}'){{^-last}},{{/-last}}
               {{/headerParams}}
             }{{/hasHeaderParams}}{{^hasHeaderParams}}(){{/hasHeaderParams}},
           {{#hasProduces}}
-            new List<String>{ {{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}} },
+            new List<String>{ {{#produces}}'{{mediaType}}'{{^-last}}, {{/-last}}{{/produces}} },
           {{/hasProduces}}
           {{^hasProduces}}
             new List<String>(),
           {{/hasProduces}}
           {{#hasConsumes}}
-            new List<String>{ {{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}} },
+            new List<String>{ {{#consumes}}'{{mediaType}}'{{^-last}}, {{/-last}}{{/consumes}} },
           {{/hasConsumes}}
           {{^hasConsumes}}
             new List<String>(),
           {{/hasConsumes}}
           {{#hasAuthMethods}}
-            new List<String> { {{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}} },
+            new List<String> { {{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}} },
           {{/hasAuthMethods}}
           {{^hasAuthMethods}}
             new List<String>(),
           {{/hasAuthMethods}}
           {{#returnType}}
-            {{{returnType}}}.class
+            {{{.}}}.class
           {{/returnType}}
           {{^returnType}}
             null

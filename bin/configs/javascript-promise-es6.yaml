@@ -1,0 +1,7 @@
+generatorName: javascript
+outputDir: samples/client/petstore/javascript-promise-es6
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/Javascript/es6
+additionalProperties:
+  usePromises: "true"
+  appName: PetstoreClient

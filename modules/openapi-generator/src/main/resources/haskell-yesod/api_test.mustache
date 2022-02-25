@@ -1,0 +1,33 @@
+{-# LANGUAGE NoImplicitPrelude #-}
+{-# LANGUAGE OverloadedStrings #-}
+module Handler.{{classname}}Spec (spec) where
+
+import           TestImport
+
+
+spec :: Spec
+spec = withApp $ do
+{{#operations}}
+{{#operation}}
+
+    describe "{{vendorExtensions.x-handler}}" $
+        it "returns 501 Not Implemented" $ do
+{{#vendorExtensions.x-is-get-or-post}}
+{{#hasPathParams}}
+            {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}} $ {{vendorExtensions.x-resource}}{{#pathParams}} {{{vendorExtensions.x-test-value}}}{{/pathParams}}
+{{/hasPathParams}}
+{{^hasPathParams}}
+            {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}} {{vendorExtensions.x-resource}}
+{{/hasPathParams}}
+{{/vendorExtensions.x-is-get-or-post}}
+{{^vendorExtensions.x-is-get-or-post}}
+{{#hasPathParams}}
+            performMethod "{{httpMethod}}" $ {{vendorExtensions.x-resource}}{{#pathParams}} {{{vendorExtensions.x-test-value}}}{{/pathParams}}
+{{/hasPathParams}}
+{{^hasPathParams}}
+            performMethod "{{httpMethod}}" {{vendorExtensions.x-resource}}
+{{/hasPathParams}}
+{{/vendorExtensions.x-is-get-or-post}}
+            statusIs 501
+{{/operation}}
+{{/operations}}

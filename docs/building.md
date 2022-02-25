@@ -7,9 +7,9 @@ title: Building the code
 
 To build from source, you need the following installed and available in your `$PATH:`
 
-* [Java 8](http://java.oracle.com)
+* [Java 8](https://java.oracle.com)
 
-* [Apache maven 3.3.4 or greater](http://maven.apache.org/)
+* [Apache maven 3.3.4 or greater](https://maven.apache.org/)
 
 After cloning the project, you can build it from source with this command:
 
@@ -43,9 +43,9 @@ Once built, `run-in-docker.sh` will act as an executable for openapi-generator-c
 ```bash
 ./run-in-docker.sh help # Executes 'help' command for openapi-generator-cli
 ./run-in-docker.sh list # Executes 'list' command for openapi-generator-cli
-./run-in-docker.sh /gen/bin/go-petstore.sh  # Builds the Go client
-./run-in-docker.sh generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
-    -g go -o /gen/out/go-petstore -DpackageName=petstore # generates go client, outputs locally to ./out/go-petstore
+./run-in-docker.sh /gen/bin/generate-samples.sh /gen/bin/configs/go-petstore.yaml  # Builds the Go client
+./run-in-docker.sh generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
+    -g go -o /gen/out/go-petstore --packageName=petstore # generates go client, outputs locally to ./out/go-petstore
 ```
 
 ### Docker in Vagrant
@@ -53,7 +53,7 @@ Once built, `run-in-docker.sh` will act as an executable for openapi-generator-c
 Prerequisite: install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
 
 ```bash
-git clone http://github.com/openapitools/openapi-generator.git
+git clone https://github.com/openapitools/openapi-generator.git
 cd openapi-generator
 vagrant up
 vagrant ssh

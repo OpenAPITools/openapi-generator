@@ -1,0 +1,227 @@
+{{>licenseInfo}}
+/* tslint:disable:no-unused-variable member-ordering */
+
+import { HttpService, Inject, Injectable, Optional } from '@nestjs/common';
+import { AxiosResponse } from 'axios';
+import { Observable } from 'rxjs';
+{{#imports}}
+import { {{classname}} } from '../{{filename}}';
+{{/imports}}
+import { Configuration } from '../configuration';
+{{#withInterfaces}}
+import { {{classname}}Interface } from './{{classFilename}}Interface';
+{{/withInterfaces}}
+
+{{#operations}}
+
+{{#description}}
+/**
+ * {{&description}}
+ */
+{{/description}}
+@Injectable()
+{{#withInterfaces}}
+export class {{classname}} implements {{classname}}Interface {
+{{/withInterfaces}}
+{{^withInterfaces}}
+export class {{classname}} {
+{{/withInterfaces}}
+
+    protected basePath = '{{{basePath}}}';
+    public defaultHeaders: Record<string,string> = {};
+    public configuration = new Configuration();
+
+    constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
+        this.configuration = configuration || this.configuration;
+        this.basePath = configuration?.basePath || this.basePath;
+    }
+
+    /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        return consumes.includes(form);
+    }
+
+{{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}* @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<any> {
+{{#allParams}}
+
+{{#required}}
+        {{#isConstEnumParam}}
+        let {{paramName}} = {{{dataType}}};
+        {{/isConstEnumParam}}
+        {{^isConstEnumParam}}
+        if ({{paramName}} === null || {{paramName}} === undefined) {
+            throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+        }
+        {{/isConstEnumParam}}
+{{/required}}
+{{/allParams}}
+
+{{#hasQueryParams}}
+        let queryParameters = {};
+{{#queryParams}}
+        {{#isArray}}
+        if ({{paramName}}) {
+        {{#isCollectionFormatMulti}}
+            {{paramName}}.forEach((element) => {
+                queryParameters.append('{{baseName}}', <any>element);
+            })
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+            queryParameters['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
+        {{/isCollectionFormatMulti}}
+        }
+        {{/isArray}}
+        {{^isArray}}
+        if ({{paramName}} !== undefined && {{paramName}} !== null) {
+        {{#isDateTime}}
+            queryParameters['{{baseName}}'] = <any>{{paramName}}.toISOString();
+        {{/isDateTime}}
+        {{^isDateTime}}
+            queryParameters['{{baseName}}'] = <any>{{paramName}};
+        {{/isDateTime}}
+        }
+        {{/isArray}}
+{{/queryParams}}
+
+{{/hasQueryParams}}
+        let headers = this.defaultHeaders;
+{{#headerParams}}
+        {{#isArray}}
+        if ({{paramName}}) {
+            headers['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
+        }
+        {{/isArray}}
+        {{^isArray}}
+        if ({{paramName}} !== undefined && {{paramName}} !== null) {
+            headers['{{baseName}}'] = String({{paramName}});
+        }
+        {{/isArray}}
+{{/headerParams}}
+
+{{#authMethods}}
+        // authentication ({{name}}) required
+{{#isApiKey}}
+{{#isKeyInHeader}}
+        if (this.configuration.apiKeys["{{keyParamName}}"]) {
+            headers['{{keyParamName}}'] = this.configuration.apiKeys["{{keyParamName}}"];
+        }
+
+{{/isKeyInHeader}}
+{{#isKeyInQuery}}
+        if (this.configuration.apiKeys["{{keyParamName}}"]) {
+            queryParameters['{{keyParamName}}'] = this.configuration.apiKeys["{{keyParamName}}"];
+        }
+
+{{/isKeyInQuery}}
+{{/isApiKey}}
+{{#isBasic}}
+        if (this.configuration.username || this.configuration.password) {
+            headers['Authorization'] = 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password);
+        }
+
+{{/isBasic}}
+{{#isOAuth}}
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers['Authorization'] = 'Bearer ' + accessToken;
+        }
+
+{{/isOAuth}}
+{{/authMethods}}
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            {{#produces}}
+            '{{{mediaType}}}'{{^-last}},{{/-last}}
+            {{/produces}}
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers['Accept'] = httpHeaderAcceptSelected;
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            {{#consumes}}
+            '{{{mediaType}}}'{{^-last}},{{/-last}}
+            {{/consumes}}
+        ];
+{{#bodyParam}}
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers['Content-Type'] = httpContentTypeSelected;
+        }
+{{/bodyParam}}
+{{#hasFormParams}}
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): void; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+{{#formParams}}
+{{#isFile}}
+
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+{{/isFile}}
+{{/formParams}}
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            // formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        }
+{{#formParams}}
+
+        {{#isArray}}
+        if ({{paramName}}) {
+        {{#isCollectionFormatMulti}}
+            {{paramName}}.forEach((element) => {
+                formParams.append('{{baseName}}', <any>element);
+            })
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+            formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+        {{/isCollectionFormatMulti}}
+        }
+        {{/isArray}}
+        {{^isArray}}
+        if ({{paramName}} !== undefined) {
+            formParams.append('{{baseName}}', <any>{{paramName}});
+        }
+        {{/isArray}}
+{{/formParams}}
+
+{{/hasFormParams}}
+        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
+            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+            {
+{{#hasQueryParams}}
+                params: queryParameters,
+{{/hasQueryParams}}
+{{#isResponseFile}}
+                responseType: "blob",
+{{/isResponseFile}}
+                withCredentials: this.configuration.withCredentials,
+                headers: headers
+            }
+        );
+    }
+{{/operation}}
+}
+{{/operations}}

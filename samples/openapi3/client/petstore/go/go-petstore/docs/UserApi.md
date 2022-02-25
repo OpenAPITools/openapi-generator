@@ -17,18 +17,49 @@ Method | HTTP request | Description
 
 ## CreateUser
 
-> CreateUser(ctx, user)
+> CreateUser(ctx).User(user).Execute()
+
 Create user
 
-This can only be done by the logged in user.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    user := *openapiclient.NewUser() // User | Created user object
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UserApi.CreateUser(context.Background()).User(user).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateUserRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**user** | [**User**](User.md)| Created user object | 
+ **user** | [**User**](User.md) | Created user object | 
 
 ### Return type
 
@@ -50,16 +81,49 @@ No authorization required
 
 ## CreateUsersWithArrayInput
 
-> CreateUsersWithArrayInput(ctx, user)
+> CreateUsersWithArrayInput(ctx).User(user).Execute()
+
 Creates list of users with given input array
 
-### Required Parameters
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    user := []openapiclient.User{*openapiclient.NewUser()} // []User | List of user object
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UserApi.CreateUsersWithArrayInput(context.Background()).User(user).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUsersWithArrayInput``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateUsersWithArrayInputRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**user** | [**[]User**](User.md)| List of user object | 
+ **user** | [**[]User**](User.md) | List of user object | 
 
 ### Return type
 
@@ -81,16 +145,49 @@ No authorization required
 
 ## CreateUsersWithListInput
 
-> CreateUsersWithListInput(ctx, user)
+> CreateUsersWithListInput(ctx).User(user).Execute()
+
 Creates list of users with given input array
 
-### Required Parameters
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    user := []openapiclient.User{*openapiclient.NewUser()} // []User | List of user object
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UserApi.CreateUsersWithListInput(context.Background()).User(user).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUsersWithListInput``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateUsersWithListInputRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**user** | [**[]User**](User.md)| List of user object | 
+ **user** | [**[]User**](User.md) | List of user object | 
 
 ### Return type
 
@@ -112,18 +209,53 @@ No authorization required
 
 ## DeleteUser
 
-> DeleteUser(ctx, username)
+> DeleteUser(ctx, username).Execute()
+
 Delete user
 
-This can only be done by the logged in user.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    username := "username_example" // string | The name that needs to be deleted
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UserApi.DeleteUser(context.Background(), username).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.DeleteUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**username** | **string**| The name that needs to be deleted | 
+**username** | **string** | The name that needs to be deleted | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteUserRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -145,16 +277,55 @@ No authorization required
 
 ## GetUserByName
 
-> User GetUserByName(ctx, username)
+> User GetUserByName(ctx, username).Execute()
+
 Get user by user name
 
-### Required Parameters
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    username := "username_example" // string | The name that needs to be fetched. Use user1 for testing.
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UserApi.GetUserByName(context.Background(), username).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.GetUserByName``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetUserByName`: User
+    fmt.Fprintf(os.Stdout, "Response from `UserApi.GetUserByName`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**username** | **string**| The name that needs to be fetched. Use user1 for testing. | 
+**username** | **string** | The name that needs to be fetched. Use user1 for testing. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetUserByNameRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -176,17 +347,53 @@ No authorization required
 
 ## LoginUser
 
-> string LoginUser(ctx, username, password)
+> string LoginUser(ctx).Username(username).Password(password).Execute()
+
 Logs user into the system
 
-### Required Parameters
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    username := "username_example" // string | The user name for login
+    password := "password_example" // string | The password for login in clear text
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UserApi.LoginUser(context.Background()).Username(username).Password(password).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.LoginUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `LoginUser`: string
+    fmt.Fprintf(os.Stdout, "Response from `UserApi.LoginUser`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiLoginUserRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**username** | **string**| The user name for login | 
-**password** | **string**| The password for login in clear text | 
+ **username** | **string** | The user name for login | 
+ **password** | **string** | The password for login in clear text | 
 
 ### Return type
 
@@ -208,12 +415,44 @@ No authorization required
 
 ## LogoutUser
 
-> LogoutUser(ctx, )
+> LogoutUser(ctx).Execute()
+
 Logs out current logged in user session
 
-### Required Parameters
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UserApi.LogoutUser(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.LogoutUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiLogoutUserRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -235,19 +474,55 @@ No authorization required
 
 ## UpdateUser
 
-> UpdateUser(ctx, username, user)
+> UpdateUser(ctx, username).User(user).Execute()
+
 Updated user
 
-This can only be done by the logged in user.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    username := "username_example" // string | name that need to be deleted
+    user := *openapiclient.NewUser() // User | Updated user object
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UserApi.UpdateUser(context.Background(), username).User(user).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.UpdateUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**username** | **string**| name that need to be deleted | 
-**user** | [**User**](User.md)| Updated user object | 
+**username** | **string** | name that need to be deleted | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateUserRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **user** | [**User**](User.md) | Updated user object | 
 
 ### Return type
 

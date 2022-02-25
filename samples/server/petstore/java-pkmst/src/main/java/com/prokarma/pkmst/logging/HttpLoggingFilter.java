@@ -42,7 +42,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HttpLoggingFilter implements Filter {
 
-  private static final Logger log = LoggerFactory.getLogger(HttpLoggingFilter.class);
+  private final Logger log = LoggerFactory.getLogger(HttpLoggingFilter.class);
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
@@ -70,7 +70,7 @@ public class HttpLoggingFilter implements Filter {
         chain.doFilter(bufferedRequest, bufferedResponse);
         long elapsedTime = System.currentTimeMillis() - start;
         String respContent = null;
-        if (bufferedResponse.getContent() == null || bufferedResponse.getContent() == "") {
+        if (bufferedResponse.getContent() == null || "".equals(bufferedResponse.getContent())) {
           respContent = "No data";
         } else {
           respContent = bufferedResponse.getContent();

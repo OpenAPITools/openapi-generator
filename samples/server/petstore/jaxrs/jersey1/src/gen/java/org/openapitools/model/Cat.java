@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   Cat.JSON_PROPERTY_DECLAWED
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class Cat extends Animal  {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
   @JsonProperty(JSON_PROPERTY_DECLAWED)
@@ -45,7 +45,7 @@ public class Cat extends Animal  {
    * Get declawed
    * @return declawed
    **/
-  @JsonProperty("declawed")
+  @JsonProperty(value = "declawed")
   @ApiModelProperty(value = "")
   
   public Boolean getDeclawed() {
@@ -58,7 +58,7 @@ public class Cat extends Animal  {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -75,7 +75,6 @@ public class Cat extends Animal  {
     return Objects.hash(declawed, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -90,7 +89,7 @@ public class Cat extends Animal  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

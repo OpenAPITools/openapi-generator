@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,8 +22,7 @@ import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
-
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import java.io.File;
 import java.util.*;
 
@@ -42,6 +41,9 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
     public TypeScriptInversifyClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+
         this.outputFolder = "generated-code/typescript-inversify";
 
         embeddedTemplateDir = templateDir = "typescript-inversify";
@@ -72,7 +74,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -89,7 +91,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     @Override
     public void processOpts() {
         super.processOpts();
-        // HttpCliens
+        // HttpClient
         supportingFiles.add(new SupportingFile("IHttpClient.mustache", getIndexDirectory(), "IHttpClient.ts"));
         supportingFiles.add(new SupportingFile("IAPIConfiguration.mustache", getIndexDirectory(), "IAPIConfiguration.ts"));
         supportingFiles.add(new SupportingFile("HttpClient.mustache", getIndexDirectory(), "HttpClient.ts"));
@@ -139,7 +141,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && dataType.equals("Blob");
+        return "Blob".equals(dataType);
     }
 
     @Override
@@ -186,6 +188,9 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         parameter.dataType = applyLocalTypeMapping(parameter.dataType);
+        if (parameter.isFormParam && parameter.isArray && "binary".equals(parameter.dataFormat)) {
+            parameter.isCollectionFormatMulti = true;
+        }
     }
 
     @Override
@@ -219,7 +224,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
                         insideCurly--;
 
                         // Add the more complicated component instead of just the brace.
-                        pathBuffer.append(toVarName(parameterName.toString()));
+                        pathBuffer.append(toParamName(parameterName.toString()));
                         pathBuffer.append("))}");
                         parameterName.setLength(0);
                         break;

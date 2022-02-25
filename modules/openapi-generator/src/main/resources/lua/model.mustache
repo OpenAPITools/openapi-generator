@@ -12,7 +12,7 @@ local function cast_{{classname}}(t)
 	return setmetatable(t, {{classname}}_mt)
 end
 
-local function new_{{classname}}({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}})
+local function new_{{classname}}({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}})
 	return cast_{{classname}}({
 		{{#vars}}
 		["{{baseName}}"] = {{name}};

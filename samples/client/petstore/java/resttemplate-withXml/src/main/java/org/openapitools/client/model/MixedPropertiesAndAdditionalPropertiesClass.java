@@ -18,16 +18,18 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
-import org.threeten.bp.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -39,26 +41,28 @@ import javax.xml.bind.annotation.*;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "MixedPropertiesAndAdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "MixedPropertiesAndAdditionalPropertiesClass")
 public class MixedPropertiesAndAdditionalPropertiesClass {
-  @XmlElement(name = "uuid")
   public static final String JSON_PROPERTY_UUID = "uuid";
+  @XmlElement(name = "uuid")
   private UUID uuid;
 
-  @XmlElement(name = "dateTime")
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  @XmlElement(name = "dateTime")
   private OffsetDateTime dateTime;
 
+  public static final String JSON_PROPERTY_MAP = "map";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Animal
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP = "map";
   private Map<String, Animal> map = null;
 
+  public MixedPropertiesAndAdditionalPropertiesClass() { 
+  }
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     
@@ -81,7 +85,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
-
+  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "uuid")
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
@@ -108,7 +114,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
-
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "dateTime")
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
@@ -122,7 +130,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
   public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
     if (this.map == null) {
-      this.map = new HashMap<String, Animal>();
+      this.map = new HashMap<>();
     }
     this.map.put(key, mapItem);
     return this;
@@ -142,14 +150,15 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
-
+  @JsonProperty(JSON_PROPERTY_MAP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -167,7 +176,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return Objects.hash(uuid, dateTime, map);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -183,7 +191,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

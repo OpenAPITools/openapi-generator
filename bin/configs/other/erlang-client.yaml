@@ -1,0 +1,6 @@
+generatorName: erlang-client
+outputDir: samples/client/petstore/erlang-client
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/erlang-client
+additionalProperties:
+  packageName: petstore

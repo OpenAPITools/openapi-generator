@@ -9,8 +9,11 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
+	"log"
 	"mime/multipart"
 	"net/http"
+	"net/http/httputil"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -22,6 +25,10 @@ import (
 	"unicode/utf8"
 
 	"golang.org/x/oauth2"
+	{{#withAWSV4Signature}}
+	awsv4 "github.com/aws/aws-sdk-go/aws/signer/v4"
+	awscredentials "github.com/aws/aws-sdk-go/aws/credentials"
+	{{/withAWSV4Signature}}
 )
 
 var (
@@ -40,7 +47,7 @@ type APIClient struct {
 {{#apis}}
 {{#operations}}
 
-	{{classname}} *{{classname}}Service
+	{{classname}} {{#generateInterfaces}}{{classname}}{{/generateInterfaces}}{{^generateInterfaces}}*{{classname}}Service{{/generateInterfaces}}
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
@@ -101,7 +108,7 @@ func selectHeaderAccept(accepts []string) string {
 	return strings.Join(accepts, ",")
 }
 
-// contains is a case insenstive match, finding needle in a haystack
+// contains is a case insensitive match, finding needle in a haystack
 func contains(haystack []string, needle string) bool {
 	for _, a := range haystack {
 		if strings.ToLower(a) == strings.ToLower(needle) {
@@ -158,15 +165,41 @@ func parameterToJson(obj interface{}) (string, error) {
 	return string(jsonBuf), err
 }
 
-
 // callAPI do the request.
 func (c *APIClient) callAPI(request *http.Request) (*http.Response, error) {
-	return c.cfg.HTTPClient.Do(request)
+	if c.cfg.Debug {
+		dump, err := httputil.DumpRequestOut(request, true)
+		if err != nil {
+			return nil, err
+		}
+		log.Printf("\n%s\n", string(dump))
+	}
+
+	resp, err := c.cfg.HTTPClient.Do(request)
+	if err != nil {
+		return resp, err
+	}
+
+	if c.cfg.Debug {
+		dump, err := httputil.DumpResponse(resp, true)
+		if err != nil {
+			return resp, err
+		}
+		log.Printf("\n%s\n", string(dump))
+	}
+	return resp, err
 }
 
-// ChangeBasePath changes base path to allow switching to mocks
-func (c *APIClient) ChangeBasePath(path string) {
-	c.cfg.BasePath = path
+// Allow modification of underlying config for alternate implementations and testing
+// Caution: modifying the configuration while live can cause data races and potentially unwanted behavior
+func (c *APIClient) GetConfig() *Configuration {
+	return c.cfg
+}
+
+type formFile struct {
+		fileBytes []byte
+		fileName string
+		formFileName string
 }
 
 // prepareRequest build the request
@@ -177,9 +210,7 @@ func (c *APIClient) prepareRequest(
 	headerParams map[string]string,
 	queryParams url.Values,
 	formParams url.Values,
-	formFileName string,
-	fileName string,
-	fileBytes []byte) (localVarRequest *http.Request, err error) {
+	formFiles []formFile) (localVarRequest *http.Request, err error) {
 
 	var body *bytes.Buffer
 
@@ -198,7 +229,7 @@ func (c *APIClient) prepareRequest(
 	}
 
 	// add form parameters and file if available.
-	if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") && len(formParams) > 0 || (len(fileBytes) > 0 && fileName != "") {
+	if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") && len(formParams) > 0 || (len(formFiles) > 0) {
 		if body != nil {
 			return nil, errors.New("Cannot specify postBody and multipart form at the same time.")
 		}
@@ -217,16 +248,17 @@ func (c *APIClient) prepareRequest(
 				}
 			}
 		}
-		if len(fileBytes) > 0 && fileName != "" {
-			w.Boundary()
-			//_, fileNm := filepath.Split(fileName)
-			part, err := w.CreateFormFile(formFileName, filepath.Base(fileName))
-			if err != nil {
-				return nil, err
-			}
-			_, err = part.Write(fileBytes)
-			if err != nil {
-				return nil, err
+		for _, formFile := range formFiles {
+			if len(formFile.fileBytes) > 0 && formFile.fileName != "" {
+				w.Boundary()
+				part, err := w.CreateFormFile(formFile.formFileName, filepath.Base(formFile.fileName))
+				if err != nil {
+						return nil, err
+				}
+				_, err = part.Write(formFile.fileBytes)
+				if err != nil {
+						return nil, err
+				}
 			}
 		}
 
@@ -289,7 +321,7 @@ func (c *APIClient) prepareRequest(
 	if len(headerParams) > 0 {
 		headers := http.Header{}
 		for h, v := range headerParams {
-			headers.Set(h, v)
+			headers[h] = []string{v}
 		}
 		localVarRequest.Header = headers
 	}
@@ -323,19 +355,82 @@ func (c *APIClient) prepareRequest(
 		if auth, ok := ctx.Value(ContextAccessToken).(string); ok {
 			localVarRequest.Header.Add("Authorization", "Bearer "+auth)
 		}
+
+		{{#withAWSV4Signature}}
+		// AWS Signature v4 Authentication
+		if auth, ok := ctx.Value(ContextAWSv4).(AWSv4); ok {
+			creds := awscredentials.NewStaticCredentials(auth.AccessKey, auth.SecretKey, auth.SessionToken)
+			signer := awsv4.NewSigner(creds)
+			var reader *strings.Reader
+			if body == nil {
+				reader = strings.NewReader("")
+			} else {
+				reader = strings.NewReader(body.String())
+			}
+
+			// Define default values for region and service to maintain backward compatibility
+			region := auth.Region
+			if region == "" {
+				region = "eu-west-2"
+			}
+			service := auth.Service
+			if service == "" {
+				service = "oapi"
+			}
+
+			timestamp := time.Now()
+			_, err := signer.Sign(localVarRequest, reader, service, region, timestamp)
+			if err != nil {
+				return nil, err
+			}
+		}
+		{{/withAWSV4Signature}}
 	}
 
 	for header, value := range c.cfg.DefaultHeader {
 		localVarRequest.Header.Add(header, value)
 	}
+{{#withCustomMiddlewareFunction}}
 
+	if c.cfg.Middleware != nil {
+		c.cfg.Middleware(localVarRequest)
+	}
+
+{{/withCustomMiddlewareFunction}}
+{{#hasHttpSignatureMethods}}
+	if ctx != nil {
+		// HTTP Signature Authentication. All request headers must be set (including default headers)
+		// because the headers may be included in the signature.
+		if auth, ok := ctx.Value(ContextHttpSignatureAuth).(HttpSignatureAuth); ok {
+			err = SignRequest(ctx, localVarRequest, auth)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
+{{/hasHttpSignatureMethods}}
 	return localVarRequest, nil
 }
 
 func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err error) {
+	if len(b) == 0 {
+		return nil
+	}
 	if s, ok := v.(*string); ok {
 		*s = string(b)
 		return nil
+	}
+	if f, ok := v.(**os.File); ok {
+		*f, err = ioutil.TempFile("", "HttpClientFile")
+		if err != nil {
+			return
+		}
+		_, err = (*f).Write(b)
+		if err != nil {
+			return
+		}
+		_, err = (*f).Seek(0, io.SeekStart)
+		return
 	}
 	if xmlCheck.MatchString(contentType) {
 		if err = xml.Unmarshal(b, v); err != nil {
@@ -344,7 +439,15 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 		return nil
 	}
 	if jsonCheck.MatchString(contentType) {
-		if err = json.Unmarshal(b, v); err != nil {
+		if actualObj, ok := v.(interface{ GetActualInstance() interface{} }); ok { // oneOf, anyOf schemas
+			if unmarshalObj, ok := actualObj.(interface{ UnmarshalJSON([]byte) error }); ok { // make sure it has UnmarshalJSON defined
+				if err = unmarshalObj.UnmarshalJSON(b); err != nil {
+					return err
+				}
+			} else {
+				return errors.New("Unknown type with GetActualInstance but no unmarshalObj.UnmarshalJSON defined")
+			}
+		} else if err = json.Unmarshal(b, v); err != nil { // simple model
 			return err
 		}
 		return nil
@@ -374,6 +477,13 @@ func reportError(format string, a ...interface{}) error {
 	return fmt.Errorf(format, a...)
 }
 
+// A wrapper for strict JSON decoding
+func newStrictDecoder(data []byte) *json.Decoder {
+	dec := json.NewDecoder(bytes.NewBuffer(data))
+	dec.DisallowUnknownFields()
+	return dec
+}
+
 // Set request body from an interface{}
 func setBody(body interface{}, contentType string) (bodyBuf *bytes.Buffer, err error) {
 	if bodyBuf == nil {
@@ -382,6 +492,8 @@ func setBody(body interface{}, contentType string) (bodyBuf *bytes.Buffer, err e
 
 	if reader, ok := body.(io.Reader); ok {
 		_, err = bodyBuf.ReadFrom(reader)
+	} else if fp, ok := body.(**os.File); ok {
+		_, err = bodyBuf.ReadFrom(*fp)
 	} else if b, ok := body.([]byte); ok {
 		_, err = bodyBuf.Write(b)
 	} else if s, ok := body.(string); ok {

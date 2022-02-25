@@ -1,18 +1,19 @@
 {{>licenseInfo}}
 package {{package}}
 
-import {{mainPackage}}.core.ApiModel
-import org.joda.time.DateTime
-import java.util.UUID
+{{#imports}}
+import {{import}}
+{{/imports}}
+import {{invokerPackage}}.ApiModel
 
 {{#models}}
 {{#model}}
 case class {{classname}} (
   {{#vars}}
   {{#description}}
-  /* {{{description}}} */
+  /* {{{.}}} */
   {{/description}}
-  {{{name}}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{classname}}Enums.{{datatypeWithEnum}}{{/isEnum}}{{^required}}] = None{{/required}}{{#hasMore}},{{/hasMore}}
+  {{{name}}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{classname}}Enums.{{datatypeWithEnum}}{{/isEnum}}{{^required}}] = None{{/required}}{{^-last}},{{/-last}}
   {{/vars}}
 ) extends ApiModel
 
@@ -38,4 +39,3 @@ object {{classname}}Enums {
 {{/hasEnums}}
 {{/model}}
 {{/models}}
-

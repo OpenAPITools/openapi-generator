@@ -1,13 +1,21 @@
 -module({{packageName}}_logic_handler).
 
 -export([handle_request/4]).
+{{#authMethods}}
+{{#isApiKey}}
+{{#-first}}
 -export([authorize_api_key/3]).
+{{/-first}}
+{{/isApiKey}}
+{{/authMethods}}
+{{^authMethods}}
+-export([authorize_api_key/3]).
+{{/authMethods}}
 -type context() :: #{binary() => any()}.
 -type handler_response() ::{
     Status :: cowboy:http_status(),
     Headers :: cowboy:http_headers(),
-    Body :: #{}
-}.
+    Body :: jsx:json_term()}.
 
 -export_type([handler_response/0]).
 

@@ -37,7 +37,7 @@ import javax.validation.Valid;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @JsonProperty(JSON_PROPERTY_UUID)
@@ -60,7 +60,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    * Get uuid
    * @return uuid
    **/
-  @JsonProperty("uuid")
+  @JsonProperty(value = "uuid")
   @ApiModelProperty(value = "")
   
   public UUID getUuid() {
@@ -80,7 +80,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    * Get dateTime
    * @return dateTime
    **/
-  @JsonProperty("dateTime")
+  @JsonProperty(value = "dateTime")
   @ApiModelProperty(value = "")
   
   public OffsetDateTime getDateTime() {
@@ -108,7 +108,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    * Get map
    * @return map
    **/
-  @JsonProperty("map")
+  @JsonProperty(value = "map")
   @ApiModelProperty(value = "")
   @Valid 
   public Map<String, Animal> getMap() {
@@ -121,7 +121,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -139,7 +139,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     return Objects.hash(uuid, dateTime, map);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -156,7 +155,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

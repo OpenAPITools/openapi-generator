@@ -1,0 +1,15 @@
+stringFrom{{^paramName}}{{classname}}{{/paramName}}{{enumName}} : {{^paramName}}{{classname}}{{/paramName}}{{enumName}} -> String
+stringFrom{{^paramName}}{{classname}}{{/paramName}}{{enumName}}{{#isNumeric}} =
+    String.fromInt << intFrom{{^paramName}}{{classname}}{{/paramName}}{{enumName}}
+
+
+intFrom{{^paramName}}{{classname}}{{/paramName}}{{enumName}} : {{^paramName}}{{classname}}{{/paramName}}{{enumName}} -> Int
+intFrom{{^paramName}}{{classname}}{{/paramName}}{{enumName}}{{/isNumeric}} model =
+    case model of
+{{#allowableValues}}
+{{#enumVars}}
+        {{^paramName}}{{classname}}{{/paramName}}{{enumName}}{{name}} ->
+            {{#isString}}{{{value}}}{{/isString}}{{^isString}}{{name}}{{/isString}}
+
+{{/enumVars}}
+{{/allowableValues}}

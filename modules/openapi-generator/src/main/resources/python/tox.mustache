@@ -1,20 +1,9 @@
 [tox]
-{{^asyncio}}
-envlist = py27, py3
-{{/asyncio}}
-{{#asyncio}}
 envlist = py3
-{{/asyncio}}
 
 [testenv]
 deps=-r{toxinidir}/requirements.txt
      -r{toxinidir}/test-requirements.txt
 
 commands=
-{{^asyncio}}
-   nosetests \
-      []
-{{/asyncio}}
-{{#asyncio}}
-   pytest -v --cov petstore_api
-{{/asyncio}}
+   {{^useNose}}pytest --cov={{{packageName}}}{{/useNose}}{{#useNose}}nosetests{{/useNose}}

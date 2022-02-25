@@ -1,0 +1,13 @@
+generatorName: java
+outputDir: samples/openapi3/client/petstore/java/jersey2-java8
+library: jersey2
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: petstore-openapi3-jersey2-java8
+  hideGenerationTimestamp: true
+  serverPort: "8082"
+  dateLibrary: java8
+  useOneOfDiscriminatorLookup: true
+  disallowAdditionalPropertiesIfNotPresent: false
+  gradleProperties: "\n# JVM arguments\norg.gradle.jvmargs=-Xmx2024m -XX:MaxPermSize=512m\n# set timeout\norg.gradle.daemon.idletimeout=3600000\n# show all warnings\norg.gradle.warning.mode=all"

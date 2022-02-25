@@ -18,5 +18,5 @@ script:
   #- mvn test
   # test using gradle
   - gradle test
-  # test using sbt 
+  # test using sbt
   # - sbt test

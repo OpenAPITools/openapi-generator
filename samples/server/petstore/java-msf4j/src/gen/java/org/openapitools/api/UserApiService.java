@@ -6,6 +6,7 @@ import org.openapitools.model.*;
 import org.wso2.msf4j.formparam.FormDataParam;
 import org.wso2.msf4j.formparam.FileInfo;
 
+import java.util.Date;
 import java.util.List;
 import org.openapitools.model.User;
 
@@ -17,7 +18,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public abstract class UserApiService {
     public abstract Response createUser(User body
  ) throws NotFoundException;

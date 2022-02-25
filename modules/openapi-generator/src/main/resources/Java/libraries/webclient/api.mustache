@@ -4,24 +4,27 @@ import {{invokerPackage}}.ApiClient;
 
 {{#imports}}import {{import}};
 {{/imports}}
+{{^fullJavaUtil}}
 
-{{^fullJavaUtil}}import java.util.HashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;{{/fullJavaUtil}}
+import java.util.Map;
+import java.util.stream.Collectors;
+{{/fullJavaUtil}}
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
@@ -51,56 +54,107 @@ public class {{classname}} {
     /**
      * {{summary}}
      * {{notes}}
-{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{message}}{{/message}}
+{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
 {{/responses}}{{#allParams}}     * @param {{paramName}} {{description}}{{^description}}The {{paramName}} parameter{{/description}}
-{{/allParams}}{{#returnType}}     * @return {{returnType}}
-{{/returnType}}     * @throws RestClientException if an error occurs while attempting to invoke the API
+{{/allParams}}{{#returnType}}     * @return {{.}}
+{{/returnType}}     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+{{#externalDocs}}
+     * {{description}}
+     * @see <a href="{{url}}">{{summary}} Documentation</a>
+{{/externalDocs}}
+{{#isDeprecated}}
+     * @deprecated
+{{/isDeprecated}}
+     */
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
+    private ResponseSpec {{operationId}}RequestCreation({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws WebClientResponseException {
+        Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+        {{#allParams}}
+        {{#required}}
+        // verify the required parameter '{{paramName}}' is set
+        if ({{paramName}} == null) {
+            throw new WebClientResponseException("Missing the required parameter '{{paramName}}' when calling {{operationId}}", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        {{/required}}
+        {{/allParams}}
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        {{#hasPathParams}}
+
+        {{#pathParams}}
+        pathParams.put("{{baseName}}", {{#collectionFormat}}apiClient.collectionPathParameterToString(ApiClient.CollectionFormat.valueOf("csv".toUpperCase()), {{/collectionFormat}}{{{paramName}}}{{#collectionFormat}}){{/collectionFormat}});
+        {{/pathParams}}
+        {{/hasPathParams}}
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        {{#hasQueryParams}}
+
+        {{#queryParams}}
+        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+        {{/queryParams}}
+        {{/hasQueryParams}}
+        {{#hasHeaderParams}}
+
+        {{#headerParams}}
+        if ({{paramName}} != null)
+        headerParams.add("{{baseName}}", apiClient.parameterToString({{paramName}}));{{^-last}}
+        {{/-last}}
+        {{/headerParams}}
+        {{/hasHeaderParams}}
+        {{#hasCookieParams}}
+
+        {{#cookieParams}}
+        cookieParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+        {{/cookieParams}}
+        {{/hasCookieParams}}
+        {{#hasFormParams}}
+
+        {{#formParams}}
+        if ({{paramName}} != null)
+            formParams.add{{#collectionFormat}}All{{/collectionFormat}}("{{baseName}}", {{#isFile}}{{^collectionFormat}}{{#useAbstractionForFiles}}{{paramName}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}new FileSystemResource({{paramName}}){{/useAbstractionForFiles}}{{/collectionFormat}}{{/isFile}}{{#isFile}}{{#collectionFormat}}{{paramName}}.stream(){{^useAbstractionForFiles}}.map(FileSystemResource::new){{/useAbstractionForFiles}}.collect(Collectors.toList()){{/collectionFormat}}{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});
+        {{/formParams}}
+        {{/hasFormParams}}
+
+        final String[] localVarAccepts = { {{#hasProduces}}
+            {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}
+        {{/hasProduces}}};
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { {{#hasConsumes}}
+            {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}
+        {{/hasConsumes}}};
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
+
+        {{#returnType}}ParameterizedTypeReference<{{#isArray}}{{{returnBaseType}}}{{/isArray}}{{^isArray}}{{{returnType}}}{{/isArray}}> localVarReturnType = new ParameterizedTypeReference<{{#isArray}}{{{returnBaseType}}}{{/isArray}}{{^isArray}}{{{returnType}}}{{/isArray}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
+        return apiClient.invokeAPI("{{{path}}}", HttpMethod.{{httpMethod}}, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * {{summary}}
+     * {{notes}}
+{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
+{{/responses}}{{#allParams}}     * @param {{paramName}} {{description}}{{^description}}The {{paramName}} parameter{{/description}}
+{{/allParams}}{{#returnType}}     * @return {{.}}
+{{/returnType}}     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
 {{#externalDocs}}
     * {{description}}
     * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
      */
-    public {{#returnType}}{{#isListContainer}}Flux<{{{returnBaseType}}}>{{/isListContainer}}{{^isListContainer}}Mono<{{{returnType}}}>{{/isListContainer}} {{/returnType}}{{^returnType}}Mono<Void> {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws RestClientException {
-        Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
-        {{#allParams}}{{#required}}
-        // verify the required parameter '{{paramName}}' is set
-        if ({{paramName}} == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
-        }
-        {{/required}}{{/allParams}}{{#hasPathParams}}
-        // create path and map variables
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();{{#pathParams}}
-        uriVariables.put("{{baseName}}", {{{paramName}}});{{/pathParams}}{{/hasPathParams}}
-        String path = UriComponentsBuilder.fromPath("{{{path}}}"){{#hasPathParams}}.buildAndExpand(uriVariables){{/hasPathParams}}{{^hasPathParams}}.build(){{/hasPathParams}}.toUriString();
-        
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();{{#hasQueryParams}}
-        
-        {{#queryParams}}queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));{{#hasMore}}
-        {{/hasMore}}{{/queryParams}}{{/hasQueryParams}}{{#hasHeaderParams}}
-        
-        {{#headerParams}}if ({{paramName}} != null)
-        headerParams.add("{{baseName}}", apiClient.parameterToString({{paramName}}));{{#hasMore}}
-        {{/hasMore}}{{/headerParams}}{{/hasHeaderParams}}{{#hasFormParams}}
-        
-        {{#formParams}}if ({{paramName}} != null)
-            formParams.add("{{baseName}}", {{#isFile}}new FileSystemResource({{paramName}}){{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});{{#hasMore}}
-        {{/hasMore}}{{/formParams}}{{/hasFormParams}}
+    public {{#returnType}}{{#isArray}}Flux<{{{returnBaseType}}}>{{/isArray}}{{^isArray}}Mono<{{{returnType}}}>{{/isArray}} {{/returnType}}{{^returnType}}Mono<Void> {{/returnType}}{{operationId}}({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws WebClientResponseException {
+        {{#returnType}}ParameterizedTypeReference<{{#isArray}}{{{returnBaseType}}}{{/isArray}}{{^isArray}}{{{returnType}}}{{/isArray}}> localVarReturnType = new ParameterizedTypeReference<{{#isArray}}{{{returnBaseType}}}{{/isArray}}{{^isArray}}{{{returnType}}}{{/isArray}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
+        return {{operationId}}RequestCreation({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).{{#isArray}}bodyToFlux{{/isArray}}{{^isArray}}bodyToMono{{/isArray}}(localVarReturnType);
+    }
 
-        final String[] accepts = { {{#hasProduces}}
-            {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}
-        {{/hasProduces}}};
-        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-        final String[] contentTypes = { {{#hasConsumes}}
-            {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}
-        {{/hasConsumes}}};
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
-
-        String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
-
-        {{#returnType}}ParameterizedTypeReference<{{#isListContainer}}{{{returnBaseType}}}{{/isListContainer}}{{^isListContainer}}{{{returnType}}}{{/isListContainer}}> returnType = new ParameterizedTypeReference<{{#isListContainer}}{{{returnBaseType}}}{{/isListContainer}}{{^isListContainer}}{{{returnType}}}{{/isListContainer}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
-        return apiClient.{{#isListContainer}}invokeFluxAPI{{/isListContainer}}{{^isListContainer}}invokeAPI{{/isListContainer}}(path, HttpMethod.{{httpMethod}}, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    public {{#returnType}}{{#isArray}}Mono<ResponseEntity<List<{{{returnBaseType}}}>>>{{/isArray}}{{^isArray}}Mono<ResponseEntity<{{{returnType}}}>>{{/isArray}} {{/returnType}}{{^returnType}}Mono<ResponseEntity<Void>> {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws WebClientResponseException {
+        {{#returnType}}ParameterizedTypeReference<{{#isArray}}{{{returnBaseType}}}{{/isArray}}{{^isArray}}{{{returnType}}}{{/isArray}}> localVarReturnType = new ParameterizedTypeReference<{{#isArray}}{{{returnBaseType}}}{{/isArray}}{{^isArray}}{{{returnType}}}{{/isArray}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
+        return {{operationId}}RequestCreation({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).{{#isArray}}toEntityList{{/isArray}}{{^isArray}}toEntity{{/isArray}}(localVarReturnType);
     }
     {{/operation}}
 }

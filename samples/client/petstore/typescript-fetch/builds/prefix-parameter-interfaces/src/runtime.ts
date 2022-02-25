@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -43,8 +44,8 @@ export class BaseAPI {
         return this.withMiddleware<T>(...middlewares);
     }
 
-    protected async request(context: RequestOpts): Promise<Response> {
-        const { url, init } = this.createFetchParams(context);
+    protected async request(context: RequestOpts, initOverrides?: RequestInit): Promise<Response> {
+        const { url, init } = this.createFetchParams(context, initOverrides);
         const response = await this.fetchApi(url, init);
         if (response.status >= 200 && response.status < 300) {
             return response;
@@ -52,7 +53,7 @@ export class BaseAPI {
         throw response;
     }
 
-    private createFetchParams(context: RequestOpts) {
+    private createFetchParams(context: RequestOpts, initOverrides?: RequestInit) {
         let url = this.configuration.basePath + context.path;
         if (context.query !== undefined && Object.keys(context.query).length !== 0) {
             // only add the querystring to the URL if there are query parameters.
@@ -60,16 +61,17 @@ export class BaseAPI {
             // do not handle correctly sometimes.
             url += '?' + this.configuration.queryParamsStringify(context.query);
         }
-        const body = (context.body instanceof FormData || isBlob(context.body))
-	    ? context.body
-	    : JSON.stringify(context.body);
+        const body = ((typeof FormData !== "undefined" && context.body instanceof FormData) || context.body instanceof URLSearchParams || isBlob(context.body))
+        ? context.body
+        : JSON.stringify(context.body);
 
         const headers = Object.assign({}, this.configuration.headers, context.headers);
         const init = {
             method: context.method,
             headers: headers,
             body,
-            credentials: this.configuration.credentials
+            credentials: this.configuration.credentials,
+            ...initOverrides
         };
         return { url, init };
     }
@@ -84,13 +86,13 @@ export class BaseAPI {
                 }) || fetchParams;
             }
         }
-        let response = await this.configuration.fetchApi(fetchParams.url, fetchParams.init);
+        let response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
         for (const middleware of this.middleware) {
             if (middleware.post) {
                 response = await middleware.post({
                     fetch: this.fetchApi,
-                    url,
-                    init,
+                    url: fetchParams.url,
+                    init: fetchParams.init,
                     response: response.clone(),
                 }) || response;
             }
@@ -134,7 +136,7 @@ export interface ConfigurationParameters {
     username?: string; // parameter for basic security
     password?: string; // parameter for basic security
     apiKey?: string | ((name: string) => string); // parameter for apiKey security
-    accessToken?: string | ((name?: string, scopes?: string[]) => string); // parameter for oauth2 security
+    accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string | Promise<string>); // parameter for oauth2 security
     headers?: HTTPHeaders; //header params we want to use on every request
     credentials?: RequestCredentials; //value for the credentials param we want to use on each request
 }
@@ -143,11 +145,11 @@ export class Configuration {
     constructor(private configuration: ConfigurationParameters = {}) {}
 
     get basePath(): string {
-        return this.configuration.basePath || BASE_PATH;
+        return this.configuration.basePath != null ? this.configuration.basePath : BASE_PATH;
     }
 
-    get fetchApi(): FetchAPI {
-        return this.configuration.fetchApi || window.fetch.bind(window);
+    get fetchApi(): FetchAPI | undefined {
+        return this.configuration.fetchApi;
     }
 
     get middleware(): Middleware[] {
@@ -174,15 +176,15 @@ export class Configuration {
         return undefined;
     }
 
-    get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
+    get accessToken(): ((name?: string, scopes?: string[]) => string | Promise<string>) | undefined {
         const accessToken = this.configuration.accessToken;
         if (accessToken) {
-            return typeof accessToken === 'function' ? accessToken : () => accessToken;
+            return typeof accessToken === 'function' ? accessToken : async () => accessToken;
         }
         return undefined;
     }
 
-    get headers():  HTTPHeaders | undefined {
+    get headers(): HTTPHeaders | undefined {
         return this.configuration.headers;
     }
 
@@ -192,10 +194,10 @@ export class Configuration {
 }
 
 export type Json = any;
-export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
+export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD';
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | HTTPQuery };
-export type HTTPBody = Json | FormData;
+export type HTTPBody = Json | FormData | URLSearchParams;
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
 export interface FetchParams {
@@ -226,6 +228,9 @@ export function querystring(params: HTTPQuery, prefix: string = ''): string {
                     .join(`&${encodeURIComponent(fullKey)}=`);
                 return `${encodeURIComponent(fullKey)}=${multiValue}`;
             }
+            if (value instanceof Date) {
+                return `${encodeURIComponent(fullKey)}=${encodeURIComponent(value.toISOString())}`;
+            }
             if (value instanceof Object) {
                 return querystring(value as HTTPQuery, fullKey);
             }
@@ -240,6 +245,19 @@ export function mapValues(data: any, fn: (item: any) => any) {
     (acc, key) => ({ ...acc, [key]: fn(data[key]) }),
     {}
   );
+}
+
+export function canConsumeForm(consumes: Consume[]): boolean {
+    for (const consume of consumes) {
+        if ('multipart/form-data' === consume.contentType) {
+            return true;
+        }
+    }
+    return false;
+}
+
+export interface Consume {
+    contentType: string
 }
 
 export interface RequestContext {
@@ -272,7 +290,7 @@ export interface ResponseTransformer<T> {
 export class JSONApiResponse<T> {
     constructor(public raw: Response, private transformer: ResponseTransformer<T> = (jsonValue: any) => jsonValue) {}
 
-    async value() {
+    async value(): Promise<T> {
         return this.transformer(await this.raw.json());
     }
 }
@@ -280,7 +298,7 @@ export class JSONApiResponse<T> {
 export class VoidApiResponse {
     constructor(public raw: Response) {}
 
-    async value() {
+    async value(): Promise<void> {
         return undefined;
     }
 }
@@ -288,7 +306,7 @@ export class VoidApiResponse {
 export class BlobApiResponse {
     constructor(public raw: Response) {}
 
-    async value() {
+    async value(): Promise<Blob> {
         return await this.raw.blob();
     };
 }
@@ -296,7 +314,7 @@ export class BlobApiResponse {
 export class TextApiResponse {
     constructor(public raw: Response) {}
 
-    async value() {
+    async value(): Promise<string> {
         return await this.raw.text();
     };
 }

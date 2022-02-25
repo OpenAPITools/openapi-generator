@@ -4,28 +4,28 @@
 #include "object.h"
 
 object_t *object_create() {
-	object_t *object = malloc(sizeof(object_t));
+    object_t *object = malloc(sizeof(object_t));
 
-	return object;
+    return object;
 }
 
 void object_free(object_t *object) {
-	free(object);
+    free (object);
 }
 
 cJSON *object_convertToJSON(object_t *object) {
-	cJSON *item = cJSON_CreateObject();
+    cJSON *item = cJSON_CreateObject();
 
-	return item;
+    return item;
 fail:
-	cJSON_Delete(item);
-	return NULL;
+    cJSON_Delete(item);
+    return NULL;
 }
 
-object_t *object_parseFromJSON(char *jsonString) {
-	object_t *object = NULL;
+object_t *object_parseFromJSON(char *jsonString){
+    object_t *object = NULL;
 
-	return object;
+    return object;
 end:
-	return NULL;
+    return NULL;
 }

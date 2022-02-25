@@ -1,0 +1,6 @@
+generatorName: nim
+outputDir: samples/client/petstore/nim
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/nim-client
+additionalProperties:
+  packageName: petstore

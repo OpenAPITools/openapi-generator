@@ -23,6 +23,56 @@ paths:
       responses:
         '201':
           description: 'OK'
+  /multipart_related_request:
+    post:
+      requestBody:
+        required: true
+        content:
+          multipart/related:  # message with binary body part(s)
+            schema:
+              $ref: '#/components/schemas/multipart_related_request'
+            encoding:
+              object_field:
+                contentType:  application/json
+              optional_binary_field:
+                contentType:  application/zip
+                headers:
+                  Content-Id:
+                    schema:
+                      type: string
+              required_binary_field:
+                contentType:  image/png
+                headers:
+                  Content-Id:
+                    schema:
+                      type: string
+
+      responses:
+        '201':
+          description: 'OK'
+  /multiple-identical-mime-types:
+    post:
+      requestBody:
+        required: true
+        content:
+          multipart/related:
+            schema:
+              type: object
+              properties:
+                binary1:
+                  type: string
+                  format: binary
+                binary2:
+                  type: string
+                  format: binary
+            encoding:
+              binary1:
+                contentType: application/octet-stream
+              binary2:
+                contentType: application/octet-stream
+      responses:
+        200:
+          description: OK
 components:
   schemas:
     multipart_request:
@@ -49,3 +99,25 @@ components:
         binary_field:
           type: string
           format: byte
+    multipart_related_request:
+      type: object
+      required:
+        - required_binary_field
+      properties:
+        object_field:
+          type: object
+          required:
+            - field_a
+          properties:
+            field_a:
+              type: string
+            field_b:
+              type: array
+              items:
+                type: string
+        optional_binary_field:
+          type: string
+          format: binary
+        required_binary_field:
+          type: string
+          format: binary

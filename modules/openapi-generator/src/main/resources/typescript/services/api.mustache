@@ -1,0 +1,23 @@
+import type { Configuration } from "../configuration";
+import type { HttpFile, RequestContext, ResponseContext } from "../http/http";
+
+{{#imports}}
+import { {{classname}} } from "..{{filename}}";
+{{/imports}}
+{{#operations}}
+
+export abstract class Abstract{{classname}}RequestFactory {
+    {{#operation}}
+    public abstract {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Promise<RequestContext>;
+
+    {{/operation}}
+}
+
+
+export abstract class Abstract{{classname}}ResponseProcessor {
+    {{#operation}}
+     public abstract {{nickname}}(response: ResponseContext): Promise<{{{returnType}}} {{^returnType}}void{{/returnType}}>;
+
+    {{/operation}}
+}
+{{/operations}}

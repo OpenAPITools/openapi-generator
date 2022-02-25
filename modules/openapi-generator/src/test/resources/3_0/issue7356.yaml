@@ -1,0 +1,14 @@
+openapi: 3.0.1
+info:
+  title: My title
+  description: API under test
+  version: 1.0.7
+servers:
+  - url: https://localhost:9999/root
+paths:
+components:
+  schemas:
+    ArrayWithValidations:
+      type: array
+      minItems: 1
+      items: {}

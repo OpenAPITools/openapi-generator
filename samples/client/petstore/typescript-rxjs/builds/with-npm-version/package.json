@@ -6,14 +6,14 @@
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts" : {
-    "build": "tsc --outDir dist/",
+    "build": "node_modules/.bin/tsc --outDir dist/",
     "prepare": "npm run build"
   },
   "dependencies": {
-    "rxjs": "^6.3.3"
+    "rxjs": "^7.2.0"
   },
   "devDependencies": {
-    "typescript": "^3.0.1"
+    "typescript": "^4.0"
   },
   "publishConfig": {
     "registry": "https://skimdb.npmjs.com/registry"

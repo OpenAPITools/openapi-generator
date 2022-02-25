@@ -9,10 +9,12 @@ import javax.validation.constraints.*;
 /**
  * NumberOnly
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class NumberOnly   {
   @JsonProperty("JustNumber")
+  @Valid
+
   private BigDecimal justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {
@@ -24,7 +26,6 @@ public class NumberOnly   {
    * Get justNumber
    * @return justNumber
   **/
-  @Valid
   public BigDecimal getJustNumber() {
     return justNumber;
   }
@@ -35,7 +36,7 @@ public class NumberOnly   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -66,7 +67,7 @@ public class NumberOnly   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

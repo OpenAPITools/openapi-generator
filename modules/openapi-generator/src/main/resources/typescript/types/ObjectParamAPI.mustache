@@ -1,0 +1,58 @@
+import { ResponseContext, RequestContext, HttpFile } from '../http/http{{extensionForDeno}}';
+import * as models from '../models/all{{extensionForDeno}}';
+import { Configuration} from '../configuration{{extensionForDeno}}'
+{{#useRxJS}}
+import { Observable } from 'rxjs';
+{{/useRxJS}}
+
+{{#models}}
+{{#model}}
+import { {{{ classname }}} } from '../models/{{{ classFilename }}}{{extensionForDeno}}';
+{{/model}}
+{{/models}}
+{{#apiInfo}}
+{{#apis}}
+
+{{#operations}}
+import { Observable{{classname}} } from "./ObservableAPI{{extensionForDeno}}";
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{extensionForDeno}}";
+
+{{#operation}}
+export interface {{classname}}{{operationIdCamelCase}}Request {
+    {{#allParams}}
+    /**
+     * {{description}}
+     * @type {{dataType}}
+     * @memberof {{classname}}{{nickname}}
+     */
+    {{paramName}}{{^required}}?{{/required}}: {{{dataType}}}
+    {{/allParams}}
+}
+
+{{/operation}}
+export class Object{{classname}} {
+    private api: Observable{{classname}}
+
+    public constructor(configuration: Configuration, requestFactory?: {{classname}}RequestFactory, responseProcessor?: {{classname}}ResponseProcessor) {
+        this.api = new Observable{{classname}}(configuration, requestFactory, responseProcessor);
+    }
+
+{{#operation}}
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     * @param param the request object
+     */
+    public {{nickname}}(param: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, options?: Configuration): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+        return this.api.{{nickname}}({{#allParams}}param.{{paramName}}, {{/allParams}} options){{^useRxJS}}.toPromise(){{/useRxJS}};
+    }
+
+{{/operation}}
+}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

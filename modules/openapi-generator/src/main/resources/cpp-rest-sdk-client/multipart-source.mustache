@@ -1,6 +1,6 @@
 {{>licenseInfo}}
-#include "MultipartFormData.h"
-#include "ModelBase.h"
+#include "{{packageName}}/MultipartFormData.h"
+#include "{{packageName}}/ModelBase.h"
 
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid_io.hpp>
@@ -85,7 +85,7 @@ void MultipartFormData::writeTo( std::ostream& target )
 
 		data->seekg( 0, data->end );
 		std::vector<char> dataBytes( data->tellg() );
-		
+
 		data->seekg( 0, data->beg );
 		data->read( &dataBytes[0], dataBytes.size() );
 

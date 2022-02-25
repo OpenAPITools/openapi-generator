@@ -15,14 +15,13 @@ package org.openapitools.client.auth;
 
 import org.openapitools.client.Pair;
 
-import com.migcomponents.migbase64.Base64;
+import java.util.Base64;
+import java.nio.charset.StandardCharsets;
 
 import java.util.Map;
 import java.util.List;
 
-import java.io.UnsupportedEncodingException;
-
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class HttpBasicAuth implements Authentication {
   private String username;
   private String password;
@@ -44,15 +43,11 @@ public class HttpBasicAuth implements Authentication {
   }
 
   @Override
-  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
+  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
     if (username == null && password == null) {
       return;
     }
     String str = (username == null ? "" : username) + ":" + (password == null ? "" : password);
-    try {
-      headerParams.put("Authorization", "Basic " + Base64.encodeToString(str.getBytes("UTF-8"), false));
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
-    }
+    headerParams.put("Authorization", "Basic " + Base64.getEncoder().encodeToString(str.getBytes(StandardCharsets.UTF_8)));
   }
 }

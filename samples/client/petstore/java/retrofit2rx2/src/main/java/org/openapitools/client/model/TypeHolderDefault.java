@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * TypeHolderDefault
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderDefault {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -50,8 +50,10 @@ public class TypeHolderDefault {
 
   public static final String SERIALIZED_NAME_ARRAY_ITEM = "array_item";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  private List<Integer> arrayItem = new ArrayList<>();
 
+  public TypeHolderDefault() { 
+  }
 
   public TypeHolderDefault stringItem(String stringItem) {
     
@@ -63,12 +65,12 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public String getStringItem() {
     return stringItem;
   }
-
 
 
   public void setStringItem(String stringItem) {
@@ -86,12 +88,12 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public BigDecimal getNumberItem() {
     return numberItem;
   }
-
 
 
   public void setNumberItem(BigDecimal numberItem) {
@@ -109,12 +111,12 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public Integer getIntegerItem() {
     return integerItem;
   }
-
 
 
   public void setIntegerItem(Integer integerItem) {
@@ -132,12 +134,12 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public Boolean getBoolItem() {
     return boolItem;
   }
-
 
 
   public void setBoolItem(Boolean boolItem) {
@@ -160,12 +162,12 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
-
 
 
   public void setArrayItem(List<Integer> arrayItem) {
@@ -174,7 +176,7 @@ public class TypeHolderDefault {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -194,7 +196,6 @@ public class TypeHolderDefault {
     return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -212,7 +213,7 @@ public class TypeHolderDefault {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

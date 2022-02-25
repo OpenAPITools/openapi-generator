@@ -23,11 +23,14 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * User
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -61,6 +64,8 @@ public class User {
   @SerializedName(SERIALIZED_NAME_USER_STATUS)
   private Integer userStatus;
 
+  public User() { 
+  }
 
   public User id(Long id) {
     
@@ -78,7 +83,6 @@ public class User {
   public Long getId() {
     return id;
   }
-
 
 
   public void setId(Long id) {
@@ -104,7 +108,6 @@ public class User {
   }
 
 
-
   public void setUsername(String username) {
     this.username = username;
   }
@@ -126,7 +129,6 @@ public class User {
   public String getFirstName() {
     return firstName;
   }
-
 
 
   public void setFirstName(String firstName) {
@@ -152,7 +154,6 @@ public class User {
   }
 
 
-
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
@@ -174,7 +175,6 @@ public class User {
   public String getEmail() {
     return email;
   }
-
 
 
   public void setEmail(String email) {
@@ -200,7 +200,6 @@ public class User {
   }
 
 
-
   public void setPassword(String password) {
     this.password = password;
   }
@@ -222,7 +221,6 @@ public class User {
   public String getPhone() {
     return phone;
   }
-
 
 
   public void setPhone(String phone) {
@@ -248,14 +246,13 @@ public class User {
   }
 
 
-
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -278,7 +275,6 @@ public class User {
     return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -299,7 +295,7 @@ public class User {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -17,11 +18,13 @@ import {
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
+} from './Category';
+import {
     Tag,
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
-} from './';
+} from './Tag';
 
 /**
  * A pet for sale in the pet store
@@ -67,6 +70,16 @@ export interface Pet {
     status?: PetStatusEnum;
 }
 
+/**
+* @export
+* @enum {string}
+*/
+export enum PetStatusEnum {
+    Available = 'available',
+    Pending = 'pending',
+    Sold = 'sold'
+}
+
 export function PetFromJSON(json: any): Pet {
     return PetFromJSONTyped(json, false);
 }
@@ -81,12 +94,12 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         'category': !exists(json, 'category') ? undefined : CategoryFromJSON(json['category']),
         'name': json['name'],
         'photoUrls': json['photoUrls'],
-        'tags': !exists(json, 'tags') ? undefined : (json['tags'] as Array<any>).map(TagFromJSON),
+        'tags': !exists(json, 'tags') ? undefined : ((json['tags'] as Array<any>).map(TagFromJSON)),
         'status': !exists(json, 'status') ? undefined : json['status'],
     };
 }
 
-export function PetToJSON(value?: Pet): any {
+export function PetToJSON(value?: Pet | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -99,19 +112,8 @@ export function PetToJSON(value?: Pet): any {
         'category': CategoryToJSON(value.category),
         'name': value.name,
         'photoUrls': value.photoUrls,
-        'tags': value.tags === undefined ? undefined : (value.tags as Array<any>).map(TagToJSON),
+        'tags': value.tags === undefined ? undefined : ((value.tags as Array<any>).map(TagToJSON)),
         'status': value.status,
     };
 }
-
-/**
-* @export
-* @enum {string}
-*/
-export enum PetStatusEnum {
-    Available = 'available',
-    Pending = 'pending',
-    Sold = 'sold'
-}
-
 

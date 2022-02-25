@@ -10,7 +10,9 @@
 
 from __future__ import absolute_import
 
+import atexit
 import datetime
+from dateutil.parser import parse
 import json
 import mimetypes
 from multiprocessing.pool import ThreadPool
@@ -25,7 +27,7 @@ from six.moves.urllib.parse import quote
 from petstore_api.configuration import Configuration
 import petstore_api.models
 from petstore_api import rest
-from petstore_api.exceptions import ApiValueError
+from petstore_api.exceptions import ApiValueError, ApiException
 
 
 class ApiClient(object):
@@ -66,7 +68,7 @@ class ApiClient(object):
     def __init__(self, configuration=None, header_name=None, header_value=None,
                  cookie=None, pool_threads=1):
         if configuration is None:
-            configuration = Configuration()
+            configuration = Configuration.get_default_copy()
         self.configuration = configuration
         self.pool_threads = pool_threads
 
@@ -77,12 +79,22 @@ class ApiClient(object):
         self.cookie = cookie
         # Set default User-Agent.
         self.user_agent = 'OpenAPI-Generator/1.0.0/python'
+        self.client_side_validation = configuration.client_side_validation
 
-    def __del__(self):
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        await self.close()
+
+    async def close(self):
+        await self.rest_client.close()
         if self._pool:
             self._pool.close()
             self._pool.join()
             self._pool = None
+            if hasattr(atexit, 'unregister'):
+                atexit.unregister(self.close)
 
     @property
     def pool(self):
@@ -90,6 +102,7 @@ class ApiClient(object):
          avoids instantiating unused threadpool for blocking clients.
         """
         if self._pool is None:
+            atexit.register(self.close)
             self._pool = ThreadPool(self.pool_threads)
         return self._pool
 
@@ -108,9 +121,10 @@ class ApiClient(object):
     async def __call_api(
             self, resource_path, method, path_params=None,
             query_params=None, header_params=None, body=None, post_params=None,
-            files=None, response_type=None, auth_settings=None,
+            files=None, response_types_map=None, auth_settings=None,
             _return_http_data_only=None, collection_formats=None,
-            _preload_content=True, _request_timeout=None, _host=None):
+            _preload_content=True, _request_timeout=None, _host=None,
+            _request_auth=None):
 
         config = self.configuration
 
@@ -151,7 +165,9 @@ class ApiClient(object):
             post_params.extend(self.files_parameters(files))
 
         # auth setting
-        self.update_params_for_auth(header_params, query_params, auth_settings)
+        self.update_params_for_auth(
+            header_params, query_params, auth_settings,
+            request_auth=_request_auth)
 
         # body
         if body:
@@ -164,22 +180,40 @@ class ApiClient(object):
             # use server/host defined in path or operation instead
             url = _host + resource_path
 
-        # perform request and return response
-        response_data = await self.request(
-            method, url, query_params=query_params, headers=header_params,
-            post_params=post_params, body=body,
-            _preload_content=_preload_content,
-            _request_timeout=_request_timeout)
+        try:
+            # perform request and return response
+            response_data = await self.request(
+                method, url, query_params=query_params, headers=header_params,
+                post_params=post_params, body=body,
+                _preload_content=_preload_content,
+                _request_timeout=_request_timeout)
+        except ApiException as e:
+            e.body = e.body.decode('utf-8') if six.PY3 else e.body
+            raise e
 
         self.last_response = response_data
 
         return_data = response_data
-        if _preload_content:
-            # deserialize response data
-            if response_type:
-                return_data = self.deserialize(response_data, response_type)
-            else:
-                return_data = None
+
+        if not _preload_content:
+            return return_data
+
+        response_type = response_types_map.get(response_data.status, None)
+
+        if six.PY3 and response_type not in ["file", "bytes"]:
+            match = None
+            content_type = response_data.getheader('content-type')
+            if content_type is not None:
+                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
+            encoding = match.group(1) if match else "utf-8"
+            response_data.data = response_data.data.decode(encoding)
+
+        # deserialize response data
+
+        if response_type:
+            return_data = self.deserialize(response_data, response_type)
+        else:
+            return_data = None
 
         if _return_http_data_only:
             return (return_data)
@@ -286,16 +320,17 @@ class ApiClient(object):
         elif klass == datetime.date:
             return self.__deserialize_date(data)
         elif klass == datetime.datetime:
-            return self.__deserialize_datatime(data)
+            return self.__deserialize_datetime(data)
         else:
             return self.__deserialize_model(data, klass)
 
     def call_api(self, resource_path, method,
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
-                 response_type=None, auth_settings=None, async_req=None,
-                 _return_http_data_only=None, collection_formats=None,
-                 _preload_content=True, _request_timeout=None, _host=None):
+                 response_types_map=None, auth_settings=None,
+                 async_req=None, _return_http_data_only=None,
+                 collection_formats=None,_preload_content=True,
+                  _request_timeout=None, _host=None, _request_auth=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
 
         To make an async_req request, set the async_req parameter.
@@ -325,6 +360,10 @@ class ApiClient(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_token: dict, optional
         :return:
             If async_req parameter is True,
             the request will be called asynchronously.
@@ -336,21 +375,23 @@ class ApiClient(object):
             return self.__call_api(resource_path, method,
                                    path_params, query_params, header_params,
                                    body, post_params, files,
-                                   response_type, auth_settings,
+                                   response_types_map, auth_settings,
                                    _return_http_data_only, collection_formats,
-                                   _preload_content, _request_timeout, _host)
-        else:
-            thread = self.pool.apply_async(self.__call_api, (resource_path,
-                                           method, path_params, query_params,
-                                           header_params, body,
-                                           post_params, files,
-                                           response_type, auth_settings,
-                                           _return_http_data_only,
-                                           collection_formats,
-                                           _preload_content,
-                                           _request_timeout,
-                                           _host))
-        return thread
+                                   _preload_content, _request_timeout, _host,
+                                   _request_auth)
+
+        return self.pool.apply_async(self.__call_api, (resource_path,
+                                                       method, path_params,
+                                                       query_params,
+                                                       header_params, body,
+                                                       post_params, files,
+                                                       response_types_map,
+                                                       auth_settings,
+                                                       _return_http_data_only,
+                                                       collection_formats,
+                                                       _preload_content,
+                                                       _request_timeout,
+                                                       _host, _request_auth))
 
     def request(self, method, url, query_params=None, headers=None,
                 post_params=None, body=None, _preload_content=True,
@@ -372,10 +413,8 @@ class ApiClient(object):
             return self.rest_client.OPTIONS(url,
                                             query_params=query_params,
                                             headers=headers,
-                                            post_params=post_params,
                                             _preload_content=_preload_content,
-                                            _request_timeout=_request_timeout,
-                                            body=body)
+                                            _request_timeout=_request_timeout)
         elif method == "POST":
             return self.rest_client.POST(url,
                                          query_params=query_params,
@@ -483,47 +522,68 @@ class ApiClient(object):
         else:
             return ', '.join(accepts)
 
-    def select_header_content_type(self, content_types):
+    def select_header_content_type(self, content_types, method=None, body=None):
         """Returns `Content-Type` based on an array of content_types provided.
 
         :param content_types: List of content-types.
+        :param method: http method (e.g. POST, PATCH).
+        :param body: http body to send.
         :return: Content-Type (e.g. application/json).
         """
         if not content_types:
-            return 'application/json'
+            return None
 
         content_types = [x.lower() for x in content_types]
+
+        if (method == 'PATCH' and
+                'application/json-patch+json' in content_types and
+                isinstance(body, list)):
+            return 'application/json-patch+json'
 
         if 'application/json' in content_types or '*/*' in content_types:
             return 'application/json'
         else:
             return content_types[0]
 
-    def update_params_for_auth(self, headers, querys, auth_settings):
+    def update_params_for_auth(self, headers, queries, auth_settings,
+                               request_auth=None):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
-        :param querys: Query parameters tuple list to be updated.
+        :param queries: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
+        :param request_auth: if set, the provided settings will
+                             override the token in the configuration.
         """
         if not auth_settings:
+            return
+
+        if request_auth:
+            self._apply_auth_params(headers, queries, request_auth)
             return
 
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
-                if not auth_setting['value']:
-                    continue
-                elif auth_setting['in'] == 'cookie':
-                    headers['Cookie'] = auth_setting['value']
-                elif auth_setting['in'] == 'header':
-                    headers[auth_setting['key']] = auth_setting['value']
-                elif auth_setting['in'] == 'query':
-                    querys.append((auth_setting['key'], auth_setting['value']))
-                else:
-                    raise ApiValueError(
-                        'Authentication token must be in `query` or `header`'
-                    )
+                self._apply_auth_params(headers, queries, auth_setting)
+
+    def _apply_auth_params(self, headers, queries, auth_setting):
+        """Updates the request parameters based on a single auth_setting
+
+        :param headers: Header parameters dict to be updated.
+        :param queries: Query parameters tuple list to be updated.
+        :param auth_setting: auth settings for the endpoint
+        """
+        if auth_setting['in'] == 'cookie':
+            headers['Cookie'] = auth_setting['value']
+        elif auth_setting['in'] == 'header':
+            headers[auth_setting['key']] = auth_setting['value']
+        elif auth_setting['in'] == 'query':
+            queries.append((auth_setting['key'], auth_setting['value']))
+        else:
+            raise ApiValueError(
+                'Authentication token must be in `query` or `header`'
+            )
 
     def __deserialize_file(self, response):
         """Deserializes body to file
@@ -578,7 +638,6 @@ class ApiClient(object):
         :return: date.
         """
         try:
-            from dateutil.parser import parse
             return parse(string).date()
         except ImportError:
             return string
@@ -588,7 +647,7 @@ class ApiClient(object):
                 reason="Failed to parse `{0}` as date object".format(string)
             )
 
-    def __deserialize_datatime(self, string):
+    def __deserialize_datetime(self, string):
         """Deserializes string to datetime.
 
         The string should be in iso8601 datetime format.
@@ -597,7 +656,6 @@ class ApiClient(object):
         :return: datetime.
         """
         try:
-            from dateutil.parser import parse
             return parse(string)
         except ImportError:
             return string
@@ -617,23 +675,26 @@ class ApiClient(object):
         :param klass: class literal.
         :return: model object.
         """
+        has_discriminator = False
+        if (hasattr(klass, 'get_real_child_model')
+                and klass.discriminator_value_class_map):
+            has_discriminator = True
 
-        if not klass.openapi_types and not hasattr(klass,
-                                                   'get_real_child_model'):
+        if not klass.openapi_types and has_discriminator is False:
             return data
 
         kwargs = {}
-        if klass.openapi_types is not None:
+        if (data is not None and
+                klass.openapi_types is not None and
+                isinstance(data, (list, dict))):
             for attr, attr_type in six.iteritems(klass.openapi_types):
-                if (data is not None and
-                        klass.attribute_map[attr] in data and
-                        isinstance(data, (list, dict))):
+                if klass.attribute_map[attr] in data:
                     value = data[klass.attribute_map[attr]]
                     kwargs[attr] = self.__deserialize(value, attr_type)
 
         instance = klass(**kwargs)
 
-        if hasattr(instance, 'get_real_child_model'):
+        if has_discriminator:
             klass_name = instance.get_real_child_model(data)
             if klass_name:
                 instance = self.__deserialize(data, klass_name)

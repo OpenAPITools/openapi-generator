@@ -7,7 +7,6 @@ version = '{{artifactVersion}}'
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.+'
@@ -16,7 +15,7 @@ buildscript {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 
@@ -24,7 +23,7 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
     apply plugin: 'com.github.dcendents.android-maven'
-    
+
     android {
         compileSdkVersion 23
         buildToolsVersion '23.0.2'
@@ -33,22 +32,10 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 22
         }
         compileOptions {
-            {{#supportJava6}}
-            sourceCompatibility JavaVersion.VERSION_1_6
-            targetCompatibility JavaVersion.VERSION_1_6
-            {{/supportJava6}}
-            {{^supportJava6}}
-            {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
-            {{/java8}}
-            {{^java8}}
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
-            {{/java8}}
-            {{/supportJava6}}
         }
-    
+
         // Rename the aar correctly
         libraryVariants.all { variant ->
             variant.outputs.each { output ->
@@ -61,10 +48,10 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
-    
+
     afterEvaluate {
         android.libraryVariants.all { variant ->
             def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
@@ -76,12 +63,12 @@ if(hasProperty('target') && target == 'android') {
             artifacts.add('archives', task);
         }
     }
-    
+
     task sourcesJar(type: Jar) {
         from android.sourceSets.main.java.srcDirs
         classifier = 'sources'
     }
-    
+
     artifacts {
         archives sourcesJar
     }
@@ -89,29 +76,20 @@ if(hasProperty('target') && target == 'android') {
 } else {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
-    {{#supportJava6}}
-    sourceCompatibility = JavaVersion.VERSION_1_6
-    targetCompatibility = JavaVersion.VERSION_1_6
-    {{/supportJava6}}
-    {{^supportJava6}}
-    {{#java8}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-    {{/java8}}
-    {{^java8}}
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
-    {{/java8}}
-    {{/supportJava6}}
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = '{{artifactId}}'
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                artifactId = '{{artifactId}}'
+                from components.java
+            }
         }
     }
-    
+
     task execute(type:JavaExec) {
        main = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
@@ -119,41 +97,39 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.22"
-    jackson_version = "2.9.9"
-    jackson_databind_version = "2.9.9"
-    jackson-databind-nullable-version = "0.2.0"
-    google_api_client_version = "1.23.0"
+    swagger_annotations_version = "1.6.3"
+    jackson_version = "2.12.5"
+    jackson_databind_version = "2.10.5.1"
+    {{#openApiNullable}}
+    jackson_databind_nullable_version = "0.2.2"
+    {{/openApiNullable}}
+    jakarta_annotation_version = "1.3.5"
+    google_api_client_version = "1.32.2"
     jersey_common_version = "2.25.1"
     jodatime_version = "2.9.9"
-    junit_version = "4.12"
-    {{#threetenbp}}
-    jackson_threeten_version = "2.6.4"
-    {{/threetenbp}}
+    junit_version = "4.13.1"
 }
 
 dependencies {
-    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "com.google.code.findbugs:jsr305:3.0.2"
-    compile "com.google.api-client:google-api-client:${google_api_client_version}"
-    compile "org.glassfish.jersey.core:jersey-common:${jersey_common_version}"
-    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
-    compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
-    compile "org.openapitools:jackson-databind-nullable:$jackson-databind-nullable-version"
-    {{#java8}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    {{/java8}}
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+    implementation "com.google.api-client:google-api-client:${google_api_client_version}"
+    implementation "org.glassfish.jersey.core:jersey-common:${jersey_common_version}"
+    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    implementation "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    {{#openApiNullable}}
+    implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    {{/openApiNullable}}
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{#joda}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
-    compile "joda-time:joda-time:$jodatime_version"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
+    implementation "joda-time:joda-time:$jodatime_version"
     {{/joda}}
-    {{#threetenbp}}
-    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threeten_version"
-    {{/threetenbp}}
     {{#withXml}}
-    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
     {{/withXml}}
-    testCompile "junit:junit:$junit_version"
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    testImplementation "junit:junit:$junit_version"
 }

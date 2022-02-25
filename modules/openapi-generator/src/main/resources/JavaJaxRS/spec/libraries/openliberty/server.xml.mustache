@@ -1,0 +1,19 @@
+<server description="OpenAPI Generator Server">
+  <featureManager>
+    <feature>cdi-2.0</feature>
+    <feature>jaxrs-2.1</feature>
+    <feature>mpOpenAPI-1.1</feature>
+  </featureManager>
+
+  <applicationManager autoExpand="true" />
+  <quickStartSecurity userName="admin" userPassword="adminpwd"/>
+  <keyStore id="defaultKeyStore" password="mpKeystore"/>
+
+  <logging traceSpecification="com.ibm.ws.microprofile.health.*=all"/>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint"/>
+
+   <webApplication id="{{artifactId}}" location="{{artifactId}}.war" name="{{artifactId}}" contextRoot="/"/>
+
+</server>

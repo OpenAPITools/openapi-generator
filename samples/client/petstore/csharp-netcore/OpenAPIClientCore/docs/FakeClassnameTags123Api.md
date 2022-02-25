@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="testclassname"></a>
 # **TestClassname**
-> ModelClient TestClassname (ModelClient body)
+> ModelClient TestClassname (ModelClient modelClient)
 
 To test class name in snake case
 
@@ -29,19 +29,20 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
             // Configure API key authorization: api_key_query
-            Configuration.Default.AddApiKey("api_key_query", "YOUR_API_KEY");
+            config.AddApiKey("api_key_query", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.AddApiKeyPrefix("api_key_query", "Bearer");
+            // config.AddApiKeyPrefix("api_key_query", "Bearer");
 
-            var apiInstance = new FakeClassnameTags123Api(Configuration.Default);
-            var body = new ModelClient(); // ModelClient | client model
+            var apiInstance = new FakeClassnameTags123Api(config);
+            var modelClient = new ModelClient(); // ModelClient | client model
 
             try
             {
                 // To test class name in snake case
-                ModelClient result = apiInstance.TestClassname(body);
+                ModelClient result = apiInstance.TestClassname(modelClient);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -59,7 +60,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**ModelClient**](ModelClient.md)| client model | 
+ **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 
@@ -73,6 +74,7 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: application/json
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

@@ -77,7 +77,7 @@ public final class EncodingUtils {
       return null;
     }
     try {
-      return URLEncoder.encode(parameter.toString(), "UTF-8");
+      return URLEncoder.encode(parameter.toString(), "UTF-8").replaceAll("\\+", "%20");
     } catch (UnsupportedEncodingException e) {
       // Should never happen, UTF-8 is always supported
       throw new RuntimeException(e);

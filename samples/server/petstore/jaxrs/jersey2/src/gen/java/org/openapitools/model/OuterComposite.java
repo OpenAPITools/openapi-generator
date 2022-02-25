@@ -31,7 +31,7 @@ import javax.validation.Valid;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class OuterComposite   {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
   @JsonProperty(JSON_PROPERTY_MY_NUMBER)
@@ -54,7 +54,7 @@ public class OuterComposite   {
    * Get myNumber
    * @return myNumber
    **/
-  @JsonProperty("my_number")
+  @JsonProperty(value = "my_number")
   @ApiModelProperty(value = "")
   @Valid 
   public BigDecimal getMyNumber() {
@@ -74,7 +74,7 @@ public class OuterComposite   {
    * Get myString
    * @return myString
    **/
-  @JsonProperty("my_string")
+  @JsonProperty(value = "my_string")
   @ApiModelProperty(value = "")
   
   public String getMyString() {
@@ -94,7 +94,7 @@ public class OuterComposite   {
    * Get myBoolean
    * @return myBoolean
    **/
-  @JsonProperty("my_boolean")
+  @JsonProperty(value = "my_boolean")
   @ApiModelProperty(value = "")
   
   public Boolean getMyBoolean() {
@@ -107,7 +107,7 @@ public class OuterComposite   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -125,7 +125,6 @@ public class OuterComposite   {
     return Objects.hash(myNumber, myString, myBoolean);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -142,7 +141,7 @@ public class OuterComposite   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

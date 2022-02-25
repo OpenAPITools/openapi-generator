@@ -1,0 +1,42 @@
+group 'org.openapitools'
+version '1.0.0'
+
+wrapper {
+    gradleVersion = '6.8.3'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+buildscript {
+    ext.kotlin_version = '1.5.10'
+    ext.retrofitVersion = '2.9.0'
+
+    repositories {
+        maven { url "https://repo1.maven.org/maven2" }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+
+repositories {
+    maven { url "https://repo1.maven.org/maven2" }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation "com.squareup.moshi:moshi-kotlin:1.12.0"
+    implementation "com.squareup.moshi:moshi-adapters:1.12.0"
+    implementation "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
+    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
+}

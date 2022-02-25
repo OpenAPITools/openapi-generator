@@ -11,10 +11,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-public class Capitalization  implements Serializable {
+@JsonTypeName("Capitalization")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Capitalization  implements Serializable {
   
   private @Valid String smallCamel;
   private @Valid String capitalCamel;
@@ -31,16 +33,20 @@ public class Capitalization  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("smallCamel")
   public String getSmallCamel() {
     return smallCamel;
   }
+
+  @JsonProperty("smallCamel")
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
   }
 
-  /**
+/**
    **/
   public Capitalization capitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
@@ -48,16 +54,20 @@ public class Capitalization  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
     return capitalCamel;
   }
+
+  @JsonProperty("CapitalCamel")
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
 
-  /**
+/**
    **/
   public Capitalization smallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
@@ -65,16 +75,20 @@ public class Capitalization  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("small_Snake")
   public String getSmallSnake() {
     return smallSnake;
   }
+
+  @JsonProperty("small_Snake")
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
   }
 
-  /**
+/**
    **/
   public Capitalization capitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
@@ -82,16 +96,20 @@ public class Capitalization  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
     return capitalSnake;
   }
+
+  @JsonProperty("Capital_Snake")
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
 
-  /**
+/**
    **/
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
@@ -99,16 +117,20 @@ public class Capitalization  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
+
+  @JsonProperty("SCA_ETH_Flow_Points")
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
-  /**
+/**
    * Name of the pet 
    **/
   public Capitalization ATT_NAME(String ATT_NAME) {
@@ -117,18 +139,22 @@ public class Capitalization  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "Name of the pet ")
   @JsonProperty("ATT_NAME")
   public String getATTNAME() {
     return ATT_NAME;
   }
+
+  @JsonProperty("ATT_NAME")
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -168,11 +194,13 @@ public class Capitalization  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

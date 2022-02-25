@@ -1,0 +1,1 @@
+{{#isHeaderParam}}@Header("{{baseName}}") {{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{/isHeaderParam}}

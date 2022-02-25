@@ -217,11 +217,21 @@ spec. If so, this is available via the `class_documentation()` and
 
 Each of these calls returns a hashref with various useful pieces of information.
 
+# Installation Prerequisites
+
+Use [cpanm](https://metacpan.org/pod/distribution/App-cpanminus/bin/cpanm) to install the module dependencies:
+
+```
+cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+cpanm --quiet --no-interactive Class::Accessor Test::Exception Test::More Log::Any LWP::UserAgent URI::Query Module::Runtime DateTime Module::Find Moose::Role JSON
+```
+
 # LOAD THE MODULES
 
 To load the API packages:
 ```perl
 use WWW::OpenAPIClient::AnotherFakeApi;
+use WWW::OpenAPIClient::DefaultApi;
 use WWW::OpenAPIClient::FakeApi;
 use WWW::OpenAPIClient::FakeClassnameTags123Api;
 use WWW::OpenAPIClient::PetApi;
@@ -232,14 +242,7 @@ use WWW::OpenAPIClient::UserApi;
 
 To load the models:
 ```perl
-use WWW::OpenAPIClient::Object::AdditionalPropertiesAnyType;
-use WWW::OpenAPIClient::Object::AdditionalPropertiesArray;
-use WWW::OpenAPIClient::Object::AdditionalPropertiesBoolean;
 use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
-use WWW::OpenAPIClient::Object::AdditionalPropertiesInteger;
-use WWW::OpenAPIClient::Object::AdditionalPropertiesNumber;
-use WWW::OpenAPIClient::Object::AdditionalPropertiesObject;
-use WWW::OpenAPIClient::Object::AdditionalPropertiesString;
 use WWW::OpenAPIClient::Object::Animal;
 use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
@@ -251,6 +254,7 @@ use WWW::OpenAPIClient::Object::CatAllOf;
 use WWW::OpenAPIClient::Object::Category;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
+use WWW::OpenAPIClient::Object::DeprecatedObject;
 use WWW::OpenAPIClient::Object::Dog;
 use WWW::OpenAPIClient::Object::DogAllOf;
 use WWW::OpenAPIClient::Object::EnumArrays;
@@ -258,26 +262,32 @@ use WWW::OpenAPIClient::Object::EnumClass;
 use WWW::OpenAPIClient::Object::EnumTest;
 use WWW::OpenAPIClient::Object::File;
 use WWW::OpenAPIClient::Object::FileSchemaTestClass;
+use WWW::OpenAPIClient::Object::Foo;
 use WWW::OpenAPIClient::Object::FormatTest;
 use WWW::OpenAPIClient::Object::HasOnlyReadOnly;
+use WWW::OpenAPIClient::Object::HealthCheckResult;
+use WWW::OpenAPIClient::Object::InlineResponseDefault;
 use WWW::OpenAPIClient::Object::List;
 use WWW::OpenAPIClient::Object::MapTest;
 use WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass;
 use WWW::OpenAPIClient::Object::Model200Response;
 use WWW::OpenAPIClient::Object::ModelReturn;
 use WWW::OpenAPIClient::Object::Name;
+use WWW::OpenAPIClient::Object::NullableClass;
 use WWW::OpenAPIClient::Object::NumberOnly;
+use WWW::OpenAPIClient::Object::ObjectWithDeprecatedFields;
 use WWW::OpenAPIClient::Object::Order;
 use WWW::OpenAPIClient::Object::OuterComposite;
 use WWW::OpenAPIClient::Object::OuterEnum;
+use WWW::OpenAPIClient::Object::OuterEnumDefaultValue;
+use WWW::OpenAPIClient::Object::OuterEnumInteger;
+use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
+use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
-use WWW::OpenAPIClient::Object::TypeHolderDefault;
-use WWW::OpenAPIClient::Object::TypeHolderExample;
 use WWW::OpenAPIClient::Object::User;
-use WWW::OpenAPIClient::Object::XmlItem;
 
 ````
 
@@ -290,6 +300,7 @@ use strict;
 use warnings;
 # load the API package
 use WWW::OpenAPIClient::AnotherFakeApi;
+use WWW::OpenAPIClient::DefaultApi;
 use WWW::OpenAPIClient::FakeApi;
 use WWW::OpenAPIClient::FakeClassnameTags123Api;
 use WWW::OpenAPIClient::PetApi;
@@ -297,14 +308,7 @@ use WWW::OpenAPIClient::StoreApi;
 use WWW::OpenAPIClient::UserApi;
 
 # load the models
-use WWW::OpenAPIClient::Object::AdditionalPropertiesAnyType;
-use WWW::OpenAPIClient::Object::AdditionalPropertiesArray;
-use WWW::OpenAPIClient::Object::AdditionalPropertiesBoolean;
 use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
-use WWW::OpenAPIClient::Object::AdditionalPropertiesInteger;
-use WWW::OpenAPIClient::Object::AdditionalPropertiesNumber;
-use WWW::OpenAPIClient::Object::AdditionalPropertiesObject;
-use WWW::OpenAPIClient::Object::AdditionalPropertiesString;
 use WWW::OpenAPIClient::Object::Animal;
 use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
@@ -316,6 +320,7 @@ use WWW::OpenAPIClient::Object::CatAllOf;
 use WWW::OpenAPIClient::Object::Category;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
+use WWW::OpenAPIClient::Object::DeprecatedObject;
 use WWW::OpenAPIClient::Object::Dog;
 use WWW::OpenAPIClient::Object::DogAllOf;
 use WWW::OpenAPIClient::Object::EnumArrays;
@@ -323,38 +328,44 @@ use WWW::OpenAPIClient::Object::EnumClass;
 use WWW::OpenAPIClient::Object::EnumTest;
 use WWW::OpenAPIClient::Object::File;
 use WWW::OpenAPIClient::Object::FileSchemaTestClass;
+use WWW::OpenAPIClient::Object::Foo;
 use WWW::OpenAPIClient::Object::FormatTest;
 use WWW::OpenAPIClient::Object::HasOnlyReadOnly;
+use WWW::OpenAPIClient::Object::HealthCheckResult;
+use WWW::OpenAPIClient::Object::InlineResponseDefault;
 use WWW::OpenAPIClient::Object::List;
 use WWW::OpenAPIClient::Object::MapTest;
 use WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass;
 use WWW::OpenAPIClient::Object::Model200Response;
 use WWW::OpenAPIClient::Object::ModelReturn;
 use WWW::OpenAPIClient::Object::Name;
+use WWW::OpenAPIClient::Object::NullableClass;
 use WWW::OpenAPIClient::Object::NumberOnly;
+use WWW::OpenAPIClient::Object::ObjectWithDeprecatedFields;
 use WWW::OpenAPIClient::Object::Order;
 use WWW::OpenAPIClient::Object::OuterComposite;
 use WWW::OpenAPIClient::Object::OuterEnum;
+use WWW::OpenAPIClient::Object::OuterEnumDefaultValue;
+use WWW::OpenAPIClient::Object::OuterEnumInteger;
+use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
+use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
-use WWW::OpenAPIClient::Object::TypeHolderDefault;
-use WWW::OpenAPIClient::Object::TypeHolderExample;
 use WWW::OpenAPIClient::Object::User;
-use WWW::OpenAPIClient::Object::XmlItem;
 
 # for displaying the API response data
 use Data::Dumper;
-use WWW::OpenAPIClient::;
 
-my $api_instance = WWW::OpenAPIClient::->new(
+
+my $api_instance = WWW::OpenAPIClient::AnotherFakeApi->new(
 );
 
-my $body = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
+my $client = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
 
 eval {
-    my $result = $api_instance->call_123_test_special_tags(body => $body);
+    my $result = $api_instance->call_123_test_special_tags(client => $client);
     print Dumper($result);
 };
 if ($@) {
@@ -370,11 +381,15 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
-*FakeApi* | [**create_xml_item**](docs/FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
+*DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
+*FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
+*FakeApi* | [**fake_http_signature_test**](docs/FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**fake_property_enum_integer_serialize**](docs/FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**test_body_with_binary**](docs/FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -383,7 +398,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -409,14 +424,7 @@ Class | Method | HTTP request | Description
 
 
 # DOCUMENTATION FOR MODELS
- - [WWW::OpenAPIClient::Object::AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
- - [WWW::OpenAPIClient::Object::AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
- - [WWW::OpenAPIClient::Object::AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [WWW::OpenAPIClient::Object::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
- - [WWW::OpenAPIClient::Object::AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
- - [WWW::OpenAPIClient::Object::AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
- - [WWW::OpenAPIClient::Object::AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
- - [WWW::OpenAPIClient::Object::AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [WWW::OpenAPIClient::Object::Animal](docs/Animal.md)
  - [WWW::OpenAPIClient::Object::ApiResponse](docs/ApiResponse.md)
  - [WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
@@ -428,6 +436,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::Category](docs/Category.md)
  - [WWW::OpenAPIClient::Object::ClassModel](docs/ClassModel.md)
  - [WWW::OpenAPIClient::Object::Client](docs/Client.md)
+ - [WWW::OpenAPIClient::Object::DeprecatedObject](docs/DeprecatedObject.md)
  - [WWW::OpenAPIClient::Object::Dog](docs/Dog.md)
  - [WWW::OpenAPIClient::Object::DogAllOf](docs/DogAllOf.md)
  - [WWW::OpenAPIClient::Object::EnumArrays](docs/EnumArrays.md)
@@ -435,26 +444,32 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::EnumTest](docs/EnumTest.md)
  - [WWW::OpenAPIClient::Object::File](docs/File.md)
  - [WWW::OpenAPIClient::Object::FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [WWW::OpenAPIClient::Object::Foo](docs/Foo.md)
  - [WWW::OpenAPIClient::Object::FormatTest](docs/FormatTest.md)
  - [WWW::OpenAPIClient::Object::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [WWW::OpenAPIClient::Object::HealthCheckResult](docs/HealthCheckResult.md)
+ - [WWW::OpenAPIClient::Object::InlineResponseDefault](docs/InlineResponseDefault.md)
  - [WWW::OpenAPIClient::Object::List](docs/List.md)
  - [WWW::OpenAPIClient::Object::MapTest](docs/MapTest.md)
  - [WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [WWW::OpenAPIClient::Object::Model200Response](docs/Model200Response.md)
  - [WWW::OpenAPIClient::Object::ModelReturn](docs/ModelReturn.md)
  - [WWW::OpenAPIClient::Object::Name](docs/Name.md)
+ - [WWW::OpenAPIClient::Object::NullableClass](docs/NullableClass.md)
  - [WWW::OpenAPIClient::Object::NumberOnly](docs/NumberOnly.md)
+ - [WWW::OpenAPIClient::Object::ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [WWW::OpenAPIClient::Object::Order](docs/Order.md)
  - [WWW::OpenAPIClient::Object::OuterComposite](docs/OuterComposite.md)
  - [WWW::OpenAPIClient::Object::OuterEnum](docs/OuterEnum.md)
+ - [WWW::OpenAPIClient::Object::OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
+ - [WWW::OpenAPIClient::Object::OuterEnumInteger](docs/OuterEnumInteger.md)
+ - [WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
+ - [WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [WWW::OpenAPIClient::Object::Pet](docs/Pet.md)
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [WWW::OpenAPIClient::Object::SpecialModelName](docs/SpecialModelName.md)
  - [WWW::OpenAPIClient::Object::Tag](docs/Tag.md)
- - [WWW::OpenAPIClient::Object::TypeHolderDefault](docs/TypeHolderDefault.md)
- - [WWW::OpenAPIClient::Object::TypeHolderExample](docs/TypeHolderExample.md)
  - [WWW::OpenAPIClient::Object::User](docs/User.md)
- - [WWW::OpenAPIClient::Object::XmlItem](docs/XmlItem.md)
 
 
 # DOCUMENTATION FOR AUTHORIZATION
@@ -471,7 +486,15 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
+## bearer_test
+
+- **Type**: HTTP basic authentication
+
 ## http_basic_test
+
+- **Type**: HTTP basic authentication
+
+## http_signature_test
 
 - **Type**: HTTP basic authentication
 

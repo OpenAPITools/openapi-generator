@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Class
         /// </summary>
-        [DataMember(Name="_class", EmitDefaultValue=false)]
+        [DataMember(Name="_class", EmitDefaultValue=true)]
         public string Class { get; set; }
 
         /// <summary>

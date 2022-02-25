@@ -17,8 +17,6 @@ import re
 import ssl
 
 import aiohttp
-import certifi
-import asyncio
 # python 2 and python 3 compatibility library
 from six.moves.urllib.parse import urlencode
 
@@ -52,14 +50,7 @@ class RESTClientObject(object):
         if maxsize is None:
             maxsize = configuration.connection_pool_maxsize
 
-        # ca_certs
-        if configuration.ssl_ca_cert:
-            ca_certs = configuration.ssl_ca_cert
-        else:
-            # if not set certificate file, use Mozilla's root certificates.
-            ca_certs = certifi.where()
-
-        ssl_context = ssl.create_default_context(cafile=ca_certs)
+        ssl_context = ssl.create_default_context(cafile=configuration.ssl_ca_cert)
         if configuration.cert_file:
             ssl_context.load_cert_chain(
                 configuration.cert_file, keyfile=configuration.key_file
@@ -74,19 +65,17 @@ class RESTClientObject(object):
             ssl=ssl_context
         )
 
-        # https pool manager
-        if configuration.proxy:
-            self.pool_manager = aiohttp.ClientSession(
-                connector=connector,
-                proxy=configuration.proxy
-            )
-        else:
-            self.pool_manager = aiohttp.ClientSession(
-                connector=connector
-            )
+        self.proxy = configuration.proxy
+        self.proxy_headers = configuration.proxy_headers
 
-    def __del__(self):
-        asyncio.ensure_future(self.pool_manager.close())
+        # https pool manager
+        self.pool_manager = aiohttp.ClientSession(
+            connector=connector,
+            trust_env=True
+        )
+
+    async def close(self):
+        await self.pool_manager.close()
 
     async def request(self, method, url, query_params=None, headers=None,
                       body=None, post_params=None, _preload_content=True,
@@ -131,6 +120,11 @@ class RESTClientObject(object):
             "headers": headers
         }
 
+        if self.proxy:
+            args["proxy"] = self.proxy
+        if self.proxy_headers:
+            args["proxy_headers"] = self.proxy_headers
+
         if query_params:
             args["url"] += '?' + urlencode(query_params)
 
@@ -173,7 +167,7 @@ class RESTClientObject(object):
         r = await self.pool_manager.request(**args)
         if _preload_content:
 
-            data = await r.text()
+            data = await r.read()
             r = RESTResponse(r, data)
 
             # log response body

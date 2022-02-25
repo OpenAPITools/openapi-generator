@@ -22,7 +22,7 @@ set -o pipefail
 
 for cmd in {mvn,jq,curl}; do
   if ! command -v ${cmd} > /dev/null; then
-  >&2 echo "This script requires '${cmd}' to be installed."
+    >&2 echo "This script requires '${cmd}' to be installed."
     exit 1
   fi
 done
@@ -42,7 +42,13 @@ artifactid=openapi-generator-cli
 ver=${OPENAPI_GENERATOR_VERSION:-$(latest.tag $ghrepo)}
 
 jar=${artifactid}-${ver}.jar
-DIR=${OPENAPI_GENERATOR_DOWLOAD_CACHE_DIR:-"$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"}
+cachedir=${OPENAPI_GENERATOR_DOWNLOAD_CACHE_DIR}
+
+DIR=${cachedir:-"$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"}
+
+if [ ! -d "${DIR}" ]; then
+  mkdir -p "${DIR}"
+fi
 
 if [ ! -f ${DIR}/${jar} ]; then
   repo="central::default::https://repo1.maven.org/maven2/"

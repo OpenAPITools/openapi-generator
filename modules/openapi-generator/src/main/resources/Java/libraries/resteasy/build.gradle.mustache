@@ -7,7 +7,6 @@ version = '{{artifactVersion}}'
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.+'
@@ -16,7 +15,7 @@ buildscript {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 
@@ -33,20 +32,8 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 23
         }
         compileOptions {
-            {{#supportJava6}}
-            sourceCompatibility JavaVersion.VERSION_1_6
-            targetCompatibility JavaVersion.VERSION_1_6
-            {{/supportJava6}}
-            {{^supportJava6}}
-            {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
-            {{/java8}}
-            {{^java8}}
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
-            {{/java8}}
-            {{/supportJava6}}
         }
 
         // Rename the aar correctly
@@ -61,7 +48,7 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
 
@@ -89,25 +76,17 @@ if(hasProperty('target') && target == 'android') {
 } else {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
-    {{#supportJava6}}
-    sourceCompatibility = JavaVersion.VERSION_1_6
-    targetCompatibility = JavaVersion.VERSION_1_6
-    {{/supportJava6}}
-    {{^supportJava6}}
-    {{#java8}}
+    apply plugin: 'maven-publish'
+
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-    {{/java8}}
-    {{^java8}}
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
-    {{/java8}}
-    {{/supportJava6}}
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = '{{artifactId}}'
+    publishing {
+        publications {
+            maven(MavenPublication) {
+               artifactId = '{{artifactId}}'
+               from components.java
+            }
         }
     }
 
@@ -118,44 +97,32 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.22"
-    jackson_version = "2.9.9"
-    jackson_databind_version = "2.9.9"
-    jackson-databind-nullable-version = "0.2.0"
-    threetenbp_version = "2.6.4"
-    resteasy_version = "3.1.3.Final"
-    {{^java8}}
-    jodatime_version = "2.9.9"
-    {{/java8}}
-    {{#supportJava6}}
-    commons_io_version=2.5
-    commons_lang3_version=3.5
-    {{/supportJava6}}
-    junit_version = "4.12"
+    swagger_annotations_version = "1.6.3"
+    jackson_version = "2.10.5"
+    jackson_databind_version = "2.10.5.1"
+    {{#openApiNullable}}
+    jackson_databind_nullable_version = "0.2.2"
+    {{/openApiNullable}}
+    jakarta_annotation_version = "1.3.5"
+    threetenbp_version = "2.9.10"
+    resteasy_version = "4.5.11.Final"
+    junit_version = "4.13"
 }
 
 dependencies {
-    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "com.google.code.findbugs:jsr305:3.0.2"
-    compile "org.jboss.resteasy:resteasy-client:$resteasy_version"
-    compile "org.jboss.resteasy:resteasy-multipart-provider:$resteasy_version"
-    compile "org.jboss.resteasy:resteasy-jackson2-provider:$resteasy_version"
-    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
-    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$threetenbp_version"
-    compile "org.openapitools:jackson-databind-nullable:$jackson-databind-nullable-version"
-    {{#java8}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    {{/java8}}
-    {{^java8}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
-    compile "joda-time:joda-time:$jodatime_version"
-    compile "com.brsanthu:migbase64:2.2"
-    {{/java8}}
-    {{#supportJava6}}
-    compile "commons-io:commons-io:$commons_io_version"
-    compile "org.apache.commons:commons-lang3:$commons_lang3_version"
-    {{/supportJava6}}
-    testCompile "junit:junit:$junit_version"
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+    implementation "org.jboss.resteasy:resteasy-client:$resteasy_version"
+    implementation "org.jboss.resteasy:resteasy-multipart-provider:$resteasy_version"
+    implementation "org.jboss.resteasy:resteasy-jackson2-provider:$resteasy_version"
+    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:$threetenbp_version"
+    {{#openApiNullable}}
+    implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    {{/openApiNullable}}
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    testImplementation "junit:junit:$junit_version"
 }

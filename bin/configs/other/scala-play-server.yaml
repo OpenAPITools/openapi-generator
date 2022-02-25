@@ -1,0 +1,6 @@
+generatorName: scala-play-server
+outputDir: samples/server/petstore/scala-play-server
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/scala-play-server
+additionalProperties:
+  hideGenerationTimestamp: "true"

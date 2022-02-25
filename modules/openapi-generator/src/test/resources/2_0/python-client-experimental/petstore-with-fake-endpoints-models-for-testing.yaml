@@ -5,7 +5,7 @@ info:
   title: OpenAPI Petstore
   license:
     name: Apache-2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 host: petstore.swagger.io:80
 basePath: /v2
 tags:
@@ -269,6 +269,13 @@ paths:
           description: file to upload
           required: false
           type: file
+        - name: files
+          in: formData
+          description: files to upload
+          required: false
+          type: array
+          items:
+            type: file
       responses:
         '200':
           description: successful operation
@@ -695,16 +702,14 @@ paths:
     post:
       tags:
         - fake
-      summary: |
-        Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
-      description: |
-        Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
+      summary: "Fake endpoint for testing various parameters\n
+        假端點\n
+        偽のエンドポイント\n
+        가짜 엔드 포인트"
+      description: "Fake endpoint for testing various parameters\n
+        假端點\n
+        偽のエンドポイント\n
+        가짜 엔드 포인트"
       operationId: testEndpointParameters
       consumes:
         - application/x-www-form-urlencoded
@@ -838,74 +843,108 @@ paths:
       responses:
         '400':
           description: Someting wrong
-  /fake/outer/number:
+  /fake/refs/number:
     post:
       tags:
         - fake
       description: Test serialization of outer number types
-      operationId: fakeOuterNumberSerialize
+      operationId: NumberWithValidations
       parameters:
         - name: body
           in: body
           description: Input number as post body
           schema:
-            $ref: '#/definitions/OuterNumber'
+            $ref: '#/definitions/NumberWithValidations'
       responses:
         '200':
           description: Output number
           schema:
-            $ref: '#/definitions/OuterNumber'
-  /fake/outer/string:
+            $ref: '#/definitions/NumberWithValidations'
+  /fake/refs/string:
     post:
       tags:
         - fake
       description: Test serialization of outer string types
-      operationId: fakeOuterStringSerialize
+      operationId: String
       parameters:
         - name: body
           in: body
           description: Input string as post body
           schema:
-            $ref: '#/definitions/OuterString'
+            $ref: '#/definitions/String'
       responses:
         '200':
           description: Output string
           schema:
-            $ref: '#/definitions/OuterString'
-  /fake/outer/boolean:
+            $ref: '#/definitions/String'
+  /fake/refs/boolean:
     post:
       tags:
         - fake
       description: Test serialization of outer boolean types
-      operationId: fakeOuterBooleanSerialize
+      operationId: Boolean
       parameters:
         - name: body
           in: body
           description: Input boolean as post body
           schema:
-            $ref: '#/definitions/OuterBoolean'
+            $ref: '#/definitions/Boolean'
       responses:
         '200':
           description: Output boolean
           schema:
-            $ref: '#/definitions/OuterBoolean'
-  /fake/outer/composite:
+            $ref: '#/definitions/Boolean'
+  /fake/refs/arraymodel:
     post:
       tags:
         - fake
-      description: Test serialization of object with outer number type
-      operationId: fakeOuterCompositeSerialize
+      description: Test serialization of ArrayModel
+      operationId: ArrayModel
       parameters:
         - name: body
           in: body
-          description: Input composite as post body
+          description: Input model
           schema:
-            $ref: '#/definitions/OuterComposite'
+            $ref: '#/definitions/AnimalFarm'
       responses:
         '200':
-          description: Output composite
+          description: Output model
           schema:
-            $ref: '#/definitions/OuterComposite'
+            $ref: '#/definitions/AnimalFarm'
+  /fake/refs/object_model_with_ref_props:
+    post:
+      tags:
+        - fake
+      description: Test serialization of object with $refed properties
+      operationId: ObjectModelWithRefProps
+      parameters:
+        - name: body
+          in: body
+          description: Input model
+          schema:
+            $ref: '#/definitions/ObjectModelWithRefProps'
+      responses:
+        '200':
+          description: Output model
+          schema:
+            $ref: '#/definitions/ObjectModelWithRefProps'
+  /fake/refs/enum:
+    post:
+      tags:
+        - fake
+      description: Test serialization of outer enum
+      operationId: StringEnum
+      parameters:
+        - name: body
+          in: body
+          description: Input enum
+          schema:
+            $ref: '#/definitions/StringEnum'
+      responses:
+        '200':
+          description: Output enum
+          schema:
+            $ref: '#/definitions/StringEnum'
   /fake/jsonFormData:
     get:
       tags:
@@ -1214,6 +1253,10 @@ definitions:
         format: int64
       name:
         type: string
+      # we added fullName to make sure that serialization/deserialization
+      # works for a submodel of Pet that also uses js variable names
+      fullName:
+        type: string
     xml:
       name: Tag
   Pet:
@@ -1313,6 +1356,16 @@ definitions:
     properties:
       _class:
         type: string
+  Player:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+      enemyPlayer:
+        type: object
+        $ref: '#/components/schemas/Player'
   Dog:
     allOf:
       - $ref: '#/definitions/Animal'
@@ -1338,6 +1391,7 @@ definitions:
       color:
         type: string
         default: 'red'
+    additionalProperties: false
   AnimalFarm:
     type: array
     items:
@@ -1378,7 +1432,7 @@ definitions:
         minimum: 67.8
       string:
         type: string
-        pattern: /[a-z]/i
+        pattern: /^[a-z]+$/i
       byte:
         type: string
         format: byte
@@ -1436,8 +1490,8 @@ definitions:
         enum:
           - 1.1
           - -1.2
-      outerEnum:
-        $ref: '#/definitions/OuterEnum'
+      stringEnum:
+        $ref: '#/definitions/StringEnum'
   AdditionalPropertiesClass:
     type: object
     properties:
@@ -1467,8 +1521,7 @@ definitions:
         type: object
         additionalProperties:
           type: array
-          items:
-            type: object
+          items: {}
       map_map_string:
         type: object
         additionalProperties:
@@ -1479,14 +1532,15 @@ definitions:
         type: object
         additionalProperties:
           type: object
-          additionalProperties:
-            type: object
-      anytype_1:
-        type: object
-      anytype_2: {}
+          additionalProperties: {}
+      anytype_1: {}
+      anytype_2:
+        description: no type is set for this
       anytype_3:
         type: object
         properties: {}
+        description: 'because of a bug in swagger-parser, this should have values {str: (str, int, float...)}
+          but instead we get any type. See https://github.com/swagger-api/swagger-parser/issues/1378'
   AdditionalPropertiesString:
     type: object
     properties:
@@ -1704,26 +1758,29 @@ definitions:
       #      enum:
       #        - Cat
       #        - Dog
-  OuterEnum:
+  StringEnum:
     type: string
     enum:
     - "placed"
     - "approved"
     - "delivered"
-  OuterComposite:
+  ObjectModelWithRefProps:
+    description: a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations
     type: object
     properties:
       my_number:
-        $ref: '#/definitions/OuterNumber'
+        $ref: '#/definitions/NumberWithValidations'
       my_string:
-        $ref: '#/definitions/OuterString'
+        $ref: '#/definitions/String'
       my_boolean:
-        $ref: '#/definitions/OuterBoolean'
-  OuterNumber:
+        $ref: '#/definitions/Boolean'
+  NumberWithValidations:
     type: number
-  OuterString:
+    minimum: 10
+    maximum: 20
+  String:
     type: string
-  OuterBoolean:
+  Boolean:
     type: boolean
     x-codegen-body-parameter-name: boolean_post_body
   StringBooleanMap:
@@ -2013,3 +2070,55 @@ definitions:
           xml:
             namespace: http://g.com/schema
             prefix: g
+  Grandparent:
+    type: object
+    properties:
+      radioWaves:
+        type: boolean
+  Parent:
+    allOf:
+      - $ref: '#/definitions/Grandparent'
+      - type: object
+        properties:
+          teleVision:
+            type: boolean
+  Child:
+    allOf:
+      - $ref: '#/definitions/Parent'
+      - type: object
+        properties:
+          interNet:
+            type: boolean
+  GrandparentAnimal:
+    type: object
+    required:
+    - pet_type
+    properties:
+      pet_type:
+        type: string
+    discriminator: pet_type
+  ParentPet:
+    type: object
+    allOf:
+    - $ref: '#/definitions/GrandparentAnimal'
+  ChildCat:
+    allOf:
+    - $ref: '#/definitions/ParentPet'
+    - type: object
+      properties:
+        name:
+          type: string
+  ChildDog:
+    allOf:
+    - $ref: '#/definitions/ParentPet'
+    - type: object
+      properties:
+        bark:
+          type: string
+  ChildLizard:
+    allOf:
+    - $ref: '#/definitions/ParentPet'
+    - type: object
+      properties:
+        lovesRocks:
+          type: boolean

@@ -29,10 +29,29 @@ import java.util.List;
 import android.os.Parcelable;
 import android.os.Parcel;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.openapitools.client.JSON;
+
 /**
  * XmlItem
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class XmlItem implements Parcelable {
   public static final String SERIALIZED_NAME_ATTRIBUTE_STRING = "attribute_string";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_STRING)
@@ -150,7 +169,7 @@ public class XmlItem implements Parcelable {
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_WRAPPED_ARRAY)
   private List<Integer> prefixNsWrappedArray = null;
 
-  public XmlItem() {
+  public XmlItem() { 
   }
 
   public XmlItem attributeString(String attributeString) {
@@ -169,7 +188,6 @@ public class XmlItem implements Parcelable {
   public String getAttributeString() {
     return attributeString;
   }
-
 
 
   public void setAttributeString(String attributeString) {
@@ -195,7 +213,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setAttributeNumber(BigDecimal attributeNumber) {
     this.attributeNumber = attributeNumber;
   }
@@ -217,7 +234,6 @@ public class XmlItem implements Parcelable {
   public Integer getAttributeInteger() {
     return attributeInteger;
   }
-
 
 
   public void setAttributeInteger(Integer attributeInteger) {
@@ -243,7 +259,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setAttributeBoolean(Boolean attributeBoolean) {
     this.attributeBoolean = attributeBoolean;
   }
@@ -257,7 +272,7 @@ public class XmlItem implements Parcelable {
 
   public XmlItem addWrappedArrayItem(Integer wrappedArrayItem) {
     if (this.wrappedArray == null) {
-      this.wrappedArray = new ArrayList<Integer>();
+      this.wrappedArray = new ArrayList<>();
     }
     this.wrappedArray.add(wrappedArrayItem);
     return this;
@@ -273,7 +288,6 @@ public class XmlItem implements Parcelable {
   public List<Integer> getWrappedArray() {
     return wrappedArray;
   }
-
 
 
   public void setWrappedArray(List<Integer> wrappedArray) {
@@ -299,7 +313,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNameString(String nameString) {
     this.nameString = nameString;
   }
@@ -321,7 +334,6 @@ public class XmlItem implements Parcelable {
   public BigDecimal getNameNumber() {
     return nameNumber;
   }
-
 
 
   public void setNameNumber(BigDecimal nameNumber) {
@@ -347,7 +359,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNameInteger(Integer nameInteger) {
     this.nameInteger = nameInteger;
   }
@@ -371,7 +382,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNameBoolean(Boolean nameBoolean) {
     this.nameBoolean = nameBoolean;
   }
@@ -385,7 +395,7 @@ public class XmlItem implements Parcelable {
 
   public XmlItem addNameArrayItem(Integer nameArrayItem) {
     if (this.nameArray == null) {
-      this.nameArray = new ArrayList<Integer>();
+      this.nameArray = new ArrayList<>();
     }
     this.nameArray.add(nameArrayItem);
     return this;
@@ -403,7 +413,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNameArray(List<Integer> nameArray) {
     this.nameArray = nameArray;
   }
@@ -417,7 +426,7 @@ public class XmlItem implements Parcelable {
 
   public XmlItem addNameWrappedArrayItem(Integer nameWrappedArrayItem) {
     if (this.nameWrappedArray == null) {
-      this.nameWrappedArray = new ArrayList<Integer>();
+      this.nameWrappedArray = new ArrayList<>();
     }
     this.nameWrappedArray.add(nameWrappedArrayItem);
     return this;
@@ -433,7 +442,6 @@ public class XmlItem implements Parcelable {
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
   }
-
 
 
   public void setNameWrappedArray(List<Integer> nameWrappedArray) {
@@ -459,7 +467,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixString(String prefixString) {
     this.prefixString = prefixString;
   }
@@ -481,7 +488,6 @@ public class XmlItem implements Parcelable {
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
-
 
 
   public void setPrefixNumber(BigDecimal prefixNumber) {
@@ -507,7 +513,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixInteger(Integer prefixInteger) {
     this.prefixInteger = prefixInteger;
   }
@@ -531,7 +536,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixBoolean(Boolean prefixBoolean) {
     this.prefixBoolean = prefixBoolean;
   }
@@ -545,7 +549,7 @@ public class XmlItem implements Parcelable {
 
   public XmlItem addPrefixArrayItem(Integer prefixArrayItem) {
     if (this.prefixArray == null) {
-      this.prefixArray = new ArrayList<Integer>();
+      this.prefixArray = new ArrayList<>();
     }
     this.prefixArray.add(prefixArrayItem);
     return this;
@@ -563,7 +567,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixArray(List<Integer> prefixArray) {
     this.prefixArray = prefixArray;
   }
@@ -577,7 +580,7 @@ public class XmlItem implements Parcelable {
 
   public XmlItem addPrefixWrappedArrayItem(Integer prefixWrappedArrayItem) {
     if (this.prefixWrappedArray == null) {
-      this.prefixWrappedArray = new ArrayList<Integer>();
+      this.prefixWrappedArray = new ArrayList<>();
     }
     this.prefixWrappedArray.add(prefixWrappedArrayItem);
     return this;
@@ -593,7 +596,6 @@ public class XmlItem implements Parcelable {
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
   }
-
 
 
   public void setPrefixWrappedArray(List<Integer> prefixWrappedArray) {
@@ -619,7 +621,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNamespaceString(String namespaceString) {
     this.namespaceString = namespaceString;
   }
@@ -641,7 +642,6 @@ public class XmlItem implements Parcelable {
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
-
 
 
   public void setNamespaceNumber(BigDecimal namespaceNumber) {
@@ -667,7 +667,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNamespaceInteger(Integer namespaceInteger) {
     this.namespaceInteger = namespaceInteger;
   }
@@ -691,7 +690,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNamespaceBoolean(Boolean namespaceBoolean) {
     this.namespaceBoolean = namespaceBoolean;
   }
@@ -705,7 +703,7 @@ public class XmlItem implements Parcelable {
 
   public XmlItem addNamespaceArrayItem(Integer namespaceArrayItem) {
     if (this.namespaceArray == null) {
-      this.namespaceArray = new ArrayList<Integer>();
+      this.namespaceArray = new ArrayList<>();
     }
     this.namespaceArray.add(namespaceArrayItem);
     return this;
@@ -723,7 +721,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNamespaceArray(List<Integer> namespaceArray) {
     this.namespaceArray = namespaceArray;
   }
@@ -737,7 +734,7 @@ public class XmlItem implements Parcelable {
 
   public XmlItem addNamespaceWrappedArrayItem(Integer namespaceWrappedArrayItem) {
     if (this.namespaceWrappedArray == null) {
-      this.namespaceWrappedArray = new ArrayList<Integer>();
+      this.namespaceWrappedArray = new ArrayList<>();
     }
     this.namespaceWrappedArray.add(namespaceWrappedArrayItem);
     return this;
@@ -753,7 +750,6 @@ public class XmlItem implements Parcelable {
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
   }
-
 
 
   public void setNamespaceWrappedArray(List<Integer> namespaceWrappedArray) {
@@ -779,7 +775,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixNsString(String prefixNsString) {
     this.prefixNsString = prefixNsString;
   }
@@ -801,7 +796,6 @@ public class XmlItem implements Parcelable {
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }
-
 
 
   public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
@@ -827,7 +821,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixNsInteger(Integer prefixNsInteger) {
     this.prefixNsInteger = prefixNsInteger;
   }
@@ -851,7 +844,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixNsBoolean(Boolean prefixNsBoolean) {
     this.prefixNsBoolean = prefixNsBoolean;
   }
@@ -865,7 +857,7 @@ public class XmlItem implements Parcelable {
 
   public XmlItem addPrefixNsArrayItem(Integer prefixNsArrayItem) {
     if (this.prefixNsArray == null) {
-      this.prefixNsArray = new ArrayList<Integer>();
+      this.prefixNsArray = new ArrayList<>();
     }
     this.prefixNsArray.add(prefixNsArrayItem);
     return this;
@@ -883,7 +875,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixNsArray(List<Integer> prefixNsArray) {
     this.prefixNsArray = prefixNsArray;
   }
@@ -897,7 +888,7 @@ public class XmlItem implements Parcelable {
 
   public XmlItem addPrefixNsWrappedArrayItem(Integer prefixNsWrappedArrayItem) {
     if (this.prefixNsWrappedArray == null) {
-      this.prefixNsWrappedArray = new ArrayList<Integer>();
+      this.prefixNsWrappedArray = new ArrayList<>();
     }
     this.prefixNsWrappedArray.add(prefixNsWrappedArrayItem);
     return this;
@@ -915,14 +906,13 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -966,7 +956,6 @@ public class XmlItem implements Parcelable {
     return Objects.hash(attributeString, attributeNumber, attributeInteger, attributeBoolean, wrappedArray, nameString, nameNumber, nameInteger, nameBoolean, nameArray, nameWrappedArray, prefixString, prefixNumber, prefixInteger, prefixBoolean, prefixArray, prefixWrappedArray, namespaceString, namespaceNumber, namespaceInteger, namespaceBoolean, namespaceArray, namespaceWrappedArray, prefixNsString, prefixNsNumber, prefixNsInteger, prefixNsBoolean, prefixNsArray, prefixNsWrappedArray);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -1008,7 +997,7 @@ public class XmlItem implements Parcelable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
@@ -1092,5 +1081,117 @@ public class XmlItem implements Parcelable {
       return new XmlItem[size];
     }
   };
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("attribute_string");
+    openapiFields.add("attribute_number");
+    openapiFields.add("attribute_integer");
+    openapiFields.add("attribute_boolean");
+    openapiFields.add("wrapped_array");
+    openapiFields.add("name_string");
+    openapiFields.add("name_number");
+    openapiFields.add("name_integer");
+    openapiFields.add("name_boolean");
+    openapiFields.add("name_array");
+    openapiFields.add("name_wrapped_array");
+    openapiFields.add("prefix_string");
+    openapiFields.add("prefix_number");
+    openapiFields.add("prefix_integer");
+    openapiFields.add("prefix_boolean");
+    openapiFields.add("prefix_array");
+    openapiFields.add("prefix_wrapped_array");
+    openapiFields.add("namespace_string");
+    openapiFields.add("namespace_number");
+    openapiFields.add("namespace_integer");
+    openapiFields.add("namespace_boolean");
+    openapiFields.add("namespace_array");
+    openapiFields.add("namespace_wrapped_array");
+    openapiFields.add("prefix_ns_string");
+    openapiFields.add("prefix_ns_number");
+    openapiFields.add("prefix_ns_integer");
+    openapiFields.add("prefix_ns_boolean");
+    openapiFields.add("prefix_ns_array");
+    openapiFields.add("prefix_ns_wrapped_array");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to XmlItem
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (XmlItem.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in XmlItem is not found in the empty JSON string", XmlItem.openapiRequiredFields.toString()));
+        }
+      }
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!XmlItem.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `XmlItem` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!XmlItem.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'XmlItem' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<XmlItem> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(XmlItem.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<XmlItem>() {
+           @Override
+           public void write(JsonWriter out, XmlItem value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public XmlItem read(JsonReader in) throws IOException {
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
+           }
+
+       }.nullSafe();
+    }
+  }
+
+ /**
+  * Create an instance of XmlItem given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of XmlItem
+  * @throws IOException if the JSON string is invalid with respect to XmlItem
+  */
+  public static XmlItem fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, XmlItem.class);
+  }
+
+ /**
+  * Convert an instance of XmlItem to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

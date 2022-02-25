@@ -1,0 +1,291 @@
+  {{#description}}
+  # {{{.}}}
+  {{/description}}
+  class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
+    include JSON::Serializable
+
+    {{#hasRequired}}
+    # Required properties
+    {{/hasRequired}}
+    {{#requiredVars}}
+    {{#description}}
+    # {{{.}}}
+    {{/description}}
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, nillable: false, emit_null: false)]
+    property {{{name}}} : {{{dataType}}}
+
+    {{/requiredVars}}
+    {{#hasOptional}}
+    # Optional properties
+    {{/hasOptional}}
+    {{#optionalVars}}
+    {{#description}}
+    # {{{.}}}
+    {{/description}}
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, nillable: true, emit_null: false)]
+    property {{{name}}} : {{{dataType}}}?
+
+    {{/optionalVars}}
+{{#hasEnums}}
+    class EnumAttributeValidator
+      getter datatype : String
+      getter allowable_values : Array(String)
+
+      def initialize(datatype, allowable_values)
+        @datatype = datatype
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.includes?(value)
+      end
+    end
+
+{{/hasEnums}}
+    {{#anyOf}}
+    {{#-first}}
+    # List of class defined in anyOf (OpenAPI v3)
+    def self.openapi_any_of
+      [
+    {{/-first}}
+      :"{{{.}}}"{{^-last}},{{/-last}}
+    {{#-last}}
+      ]
+    end
+
+    {{/-last}}
+    {{/anyOf}}
+    {{#allOf}}
+    {{#-first}}
+    # List of class defined in allOf (OpenAPI v3)
+    def self.openapi_all_of
+      [
+    {{/-first}}
+      :"{{{.}}}"{{^-last}},{{/-last}}
+    {{#-last}}
+      ]
+    end
+
+    {{/-last}}
+    {{/allOf}}
+    {{#discriminator}}
+    {{#propertyName}}
+    # discriminator's property name in OpenAPI v3
+    def self.openapi_discriminator_name
+      :"{{{.}}}"
+    end
+
+    {{/propertyName}}
+    {{/discriminator}}
+    # Initializes the object
+    # @param [Hash] attributes Model attributes in the form of hash
+    def initialize({{#requiredVars}}@{{{name}}} : {{{dataType}}}{{^-last}}, {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}}, {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}@{{{name}}} : {{{dataType}}}?{{^-last}}, {{/-last}}{{/optionalVars}})
+    end
+
+    # Show invalid properties with the reasons. Usually used together with valid?
+    # @return Array for valid properties with the reasons
+    def list_invalid_properties
+      invalid_properties = {{^parent}}Array(String).new{{/parent}}{{#parent}}super{{/parent}}
+      {{#vars}}
+      {{#hasValidation}}
+      {{#maxLength}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size > {{{maxLength}}}
+        invalid_properties.push("invalid value for \"{{{name}}}\", the character length must be smaller than or equal to {{{maxLength}}}.")
+      end
+
+      {{/maxLength}}
+      {{#minLength}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size < {{{minLength}}}
+        invalid_properties.push("invalid value for \"{{{name}}}\", the character length must be great than or equal to {{{minLength}}}.")
+      end
+
+      {{/minLength}}
+      {{#maximum}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
+        invalid_properties.push("invalid value for \"{{{name}}}\", must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.")
+      end
+
+      {{/maximum}}
+      {{#minimum}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
+        invalid_properties.push("invalid value for \"{{{name}}}\", must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.")
+      end
+
+      {{/minimum}}
+      {{#pattern}}
+      pattern = Regexp.new({{{pattern}}})
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} !~ pattern
+        invalid_properties.push("invalid value for \"{{{name}}}\", must conform to the pattern #{pattern}.")
+      end
+
+      {{/pattern}}
+      {{#maxItems}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size > {{{maxItems}}}
+        invalid_properties.push("invalid value for \"{{{name}}}\", number of items must be less than or equal to {{{maxItems}}}."
+      end
+
+      {{/maxItems}}
+      {{#minItems}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size < {{{minItems}}}
+        invalid_properties.push("invalid value for \"{{{name}}}\", number of items must be greater than or equal to {{{minItems}}}."
+      end
+
+      {{/minItems}}
+      {{/hasValidation}}
+      {{/vars}}
+      invalid_properties
+    end
+
+    # Check to see if the all the properties in the model are valid
+    # @return true if the model is valid
+    def valid?
+      {{#vars}}
+      {{#isEnum}}
+      {{^isContainer}}
+      {{{name}}}_validator = EnumAttributeValidator.new("{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
+      return false unless {{{name}}}_validator.valid?(@{{{name}}})
+      {{/isContainer}}
+      {{/isEnum}}
+      {{#hasValidation}}
+      {{#maxLength}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size > {{{maxLength}}}
+      {{/maxLength}}
+      {{#minLength}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size < {{{minLength}}}
+      {{/minLength}}
+      {{#maximum}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
+      {{/maximum}}
+      {{#minimum}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
+      {{/minimum}}
+      {{#pattern}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} !~ Regexp.new({{{pattern}}})
+      {{/pattern}}
+      {{#maxItems}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size > {{{maxItems}}}
+      {{/maxItems}}
+      {{#minItems}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size < {{{minItems}}}
+      {{/minItems}}
+      {{/hasValidation}}
+      {{/vars}}
+      {{#anyOf}}
+      {{#-first}}
+      _any_of_found = false
+      self.class.openapi_any_of.each do |_class|
+        _any_of = {{moduleName}}.const_get(_class).build_from_hash(self.to_hash)
+        if _any_of.valid?
+          _any_of_found = true
+        end
+      end
+
+      if !_any_of_found
+        return false
+      end
+
+      {{/-first}}
+      {{/anyOf}}
+      true{{#parent}} && super{{/parent}}
+    end
+
+    {{#vars}}
+    {{#isEnum}}
+    {{^isContainer}}
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] {{{name}}} Object to be assigned
+    def {{{name}}}=({{{name}}})
+      validator = EnumAttributeValidator.new("{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
+      unless validator.valid?({{{name}}})
+        raise ArgumentError.new("invalid value for \"{{{name}}}\", must be one of #{validator.allowable_values}.")
+      end
+      @{{{name}}} = {{{name}}}
+    end
+
+    {{/isContainer}}
+    {{/isEnum}}
+    {{^isEnum}}
+    {{#hasValidation}}
+    # Custom attribute writer method with validation
+    # @param [Object] {{{name}}} Value to be assigned
+    def {{{name}}}=({{{name}}})
+      {{#maxLength}}
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.size > {{{maxLength}}}
+        raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be smaller than or equal to {{{maxLength}}}.")
+      end
+
+      {{/maxLength}}
+      {{#minLength}}
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.size < {{{minLength}}}
+        raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be great than or equal to {{{minLength}}}.")
+      end
+
+      {{/minLength}}
+      {{#maximum}}
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
+        raise ArgumentError.new("invalid value for \"{{{name}}}\", must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.")
+      end
+
+      {{/maximum}}
+      {{#minimum}}
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
+        raise ArgumentError.new("invalid value for \"{{{name}}}\", must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.")
+      end
+
+      {{/minimum}}
+      {{#pattern}}
+      pattern = Regexp.new({{{pattern}}})
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} !~ pattern
+        raise ArgumentError.new("invalid value for \"{{{name}}}\", must conform to the pattern #{pattern}.")
+      end
+
+      {{/pattern}}
+      {{#maxItems}}
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.size > {{{maxItems}}}
+        raise ArgumentError.new("invalid value for \"{{{name}}}\", number of items must be less than or equal to {{{maxItems}}}.")
+      end
+
+      {{/maxItems}}
+      {{#minItems}}
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.size < {{{minItems}}}
+        raise ArgumentError.new("invalid value for \"{{{name}}}\", number of items must be greater than or equal to {{{minItems}}}.")
+      end
+
+      {{/minItems}}
+      @{{{name}}} = {{{name}}}
+    end
+
+    {{/hasValidation}}
+    {{/isEnum}}
+    {{/vars}}
+    # Checks equality by comparing each attribute.
+    # @param [Object] Object to be compared
+    def ==(o)
+      return true if self.same?(o)
+      self.class == o.class{{#vars}} &&
+          {{name}} == o.{{name}}{{/vars}}{{#parent}} && super(o){{/parent}}
+    end
+
+    # @see the `==` method
+    # @param [Object] Object to be compared
+    def eql?(o)
+      self == o
+    end
+
+    # Calculates hash code according to all attributes.
+    # @return [Integer] Hash code
+    def hash
+      [{{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}].hash
+    end
+
+{{> base_object}}
+  end

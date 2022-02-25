@@ -9,7 +9,7 @@ class Module extends PlayModule {
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = Seq(
     {{#apiInfo}}
     {{#apis}}
-    bind[{{classname}}].to[{{classname}}Impl]{{#hasMore}},{{/hasMore}}
+    bind[{{classname}}].to[{{classname}}Impl]{{^-last}},{{/-last}}
     {{/apis}}
     {{/apiInfo}}
   )

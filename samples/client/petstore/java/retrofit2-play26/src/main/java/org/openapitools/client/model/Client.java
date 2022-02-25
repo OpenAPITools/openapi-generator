@@ -18,10 +18,12 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -31,11 +33,13 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
   private String client;
 
+  public Client() { 
+  }
 
   public Client client(String client) {
     
@@ -57,14 +61,15 @@ public class Client {
   }
 
 
-
+  @JsonProperty(JSON_PROPERTY_CLIENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setClient(String client) {
     this.client = client;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -80,7 +85,6 @@ public class Client {
     return Objects.hash(client);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -94,7 +98,7 @@ public class Client {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

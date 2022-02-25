@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeClassnameTags123Api {
     private ApiClient apiClient;
 
@@ -51,7 +51,7 @@ public class FakeClassnameTags123Api {
     **/
     public Client testClassname(Client body) throws IOException {
         HttpResponse response = testClassnameForHttpResponse(body);
-        TypeReference typeRef = new TypeReference<Client>() {};
+        TypeReference<Client> typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -66,7 +66,7 @@ public class FakeClassnameTags123Api {
     **/
     public Client testClassname(Client body, Map<String, Object> params) throws IOException {
         HttpResponse response = testClassnameForHttpResponse(body, params);
-        TypeReference typeRef = new TypeReference<Client>() {};
+        TypeReference<Client> typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 

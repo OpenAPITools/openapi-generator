@@ -1,0 +1,43 @@
+{{>licenseInfo}}
+package {{package}}
+
+{{#imports}}
+import {{import}}
+{{/imports}}
+import {{invokerPackage}}.JsonSupport._
+import sttp.client3._
+import sttp.model.Method
+
+{{#operations}}
+object {{classname}} {
+
+def apply(baseUrl: String = "{{{basePath}}}") = new {{classname}}(baseUrl)
+}
+
+class {{classname}}(baseUrl: String) {
+
+{{#operation}}
+{{#javadocRenderer}}
+{{>javadoc}}
+{{/javadocRenderer}}
+  def {{operationId}}({{>methodParameters}}): Request[{{#separateErrorChannel}}Either[ResponseException[String, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}, Nothing] =
+    basicRequest
+      .method(Method.{{httpMethod.toUpperCase}}, uri"$baseUrl{{{path}}}{{#queryParams.0}}?{{#queryParams}}{{baseName}}=${ {{{paramName}}} }{{^-last}}&{{/-last}}{{/queryParams}}{{/queryParams.0}}{{#isApiKey}}{{#isKeyInQuery}}{{^queryParams.0}}?{{/queryParams.0}}{{#queryParams.0}}&{{/queryParams.0}}{{keyParamName}}=${apiKey.value}&{{/isKeyInQuery}}{{/isApiKey}}")
+      .contentType({{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#headerParams}}
+      .header({{>paramCreation}}){{/headerParams}}{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+      .auth.basic(username, password){{/isBasicBasic}}{{#isBasicBearer}}
+      .auth.bearer(bearerToken){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}{{#isKeyInHeader}}
+      .header("{{keyParamName}}", apiKey){{/isKeyInHeader}}{{#isKeyInCookie}}
+      .cookie("{{keyParamName}}", apiKey){{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}{{#formParams.0}}{{^isMultipart}}
+      .body(Map({{#formParams}}
+        {{>paramFormCreation}}{{^-last}},{{/-last}}{{/formParams}}
+      )){{/isMultipart}}{{#isMultipart}}
+      .multipartBody(Seq({{#formParams}}
+        {{>paramMultipartCreation}}{{^-last}}, {{/-last}}{{/formParams}}
+      ).flatten){{/isMultipart}}{{/formParams.0}}{{#bodyParam}}
+      .body({{paramName}}){{/bodyParam}}
+      .response({{#separateErrorChannel}}asJson{{/separateErrorChannel}}{{^separateErrorChannel}}asJsonAlwaysUnsafe{{/separateErrorChannel}}[{{>operationReturnType}}])
+
+{{/operation}}
+}
+{{/operations}}

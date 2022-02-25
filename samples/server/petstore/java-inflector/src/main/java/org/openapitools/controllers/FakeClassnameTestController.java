@@ -12,19 +12,18 @@ import org.openapitools.model.*;
 
 import org.openapitools.model.Client;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class FakeClassnameTestController  {
-  /** 
+  /**
    * Uncomment and implement as you see fit.  These operations will map
    * Directly to operation calls from the routing logic.  Because the inflector
    * Code allows you to implement logic incrementally, they are disabled.
    **/
 
   /*
-    public ResponseContext testClassname(RequestContext request , Client client) {
+    public ResponseContext testClassname(RequestContext request , Client body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
 
 }
-

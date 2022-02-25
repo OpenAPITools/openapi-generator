@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,14 +38,14 @@ public abstract class AbstractIntegrationTest {
 
     protected Boolean generateMetadata = true;
 
-    protected Map<String, String> systemPropertyOverrides = new HashMap<>();
+    protected Map<String, String> globalPropertyOverrides = new HashMap<>();
 
     // @wing328: ignore for the time being until we fix the error with the integration test
     @Test(enabled = false)
     public void generatesCorrectDirectoryStructure() throws IOException {
         DefaultGenerator codeGen = new DefaultGenerator();
         codeGen.setGenerateMetadata(generateMetadata);
-        for (Map.Entry<String, String> propertyOverride : systemPropertyOverrides.entrySet()) {
+        for (Map.Entry<String, String> propertyOverride : globalPropertyOverrides.entrySet()) {
             codeGen.setGeneratorPropertyDefault(propertyOverride.getKey(), propertyOverride.getValue());
         }
 

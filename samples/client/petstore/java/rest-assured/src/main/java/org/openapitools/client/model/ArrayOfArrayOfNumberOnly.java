@@ -26,16 +26,21 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * ArrayOfArrayOfNumberOnly
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayOfArrayOfNumberOnly {
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_NUMBER)
   private List<List<BigDecimal>> arrayArrayNumber = null;
 
+  public ArrayOfArrayOfNumberOnly() { 
+  }
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     
@@ -45,7 +50,7 @@ public class ArrayOfArrayOfNumberOnly {
 
   public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
     if (this.arrayArrayNumber == null) {
-      this.arrayArrayNumber = new ArrayList<List<BigDecimal>>();
+      this.arrayArrayNumber = new ArrayList<>();
     }
     this.arrayArrayNumber.add(arrayArrayNumberItem);
     return this;
@@ -56,12 +61,12 @@ public class ArrayOfArrayOfNumberOnly {
    * @return arrayArrayNumber
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
-
 
 
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
@@ -70,7 +75,7 @@ public class ArrayOfArrayOfNumberOnly {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -86,7 +91,6 @@ public class ArrayOfArrayOfNumberOnly {
     return Objects.hash(arrayArrayNumber);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -100,7 +104,7 @@ public class ArrayOfArrayOfNumberOnly {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -1,0 +1,60 @@
+{{>licenseInfo}}
+package {{package}}
+
+{{#imports}}
+import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+{{#description}}
+{{#javadocRenderer}}
+{{#title}}
+{{{.}}}
+{{/title}}
+{{{description}}}
+{{/javadocRenderer}}
+{{/description}}
+{{^isEnum}}
+case class {{classname}}(
+  {{#vars}}
+  {{#description}}
+  /* {{{.}}} */
+  {{/description}}
+  {{{name}}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{classname}}Enums.{{datatypeWithEnum}}{{/isEnum}}{{^required}}] = None{{/required}}{{^-last}},{{/-last}}
+  {{/vars}}
+)
+{{/isEnum}}
+
+{{#isEnum}}
+object {{classname}} extends Enumeration {
+    type {{classname}} = {{classname}}.Value
+{{#allowableValues}}
+    {{#values}}
+    val {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} = Value("{{.}}")
+    {{/values}}
+{{/allowableValues}}
+}
+{{/isEnum}}
+{{#hasEnums}}
+object {{classname}}Enums {
+
+  {{#vars}}
+  {{#isEnum}}
+  type {{datatypeWithEnum}} = {{datatypeWithEnum}}.Value
+  {{/isEnum}}
+  {{/vars}}
+  {{#vars}}
+  {{#isEnum}}
+  object {{datatypeWithEnum}} extends Enumeration {
+{{#_enum}}
+    val {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} = Value("{{.}}")
+{{/_enum}}
+  }
+
+  {{/isEnum}}
+  {{/vars}}
+}
+{{/hasEnums}}
+{{/model}}
+{{/models}}

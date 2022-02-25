@@ -1,0 +1,259 @@
+// tslint:disable
+{{>licenseInfo}}
+
+import { HttpMethods, QueryConfig, ResponseBody, ResponseText } from 'redux-query';
+import * as runtime from '../runtime';
+{{#imports.0}}
+import {
+    {{#imports}}
+    {{className}},
+    {{className}}FromJSON,
+    {{className}}ToJSON,
+    {{/imports}}
+} from '../models';
+{{/imports.0}}
+
+{{#operations}}
+{{#operation}}
+{{#allParams.0}}
+export interface {{operationIdCamelCase}}Request {
+    {{#allParams}}
+    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
+    {{/allParams}}
+}
+
+{{/allParams.0}}
+{{/operation}}
+{{/operations}}
+{{#operations}}
+
+{{#operation}}
+/**
+ {{#notes}}
+ * {{&notes}}
+ {{/notes}}
+ {{#summary}}
+ * {{&summary}}
+ {{/summary}}
+ */
+function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request,{{/allParams.0}} requestConfig: runtime.TypedQueryConfig<T, {{{returnType}}}{{^returnType}}void{{/returnType}}> = {}): QueryConfig<T> {
+    {{#allParams}}
+    {{#required}}
+    if (requestParameters.{{paramName}} === null || requestParameters.{{paramName}} === undefined) {
+        throw new runtime.RequiredError('{{paramName}}','Required parameter requestParameters.{{paramName}} was null or undefined when calling {{nickname}}.');
+    }
+
+    {{/required}}
+    {{/allParams}}
+    let queryParameters = null;
+
+    {{#queryParams.0}}
+    queryParameters = {};
+    {{/queryParams.0}}
+
+    {{#queryParams}}
+
+    {{#isArray}}
+    if (requestParameters.{{paramName}}) {
+        {{#isCollectionFormatMulti}}
+        queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+        queryParameters['{{baseName}}'] = requestParameters.{{paramName}}?.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
+        {{/isCollectionFormatMulti}}
+    }
+
+    {{/isArray}}
+    {{^isArray}}
+    if (requestParameters.{{paramName}} !== undefined) {
+        {{#isDateTime}}
+        queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
+        {{/isDateTime}}
+        {{^isDateTime}}
+        {{#isDate}}
+        queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substr(0,10);
+        {{/isDate}}
+        {{^isDate}}
+        queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
+        {{/isDate}}
+        {{/isDateTime}}
+    }
+
+    {{/isArray}}
+    {{/queryParams}}
+    const headerParameters : runtime.HttpHeaders = {};
+
+    {{#bodyParam}}
+    {{^consumes}}
+    headerParameters['Content-Type'] = 'application/json';
+
+    {{/consumes}}
+    {{#consumes.0}}
+    headerParameters['Content-Type'] = '{{{mediaType}}}';
+
+    {{/consumes.0}}
+    {{/bodyParam}}
+    {{#headerParams}}
+    {{#isArray}}
+    if (requestParameters.{{paramName}}) {
+        headerParameters['{{baseName}}'] = requestParameters.{{paramName}}?.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
+    }
+
+    {{/isArray}}
+    {{^isArray}}
+    if (requestParameters.{{paramName}} !== undefined && requestParameters.{{paramName}} !== null) {
+        headerParameters['{{baseName}}'] = String(requestParameters.{{paramName}});
+    }
+
+    {{/isArray}}
+    {{/headerParams}}
+
+    const { meta = {} } = requestConfig;
+
+    {{#authMethods}}
+    {{#isBasic}}
+    {{#isBasicBasic}}
+    meta.authType = ['basic'];
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    meta.authType = ['bearer'];
+    {{/isBasicBearer}}
+    {{/isBasic}}
+    {{#isApiKey}}
+    {{#isKeyInHeader}}
+    meta.authType = ['api_key', 'header'];
+    {{/isKeyInHeader}}
+    {{#isKeyInQuery}}
+    meta.authType = ['api_key', 'query'];
+    {{/isKeyInQuery}}
+    {{/isApiKey}}
+    {{#isOAuth}}
+    meta.authType = ['oauth', [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}]];
+    {{/isOAuth}}
+    {{/authMethods}}
+    {{#hasFormParams}}
+    const formData = new FormData();
+    {{/hasFormParams}}
+    {{#formParams}}
+    {{#isArray}}
+    if (requestParameters.{{paramName}}) {
+        {{#isCollectionFormatMulti}}
+        requestParameters.{{paramName}}.forEach((element) => {
+            formData.append('{{baseName}}', element as any);
+        })
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+        formData.append('{{baseName}}', requestParameters.{{paramName}}?.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
+        {{/isCollectionFormatMulti}}
+    }
+
+    {{/isArray}}
+    {{^isArray}}
+    if (requestParameters.{{paramName}} !== undefined) {
+        formData.append('{{baseName}}', requestParameters.{{paramName}} as any);
+    }
+
+    {{/isArray}}
+    {{/formParams}}
+    const config: QueryConfig<T> = {
+        url: `${runtime.Configuration.basePath}{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
+        meta,
+        update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
+        options: {
+            method: '{{httpMethod}}',
+            headers: headerParameters,
+        },
+        {{#hasBodyParam}}
+        {{#bodyParam}}
+        {{#isContainer}}
+        body: queryParameters || requestParameters.{{paramName}}{{#isArray}}{{#items}}{{^isPrimitiveType}}?.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isArray}},
+        {{/isContainer}}
+        {{^isContainer}}
+        {{^isPrimitiveType}}
+        body: queryParameters || {{dataType}}ToJSON(requestParameters.{{paramName}}),
+        {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+        body: queryParameters || requestParameters.{{paramName}} as any,
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{/bodyParam}}
+        {{/hasBodyParam}}
+        {{^hasBodyParam}}
+        {{#hasFormParams}}
+        body: formData,
+        {{/hasFormParams}}
+        {{^hasFormParams}}
+        body: queryParameters,
+        {{/hasFormParams}}
+        {{/hasBodyParam}}
+    };
+
+    const { transform: requestTransform } = requestConfig;
+    if (requestTransform) {
+        {{#returnType}}
+        {{#returnTypeIsPrimitive}}
+        {{#returnSimpleType}}
+        throw "OH NO";
+        {{/returnSimpleType}}
+        {{/returnTypeIsPrimitive}}
+        {{^returnTypeIsPrimitive}}
+        {{#isArray}}
+        config.transform = (body: ResponseBody, text: ResponseBody) => requestTransform(body.map({{returnBaseType}}FromJSON), text);
+        {{/isArray}}
+        {{^isArray}}
+        config.transform = (body: ResponseBody, text: ResponseBody) => requestTransform({{returnBaseType}}FromJSON(body), text);
+        {{/isArray}}
+        {{/returnTypeIsPrimitive}}
+        {{/returnType}}
+    }
+
+    return config;
+}
+
+/**
+{{#notes}}
+* {{&notes}}
+{{/notes}}
+{{#summary}}
+* {{&summary}}
+{{/summary}}
+*/
+{{^useSingleRequestParameter}}
+export function {{nickname}}<T>({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^-last}}, {{/-last}}, {{/allParams}}requestConfig?: runtime.TypedQueryConfig<T, {{{returnType}}}{{^returnType}}void{{/returnType}}>): QueryConfig<T> {
+    return {{nickname}}Raw({{#allParams.0}}{ {{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}} }, {{/allParams.0}} requestConfig);
+}
+{{/useSingleRequestParameter}}
+{{#useSingleRequestParameter}}
+export function {{nickname}}<T>({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request,{{/allParams.0}} requestConfig?: runtime.TypedQueryConfig<T, {{{returnType}}}{{^returnType}}void{{/returnType}}>): QueryConfig<T> {
+    return {{nickname}}Raw({{#allParams.0}}requestParameters,{{/allParams.0}} requestConfig);
+}
+{{/useSingleRequestParameter}}
+
+{{/operation}}
+{{/operations}}
+{{#hasEnums}}
+
+{{#operations}}
+{{#operation}}
+{{#allParams}}
+{{#isEnum}}
+/**
+    * @export
+    * @enum {string}
+    */
+export enum {{operationIdCamelCase}}{{enumName}} {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+}
+{{/isEnum}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+{{/hasEnums}}

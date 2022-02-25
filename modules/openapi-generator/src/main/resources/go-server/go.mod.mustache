@@ -1,0 +1,18 @@
+module {{gitHost}}/{{gitUserId}}/{{gitRepoId}}
+
+go 1.13
+
+{{#routers}}
+	{{#mux}}
+require github.com/gorilla/mux v1.7.3
+		{{#featureCORS}}
+require github.com/gorilla/handlers v1.5.1
+		{{/featureCORS}}
+	{{/mux}}
+	{{#chi}}
+require github.com/go-chi/chi/v5 v5.0.3
+		{{#featureCORS}}
+require github.com/go-chi/cors v1.2.0
+		{{/featureCORS}}
+	{{/chi}}
+{{/routers}}

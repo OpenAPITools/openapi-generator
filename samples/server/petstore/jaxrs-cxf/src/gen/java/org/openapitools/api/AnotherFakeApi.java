@@ -25,7 +25,7 @@ import javax.validation.Valid;
  * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  */
-@Path("/")
+@Path("/another-fake/dummy")
 @Api(value = "/", description = "")
 public interface AnotherFakeApi  {
 
@@ -36,12 +36,11 @@ public interface AnotherFakeApi  {
      *
      */
     @PATCH
-    @Path("/another-fake/dummy")
+    
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @ApiOperation(value = "To test special tags", tags={ "$another-fake?" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Client call123testSpecialTags(@Valid Client body);
+    public Client call123testSpecialTags(@Valid @NotNull Client body);
 }
-

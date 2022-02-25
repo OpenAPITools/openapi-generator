@@ -1,0 +1,18 @@
+{{#description}}
+    /* {{{.}}} */
+{{/description}}
+    {{^multiplatform}}
+    {{#moshi}}
+    @Json(name = "{{{vendorExtensions.x-base-name-literal}}}")
+    {{/moshi}}
+    {{#gson}}
+    @get:SerializedName("{{{vendorExtensions.x-base-name-literal}}}")
+    {{/gson}}
+    {{#jackson}}
+    @get:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
+    {{/jackson}}
+    {{#kotlinx_serialization}}
+    {{^isEnum}}{{^isArray}}{{^isPrimitiveType}}{{^isModel}}@Contextual {{/isModel}}{{/isPrimitiveType}}{{/isArray}}{{/isEnum}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}")
+    {{/kotlinx_serialization}}
+    {{/multiplatform}}
+    {{#multiplatform}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}") @Required {{/multiplatform}}{{>modelMutable}} {{{name}}}: {{#isArray}}{{#isList}}kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{^items.isEnum}}{{^items.isPrimitiveType}}{{^items.isModel}}{{#kotlinx_serialization}}@Contextual {{/kotlinx_serialization}}{{/items.isModel}}{{/items.isPrimitiveType}}{{{items.dataType}}}{{/items.isEnum}}{{#items.isEnum}}{{classname}}.{{{nameInCamelCase}}}{{/items.isEnum}}>{{/isArray}}{{^isEnum}}{{^isArray}}{{{dataType}}}{{/isArray}}{{/isEnum}}{{#isEnum}}{{^isArray}}{{classname}}.{{{nameInCamelCase}}}{{/isArray}}{{/isEnum}}{{#isNullable}}?{{/isNullable}}

@@ -10,10 +10,15 @@
 """
 
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-
 import six
+
+from petstore_api.configuration import Configuration
 
 
 class OuterComposite(object):
@@ -42,8 +47,11 @@ class OuterComposite(object):
         'my_boolean': 'my_boolean'
     }
 
-    def __init__(self, my_number=None, my_string=None, my_boolean=None):  # noqa: E501
+    def __init__(self, my_number=None, my_string=None, my_boolean=None, local_vars_configuration=None):  # noqa: E501
         """OuterComposite - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration.get_default_copy()
+        self.local_vars_configuration = local_vars_configuration
 
         self._my_number = None
         self._my_string = None
@@ -73,7 +81,7 @@ class OuterComposite(object):
 
 
         :param my_number: The my_number of this OuterComposite.  # noqa: E501
-        :type: float
+        :type my_number: float
         """
 
         self._my_number = my_number
@@ -94,7 +102,7 @@ class OuterComposite(object):
 
 
         :param my_string: The my_string of this OuterComposite.  # noqa: E501
-        :type: str
+        :type my_string: str
         """
 
         self._my_string = my_string
@@ -115,32 +123,40 @@ class OuterComposite(object):
 
 
         :param my_boolean: The my_boolean of this OuterComposite.  # noqa: E501
-        :type: bool
+        :type my_boolean: bool
         """
 
         self._my_boolean = my_boolean
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = getfullargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 
@@ -157,8 +173,11 @@ class OuterComposite(object):
         if not isinstance(other, OuterComposite):
             return False
 
-        return self.__dict__ == other.__dict__
+        return self.to_dict() == other.to_dict()
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
-        return not self == other
+        if not isinstance(other, OuterComposite):
+            return True
+
+        return self.to_dict() != other.to_dict()

@@ -7,15 +7,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class TypeHolderExample  {
   
@@ -25,6 +19,9 @@ public class TypeHolderExample  {
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @Valid
   private BigDecimal numberItem;
+
+  @ApiModelProperty(example = "1.234", required = true, value = "")
+  private Float floatItem;
 
   @ApiModelProperty(example = "-2", required = true, value = "")
   private Integer integerItem;
@@ -47,7 +44,7 @@ public class TypeHolderExample  {
   /**
    * Sets the <code>stringItem</code> property.
    */
-  public void setStringItem(String stringItem) {
+ public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
 
@@ -72,7 +69,7 @@ public class TypeHolderExample  {
   /**
    * Sets the <code>numberItem</code> property.
    */
-  public void setNumberItem(BigDecimal numberItem) {
+ public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
@@ -81,6 +78,31 @@ public class TypeHolderExample  {
    */
   public TypeHolderExample numberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
+    return this;
+  }
+
+ /**
+  * Get floatItem
+  * @return floatItem
+  */
+  @JsonProperty("float_item")
+  @NotNull
+  public Float getFloatItem() {
+    return floatItem;
+  }
+
+  /**
+   * Sets the <code>floatItem</code> property.
+   */
+ public void setFloatItem(Float floatItem) {
+    this.floatItem = floatItem;
+  }
+
+  /**
+   * Sets the <code>floatItem</code> property.
+   */
+  public TypeHolderExample floatItem(Float floatItem) {
+    this.floatItem = floatItem;
     return this;
   }
 
@@ -97,7 +119,7 @@ public class TypeHolderExample  {
   /**
    * Sets the <code>integerItem</code> property.
    */
-  public void setIntegerItem(Integer integerItem) {
+ public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
 
@@ -122,7 +144,7 @@ public class TypeHolderExample  {
   /**
    * Sets the <code>boolItem</code> property.
    */
-  public void setBoolItem(Boolean boolItem) {
+ public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
@@ -147,7 +169,7 @@ public class TypeHolderExample  {
   /**
    * Sets the <code>arrayItem</code> property.
    */
-  public void setArrayItem(List<Integer> arrayItem) {
+ public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
 
@@ -175,6 +197,7 @@ public class TypeHolderExample  {
     
     sb.append("    stringItem: ").append(toIndentedString(stringItem)).append("\n");
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
+    sb.append("    floatItem: ").append(toIndentedString(floatItem)).append("\n");
     sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
     sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
     sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");
@@ -186,7 +209,7 @@ public class TypeHolderExample  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

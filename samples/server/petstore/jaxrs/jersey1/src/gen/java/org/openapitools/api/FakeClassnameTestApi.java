@@ -15,8 +15,8 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import com.sun.jersey.multipart.FormDataBodyPart;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -29,7 +29,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the fake_classname_test API")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class FakeClassnameTestApi  {
    private final FakeClassnameTestApiService delegate = FakeClassnameTestApiServiceFactory.getFakeClassnameTestApi();
 
@@ -43,7 +43,7 @@ public class FakeClassnameTestApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     public Response testClassname(
-        @ApiParam(value = "client model" ,required=true) @NotNull @Valid Client body,
+        @ApiParam(value = "client model", required = true) @NotNull @Valid  Client body,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testClassname(body,securityContext);

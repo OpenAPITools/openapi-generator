@@ -9,7 +9,7 @@
          logout_user/1, logout_user/2,
          update_user/3, update_user/4]).
 
--define(BASE_URL, "/v2").
+-define(BASE_URL, <<"/v2">>).
 
 %% @doc Create user
 %% This can only be done by the logged in user.
@@ -23,11 +23,11 @@ create_user(Ctx, PetstoreUser, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = post,
-    Path = ["/user"],
+    Path = [<<"/user">>],
     QS = [],
     Headers = [],
     Body1 = PetstoreUser,
-    ContentTypeHeader = petstore_utils:select_header_content_type([]),
+    ContentTypeHeader = petstore_utils:select_header_content_type([<<"application/json">>]),
     Opts = maps:get(hackney_opts, Optional, []),
 
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
@@ -44,11 +44,11 @@ create_users_with_array_input(Ctx, PetstoreUserArray, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = post,
-    Path = ["/user/createWithArray"],
+    Path = [<<"/user/createWithArray">>],
     QS = [],
     Headers = [],
     Body1 = PetstoreUserArray,
-    ContentTypeHeader = petstore_utils:select_header_content_type([]),
+    ContentTypeHeader = petstore_utils:select_header_content_type([<<"application/json">>]),
     Opts = maps:get(hackney_opts, Optional, []),
 
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
@@ -65,11 +65,11 @@ create_users_with_list_input(Ctx, PetstoreUserArray, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = post,
-    Path = ["/user/createWithList"],
+    Path = [<<"/user/createWithList">>],
     QS = [],
     Headers = [],
     Body1 = PetstoreUserArray,
-    ContentTypeHeader = petstore_utils:select_header_content_type([]),
+    ContentTypeHeader = petstore_utils:select_header_content_type([<<"application/json">>]),
     Opts = maps:get(hackney_opts, Optional, []),
 
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
@@ -86,7 +86,7 @@ delete_user(Ctx, Username, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = delete,
-    Path = ["/user/", Username, ""],
+    Path = [<<"/user/", Username, "">>],
     QS = [],
     Headers = [],
     Body1 = [],
@@ -107,7 +107,7 @@ get_user_by_name(Ctx, Username, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = get,
-    Path = ["/user/", Username, ""],
+    Path = [<<"/user/", Username, "">>],
     QS = [],
     Headers = [],
     Body1 = [],
@@ -128,7 +128,7 @@ login_user(Ctx, Username, Password, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = get,
-    Path = ["/user/login"],
+    Path = [<<"/user/login">>],
     QS = lists:flatten([{<<"username">>, Username}, {<<"password">>, Password}])++petstore_utils:optional_params([], _OptionalParams),
     Headers = [],
     Body1 = [],
@@ -149,7 +149,7 @@ logout_user(Ctx, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = get,
-    Path = ["/user/logout"],
+    Path = [<<"/user/logout">>],
     QS = [],
     Headers = [],
     Body1 = [],
@@ -170,11 +170,11 @@ update_user(Ctx, Username, PetstoreUser, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = put,
-    Path = ["/user/", Username, ""],
+    Path = [<<"/user/", Username, "">>],
     QS = [],
     Headers = [],
     Body1 = PetstoreUser,
-    ContentTypeHeader = petstore_utils:select_header_content_type([]),
+    ContentTypeHeader = petstore_utils:select_header_content_type([<<"application/json">>]),
     Opts = maps:get(hackney_opts, Optional, []),
 
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).

@@ -9,12 +9,11 @@
 #define {{apiHeaderGuardPrefix}}_{{classname}}_H_
 
 {{{defaultInclude}}}
-#include "../ApiClient.h"
 
+#include "{{packageName}}/ApiClient.h"
+{{^hasModelImport}}#include "{{packageName}}/ModelBase.h"{{/hasModelImport}}
 {{#imports}}{{{import}}}
 {{/imports}}
-{{^hasModelImport}}#include "../ModelBase.h"{{/hasModelImport}}
-
 #include <boost/optional.hpp>
 
 {{#apiNamespaceDeclarations}}
@@ -31,11 +30,11 @@ public:
     virtual ~I{{classname}}() = default;
 
     {{#operation}}
-    virtual pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{operationId}}(
+    virtual pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{operationId}}(
         {{#allParams}}
-        {{^required}}boost::optional<{{/required}}{{#isFile}}std::shared_ptr<{{/isFile}}{{{dataType}}}{{#isFile}}>{{/isFile}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}},{{/hasMore}}
+        {{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{^-last}},{{/-last}}
         {{/allParams}}
-    ) = 0;
+    ) const = 0;
     {{/operation}}
 };{{/gmockApis}}
 
@@ -46,7 +45,7 @@ public:
     using Base = I{{classname}};
     {{/gmockApis}}
 
-    explicit {{classname}}( std::shared_ptr<ApiClient> apiClient );
+    explicit {{classname}}( std::shared_ptr<const ApiClient> apiClient );
 
     {{#gmockApis}}
     ~{{classname}}() override;
@@ -65,15 +64,15 @@ public:
     {{#allParams}}
     /// <param name="{{paramName}}">{{#lambda.multiline_comment_4}}{{description}}{{/lambda.multiline_comment_4}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
     {{/allParams}}
-    pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{operationId}}(
+    pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{operationId}}(
         {{#allParams}}
-        {{^required}}boost::optional<{{/required}}{{#isFile}}std::shared_ptr<{{/isFile}}{{{dataType}}}{{#isFile}}>{{/isFile}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}},{{/hasMore}}
+        {{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{^-last}},{{/-last}}
         {{/allParams}}
-    ){{#gmockApis}} override{{/gmockApis}};
+    ) const{{#gmockApis}} override{{/gmockApis}};
     {{/operation}}
 
 protected:
-    std::shared_ptr<ApiClient> m_ApiClient;
+    std::shared_ptr<const ApiClient> m_ApiClient;
 };
 
 {{#apiNamespaceDeclarations}}

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,9 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
@@ -33,10 +35,27 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
 
     public ConfluenceWikiCodegen() {
         super();
+
+        // TODO: ConfluenceWiki maintainer review
+        modifyFeatureSet(features -> features
+                .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeParameterFeatures(ParameterFeature.Cookie)
+                .includeWireFormatFeatures(
+                        WireFormatFeature.JSON,
+                        WireFormatFeature.XML,
+                        WireFormatFeature.Custom
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Union
+                )
+        );
+
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "confluenceWikiDocs";
 
-        defaultIncludes = new HashSet<String>();
+        defaultIncludes = new HashSet<>();
 
         cliOptions.add(new CliOption("appName", "short name of the application"));
         cliOptions.add(new CliOption("appDescription", "description of the application"));
@@ -61,10 +80,10 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "confluence-markup.txt"));
-        reservedWords = new HashSet<String>();
+        reservedWords = new HashSet<>();
 
-        languageSpecificPrimitives = new HashSet<String>();
-        importMapping = new HashMap<String, String>();
+        languageSpecificPrimitives = new HashSet<>();
+        importMapping = new HashMap<>();
     }
 
     @Override
@@ -89,7 +108,7 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -106,6 +125,11 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        return postProcessModelsEnum(objs);
+    }
+
+    @Override
     public String escapeQuotationMark(String input) {
         // just return the original string
         return input;
@@ -116,4 +140,17 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
         // just return the original string
         return input;
     }
+
+    @Override
+    public String escapeText(String input) {
+        if (input == null) {
+            return input;
+        }
+
+        // chomp tailing newline because it breaks the tables and keep all other sign to show documentation properly
+        return StringUtils.chomp(input);
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return null; }
 }

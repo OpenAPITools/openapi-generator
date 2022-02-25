@@ -20,10 +20,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.client.model.Cat;
+import org.openapitools.client.model.Dog;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Animal
@@ -32,20 +36,22 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Animal.JSON_PROPERTY_CLASS_NAME,
   Animal.JSON_PROPERTY_COLOR
 })
-
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
+  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
 })
 
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  private String className;
+  protected String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";
   private String color = "red";
 
+  public Animal() { 
+  }
 
   public Animal className(String className) {
     
@@ -57,6 +63,7 @@ public class Animal {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -66,7 +73,8 @@ public class Animal {
   }
 
 
-
+  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setClassName(String className) {
     this.className = className;
   }
@@ -92,14 +100,15 @@ public class Animal {
   }
 
 
-
+  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setColor(String color) {
     this.color = color;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -116,7 +125,6 @@ public class Animal {
     return Objects.hash(className, color);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -131,7 +139,7 @@ public class Animal {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

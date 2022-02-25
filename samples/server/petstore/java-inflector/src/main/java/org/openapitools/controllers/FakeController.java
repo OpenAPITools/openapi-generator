@@ -19,14 +19,21 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class FakeController  {
-  /** 
+  /**
    * Uncomment and implement as you see fit.  These operations will map
    * Directly to operation calls from the routing logic.  Because the inflector
    * Code allows you to implement logic incrementally, they are disabled.
    **/
+
+  /*
+    public ResponseContext createXmlItem(RequestContext request , XmlItem xmlItem) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
 
   /*
     public ResponseContext fakeOuterBooleanSerialize(RequestContext request , Boolean body) {
@@ -35,7 +42,7 @@ public class FakeController  {
   */
 
   /*
-    public ResponseContext fakeOuterCompositeSerialize(RequestContext request , OuterComposite outerComposite) {
+    public ResponseContext fakeOuterCompositeSerialize(RequestContext request , OuterComposite body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
@@ -53,19 +60,19 @@ public class FakeController  {
   */
 
   /*
-    public ResponseContext testBodyWithFileSchema(RequestContext request , FileSchemaTestClass fileSchemaTestClass) {
+    public ResponseContext testBodyWithFileSchema(RequestContext request , FileSchemaTestClass body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
 
   /*
-    public ResponseContext testBodyWithQueryParams(RequestContext request , String query, User user) {
+    public ResponseContext testBodyWithQueryParams(RequestContext request , String query, User body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
 
   /*
-    public ResponseContext testClientModel(RequestContext request , Client client) {
+    public ResponseContext testClientModel(RequestContext request , Client body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
@@ -83,7 +90,13 @@ public class FakeController  {
   */
 
   /*
-    public ResponseContext testInlineAdditionalProperties(RequestContext request , Map<String, String> requestBody) {
+    public ResponseContext testGroupParameters(RequestContext request , Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
+    public ResponseContext testInlineAdditionalProperties(RequestContext request , Map<String, String> param) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
@@ -95,10 +108,15 @@ public class FakeController  {
   */
 
   /*
+    public ResponseContext testQueryParameterCollectionFormat(RequestContext request , List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
     public ResponseContext uploadFileWithRequiredFile(RequestContext request , Long petId, FormDataContentDisposition fileDetail, String additionalMetadata) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
 
 }
-

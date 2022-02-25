@@ -186,7 +186,7 @@ font-style: italic;
     <div class="app-desc">Version: 1.0.0</div>
     <div class="app-desc">BasePath:/v2</div>
     <div class="license-info">Apache-2.0</div>
-    <div class="license-url">http://www.apache.org/licenses/LICENSE-2.0.html</div>
+    <div class="license-url">https://www.apache.org/licenses/LICENSE-2.0.html</div>
   <h2>Access</h2>
     <ol>
       <li>APIKey KeyParamName:api_key KeyInQuery:false KeyInHeader:true</li>
@@ -255,12 +255,58 @@ font-style: italic;
 
 
 
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Pet">Pet</a>
+      
+    </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}</code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code><Pet>
+  <id>123456789</id>
+  <name>doggie</name>
+  <photoUrls>
+    <photoUrls>aeiou</photoUrls>
+  </photoUrls>
+  <tags>
+  </tags>
+  <status>aeiou</status>
+</Pet></code></pre>
 
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+        <a href="#Pet">Pet</a>
     <h4 class="field-label">405</h4>
     Invalid input
         <a href="#"></a>
@@ -560,12 +606,58 @@ font-style: italic;
 
 
 
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Pet">Pet</a>
+      
+    </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}</code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code><Pet>
+  <id>123456789</id>
+  <name>doggie</name>
+  <photoUrls>
+    <photoUrls>aeiou</photoUrls>
+  </photoUrls>
+  <tags>
+  </tags>
+  <status>aeiou</status>
+</Pet></code></pre>
 
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+        <a href="#Pet">Pet</a>
     <h4 class="field-label">400</h4>
     Invalid ID supplied
         <a href="#"></a>
@@ -826,6 +918,11 @@ font-style: italic;
     <div class="method-notes"></div>
 
 
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
@@ -893,6 +990,11 @@ font-style: italic;
     <div class="method-notes">This can only be done by the logged in user.</div>
 
 
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
@@ -924,10 +1026,15 @@ font-style: italic;
     <div class="method-notes"></div>
 
 
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">User <a href="#array">array</a> (required)</div>
+      <div class="param">User <a href="#User">User</a> (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
 
@@ -955,10 +1062,15 @@ font-style: italic;
     <div class="method-notes"></div>
 
 
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">User <a href="#array">array</a> (required)</div>
+      <div class="param">User <a href="#User">User</a> (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
 
@@ -1168,6 +1280,11 @@ font-style: italic;
       <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; name that need to be deleted default: null </div>
     </div>  <!-- field-items -->
 
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">

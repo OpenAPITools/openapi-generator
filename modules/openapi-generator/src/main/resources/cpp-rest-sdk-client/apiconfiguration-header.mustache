@@ -10,10 +10,11 @@
 
 {{{defaultInclude}}}
 
-#include <map>
-
 #include <cpprest/details/basic_types.h>
 #include <cpprest/http_client.h>
+
+#include <map>
+
 {{#apiNamespaceDeclarations}}
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
@@ -24,7 +25,7 @@ public:
     ApiConfiguration();
     virtual ~ApiConfiguration();
 
-    web::http::client::http_client_config& getHttpConfig();
+    const web::http::client::http_client_config& getHttpConfig() const;
     void setHttpConfig( web::http::client::http_client_config& value );
 
     utility::string_t getBaseUrl() const;
@@ -34,6 +35,7 @@ public:
     void setUserAgent( const utility::string_t value );
 
     std::map<utility::string_t, utility::string_t>& getDefaultHeaders();
+    const std::map<utility::string_t, utility::string_t>& getDefaultHeaders() const;
 
     utility::string_t getApiKey( const utility::string_t& prefix) const;
     void setApiKey( const utility::string_t& prefix, const utility::string_t& apiKey );

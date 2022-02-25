@@ -14,38 +14,37 @@ package org.openapitools.server.models
 import org.openapitools.server.models.Category
 import org.openapitools.server.models.Tag
 
+import java.io.Serializable
 /**
  * A pet for sale in the pet store
- * @param id 
- * @param category 
  * @param name 
  * @param photoUrls 
+ * @param id 
+ * @param category 
  * @param tags 
  * @param status pet status in the store
  */
-data class Pet (
+data class Pet(
     val name: kotlin.String,
-    val photoUrls: kotlin.Array<kotlin.String>,
+    val photoUrls: kotlin.collections.List<kotlin.String>,
     val id: kotlin.Long? = null,
     val category: Category? = null,
-    val tags: kotlin.Array<Tag>? = null,
+    val tags: kotlin.collections.List<Tag>? = null,
     /* pet status in the store */
     val status: Pet.Status? = null
-) {
-
+) : Serializable 
+{
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
     /**
     * pet status in the store
     * Values: available,pending,sold
     */
     enum class Status(val value: kotlin.String){
-    
         available("available"),
-    
         pending("pending"),
-    
         sold("sold");
-    
     }
-
 }
 

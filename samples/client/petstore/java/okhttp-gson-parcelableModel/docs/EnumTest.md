@@ -2,6 +2,7 @@
 
 # EnumTest
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -10,7 +11,7 @@ Name | Type | Description | Notes
 **enumStringRequired** | [**EnumStringRequiredEnum**](#EnumStringRequiredEnum) |  | 
 **enumInteger** | [**EnumIntegerEnum**](#EnumIntegerEnum) |  |  [optional]
 **enumNumber** | [**EnumNumberEnum**](#EnumNumberEnum) |  |  [optional]
-**outerEnum** | [**OuterEnum**](OuterEnum.md) |  |  [optional]
+**outerEnum** | **OuterEnum** |  |  [optional]
 
 
 
@@ -50,5 +51,9 @@ Name | Value
 NUMBER_1_DOT_1 | 1.1
 NUMBER_MINUS_1_DOT_2 | -1.2
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

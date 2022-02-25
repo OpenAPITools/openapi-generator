@@ -22,6 +22,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Org.OpenAPITools.Filters;
 using Org.OpenAPITools.Authentication;
+using Org.OpenAPITools.Formatters;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Org.OpenAPITools
@@ -57,10 +58,14 @@ namespace Org.OpenAPITools
                 authConfig.AddPolicy("api_key",
                     policyBuilder => policyBuilder
                         .AddRequirements(new ApiKeyRequirement(new[] { "my-secret-key" },"api_key")));
+            });
 
             // Add framework services.
             services
-                .AddMvc()
+                .AddMvc(opts => {
+                    
+                    opts.InputFormatters.Insert(0, new InputFormatterStream());
+                    })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(opts =>
                 {
@@ -78,7 +83,7 @@ namespace Org.OpenAPITools
                     {
                         Version = "1.0.0",
                         Title = "OpenAPI Petstore",
-                        Description = "OpenAPI Petstore (ASP.NET Core 2.0)",
+                        Description = "OpenAPI Petstore (ASP.NET Core 2.2)",
                         Contact = new Contact()
                         {
                            Name = "OpenAPI-Generator Contributors",

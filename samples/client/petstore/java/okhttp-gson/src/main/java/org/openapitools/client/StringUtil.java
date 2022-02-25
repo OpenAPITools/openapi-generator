@@ -13,7 +13,10 @@
 
 package org.openapitools.client;
 
+import java.util.Collection;
+import java.util.Iterator;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class StringUtil {
   /**
    * Check if the given array contains the given value (with case-insensitive comparison).
@@ -55,6 +58,25 @@ public class StringUtil {
     out.append(array[0]);
     for (int i = 1; i < len; i++) {
       out.append(separator).append(array[i]);
+    }
+    return out.toString();
+  }
+
+  /**
+   * Join a list of strings with the given separator.
+   *
+   * @param list      The list of strings
+   * @param separator The separator
+   * @return the resulting string
+   */
+  public static String join(Collection<String> list, String separator) {
+    Iterator<String> iterator = list.iterator();
+    StringBuilder out = new StringBuilder();
+    if (iterator.hasNext()) {
+      out.append(iterator.next());
+    }
+    while (iterator.hasNext()) {
+      out.append(separator).append(iterator.next());
     }
     return out.toString();
   }

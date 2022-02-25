@@ -11,13 +11,14 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Model for testing model with \&quot;_class\&quot; property
  **/
 @ApiModel(description = "Model for testing model with \"_class\" property")
-public class ClassModel  implements Serializable {
+@JsonTypeName("ClassModel")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ClassModel  implements Serializable {
   
   private @Valid String propertyClass;
 
@@ -29,18 +30,22 @@ public class ClassModel  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("_class")
   public String getPropertyClass() {
     return propertyClass;
   }
+
+  @JsonProperty("_class")
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -70,11 +75,13 @@ public class ClassModel  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

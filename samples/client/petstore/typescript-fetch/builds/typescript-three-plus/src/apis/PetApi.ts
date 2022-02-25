@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -60,19 +61,19 @@ export interface UploadFileRequest {
 }
 
 /**
- * no description
+ * 
  */
 export class PetApi extends runtime.BaseAPI {
 
     /**
      * Add a new pet to the store
      */
-    async addPetRaw(requestParameters: AddPetRequest): Promise<runtime.ApiResponse<void>> {
+    async addPetRaw(requestParameters: AddPetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling addPet.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -80,11 +81,7 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
         const response = await this.request({
@@ -93,27 +90,27 @@ export class PetApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: PetToJSON(requestParameters.body),
-        });
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
 
-   /**
-    * Add a new pet to the store
-    */
-    async addPet(requestParameters: AddPetRequest): Promise<void> {
-        await this.addPetRaw(requestParameters);
+    /**
+     * Add a new pet to the store
+     */
+    async addPet(requestParameters: AddPetRequest, initOverrides?: RequestInit): Promise<void> {
+        await this.addPetRaw(requestParameters, initOverrides);
     }
 
     /**
      * Deletes a pet
      */
-    async deletePetRaw(requestParameters: DeletePetRequest): Promise<runtime.ApiResponse<void>> {
+    async deletePetRaw(requestParameters: DeletePetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling deletePet.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -123,11 +120,7 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
         const response = await this.request({
@@ -135,28 +128,28 @@ export class PetApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
 
-   /**
-    * Deletes a pet
-    */
-    async deletePet(requestParameters: DeletePetRequest): Promise<void> {
-        await this.deletePetRaw(requestParameters);
+    /**
+     * Deletes a pet
+     */
+    async deletePet(requestParameters: DeletePetRequest, initOverrides?: RequestInit): Promise<void> {
+        await this.deletePetRaw(requestParameters, initOverrides);
     }
 
     /**
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
      */
-    async findPetsByStatusRaw(requestParameters: FindPetsByStatusRequest): Promise<runtime.ApiResponse<Array<Pet>>> {
+    async findPetsByStatusRaw(requestParameters: FindPetsByStatusRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<Pet>>> {
         if (requestParameters.status === null || requestParameters.status === undefined) {
             throw new runtime.RequiredError('status','Required parameter requestParameters.status was null or undefined when calling findPetsByStatus.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         if (requestParameters.status) {
             queryParameters['status'] = requestParameters.status.join(runtime.COLLECTION_FORMATS["csv"]);
@@ -166,11 +159,7 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
         const response = await this.request({
@@ -178,17 +167,17 @@ export class PetApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));
     }
 
-   /**
-    * Multiple status values can be provided with comma separated strings
-    * Finds Pets by status
-    */
-    async findPetsByStatus(requestParameters: FindPetsByStatusRequest): Promise<Array<Pet>> {
-        const response = await this.findPetsByStatusRaw(requestParameters);
+    /**
+     * Multiple status values can be provided with comma separated strings
+     * Finds Pets by status
+     */
+    async findPetsByStatus(requestParameters: FindPetsByStatusRequest, initOverrides?: RequestInit): Promise<Array<Pet>> {
+        const response = await this.findPetsByStatusRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -196,12 +185,12 @@ export class PetApi extends runtime.BaseAPI {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      */
-    async findPetsByTagsRaw(requestParameters: FindPetsByTagsRequest): Promise<runtime.ApiResponse<Array<Pet>>> {
+    async findPetsByTagsRaw(requestParameters: FindPetsByTagsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<Pet>>> {
         if (requestParameters.tags === null || requestParameters.tags === undefined) {
             throw new runtime.RequiredError('tags','Required parameter requestParameters.tags was null or undefined when calling findPetsByTags.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         if (requestParameters.tags) {
             queryParameters['tags'] = requestParameters.tags.join(runtime.COLLECTION_FORMATS["csv"]);
@@ -211,11 +200,7 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
         const response = await this.request({
@@ -223,17 +208,17 @@ export class PetApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));
     }
 
-   /**
-    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-    * Finds Pets by tags
-    */
-    async findPetsByTags(requestParameters: FindPetsByTagsRequest): Promise<Array<Pet>> {
-        const response = await this.findPetsByTagsRaw(requestParameters);
+    /**
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * Finds Pets by tags
+     */
+    async findPetsByTags(requestParameters: FindPetsByTagsRequest, initOverrides?: RequestInit): Promise<Array<Pet>> {
+        const response = await this.findPetsByTagsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -241,12 +226,12 @@ export class PetApi extends runtime.BaseAPI {
      * Returns a single pet
      * Find pet by ID
      */
-    async getPetByIdRaw(requestParameters: GetPetByIdRequest): Promise<runtime.ApiResponse<Pet>> {
+    async getPetByIdRaw(requestParameters: GetPetByIdRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Pet>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling getPetById.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -259,29 +244,29 @@ export class PetApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PetFromJSON(jsonValue));
     }
 
-   /**
-    * Returns a single pet
-    * Find pet by ID
-    */
-    async getPetById(requestParameters: GetPetByIdRequest): Promise<Pet> {
-        const response = await this.getPetByIdRaw(requestParameters);
+    /**
+     * Returns a single pet
+     * Find pet by ID
+     */
+    async getPetById(requestParameters: GetPetByIdRequest, initOverrides?: RequestInit): Promise<Pet> {
+        const response = await this.getPetByIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Update an existing pet
      */
-    async updatePetRaw(requestParameters: UpdatePetRequest): Promise<runtime.ApiResponse<void>> {
+    async updatePetRaw(requestParameters: UpdatePetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling updatePet.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -289,11 +274,7 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
         const response = await this.request({
@@ -302,46 +283,55 @@ export class PetApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: PetToJSON(requestParameters.body),
-        });
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
 
-   /**
-    * Update an existing pet
-    */
-    async updatePet(requestParameters: UpdatePetRequest): Promise<void> {
-        await this.updatePetRaw(requestParameters);
+    /**
+     * Update an existing pet
+     */
+    async updatePet(requestParameters: UpdatePetRequest, initOverrides?: RequestInit): Promise<void> {
+        await this.updatePetRaw(requestParameters, initOverrides);
     }
 
     /**
      * Updates a pet in the store with form data
      */
-    async updatePetWithFormRaw(requestParameters: UpdatePetWithFormRequest): Promise<runtime.ApiResponse<void>> {
+    async updatePetWithFormRaw(requestParameters: UpdatePetWithFormRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling updatePetWithForm.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
-        const formData = new FormData();
+        const consumes: runtime.Consume[] = [
+            { contentType: 'application/x-www-form-urlencoded' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
         if (requestParameters.name !== undefined) {
-            formData.append('name', requestParameters.name as any);
+            formParams.append('name', requestParameters.name as any);
         }
 
         if (requestParameters.status !== undefined) {
-            formData.append('status', requestParameters.status as any);
+            formParams.append('status', requestParameters.status as any);
         }
 
         const response = await this.request({
@@ -349,47 +339,58 @@ export class PetApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: formData,
-        });
+            body: formParams,
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
 
-   /**
-    * Updates a pet in the store with form data
-    */
-    async updatePetWithForm(requestParameters: UpdatePetWithFormRequest): Promise<void> {
-        await this.updatePetWithFormRaw(requestParameters);
+    /**
+     * Updates a pet in the store with form data
+     */
+    async updatePetWithForm(requestParameters: UpdatePetWithFormRequest, initOverrides?: RequestInit): Promise<void> {
+        await this.updatePetWithFormRaw(requestParameters, initOverrides);
     }
 
     /**
      * uploads an image
      */
-    async uploadFileRaw(requestParameters: UploadFileRequest): Promise<runtime.ApiResponse<ModelApiResponse>> {
+    async uploadFileRaw(requestParameters: UploadFileRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ModelApiResponse>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling uploadFile.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
-        const formData = new FormData();
+        const consumes: runtime.Consume[] = [
+            { contentType: 'multipart/form-data' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
         if (requestParameters.additionalMetadata !== undefined) {
-            formData.append('additionalMetadata', requestParameters.additionalMetadata as any);
+            formParams.append('additionalMetadata', requestParameters.additionalMetadata as any);
         }
 
         if (requestParameters.file !== undefined) {
-            formData.append('file', requestParameters.file as any);
+            formParams.append('file', requestParameters.file as any);
         }
 
         const response = await this.request({
@@ -397,17 +398,17 @@ export class PetApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: formData,
-        });
+            body: formParams,
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ModelApiResponseFromJSON(jsonValue));
     }
 
-   /**
-    * uploads an image
-    */
-    async uploadFile(requestParameters: UploadFileRequest): Promise<ModelApiResponse> {
-        const response = await this.uploadFileRaw(requestParameters);
+    /**
+     * uploads an image
+     */
+    async uploadFile(requestParameters: UploadFileRequest, initOverrides?: RequestInit): Promise<ModelApiResponse> {
+        const response = await this.uploadFileRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

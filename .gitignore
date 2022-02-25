@@ -1,3 +1,5 @@
+.mvn/.gradle-enterprise/
+.scannerwork/
 .vscode
 *.iml
 out/
@@ -28,6 +30,8 @@ packages/
 .vagrant/
 .vscode/
 **/.vs
+.factorypath
+.metals/*
 
 .settings
 
@@ -58,14 +62,17 @@ samples/server-generator/node/output/node_modules
 samples/server/petstore/nodejs/node_modules
 samples/server/petstore/nodejs-server/node_modules
 
-# qt5 cpp
-*.pro.user
-samples/client/petstore/qt5cpp/PetStore/moc_*
-samples/client/petstore/qt5cpp/PetStore/*.o
-samples/client/petstore/qt5cpp/build-*
-samples/client/petstore/qt5cpp/PetStore/PetStore
-samples/client/petstore/qt5cpp/PetStore/Makefile
-samples/client/petstore/qt5cpp/PetStore/PetStore.pro.user
+# qt cpp
+samples/client/build
+samples/client/petstore/build
+samples/client/petstore/cpp-qt/PetStore/moc_*
+samples/client/petstore/cpp-qt/PetStore/*.o
+samples/client/petstore/cpp-qt/build-*
+samples/client/petstore/cpp-qt/build-*
+samples/client/petstore/cpp-qt/PetStore/PetStore
+samples/client/petstore/cpp-qt/PetStore/Makefile
+samples/client/petstore/cpp-qt/PetStore/PetStore.pro.user
+samples/client/petstore/cpp-qt/CMakeLists.txt.user
 
 # cpprestsdk
 samples/client/petstore/cpp-restsdk/CMakeCache.txt
@@ -170,23 +177,35 @@ samples/client/petstore/python-asyncio/.venv/
 samples/client/petstore/python-asyncio/.pytest_cache/
 samples/client/petstore/python-tornado/.venv/
 
+# PHP
+samples/client/petstore/php/OpenAPIClient-php/composer.lock
+samples/client/petstore/php-dt/composer.lock
+samples/client/petstore/php-dt-modern/composer.lock
+samples/openapi3/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
+samples/server/petstore/php-laravel/lib/composer.lock
+samples/server/petstore/php-lumen/lib/composer.lock
+samples/server/petstore/php-slim4/composer.lock
+samples/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
+samples/server/petstore/php-mezzio-ph/composer.lock
+samples/server/petstore/php-mezzio-ph-modern/composer.lock
+
 # ts
 samples/client/petstore/typescript-angular2/npm/npm-debug.log
 samples/client/petstore/typescript-node/npm/npm-debug.log
 samples/client/petstore/typescript-angular/tsd-debug.log
+samples/client/petstore/typescript-axios/tests/**/dist/
+samples/client/petstore/typescript-fetch/tests/**/dist/
 
 # aspnetcore
 samples/server/petstore/aspnetcore/.vs/
 effective.pom
 
 # kotlin
-samples/client/petstore/kotlin/src/main/kotlin/test/
-samples/client/petstore/kotlin-threetenbp/build
-samples/client/petstore/kotlin-string/build
 samples/openapi3/client/petstore/kotlin/build
 samples/server/petstore/kotlin-server/ktor/build
 samples/server/petstore/kotlin-springboot/build
-\?
+samples/client/petstore/kotlin*/src/main/kotlin/test/
+samples/client/petstore/kotlin*/build/
 
 # haskell
 .stack-work
@@ -195,6 +214,9 @@ cabal.project.local
 samples/client/petstore/haskell-http-client/docs/haddock-bundle.min.js
 samples/client/petstore/haskell-http-client/docs/meta.json
 samples/client/petstore/haskell-http-client/docs/quick-jump.css
+samples/client/petstore/haskell-http-client/stack.yaml.lock
+samples/server/petstore/haskell-servant/stack.yaml.lock
+samples/server/petstore/haskell-yesod/stack.yaml.lock
 
 # R
 .Rproj.user
@@ -217,14 +239,16 @@ samples/client/petstore/erlang-proper/rebar.lock
 samples/server/petstore/erlang-server/_build/
 samples/server/petstore/erlang-server/rebar.lock
 
-# dart
-samples/client/petstore/dart/petstore/packages
-samples/client/petstore/dart/flutter_petstore/test/packages
-samples/client/petstore/dart/petstore/test/packages
-**/.dart_tool
+# Dart
+**/dart*/**/.dart_tool
+**/dart*/**/.packages
+**/dart*/**/pubspec.lock
+# Dart dio
+**/dart*/**/*.g.dart
 
 # JS
-samples/client/petstore/javascript/package-lock.json
+samples/client/petstore/javascript-es6/package-lock.json
+samples/client/petstore/javascript-promise-es6/package-lock.json
 
 # elm
 samples/client/petstore/elm/index.html
@@ -236,3 +260,6 @@ samples/client/petstore/c/*.so
 # Ruby
 samples/openapi3/client/petstore/ruby/Gemfile.lock
 samples/openapi3/client/petstore/ruby-faraday/Gemfile.lock
+
+# Crystal
+samples/client/petstore/crystal/lib

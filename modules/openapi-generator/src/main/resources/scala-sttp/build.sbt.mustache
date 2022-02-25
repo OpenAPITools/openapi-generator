@@ -1,0 +1,26 @@
+version := "{{artifactVersion}}"
+name := "{{artifactId}}"
+organization := "{{groupId}}"
+
+scalaVersion := "2.13.5"
+crossScalaVersions := Seq(scalaVersion.value, "2.12.13")
+
+libraryDependencies ++= Seq(
+  "com.softwaremill.sttp.client3" %% "core" % "{{sttpClientVersion}}",
+{{#joda}}
+  "joda-time" % "joda-time" % "{{jodaTimeVersion}}",
+{{/joda}}
+{{#json4s}}
+  "com.softwaremill.sttp.client3" %% "json4s" % "{{sttpClientVersion}}",
+  "org.json4s" %% "json4s-jackson" % "{{json4sVersion}}"
+{{/json4s}}
+{{#circe}}
+  "com.softwaremill.sttp.client3" %% "circe" % "{{sttpClientVersion}}"
+{{/circe}}
+)
+
+scalacOptions := Seq(
+  "-unchecked",
+  "-deprecation",
+  "-feature"
+)

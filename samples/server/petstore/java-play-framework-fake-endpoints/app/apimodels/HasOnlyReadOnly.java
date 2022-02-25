@@ -1,5 +1,6 @@
 package apimodels;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
@@ -8,13 +9,15 @@ import javax.validation.constraints.*;
 /**
  * HasOnlyReadOnly
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class HasOnlyReadOnly   {
   @JsonProperty("bar")
+  
   private String bar;
 
   @JsonProperty("foo")
+  
   private String foo;
 
   public HasOnlyReadOnly bar(String bar) {
@@ -26,7 +29,7 @@ public class HasOnlyReadOnly   {
    * Get bar
    * @return bar
   **/
-    public String getBar() {
+  public String getBar() {
     return bar;
   }
 
@@ -43,7 +46,7 @@ public class HasOnlyReadOnly   {
    * Get foo
    * @return foo
   **/
-    public String getFoo() {
+  public String getFoo() {
     return foo;
   }
 
@@ -53,7 +56,7 @@ public class HasOnlyReadOnly   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -86,7 +89,7 @@ public class HasOnlyReadOnly   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

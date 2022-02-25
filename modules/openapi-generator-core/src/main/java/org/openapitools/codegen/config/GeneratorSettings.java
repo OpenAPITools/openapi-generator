@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,8 +16,6 @@
 
 package org.openapitools.codegen.config;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,16 +28,17 @@ import java.util.*;
 public final class GeneratorSettings implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeneratorSettings.class);
-    private static String DEFAULT_GIT_HOST = "github.com";
-    private static String DEFAULT_GIT_USER_ID = "GIT_USER_ID";
-    private static String DEFAULT_GIT_REPO_ID = "GIT_REPO_ID";
-    private static String DEFAULT_RELEASE_NOTE = "Minor update";
+    private static final String DEFAULT_GIT_HOST = "github.com";
+    private static final String DEFAULT_GIT_USER_ID = "GIT_USER_ID";
+    private static final String DEFAULT_GIT_REPO_ID = "GIT_REPO_ID";
+    private static final String DEFAULT_RELEASE_NOTE = "Minor update";
 
     private String generatorName;
     private String apiPackage;
     private String modelPackage;
     private String invokerPackage;
     private String packageName;
+    private String apiNameSuffix;
     private String modelNamePrefix;
     private String modelNameSuffix;
     private String groupId;
@@ -47,13 +46,13 @@ public final class GeneratorSettings implements Serializable {
     private String artifactVersion;
     private String library;
 
-    private ImmutableMap<String, String> instantiationTypes;
-    private ImmutableMap<String, String> typeMappings;
-    private ImmutableMap<String, Object> additionalProperties;
-    private ImmutableMap<String, String> importMappings;
-    private ImmutableSet<String> languageSpecificPrimitives;
-    private ImmutableMap<String, String> reservedWordMappings;
-    private ImmutableMap<String, String> serverVariables;
+    private final Map<String, String> instantiationTypes;
+    private final Map<String, String> typeMappings;
+    private final Map<String, Object> additionalProperties;
+    private final Map<String, String> importMappings;
+    private final Set<String> languageSpecificPrimitives;
+    private final Map<String, String> reservedWordMappings;
+    private final Map<String, String> serverVariables;
 
     private String gitHost;
     private String gitUserId;
@@ -104,6 +103,21 @@ public final class GeneratorSettings implements Serializable {
      */
     public String getPackageName() {
         return packageName;
+    }
+
+    /**
+     * Gets a api name suffix for generated models. This name will be appended to a api name.
+     * <p>
+     * This option is often used to circumvent compilation issues where models match keywords.
+     * <p>
+     * Example:
+     * <p>
+     * Suffix <code>Gen</code> applied to <code>Object</code> results in a generated class named <code>ObjectGen</code>.
+     *
+     * @return the model name suffix
+     */
+    public String getApiNameSuffix() {
+        return apiNameSuffix;
     }
 
     /**
@@ -309,7 +323,7 @@ public final class GeneratorSettings implements Serializable {
     /**
      * Gets the http user agent to be used by client generators which support setting this value.
      * <p>
-     * e.g. codegen_csharp_api_client, defaults to 'OpenAPI-Generator/{packageVersion}}/{language}'
+     * e.g. codegen_csharp_api_client, defaults to 'OpenAPI-Generator/{packageVersion}/{language}'
      *
      * @return the http user agent
      */
@@ -325,18 +339,19 @@ public final class GeneratorSettings implements Serializable {
         modelPackage = builder.modelPackage;
         invokerPackage = builder.invokerPackage;
         packageName = builder.packageName;
+        apiNameSuffix = builder.apiNameSuffix;
         modelNamePrefix = builder.modelNamePrefix;
         modelNameSuffix = builder.modelNameSuffix;
         groupId = builder.groupId;
         artifactId = builder.artifactId;
         artifactVersion = builder.artifactVersion;
         library = builder.library;
-        instantiationTypes = ImmutableMap.copyOf(builder.instantiationTypes);
-        typeMappings = ImmutableMap.copyOf(builder.typeMappings);
-        importMappings = ImmutableMap.copyOf(builder.importMappings);
-        languageSpecificPrimitives = ImmutableSet.copyOf(builder.languageSpecificPrimitives);
-        reservedWordMappings = ImmutableMap.copyOf(builder.reservedWordMappings);
-        serverVariables = ImmutableMap.copyOf(builder.serverVariables);
+        instantiationTypes = Collections.unmodifiableMap(builder.instantiationTypes);
+        typeMappings = Collections.unmodifiableMap(builder.typeMappings);
+        importMappings = Collections.unmodifiableMap(builder.importMappings);
+        languageSpecificPrimitives = Collections.unmodifiableSet(builder.languageSpecificPrimitives);
+        reservedWordMappings = Collections.unmodifiableMap(builder.reservedWordMappings);
+        serverVariables = Collections.unmodifiableMap(builder.serverVariables);
         gitHost = builder.gitHost;
         gitUserId = builder.gitUserId;
         gitRepoId = builder.gitRepoId;
@@ -366,6 +381,9 @@ public final class GeneratorSettings implements Serializable {
         if (isNotEmpty(artifactVersion)) {
             additional.put("artifactVersion", artifactVersion);
         }
+        if (isNotEmpty(apiNameSuffix)) {
+            additional.put("apiNameSuffix", apiNameSuffix);
+        }
         if (isNotEmpty(modelNamePrefix)) {
             additional.put("modelNamePrefix", modelNamePrefix);
         }
@@ -388,7 +406,7 @@ public final class GeneratorSettings implements Serializable {
             additional.put("httpUserAgent", httpUserAgent);
         }
 
-        additionalProperties = ImmutableMap.copyOf(additional);
+        additionalProperties = Collections.unmodifiableMap(additional);
     }
 
     /**
@@ -397,13 +415,13 @@ public final class GeneratorSettings implements Serializable {
     @SuppressWarnings("unused")
     public GeneratorSettings() {
         setDefaults();
-        instantiationTypes = ImmutableMap.of();
-        typeMappings = ImmutableMap.of();
-        additionalProperties = ImmutableMap.of();
-        importMappings = ImmutableMap.of();
-        languageSpecificPrimitives = ImmutableSet.of();
-        reservedWordMappings = ImmutableMap.of();
-        serverVariables = ImmutableMap.of();
+        instantiationTypes = Collections.unmodifiableMap(new HashMap<>(0));
+        typeMappings = Collections.unmodifiableMap(new HashMap<>(0));
+        additionalProperties = Collections.unmodifiableMap(new HashMap<>(0));
+        importMappings = Collections.unmodifiableMap(new HashMap<>(0));
+        languageSpecificPrimitives = Collections.unmodifiableSet(new HashSet<>(0));
+        reservedWordMappings = Collections.unmodifiableMap(new HashMap<>(0));
+        serverVariables = Collections.unmodifiableMap(new HashMap<>(0));
     }
 
     private void setDefaults() {
@@ -433,6 +451,7 @@ public final class GeneratorSettings implements Serializable {
         builder.modelPackage = copy.getModelPackage();
         builder.invokerPackage = copy.getInvokerPackage();
         builder.packageName = copy.getPackageName();
+        builder.apiNameSuffix = copy.getApiNameSuffix();
         builder.modelNamePrefix = copy.getModelNamePrefix();
         builder.modelNameSuffix = copy.getModelNameSuffix();
         builder.groupId = copy.getGroupId();
@@ -479,6 +498,7 @@ public final class GeneratorSettings implements Serializable {
         private String modelPackage;
         private String invokerPackage;
         private String packageName;
+        private String apiNameSuffix;
         private String modelNamePrefix;
         private String modelNameSuffix;
         private String groupId;
@@ -568,6 +588,17 @@ public final class GeneratorSettings implements Serializable {
          */
         public Builder withPackageName(String packageName) {
             this.packageName = packageName;
+            return this;
+        }
+
+        /**
+         * Sets the {@code apiNameSuffix} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param apiNameSuffix the {@code apiNameSuffix} to set
+         * @return a reference to this Builder
+         */
+        public Builder withApiNameSuffix(String apiNameSuffix) {
+            this.apiNameSuffix = apiNameSuffix;
             return this;
         }
 
@@ -880,6 +911,7 @@ public final class GeneratorSettings implements Serializable {
                 ", modelPackage='" + modelPackage + '\'' +
                 ", invokerPackage='" + invokerPackage + '\'' +
                 ", packageName='" + packageName + '\'' +
+                ", apiNameSuffix='" + apiNameSuffix + '\'' +
                 ", modelNamePrefix='" + modelNamePrefix + '\'' +
                 ", modelNameSuffix='" + modelNameSuffix + '\'' +
                 ", groupId='" + groupId + '\'' +
@@ -910,6 +942,7 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getModelPackage(), that.getModelPackage()) &&
                 Objects.equals(getInvokerPackage(), that.getInvokerPackage()) &&
                 Objects.equals(getPackageName(), that.getPackageName()) &&
+                Objects.equals(getApiNameSuffix(), that.getApiNameSuffix()) &&
                 Objects.equals(getModelNamePrefix(), that.getModelNamePrefix()) &&
                 Objects.equals(getModelNameSuffix(), that.getModelNameSuffix()) &&
                 Objects.equals(getGroupId(), that.getGroupId()) &&
@@ -937,6 +970,7 @@ public final class GeneratorSettings implements Serializable {
                 getModelPackage(),
                 getInvokerPackage(),
                 getPackageName(),
+                getApiNameSuffix(),
                 getModelNamePrefix(),
                 getModelNameSuffix(),
                 getGroupId(),

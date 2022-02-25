@@ -9,6 +9,7 @@ import {
   UserService,
 } from '@swagger/typescript-angular-petstore';
 import { AppComponent } from './app.component';
+import {fakePetstoreBackendProviders} from "../test/fakeBackend";
 
 describe('AppComponent', () => {
 
@@ -34,6 +35,7 @@ describe('AppComponent', () => {
         PetService,
         StoreService,
         UserService,
+        ...fakePetstoreBackendProviders,
       ],
       declarations: [
         AppComponent,

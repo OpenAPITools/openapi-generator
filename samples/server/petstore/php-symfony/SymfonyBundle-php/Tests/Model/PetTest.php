@@ -2,7 +2,7 @@
 /**
  * PetTest
  *
- * PHP version 5
+ * PHP version 7.1.3
  *
  * @category Class
  * @package  OpenAPI\Server\Tests\Model
@@ -29,6 +29,8 @@
 
 namespace OpenAPI\Server\Model;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * PetTest Class Doc Comment
  *
@@ -39,7 +41,7 @@ namespace OpenAPI\Server\Model;
  * @author      openapi-generator contributors
  * @link        https://github.com/openapitools/openapi-generator
  */
-class PetTest extends \PHPUnit_Framework_TestCase
+class PetTest extends TestCase
 {
 
     /**

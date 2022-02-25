@@ -1,3 +1,13 @@
+/*
+ * OpenAPI Petstore
+ *
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ *
+ * OpenAPI document version: 1.0.0
+ * 
+ *
+ * AUTO-GENERATED FILE, DO NOT MODIFY!
+ */
 package org.openapitools.model;
 
 import java.util.Objects;
@@ -10,7 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * A category for a pet
- **/
+ */
 
 @ApiModel(description = "A category for a pet")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
@@ -20,7 +30,7 @@ public class Category   {
   private String name;
 
   /**
-   **/
+   */
   public Category id(Long id) {
     this.id = id;
     return this;
@@ -37,7 +47,7 @@ public class Category   {
   }
 
   /**
-   **/
+   */
   public Category name(String name) {
     this.name = name;
     return this;
@@ -55,7 +65,7 @@ public class Category   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -87,7 +97,7 @@ public class Category   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

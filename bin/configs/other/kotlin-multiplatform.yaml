@@ -1,0 +1,7 @@
+generatorName: kotlin
+outputDir: samples/openapi3/client/petstore/kotlin-multiplatform
+library: multiplatform
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-client-petstore-multiplatform

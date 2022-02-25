@@ -1,0 +1,76 @@
+# {{packageName}}.{{classname}}{{#description}}
+{{.}}{{/description}}
+
+All URIs are relative to *{{basePath}}*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
+{{/operation}}{{/operations}}
+
+{{#operations}}
+{{#operation}}
+# **{{{operationId}}}**
+> {{#returnType}}{{{.}}} {{/returnType}}{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{/required}}{{^required}}{{{paramName}}}={{{paramName}}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+
+{{{summary}}}{{#notes}}
+
+{{{.}}}{{/notes}}
+
+### Example
+
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{#isBasic}}
+{{#isBasicBasic}}
+* Basic Authentication ({{name}}):
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+* Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} Authentication ({{name}}):
+{{/isBasicBearer}}
+{{/isBasic}}
+{{#isApiKey}}
+* Api Key Authentication ({{name}}):
+{{/isApiKey }}
+{{#isOAuth}}
+* OAuth Authentication ({{name}}):
+{{/isOAuth }}
+{{> api_doc_example }}
+{{/authMethods}}
+{{/hasAuthMethods}}
+{{^hasAuthMethods}}
+{{> api_doc_example }}
+{{/hasAuthMethods}}
+### Parameters
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
+{{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}}{{/isFile}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}}
+{{/allParams}}
+
+### Return type
+
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
+
+### Authorization
+
+{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{{name}}}](../README.md#{{{name}}}){{^-last}}, {{/-last}}{{/authMethods}}
+
+### HTTP request headers
+
+ - **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+{{#responses.0}}
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+{{#responses}}
+**{{code}}** | {{message}} | {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} |
+{{/responses}}
+{{/responses.0}}
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+{{/operation}}
+{{/operations}}

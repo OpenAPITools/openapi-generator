@@ -23,22 +23,24 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import org.openapitools.client.model.BigCat;
+import org.openapitools.client.model.Cat;
+import org.openapitools.client.model.Dog;
 
 /**
  * Animal
  */
-
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Animal {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
-  private String className;
+  protected String className;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
   private String color = "red";
 
-  public Animal() {
+  public Animal() { 
     this.className = this.getClass().getSimpleName();
   }
 
@@ -52,12 +54,12 @@ public class Animal {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public String getClassName() {
     return className;
   }
-
 
 
   public void setClassName(String className) {
@@ -83,14 +85,13 @@ public class Animal {
   }
 
 
-
   public void setColor(String color) {
     this.color = color;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -107,7 +108,6 @@ public class Animal {
     return Objects.hash(className, color);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -122,7 +122,7 @@ public class Animal {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -13,12 +13,14 @@
 
 package org.openapitools.client.auth;
 
+import org.openapitools.client.ApiException;
 import org.openapitools.client.Pair;
 
+import java.net.URI;
 import java.util.Map;
 import java.util.List;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiKeyAuth implements Authentication {
   private final String location;
   private final String paramName;
@@ -56,7 +58,8 @@ public class ApiKeyAuth implements Authentication {
   }
 
   @Override
-  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
+  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams,
+                           String payload, String method, URI uri) throws ApiException {
     if (apiKey == null) {
       return;
     }
@@ -70,6 +73,8 @@ public class ApiKeyAuth implements Authentication {
       queryParams.add(new Pair(paramName, value));
     } else if ("header".equals(location)) {
       headerParams.put(paramName, value);
+    } else if ("cookie".equals(location)) {
+      cookieParams.put(paramName, value);
     }
   }
 }

@@ -26,11 +26,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * ArrayTest
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayTest {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRING = "array_of_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRING)
@@ -44,6 +47,8 @@ public class ArrayTest {
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL)
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
+  public ArrayTest() { 
+  }
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     
@@ -53,7 +58,7 @@ public class ArrayTest {
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
     if (this.arrayOfString == null) {
-      this.arrayOfString = new ArrayList<String>();
+      this.arrayOfString = new ArrayList<>();
     }
     this.arrayOfString.add(arrayOfStringItem);
     return this;
@@ -71,7 +76,6 @@ public class ArrayTest {
   }
 
 
-
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
@@ -85,7 +89,7 @@ public class ArrayTest {
 
   public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
     if (this.arrayArrayOfInteger == null) {
-      this.arrayArrayOfInteger = new ArrayList<List<Long>>();
+      this.arrayArrayOfInteger = new ArrayList<>();
     }
     this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
     return this;
@@ -96,12 +100,12 @@ public class ArrayTest {
    * @return arrayArrayOfInteger
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
-
 
 
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
@@ -117,7 +121,7 @@ public class ArrayTest {
 
   public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
-      this.arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+      this.arrayArrayOfModel = new ArrayList<>();
     }
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
@@ -128,12 +132,12 @@ public class ArrayTest {
    * @return arrayArrayOfModel
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
-
 
 
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
@@ -142,7 +146,7 @@ public class ArrayTest {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -160,7 +164,6 @@ public class ArrayTest {
     return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -176,7 +179,7 @@ public class ArrayTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

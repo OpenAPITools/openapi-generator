@@ -11,7 +11,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -78,11 +78,14 @@ declare -a xml_files=(
     "${root}/modules/openapi-generator-maven-plugin/pom.xml"
     "${root}/modules/openapi-generator-online/pom.xml"
     "${root}/modules/openapi-generator/pom.xml"
+    "${root}/modules/openapi-generator-gradle-plugin/gradle.properties"
+    "${root}/modules/openapi-generator-gradle-plugin/samples/local-spec/gradle.properties"
     "${root}/modules/openapi-generator-maven-plugin/examples/multi-module/java-client/pom.xml"
     "${root}/modules/openapi-generator-maven-plugin/examples/java-client.xml"
     "${root}/modules/openapi-generator-maven-plugin/examples/non-java-invalid-spec.xml"
     "${root}/modules/openapi-generator-maven-plugin/examples/non-java.xml"
-    "${root}/samples/meta-codegen/lib/pom.xml"
+    "${root}/modules/openapi-generator-maven-plugin/examples/kotlin.xml"
+    "${root}/modules/openapi-generator-maven-plugin/examples/spring.xml"
     "${root}/pom.xml"
 )
 

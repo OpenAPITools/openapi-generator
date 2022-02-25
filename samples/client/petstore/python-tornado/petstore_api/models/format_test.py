@@ -10,10 +10,15 @@
 """
 
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-
 import six
+
+from petstore_api.configuration import Configuration
 
 
 class FormatTest(object):
@@ -43,7 +48,8 @@ class FormatTest(object):
         'date': 'date',
         'date_time': 'datetime',
         'uuid': 'str',
-        'password': 'str'
+        'password': 'str',
+        'big_decimal': 'Decimal'
     }
 
     attribute_map = {
@@ -59,11 +65,15 @@ class FormatTest(object):
         'date': 'date',
         'date_time': 'dateTime',
         'uuid': 'uuid',
-        'password': 'password'
+        'password': 'password',
+        'big_decimal': 'BigDecimal'
     }
 
-    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid=None, password=None):  # noqa: E501
+    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid=None, password=None, big_decimal=None, local_vars_configuration=None):  # noqa: E501
         """FormatTest - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration.get_default_copy()
+        self.local_vars_configuration = local_vars_configuration
 
         self._integer = None
         self._int32 = None
@@ -78,6 +88,7 @@ class FormatTest(object):
         self._date_time = None
         self._uuid = None
         self._password = None
+        self._big_decimal = None
         self.discriminator = None
 
         if integer is not None:
@@ -102,6 +113,8 @@ class FormatTest(object):
         if uuid is not None:
             self.uuid = uuid
         self.password = password
+        if big_decimal is not None:
+            self.big_decimal = big_decimal
 
     @property
     def integer(self):
@@ -119,11 +132,13 @@ class FormatTest(object):
 
 
         :param integer: The integer of this FormatTest.  # noqa: E501
-        :type: int
+        :type integer: int
         """
-        if integer is not None and integer > 100:  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                integer is not None and integer > 100):  # noqa: E501
             raise ValueError("Invalid value for `integer`, must be a value less than or equal to `100`")  # noqa: E501
-        if integer is not None and integer < 10:  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                integer is not None and integer < 10):  # noqa: E501
             raise ValueError("Invalid value for `integer`, must be a value greater than or equal to `10`")  # noqa: E501
 
         self._integer = integer
@@ -144,11 +159,13 @@ class FormatTest(object):
 
 
         :param int32: The int32 of this FormatTest.  # noqa: E501
-        :type: int
+        :type int32: int
         """
-        if int32 is not None and int32 > 200:  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                int32 is not None and int32 > 200):  # noqa: E501
             raise ValueError("Invalid value for `int32`, must be a value less than or equal to `200`")  # noqa: E501
-        if int32 is not None and int32 < 20:  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                int32 is not None and int32 < 20):  # noqa: E501
             raise ValueError("Invalid value for `int32`, must be a value greater than or equal to `20`")  # noqa: E501
 
         self._int32 = int32
@@ -169,7 +186,7 @@ class FormatTest(object):
 
 
         :param int64: The int64 of this FormatTest.  # noqa: E501
-        :type: int
+        :type int64: int
         """
 
         self._int64 = int64
@@ -190,13 +207,15 @@ class FormatTest(object):
 
 
         :param number: The number of this FormatTest.  # noqa: E501
-        :type: float
+        :type number: float
         """
-        if number is None:
+        if self.local_vars_configuration.client_side_validation and number is None:  # noqa: E501
             raise ValueError("Invalid value for `number`, must not be `None`")  # noqa: E501
-        if number is not None and number > 543.2:  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                number is not None and number > 543.2):  # noqa: E501
             raise ValueError("Invalid value for `number`, must be a value less than or equal to `543.2`")  # noqa: E501
-        if number is not None and number < 32.1:  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                number is not None and number < 32.1):  # noqa: E501
             raise ValueError("Invalid value for `number`, must be a value greater than or equal to `32.1`")  # noqa: E501
 
         self._number = number
@@ -217,11 +236,13 @@ class FormatTest(object):
 
 
         :param float: The float of this FormatTest.  # noqa: E501
-        :type: float
+        :type float: float
         """
-        if float is not None and float > 987.6:  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                float is not None and float > 987.6):  # noqa: E501
             raise ValueError("Invalid value for `float`, must be a value less than or equal to `987.6`")  # noqa: E501
-        if float is not None and float < 54.3:  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                float is not None and float < 54.3):  # noqa: E501
             raise ValueError("Invalid value for `float`, must be a value greater than or equal to `54.3`")  # noqa: E501
 
         self._float = float
@@ -242,11 +263,13 @@ class FormatTest(object):
 
 
         :param double: The double of this FormatTest.  # noqa: E501
-        :type: float
+        :type double: float
         """
-        if double is not None and double > 123.4:  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                double is not None and double > 123.4):  # noqa: E501
             raise ValueError("Invalid value for `double`, must be a value less than or equal to `123.4`")  # noqa: E501
-        if double is not None and double < 67.8:  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                double is not None and double < 67.8):  # noqa: E501
             raise ValueError("Invalid value for `double`, must be a value greater than or equal to `67.8`")  # noqa: E501
 
         self._double = double
@@ -267,9 +290,10 @@ class FormatTest(object):
 
 
         :param string: The string of this FormatTest.  # noqa: E501
-        :type: str
+        :type string: str
         """
-        if string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE):  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE)):  # noqa: E501
             raise ValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
 
         self._string = string
@@ -290,11 +314,12 @@ class FormatTest(object):
 
 
         :param byte: The byte of this FormatTest.  # noqa: E501
-        :type: str
+        :type byte: str
         """
-        if byte is None:
+        if self.local_vars_configuration.client_side_validation and byte is None:  # noqa: E501
             raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
-        if byte is not None and not re.search(r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$', byte):  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                byte is not None and not re.search(r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$', byte)):  # noqa: E501
             raise ValueError(r"Invalid value for `byte`, must be a follow pattern or equal to `/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/`")  # noqa: E501
 
         self._byte = byte
@@ -315,7 +340,7 @@ class FormatTest(object):
 
 
         :param binary: The binary of this FormatTest.  # noqa: E501
-        :type: file
+        :type binary: file
         """
 
         self._binary = binary
@@ -336,9 +361,9 @@ class FormatTest(object):
 
 
         :param date: The date of this FormatTest.  # noqa: E501
-        :type: date
+        :type date: date
         """
-        if date is None:
+        if self.local_vars_configuration.client_side_validation and date is None:  # noqa: E501
             raise ValueError("Invalid value for `date`, must not be `None`")  # noqa: E501
 
         self._date = date
@@ -359,7 +384,7 @@ class FormatTest(object):
 
 
         :param date_time: The date_time of this FormatTest.  # noqa: E501
-        :type: datetime
+        :type date_time: datetime
         """
 
         self._date_time = date_time
@@ -380,7 +405,7 @@ class FormatTest(object):
 
 
         :param uuid: The uuid of this FormatTest.  # noqa: E501
-        :type: str
+        :type uuid: str
         """
 
         self._uuid = uuid
@@ -401,38 +426,69 @@ class FormatTest(object):
 
 
         :param password: The password of this FormatTest.  # noqa: E501
-        :type: str
+        :type password: str
         """
-        if password is None:
+        if self.local_vars_configuration.client_side_validation and password is None:  # noqa: E501
             raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
-        if password is not None and len(password) > 64:
+        if (self.local_vars_configuration.client_side_validation and
+                password is not None and len(password) > 64):
             raise ValueError("Invalid value for `password`, length must be less than or equal to `64`")  # noqa: E501
-        if password is not None and len(password) < 10:
+        if (self.local_vars_configuration.client_side_validation and
+                password is not None and len(password) < 10):
             raise ValueError("Invalid value for `password`, length must be greater than or equal to `10`")  # noqa: E501
 
         self._password = password
 
-    def to_dict(self):
+    @property
+    def big_decimal(self):
+        """Gets the big_decimal of this FormatTest.  # noqa: E501
+
+
+        :return: The big_decimal of this FormatTest.  # noqa: E501
+        :rtype: Decimal
+        """
+        return self._big_decimal
+
+    @big_decimal.setter
+    def big_decimal(self, big_decimal):
+        """Sets the big_decimal of this FormatTest.
+
+
+        :param big_decimal: The big_decimal of this FormatTest.  # noqa: E501
+        :type big_decimal: Decimal
+        """
+
+        self._big_decimal = big_decimal
+
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = getfullargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 
@@ -449,8 +505,11 @@ class FormatTest(object):
         if not isinstance(other, FormatTest):
             return False
 
-        return self.__dict__ == other.__dict__
+        return self.to_dict() == other.to_dict()
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
-        return not self == other
+        if not isinstance(other, FormatTest):
+            return True
+
+        return self.to_dict() != other.to_dict()

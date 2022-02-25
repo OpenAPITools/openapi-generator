@@ -1,11 +1,11 @@
 ---
 id: faq-generators
-title: FAQ: Generators
+title: "FAQ: Generators"
 ---
 
 ### What are some server generator use cases?
 
-We have around 40+ server generators, with more added regularly. Some of these include Spring in your choice of Java or Kotlin, the Finch and Scalatra frameworks using Scala, and C# generators for NancyFX and WebAPI (to name only a few).
+We have around 40+ server generators, with more added regularly. Some of these include Spring in your choice of Java or Kotlin, the Finch and Scalatra frameworks using Scala, and C# generators for ASP.NET and Azure Functions (to name only a few).
 
 Besides generating the server code as a starting point to implement the API backend, here are some use cases of the server generators:
 
@@ -39,9 +39,9 @@ config.templateDir = 'src/openapi-generator-templates/Java/libraries/feign
 ```
 mvn clean package
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
-  -i https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.json \
+  -i https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.json \
   -l java --library=okhttp-gson \
-  -D hideGenerationTimestamp=true \
+  --additional-properties hideGenerationTimestamp=true \
   -o /var/tmp/java/okhttp-gson/ 
 ```
 
@@ -55,7 +55,7 @@ To generate the Android SDK with [`volley`](https://github.com/mcxiaoke/android-
 ```
 mvn clean package
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
-  -i https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.json \
+  -i https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.json \
   -l android --library=volley \
   -o /var/tmp/android/volley/ 
 ```

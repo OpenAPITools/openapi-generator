@@ -9,16 +9,18 @@
         <testsuite>
             <directory>./Tests/Api</directory>
             <directory>./Tests/Model</directory>
+            <directory>./Tests/Controller</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">././Api</directory>
             <directory suffix=".php">././Model</directory>
+            <directory suffix=".php">././Controller</directory>
         </whitelist>
     </filter>
     <php>
         <ini name="error_reporting" value="E_ALL" />
-        <server name="KERNEL_DIR" value="Tests/" />
+        <server name="KERNEL_CLASS" value="OpenAPI\Server\Tests\AppKernel" />
     </php>
 </phpunit>

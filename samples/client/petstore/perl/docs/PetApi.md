@@ -21,11 +21,13 @@ Method | HTTP request | Description
 
 
 # **add_pet**
-> add_pet(body => $body)
+> add_pet(pet => $pet)
 
 Add a new pet to the store
 
-### Example 
+
+
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::PetApi;
@@ -35,10 +37,10 @@ my $api_instance = WWW::OpenAPIClient::PetApi->new(
     access_token => 'YOUR_ACCESS_TOKEN',
 );
 
-my $body = WWW::OpenAPIClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
+my $pet = WWW::OpenAPIClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
 
-eval { 
-    $api_instance->add_pet(body => $body);
+eval {
+    $api_instance->add_pet(pet => $pet);
 };
 if ($@) {
     warn "Exception when calling PetApi->add_pet: $@\n";
@@ -49,7 +51,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -71,7 +73,9 @@ void (empty response body)
 
 Deletes a pet
 
-### Example 
+
+
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::PetApi;
@@ -84,7 +88,7 @@ my $api_instance = WWW::OpenAPIClient::PetApi->new(
 my $pet_id = 789; # int | Pet id to delete
 my $api_key = "api_key_example"; # string | 
 
-eval { 
+eval {
     $api_instance->delete_pet(pet_id => $pet_id, api_key => $api_key);
 };
 if ($@) {
@@ -121,7 +125,7 @@ Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::PetApi;
@@ -133,7 +137,7 @@ my $api_instance = WWW::OpenAPIClient::PetApi->new(
 
 my $status = [("'available'")]; # ARRAY[string] | Status values that need to be considered for filter
 
-eval { 
+eval {
     my $result = $api_instance->find_pets_by_status(status => $status);
     print Dumper($result);
 };
@@ -170,7 +174,7 @@ Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::PetApi;
@@ -182,7 +186,7 @@ my $api_instance = WWW::OpenAPIClient::PetApi->new(
 
 my $tags = [("null")]; # ARRAY[string] | Tags to filter by
 
-eval { 
+eval {
     my $result = $api_instance->find_pets_by_tags(tags => $tags);
     print Dumper($result);
 };
@@ -219,7 +223,7 @@ Find pet by ID
 
 Returns a single pet
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::PetApi;
@@ -233,7 +237,7 @@ my $api_instance = WWW::OpenAPIClient::PetApi->new(
 
 my $pet_id = 789; # int | ID of pet to return
 
-eval { 
+eval {
     my $result = $api_instance->get_pet_by_id(pet_id => $pet_id);
     print Dumper($result);
 };
@@ -264,11 +268,13 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet**
-> update_pet(body => $body)
+> update_pet(pet => $pet)
 
 Update an existing pet
 
-### Example 
+
+
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::PetApi;
@@ -278,10 +284,10 @@ my $api_instance = WWW::OpenAPIClient::PetApi->new(
     access_token => 'YOUR_ACCESS_TOKEN',
 );
 
-my $body = WWW::OpenAPIClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
+my $pet = WWW::OpenAPIClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
 
-eval { 
-    $api_instance->update_pet(body => $body);
+eval {
+    $api_instance->update_pet(pet => $pet);
 };
 if ($@) {
     warn "Exception when calling PetApi->update_pet: $@\n";
@@ -292,7 +298,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -314,7 +320,9 @@ void (empty response body)
 
 Updates a pet in the store with form data
 
-### Example 
+
+
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::PetApi;
@@ -328,7 +336,7 @@ my $pet_id = 789; # int | ID of pet that needs to be updated
 my $name = "name_example"; # string | Updated name of the pet
 my $status = "status_example"; # string | Updated status of the pet
 
-eval { 
+eval {
     $api_instance->update_pet_with_form(pet_id => $pet_id, name => $name, status => $status);
 };
 if ($@) {
@@ -364,7 +372,9 @@ void (empty response body)
 
 uploads an image
 
-### Example 
+
+
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::PetApi;
@@ -378,7 +388,7 @@ my $pet_id = 789; # int | ID of pet to update
 my $additional_metadata = "additional_metadata_example"; # string | Additional data to pass to server
 my $file = "/path/to/file"; # string | file to upload
 
-eval { 
+eval {
     my $result = $api_instance->upload_file(pet_id => $pet_id, additional_metadata => $additional_metadata, file => $file);
     print Dumper($result);
 };
@@ -415,7 +425,9 @@ Name | Type | Description  | Notes
 
 uploads an image (required)
 
-### Example 
+
+
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::PetApi;
@@ -429,7 +441,7 @@ my $pet_id = 789; # int | ID of pet to update
 my $required_file = "/path/to/file"; # string | file to upload
 my $additional_metadata = "additional_metadata_example"; # string | Additional data to pass to server
 
-eval { 
+eval {
     my $result = $api_instance->upload_file_with_required_file(pet_id => $pet_id, required_file => $required_file, additional_metadata => $additional_metadata);
     print Dumper($result);
 };

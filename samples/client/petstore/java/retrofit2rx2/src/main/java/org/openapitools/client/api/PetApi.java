@@ -13,6 +13,7 @@ import okhttp3.MultipartBody;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,12 +62,12 @@ public interface PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return Observable&lt;List&lt;Pet&gt;&gt;
+   * @return Observable&lt;Set&lt;Pet&gt;&gt;
    * @deprecated
    */
   @Deprecated
   @GET("pet/findByTags")
-  Observable<List<Pet>> findPetsByTags(
+  Observable<Set<Pet>> findPetsByTags(
     @retrofit2.http.Query("tags") CSVParams tags
   );
 
@@ -114,13 +115,13 @@ public interface PetApi {
    * 
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
-   * @param file file to upload (optional)
+   * @param _file file to upload (optional)
    * @return Observable&lt;ModelApiResponse&gt;
    */
   @retrofit2.http.Multipart
   @POST("pet/{petId}/uploadImage")
   Observable<ModelApiResponse> uploadFile(
-    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part MultipartBody.Part file
+    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part MultipartBody.Part _file
   );
 
   /**

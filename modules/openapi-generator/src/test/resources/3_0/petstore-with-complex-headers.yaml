@@ -9,7 +9,7 @@ info:
   title: OpenAPI Petstore
   license:
     name: Apache-2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 tags:
   - name: pet
     description: Everything about your Pets
@@ -446,7 +446,7 @@ paths:
                 type: integer
                 format: int32
             X-Expires-After:
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
               schema:
                 type: string
                 format: date-time

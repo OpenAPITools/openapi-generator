@@ -10,10 +10,15 @@
 """
 
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-
 import six
+
+from petstore_api.configuration import Configuration
 
 
 class AdditionalPropertiesClass(object):
@@ -58,8 +63,11 @@ class AdditionalPropertiesClass(object):
         'anytype_3': 'anytype_3'
     }
 
-    def __init__(self, map_string=None, map_number=None, map_integer=None, map_boolean=None, map_array_integer=None, map_array_anytype=None, map_map_string=None, map_map_anytype=None, anytype_1=None, anytype_2=None, anytype_3=None):  # noqa: E501
+    def __init__(self, map_string=None, map_number=None, map_integer=None, map_boolean=None, map_array_integer=None, map_array_anytype=None, map_map_string=None, map_map_anytype=None, anytype_1=None, anytype_2=None, anytype_3=None, local_vars_configuration=None):  # noqa: E501
         """AdditionalPropertiesClass - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration.get_default_copy()
+        self.local_vars_configuration = local_vars_configuration
 
         self._map_string = None
         self._map_number = None
@@ -113,7 +121,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_string: The map_string of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, str)
+        :type map_string: dict(str, str)
         """
 
         self._map_string = map_string
@@ -134,7 +142,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_number: The map_number of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, float)
+        :type map_number: dict(str, float)
         """
 
         self._map_number = map_number
@@ -155,7 +163,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_integer: The map_integer of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, int)
+        :type map_integer: dict(str, int)
         """
 
         self._map_integer = map_integer
@@ -176,7 +184,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_boolean: The map_boolean of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, bool)
+        :type map_boolean: dict(str, bool)
         """
 
         self._map_boolean = map_boolean
@@ -197,7 +205,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_array_integer: The map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, list[int])
+        :type map_array_integer: dict(str, list[int])
         """
 
         self._map_array_integer = map_array_integer
@@ -218,7 +226,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_array_anytype: The map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, list[object])
+        :type map_array_anytype: dict(str, list[object])
         """
 
         self._map_array_anytype = map_array_anytype
@@ -239,7 +247,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_map_string: The map_map_string of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, dict(str, str))
+        :type map_map_string: dict(str, dict(str, str))
         """
 
         self._map_map_string = map_map_string
@@ -260,7 +268,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_map_anytype: The map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, dict(str, object))
+        :type map_map_anytype: dict(str, dict(str, object))
         """
 
         self._map_map_anytype = map_map_anytype
@@ -281,7 +289,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param anytype_1: The anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: object
+        :type anytype_1: object
         """
 
         self._anytype_1 = anytype_1
@@ -302,7 +310,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param anytype_2: The anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: object
+        :type anytype_2: object
         """
 
         self._anytype_2 = anytype_2
@@ -323,32 +331,40 @@ class AdditionalPropertiesClass(object):
 
 
         :param anytype_3: The anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: object
+        :type anytype_3: object
         """
 
         self._anytype_3 = anytype_3
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = getfullargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 
@@ -365,8 +381,11 @@ class AdditionalPropertiesClass(object):
         if not isinstance(other, AdditionalPropertiesClass):
             return False
 
-        return self.__dict__ == other.__dict__
+        return self.to_dict() == other.to_dict()
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
-        return not self == other
+        if not isinstance(other, AdditionalPropertiesClass):
+            return True
+
+        return self.to_dict() != other.to_dict()

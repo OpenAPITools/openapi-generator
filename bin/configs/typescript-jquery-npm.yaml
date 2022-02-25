@@ -1,0 +1,9 @@
+generatorName: typescript-jquery
+outputDir: samples/client/petstore/typescript-jquery/npm
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-jquery
+additionalProperties:
+  npmVersion: 0.0.1
+  npmName: '@openapitools/jquery-typescript-petstore'
+  npmRepository: https://skimdb.npmjs.com/registry
+  snapshot: false

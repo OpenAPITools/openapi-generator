@@ -23,9 +23,6 @@ import com.google.gson.stream.JsonWriter;
 import com.google.gson.JsonElement;
 import io.gsonfire.GsonFireBuilder;
 import io.gsonfire.TypeSelector;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
 
 import org.openapitools.client.model.*;
 import okio.ByteString;
@@ -36,6 +33,9 @@ import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -50,15 +50,45 @@ public class JSON {
     private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
     private ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
 
+    @SuppressWarnings("unchecked")
     public static GsonBuilder createGson() {
         GsonFireBuilder fireBuilder = new GsonFireBuilder()
-                .registerTypeSelector(Animal.class, new TypeSelector() {
+                .registerTypeSelector(Animal.class, new TypeSelector<Animal>() {
                     @Override
-                    public Class getClassForElement(JsonElement readElement) {
-                        Map classByDiscriminatorValue = new HashMap();
-                        classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
-                        classByDiscriminatorValue.put("Cat".toUpperCase(Locale.ROOT), Cat.class);
-                        classByDiscriminatorValue.put("Animal".toUpperCase(Locale.ROOT), Animal.class);
+                    public Class<? extends Animal> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("BigCat", BigCat.class);
+                        classByDiscriminatorValue.put("Cat", Cat.class);
+                        classByDiscriminatorValue.put("Dog", Dog.class);
+                        classByDiscriminatorValue.put("Animal", Animal.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "className"));
+                    }
+          })
+                .registerTypeSelector(BigCat.class, new TypeSelector<BigCat>() {
+                    @Override
+                    public Class<? extends BigCat> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("BigCat", BigCat.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "className"));
+                    }
+          })
+                .registerTypeSelector(Cat.class, new TypeSelector<Cat>() {
+                    @Override
+                    public Class<? extends Cat> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("BigCat", BigCat.class);
+                        classByDiscriminatorValue.put("Cat", Cat.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "className"));
+                    }
+          })
+                .registerTypeSelector(Dog.class, new TypeSelector<Dog>() {
+                    @Override
+                    public Class<? extends Dog> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("Dog", Dog.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
                     }
@@ -76,8 +106,15 @@ public class JSON {
         return element.getAsString();
     }
 
+    /**
+     * Returns the Java class that implements the OpenAPI schema for the specified discriminator value.
+     *
+     * @param classByDiscriminatorValue The map of discriminator values to Java classes.
+     * @param discriminatorValue The value of the OpenAPI discriminator in the input data.
+     * @return The Java class that implements the OpenAPI schema
+     */
     private static Class getClassByDiscriminator(Map classByDiscriminatorValue, String discriminatorValue) {
-        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue.toUpperCase(Locale.ROOT));
+        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue);
         if (null == clazz) {
             throw new IllegalArgumentException("cannot determine model class of name: <" + discriminatorValue + ">");
         }
@@ -114,6 +151,13 @@ public class JSON {
         return this;
     }
 
+    /**
+     * Configure the parser to be liberal in what it accepts.
+     *
+     * @param lenientOnJson Set it to true to ignore some syntax errors
+     * @return JSON
+     * @see <a href="https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html">https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html</a>
+     */
     public JSON setLenientOnJson(boolean lenientOnJson) {
         isLenientOnJson = lenientOnJson;
         return this;
@@ -142,7 +186,7 @@ public class JSON {
         try {
             if (isLenientOnJson) {
                 JsonReader jsonReader = new JsonReader(new StringReader(body));
-                // see https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/stream/JsonReader.html#setLenient(boolean)
+                // see https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html
                 jsonReader.setLenient(true);
                 return gson.fromJson(jsonReader, returnType);
             } else {

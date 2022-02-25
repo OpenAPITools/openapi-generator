@@ -1,29 +1,30 @@
-part of {{pubName}}.api;
-
+{{>header}}
+{{>part_of}}
 class ApiKeyAuth implements Authentication {
+  ApiKeyAuth(this.location, this.paramName);
 
   final String location;
   final String paramName;
-  String _apiKey;
-  String apiKeyPrefix;
 
-  set apiKey(String key) => _apiKey = key;
-
-  ApiKeyAuth(this.location, this.paramName);
+  String apiKeyPrefix = '';
+  String apiKey = '';
 
   @override
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
-    String value;
-    if (apiKeyPrefix != null) {
-      value = '$apiKeyPrefix $_apiKey';
-    } else {
-      value = _apiKey;
-    }
+    final paramValue = apiKeyPrefix.isEmpty ? apiKey : '$apiKeyPrefix $apiKey';
 
-    if (location == 'query' && value != null) {
-      queryParams.add(QueryParam(paramName, value));
-    } else if (location == 'header' && value != null) {
-      headerParams[paramName] = value;
+    if (paramValue.isNotEmpty) {
+      if (location == 'query') {
+        queryParams.add(QueryParam(paramName, paramValue));
+      } else if (location == 'header') {
+        headerParams[paramName] = paramValue;
+      } else if (location == 'cookie') {
+        headerParams.update(
+          'Cookie',
+          (existingCookie) => '$existingCookie; $paramName=$paramValue',
+          ifAbsent: () => '$paramName=$paramValue',
+        );
+      }
     }
   }
 }

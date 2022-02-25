@@ -1,0 +1,12 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-beanvalidation
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  documentationProvider: springfox
+  useSwaggerUI: false
+  java8: true
+  useBeanValidation: true
+  artifactId: spring-boot-beanvalidation
+  hideGenerationTimestamp: "true"

@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -11,10 +12,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-public class HasOnlyReadOnly  implements Serializable {
+@JsonTypeName("hasOnlyReadOnly")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class HasOnlyReadOnly  implements Serializable {
   
   private @Valid String bar;
   private @Valid String foo;
@@ -27,16 +30,20 @@ public class HasOnlyReadOnly  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("bar")
   public String getBar() {
     return bar;
   }
+
+  @JsonProperty("bar")
   public void setBar(String bar) {
     this.bar = bar;
   }
 
-  /**
+/**
    **/
   public HasOnlyReadOnly foo(String foo) {
     this.foo = foo;
@@ -44,18 +51,22 @@ public class HasOnlyReadOnly  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("foo")
   public String getFoo() {
     return foo;
   }
+
+  @JsonProperty("foo")
   public void setFoo(String foo) {
     this.foo = foo;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -63,8 +74,8 @@ public class HasOnlyReadOnly  implements Serializable {
       return false;
     }
     HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
-    return Objects.equals(bar, hasOnlyReadOnly.bar) &&
-        Objects.equals(foo, hasOnlyReadOnly.foo);
+    return Objects.equals(this.bar, hasOnlyReadOnly.bar) &&
+        Objects.equals(this.foo, hasOnlyReadOnly.foo);
   }
 
   @Override
@@ -87,11 +98,13 @@ public class HasOnlyReadOnly  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

@@ -38,14 +38,14 @@ export default class FakeClassnameTags123Api {
     /**
      * To test class name in snake case
      * To test class name in snake case
-     * @param {module:model/Client} body client model
+     * @param {module:model/Client} client client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Client} and HTTP response
      */
-    testClassnameWithHttpInfo(body) {
-      let postBody = body;
-      // verify the required parameter 'body' is set
-      if (body === undefined || body === null) {
-        throw new Error("Missing the required parameter 'body' when calling testClassname");
+    testClassnameWithHttpInfo(client) {
+      let postBody = client;
+      // verify the required parameter 'client' is set
+      if (client === undefined || client === null) {
+        throw new Error("Missing the required parameter 'client' when calling testClassname");
       }
 
       let pathParams = {
@@ -71,11 +71,11 @@ export default class FakeClassnameTags123Api {
     /**
      * To test class name in snake case
      * To test class name in snake case
-     * @param {module:model/Client} body client model
+     * @param {module:model/Client} client client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Client}
      */
-    testClassname(body) {
-      return this.testClassnameWithHttpInfo(body)
+    testClassname(client) {
+      return this.testClassnameWithHttpInfo(client)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

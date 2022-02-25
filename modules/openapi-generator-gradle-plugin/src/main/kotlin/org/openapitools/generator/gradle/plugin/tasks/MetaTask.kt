@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,15 +19,20 @@ package org.openapitools.generator.gradle.plugin.tasks
 import com.samskivert.mustache.Mustache
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
-import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.CacheableTask
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.CodegenConfig
 import org.openapitools.codegen.CodegenConstants
-import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.SupportingFile
+import org.openapitools.codegen.TemplateManager
+import org.openapitools.codegen.templating.CommonTemplateContentLocator
+import org.openapitools.codegen.templating.MustacheEngineAdapter
+import org.openapitools.codegen.templating.TemplateManagerOptions
 import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
@@ -37,15 +42,16 @@ import java.nio.charset.Charset
  *
  * @author Jim Schubert
  */
+@CacheableTask
 open class MetaTask : DefaultTask() {
 
-    @get:Internal
+    @get:Input
     val generatorName = project.objects.property<String>()
 
-    @get:Internal
+    @get:Input
     val packageName = project.objects.property<String>()
 
-    @get:Internal
+    @get:OutputDirectory
     val outputFolder = project.objects.property<String>()
 
     @Suppress("unused")
@@ -83,19 +89,28 @@ open class MetaTask : DefaultTask() {
                 "fullyQualifiedGeneratorClass" to "${packageName.get()}.$klass",
                 "openapiGeneratorVersion" to currentVersion)
 
-        val generator = DefaultGenerator()
         supportingFiles.map {
             try {
                 val destinationFolder = File(File(dir.absolutePath), it.folder)
                 destinationFolder.mkdirs()
                 val outputFile = File(destinationFolder, it.destinationFilename)
 
-                val template = generator.readTemplate(File("codegen", it.templateFile).path)
+                val templateProcessor = TemplateManager(
+                        TemplateManagerOptions(false, false),
+                        MustacheEngineAdapter(),
+                        arrayOf(CommonTemplateContentLocator("codegen"))
+                )
+
+                val template = templateProcessor.getFullTemplateContents(it.templateFile)
                 var formatted = template
+
+                val loader = Mustache.TemplateLoader { name ->
+                    templateProcessor.getTemplateReader("$name.mustache")
+                }
 
                 if (it.templateFile.endsWith(".mustache")) {
                     formatted = Mustache.compiler()
-                            .withLoader(loader(generator))
+                            .withLoader(loader)
                             .defaultValue("")
                             .compile(template).execute(data)
                 }
@@ -113,12 +128,6 @@ open class MetaTask : DefaultTask() {
         }
         out.withStyle(StyledTextOutput.Style.Success)
         out.formatln("Created generator %s", klass)
-    }
-
-    private fun loader(generator: DefaultGenerator): Mustache.TemplateLoader {
-        return Mustache.TemplateLoader { name ->
-            generator.getTemplateReader("codegen${File.separator}$name.mustache")
-        }
     }
 
     private fun String.titleCasedTextOnly(): String =

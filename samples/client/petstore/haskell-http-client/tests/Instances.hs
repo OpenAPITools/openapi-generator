@@ -71,7 +71,7 @@ instance Arbitrary A.Value where
       sizedObject n =
         liftM (A.object . map mapF) $
         replicateM n $ (,) <$> (arbitrary :: Gen String) <*> simpleAndArrays
-    
+
 -- | Checks if a given list has no duplicates in _O(n log n)_.
 hasNoDups
   :: (Ord a)
@@ -86,7 +86,7 @@ hasNoDups = go Set.empty
 
 instance ApproxEq TI.Day where
   (=~) = (==)
-    
+
 arbitraryReduced :: Arbitrary a => Int -> Gen a
 arbitraryReduced n = resize (n `div` 2) arbitrary
 
@@ -103,7 +103,7 @@ arbitraryReducedMaybeValue n = do
     else return generated
 
 -- * Models
- 
+
 instance Arbitrary AdditionalPropertiesAnyType where
   arbitrary = sized genAdditionalPropertiesAnyType
 
@@ -222,6 +222,25 @@ genArrayTest n =
     <$> arbitraryReducedMaybe n -- arrayTestArrayOfString :: Maybe [Text]
     <*> arbitraryReducedMaybe n -- arrayTestArrayArrayOfInteger :: Maybe [[Integer]]
     <*> arbitraryReducedMaybe n -- arrayTestArrayArrayOfModel :: Maybe [[ReadOnlyFirst]]
+  
+instance Arbitrary BigCat where
+  arbitrary = sized genBigCat
+
+genBigCat :: Int -> Gen BigCat
+genBigCat n =
+  BigCat
+    <$> arbitrary -- bigCatClassName :: Text
+    <*> arbitraryReducedMaybe n -- bigCatColor :: Maybe Text
+    <*> arbitraryReducedMaybe n -- bigCatDeclawed :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- bigCatKind :: Maybe E'Kind
+  
+instance Arbitrary BigCatAllOf where
+  arbitrary = sized genBigCatAllOf
+
+genBigCatAllOf :: Int -> Gen BigCatAllOf
+genBigCatAllOf n =
+  BigCatAllOf
+    <$> arbitraryReducedMaybe n -- bigCatAllOfKind :: Maybe E'Kind
   
 instance Arbitrary Capitalization where
   arbitrary = sized genCapitalization
@@ -354,6 +373,7 @@ genFormatTest n =
     <*> arbitraryReducedMaybe n -- formatTestDateTime :: Maybe DateTime
     <*> arbitraryReducedMaybe n -- formatTestUuid :: Maybe Text
     <*> arbitrary -- formatTestPassword :: Text
+    <*> arbitraryReducedMaybe n -- formatTestBigDecimal :: Maybe Double
   
 instance Arbitrary HasOnlyReadOnly where
   arbitrary = sized genHasOnlyReadOnly
@@ -595,6 +615,9 @@ instance Arbitrary E'Inner where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary E'JustSymbol where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'Kind where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary E'Status where

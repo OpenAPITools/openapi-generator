@@ -31,9 +31,10 @@ namespace Org.OpenAPITools.Model
     /// Animal
     /// </summary>
     [DataContract]
-    [JsonConverter(typeof(JsonSubtypes), "ClassName")]
+    [JsonConverter(typeof(JsonSubtypes), "className")]
     [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
     [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
+    [JsonSubtypes.KnownSubType(typeof(BigCat), "BigCat")]
     [ImplementPropertyChanged]
     public partial class Animal :  IEquatable<Animal>, IValidatableObject
     {
@@ -73,13 +74,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
-        [DataMember(Name="className", EmitDefaultValue=false)]
+        [DataMember(Name="className", EmitDefaultValue=true)]
         public string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
-        [DataMember(Name="color", EmitDefaultValue=false)]
+        [DataMember(Name="color", EmitDefaultValue=true)]
         public string Color { get; set; }
 
         /// <summary>

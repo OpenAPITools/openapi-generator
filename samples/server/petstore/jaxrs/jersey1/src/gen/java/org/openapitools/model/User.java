@@ -35,7 +35,7 @@ import javax.validation.Valid;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class User   {
   public static final String JSON_PROPERTY_ID = "id";
   @JsonProperty(JSON_PROPERTY_ID)
@@ -78,7 +78,7 @@ public class User   {
    * Get id
    * @return id
    **/
-  @JsonProperty("id")
+  @JsonProperty(value = "id")
   @ApiModelProperty(value = "")
   
   public Long getId() {
@@ -98,7 +98,7 @@ public class User   {
    * Get username
    * @return username
    **/
-  @JsonProperty("username")
+  @JsonProperty(value = "username")
   @ApiModelProperty(value = "")
   
   public String getUsername() {
@@ -118,7 +118,7 @@ public class User   {
    * Get firstName
    * @return firstName
    **/
-  @JsonProperty("firstName")
+  @JsonProperty(value = "firstName")
   @ApiModelProperty(value = "")
   
   public String getFirstName() {
@@ -138,7 +138,7 @@ public class User   {
    * Get lastName
    * @return lastName
    **/
-  @JsonProperty("lastName")
+  @JsonProperty(value = "lastName")
   @ApiModelProperty(value = "")
   
   public String getLastName() {
@@ -158,7 +158,7 @@ public class User   {
    * Get email
    * @return email
    **/
-  @JsonProperty("email")
+  @JsonProperty(value = "email")
   @ApiModelProperty(value = "")
   
   public String getEmail() {
@@ -178,7 +178,7 @@ public class User   {
    * Get password
    * @return password
    **/
-  @JsonProperty("password")
+  @JsonProperty(value = "password")
   @ApiModelProperty(value = "")
   
   public String getPassword() {
@@ -198,7 +198,7 @@ public class User   {
    * Get phone
    * @return phone
    **/
-  @JsonProperty("phone")
+  @JsonProperty(value = "phone")
   @ApiModelProperty(value = "")
   
   public String getPhone() {
@@ -218,7 +218,7 @@ public class User   {
    * User Status
    * @return userStatus
    **/
-  @JsonProperty("userStatus")
+  @JsonProperty(value = "userStatus")
   @ApiModelProperty(value = "User Status")
   
   public Integer getUserStatus() {
@@ -231,7 +231,7 @@ public class User   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -254,7 +254,6 @@ public class User   {
     return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -276,7 +275,7 @@ public class User   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

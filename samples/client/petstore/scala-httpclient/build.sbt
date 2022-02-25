@@ -14,7 +14,7 @@ libraryDependencies ++= Seq(
   "joda-time" % "joda-time" % "2.9.9",
   "org.joda" % "joda-convert" % "1.9.2",
   "org.scalatest" %% "scalatest" % "3.0.4" % "test",
-  "junit" % "junit" % "4.12" % "test",
+  "junit" % "junit" % "4.13" % "test",
   "com.wordnik.swagger" %% "swagger-async-httpclient" % "0.3.5"
 )
 

@@ -1,5 +1,6 @@
 package org.openapitools.virtualan.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,14 +10,21 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * EnumArrays
  */
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class EnumArrays   {
+
   /**
    * Gets or Sets justSymbol
    */
@@ -31,8 +39,12 @@ public class EnumArrays   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
@@ -65,8 +77,12 @@ public class EnumArrays   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
@@ -95,9 +111,8 @@ public class EnumArrays   {
    * Get justSymbol
    * @return justSymbol
   */
+  
   @ApiModelProperty(value = "")
-
-
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -123,9 +138,8 @@ public class EnumArrays   {
    * Get arrayEnum
    * @return arrayEnum
   */
+  
   @ApiModelProperty(value = "")
-
-
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
@@ -134,9 +148,8 @@ public class EnumArrays   {
     this.arrayEnum = arrayEnum;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -157,7 +170,6 @@ public class EnumArrays   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EnumArrays {\n");
-    
     sb.append("    justSymbol: ").append(toIndentedString(justSymbol)).append("\n");
     sb.append("    arrayEnum: ").append(toIndentedString(arrayEnum)).append("\n");
     sb.append("}");
@@ -168,7 +180,7 @@ public class EnumArrays   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

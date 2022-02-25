@@ -1,19 +1,21 @@
 # AdditionalPropertiesClass
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**map_string** | **dict(str, str)** |  | [optional] 
-**map_number** | **dict(str, float)** |  | [optional] 
-**map_integer** | **dict(str, int)** |  | [optional] 
-**map_boolean** | **dict(str, bool)** |  | [optional] 
-**map_array_integer** | **dict(str, list[int])** |  | [optional] 
-**map_array_anytype** | **dict(str, list[object])** |  | [optional] 
-**map_map_string** | **dict(str, dict(str, str))** |  | [optional] 
-**map_map_anytype** | **dict(str, dict(str, object))** |  | [optional] 
-**anytype_1** | [**object**](.md) |  | [optional] 
-**anytype_2** | [**object**](.md) |  | [optional] 
-**anytype_3** | [**object**](.md) |  | [optional] 
+**map_string** | **{str: (str,)}** |  | [optional] 
+**map_number** | **{str: (float,)}** |  | [optional] 
+**map_integer** | **{str: (int,)}** |  | [optional] 
+**map_boolean** | **{str: (bool,)}** |  | [optional] 
+**map_array_integer** | **{str: ([int],)}** |  | [optional] 
+**map_array_anytype** | **{str: ([bool, date, datetime, dict, float, int, list, str, none_type],)}** |  | [optional] 
+**map_map_string** | **{str: ({str: (str,)},)}** |  | [optional] 
+**map_map_anytype** | **{str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type,)},)}** |  | [optional] 
+**anytype_1** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
+**anytype_2** | **bool, date, datetime, dict, float, int, list, str, none_type** | no type is set for this | [optional] 
+**anytype_3** | **bool, date, datetime, dict, float, int, list, str, none_type** | because of a bug in swagger-parser, this should have values {str: (str, int, float...)} but instead we get any type. See https://github.com/swagger-api/swagger-parser/issues/1378 | [optional] 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

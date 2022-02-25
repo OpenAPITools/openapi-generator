@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,18 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -37,13 +32,20 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String SEPARATE_MODELS_AND_API = "withSeparateModelsAndApi";
     public static final String WITHOUT_PREFIX_ENUMS = "withoutPrefixEnums";
+    public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
+    public static final String WITH_NODE_IMPORTS = "withNodeImports";
+    public static final String STRING_ENUMS = "stringEnums";
+    public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
 
     protected String npmRepository = null;
+    protected Boolean stringEnums = false;
 
     private String tsModelPackage = "";
 
     public TypeScriptAxiosClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
@@ -56,6 +58,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(SEPARATE_MODELS_AND_API, "Put the model and api in separate folders and in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITHOUT_PREFIX_ENUMS, "Don't prefix enum names with class names", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(WITH_NODE_IMPORTS, "Setting this property to true adds imports for NodeJS", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
+        // Templates have no mapping between formatted property names and original base names so use only "original" and remove this option
+        removeOption(CodegenConstants.MODEL_PROPERTY_NAMING);
     }
 
     @Override
@@ -105,11 +112,12 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("baseApi.mustache", "", "base.ts"));
+        supportingFiles.add(new SupportingFile("common.mustache", "", "common.ts"));
         supportingFiles.add(new SupportingFile("api.mustache", "", "api.ts"));
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
-        supportingFiles.add(new SupportingFile("custom.d.mustache", "", "custom.d.ts"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("npmignore", "", ".npmignore"));
 
         if (additionalProperties.containsKey(SEPARATE_MODELS_AND_API)) {
             boolean separateModelsAndApi = Boolean.parseBoolean(additionalProperties.get(SEPARATE_MODELS_AND_API).toString());
@@ -121,6 +129,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
                 apiTemplateFiles.put("apiInner.mustache", ".ts");
                 supportingFiles.add(new SupportingFile("modelIndex.mustache", tsModelPackage, "index.ts"));
             }
+        }
+
+        if (additionalProperties.containsKey(STRING_ENUMS)) {
+            this.stringEnums = Boolean.parseBoolean(additionalProperties.get(STRING_ENUMS).toString());
+            additionalProperties.put("stringEnums", this.stringEnums);
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
@@ -141,13 +154,39 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         operations.stream()
                 .filter(op -> op.hasConsumes)
                 .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
-                .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
+                .forEach(op -> {
+                    op.vendorExtensions.putIfAbsent("multipartFormData", true);
+                });
         return objs;
     }
 
     @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        if (parameter.isFormParam && parameter.isArray && "binary".equals(parameter.dataFormat)) {
+            parameter.isCollectionFormatMulti = true;
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        Map<String, Object> result = super.postProcessAllModels(objs);
+        for (Map.Entry<String, Object> entry : result.entrySet()) {
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> model : models) {
+                CodegenModel codegenModel = (CodegenModel) model.get("model");
+                model.put("hasAllOf", codegenModel.allOf.size() > 0);
+                model.put("hasOneOf", codegenModel.oneOf.size() > 0);
+            }
+        }
+        return result;
+    }
+
+
+    @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -188,7 +227,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
                 }
             }
         }
-        
+
         // Apply the model file name to the imports as well
         for (Map<String, String> m : (List<Map<String, String>>) objs.get("imports")) {
             String javaImport = m.get("import").substring(modelPackage.length() + 1);
@@ -198,6 +237,15 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             m.put("filename", javaImport.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT));
         }
         return objs;
+    }
+
+    /**
+     * Overriding toRegularExpression() to avoid escapeText() being called,
+     * as it would return a broken regular expression if any escaped character / metacharacter were present.
+     */
+    @Override
+    public String toRegularExpression(String pattern) {
+        return addRegularExpressionDelimiter(pattern);
     }
 
     @Override
@@ -222,4 +270,19 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
     }
 
+    @Override
+    protected void updatePropertyForAnyType(CodegenProperty property, Schema p) {
+        // The 'null' value is allowed when the OAS schema is 'any type'.
+        // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+        // custom line here, do not set property.isNullable = true
+        if (languageSpecificPrimitives.contains(property.dataType)) {
+            property.isPrimitiveType = true;
+        }
+        if (ModelUtils.isMapSchema(p)) {
+            // an object or anyType composed schema that has additionalProperties set
+            // some of our code assumes that any type schema with properties defined will be a map
+            // even though it should allow in any type and have map constraints for properties
+            updatePropertyForMap(property, p);
+        }
+    }
 }

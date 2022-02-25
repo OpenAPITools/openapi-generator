@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import io.swagger.annotations.*;
 import java.io.InputStream;
 
+import org.apache.cxf.jaxrs.ext.PATCH;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
@@ -26,7 +27,7 @@ import javax.validation.constraints.*;
 @Api(description = "the user API")
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen")
 
 public class UserApi  {
 
@@ -39,7 +40,7 @@ public class UserApi  {
     
     
     
-    @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user",  })
+    @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     public Response createUser(@ApiParam(value = "Created user object" ,required=true) User body) {
@@ -50,7 +51,7 @@ public class UserApi  {
     @Path("/createWithArray")
     
     
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user",  })
+    @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     public Response createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true) List<User> body) {
@@ -61,7 +62,7 @@ public class UserApi  {
     @Path("/createWithList")
     
     
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user",  })
+    @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     public Response createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true) List<User> body) {
@@ -72,7 +73,7 @@ public class UserApi  {
     @Path("/{username}")
     
     
-    @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user",  })
+    @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
@@ -84,7 +85,7 @@ public class UserApi  {
     @Path("/{username}")
     
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Get user by user name", notes = "", response = User.class, tags={ "user",  })
+    @ApiOperation(value = "Get user by user name", notes = "", response = User.class, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
@@ -97,7 +98,7 @@ public class UserApi  {
     @Path("/login")
     
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Logs user into the system", notes = "", response = String.class, tags={ "user",  })
+    @ApiOperation(value = "Logs user into the system", notes = "", response = String.class, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
@@ -109,7 +110,7 @@ public class UserApi  {
     @Path("/logout")
     
     
-    @ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class, tags={ "user",  })
+    @ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     public Response logoutUser() {

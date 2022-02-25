@@ -11,8 +11,8 @@
     <div class="app-desc">{{{appDescription}}}</div>
     {{#infoUrl}}<div class="app-desc">More information: <a href="{{{infoUrl}}}">{{{infoUrl}}}</a></div>{{/infoUrl}}
     {{#infoEmail}}<div class="app-desc">Contact Info: <a href="{{{infoEmail}}}">{{{infoEmail}}}</a></div>{{/infoEmail}}
-    {{#version}}<div class="app-desc">Version: {{{version}}}</div>{{/version}}
-    {{#basePathWithoutHost}}<div class="app-desc">BasePath:{{basePathWithoutHost}}</div>{{/basePathWithoutHost}}
+    {{#version}}<div class="app-desc">Version: {{{.}}}</div>{{/version}}
+    {{#basePathWithoutHost}}<div class="app-desc">BasePath:{{.}}</div>{{/basePathWithoutHost}}
     <div class="license-info">{{{licenseInfo}}}</div>
     <div class="license-url">{{{licenseUrl}}}</div>
   <h2>Access</h2>
@@ -134,7 +134,7 @@
     {{#responses}}
     <h4 class="field-label">{{code}}</h4>
     {{message}}
-        {{#simpleType}}<a href="#{{dataType}}">{{dataType}}</a>{{/simpleType}}
+        {{^containerType}}<a href="#{{dataType}}">{{dataType}}</a>{{/containerType}}
     {{#examples}}
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: {{{contentType}}}</div>
@@ -155,7 +155,7 @@
   <ol>
   {{#models}}
   {{#model}}
-    <li><a href="#{{name}}"><code>{{name}}</code>{{#title}} - {{title}}{{/title}}</a></li>
+    <li><a href="#{{name}}"><code>{{name}}</code>{{#title}} - {{.}}{{/title}}</a></li>
   {{/model}}
   {{/models}}
   </ol>
@@ -163,10 +163,10 @@
   {{#models}}
   {{#model}}
   <div class="model">
-    <h3><a name="{{name}}"><code>{{name}}</code>{{#title}} - {{title}}{{/title}}</a> <a class="up" href="#__Models">Up</a></h3>
-    {{#unescapedDescription}}<div class='model-description'>{{unescapedDescription}}</div>{{/unescapedDescription}}
+    <h3><a name="{{name}}"><code>{{name}}</code>{{#title}} - {{.}}{{/title}}</a> <a class="up" href="#__Models">Up</a></h3>
+    {{#unescapedDescription}}<div class='model-description'>{{.}}</div>{{/unescapedDescription}}
     <div class="field-items">
-      {{#vars}}<div class="param">{{name}} {{^required}}(optional){{/required}}</div><div class="param-desc"><span class="param-type">{{^isPrimitiveType}}<a href="#{{complexType}}">{{dataType}}</a>{{/isPrimitiveType}}</span> {{unescapedDescription}} {{#dataFormat}}format: {{{dataFormat}}}{{/dataFormat}}</div>
+      {{#vars}}<div class="param">{{name}} {{^required}}(optional){{/required}}</div><div class="param-desc"><span class="param-type">{{^isPrimitiveType}}<a href="#{{complexType}}">{{dataType}}</a>{{/isPrimitiveType}}</span> {{unescapedDescription}} {{#dataFormat}}format: {{{.}}}{{/dataFormat}}</div>
       {{#isEnum}}
         <div class="param-enum-header">Enum:</div>
         {{#_enum}}<div class="param-enum">{{this}}</div>{{/_enum}}

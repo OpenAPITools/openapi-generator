@@ -1,81 +1,48 @@
-#!/bin/bash
-# this bash script run the scripts for the 'mature' generators
+#!/usr/bin/env bash
+# this bash script runs the scripts for the 'mature' generators by default.
+# Supports --batch option which will compile all generators defined under bin/ci/*.json
 # it ensures that all changes are committed into the 'samples/' folder
+# shellcheck disable=SC2155
+declare cwd="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+declare root="$(cd "$cwd" && cd ../../ && pwd)"
+declare executable="${root}/modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
 echo "# START SCRIPT: $0"
-
 echo "IMPORTANT: this script should be run by the CI (e.g. Shippable) to ensure that the 'samples/' folder is up to date."
-echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
+echo ""
 
-sleep 5
+"${root}/bin/generate-samples.sh"
 
-# LIST OF SCRIPTS:
-declare -a scripts=(
-# SAMPLES
-"./bin/ruby-client-petstore.sh"
-"./bin/openapi3/ruby-client-petstore.sh"
-"./bin/openapi3/ruby-client-faraday-petstore.sh"
-"./bin/java-petstore-all.sh"
-"./bin/java-jaxrs-petstore-server-all.sh"
-"./bin/java-msf4j-petstore-server.sh"
-"./bin/openapi3/jaxrs-jersey-petstore.sh"
-"./bin/spring-all-petstore.sh"
-"./bin/javascript-petstore-all.sh"
-"./bin/kotlin-client-petstore.sh"
-"./bin/kotlin-client-string.sh"
-"./bin/kotlin-client-threetenbp.sh"
-"./bin/kotlin-server-petstore.sh"
-"./bin/kotlin-springboot-petstore-server.sh"
-"./bin/kotlin-springboot-petstore-server-reactive.sh"
-"./bin/mysql-schema-petstore.sh"
-"./bin/python-petstore-all.sh"
-"./bin/openapi3/python-petstore.sh"
-"./bin/php-petstore.sh"
-"./bin/php-silex-petstore-server.sh"
-"./bin/php-symfony-petstore.sh"
-"./bin/php-lumen-petstore-server.sh"
-"./bin/php-slim-server-petstore.sh"
-"./bin/php-ze-ph-petstore-server.sh"
-"./bin/openapi3/php-petstore.sh"
-"./bin/typescript-angularjs-petstore.sh"
-"./bin/typescript-angular-petstore-all.sh"
-"./bin/typescript-aurelia-petstore.sh"
-"./bin/typescript-axios-petstore-all.sh"
-"./bin/typescript-fetch-petstore-all.sh"
-"./bin/typescript-inversify-petstore.sh"
-"./bin/typescript-jquery-petstore-all.sh"
-"./bin/typescript-node-petstore-all.sh"
-"./bin/typescript-rxjs-petstore-all.sh"
-"./bin/rust-server-petstore.sh"
-"./bin/r-petstore.sh"
-"./bin/haskell-http-client-petstore.sh"
-"./bin/csharp-petstore.sh"
-"./bin/csharp-netcore-petstore-all.sh"
-"./bin/elixir-petstore.sh"
-"./bin/go-petstore.sh"
-"./bin/go-petstore-withxml.sh"
-"./bin/go-gin-petstore-server.sh"
-"./bin/groovy-petstore.sh"
-"./bin/apex-petstore.sh"
-"./bin/perl-petstore-all.sh"
-"./bin/dart-jaguar-petstore.sh"
-"./bin/dart-petstore.sh"
-"./bin/dart2-petstore.sh"
-"./bin/java-play-framework-petstore-server-all.sh"
-#"./bin/elm-petstore-all.sh"
-"./bin/meta-codegen.sh"
-# OTHERS
-"./bin/utils/export_docs_generators.sh"
-"./bin/utils/copy-to-website.sh"
-"./bin/utils/export_generators_readme.sh")
+status=$?
+if [ $status -ne 0 ]; then
+  echo "ERROR: One or more generators failed to generate. Halting ensure-up-to-date scripts." >&2
+  exit $status
+fi
 
-for script in "${scripts[@]}"; do
-  if eval $script > /dev/null 2>&1; then
-    echo "Executed $script successfully!"
-  else
-    echo "ERROR: Failed to run $script"
-    exit 1
-  fi
+if [[ "--skip-docs" == "${1}" ]]; then
+  # We export here rather than modify our iterable so that:
+  #  - the scripts can show they ran and echo meaningfully
+  #  - the scripts can do cleanup (if necessary) when skipped
+  export SKIP_EXPORT_DOCS=true
+fi
+
+# Some special case generators may expect to be run as a standalone process (e.g. modifying classpath)
+# Docs should always be run, regardless of batch or operation.
+declare -a always_iterate=(
+"${root}/bin/meta-codegen.sh"
+"${root}/bin/utils/export_docs_generators.sh"
+"${root}/bin/utils/copy-to-website.sh"
+"${root}/bin/utils/export_generators_readme.sh"
+)
+
+for i in "${always_iterate[@]}"; do
+    echo "Starting $i ..."
+    if eval "$i"; then
+      echo "Executed $i successfully!"
+    else
+      echo "ERROR: Failed to run $i"
+      exit 1
+    fi
 done
 
 # Check:
@@ -86,8 +53,12 @@ if [ -n "$(git status --porcelain)" ]; then
     git --no-pager diff
     echo "Perform git status"
     git status
+    echo -e "\nThis script runs in pull requests against the anticipated merge commit (as if the PR was merged now)."
+    echo "When you see unexpected files here, it likely means that there are newer commits in master that you need to "
+    echo -e "rebase or merge into your branch.\n"
     echo "Please run 'bin/utils/ensure-up-to-date' locally and commit changes (UNCOMMITTED CHANGES ERROR)"
     exit 1
 else
     echo "Git working tree is clean"
 fi
+

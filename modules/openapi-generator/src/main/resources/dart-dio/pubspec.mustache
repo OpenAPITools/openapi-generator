@@ -1,0 +1,20 @@
+name: {{pubName}}
+version: {{pubVersion}}
+description: {{pubDescription}}
+homepage: {{pubHomepage}}
+
+environment:
+  sdk: '>=2.7.0 <3.0.0'
+
+dependencies:
+  dio: '^3.0.9'
+  built_value: '>=7.1.0 <8.0.0'
+  built_collection: '>=4.3.2 <5.0.0'
+{{#timeMachine}}
+  time_machine: '^0.9.12'
+{{/timeMachine}}
+
+dev_dependencies:
+  built_value_generator: '>=7.1.0 <8.0.0'
+  build_runner: any
+  test: '>=1.3.0 <1.16.0'

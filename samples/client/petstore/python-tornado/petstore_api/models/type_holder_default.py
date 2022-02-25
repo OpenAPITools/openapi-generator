@@ -10,10 +10,15 @@
 """
 
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-
 import six
+
+from petstore_api.configuration import Configuration
 
 
 class TypeHolderDefault(object):
@@ -46,8 +51,11 @@ class TypeHolderDefault(object):
         'array_item': 'array_item'
     }
 
-    def __init__(self, string_item='what', number_item=None, integer_item=None, bool_item=True, array_item=None):  # noqa: E501
+    def __init__(self, string_item='what', number_item=None, integer_item=None, bool_item=True, array_item=None, local_vars_configuration=None):  # noqa: E501
         """TypeHolderDefault - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration.get_default_copy()
+        self.local_vars_configuration = local_vars_configuration
 
         self._string_item = None
         self._number_item = None
@@ -78,9 +86,9 @@ class TypeHolderDefault(object):
 
 
         :param string_item: The string_item of this TypeHolderDefault.  # noqa: E501
-        :type: str
+        :type string_item: str
         """
-        if string_item is None:
+        if self.local_vars_configuration.client_side_validation and string_item is None:  # noqa: E501
             raise ValueError("Invalid value for `string_item`, must not be `None`")  # noqa: E501
 
         self._string_item = string_item
@@ -101,9 +109,9 @@ class TypeHolderDefault(object):
 
 
         :param number_item: The number_item of this TypeHolderDefault.  # noqa: E501
-        :type: float
+        :type number_item: float
         """
-        if number_item is None:
+        if self.local_vars_configuration.client_side_validation and number_item is None:  # noqa: E501
             raise ValueError("Invalid value for `number_item`, must not be `None`")  # noqa: E501
 
         self._number_item = number_item
@@ -124,9 +132,9 @@ class TypeHolderDefault(object):
 
 
         :param integer_item: The integer_item of this TypeHolderDefault.  # noqa: E501
-        :type: int
+        :type integer_item: int
         """
-        if integer_item is None:
+        if self.local_vars_configuration.client_side_validation and integer_item is None:  # noqa: E501
             raise ValueError("Invalid value for `integer_item`, must not be `None`")  # noqa: E501
 
         self._integer_item = integer_item
@@ -147,9 +155,9 @@ class TypeHolderDefault(object):
 
 
         :param bool_item: The bool_item of this TypeHolderDefault.  # noqa: E501
-        :type: bool
+        :type bool_item: bool
         """
-        if bool_item is None:
+        if self.local_vars_configuration.client_side_validation and bool_item is None:  # noqa: E501
             raise ValueError("Invalid value for `bool_item`, must not be `None`")  # noqa: E501
 
         self._bool_item = bool_item
@@ -170,34 +178,42 @@ class TypeHolderDefault(object):
 
 
         :param array_item: The array_item of this TypeHolderDefault.  # noqa: E501
-        :type: list[int]
+        :type array_item: list[int]
         """
-        if array_item is None:
+        if self.local_vars_configuration.client_side_validation and array_item is None:  # noqa: E501
             raise ValueError("Invalid value for `array_item`, must not be `None`")  # noqa: E501
 
         self._array_item = array_item
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = getfullargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 
@@ -214,8 +230,11 @@ class TypeHolderDefault(object):
         if not isinstance(other, TypeHolderDefault):
             return False
 
-        return self.__dict__ == other.__dict__
+        return self.to_dict() == other.to_dict()
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
-        return not self == other
+        if not isinstance(other, TypeHolderDefault):
+            return True
+
+        return self.to_dict() != other.to_dict()

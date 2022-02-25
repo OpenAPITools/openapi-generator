@@ -1,0 +1,136 @@
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
+
+part '{{classFilename}}.g.dart';
+
+abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builder> {
+
+{{#vars}}
+    {{#description}}
+    /// {{{.}}}
+    {{/description}}
+    {{!
+        A field is @nullable in built_value when it is
+        nullable || (!required && !defaultValue) in OAS
+    }}
+    {{#isNullable}}
+    @nullable
+    {{/isNullable}}
+    {{^isNullable}}
+    {{^required}}
+    {{^defaultValue}}
+    @nullable
+    {{/defaultValue}}
+    {{/required}}
+    {{/isNullable}}
+    @BuiltValueField(wireName: r'{{baseName}}')
+    {{{datatypeWithEnum}}} get {{name}};
+    {{#allowableValues}}
+    // {{#min}}range from {{{min}}} to {{{max}}}{{/min}}{{^min}}enum {{name}}Enum { {{#values}} {{{.}}}, {{/values}} };{{/min}}
+    {{/allowableValues}}
+
+{{/vars}}
+    {{classname}}._();
+
+    static void _initializeBuilder({{{classname}}}Builder b) => b{{#vars}}{{#defaultValue}}
+        ..{{{name}}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/vars}};
+
+    factory {{classname}}([void updates({{classname}}Builder b)]) = _${{classname}};
+
+    @BuiltValueSerializer(custom: true)
+    static Serializer<{{classname}}> get serializer => _${{classname}}Serializer();
+}
+
+{{!
+    Generate a custom serializer in order to support combinations of required and nullable.
+    By default built_value does not serialize null fields.
+}}
+class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
+
+    @override
+    final Iterable<Type> types = const [{{classname}}, _${{classname}}];
+    @override
+    final String wireName = r'{{classname}}';
+
+    @override
+    Iterable<Object> serialize(Serializers serializers, {{{classname}}} object,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = <Object>[];
+        {{#vars}}
+        {{#required}}
+        {{!
+            A required property need to always be part of the serialized output.
+            When it is nullable, null is serialized, otherwise it is an error if it is null.
+        }}
+        result
+            ..add(r'{{baseName}}')
+            ..add({{#isNullable}}object.{{{name}}} == null ? null : {{/isNullable}}serializers.serialize(object.{{{name}}},
+                specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}));
+        {{/required}}
+        {{^required}}
+        if (object.{{{name}}} != null) {
+            {{! Non-required properties are only serialized if not null. }}
+            result
+                ..add(r'{{baseName}}')
+                ..add(serializers.serialize(object.{{{name}}},
+                    specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}));
+        }
+        {{/required}}
+        {{/vars}}
+        return result;
+    }
+
+    @override
+    {{classname}} deserialize(Serializers serializers, Iterable<Object> serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = {{classname}}Builder();
+
+        final iterator = serialized.iterator;
+        while (iterator.moveNext()) {
+            final key = iterator.current as String;
+            iterator.moveNext();
+            final dynamic value = iterator.current;
+            switch (key) {
+                {{#vars}}
+                case r'{{baseName}}':
+                    {{#isContainer}}
+                    result.{{{name}}}.replace(serializers.deserialize(value,
+                        specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}});
+                    {{/isContainer}}
+                    {{#isModel}}
+                    result.{{{name}}}.replace(serializers.deserialize(value,
+                        specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}});
+                    {{/isModel}}
+                    {{^isContainer}}
+                    {{^isModel}}
+                    result.{{{name}}} = serializers.deserialize(value,
+                        specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}};
+                    {{/isModel}}
+                    {{/isContainer}}
+                    break;
+                {{/vars}}
+            }
+        }
+        return result.build();
+    }
+}
+{{!
+    Generate an enum for any variables that are declared as inline enums
+    isEnum is only true for inline variables that are enums.
+    If an enum is declared as a definition, isEnum is false and the enum is generated from the
+    enum.mustache template.
+}}
+{{#vars}}
+    {{#isEnum}}
+        {{^isContainer}}
+
+{{>enum_inline}}
+        {{/isContainer}}
+        {{#isContainer}}
+            {{#mostInnerItems}}
+
+{{>enum_inline}}
+            {{/mostInnerItems}}
+        {{/isContainer}}
+    {{/isEnum}}
+{{/vars}}

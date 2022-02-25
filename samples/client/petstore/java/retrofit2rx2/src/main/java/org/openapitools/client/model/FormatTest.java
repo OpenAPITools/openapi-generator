@@ -25,14 +25,14 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.UUID;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
 
 /**
  * FormatTest
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FormatTest {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
@@ -86,6 +86,12 @@ public class FormatTest {
   @SerializedName(SERIALIZED_NAME_PASSWORD)
   private String password;
 
+  public static final String SERIALIZED_NAME_BIG_DECIMAL = "BigDecimal";
+  @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
+  private BigDecimal bigDecimal;
+
+  public FormatTest() { 
+  }
 
   public FormatTest integer(Integer integer) {
     
@@ -105,7 +111,6 @@ public class FormatTest {
   public Integer getInteger() {
     return integer;
   }
-
 
 
   public void setInteger(Integer integer) {
@@ -133,7 +138,6 @@ public class FormatTest {
   }
 
 
-
   public void setInt32(Integer int32) {
     this.int32 = int32;
   }
@@ -157,7 +161,6 @@ public class FormatTest {
   }
 
 
-
   public void setInt64(Long int64) {
     this.int64 = int64;
   }
@@ -175,12 +178,12 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public BigDecimal getNumber() {
     return number;
   }
-
 
 
   public void setNumber(BigDecimal number) {
@@ -208,7 +211,6 @@ public class FormatTest {
   }
 
 
-
   public void setFloat(Float _float) {
     this._float = _float;
   }
@@ -234,7 +236,6 @@ public class FormatTest {
   }
 
 
-
   public void setDouble(Double _double) {
     this._double = _double;
   }
@@ -258,7 +259,6 @@ public class FormatTest {
   }
 
 
-
   public void setString(String string) {
     this.string = string;
   }
@@ -274,12 +274,12 @@ public class FormatTest {
    * Get _byte
    * @return _byte
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public byte[] getByte() {
     return _byte;
   }
-
 
 
   public void setByte(byte[] _byte) {
@@ -305,7 +305,6 @@ public class FormatTest {
   }
 
 
-
   public void setBinary(File binary) {
     this.binary = binary;
   }
@@ -321,12 +320,12 @@ public class FormatTest {
    * Get date
    * @return date
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public LocalDate getDate() {
     return date;
   }
-
 
 
   public void setDate(LocalDate date) {
@@ -352,7 +351,6 @@ public class FormatTest {
   }
 
 
-
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
@@ -376,7 +374,6 @@ public class FormatTest {
   }
 
 
-
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
@@ -392,6 +389,7 @@ public class FormatTest {
    * Get password
    * @return password
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public String getPassword() {
@@ -399,14 +397,36 @@ public class FormatTest {
   }
 
 
-
   public void setPassword(String password) {
     this.password = password;
   }
 
 
+  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+    
+    this.bigDecimal = bigDecimal;
+    return this;
+  }
+
+   /**
+   * Get bigDecimal
+   * @return bigDecimal
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
+
+  public BigDecimal getBigDecimal() {
+    return bigDecimal;
+  }
+
+
+  public void setBigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+  }
+
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -426,14 +446,14 @@ public class FormatTest {
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
-        Objects.equals(this.password, formatTest.password);
+        Objects.equals(this.password, formatTest.password) &&
+        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
   }
-
 
   @Override
   public String toString() {
@@ -452,6 +472,7 @@ public class FormatTest {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -460,7 +481,7 @@ public class FormatTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

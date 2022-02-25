@@ -2,8 +2,8 @@
 
 ## Requires
 
-* Kotlin 1.1.2
-* Gradle 3.3
+* Kotlin 1.3.61
+* Gradle 4.9
 
 ## Build
 
@@ -38,6 +38,7 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
 *FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
+*FakeApi* | [**fakeHttpSignatureTest**](docs/FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -50,6 +51,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -99,12 +101,6 @@ Class | Method | HTTP request | Description
  - [org.openapitools.client.models.FormatTest](docs/FormatTest.md)
  - [org.openapitools.client.models.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [org.openapitools.client.models.HealthCheckResult](docs/HealthCheckResult.md)
- - [org.openapitools.client.models.InlineObject](docs/InlineObject.md)
- - [org.openapitools.client.models.InlineObject1](docs/InlineObject1.md)
- - [org.openapitools.client.models.InlineObject2](docs/InlineObject2.md)
- - [org.openapitools.client.models.InlineObject3](docs/InlineObject3.md)
- - [org.openapitools.client.models.InlineObject4](docs/InlineObject4.md)
- - [org.openapitools.client.models.InlineObject5](docs/InlineObject5.md)
  - [org.openapitools.client.models.InlineResponseDefault](docs/InlineResponseDefault.md)
  - [org.openapitools.client.models.List](docs/List.md)
  - [org.openapitools.client.models.MapTest](docs/MapTest.md)
@@ -151,6 +147,11 @@ Class | Method | HTTP request | Description
 
 <a name="http_basic_test"></a>
 ### http_basic_test
+
+- **Type**: HTTP basic authentication
+
+<a name="http_signature_test"></a>
+### http_signature_test
 
 - **Type**: HTTP basic authentication
 

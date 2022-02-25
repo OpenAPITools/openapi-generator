@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,7 +41,7 @@ public class RootedFileRule extends Rule {
     }
 
     private String getExtensionPart(final String input, int stopIndex) {
-        return input.substring(stopIndex > 0 ? stopIndex+1: input.length(), input.length());
+        return input.substring(stopIndex > 0 ? stopIndex+1: input.length());
     }
 
     @Override

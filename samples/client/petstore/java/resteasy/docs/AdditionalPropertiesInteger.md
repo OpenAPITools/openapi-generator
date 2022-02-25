@@ -2,6 +2,7 @@
 
 # AdditionalPropertiesInteger
 
+
 ## Properties
 
 Name | Type | Description | Notes

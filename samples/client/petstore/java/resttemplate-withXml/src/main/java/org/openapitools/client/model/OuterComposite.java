@@ -18,11 +18,13 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -34,23 +36,25 @@ import javax.xml.bind.annotation.*;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "OuterComposite")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "OuterComposite")
 public class OuterComposite {
-  @XmlElement(name = "my_number")
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
+  @XmlElement(name = "my_number")
   private BigDecimal myNumber;
 
-  @XmlElement(name = "my_string")
   public static final String JSON_PROPERTY_MY_STRING = "my_string";
+  @XmlElement(name = "my_string")
   private String myString;
 
-  @XmlElement(name = "my_boolean")
   public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
+  @XmlElement(name = "my_boolean")
   private Boolean myBoolean;
 
+  public OuterComposite() { 
+  }
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     
@@ -73,7 +77,9 @@ public class OuterComposite {
   }
 
 
-
+  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "my_number")
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
@@ -100,7 +106,9 @@ public class OuterComposite {
   }
 
 
-
+  @JsonProperty(JSON_PROPERTY_MY_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "my_string")
   public void setMyString(String myString) {
     this.myString = myString;
   }
@@ -127,14 +135,16 @@ public class OuterComposite {
   }
 
 
-
+  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "my_boolean")
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -152,7 +162,6 @@ public class OuterComposite {
     return Objects.hash(myNumber, myString, myBoolean);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -168,7 +177,7 @@ public class OuterComposite {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -23,24 +23,45 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import org.openapitools.client.model.BigCat;
+import org.openapitools.client.model.Cat;
+import org.openapitools.client.model.Dog;
 import android.os.Parcelable;
 import android.os.Parcel;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.openapitools.client.JSON;
 
 /**
  * Animal
  */
-
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Animal implements Parcelable {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
-  private String className;
+  protected String className;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
   private String color = "red";
 
-  public Animal() {
+  public Animal() { 
     this.className = this.getClass().getSimpleName();
   }
 
@@ -54,12 +75,12 @@ public class Animal implements Parcelable {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public String getClassName() {
     return className;
   }
-
 
 
   public void setClassName(String className) {
@@ -85,14 +106,13 @@ public class Animal implements Parcelable {
   }
 
 
-
   public void setColor(String color) {
     this.color = color;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -109,7 +129,6 @@ public class Animal implements Parcelable {
     return Objects.hash(className, color);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -124,7 +143,7 @@ public class Animal implements Parcelable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
@@ -154,5 +173,71 @@ public class Animal implements Parcelable {
       return new Animal[size];
     }
   };
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("className");
+    openapiFields.add("color");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields.add("className");
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to Animal
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (Animal.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in Animal is not found in the empty JSON string", Animal.openapiRequiredFields.toString()));
+        }
+      }
+
+      String discriminatorValue = jsonObj.get("className").getAsString();
+      switch (discriminatorValue) {
+        case "BigCat":
+          BigCat.validateJsonObject(jsonObj);
+          break;
+        case "Cat":
+          Cat.validateJsonObject(jsonObj);
+          break;
+        case "Dog":
+          Dog.validateJsonObject(jsonObj);
+          break;
+        default: 
+          throw new IllegalArgumentException(String.format("The value of the `className` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
+      }
+  }
+
+
+ /**
+  * Create an instance of Animal given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Animal
+  * @throws IOException if the JSON string is invalid with respect to Animal
+  */
+  public static Animal fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Animal.class);
+  }
+
+ /**
+  * Convert an instance of Animal to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

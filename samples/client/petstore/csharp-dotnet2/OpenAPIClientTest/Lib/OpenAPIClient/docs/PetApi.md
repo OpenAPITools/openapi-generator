@@ -34,7 +34,6 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -96,7 +95,6 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -162,7 +160,6 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -227,7 +224,6 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -292,7 +288,6 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure API key authorization: api_key
             Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -357,7 +352,6 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -419,7 +413,6 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -485,7 +478,6 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure OAuth2 access token for authorization: petstore_auth
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 

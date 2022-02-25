@@ -1,0 +1,9 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-json-request-string
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-date-field.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  requestDateConverter: toString
+  artifactId: kotlin-petstore-json-request-string
+  parcelizeModels: true
+  supportAndroidApiLevel25AndBelow: true

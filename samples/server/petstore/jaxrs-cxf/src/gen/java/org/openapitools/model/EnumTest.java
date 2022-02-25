@@ -1,26 +1,20 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.OuterEnum;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EnumTest  {
   
-@XmlType(name="EnumStringEnum")
-@XmlEnum(String.class)
 public enum EnumStringEnum {
 
-@XmlEnumValue("UPPER") UPPER(String.valueOf("UPPER")), @XmlEnumValue("lower") LOWER(String.valueOf("lower")), @XmlEnumValue("") EMPTY(String.valueOf(""));
+UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
 
 
     private String value;
@@ -34,10 +28,12 @@ public enum EnumStringEnum {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static EnumStringEnum fromValue(String value) {
         for (EnumStringEnum b : EnumStringEnum.values()) {
             if (b.value.equals(value)) {
@@ -51,11 +47,9 @@ public enum EnumStringEnum {
   @ApiModelProperty(value = "")
   private EnumStringEnum enumString;
 
-@XmlType(name="EnumStringRequiredEnum")
-@XmlEnum(String.class)
 public enum EnumStringRequiredEnum {
 
-@XmlEnumValue("UPPER") UPPER(String.valueOf("UPPER")), @XmlEnumValue("lower") LOWER(String.valueOf("lower")), @XmlEnumValue("") EMPTY(String.valueOf(""));
+UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
 
 
     private String value;
@@ -69,10 +63,12 @@ public enum EnumStringRequiredEnum {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static EnumStringRequiredEnum fromValue(String value) {
         for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
             if (b.value.equals(value)) {
@@ -86,11 +82,9 @@ public enum EnumStringRequiredEnum {
   @ApiModelProperty(required = true, value = "")
   private EnumStringRequiredEnum enumStringRequired;
 
-@XmlType(name="EnumIntegerEnum")
-@XmlEnum(Integer.class)
 public enum EnumIntegerEnum {
 
-@XmlEnumValue("1") NUMBER_1(Integer.valueOf(1)), @XmlEnumValue("-1") NUMBER_MINUS_1(Integer.valueOf(-1));
+NUMBER_1(Integer.valueOf(1)), NUMBER_MINUS_1(Integer.valueOf(-1));
 
 
     private Integer value;
@@ -104,10 +98,12 @@ public enum EnumIntegerEnum {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static EnumIntegerEnum fromValue(Integer value) {
         for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
             if (b.value.equals(value)) {
@@ -121,11 +117,9 @@ public enum EnumIntegerEnum {
   @ApiModelProperty(value = "")
   private EnumIntegerEnum enumInteger;
 
-@XmlType(name="EnumNumberEnum")
-@XmlEnum(Double.class)
 public enum EnumNumberEnum {
 
-@XmlEnumValue("1.1") NUMBER_1_DOT_1(Double.valueOf(1.1)), @XmlEnumValue("-1.2") NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
+NUMBER_1_DOT_1(Double.valueOf(1.1)), NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
 
 
     private Double value;
@@ -139,10 +133,12 @@ public enum EnumNumberEnum {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static EnumNumberEnum fromValue(Double value) {
         for (EnumNumberEnum b : EnumNumberEnum.values()) {
             if (b.value.equals(value)) {
@@ -281,7 +277,7 @@ public enum EnumNumberEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

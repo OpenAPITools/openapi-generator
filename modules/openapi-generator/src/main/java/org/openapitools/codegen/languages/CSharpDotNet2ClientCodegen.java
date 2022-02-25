@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,13 +24,14 @@ import org.openapitools.codegen.SupportingFile;
 
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CSharpDotNet2ClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CSharpDotNet2ClientCodegen.class);
 
     public static final String CLIENT_PACKAGE = "clientPackage";
     protected String clientPackage = "Org.OpenAPITools.Client";
@@ -39,6 +40,8 @@ public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
 
     public CSharpDotNet2ClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.DEPRECATED)
@@ -98,7 +101,7 @@ public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("packages.config.mustache", "vendor", "packages.config"));
         supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "compile-mono.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-
+        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
 
     @Override

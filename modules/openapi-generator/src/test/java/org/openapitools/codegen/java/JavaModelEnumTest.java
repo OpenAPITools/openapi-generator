@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -52,7 +52,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.dataType, "String");
         Assert.assertEquals(enumVar.datatypeWithEnum, "NameEnum");
         Assert.assertEquals(enumVar.name, "name");
-        Assert.assertEquals(enumVar.defaultValue, null);
+        Assert.assertNull(enumVar.defaultValue);
         Assert.assertEquals(enumVar.baseType, "String");
         Assert.assertTrue(enumVar.isEnum);
     }
@@ -75,7 +75,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.dataType, "List<String>");
         Assert.assertEquals(enumVar.datatypeWithEnum, "List<NameEnum>");
         Assert.assertEquals(enumVar.name, "name");
-        Assert.assertEquals(enumVar.defaultValue, "new ArrayList<NameEnum>()");
+        Assert.assertEquals(enumVar.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(enumVar.baseType, "List");
         Assert.assertTrue(enumVar.isEnum);
 
@@ -83,7 +83,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.mostInnerItems.dataType, "String");
         Assert.assertEquals(enumVar.mostInnerItems.datatypeWithEnum, "NameEnum");
         Assert.assertEquals(enumVar.mostInnerItems.name, "name");
-        Assert.assertEquals(enumVar.mostInnerItems.defaultValue, null);
+        Assert.assertNull(enumVar.mostInnerItems.defaultValue);
         Assert.assertEquals(enumVar.mostInnerItems.baseType, "String");
 
         Assert.assertEquals(enumVar.mostInnerItems.baseType, enumVar.items.baseType);
@@ -108,7 +108,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.dataType, "List<List<String>>");
         Assert.assertEquals(enumVar.datatypeWithEnum, "List<List<NameEnum>>");
         Assert.assertEquals(enumVar.name, "name");
-        Assert.assertEquals(enumVar.defaultValue, "new ArrayList<List<NameEnum>>()");
+        Assert.assertEquals(enumVar.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(enumVar.baseType, "List");
         Assert.assertTrue(enumVar.isEnum);
 
@@ -116,7 +116,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.mostInnerItems.dataType, "String");
         Assert.assertEquals(enumVar.mostInnerItems.datatypeWithEnum, "NameEnum");
         Assert.assertEquals(enumVar.mostInnerItems.name, "name");
-        Assert.assertEquals(enumVar.mostInnerItems.defaultValue, null);
+        Assert.assertNull(enumVar.mostInnerItems.defaultValue);
         Assert.assertEquals(enumVar.mostInnerItems.baseType, "String");
 
         Assert.assertEquals(enumVar.mostInnerItems.baseType, enumVar.items.items.baseType);
@@ -148,6 +148,7 @@ public class JavaModelEnumTest {
 
         final ComposedSchema composedSchema = new ComposedSchema()
                 .addAllOfItem(new Schema().$ref(parentModel.getName()));
+        composedSchema.setName("sample");
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPI();
@@ -167,11 +168,12 @@ public class JavaModelEnumTest {
 
     @Test
     public void testEnumTestSchema() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
 
         Schema enumTest = openAPI.getComponents().getSchemas().get("Enum_Test");
+        Assert.assertNotNull(enumTest);
         CodegenModel cm = codegen.fromModel("Enum_Test", enumTest);
 
         Assert.assertEquals(cm.getVars().size(), 8);

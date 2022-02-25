@@ -7,43 +7,45 @@ import org.openapitools.model.Category
 import org.openapitools.model.Tag
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.Email
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
+import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
 /**
  * A pet for sale in the pet store
- * @param id 
- * @param category 
  * @param name 
  * @param photoUrls 
+ * @param id 
+ * @param category 
  * @param tags 
  * @param status pet status in the store
  */
-data class Pet (
+data class Pet(
 
-        @get:NotNull 
-        @ApiModelProperty(example = "doggie", required = true, value = "")
-        @JsonProperty("name") val name: kotlin.String,
+    @ApiModelProperty(example = "doggie", required = true, value = "")
+    @field:JsonProperty("name", required = true) val name: kotlin.String,
 
-        @get:NotNull 
-        @ApiModelProperty(example = "null", required = true, value = "")
-        @JsonProperty("photoUrls") val photoUrls: kotlin.collections.List<kotlin.String>,
+    @ApiModelProperty(example = "null", required = true, value = "")
+    @field:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") val id: kotlin.Long? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("id") val id: kotlin.Long? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("category") val category: Category? = null,
+    @field:Valid
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("category") val category: Category? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @field:Valid
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
 
-        @ApiModelProperty(example = "null", value = "pet status in the store")
-        @JsonProperty("status") val status: Pet.Status? = null
+    @ApiModelProperty(example = "null", value = "pet status in the store")
+    @field:JsonProperty("status") val status: Pet.Status? = null
 ) {
 
     /**

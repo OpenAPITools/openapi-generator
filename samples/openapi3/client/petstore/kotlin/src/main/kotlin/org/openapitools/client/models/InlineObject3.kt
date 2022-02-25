@@ -13,23 +13,26 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
+
 /**
  * 
+ * @param number None
+ * @param double None
+ * @param patternWithoutDelimiter None
+ * @param byte None
  * @param integer None
  * @param int32 None
  * @param int64 None
- * @param number None
  * @param float None
- * @param double None
  * @param string None
- * @param patternWithoutDelimiter None
- * @param byte None
  * @param binary None
  * @param date None
  * @param dateTime None
  * @param password None
  * @param callback None
  */
+
 data class InlineObject3 (
     /* None */
     @Json(name = "number")
@@ -66,13 +69,17 @@ data class InlineObject3 (
     val date: java.time.LocalDate? = null,
     /* None */
     @Json(name = "dateTime")
-    val dateTime: java.time.LocalDateTime? = null,
+    val dateTime: java.time.OffsetDateTime? = null,
     /* None */
     @Json(name = "password")
     val password: kotlin.String? = null,
     /* None */
     @Json(name = "callback")
     val callback: kotlin.String? = null
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
+}
 

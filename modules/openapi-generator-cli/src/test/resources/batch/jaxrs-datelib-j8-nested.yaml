@@ -1,0 +1,3 @@
+---
+"!include": jaxrs-datelib-j8-nested-include.yaml
+inputSpec: batch/specs/petstore.yaml

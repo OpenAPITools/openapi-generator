@@ -1,0 +1,10 @@
+generatorName: java
+outputDir: samples/client/petstore/java/resttemplate-withXml
+library: resttemplate
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  java8: true
+  withXml: "true"
+  artifactId: petstore-resttemplate-withxml
+  hideGenerationTimestamp: "true"

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,21 +21,22 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 /*
  * This generator has been deprecated. Please use scala-akka instead.
  */
 public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaHttpClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ScalaHttpClientCodegen.class);
 
     protected String authScheme = "";
     protected String gradleWrapperPackage = "gradle.wrapper";
@@ -52,6 +53,27 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.DEPRECATED)
                 .build();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath
+                )
+        );
 
         outputFolder = "generated-code/scala-http-client";
         modelTemplateFiles.put("model.mustache", ".scala");
@@ -82,35 +104,13 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
         additionalProperties.put("authScheme", authScheme);
         additionalProperties.put("authPreemptive", authPreemptive);
         additionalProperties.put("clientName", clientName);
-        additionalProperties.put(CodegenConstants.STRIP_PACKAGE_NAME, stripPackageName);
-
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        supportingFiles.add(new SupportingFile("apiInvoker.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.scala"));
-        supportingFiles.add(new SupportingFile("client.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), clientName + ".scala"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        // gradle settings
-        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
-        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
-        supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
-        // gradleWrapper files
-        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
-        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
-        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
-                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
-        supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
-                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
-
-        supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
 
         importMapping.remove("List");
         importMapping.remove("Set");
         importMapping.remove("Map");
 
+        setDateLibrary("legacy",true);
         importMapping.put("Date", "java.util.Date");
-        importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("enum", "NSString");
@@ -135,82 +135,40 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "HashMap");
-
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
     }
 
     @Override
     public void processOpts() {
         LOGGER.warn("IMPORTANT: This generator (scala-http-client-deprecated) is no longer actively maintained and will be deprecated. " +
                 "PLease use 'scala-akka' generator instead.");
-
         super.processOpts();
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
-            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
-        }
-    }
 
-    public void setModelPropertyNaming(String naming) {
-        if ("original".equals(naming) || "camelCase".equals(naming) ||
-                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
-            this.modelPropertyNaming = naming;
-        } else {
-            throw new IllegalArgumentException("Invalid model property naming '" +
-                    naming + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
-        }
-    }
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        supportingFiles.add(new SupportingFile("apiInvoker.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.scala"));
+        supportingFiles.add(new SupportingFile("client.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), clientName + ".scala"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        // gradle settings
+        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
+        // gradleWrapper files
+        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
 
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
-    }
-
-    @Override
-    public String toVarName(String name) {
-        // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        if ("_".equals(name)) {
-            name = "_u";
-        }
-
-        // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
-            return name;
-        }
-
-        name = getNameUsingModelPropertyNaming(name);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-
-        return name;
+        supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
     }
 
     @Override
     public String toParamName(String name) {
         // should be the same as variable name
         return toVarName(name);
-    }
-
-    public String getNameUsingModelPropertyNaming(String name) {
-        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
-            case original:
-                return name;
-            case camelCase:
-                return camelize(name, true);
-            case PascalCase:
-                return camelize(name);
-            case snake_case:
-                return underscore(name);
-            default:
-                throw new IllegalArgumentException("Invalid model property naming '" +
-                        name + "'. Must be 'original', 'camelCase', " +
-                        "'PascalCase' or 'snake_case'");
-        }
-
     }
 
     @Override
@@ -243,31 +201,6 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
         }
 
         return camelize(operationId, true);
-    }
-
-    @Override
-    public String toModelName(final String name) {
-        final String sanitizedName = sanitizeName(modelNamePrefix + this.stripPackageName(name) + modelNameSuffix);
-
-        // camelize the model name
-        // phone_number => PhoneNumber
-        final String camelizedName = camelize(sanitizedName);
-
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(camelizedName)) {
-            final String modelName = "Model" + camelizedName;
-            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
-            return modelName;
-        }
-
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
-            final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
-            return modelName;
-        }
-
-        return camelizedName;
     }
 
     @Override

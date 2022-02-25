@@ -26,16 +26,21 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * AdditionalPropertiesNumber
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
+  public AdditionalPropertiesNumber() { 
+  }
 
   public AdditionalPropertiesNumber name(String name) {
     
@@ -55,14 +60,13 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   }
 
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -79,7 +83,6 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
     return Objects.hash(name, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -94,7 +97,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

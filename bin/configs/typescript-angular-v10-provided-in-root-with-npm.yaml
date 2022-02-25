@@ -1,0 +1,10 @@
+generatorName: typescript-angular
+outputDir: samples/client/petstore/typescript-angular-v10-provided-in-root/builds/with-npm
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-angular
+additionalProperties:
+  ngVersion: 10.0.0
+  npmVersion: 1.0.0
+  npmName: '@openapitools/typescript-angular-petstore'
+  npmRepository: https://skimdb.npmjs.com/registry
+  snapshot: false

@@ -53,7 +53,7 @@ void
 	const gchar *{{name}}Key = "{{baseName}}";
 	node = json_object_get_member(pJsonObject, {{name}}Key);
 	if (node !=NULL) {
-	{{#isContainer}}{{#isListContainer}}
+	{{#isContainer}}{{#isArray}}
 		{
 			JsonArray* arr = json_node_get_array(node);
 			JsonNode*  temp_json;
@@ -72,14 +72,14 @@ void
 			}
 			{{name}} = new_list;
 		}
-		{{/isListContainer}}{{#isMapContainer}}
+		{{/isArray}}{{#isMap}}
 		{
 			JsonObject* json_obj = json_node_get_object(node);
 			map<string,string> new_map;
 			json_object_foreach_member(json_obj,helper_func,&new_map);
 			{{name}} = new_map;
 		}
-		{{/isMapContainer}}{{/isContainer}}
+		{{/isMap}}{{/isContainer}}
 		{{^isContainer}}
 
 		if (isprimitive("{{baseType}}")) {
@@ -107,7 +107,7 @@ char*
 	JsonNode *node;
 	{{#vars}}
 	{{#isContainer}}
-	{{#isListContainer}}
+	{{#isArray}}
 	if (isprimitive("{{#items}}{{dataType}}{{/items}}")) {
 		list<{{#items}}{{dataType}}{{/items}}> new_list = static_cast<list <{{#items}}{{dataType}}{{/items}}> > ({{getter}}());
 		node = converttoJson(&new_list, "{{#items}}{{dataType}}{{/items}}", "{{containerType}}");
@@ -128,10 +128,10 @@ char*
 		json_array_unref(json_array);
 		{{/isFloat}}{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}{{/items}}
 	}
-	{{/isListContainer}}
+	{{/isArray}}
 
 
-	{{#isMapContainer}}{
+	{{#isMap}}{
 		JsonObject* json_obj;
 		map<string, string> new_list = static_cast<map <string, string> > ({{getter}}());
 		json_obj = json_object_new();
@@ -145,7 +145,7 @@ char*
 	json_node_init_object(node, json_obj);
 	json_object_unref(json_obj);
 	}
-	{{/isMapContainer}}
+	{{/isMap}}
 
 	{{/isContainer}}
 	{{^isContainer}}
@@ -174,14 +174,14 @@ char*
 }
 
 {{#vars}}
-{{dataType}}{{#isContainer}}{{#isMapContainer}}<string, string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{dataType}}{{/items}}>{{/isMapContainer}}{{/isContainer}}
+{{dataType}}{{#isContainer}}{{#isMap}}<string, string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}}
 {{classname}}::{{getter}}()
 {
 	return {{name}};
 }
 
 void
-{{classname}}::{{setter}}({{dataType}} {{#isContainer}}{{#isMapContainer}}<string, string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{dataType}}{{/items}}>{{/isMapContainer}}{{/isContainer}} {{name}})
+{{classname}}::{{setter}}({{dataType}} {{#isContainer}}{{#isMap}}<string, string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}} {{name}})
 {
 	this->{{name}} = {{name}};
 }

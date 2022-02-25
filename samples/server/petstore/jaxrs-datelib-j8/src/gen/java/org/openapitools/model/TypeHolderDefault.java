@@ -36,7 +36,7 @@ import javax.validation.Valid;
   TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class TypeHolderDefault  implements Serializable {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
@@ -67,7 +67,7 @@ public class TypeHolderDefault  implements Serializable {
    * Get stringItem
    * @return stringItem
    **/
-  @JsonProperty("string_item")
+  @JsonProperty(value = "string_item")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public String getStringItem() {
@@ -87,7 +87,7 @@ public class TypeHolderDefault  implements Serializable {
    * Get numberItem
    * @return numberItem
    **/
-  @JsonProperty("number_item")
+  @JsonProperty(value = "number_item")
   @ApiModelProperty(required = true, value = "")
   @NotNull @Valid 
   public BigDecimal getNumberItem() {
@@ -107,7 +107,7 @@ public class TypeHolderDefault  implements Serializable {
    * Get integerItem
    * @return integerItem
    **/
-  @JsonProperty("integer_item")
+  @JsonProperty(value = "integer_item")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public Integer getIntegerItem() {
@@ -127,7 +127,7 @@ public class TypeHolderDefault  implements Serializable {
    * Get boolItem
    * @return boolItem
    **/
-  @JsonProperty("bool_item")
+  @JsonProperty(value = "bool_item")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public Boolean getBoolItem() {
@@ -152,7 +152,7 @@ public class TypeHolderDefault  implements Serializable {
    * Get arrayItem
    * @return arrayItem
    **/
-  @JsonProperty("array_item")
+  @JsonProperty(value = "array_item")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public List<Integer> getArrayItem() {
@@ -165,7 +165,7 @@ public class TypeHolderDefault  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -185,7 +185,6 @@ public class TypeHolderDefault  implements Serializable {
     return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -204,7 +203,7 @@ public class TypeHolderDefault  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

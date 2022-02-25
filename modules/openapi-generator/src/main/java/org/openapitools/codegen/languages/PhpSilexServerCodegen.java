@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,7 +21,10 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 
 import java.io.File;
 import java.util.*;
@@ -37,6 +40,25 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
 
     public PhpSilexServerCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+        );
 
         invokerPackage = camelize("OpenAPIServer");
         String packageName = "OpenAPIServer";
@@ -68,7 +90,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         // ref: http://php.net/manual/en/language.types.intro.php
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "boolean",
                         "int",
@@ -86,7 +108,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         instantiationTypes.put("map", "map");
 
         // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
         typeMapping.put("float", "float");
@@ -111,7 +133,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
 
         // remove this line when this class extends AbstractPhpCodegen
-        supportingFiles.add(new SupportingFile(".gitignore", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
 
     @Override
@@ -120,15 +142,13 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public String getName()
-
-    {
-        return "php-silex";
+    public String getName() {
+        return "php-silex-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a PHP Silex server library.";
+        return "Generates a PHP Silex server library. IMPORTANT NOTE: this generator is no longer actively maintained.";
     }
 
     @Override
@@ -156,7 +176,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -261,4 +281,6 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         return objs;
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PHP; }
 }

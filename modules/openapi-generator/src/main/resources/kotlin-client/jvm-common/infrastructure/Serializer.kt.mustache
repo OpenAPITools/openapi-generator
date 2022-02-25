@@ -1,0 +1,120 @@
+package {{packageName}}.infrastructure
+
+{{#moshi}}
+import com.squareup.moshi.Moshi
+{{#enumUnknownDefaultCase}}
+import com.squareup.moshi.adapters.EnumJsonAdapter
+{{/enumUnknownDefaultCase}}
+{{^moshiCodeGen}}
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+{{/moshiCodeGen}}
+{{/moshi}}
+{{#gson}}
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+{{^threetenbp}}
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
+{{/threetenbp}}
+{{#threetenbp}}
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.OffsetDateTime
+{{/threetenbp}}
+import java.util.UUID
+{{/gson}}
+{{#jackson}}
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+{{/jackson}}
+{{#kotlinx_serialization}}
+import java.math.BigDecimal
+import java.math.BigInteger
+{{^threetenbp}}
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
+{{/threetenbp}}
+{{#threetenbp}}
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.OffsetDateTime
+{{/threetenbp}}
+import java.util.UUID
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import java.net.URI
+import java.net.URL
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
+{{/kotlinx_serialization}}
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer {
+{{#moshi}}
+    @JvmStatic
+    val moshiBuilder: Moshi.Builder = Moshi.Builder()
+        .add(OffsetDateTimeAdapter())
+        .add(LocalDateTimeAdapter())
+        .add(LocalDateAdapter())
+        .add(UUIDAdapter())
+        .add(ByteArrayAdapter())
+        .add(URIAdapter())
+        {{^moshiCodeGen}}
+        .add(KotlinJsonAdapterFactory())
+        {{/moshiCodeGen}}
+        .add(BigDecimalAdapter())
+        .add(BigIntegerAdapter())
+
+    @JvmStatic
+    val moshi: Moshi by lazy {
+{{#enumUnknownDefaultCase}}
+        SerializerHelper.addEnumUnknownDefaultCase(moshiBuilder)
+{{/enumUnknownDefaultCase}}
+        moshiBuilder.build()
+    }
+{{/moshi}}
+{{#gson}}
+    @JvmStatic
+    val gsonBuilder: GsonBuilder = GsonBuilder()
+        .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
+        .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
+        .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
+        .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
+
+    @JvmStatic
+    val gson: Gson by lazy {
+        gsonBuilder.create()
+    }
+{{/gson}}
+{{#jackson}}
+    @JvmStatic
+    val jacksonObjectMapper: ObjectMapper = jacksonObjectMapper()
+        .findAndRegisterModules()
+        .setSerializationInclusion(JsonInclude.Include.NON_ABSENT)
+        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+{{/jackson}}
+{{#kotlinx_serialization}}
+    @JvmStatic
+    val kotlinSerializationAdapters = SerializersModule {
+        contextual(BigDecimal::class, BigDecimalAdapter)
+        contextual(BigInteger::class, BigIntegerAdapter)
+        contextual(LocalDate::class, LocalDateAdapter)
+        contextual(LocalDateTime::class, LocalDateTimeAdapter)
+        contextual(OffsetDateTime::class, OffsetDateTimeAdapter)
+        contextual(UUID::class, UUIDAdapter)
+        contextual(AtomicInteger::class, AtomicIntegerAdapter)
+        contextual(AtomicLong::class, AtomicLongAdapter)
+        contextual(AtomicBoolean::class, AtomicBooleanAdapter)
+        contextual(URI::class, URIAdapter)
+        contextual(URL::class, URLAdapter)
+        contextual(StringBuilder::class, StringBuilderAdapter)
+    }
+
+    @JvmStatic
+    val jvmJson: Json by lazy { Json { serializersModule = kotlinSerializationAdapters } }
+{{/kotlinx_serialization}}
+}

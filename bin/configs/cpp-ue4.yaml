@@ -1,0 +1,4 @@
+generatorName: cpp-ue4
+outputDir: samples/client/petstore/cpp-ue4
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/cpp-ue4

@@ -1,0 +1,6 @@
+generatorName: scala-sttp
+outputDir: samples/client/petstore/scala-sttp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/scala-sttp
+additionalProperties:
+  artifactId: scala-sttp-petstore

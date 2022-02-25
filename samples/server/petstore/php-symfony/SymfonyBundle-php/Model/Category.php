@@ -2,7 +2,7 @@
 /**
  * Category
  *
- * PHP version 5
+ * PHP version 7.1.3
  *
  * @category Class
  * @package  OpenAPI\Server\Model
@@ -56,6 +56,7 @@ class Category
      * @SerializedName("name")
      * @Assert\Type("string")
      * @Type("string")
+     * @Assert\Regex("/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/")
      */
     protected $name;
 

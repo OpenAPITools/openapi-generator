@@ -1,5 +1,6 @@
 package {{package}}
 
+import play.api.libs.json._
 {{#supportAsync}}
 import scala.concurrent.Future
 {{/supportAsync}}
@@ -13,10 +14,10 @@ trait {{classname}} {
 {{#operation}}
   /**
     {{#summary}}
-    * {{summary}}
+    * {{.}}
     {{/summary}}
     {{#notes}}
-    * {{notes}}
+    * {{.}}
     {{/notes}}
     {{#allParams}}
     {{#description}}
@@ -25,9 +26,9 @@ trait {{classname}} {
     {{/allParams}}
     */
   {{>app/defOperationSignature}}
-{{#hasMore}}
+{{^-last}}
 
-{{/hasMore}}
+{{/-last}}
 {{/operation}}
 }
 {{/operations}}

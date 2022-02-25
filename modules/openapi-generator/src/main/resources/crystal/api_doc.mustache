@@ -1,0 +1,118 @@
+# {{moduleName}}::{{classname}}{{#description}}
+
+{{.}}{{/description}}
+
+All URIs are relative to *{{basePath}}*
+
+| Method | HTTP request | Description |
+| ------ | ------------ | ----------- |
+{{#operations}}
+{{#operation}}
+| [**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}} |
+{{/operation}}
+{{/operations}}
+
+{{#operations}}
+{{#operation}}
+
+## {{operationId}}
+
+> {{#returnType}}{{#returnTypeIsPrimitive}}{{returnType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}<{{{returnType}}}>{{/returnTypeIsPrimitive}} {{/returnType}}{{operationId}}{{#hasParams}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}){{/hasParams}}
+
+{{{summary}}}{{#notes}}
+
+{{{.}}}{{/notes}}
+
+### Examples
+
+```ruby
+require 'time'
+require '{{{gemName}}}'
+{{#hasAuthMethods}}
+# setup authorization
+{{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+  # Configure HTTP basic authorization: {{{name}}}
+  config.username = 'YOUR USERNAME'
+  config.password = 'YOUR PASSWORD'{{/isBasicBasic}}{{#isBasicBearer}}
+  # Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
+  config.access_token = 'YOUR_BEARER_TOKEN'{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
+  # Configure API key authorization: {{{name}}}
+  config.api_key['{{{keyParamName}}}'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
+  # Configure OAuth2 access token for authorization: {{{name}}}
+  config.access_token = 'YOUR ACCESS TOKEN'{{/isOAuth}}
+{{/authMethods}}end
+{{/hasAuthMethods}}
+
+api_instance = {{{moduleName}}}::{{{classname}}}.new
+{{#requiredParams}}
+{{{paramName}}} = {{{vendorExtensions.x-ruby-example}}} # {{{dataType}}} | {{{description}}}
+{{/requiredParams}}
+{{#optionalParams}}
+{{#-first}}
+opts = {
+{{/-first}}
+  {{{paramName}}}: {{{vendorExtensions.x-ruby-example}}}{{^-last}},{{/-last}} # {{{dataType}}} | {{{description}}}
+{{#-last}}
+}
+{{/-last}}
+{{/optionalParams}}
+
+begin
+  {{#summary}}# {{{.}}}{{/summary}}
+  {{#returnType}}result = {{/returnType}}api_instance.{{{operationId}}}{{#hasParams}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}){{/hasParams}}
+  {{#returnType}}
+  p result
+  {{/returnType}}
+rescue {{{moduleName}}}::ApiError => e
+  puts "Error when calling {{classname}}->{{{operationId}}}: #{e}"
+end
+```
+
+#### Using the {{operationId}}_with_http_info variant
+
+This returns an Array which contains the response data{{^returnType}} (`nil` in this case){{/returnType}}, status code and headers.
+
+> <Array({{#returnType}}{{#returnTypeIsPrimitive}}{{returnType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}<{{{returnType}}}>{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}nil{{/returnType}}, Integer, Hash)> {{operationId}}_with_http_info{{#hasParams}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}){{/hasParams}}
+
+```ruby
+begin
+  {{#summary}}# {{{.}}}{{/summary}}
+  data, status_code, headers = api_instance.{{{operationId}}}_with_http_info{{#hasParams}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}){{/hasParams}}
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => {{#returnType}}{{#returnTypeIsPrimitive}}{{returnType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}<{{{returnType}}}>{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}nil{{/returnType}}
+rescue {{{moduleName}}}::ApiError => e
+  puts "Error when calling {{classname}}->{{{operationId}}}_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+{{^allParams}}
+This endpoint does not need any parameter.
+{{/allParams}}
+{{#allParams}}
+{{#-first}}
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+{{/-first}}
+| **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}} | {{description}} | {{^required}}[optional]{{/required}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}} |
+{{/allParams}}
+
+### Return type
+
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{returnType}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}nil (empty response body){{/returnType}}
+
+### Authorization
+
+{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{name}}](../README.md#{{name}}){{^-last}}, {{/-last}}{{/authMethods}}
+
+### HTTP request headers
+
+- **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+- **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+{{/operation}}
+{{/operations}}

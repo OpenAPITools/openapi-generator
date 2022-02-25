@@ -3,6 +3,9 @@ import six
 
 from openapi_server.models.api_response import ApiResponse  # noqa: E501
 from openapi_server.models.pet import Pet  # noqa: E501
+from openapi_server.models.pet_form import PetForm  # noqa: E501
+from openapi_server.models.status_enum import StatusEnum  # noqa: E501
+from openapi_server.models.upload_form import UploadForm  # noqa: E501
 from openapi_server import util
 
 
@@ -90,35 +93,52 @@ def update_pet(pet):  # noqa: E501
     return 'do some magic!'
 
 
-def update_pet_with_form(pet_id, name=None, status=None):  # noqa: E501
+def update_pet_status_with_enum(pet_id, status):  # noqa: E501
+    """Set the status of a pet in the store using an enum
+
+     # noqa: E501
+
+    :param pet_id: ID of pet to return
+    :type pet_id: int
+    :param status: The required status
+    :type status: dict | bytes
+
+    :rtype: Pet
+    """
+    if connexion.request.is_json:
+        status =  StatusEnum.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
+
+
+def update_pet_with_form(pet_id, pet_form=None):  # noqa: E501
     """Updates a pet in the store with form data
 
      # noqa: E501
 
     :param pet_id: ID of pet that needs to be updated
     :type pet_id: int
-    :param name: Updated name of the pet
-    :type name: str
-    :param status: Updated status of the pet
-    :type status: str
+    :param pet_form: 
+    :type pet_form: dict | bytes
 
     :rtype: None
     """
+    if connexion.request.is_json:
+        pet_form = PetForm.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
-def upload_file(pet_id, additional_metadata=None, file=None):  # noqa: E501
+def upload_file(pet_id, upload_form=None):  # noqa: E501
     """uploads an image
 
      # noqa: E501
 
     :param pet_id: ID of pet to update
     :type pet_id: int
-    :param additional_metadata: Additional data to pass to server
-    :type additional_metadata: str
-    :param file: file to upload
-    :type file: str
+    :param upload_form: 
+    :type upload_form: dict | bytes
 
     :rtype: ApiResponse
     """
+    if connexion.request.is_json:
+        upload_form = UploadForm.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'

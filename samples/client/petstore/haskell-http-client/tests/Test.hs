@@ -33,6 +33,8 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy ArrayOfArrayOfNumberOnly)
       propMimeEq MimeJSON (Proxy :: Proxy ArrayOfNumberOnly)
       propMimeEq MimeJSON (Proxy :: Proxy ArrayTest)
+      propMimeEq MimeJSON (Proxy :: Proxy BigCat)
+      propMimeEq MimeJSON (Proxy :: Proxy BigCatAllOf)
       propMimeEq MimeJSON (Proxy :: Proxy Capitalization)
       propMimeEq MimeJSON (Proxy :: Proxy Cat)
       propMimeEq MimeJSON (Proxy :: Proxy CatAllOf)

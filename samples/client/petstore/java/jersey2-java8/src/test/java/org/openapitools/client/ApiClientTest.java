@@ -1,6 +1,7 @@
 package org.openapitools.client;
 
 import org.openapitools.client.auth.*;
+import org.openapitools.client.RFC3339DateFormat;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,9 +20,16 @@ public class ApiClientTest {
     }
 
     @Test
+    public void testRFC3339DateFormat() {
+        // test the constructor and the clone method to ensure there's no NPE
+        RFC3339DateFormat r = new RFC3339DateFormat();
+        RFC3339DateFormat r2 = (RFC3339DateFormat) r.clone();
+    }
+
+    @Test
     public void testParseAndFormatDate() {
         // default date format
-        String dateStr = "2015-11-07T03:49:09.356Z";
+        String dateStr = "2015-11-07T03:49:09.356+00:00";
         assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T03:49:09.356+00:00")));
         assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T03:49:09.356Z")));
         assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T05:49:09.356+02:00")));
@@ -122,7 +130,6 @@ public class ApiClientTest {
         }
     }
 
-    @Ignore("There is no more basic auth in petstore security definitions")
     @Test
     public void testSetUsernameAndPassword() {
         HttpBasicAuth auth = null;

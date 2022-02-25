@@ -10,10 +10,15 @@
 """
 
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-
 import six
+
+from petstore_api.configuration import Configuration
 
 
 class EnumArrays(object):
@@ -40,8 +45,11 @@ class EnumArrays(object):
         'array_enum': 'array_enum'
     }
 
-    def __init__(self, just_symbol=None, array_enum=None):  # noqa: E501
+    def __init__(self, just_symbol=None, array_enum=None, local_vars_configuration=None):  # noqa: E501
         """EnumArrays - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration.get_default_copy()
+        self.local_vars_configuration = local_vars_configuration
 
         self._just_symbol = None
         self._array_enum = None
@@ -68,10 +76,10 @@ class EnumArrays(object):
 
 
         :param just_symbol: The just_symbol of this EnumArrays.  # noqa: E501
-        :type: str
+        :type just_symbol: str
         """
         allowed_values = [">=", "$"]  # noqa: E501
-        if just_symbol not in allowed_values:
+        if self.local_vars_configuration.client_side_validation and just_symbol not in allowed_values:  # noqa: E501
             raise ValueError(
                 "Invalid value for `just_symbol` ({0}), must be one of {1}"  # noqa: E501
                 .format(just_symbol, allowed_values)
@@ -95,10 +103,11 @@ class EnumArrays(object):
 
 
         :param array_enum: The array_enum of this EnumArrays.  # noqa: E501
-        :type: list[str]
+        :type array_enum: list[str]
         """
         allowed_values = ["fish", "crab"]  # noqa: E501
-        if not set(array_enum).issubset(set(allowed_values)):
+        if (self.local_vars_configuration.client_side_validation and
+                not set(array_enum).issubset(set(allowed_values))):  # noqa: E501
             raise ValueError(
                 "Invalid values for `array_enum` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set(array_enum) - set(allowed_values))),  # noqa: E501
@@ -107,27 +116,35 @@ class EnumArrays(object):
 
         self._array_enum = array_enum
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = getfullargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 
@@ -144,8 +161,11 @@ class EnumArrays(object):
         if not isinstance(other, EnumArrays):
             return False
 
-        return self.__dict__ == other.__dict__
+        return self.to_dict() == other.to_dict()
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
-        return not self == other
+        if not isinstance(other, EnumArrays):
+            return True
+
+        return self.to_dict() != other.to_dict()

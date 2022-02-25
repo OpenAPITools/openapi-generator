@@ -32,7 +32,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   ArrayOfArrayOfNumberOnly.JSON_PROPERTY_ARRAY_ARRAY_NUMBER
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class ArrayOfArrayOfNumberOnly  implements Serializable {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
@@ -55,7 +55,7 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
    * Get arrayArrayNumber
    * @return arrayArrayNumber
    **/
-  @JsonProperty("ArrayArrayNumber")
+  @JsonProperty(value = "ArrayArrayNumber")
   @ApiModelProperty(value = "")
   @Valid 
   public List<List<BigDecimal>> getArrayArrayNumber() {
@@ -68,7 +68,7 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -84,7 +84,6 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
     return Objects.hash(arrayArrayNumber);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -99,7 +98,7 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

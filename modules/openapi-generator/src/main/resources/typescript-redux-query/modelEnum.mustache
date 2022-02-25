@@ -1,0 +1,20 @@
+/**
+ * {{{description}}}
+ * @export
+ * @enum {string}
+ */
+export enum {{classname}} {
+{{#allowableValues}}
+{{#enumVars}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+}
+
+export function {{classname}}FromJSON(json: any): {{classname}} {
+    return json as {{classname}};
+}
+
+export function {{classname}}ToJSON(value?: {{classname}}): any {
+    return value as any;
+}

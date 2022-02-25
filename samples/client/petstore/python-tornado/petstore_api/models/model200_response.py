@@ -10,10 +10,15 @@
 """
 
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-
 import six
+
+from petstore_api.configuration import Configuration
 
 
 class Model200Response(object):
@@ -40,8 +45,11 @@ class Model200Response(object):
         '_class': 'class'
     }
 
-    def __init__(self, name=None, _class=None):  # noqa: E501
+    def __init__(self, name=None, _class=None, local_vars_configuration=None):  # noqa: E501
         """Model200Response - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration.get_default_copy()
+        self.local_vars_configuration = local_vars_configuration
 
         self._name = None
         self.__class = None
@@ -68,7 +76,7 @@ class Model200Response(object):
 
 
         :param name: The name of this Model200Response.  # noqa: E501
-        :type: int
+        :type name: int
         """
 
         self._name = name
@@ -89,32 +97,40 @@ class Model200Response(object):
 
 
         :param _class: The _class of this Model200Response.  # noqa: E501
-        :type: str
+        :type _class: str
         """
 
         self.__class = _class
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = getfullargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 
@@ -131,8 +147,11 @@ class Model200Response(object):
         if not isinstance(other, Model200Response):
             return False
 
-        return self.__dict__ == other.__dict__
+        return self.to_dict() == other.to_dict()
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
-        return not self == other
+        if not isinstance(other, Model200Response):
+            return True
+
+        return self.to_dict() != other.to_dict()

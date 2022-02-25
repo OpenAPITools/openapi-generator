@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,25 +25,29 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class NodeJSExpressServerCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NodeJSExpressServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(NodeJSExpressServerCodegen.class);
     public static final String EXPORTED_NAME = "exportedName";
+    public static final String SERVER_HOST = "serverHost";
     public static final String SERVER_PORT = "serverPort";
 
     protected String apiVersion = "1.0.0";
@@ -55,9 +59,29 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     public NodeJSExpressServerCodegen() {
         super();
 
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .includeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
+
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-            .stability(Stability.BETA)
-            .build();
+                .stability(Stability.BETA)
+                .build();
 
         outputFolder = "generated-code/nodejs-express-server";
         embeddedTemplateDir = templateDir = "nodejs-express-server";
@@ -98,8 +122,10 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         supportingFiles.add(new SupportingFile("services" + File.separator + "Service.mustache", "services", "Service.js"));
 
         // do not overwrite if the file is already present
-        writeOptional(outputFolder, new SupportingFile("package.mustache", "", "package.json"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("package.mustache", "", "package.json")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
+                .doNotOverwrite());
 
         cliOptions.add(new CliOption(SERVER_PORT,
                 "TCP port to listen on."));
@@ -247,7 +273,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
     @SuppressWarnings("unchecked")
     private static List<Map<String, Object>> getOperations(Map<String, Object> objs) {
-        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> result = new ArrayList<>();
         Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
         List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
         for (Map<String, Object> api : apis) {
@@ -263,17 +289,13 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
             opsByPath.put(op.path, op);
         }
 
-        List<Map<String, Object>> opsByPathList = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> opsByPathList = new ArrayList<>();
         for (Entry<String, Collection<CodegenOperation>> entry : opsByPath.asMap().entrySet()) {
-            Map<String, Object> opsByPathEntry = new HashMap<String, Object>();
+            Map<String, Object> opsByPathEntry = new HashMap<>();
             opsByPathList.add(opsByPathEntry);
             opsByPathEntry.put("path", entry.getKey());
             opsByPathEntry.put("operation", entry.getValue());
             List<CodegenOperation> operationsForThisPath = Lists.newArrayList(entry.getValue());
-            operationsForThisPath.get(operationsForThisPath.size() - 1).hasMore = false;
-            if (opsByPathList.size() < opsByPath.asMap().size()) {
-                opsByPathEntry.put("hasMore", "true");
-            }
         }
 
         return opsByPathList;
@@ -282,6 +304,11 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("JS_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable JS_POST_PROCESS_FILE not defined so the JS code may not be properly formatted. To define it, try 'export JS_POST_PROCESS_FILE=\"/usr/local/bin/js-beautify -r -f\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
 
         if (additionalProperties.containsKey(EXPORTED_NAME)) {
             setExportedName((String) additionalProperties.get(EXPORTED_NAME));
@@ -301,9 +328,14 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
-        String host =  URLPathUtils.getProtocolAndHost(url);
-        String port = URLPathUtils.getPort(url, defaultServerPort) ;
+        String host = URLPathUtils.getProtocolAndHost(url);
+        String port = URLPathUtils.getPort(url, defaultServerPort);
         String basePath = url.getPath();
+
+        if (additionalProperties.containsKey(SERVER_HOST)) {
+            host = additionalProperties.get(SERVER_HOST).toString();
+        }
+        this.additionalProperties.put(SERVER_HOST, host);
 
         if (additionalProperties.containsKey(SERVER_PORT)) {
             port = additionalProperties.get(SERVER_PORT).toString();
@@ -328,12 +360,14 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         // need vendor extensions
         Paths paths = openAPI.getPaths();
         if (paths != null) {
-            for (String pathname : paths.keySet()) {
-                PathItem path = paths.get(pathname);
+            for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+                String pathname = pathsEntry.getKey();
+                PathItem path = pathsEntry.getValue();
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (HttpMethod method : operationMap.keySet()) {
-                        Operation operation = operationMap.get(method);
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                        HttpMethod method = operationMapEntry.getKey();
+                        Operation operation = operationMapEntry.getValue();
                         String tag = "default";
                         if (operation.getTags() != null && operation.getTags().size() > 0) {
                             tag = toApiName(operation.getTags().get(0));
@@ -342,14 +376,18 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                             operation.setOperationId(getOrGenerateOperationId(operation, pathname, method.toString()));
                         }
                         // add x-openapi-router-controller
+//                        if (operation.getExtensions() == null ||
+//                                operation.getExtensions().get("x-openapi-router-controller") == null) {
+//                            operation.addExtension("x-openapi-router-controller", sanitizeTag(tag) + "Controller");
+//                        }
+//                        // add x-openapi-router-service
+//                        if (operation.getExtensions() == null ||
+//                                operation.getExtensions().get("x-openapi-router-service") == null) {
+//                            operation.addExtension("x-openapi-router-service", sanitizeTag(tag) + "Service");
+//                        }
                         if (operation.getExtensions() == null ||
-                                operation.getExtensions().get("x-openapi-router-controller") == null) {
-                            operation.addExtension("x-openapi-router-controller", sanitizeTag(tag) + "Controller");
-                        }
-                        // add x-openapi-router-service
-                        if (operation.getExtensions() == null ||
-                                operation.getExtensions().get("x-openapi-router-service") == null) {
-                            operation.addExtension("x-openapi-router-service", sanitizeTag(tag) + "Service");
+                                operation.getExtensions().get("x-eov-operation-handler") == null) {
+                            operation.addExtension("x-eov-operation-handler", "controllers/" + sanitizeTag(tag) + "Controller");
                         }
                     }
                 }
@@ -387,4 +425,37 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         // remove " to avoid code injection
         return input.replace("\"", "");
     }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String jsPostProcessFile = System.getenv("JS_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(jsPostProcessFile)) {
+            return; // skip if JS_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with js extension
+        if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = jsPostProcessFile + " " + file;
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                int exitValue = p.exitValue();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                }
+                LOGGER.info("Successfully executed: {}", command);
+            } catch (InterruptedException | IOException e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }

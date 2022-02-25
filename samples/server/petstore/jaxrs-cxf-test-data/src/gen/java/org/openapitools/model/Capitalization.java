@@ -4,15 +4,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class Capitalization  {
   
@@ -48,7 +42,7 @@ public class Capitalization  {
   /**
    * Sets the <code>smallCamel</code> property.
    */
-  public void setSmallCamel(String smallCamel) {
+ public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
   }
 
@@ -72,7 +66,7 @@ public class Capitalization  {
   /**
    * Sets the <code>capitalCamel</code> property.
    */
-  public void setCapitalCamel(String capitalCamel) {
+ public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
 
@@ -96,7 +90,7 @@ public class Capitalization  {
   /**
    * Sets the <code>smallSnake</code> property.
    */
-  public void setSmallSnake(String smallSnake) {
+ public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
   }
 
@@ -120,7 +114,7 @@ public class Capitalization  {
   /**
    * Sets the <code>capitalSnake</code> property.
    */
-  public void setCapitalSnake(String capitalSnake) {
+ public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
 
@@ -144,7 +138,7 @@ public class Capitalization  {
   /**
    * Sets the <code>scAETHFlowPoints</code> property.
    */
-  public void setScAETHFlowPoints(String scAETHFlowPoints) {
+ public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
@@ -168,7 +162,7 @@ public class Capitalization  {
   /**
    * Sets the <code>ATT_NAME</code> property.
    */
-  public void setATTNAME(String ATT_NAME) {
+ public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
 
@@ -200,7 +194,7 @@ public class Capitalization  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

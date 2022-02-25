@@ -10,16 +10,18 @@
  * Do not edit the class manually.
  */
 
-import localVarRequest = require('request');
-import http = require('http');
+
+import localVarRequest from 'request';
+import http from 'http';
 
 /* tslint:disable:no-unused-locals */
 import { ApiResponse } from '../model/apiResponse';
 import { Pet } from '../model/pet';
 
-import { ObjectSerializer, Authentication, VoidAuth } from '../model/models';
-import { OAuth } from '../model/models';
-import { ApiKeyAuth } from '../model/models';
+import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
+import { HttpBasicAuth, HttpBearerAuth, ApiKeyAuth, OAuth } from '../model/models';
+
+import { HttpError, RequestFile } from './apis';
 
 let defaultBasePath = 'http://petstore.swagger.io/v2';
 
@@ -33,14 +35,16 @@ export enum PetApiApiKeys {
 
 export class PetApi {
     protected _basePath = defaultBasePath;
-    protected defaultHeaders : any = {};
+    protected _defaultHeaders : any = {};
     protected _useQuerystring : boolean = false;
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'petstore_auth': new OAuth(),
         'api_key': new ApiKeyAuth('header', 'api_key'),
+        'petstore_auth': new OAuth(),
     }
+
+    protected interceptors: Interceptor[] = [];
 
     constructor(basePath?: string);
     constructor(basePathOrUsername: string, password?: string, basePath?: string) {
@@ -63,6 +67,14 @@ export class PetApi {
         this._basePath = basePath;
     }
 
+    set defaultHeaders(defaultHeaders: any) {
+        this._defaultHeaders = defaultHeaders;
+    }
+
+    get defaultHeaders() {
+        return this._defaultHeaders;
+    }
+
     get basePath() {
         return this._basePath;
     }
@@ -79,15 +91,19 @@ export class PetApi {
         this.authentications.petstore_auth.accessToken = token;
     }
 
+    public addInterceptor(interceptor: Interceptor) {
+        this.interceptors.push(interceptor);
+    }
+
     /**
      * 
      * @summary Add a new pet to the store
      * @param body Pet object that needs to be added to the store
      */
-    public async addPet (body: Pet, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async addPet (body: Pet, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};
 
         // verify required parameter 'body' is not null or undefined
@@ -110,10 +126,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.petstore_auth.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -121,7 +144,7 @@ export class PetApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body?: any;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
@@ -129,7 +152,7 @@ export class PetApi {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });
@@ -142,11 +165,11 @@ export class PetApi {
      * @param petId Pet id to delete
      * @param apiKey 
      */
-    public async deletePet (petId: number, apiKey?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async deletePet (petId: number, apiKey?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};
 
         // verify required parameter 'petId' is not null or undefined
@@ -169,10 +192,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.petstore_auth.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -180,7 +210,7 @@ export class PetApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body?: any;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
@@ -188,7 +218,7 @@ export class PetApi {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });
@@ -200,10 +230,17 @@ export class PetApi {
      * @summary Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public async findPetsByStatus (status: Array<'available' | 'pending' | 'sold'>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
+    public async findPetsByStatus (status: Array<'available' | 'pending' | 'sold'>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByStatus';
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
+        const produces = ['application/xml', 'application/json'];
+        // give precedence to 'application/json'
+        if (produces.indexOf('application/json') >= 0) {
+            localVarHeaderParams.Accept = 'application/json';
+        } else {
+            localVarHeaderParams.Accept = produces.join(',');
+        }
         let localVarFormParams: any = {};
 
         // verify required parameter 'status' is not null or undefined
@@ -229,10 +266,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.petstore_auth.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -240,16 +284,16 @@ export class PetApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body: Array<Pet>;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: Array<Pet>;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
                     } else {
-                        body = ObjectSerializer.deserialize(body, "Array<Pet>");
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Array<Pet>");
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });
@@ -261,10 +305,17 @@ export class PetApi {
      * @summary Finds Pets by tags
      * @param tags Tags to filter by
      */
-    public async findPetsByTags (tags: Array<string>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
+    public async findPetsByTags (tags: Array<string>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByTags';
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
+        const produces = ['application/xml', 'application/json'];
+        // give precedence to 'application/json'
+        if (produces.indexOf('application/json') >= 0) {
+            localVarHeaderParams.Accept = 'application/json';
+        } else {
+            localVarHeaderParams.Accept = produces.join(',');
+        }
         let localVarFormParams: any = {};
 
         // verify required parameter 'tags' is not null or undefined
@@ -290,10 +341,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.petstore_auth.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -301,16 +359,16 @@ export class PetApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body: Array<Pet>;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: Array<Pet>;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
                     } else {
-                        body = ObjectSerializer.deserialize(body, "Array<Pet>");
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Array<Pet>");
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });
@@ -322,11 +380,18 @@ export class PetApi {
      * @summary Find pet by ID
      * @param petId ID of pet to return
      */
-    public async getPetById (petId: number, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Pet;  }> {
+    public async getPetById (petId: number, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Pet;  }> {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
+        const produces = ['application/xml', 'application/json'];
+        // give precedence to 'application/json'
+        if (produces.indexOf('application/json') >= 0) {
+            localVarHeaderParams.Accept = 'application/json';
+        } else {
+            localVarHeaderParams.Accept = produces.join(',');
+        }
         let localVarFormParams: any = {};
 
         // verify required parameter 'petId' is not null or undefined
@@ -348,10 +413,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.api_key.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.api_key.apiKey) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.api_key.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -359,16 +431,16 @@ export class PetApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body: Pet;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: Pet;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
                     } else {
-                        body = ObjectSerializer.deserialize(body, "Pet");
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Pet");
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });
@@ -380,10 +452,10 @@ export class PetApi {
      * @summary Update an existing pet
      * @param body Pet object that needs to be added to the store
      */
-    public async updatePet (body: Pet, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async updatePet (body: Pet, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};
 
         // verify required parameter 'body' is not null or undefined
@@ -406,10 +478,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.petstore_auth.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -417,7 +496,7 @@ export class PetApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body?: any;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
@@ -425,7 +504,7 @@ export class PetApi {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });
@@ -439,11 +518,11 @@ export class PetApi {
      * @param name Updated name of the pet
      * @param status Updated status of the pet
      */
-    public async updatePetWithForm (petId: number, name?: string, status?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async updatePetWithForm (petId: number, name?: string, status?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};
 
         // verify required parameter 'petId' is not null or undefined
@@ -473,10 +552,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.petstore_auth.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -484,7 +570,7 @@ export class PetApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body?: any;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
@@ -492,7 +578,7 @@ export class PetApi {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });
@@ -506,11 +592,18 @@ export class PetApi {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    public async uploadFile (petId: number, additionalMetadata?: string, file?: Buffer, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: ApiResponse;  }> {
+    public async uploadFile (petId: number, additionalMetadata?: string, file?: RequestFile, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: ApiResponse;  }> {
         const localVarPath = this.basePath + '/pet/{petId}/uploadImage'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
+        const produces = ['application/json'];
+        // give precedence to 'application/json'
+        if (produces.indexOf('application/json') >= 0) {
+            localVarHeaderParams.Accept = 'application/json';
+        } else {
+            localVarHeaderParams.Accept = produces.join(',');
+        }
         let localVarFormParams: any = {};
 
         // verify required parameter 'petId' is not null or undefined
@@ -541,10 +634,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.petstore_auth.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -552,16 +652,16 @@ export class PetApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body: ApiResponse;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: ApiResponse;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
                     } else {
-                        body = ObjectSerializer.deserialize(body, "ApiResponse");
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "ApiResponse");
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });

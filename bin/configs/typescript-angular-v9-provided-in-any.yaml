@@ -1,0 +1,7 @@
+generatorName: typescript-angular
+outputDir: samples/client/petstore/typescript-angular-v9-provided-in-any/builds/default
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-angular
+additionalProperties:
+  ngVersion: 9.0.0
+  providedIn: any

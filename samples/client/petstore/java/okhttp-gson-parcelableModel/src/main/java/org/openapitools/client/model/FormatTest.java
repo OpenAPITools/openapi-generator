@@ -25,16 +25,35 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.UUID;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
 import android.os.Parcelable;
 import android.os.Parcel;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.openapitools.client.JSON;
 
 /**
  * FormatTest
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FormatTest implements Parcelable {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
@@ -88,7 +107,11 @@ public class FormatTest implements Parcelable {
   @SerializedName(SERIALIZED_NAME_PASSWORD)
   private String password;
 
-  public FormatTest() {
+  public static final String SERIALIZED_NAME_BIG_DECIMAL = "BigDecimal";
+  @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
+  private BigDecimal bigDecimal;
+
+  public FormatTest() { 
   }
 
   public FormatTest integer(Integer integer) {
@@ -109,7 +132,6 @@ public class FormatTest implements Parcelable {
   public Integer getInteger() {
     return integer;
   }
-
 
 
   public void setInteger(Integer integer) {
@@ -137,7 +159,6 @@ public class FormatTest implements Parcelable {
   }
 
 
-
   public void setInt32(Integer int32) {
     this.int32 = int32;
   }
@@ -161,7 +182,6 @@ public class FormatTest implements Parcelable {
   }
 
 
-
   public void setInt64(Long int64) {
     this.int64 = int64;
   }
@@ -179,12 +199,12 @@ public class FormatTest implements Parcelable {
    * maximum: 543.2
    * @return number
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public BigDecimal getNumber() {
     return number;
   }
-
 
 
   public void setNumber(BigDecimal number) {
@@ -212,7 +232,6 @@ public class FormatTest implements Parcelable {
   }
 
 
-
   public void setFloat(Float _float) {
     this._float = _float;
   }
@@ -238,7 +257,6 @@ public class FormatTest implements Parcelable {
   }
 
 
-
   public void setDouble(Double _double) {
     this._double = _double;
   }
@@ -262,7 +280,6 @@ public class FormatTest implements Parcelable {
   }
 
 
-
   public void setString(String string) {
     this.string = string;
   }
@@ -278,12 +295,12 @@ public class FormatTest implements Parcelable {
    * Get _byte
    * @return _byte
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public byte[] getByte() {
     return _byte;
   }
-
 
 
   public void setByte(byte[] _byte) {
@@ -309,7 +326,6 @@ public class FormatTest implements Parcelable {
   }
 
 
-
   public void setBinary(File binary) {
     this.binary = binary;
   }
@@ -325,12 +341,12 @@ public class FormatTest implements Parcelable {
    * Get date
    * @return date
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public LocalDate getDate() {
     return date;
   }
-
 
 
   public void setDate(LocalDate date) {
@@ -356,7 +372,6 @@ public class FormatTest implements Parcelable {
   }
 
 
-
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
@@ -380,7 +395,6 @@ public class FormatTest implements Parcelable {
   }
 
 
-
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
@@ -396,6 +410,7 @@ public class FormatTest implements Parcelable {
    * Get password
    * @return password
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public String getPassword() {
@@ -403,14 +418,36 @@ public class FormatTest implements Parcelable {
   }
 
 
-
   public void setPassword(String password) {
     this.password = password;
   }
 
 
+  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+    
+    this.bigDecimal = bigDecimal;
+    return this;
+  }
+
+   /**
+   * Get bigDecimal
+   * @return bigDecimal
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
+
+  public BigDecimal getBigDecimal() {
+    return bigDecimal;
+  }
+
+
+  public void setBigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+  }
+
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -430,14 +467,14 @@ public class FormatTest implements Parcelable {
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
-        Objects.equals(this.password, formatTest.password);
+        Objects.equals(this.password, formatTest.password) &&
+        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
   }
-
 
   @Override
   public String toString() {
@@ -456,6 +493,7 @@ public class FormatTest implements Parcelable {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -464,7 +502,7 @@ public class FormatTest implements Parcelable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
@@ -486,6 +524,7 @@ public class FormatTest implements Parcelable {
     out.writeValue(dateTime);
     out.writeValue(uuid);
     out.writeValue(password);
+    out.writeValue(bigDecimal);
   }
 
   FormatTest(Parcel in) {
@@ -502,6 +541,7 @@ public class FormatTest implements Parcelable {
     dateTime = (OffsetDateTime)in.readValue(OffsetDateTime.class.getClassLoader());
     uuid = (UUID)in.readValue(UUID.class.getClassLoader());
     password = (String)in.readValue(null);
+    bigDecimal = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
   }
 
   public int describeContents() {
@@ -516,5 +556,113 @@ public class FormatTest implements Parcelable {
       return new FormatTest[size];
     }
   };
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("integer");
+    openapiFields.add("int32");
+    openapiFields.add("int64");
+    openapiFields.add("number");
+    openapiFields.add("float");
+    openapiFields.add("double");
+    openapiFields.add("string");
+    openapiFields.add("byte");
+    openapiFields.add("binary");
+    openapiFields.add("date");
+    openapiFields.add("dateTime");
+    openapiFields.add("uuid");
+    openapiFields.add("password");
+    openapiFields.add("BigDecimal");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields.add("number");
+    openapiRequiredFields.add("byte");
+    openapiRequiredFields.add("date");
+    openapiRequiredFields.add("password");
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to FormatTest
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (FormatTest.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in FormatTest is not found in the empty JSON string", FormatTest.openapiRequiredFields.toString()));
+        }
+      }
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!FormatTest.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `FormatTest` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
+
+      // check to make sure all required properties/fields are present in the JSON string
+      for (String requiredField : FormatTest.openapiRequiredFields) {
+        if (jsonObj.get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
+        }
+      }
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!FormatTest.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'FormatTest' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<FormatTest> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(FormatTest.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<FormatTest>() {
+           @Override
+           public void write(JsonWriter out, FormatTest value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public FormatTest read(JsonReader in) throws IOException {
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
+           }
+
+       }.nullSafe();
+    }
+  }
+
+ /**
+  * Create an instance of FormatTest given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of FormatTest
+  * @throws IOException if the JSON string is invalid with respect to FormatTest
+  */
+  public static FormatTest fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, FormatTest.class);
+  }
+
+ /**
+  * Convert an instance of FormatTest to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

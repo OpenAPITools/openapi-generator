@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
-        jcenter()
         mavenCentral()
     }
     dependencies {
@@ -14,7 +13,6 @@ group = "org.openapitools"
 version = "1.0.0"
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
@@ -48,7 +46,7 @@ dependencies {
 }
 
 repositories {
-	mavenCentral()
+	maven { url = uri("https://repo1.maven.org/maven2") }
 	maven { url = uri("https://repo.spring.io/snapshot") }
 	maven { url = uri("https://repo.spring.io/milestone") }
 }

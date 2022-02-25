@@ -1,0 +1,27 @@
+package {{package}}
+
+{{#imports}}
+import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+/**
+{{#title}} * = {{{.}}} =
+ *
+{{/title}}
+{{#description}} * {{{.}}}
+ *
+{{/description}}
+{{#vars}}
+ * @param {{{name}}} {{{description}}}{{#example}} for example: ''{{{.}}}''{{/example}}
+{{/vars}}
+*/
+final case class {{classname}} (
+  {{#vars}}
+  {{{name}}}: {{^required}}Option[{{/required}}{{datatype}}{{^required}}]{{/required}}{{^-last}},{{/-last}}
+  {{/vars}}
+)
+
+{{/model}}
+{{/models}}

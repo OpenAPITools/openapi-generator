@@ -2,60 +2,75 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**create_xml_item**](FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
-[**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
-[**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
-[**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
-[**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
-[**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
-[**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
-[**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-[**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
-[**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-[**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-[**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+| Method | HTTP request | Description |
+| ------ | ------------ | ----------- |
+| [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint |
+| [**fake_http_signature_test**](FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication |
+| [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean |  |
+| [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite |  |
+| [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number |  |
+| [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string |  |
+| [**fake_property_enum_integer_serialize**](FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int |  |
+| [**test_body_with_binary**](FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary |  |
+| [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema |  |
+| [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params |  |
+| [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model |
+| [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  |
+| [**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters |
+| [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional) |
+| [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
+| [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data |
+| [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters |  |
 
 
+## fake_health_get
 
-## create_xml_item
+> <HealthCheckResult> fake_health_get
 
-> create_xml_item(xml_item)
+Health check endpoint
 
-creates an XmlItem
-
-this route creates an XmlItem
-
-### Example
+### Examples
 
 ```ruby
-# load the gem
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-xml_item = Petstore::XmlItem.new # XmlItem | XmlItem Body
 
 begin
-  #creates an XmlItem
-  api_instance.create_xml_item(xml_item)
+  # Health check endpoint
+  result = api_instance.fake_health_get
+  p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->create_xml_item: #{e}"
+  puts "Error when calling FakeApi->fake_health_get: #{e}"
+end
+```
+
+#### Using the fake_health_get_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<HealthCheckResult>, Integer, Hash)> fake_health_get_with_http_info
+
+```ruby
+begin
+  # Health check endpoint
+  data, status_code, headers = api_instance.fake_health_get_with_http_info
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <HealthCheckResult>
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->fake_health_get_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xml_item** | [**XmlItem**](XmlItem.md)| XmlItem Body | 
+This endpoint does not need any parameter.
 
 ### Return type
 
-nil (empty response body)
+[**HealthCheckResult**](HealthCheckResult.md)
 
 ### Authorization
 
@@ -63,7 +78,77 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## fake_http_signature_test
+
+> fake_http_signature_test(pet, opts)
+
+test http signature authentication
+
+### Examples
+
+```ruby
+require 'time'
+require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+end
+
+api_instance = Petstore::FakeApi.new
+pet = Petstore::Pet.new({name: 'doggie', photo_urls: ['photo_urls_example']}) # Pet | Pet object that needs to be added to the store
+opts = {
+  query_1: 'query_1_example', # String | query parameter
+  header_1: 'header_1_example' # String | header parameter
+}
+
+begin
+  # test http signature authentication
+  api_instance.fake_http_signature_test(pet, opts)
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->fake_http_signature_test: #{e}"
+end
+```
+
+#### Using the fake_http_signature_test_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> fake_http_signature_test_with_http_info(pet, opts)
+
+```ruby
+begin
+  # test http signature authentication
+  data, status_code, headers = api_instance.fake_http_signature_test_with_http_info(pet, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->fake_http_signature_test_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |  |
+| **query_1** | **String** | query parameter | [optional] |
+| **header_1** | **String** | header parameter | [optional] |
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+[http_signature_test](../README.md#http_signature_test)
+
+### HTTP request headers
+
+- **Content-Type**: application/json, application/xml
 - **Accept**: Not defined
 
 
@@ -75,10 +160,10 @@ No authorization required
 
 Test serialization of outer boolean types
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -87,19 +172,37 @@ opts = {
 }
 
 begin
+  
   result = api_instance.fake_outer_boolean_serialize(opts)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->fake_outer_boolean_serialize: #{e}"
+  puts "Error when calling FakeApi->fake_outer_boolean_serialize: #{e}"
+end
+```
+
+#### Using the fake_outer_boolean_serialize_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Boolean, Integer, Hash)> fake_outer_boolean_serialize_with_http_info(opts)
+
+```ruby
+begin
+  
+  data, status_code, headers = api_instance.fake_outer_boolean_serialize_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Boolean
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->fake_outer_boolean_serialize_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **Boolean**| Input boolean as post body | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **body** | **Boolean** | Input boolean as post body | [optional] |
 
 ### Return type
 
@@ -111,43 +214,61 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 
 ## fake_outer_composite_serialize
 
-> OuterComposite fake_outer_composite_serialize(opts)
+> <OuterComposite> fake_outer_composite_serialize(opts)
 
 
 
 Test serialization of object with outer number type
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  body: Petstore::OuterComposite.new # OuterComposite | Input composite as post body
+  outer_composite: Petstore::OuterComposite.new # OuterComposite | Input composite as post body
 }
 
 begin
+  
   result = api_instance.fake_outer_composite_serialize(opts)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->fake_outer_composite_serialize: #{e}"
+  puts "Error when calling FakeApi->fake_outer_composite_serialize: #{e}"
+end
+```
+
+#### Using the fake_outer_composite_serialize_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<OuterComposite>, Integer, Hash)> fake_outer_composite_serialize_with_http_info(opts)
+
+```ruby
+begin
+  
+  data, status_code, headers = api_instance.fake_outer_composite_serialize_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <OuterComposite>
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->fake_outer_composite_serialize_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **outer_composite** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | [optional] |
 
 ### Return type
 
@@ -159,7 +280,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 
@@ -171,31 +292,49 @@ No authorization required
 
 Test serialization of outer number types
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  body: 3.4 # Float | Input number as post body
+  body: 8.14 # Float | Input number as post body
 }
 
 begin
+  
   result = api_instance.fake_outer_number_serialize(opts)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->fake_outer_number_serialize: #{e}"
+  puts "Error when calling FakeApi->fake_outer_number_serialize: #{e}"
+end
+```
+
+#### Using the fake_outer_number_serialize_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(Float, Integer, Hash)> fake_outer_number_serialize_with_http_info(opts)
+
+```ruby
+begin
+  
+  data, status_code, headers = api_instance.fake_outer_number_serialize_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => Float
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->fake_outer_number_serialize_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **Float**| Input number as post body | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **body** | **Float** | Input number as post body | [optional] |
 
 ### Return type
 
@@ -207,7 +346,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 
@@ -219,10 +358,10 @@ No authorization required
 
 Test serialization of outer string types
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -231,19 +370,37 @@ opts = {
 }
 
 begin
+  
   result = api_instance.fake_outer_string_serialize(opts)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->fake_outer_string_serialize: #{e}"
+  puts "Error when calling FakeApi->fake_outer_string_serialize: #{e}"
+end
+```
+
+#### Using the fake_outer_string_serialize_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(String, Integer, Hash)> fake_outer_string_serialize_with_http_info(opts)
+
+```ruby
+begin
+  
+  data, status_code, headers = api_instance.fake_outer_string_serialize_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => String
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->fake_outer_string_serialize_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **String**| Input string as post body | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **body** | **String** | Input string as post body | [optional] |
 
 ### Return type
 
@@ -255,40 +412,185 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 
-## test_body_with_file_schema
+## fake_property_enum_integer_serialize
 
-> test_body_with_file_schema(body)
+> <OuterObjectWithEnumProperty> fake_property_enum_integer_serialize(outer_object_with_enum_property)
 
 
 
-For this test, the body for this request much reference a schema named `File`.
+Test serialization of enum (int) properties with examples
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-body = Petstore::FileSchemaTestClass.new # FileSchemaTestClass | 
+outer_object_with_enum_property = Petstore::OuterObjectWithEnumProperty.new({value: Petstore::OuterEnumInteger::N0}) # OuterObjectWithEnumProperty | Input enum (int) as post body
 
 begin
-  api_instance.test_body_with_file_schema(body)
+  
+  result = api_instance.fake_property_enum_integer_serialize(outer_object_with_enum_property)
+  p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->test_body_with_file_schema: #{e}"
+  puts "Error when calling FakeApi->fake_property_enum_integer_serialize: #{e}"
+end
+```
+
+#### Using the fake_property_enum_integer_serialize_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<OuterObjectWithEnumProperty>, Integer, Hash)> fake_property_enum_integer_serialize_with_http_info(outer_object_with_enum_property)
+
+```ruby
+begin
+  
+  data, status_code, headers = api_instance.fake_property_enum_integer_serialize_with_http_info(outer_object_with_enum_property)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <OuterObjectWithEnumProperty>
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->fake_property_enum_integer_serialize_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **outer_object_with_enum_property** | [**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md) | Input enum (int) as post body |  |
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+### Return type
+
+[**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: */*
+
+
+## test_body_with_binary
+
+> test_body_with_binary(body)
+
+
+
+For this test, the body has to be a binary file.
+
+### Examples
+
+```ruby
+require 'time'
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+body = File.new('/path/to/some/file') # File | image to upload
+
+begin
+  
+  api_instance.test_body_with_binary(body)
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_body_with_binary: #{e}"
+end
+```
+
+#### Using the test_body_with_binary_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_body_with_binary_with_http_info(body)
+
+```ruby
+begin
+  
+  data, status_code, headers = api_instance.test_body_with_binary_with_http_info(body)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_body_with_binary_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **body** | **File** | image to upload |  |
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: image/png
+- **Accept**: Not defined
+
+
+## test_body_with_file_schema
+
+> test_body_with_file_schema(file_schema_test_class)
+
+
+
+For this test, the body for this request must reference a schema named `File`.
+
+### Examples
+
+```ruby
+require 'time'
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+file_schema_test_class = Petstore::FileSchemaTestClass.new # FileSchemaTestClass | 
+
+begin
+  
+  api_instance.test_body_with_file_schema(file_schema_test_class)
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_body_with_file_schema: #{e}"
+end
+```
+
+#### Using the test_body_with_file_schema_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_body_with_file_schema_with_http_info(file_schema_test_class)
+
+```ruby
+begin
+  
+  data, status_code, headers = api_instance.test_body_with_file_schema_with_http_info(file_schema_test_class)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_body_with_file_schema_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **file_schema_test_class** | [**FileSchemaTestClass**](FileSchemaTestClass.md) |  |  |
 
 ### Return type
 
@@ -306,34 +608,52 @@ No authorization required
 
 ## test_body_with_query_params
 
-> test_body_with_query_params(query, body)
+> test_body_with_query_params(query, user)
 
 
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 query = 'query_example' # String | 
-body = Petstore::User.new # User | 
+user = Petstore::User.new # User | 
 
 begin
-  api_instance.test_body_with_query_params(query, body)
+  
+  api_instance.test_body_with_query_params(query, user)
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->test_body_with_query_params: #{e}"
+  puts "Error when calling FakeApi->test_body_with_query_params: #{e}"
+end
+```
+
+#### Using the test_body_with_query_params_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_body_with_query_params_with_http_info(query, user)
+
+```ruby
+begin
+  
+  data, status_code, headers = api_instance.test_body_with_query_params_with_http_info(query, user)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_body_with_query_params_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **query** | **String**|  | 
- **body** | [**User**](User.md)|  | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **query** | **String** |  |  |
+| **user** | [**User**](User.md) |  |  |
 
 ### Return type
 
@@ -351,36 +671,53 @@ No authorization required
 
 ## test_client_model
 
-> Client test_client_model(body)
+> <Client> test_client_model(client)
 
 To test \"client\" model
 
 To test \"client\" model
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-body = Petstore::Client.new # Client | client model
+client = Petstore::Client.new # Client | client model
 
 begin
-  #To test \"client\" model
-  result = api_instance.test_client_model(body)
+  # To test \"client\" model
+  result = api_instance.test_client_model(client)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->test_client_model: #{e}"
+  puts "Error when calling FakeApi->test_client_model: #{e}"
+end
+```
+
+#### Using the test_client_model_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<Client>, Integer, Hash)> test_client_model_with_http_info(client)
+
+```ruby
+begin
+  # To test \"client\" model
+  data, status_code, headers = api_instance.test_client_model_with_http_info(client)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <Client>
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_client_model_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **client** | [**Client**](Client.md) | client model |  |
 
 ### Return type
 
@@ -404,10 +741,10 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
+require 'time'
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
@@ -417,50 +754,67 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::FakeApi.new
-number = 3.4 # Float | None
-double = 3.4 # Float | None
+number = 8.14 # Float | None
+double = 1.2 # Float | None
 pattern_without_delimiter = 'pattern_without_delimiter_example' # String | None
-byte = 'byte_example' # String | None
+byte = 'BYTE_ARRAY_DATA_HERE' # String | None
 opts = {
   integer: 56, # Integer | None
   int32: 56, # Integer | None
-  int64: 56, # Integer | None
+  int64: 789, # Integer | None
   float: 3.4, # Float | None
   string: 'string_example', # String | None
-  binary: File.new('/path/to/file'), # File | None
+  binary: File.new('/path/to/some/file'), # File | None
   date: Date.parse('2013-10-20'), # Date | None
-  date_time: DateTime.parse('2013-10-20T19:20:30+01:00'), # DateTime | None
+  date_time: Time.parse('2013-10-20T19:20:30+01:00'), # Time | None
   password: 'password_example', # String | None
   callback: 'callback_example' # String | None
 }
 
 begin
-  #Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+  # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
   api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, opts)
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->test_endpoint_parameters: #{e}"
+  puts "Error when calling FakeApi->test_endpoint_parameters: #{e}"
+end
+```
+
+#### Using the test_endpoint_parameters_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, opts)
+
+```ruby
+begin
+  # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+  data, status_code, headers = api_instance.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_endpoint_parameters_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **number** | **Float**| None | 
- **double** | **Float**| None | 
- **pattern_without_delimiter** | **String**| None | 
- **byte** | **String**| None | 
- **integer** | **Integer**| None | [optional] 
- **int32** | **Integer**| None | [optional] 
- **int64** | **Integer**| None | [optional] 
- **float** | **Float**| None | [optional] 
- **string** | **String**| None | [optional] 
- **binary** | **File**| None | [optional] 
- **date** | **Date**| None | [optional] 
- **date_time** | **DateTime**| None | [optional] 
- **password** | **String**| None | [optional] 
- **callback** | **String**| None | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **number** | **Float** | None |  |
+| **double** | **Float** | None |  |
+| **pattern_without_delimiter** | **String** | None |  |
+| **byte** | **String** | None |  |
+| **integer** | **Integer** | None | [optional] |
+| **int32** | **Integer** | None | [optional] |
+| **int64** | **Integer** | None | [optional] |
+| **float** | **Float** | None | [optional] |
+| **string** | **String** | None | [optional] |
+| **binary** | **File** | None | [optional] |
+| **date** | **Date** | None | [optional] |
+| **date_time** | **Time** | None | [optional] |
+| **password** | **String** | None | [optional] |
+| **callback** | **String** | None | [optional] |
 
 ### Return type
 
@@ -484,45 +838,62 @@ To test enum parameters
 
 To test enum parameters
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  enum_header_string_array: ['enum_header_string_array_example'], # Array<String> | Header parameter enum test (string array)
-  enum_header_string: '-efg', # String | Header parameter enum test (string)
-  enum_query_string_array: ['enum_query_string_array_example'], # Array<String> | Query parameter enum test (string array)
-  enum_query_string: '-efg', # String | Query parameter enum test (string)
-  enum_query_integer: 56, # Integer | Query parameter enum test (double)
-  enum_query_double: 3.4, # Float | Query parameter enum test (double)
-  enum_form_string_array: '$', # Array<String> | Form parameter enum test (string array)
-  enum_form_string: '-efg' # String | Form parameter enum test (string)
+  enum_header_string_array: ['>'], # Array<String> | Header parameter enum test (string array)
+  enum_header_string: '_abc', # String | Header parameter enum test (string)
+  enum_query_string_array: ['>'], # Array<String> | Query parameter enum test (string array)
+  enum_query_string: '_abc', # String | Query parameter enum test (string)
+  enum_query_integer: 1, # Integer | Query parameter enum test (double)
+  enum_query_double: 1.1, # Float | Query parameter enum test (double)
+  enum_form_string_array: ['>'], # Array<String> | Form parameter enum test (string array)
+  enum_form_string: '_abc' # String | Form parameter enum test (string)
 }
 
 begin
-  #To test enum parameters
+  # To test enum parameters
   api_instance.test_enum_parameters(opts)
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->test_enum_parameters: #{e}"
+  puts "Error when calling FakeApi->test_enum_parameters: #{e}"
+end
+```
+
+#### Using the test_enum_parameters_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_enum_parameters_with_http_info(opts)
+
+```ruby
+begin
+  # To test enum parameters
+  data, status_code, headers = api_instance.test_enum_parameters_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_enum_parameters_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **enum_header_string_array** | [**Array&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] 
- **enum_header_string** | **String**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_string_array** | [**Array&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] 
- **enum_query_string** | **String**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_integer** | **Integer**| Query parameter enum test (double) | [optional] 
- **enum_query_double** | **Float**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | [**Array&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
- **enum_form_string** | **String**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **enum_header_string_array** | [**Array&lt;String&gt;**](String.md) | Header parameter enum test (string array) | [optional] |
+| **enum_header_string** | **String** | Header parameter enum test (string) | [optional][default to &#39;-efg&#39;] |
+| **enum_query_string_array** | [**Array&lt;String&gt;**](String.md) | Query parameter enum test (string array) | [optional] |
+| **enum_query_string** | **String** | Query parameter enum test (string) | [optional][default to &#39;-efg&#39;] |
+| **enum_query_integer** | **Integer** | Query parameter enum test (double) | [optional] |
+| **enum_query_double** | **Float** | Query parameter enum test (double) | [optional] |
+| **enum_form_string_array** | [**Array&lt;String&gt;**](String.md) | Form parameter enum test (string array) | [optional][default to &#39;$&#39;] |
+| **enum_form_string** | **String** | Form parameter enum test (string) | [optional][default to &#39;-efg&#39;] |
 
 ### Return type
 
@@ -546,41 +917,63 @@ Fake endpoint to test group parameters (optional)
 
 Fake endpoint to test group parameters (optional)
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
+require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure Bearer authorization (JWT): bearer_test
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
 
 api_instance = Petstore::FakeApi.new
 required_string_group = 56 # Integer | Required String in group parameters
 required_boolean_group = true # Boolean | Required Boolean in group parameters
-required_int64_group = 56 # Integer | Required Integer in group parameters
+required_int64_group = 789 # Integer | Required Integer in group parameters
 opts = {
   string_group: 56, # Integer | String in group parameters
   boolean_group: true, # Boolean | Boolean in group parameters
-  int64_group: 56 # Integer | Integer in group parameters
+  int64_group: 789 # Integer | Integer in group parameters
 }
 
 begin
-  #Fake endpoint to test group parameters (optional)
+  # Fake endpoint to test group parameters (optional)
   api_instance.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, opts)
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->test_group_parameters: #{e}"
+  puts "Error when calling FakeApi->test_group_parameters: #{e}"
+end
+```
+
+#### Using the test_group_parameters_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, opts)
+
+```ruby
+begin
+  # Fake endpoint to test group parameters (optional)
+  data, status_code, headers = api_instance.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_group_parameters_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **required_string_group** | **Integer**| Required String in group parameters | 
- **required_boolean_group** | **Boolean**| Required Boolean in group parameters | 
- **required_int64_group** | **Integer**| Required Integer in group parameters | 
- **string_group** | **Integer**| String in group parameters | [optional] 
- **boolean_group** | **Boolean**| Boolean in group parameters | [optional] 
- **int64_group** | **Integer**| Integer in group parameters | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **required_string_group** | **Integer** | Required String in group parameters |  |
+| **required_boolean_group** | **Boolean** | Required Boolean in group parameters |  |
+| **required_int64_group** | **Integer** | Required Integer in group parameters |  |
+| **string_group** | **Integer** | String in group parameters | [optional] |
+| **boolean_group** | **Boolean** | Boolean in group parameters | [optional] |
+| **int64_group** | **Integer** | Integer in group parameters | [optional] |
 
 ### Return type
 
@@ -588,7 +981,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearer_test](../README.md#bearer_test)
 
 ### HTTP request headers
 
@@ -598,33 +991,52 @@ No authorization required
 
 ## test_inline_additional_properties
 
-> test_inline_additional_properties(param)
+> test_inline_additional_properties(request_body)
 
 test inline additionalProperties
 
-### Example
+
+
+### Examples
 
 ```ruby
-# load the gem
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-param = {'key' => 'param_example'} # Hash<String, String> | request body
+request_body = { key: 'inner_example'} # Hash<String, String> | request body
 
 begin
-  #test inline additionalProperties
-  api_instance.test_inline_additional_properties(param)
+  # test inline additionalProperties
+  api_instance.test_inline_additional_properties(request_body)
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->test_inline_additional_properties: #{e}"
+  puts "Error when calling FakeApi->test_inline_additional_properties: #{e}"
+end
+```
+
+#### Using the test_inline_additional_properties_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_inline_additional_properties_with_http_info(request_body)
+
+```ruby
+begin
+  # test inline additionalProperties
+  data, status_code, headers = api_instance.test_inline_additional_properties_with_http_info(request_body)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_inline_additional_properties_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **param** | [**Hash&lt;String, String&gt;**](String.md)| request body | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **request_body** | [**Hash&lt;String, String&gt;**](String.md) | request body |  |
 
 ### Return type
 
@@ -646,10 +1058,12 @@ No authorization required
 
 test json serialization of form data
 
-### Example
+
+
+### Examples
 
 ```ruby
-# load the gem
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
@@ -657,20 +1071,37 @@ param = 'param_example' # String | field1
 param2 = 'param2_example' # String | field2
 
 begin
-  #test json serialization of form data
+  # test json serialization of form data
   api_instance.test_json_form_data(param, param2)
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->test_json_form_data: #{e}"
+  puts "Error when calling FakeApi->test_json_form_data: #{e}"
+end
+```
+
+#### Using the test_json_form_data_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_json_form_data_with_http_info(param, param2)
+
+```ruby
+begin
+  # test json serialization of form data
+  data, status_code, headers = api_instance.test_json_form_data_with_http_info(param, param2)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_json_form_data_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 | 
- **param2** | **String**| field2 | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **param** | **String** | field1 |  |
+| **param2** | **String** | field2 |  |
 
 ### Return type
 
@@ -688,42 +1119,66 @@ No authorization required
 
 ## test_query_parameter_collection_format
 
-> test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+> test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, opts)
 
 
 
 To test the collection format in query parameters
 
-### Example
+### Examples
 
 ```ruby
-# load the gem
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-pipe = ['pipe_example'] # Array<String> | 
-ioutil = ['ioutil_example'] # Array<String> | 
-http = ['http_example'] # Array<String> | 
-url = ['url_example'] # Array<String> | 
-context = ['context_example'] # Array<String> | 
+pipe = ['inner_example'] # Array<String> | 
+ioutil = ['inner_example'] # Array<String> | 
+http = ['inner_example'] # Array<String> | 
+url = ['inner_example'] # Array<String> | 
+context = ['inner_example'] # Array<String> | 
+allow_empty = 'allow_empty_example' # String | 
+opts = {
+  language: { key: 'inner_example'} # Hash<String, String> | 
+}
 
 begin
-  api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+  
+  api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, opts)
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->test_query_parameter_collection_format: #{e}"
+  puts "Error when calling FakeApi->test_query_parameter_collection_format: #{e}"
+end
+```
+
+#### Using the test_query_parameter_collection_format_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, opts)
+
+```ruby
+begin
+  
+  data, status_code, headers = api_instance.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_query_parameter_collection_format_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pipe** | [**Array&lt;String&gt;**](String.md)|  | 
- **ioutil** | [**Array&lt;String&gt;**](String.md)|  | 
- **http** | [**Array&lt;String&gt;**](String.md)|  | 
- **url** | [**Array&lt;String&gt;**](String.md)|  | 
- **context** | [**Array&lt;String&gt;**](String.md)|  | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pipe** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **ioutil** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **http** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **url** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **context** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **allow_empty** | **String** |  |  |
+| **language** | [**Hash&lt;String, String&gt;**](String.md) |  | [optional] |
 
 ### Return type
 

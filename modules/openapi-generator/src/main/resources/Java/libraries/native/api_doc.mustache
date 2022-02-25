@@ -1,0 +1,280 @@
+# {{classname}}{{#description}}
+
+{{.}}{{/description}}
+
+All URIs are relative to *{{basePath}}*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
+[**{{operationId}}WithHttpInfo**]({{classname}}.md#{{operationId}}WithHttpInfo) | **{{httpMethod}}** {{path}} | {{summary}}
+{{/operation}}{{/operations}}
+
+{{#operations}}
+{{#operation}}
+
+## {{operationId}}
+
+{{^vendorExtensions.x-group-parameters}}
+> {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+{{/vendorExtensions.x-group-parameters}}
+{{#vendorExtensions.x-group-parameters}}
+> {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}({{#hasParams}}{{operationId}}Request{{/hasParams}})
+{{/vendorExtensions.x-group-parameters}}
+
+{{summary}}{{#notes}}
+
+{{.}}{{/notes}}
+
+### Example
+
+```java
+// Import classes:
+import {{{invokerPackage}}}.ApiClient;
+import {{{invokerPackage}}}.ApiException;
+import {{{invokerPackage}}}.Configuration;{{#hasAuthMethods}}
+import {{{invokerPackage}}}.auth.*;{{/hasAuthMethods}}
+import {{{invokerPackage}}}.models.*;
+import {{{package}}}.{{{classname}}};{{#vendorExtensions.x-group-parameters}}
+import {{{package}}}.{{{classname}}}.*;{{/vendorExtensions.x-group-parameters}}
+{{#asyncNative}}
+import java.util.concurrent.CompletableFuture;
+{{/asyncNative}}
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("{{{basePath}}}");
+        {{#hasAuthMethods}}
+        {{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        // Configure HTTP basic authorization: {{{name}}}
+        HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setUsername("YOUR USERNAME");
+        {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasicBasic}}{{#isBasicBearer}}
+        // Configure HTTP bearer authorization: {{{name}}}
+        HttpBearerAuth {{{name}}} = (HttpBearerAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setBearerToken("BEARER TOKEN");{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
+        // Configure API key authorization: {{{name}}}
+        ApiKeyAuth {{{name}}} = (ApiKeyAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //{{{name}}}.setApiKeyPrefix("Token");{{/isApiKey}}{{#isOAuth}}
+        // Configure OAuth2 access token for authorization: {{{name}}}
+        OAuth {{{name}}} = (OAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setAccessToken("YOUR ACCESS TOKEN");{{/isOAuth}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}
+
+        {{{classname}}} apiInstance = new {{{classname}}}(defaultClient);
+        {{#allParams}}
+        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+        {{/allParams}}
+        try {
+            {{^vendorExtensions.x-group-parameters}}
+            {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}} result = {{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void> result = {{/asyncNative}}{{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+            {{/vendorExtensions.x-group-parameters}}
+            {{#vendorExtensions.x-group-parameters}}
+            {{#hasParams}}
+            API{{operationId}}Request request = API{{operationId}}Request.newBuilder(){{#allParams}}
+                .{{paramName}}({{paramName}}){{/allParams}}
+                .build();
+            {{/hasParams}}
+            {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}} result = {{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void> result = {{/asyncNative}}{{/returnType}}apiInstance.{{operationId}}({{#hasParams}}request{{/hasParams}});
+            {{/vendorExtensions.x-group-parameters}}
+            {{#returnType}}
+            System.out.println(result{{#asyncNative}}.get(){{/asyncNative}});
+            {{/returnType}}
+        } catch (ApiException e) {
+            System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{^vendorExtensions.x-group-parameters}}{{#allParams}}{{#-last}}
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional]{{/required}}{{^isContainer}}{{#defaultValue}} [default to {{.}}]{{/defaultValue}}{{/isContainer}}{{#allowableValues}} [enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+{{/allParams}}
+{{/vendorExtensions.x-group-parameters}}
+{{#vendorExtensions.x-group-parameters}}
+{{#hasParams}}
+|    Name      |    Type       | Description   |     Notes    |
+|------------- | ------------- | ------------- | -------------|
+| {{operationId}}Request | [**API{{operationId}}Request**]({{classname}}.md#API{{operationId}}Request)|-|-|{{/hasParams}}
+{{/vendorExtensions.x-group-parameters}}
+
+### Return type
+
+{{#returnType}}{{#asyncNative}}CompletableFuture<{{/asyncNative}}{{#returnTypeIsPrimitive}}**{{returnType}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{#asyncNative}}>{{/asyncNative}}{{/returnType}}
+{{^returnType}}{{#asyncNative}}CompletableFuture<void>{{/asyncNative}}{{^asyncNative}}null{{/asyncNative}} (empty response body){{/returnType}}
+
+### Authorization
+
+{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{name}}](../README.md#{{name}}){{^-last}}, {{/-last}}{{/authMethods}}
+
+### HTTP request headers
+
+- **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+- **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+{{#responses.0}}
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+{{#responses}}
+| **{{code}}** | {{message}} | {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} |
+{{/responses}}
+{{/responses.0}}
+
+## {{operationId}}WithHttpInfo
+
+{{^vendorExtensions.x-group-parameters}}
+> {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}} {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+{{/vendorExtensions.x-group-parameters}}
+{{#vendorExtensions.x-group-parameters}}
+> {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}} {{operationId}}WithHttpInfo({{#hasParams}}{{operationId}}Request{{/hasParams}})
+{{/vendorExtensions.x-group-parameters}}
+
+{{summary}}{{#notes}}
+
+{{.}}{{/notes}}
+
+### Example
+
+```java
+// Import classes:
+import {{{invokerPackage}}}.ApiClient;
+import {{{invokerPackage}}}.ApiException;
+import {{{invokerPackage}}}.ApiResponse;
+import {{{invokerPackage}}}.Configuration;{{#hasAuthMethods}}
+import {{{invokerPackage}}}.auth.*;{{/hasAuthMethods}}
+import {{{invokerPackage}}}.models.*;
+import {{{package}}}.{{{classname}}};{{#vendorExtensions.x-group-parameters}}
+import {{{package}}}.{{{classname}}}.*;{{/vendorExtensions.x-group-parameters}}
+{{#asyncNative}}
+import java.util.concurrent.CompletableFuture;
+{{/asyncNative}}
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("{{{basePath}}}");
+        {{#hasAuthMethods}}
+        {{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        // Configure HTTP basic authorization: {{{name}}}
+        HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setUsername("YOUR USERNAME");
+        {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasicBasic}}{{#isBasicBearer}}
+        // Configure HTTP bearer authorization: {{{name}}}
+        HttpBearerAuth {{{name}}} = (HttpBearerAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setBearerToken("BEARER TOKEN");{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
+        // Configure API key authorization: {{{name}}}
+        ApiKeyAuth {{{name}}} = (ApiKeyAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //{{{name}}}.setApiKeyPrefix("Token");{{/isApiKey}}{{#isOAuth}}
+        // Configure OAuth2 access token for authorization: {{{name}}}
+        OAuth {{{name}}} = (OAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setAccessToken("YOUR ACCESS TOKEN");{{/isOAuth}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}
+
+        {{{classname}}} apiInstance = new {{{classname}}}(defaultClient);
+        {{#allParams}}
+        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+        {{/allParams}}
+        try {
+            {{^vendorExtensions.x-group-parameters}}
+            {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} response = apiInstance.{{{operationId}}}WithHttpInfo({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+            {{/vendorExtensions.x-group-parameters}}
+            {{#vendorExtensions.x-group-parameters}}
+            {{#hasParams}}
+            API{{operationId}}Request request = API{{operationId}}Request.newBuilder(){{#allParams}}
+                .{{paramName}}({{paramName}}){{/allParams}}
+                .build();
+            {{/hasParams}}
+            {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} response = apiInstance.{{{operationId}}}WithHttpInfo({{#hasParams}}request{{/hasParams}});
+            {{/vendorExtensions.x-group-parameters}}
+            System.out.println("Status code: " + response{{#asyncNative}}.get(){{/asyncNative}}.getStatusCode());
+            System.out.println("Response headers: " + response{{#asyncNative}}.get(){{/asyncNative}}.getHeaders());
+            {{#returnType}}
+            System.out.println("Response body: " + response{{#asyncNative}}.get(){{/asyncNative}}.getData());
+            {{/returnType}}
+        {{#asyncNative}}
+        } catch (InterruptedException | ExecutionException e) {
+            ApiException apiException = (ApiException)e.getCause();
+            System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");
+            System.err.println("Status code: " + apiException.getCode());
+            System.err.println("Response headers: " + apiException.getResponseHeaders());
+            System.err.println("Reason: " + apiException.getResponseBody());
+            e.printStackTrace();
+        {{/asyncNative}}
+        } catch (ApiException e) {
+            System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{^vendorExtensions.x-group-parameters}}{{#allParams}}{{#-last}}
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional]{{/required}}{{^isContainer}}{{#defaultValue}} [default to {{.}}]{{/defaultValue}}{{/isContainer}}{{#allowableValues}} [enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+{{/allParams}}
+{{/vendorExtensions.x-group-parameters}}
+{{#vendorExtensions.x-group-parameters}}
+{{#hasParams}}
+|    Name      |    Type       | Description   |     Notes    |
+|------------- | ------------- | ------------- | -------------|
+| {{operationId}}Request | [**API{{operationId}}Request**]({{classname}}.md#API{{operationId}}Request)|-|-|{{/hasParams}}
+{{/vendorExtensions.x-group-parameters}}
+
+### Return type
+
+{{#returnType}}{{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{#returnTypeIsPrimitive}}**{{returnType}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}>{{#asyncNative}}>{{/asyncNative}}{{/returnType}}
+{{^returnType}}{{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<Void>{{#asyncNative}}>{{/asyncNative}}{{/returnType}}
+
+### Authorization
+
+{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{name}}](../README.md#{{name}}){{^-last}}, {{/-last}}{{/authMethods}}
+
+### HTTP request headers
+
+- **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+- **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+{{#responses.0}}
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+{{#responses}}
+| **{{code}}** | {{message}} | {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} |
+{{/responses}}
+{{/responses.0}}
+{{#vendorExtensions.x-group-parameters}}{{#hasParams}}
+
+<a name="API{{operationId}}Request"></a>
+## API{{operationId}}Request
+### Properties
+{{#allParams}}{{#-last}}
+|     Name      |    Type       | Description   |     Notes    |
+| ------------- | ------------- | ------------- | -------------|{{/-last}}{{/allParams}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}} | {{description}} |{{^required}} [optional]{{/required}}{{^isContainer}}{{#defaultValue}} [default to {{.}}]{{/defaultValue}}{{/isContainer}}{{#allowableValues}} [enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+{{/allParams}}
+
+{{/hasParams}}{{/vendorExtensions.x-group-parameters}}
+{{/operation}}
+{{/operations}}

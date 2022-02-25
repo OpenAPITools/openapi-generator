@@ -1,6 +1,10 @@
 <?php
 
 {{>licenseInfo}}
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
@@ -9,7 +13,7 @@
  * {{httpMethod}} {{operationId}}
  * Summary: {{summary}}
  * Notes: {{notes}}
-{{#hasProduces}} * Output-Formats: [{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]{{/hasProduces}}
+{{#hasProduces}} * Output-Formats: [{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}
  */
 Route::{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', '{{classname}}@{{operationId}}');
 {{/operation}}
@@ -17,3 +21,6 @@ Route::{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', '{{classname}}@{{op
 {{/apis}}
 {{/apiInfo}}
 
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});

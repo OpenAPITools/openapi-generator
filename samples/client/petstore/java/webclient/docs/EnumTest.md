@@ -2,6 +2,7 @@
 
 # EnumTest
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -10,7 +11,10 @@ Name | Type | Description | Notes
 **enumStringRequired** | [**EnumStringRequiredEnum**](#EnumStringRequiredEnum) |  | 
 **enumInteger** | [**EnumIntegerEnum**](#EnumIntegerEnum) |  |  [optional]
 **enumNumber** | [**EnumNumberEnum**](#EnumNumberEnum) |  |  [optional]
-**outerEnum** | [**OuterEnum**](OuterEnum.md) |  |  [optional]
+**outerEnum** | **OuterEnum** |  |  [optional]
+**outerEnumInteger** | **OuterEnumInteger** |  |  [optional]
+**outerEnumDefaultValue** | **OuterEnumDefaultValue** |  |  [optional]
+**outerEnumIntegerDefaultValue** | **OuterEnumIntegerDefaultValue** |  |  [optional]
 
 
 

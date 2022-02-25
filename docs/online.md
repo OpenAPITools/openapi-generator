@@ -34,7 +34,7 @@ GEN_IP=$(docker inspect --format '{{.NetworkSettings.IPAddress}}'  ${CID})
 # Execute an HTTP request to generate a Ruby client
 curl -X POST --header 'Content-Type: application/json' \
   --header 'Accept: application/json' \
-  -d '{"openAPIUrl": "https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"}' \
+  -d '{"openAPIUrl": "https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"}' \
   'http://localhost:8888/api/gen/clients/ruby'
 
 # Example output:
@@ -65,7 +65,7 @@ mvn spring-boot:run
 For example, to generate Ruby API client, simply send the following HTTP request using curl:
 
 ```bash
-curl -X POST -H "content-type:application/json" -d '{"openAPIUrl":"https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"}' \
+curl -X POST -H "content-type:application/json" -d '{"openAPIUrl":"https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"}' \
     http://localhost:8080/api/gen/clients/ruby
 ```
 Then you will receive a JSON response with the URL to download the zipped code.
@@ -75,7 +75,7 @@ To customize the SDK, you can `POST` to `http://localhost:8080/gen/clients/{gene
 ```json
 {
   "options": {},
-  "openAPIUrl": "https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"
+  "openAPIUrl": "https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
 }
 ```
 
@@ -113,7 +113,7 @@ To set package name to `pet_store`, the HTTP body of the request is as follows:
   "options": {
     "packageName": "pet_store"
   },
-  "openAPIUrl": "https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"
+  "openAPIUrl": "https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
 }
 ```
 
@@ -121,7 +121,7 @@ and here is the curl command:
 ```bash
 curl -H "Content-type: application/json" \
     -X POST \
-    -d '{"options": {"packageName": "pet_store"},"openAPIUrl": "https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"}' \
+    -d '{"options": {"packageName": "pet_store"},"openAPIUrl": "https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"}' \
     http://localhost:8080/api/gen/clients/python
 ```
 

@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
-        jcenter()
         mavenCentral()
     }
     dependencies {
@@ -14,7 +13,6 @@ group = "org.openapitools"
 version = "1.0.0"
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
@@ -32,12 +30,12 @@ plugins {
 }
 
 dependencies {
-	val kotlinxCoroutinesVersion="1.2.0"
+    val kotlinxCoroutinesVersion="1.2.0"
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
-	compile("org.springframework.boot:spring-boot-starter-webflux")
-	compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
-	compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinxCoroutinesVersion")
+    compile("org.springframework.boot:spring-boot-starter-webflux")
+    compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
+    compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinxCoroutinesVersion")
     compile("io.swagger:swagger-annotations:1.5.21")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
@@ -47,11 +45,11 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
     }
-	testCompile("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion")
+    testCompile("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion")
 }
 
 repositories {
-	mavenCentral()
-	maven { url = uri("https://repo.spring.io/snapshot") }
-	maven { url = uri("https://repo.spring.io/milestone") }
+    maven { url = uri("https://repo1.maven.org/maven2") }
+    maven { url = uri("https://repo.spring.io/snapshot") }
+    maven { url = uri("https://repo.spring.io/milestone") }
 }

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,15 +20,17 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.EnumSet;
 
 public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLNodeJSExpressServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(GraphQLNodeJSExpressServerCodegen.class);
 
     @Override
     public CodegenType getTag() {
@@ -47,6 +49,26 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
 
     public GraphQLNodeJSExpressServerCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.noneOf(
+                        SecurityFeature.class
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
 
         packageName = "openapi3graphql-server";
         packageVersion = "1.0.0";
@@ -92,7 +114,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
         supportingFiles.add(new SupportingFile("schema.graphql.mustache", supportFolder, "schema.graphql"));
 
         // General stuff
-        supportingFiles.add(new SupportingFile(".gitignore", supportFolder, ".gitignore"));
+        supportingFiles.add(new SupportingFile("gitignore", supportFolder, ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", supportFolder, "README.md"));
         supportingFiles.add(new SupportingFile("package.json.mustache", supportFolder, "package.json"));
         supportingFiles.add(new SupportingFile("server.js", supportFolder, "server.js"));
@@ -105,7 +127,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
 
-            // IMPORTANT NOTE we add the braces within template because there we have the possibility to differenciate
+            // IMPORTANT NOTE we add the braces within template because there we have the possibility to differentiate
             // between some specific types for GraphQL:
             // return "[" + getTypeDeclaration(inner) + "]";
             return getTypeDeclaration(inner);
@@ -115,7 +137,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
             return getTypeDeclaration(inner);
         }
 
-        // IMPORANT NOTE Not using the supertype invocation, because we want to UpperCamelize the type:
+        // IMPORTANT NOTE Not using the supertype invocation, because we want to UpperCamelize the type:
         String schemaType = getSchemaType(p);
         String nullable = ModelUtils.isNullable(p) ? "" : "!";
 
@@ -144,4 +166,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
             return StringUtils.capitalize(enumName) + "Enum";
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }

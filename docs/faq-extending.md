@@ -1,6 +1,6 @@
 ---
 id: faq-extending
-title: FAQ: Extending
+title: "FAQ: Extending"
 ---
 
 ## How do I use my own Java models?

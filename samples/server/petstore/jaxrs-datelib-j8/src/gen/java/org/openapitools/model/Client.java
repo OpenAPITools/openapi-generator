@@ -29,7 +29,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class Client  implements Serializable {
   public static final String JSON_PROPERTY_CLIENT = "client";
   @JsonProperty(JSON_PROPERTY_CLIENT)
@@ -44,7 +44,7 @@ public class Client  implements Serializable {
    * Get client
    * @return client
    **/
-  @JsonProperty("client")
+  @JsonProperty(value = "client")
   @ApiModelProperty(value = "")
   
   public String getClient() {
@@ -57,7 +57,7 @@ public class Client  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -73,7 +73,6 @@ public class Client  implements Serializable {
     return Objects.hash(client);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -88,7 +87,7 @@ public class Client  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -1,0 +1,167 @@
+{{>partial_header}}
+using System;
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+{{#models}}
+{{#model}}
+{{#discriminator}}
+using JsonSubTypes;
+{{/discriminator}}
+{{/model}}
+{{/models}}
+using {{packageName}}.Converters;
+
+{{#models}}
+{{#model}}
+namespace {{modelPackage}}
+{ {{#isEnum}}{{>enumClass}}{{/isEnum}}{{^isEnum}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    [DataContract]
+    {{#discriminator}}
+    [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]
+    {{#mappedModels}}
+    [JsonSubtypes.KnownSubType(typeof({{{modelName}}}), "{{^vendorExtensions.x-discriminator-value}}{{{mappingName}}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{.}}}{{/vendorExtensions.x-discriminator-value}}")]
+    {{/mappedModels}}
+    {{/discriminator}}
+    public {{#modelClassModifier}}{{.}} {{/modelClassModifier}}class {{classname}} : {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>
+    {
+        {{#vars}}
+        {{#items.isEnum}}
+        {{#items}}
+        {{^complexType}}
+{{>enumClass}}
+        {{/complexType}}
+        {{/items}}
+        {{/items.isEnum}}
+        {{#isEnum}}
+        {{^complexType}}
+{{>enumClass}}
+        {{/complexType}}
+        {{/isEnum}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}{{#required}}
+        [Required]{{/required}}{{#pattern}}
+        [RegularExpression("{{{.}}}")]{{/pattern}}{{#minLength}}{{#maxLength}}
+        [StringLength({{maxLength}}, MinimumLength={{minLength}})]{{/maxLength}}{{/minLength}}{{#minLength}}{{^maxLength}}
+        [MinLength({{minLength}})]{{/maxLength}}{{/minLength}}{{^minLength}}{{#maxLength}}
+        [MaxLength({{.}})]{{/maxLength}}{{/minLength}}{{#minimum}}{{#maximum}}
+        [Range({{minimum}}, {{maximum}})]{{/maximum}}{{/minimum}}
+        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}})]
+        {{#isEnum}}
+        public {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
+        {{/isEnum}}
+        {{^isEnum}}
+        public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
+        {{/isEnum}}
+        {{^-last}}
+
+        {{/-last}}
+        {{/vars}}
+
+        /// <summary>
+        /// Returns the string presentation of the object
+        /// </summary>
+        /// <returns>String presentation of the object</returns>
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.Append("class {{classname}} {\n");
+            {{#vars}}
+            sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
+            {{/vars}}
+            sb.Append("}\n");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns the JSON string presentation of the object
+        /// </summary>
+        /// <returns>JSON string presentation of the object</returns>
+        public {{#parent}}{{^isMap}}{{^isArray}}new {{/isArray}}{{/isMap}}{{/parent}}string ToJson()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="obj">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is null) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && Equals(({{classname}})obj);
+        }
+
+        /// <summary>
+        /// Returns true if {{classname}} instances are equal
+        /// </summary>
+        /// <param name="other">Instance of {{classname}} to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals({{classname}} other)
+        {
+            if (other is null) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            return {{#vars}}{{^isContainer}}
+                (
+                    {{name}} == other.{{name}} ||
+                    {{^vendorExtensions.x-is-value-type}}{{name}} != null &&{{/vendorExtensions.x-is-value-type}}
+                    {{name}}.Equals(other.{{name}})
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{#isContainer}}
+                (
+                    {{name}} == other.{{name}} ||
+                    {{^vendorExtensions.x-is-value-type}}{{name}} != null &&
+                    other.{{name}} != null &&
+                    {{/vendorExtensions.x-is-value-type}}{{name}}.SequenceEqual(other.{{name}})
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                var hashCode = 41;
+                // Suitable nullity checks etc, of course :)
+                {{#vars}}
+                    {{^vendorExtensions.x-is-value-type}}if ({{name}} != null){{/vendorExtensions.x-is-value-type}}
+                    hashCode = hashCode * 59 + {{name}}.GetHashCode();
+                {{/vars}}
+                return hashCode;
+            }
+        }
+
+        #region Operators
+        #pragma warning disable 1591
+
+        public static bool operator ==({{classname}} left, {{classname}} right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=({{classname}} left, {{classname}} right)
+        {
+            return !Equals(left, right);
+        }
+
+        #pragma warning restore 1591
+        #endregion Operators
+    }
+{{/isEnum}}
+{{/model}}
+{{/models}}
+}

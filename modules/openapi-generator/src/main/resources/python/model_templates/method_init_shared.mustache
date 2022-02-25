@@ -1,0 +1,52 @@
+    @convert_js_args_to_python_args
+    def __init__(self{{#requiredVars}}{{^isReadOnly}}{{^defaultValue}}, {{name}}{{/defaultValue}}{{/isReadOnly}}{{/requiredVars}}, *args, **kwargs):  # noqa: E501
+        """{{classname}} - a model defined in OpenAPI
+
+{{#requiredVars}}
+{{^isReadOnly}}
+{{#-first}}
+        Args:
+{{/-first}}
+{{^defaultValue}}
+            {{name}} ({{{dataType}}}):{{#description}} {{{.}}}{{/description}}
+{{/defaultValue}}
+{{#-last}}
+
+{{/-last}}
+{{/isReadOnly}}
+{{/requiredVars}}
+        Keyword Args:
+{{#requiredVars}}
+{{^isReadOnly}}
+{{#defaultValue}}
+            {{name}} ({{{dataType}}}):{{#description}} {{{.}}}.{{/description}} defaults to {{{defaultValue}}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
+{{/defaultValue}}
+{{/isReadOnly}}
+{{/requiredVars}}
+{{> model_templates/docstring_init_required_kwargs }}
+{{#optionalVars}}
+            {{name}} ({{{dataType}}}):{{#description}} {{{.}}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{.}}}{{/defaultValue}}  # noqa: E501
+{{/optionalVars}}
+        """
+
+{{#requiredVars}}
+{{^isReadOnly}}
+{{#defaultValue}}
+        {{name}} = kwargs.get('{{name}}', {{{defaultValue}}})
+{{/defaultValue}}
+{{/isReadOnly}}
+{{/requiredVars}}
+        _check_type = kwargs.pop('_check_type', True)
+        _spec_property_naming = kwargs.pop('_spec_property_naming', False)
+        _path_to_item = kwargs.pop('_path_to_item', ())
+        _configuration = kwargs.pop('_configuration', None)
+        _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
+
+{{> model_templates/invalid_pos_args }}
+
+        self._data_store = {}
+        self._check_type = _check_type
+        self._spec_property_naming = _spec_property_naming
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
+        self._visited_composed_classes = _visited_composed_classes + (self.__class__,)

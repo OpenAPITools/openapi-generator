@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * TypeHolderExample
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderExample {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -54,8 +54,10 @@ public class TypeHolderExample {
 
   public static final String SERIALIZED_NAME_ARRAY_ITEM = "array_item";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  private List<Integer> arrayItem = new ArrayList<>();
 
+  public TypeHolderExample() { 
+  }
 
   public TypeHolderExample stringItem(String stringItem) {
     
@@ -67,12 +69,12 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "what", required = true, value = "")
 
   public String getStringItem() {
     return stringItem;
   }
-
 
 
   public void setStringItem(String stringItem) {
@@ -90,12 +92,12 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "1.234", required = true, value = "")
 
   public BigDecimal getNumberItem() {
     return numberItem;
   }
-
 
 
   public void setNumberItem(BigDecimal numberItem) {
@@ -113,12 +115,12 @@ public class TypeHolderExample {
    * Get floatItem
    * @return floatItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "1.234", required = true, value = "")
 
   public Float getFloatItem() {
     return floatItem;
   }
-
 
 
   public void setFloatItem(Float floatItem) {
@@ -136,12 +138,12 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "-2", required = true, value = "")
 
   public Integer getIntegerItem() {
     return integerItem;
   }
-
 
 
   public void setIntegerItem(Integer integerItem) {
@@ -159,12 +161,12 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "true", required = true, value = "")
 
   public Boolean getBoolItem() {
     return boolItem;
   }
-
 
 
   public void setBoolItem(Boolean boolItem) {
@@ -187,12 +189,12 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
 
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
-
 
 
   public void setArrayItem(List<Integer> arrayItem) {
@@ -201,7 +203,7 @@ public class TypeHolderExample {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -222,7 +224,6 @@ public class TypeHolderExample {
     return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -241,7 +242,7 @@ public class TypeHolderExample {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

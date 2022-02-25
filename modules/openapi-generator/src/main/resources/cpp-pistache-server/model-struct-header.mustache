@@ -1,0 +1,42 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{classname}}_H_
+#define {{classname}}_H_
+
+{{{defaultInclude}}}
+{{#imports}}{{{this}}}
+{{/imports}}
+#include <nlohmann/json.hpp>
+{{#hasOptional}}#include <optional>{{/hasOptional}}
+
+namespace {{modelNamespace}}
+{
+
+struct {{classname}}
+{
+    {{#vars}}
+    {{^required}}std::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{name}};
+    {{/vars}}
+
+    bool operator==(const {{classname}}& other) const;
+    bool operator!=(const {{classname}}& other) const;
+
+    nlohmann::json to_json() const;
+    static {{classname}} from_json(const nlohmann::json& j);
+};
+
+void to_json(nlohmann::json& j, const {{classname}}& o);
+void from_json(const nlohmann::json& j, {{classname}}& o);
+
+
+} // namespace {{modelNamespace}}
+
+
+#endif /* {{classname}}_H_ */
+{{/model}}
+{{/models}}

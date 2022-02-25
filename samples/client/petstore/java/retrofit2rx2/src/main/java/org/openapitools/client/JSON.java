@@ -23,9 +23,6 @@ import com.google.gson.stream.JsonWriter;
 import com.google.gson.JsonElement;
 import io.gsonfire.GsonFireBuilder;
 import io.gsonfire.TypeSelector;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
 
 import org.openapitools.client.model.*;
 
@@ -35,6 +32,9 @@ import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -53,9 +53,41 @@ public class JSON {
             @Override
             public Class getClassForElement(JsonElement readElement) {
                 Map classByDiscriminatorValue = new HashMap();
-                classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
+                classByDiscriminatorValue.put("BigCat".toUpperCase(Locale.ROOT), BigCat.class);
                 classByDiscriminatorValue.put("Cat".toUpperCase(Locale.ROOT), Cat.class);
+                classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
                 classByDiscriminatorValue.put("Animal".toUpperCase(Locale.ROOT), Animal.class);
+                return getClassByDiscriminator(
+                            classByDiscriminatorValue,
+                            getDiscriminatorValue(readElement, "className"));
+            }
+          })
+          .registerTypeSelector(BigCat.class, new TypeSelector() {
+            @Override
+            public Class getClassForElement(JsonElement readElement) {
+                Map classByDiscriminatorValue = new HashMap();
+                classByDiscriminatorValue.put("BigCat".toUpperCase(Locale.ROOT), BigCat.class);
+                return getClassByDiscriminator(
+                            classByDiscriminatorValue,
+                            getDiscriminatorValue(readElement, "className"));
+            }
+          })
+          .registerTypeSelector(Cat.class, new TypeSelector() {
+            @Override
+            public Class getClassForElement(JsonElement readElement) {
+                Map classByDiscriminatorValue = new HashMap();
+                classByDiscriminatorValue.put("BigCat".toUpperCase(Locale.ROOT), BigCat.class);
+                classByDiscriminatorValue.put("Cat".toUpperCase(Locale.ROOT), Cat.class);
+                return getClassByDiscriminator(
+                            classByDiscriminatorValue,
+                            getDiscriminatorValue(readElement, "className"));
+            }
+          })
+          .registerTypeSelector(Dog.class, new TypeSelector() {
+            @Override
+            public Class getClassForElement(JsonElement readElement) {
+                Map classByDiscriminatorValue = new HashMap();
+                classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
                 return getClassByDiscriminator(
                             classByDiscriminatorValue,
                             getDiscriminatorValue(readElement, "className"));

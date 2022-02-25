@@ -4,6 +4,7 @@
 with {{package}}.Models;
 with Swagger.Clients;
 package {{package}}.Clients is
+   pragma Style_Checks ("-mr");
 
    type Client_Type is new Swagger.Clients.Client_Type with null record;
 
@@ -15,8 +16,8 @@ package {{package}}.Clients is
    --  {{#lambdaAdaComment}}{{unescapedNotes}}{{/lambdaAdaComment}}{{/vendorExtensions.x-has-notes}}
    procedure {{operationId}}
       (Client : in out Client_Type{{#hasParams}};{{/hasParams}}{{#allParams}}
-       {{paramName}} : in {{^isFile}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}{{package}}.Models.{{/isContainer}}{{/isPrimitiveType}}{{/isString}}{{/isFile}}{{dataType}}{{#hasMore}};{{/hasMore}}{{/allParams}}{{#returnType}};
-       Result : out {{returnType}}{{/returnType}});
+       {{paramName}} : in {{^isFile}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}{{package}}.Models.{{/isContainer}}{{/isPrimitiveType}}{{/isString}}{{/isFile}}{{dataType}}{{^-last}};{{/-last}}{{/allParams}}{{#returnType}};
+       Result : out {{.}}{{/returnType}});
 
 {{/operation}}
 {{/operations}}

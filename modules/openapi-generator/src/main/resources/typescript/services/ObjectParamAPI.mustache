@@ -1,0 +1,35 @@
+import type { HttpFile } from '../http/http';
+import type { Configuration } from '../configuration'
+import type * as req from "../types/ObjectParamAPI";
+{{#useRxJS}}
+import type { Observable } from 'rxjs';
+{{/useRxJS}}
+
+{{#models}}
+{{#model}}
+import type { {{{ classname }}} } from '../models/{{{ classFilename }}}';
+{{/model}}
+{{/models}}
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+
+
+export abstract class AbstractObject{{classname}} {
+    {{#operation}}
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     * @param param the request object
+     */
+    public abstract {{nickname}}(param: req.{{classname}}{{operationIdCamelCase}}Request, options?: Configuration): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
+
+    {{/operation}}
+}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

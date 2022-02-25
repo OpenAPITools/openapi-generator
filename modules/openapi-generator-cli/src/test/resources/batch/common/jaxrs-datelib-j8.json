@@ -1,0 +1,7 @@
+{
+  "serializableModel": true,
+  "withXml": true,
+  "dateLibrary": "java8",
+  "java8": true,
+  "useBeanValidation": true
+}

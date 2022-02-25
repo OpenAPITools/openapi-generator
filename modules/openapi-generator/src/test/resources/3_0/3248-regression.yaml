@@ -1,0 +1,47 @@
+openapi: 3.0.2
+info:
+  title: info
+  description: info
+  version: 0.1.0
+
+paths:
+  /example/api:
+    get:
+      summary: summary
+      description: description
+      parameters:
+        - $ref: '#/components/parameters/requiredQueryParam'
+        - $ref: '#/components/parameters/formatParam'
+      responses:
+        200:
+          description: response
+          content:
+            application/json:
+              schema:
+                type: string
+
+components:
+  parameters:
+    requiredQueryParam:
+      description: set query
+      in: query
+      name: query
+      required: true
+      schema:
+        type: string
+    formatParam:
+      description: set format
+      in: query
+      name: format
+      required: false
+      schema:
+        $ref: '#/components/schemas/format'
+
+  schemas:
+    format:
+      default: json
+      description: response format
+      enum:
+        - json
+        - csv
+      type: string

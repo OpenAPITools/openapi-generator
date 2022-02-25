@@ -18,7 +18,7 @@ Install the dependencies
 ```R
 install.packages("jsonlite")
 install.packages("httr")
-install.packages("caTools")
+install.packages("base64enc")
 ```
 
 ### Build the package
@@ -27,7 +27,7 @@ install.packages("caTools")
 git clone https://github.com/GIT_USER_ID/GIT_REPO_ID
 cd GIT_REPO_ID
 R CMD build .
-R CMD check petstore_1.0.0.tar.gz
+R CMD check petstore_1.0.0.tar.gz --no-manual
 R CMD INSTALL petstore_1.0.0.tar.gz
 ```
 

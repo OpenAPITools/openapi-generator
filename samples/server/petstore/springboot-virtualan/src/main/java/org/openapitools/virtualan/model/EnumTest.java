@@ -1,21 +1,31 @@
 package org.openapitools.virtualan.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.virtualan.model.OuterEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * EnumTest
  */
 
+@JsonTypeName("Enum_Test")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class EnumTest   {
+
   /**
    * Gets or Sets enumString
    */
@@ -32,8 +42,12 @@ public class EnumTest   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
@@ -68,8 +82,12 @@ public class EnumTest   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
@@ -102,8 +120,12 @@ public class EnumTest   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public Integer getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
@@ -136,8 +158,12 @@ public class EnumTest   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public Double getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
@@ -168,9 +194,8 @@ public class EnumTest   {
    * Get enumString
    * @return enumString
   */
+  
   @ApiModelProperty(value = "")
-
-
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -188,10 +213,8 @@ public class EnumTest   {
    * Get enumStringRequired
    * @return enumStringRequired
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -209,9 +232,8 @@ public class EnumTest   {
    * Get enumInteger
    * @return enumInteger
   */
+  
   @ApiModelProperty(value = "")
-
-
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -229,9 +251,8 @@ public class EnumTest   {
    * Get enumNumber
    * @return enumNumber
   */
+  
   @ApiModelProperty(value = "")
-
-
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -249,10 +270,8 @@ public class EnumTest   {
    * Get outerEnum
    * @return outerEnum
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
@@ -261,9 +280,8 @@ public class EnumTest   {
     this.outerEnum = outerEnum;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -287,7 +305,6 @@ public class EnumTest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EnumTest {\n");
-    
     sb.append("    enumString: ").append(toIndentedString(enumString)).append("\n");
     sb.append("    enumStringRequired: ").append(toIndentedString(enumStringRequired)).append("\n");
     sb.append("    enumInteger: ").append(toIndentedString(enumInteger)).append("\n");
@@ -301,7 +318,7 @@ public class EnumTest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

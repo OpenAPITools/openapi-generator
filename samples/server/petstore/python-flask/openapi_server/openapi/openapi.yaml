@@ -1,10 +1,10 @@
 openapi: 3.0.1
 info:
-  description: This is a sample server Petstore server. For this sample, you can use
-    the api key `special-key` to test the authorization filters.
+  description: "This is a sample server Petstore server. For this sample, you can\
+    \ use the api key `special-key` to test the authorization filters."
   license:
     name: Apache-2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: OpenAPI Petstore
   version: 1.0.0
 servers:
@@ -31,7 +31,7 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
-        405:
+        "405":
           content: {}
           description: Invalid input
       security:
@@ -56,13 +56,13 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Pet not found
-        405:
+        "405":
           content: {}
           description: Validation exception
       security:
@@ -95,7 +95,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -108,7 +108,7 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid status value
       security:
@@ -122,8 +122,8 @@ paths:
   /pet/findByTags:
     get:
       deprecated: true
-      description: Multiple tags can be provided with comma separated strings. Use
-        tag1, tag2, tag3 for testing.
+      description: "Multiple tags can be provided with comma separated strings. Use\
+        \ tag1, tag2, tag3 for testing."
       operationId: find_pets_by_tags
       parameters:
       - description: Tags to filter by
@@ -137,7 +137,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -150,7 +150,7 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid tag value
       security:
@@ -177,7 +177,7 @@ paths:
           format: int64
           type: integer
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid pet value
       security:
@@ -200,7 +200,7 @@ paths:
           format: int64
           type: integer
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -209,10 +209,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Pet not found
       security:
@@ -243,7 +243,7 @@ paths:
                   description: Updated status of the pet
                   type: string
       responses:
-        405:
+        "405":
           content: {}
           description: Invalid input
       security:
@@ -278,7 +278,7 @@ paths:
                   format: binary
                   type: string
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -297,7 +297,7 @@ paths:
       description: Returns a map of status codes to quantities
       operationId: get_inventory
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -323,7 +323,7 @@ paths:
         description: order placed for purchasing the pet
         required: true
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -332,7 +332,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid Order
       summary: Place an order for a pet
@@ -353,10 +353,10 @@ paths:
         schema:
           type: string
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Order not found
       summary: Delete purchase order by ID
@@ -378,7 +378,7 @@ paths:
           minimum: 1
           type: integer
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -387,10 +387,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Order not found
       summary: Find purchase order by ID
@@ -476,7 +476,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -492,11 +492,11 @@ paths:
                 format: int32
                 type: integer
             X-Expires-After:
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
               schema:
                 format: date-time
                 type: string
-        400:
+        "400":
           content: {}
           description: Invalid username/password supplied
       summary: Logs user into the system
@@ -526,10 +526,10 @@ paths:
         schema:
           type: string
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid username supplied
-        404:
+        "404":
           content: {}
           description: User not found
       summary: Delete user
@@ -546,7 +546,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -555,10 +555,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid username supplied
-        404:
+        "404":
           content: {}
           description: User not found
       summary: Get user by user name
@@ -583,10 +583,10 @@ paths:
         description: Updated user object
         required: true
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid user supplied
-        404:
+        "404":
           content: {}
           description: User not found
       summary: Updated user
@@ -608,15 +608,19 @@ components:
       properties:
         id:
           format: int64
+          title: id
           type: integer
         petId:
           format: int64
+          title: petId
           type: integer
         quantity:
           format: int32
+          title: quantity
           type: integer
         shipDate:
           format: date-time
+          title: shipDate
           type: string
         status:
           description: Order Status
@@ -624,9 +628,11 @@ components:
           - placed
           - approved
           - delivered
+          title: status
           type: string
         complete:
           default: false
+          title: complete
           type: boolean
       title: Pet Order
       type: object
@@ -640,8 +646,10 @@ components:
       properties:
         id:
           format: int64
+          title: id
           type: integer
         name:
+          title: name
           type: string
       title: Pet category
       type: object
@@ -661,22 +669,30 @@ components:
       properties:
         id:
           format: int64
+          title: id
           type: integer
         username:
+          title: username
           type: string
         firstName:
+          title: firstName
           type: string
         lastName:
+          title: lastName
           type: string
         email:
+          title: email
           type: string
         password:
+          title: password
           type: string
         phone:
+          title: phone
           type: string
         userStatus:
           description: User Status
           format: int32
+          title: userStatus
           type: integer
       title: a User
       type: object
@@ -690,8 +706,10 @@ components:
       properties:
         id:
           format: int64
+          title: id
           type: integer
         name:
+          title: name
           type: string
       title: Pet Tag
       type: object
@@ -717,15 +735,18 @@ components:
       properties:
         id:
           format: int64
+          title: id
           type: integer
         category:
           $ref: '#/components/schemas/Category'
         name:
           example: doggie
+          title: name
           type: string
         photoUrls:
           items:
             type: string
+          title: photoUrls
           type: array
           xml:
             name: photoUrl
@@ -733,6 +754,7 @@ components:
         tags:
           items:
             $ref: '#/components/schemas/Tag'
+          title: tags
           type: array
           xml:
             name: tag
@@ -743,6 +765,7 @@ components:
           - available
           - pending
           - sold
+          title: status
           type: string
       required:
       - name
@@ -760,10 +783,13 @@ components:
       properties:
         code:
           format: int32
+          title: code
           type: integer
         type:
+          title: type
           type: string
         message:
+          title: message
           type: string
       title: An uploaded response
       type: object
@@ -783,3 +809,4 @@ components:
       name: api_key
       type: apiKey
       x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_api_key
+x-original-swagger-version: "2.0"

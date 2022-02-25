@@ -15,16 +15,19 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <java.version>1.8</java.version>
-    <scala.version>2.12.8</scala.version>
-    <json4s.jackson.version>3.5.3</json4s.jackson.version>
-    <json4s.ext.version>3.2.11</json4s.ext.version>
-    <akka.version>2.5.21</akka.version>
-    <akka.http.version>10.1.7</akka.http.version>
+    <scala.version>2.12.13</scala.version>
+    <json4s.jackson.version>3.6.7</json4s.jackson.version>
+    <json4s.ext.version>3.6.7</json4s.ext.version>
+    <akka.version>2.6.12</akka.version>
+    <akka.http.version>10.2.3</akka.http.version>
+{{#joda}}
     <joda.time.version>2.10.1</joda.time.version>
-    <typesafeconfig.version>1.3.3</typesafeconfig.version>
-    <akka.http.json4s.version>1.25.2</akka.http.json4s.version>
-    <junit.version>4.12</junit.version>
-    <scala.test.version>3.0.5</scala.test.version>
+{{/joda}}
+    <typesafeconfig.version>1.4.1</typesafeconfig.version>
+    <akka.http.json4s.version>1.27.0</akka.http.json4s.version>
+    <scala.compat.version>2.4.1</scala.compat.version>
+    <scala.test.version>3.2.3</scala.test.version>
+    <scala.test.plus.version>3.2.3.0</scala.test.plus.version>
 
     <scala.maven.plugin.version>3.3.1</scala.maven.plugin.version>
   </properties>
@@ -36,11 +39,13 @@
       <version>${scala.version}</version>
       <scope>provided</scope>
     </dependency>
+{{#joda}}
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>${joda.time.version}</version>
     </dependency>
+{{/joda}}
     <dependency>
       <groupId>com.typesafe</groupId>
       <artifactId>config</artifactId>
@@ -76,6 +81,11 @@
       <artifactId>akka-http-json4s_2.12</artifactId>
       <version>${akka.http.json4s.version}</version>
     </dependency>
+  <dependency>
+      <groupId>org.scala-lang.modules</groupId>
+      <artifactId>scala-collection-compat_2.12</artifactId>
+      <version>${scala.compat.version}</version>
+  </dependency>
 
     <!--test dependencies-->
     <dependency>
@@ -85,9 +95,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
+      <groupId>org.scalatestplus</groupId>
+      <artifactId>junit-4-13_2.12</artifactId>
+      <version>${scala.test.plus.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -132,7 +142,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.20.1</version>
+        <version>3.0.0-M4</version>
         <configuration>
           <systemProperties>
             <property>
@@ -142,6 +152,7 @@
           </systemProperties>
           <argLine>-Xms512m -Xmx1500m</argLine>
           <parallel>methods</parallel>
+          <threadCount>4</threadCount>
           <forkMode>pertest</forkMode>
         </configuration>
       </plugin>

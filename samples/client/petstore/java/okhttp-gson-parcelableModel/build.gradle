@@ -1,6 +1,7 @@
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'java'
+apply plugin: 'com.diffplug.spotless'
 
 group = 'org.openapitools'
 version = '1.0.0'
@@ -8,16 +9,16 @@ version = '1.0.0'
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.+'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.diffplug.spotless:spotless-plugin-gradle:5.17.1'
     }
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 sourceSets {
     main.java.srcDirs = ['src/main/java']
@@ -36,8 +37,8 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 25
         }
         compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
         }
 
         // Rename the aar correctly
@@ -52,7 +53,7 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
 
@@ -80,14 +81,17 @@ if(hasProperty('target') && target == 'android') {
 } else {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = 'petstore-okhttp-gson-parcelableModel'
+    publishing {
+        publications {
+            maven(MavenPublication) {
+               artifactId = 'petstore-okhttp-gson-parcelableModel'
+               from components.java
+            }
         }
     }
 
@@ -97,19 +101,54 @@ if(hasProperty('target') && target == 'android') {
     }
 }
 
+ext {
+    jakarta_annotation_version = "1.3.5"
+}
+
 dependencies {
-    compile 'io.swagger:swagger-annotations:1.5.22'
-    compile "com.google.code.findbugs:jsr305:3.0.2"
-    compile 'com.squareup.okhttp3:okhttp:3.14.2'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.14.2'
-    compile 'com.google.code.gson:gson:2.8.5'
-    compile 'io.gsonfire:gson-fire:1.8.3'
-    compile group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version: '1.0.1'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
-    compile 'org.threeten:threetenbp:1.3.5'
-    testCompile 'junit:junit:4.12'
+    implementation 'io.swagger:swagger-annotations:1.5.24'
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'io.gsonfire:gson-fire:1.8.4'
+    implementation 'javax.ws.rs:jsr311-api:1.1.1'
+    implementation 'javax.ws.rs:javax.ws.rs-api:2.0'
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.1'
+    implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version: '1.0.1'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'org.mockito:mockito-core:3.11.2'
 }
 
 javadoc {
     options.tags = [ "http.response.details:a:Http Response Details" ]
+}
+
+// Use spotless plugin to automatically format code, remove unused import, etc
+// To apply changes directly to the file, run `gradlew spotlessApply`
+// Ref: https://github.com/diffplug/spotless/tree/main/plugin-gradle
+spotless {
+    // comment out below to run spotless as part of the `check` task
+    enforceCheck false
+
+    format 'misc', {
+        // define the files (e.g. '*.gradle', '*.md') to apply `misc` to
+        target '.gitignore'
+
+        // define the steps to apply to those files
+        trimTrailingWhitespace()
+        indentWithSpaces() // Takes an integer argument if you don't like 4
+        endWithNewline()
+    }
+    java {
+        // don't need to set target, it is inferred from java
+
+        // apply a specific flavor of google-java-format
+        googleJavaFormat('1.8').aosp().reflowLongStrings()
+
+        removeUnusedImports()
+        importOrder()
+    }
 }

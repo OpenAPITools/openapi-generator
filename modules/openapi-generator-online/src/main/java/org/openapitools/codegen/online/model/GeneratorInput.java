@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,7 +19,6 @@ package org.openapitools.codegen.online.model;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.models.auth.SecuritySchemeDefinition;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 
 import java.util.Map;
@@ -28,7 +27,6 @@ public class GeneratorInput {
     private JsonNode spec;
     private Map<String, String> options;
     private String openAPIUrl;
-    private SecuritySchemeDefinition auth;
     private AuthorizationValue authorizationValue;
 
     public AuthorizationValue getAuthorizationValue() {
@@ -62,15 +60,5 @@ public class GeneratorInput {
 
     public void setOpenAPIUrl(String url) {
         this.openAPIUrl = url;
-    }
-
-    @Deprecated
-    public SecuritySchemeDefinition getSecurityDefinition() {
-        return auth;
-    }
-
-    @Deprecated
-    public void setSecurityDefinition(SecuritySchemeDefinition auth) {
-        this.auth = auth;
     }
 }

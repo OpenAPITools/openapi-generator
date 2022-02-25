@@ -6,6 +6,9 @@
 {{/supportPython2}}
 
 import connexion
+{{#featureCORS}}
+from flask_cors import CORS
+{{/featureCORS}}
 
 from {{packageName}} import encoder
 
@@ -16,6 +19,12 @@ def main():
     app.add_api('openapi.yaml',
                 arguments={'title': '{{appName}}'},
                 pythonic_params=True)
+
+{{#featureCORS}}
+    # add CORS support
+    CORS(app.app)
+
+{{/featureCORS}}
     app.run(port={{serverPort}})
 
 

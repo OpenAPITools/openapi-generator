@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -11,12 +12,14 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Model for testing model name starting with number
  **/
 @ApiModel(description = "Model for testing model name starting with number")
-public class Model200Response  implements Serializable {
+@JsonTypeName("200_response")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Model200Response  implements Serializable {
   
   private @Valid Integer name;
   private @Valid String propertyClass;
@@ -29,16 +32,20 @@ public class Model200Response  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public Integer getName() {
     return name;
   }
+
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
   }
 
-  /**
+/**
    **/
   public Model200Response propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
@@ -46,18 +53,22 @@ public class Model200Response  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("class")
   public String getPropertyClass() {
     return propertyClass;
   }
+
+  @JsonProperty("class")
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -65,8 +76,8 @@ public class Model200Response  implements Serializable {
       return false;
     }
     Model200Response _200response = (Model200Response) o;
-    return Objects.equals(name, _200response.name) &&
-        Objects.equals(propertyClass, _200response.propertyClass);
+    return Objects.equals(this.name, _200response.name) &&
+        Objects.equals(this.propertyClass, _200response.propertyClass);
   }
 
   @Override
@@ -89,11 +100,13 @@ public class Model200Response  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

@@ -30,7 +30,7 @@ import javax.validation.Valid;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class ReadOnlyFirst  implements Serializable {
   public static final String JSON_PROPERTY_BAR = "bar";
   @JsonProperty(JSON_PROPERTY_BAR)
@@ -49,7 +49,7 @@ public class ReadOnlyFirst  implements Serializable {
    * Get bar
    * @return bar
    **/
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public String getBar() {
@@ -69,7 +69,7 @@ public class ReadOnlyFirst  implements Serializable {
    * Get baz
    * @return baz
    **/
-  @JsonProperty("baz")
+  @JsonProperty(value = "baz")
   @ApiModelProperty(value = "")
   
   public String getBaz() {
@@ -82,7 +82,7 @@ public class ReadOnlyFirst  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -99,7 +99,6 @@ public class ReadOnlyFirst  implements Serializable {
     return Objects.hash(bar, baz);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -115,7 +114,7 @@ public class ReadOnlyFirst  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

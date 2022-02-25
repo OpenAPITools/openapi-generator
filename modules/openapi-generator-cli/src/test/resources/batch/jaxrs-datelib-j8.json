@@ -1,0 +1,10 @@
+{
+  "!include": "common/jaxrs-datelib-j8.json",
+  "generatorName": "jaxrs-jersey",
+  "inputSpec": "batch/specs/petstore.yaml",
+  "outputDir": "outputDir",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true,
+    "serverPort": "8082"
+  }
+}

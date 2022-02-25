@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,16 +19,16 @@ package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaLagomServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ScalaLagomServerCodegen.class);
 
     private String authScheme = "";
     private boolean authPreemptive = false;
@@ -38,6 +38,24 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
     public ScalaLagomServerCodegen() {
         super();
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
+
         outputFolder = "generated-code/scala-lagom-server";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
@@ -76,7 +94,6 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         importMapping.remove("Map");
 
         importMapping.put("DateTime", "org.joda.time.DateTime");
-        importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
 
         typeMapping = new HashMap<>();
         typeMapping.put("Integer", "Int");
@@ -102,83 +119,17 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "HashMap");
-
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING,
-                CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
-            setModelPropertyNaming(
-                    (String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
-        }
-    }
-
-    public void setModelPropertyNaming(String naming) {
-        if ("original".equals(naming) || "camelCase".equals(naming) ||
-                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
-            this.modelPropertyNaming = naming;
-        } else {
-            throw new IllegalArgumentException("Invalid model property naming '" +
-                    naming + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
-        }
-    }
-
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
-    }
-
-    @Override
-    public String toVarName(String name) {
-        // sanitize name
-        name = sanitizeName(
-                name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        if ("_".equals(name)) {
-            name = "_u";
-        }
-
-        // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
-            return name;
-        }
-
-        name = getNameUsingModelPropertyNaming(name);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-
-        return name;
     }
 
     @Override
     public String toParamName(String name) {
         // should be the same as variable name
         return toVarName(name);
-    }
-
-    private String getNameUsingModelPropertyNaming(String name) {
-        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
-            case original:
-                return name;
-            case camelCase:
-                return camelize(name, true);
-            case PascalCase:
-                return camelize(name);
-            case snake_case:
-                return underscore(name);
-            default:
-                throw new IllegalArgumentException("Invalid model property naming '" +
-                        name + "'. Must be 'original', 'camelCase', " +
-                        "'PascalCase' or 'snake_case'");
-        }
-
     }
 
     @Override
@@ -209,35 +160,6 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         }
 
         return camelize(operationId, true);
-    }
-
-    @Override
-    public String toModelName(final String name) {
-        final String sanitizedName = sanitizeName(modelNamePrefix + name + modelNameSuffix);
-
-        // camelize the model name
-        // phone_number => PhoneNumber
-        final String camelizedName = camelize(sanitizedName);
-
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(camelizedName)) {
-            final String modelName = "Model" + camelizedName;
-            LOGGER.warn(
-                    camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
-            return modelName;
-        }
-
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
-            final String modelName =
-                    "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(
-                    name + " (model name starts with number) cannot be used as model name. Renamed to "
-                            + modelName);
-            return modelName;
-        }
-
-        return camelizedName;
     }
 
     @Override

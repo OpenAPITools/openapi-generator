@@ -1,0 +1,43 @@
+{{>partial_header}}
+package {{packageName}}
+
+import (
+	"context"
+	"net/http"
+	"errors"{{#imports}}
+	"{{import}}"{{/imports}}
+)
+
+// {{classname}}Service is a service that implements the logic for the {{classname}}Servicer
+// This service should implement the business logic for every endpoint for the {{classname}} API.
+// Include any external packages or services that will be required by this service.
+type {{classname}}Service struct {
+}
+
+// New{{classname}}Service creates a default api service
+func New{{classname}}Service() {{classname}}Servicer {
+	return &{{classname}}Service{}
+}{{#operations}}{{#operation}}
+
+// {{nickname}} - {{summary}}
+{{#isDeprecated}}
+// Deprecated
+{{/isDeprecated}}
+func (s *{{classname}}Service) {{nickname}}(ctx context.Context{{#allParams}}, {{paramName}} {{dataType}}{{/allParams}}) (ImplResponse, error) {
+	// TODO - update {{nickname}} with the required logic for this service method.
+	// Add {{classFilename}}_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+
+{{#responses}}
+{{#dataType}}
+	//TODO: Uncomment the next line to return response Response({{code}}, {{dataType}}{}) or use other options such as http.Ok ...
+	//return Response({{code}}, {{dataType}}{}), nil
+
+{{/dataType}}
+{{^dataType}}
+	//TODO: Uncomment the next line to return response Response({{code}}, {{dataType}}{}) or use other options such as http.Ok ...
+	//return Response({{code}}, nil),nil
+
+{{/dataType}}
+{{/responses}}
+	return Response(http.StatusNotImplemented, nil), errors.New("{{nickname}} method not implemented")
+}{{/operation}}{{/operations}}

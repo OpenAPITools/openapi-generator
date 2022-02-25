@@ -9,7 +9,7 @@ info:
   title: OpenAPI Petstore
   license:
     name: Apache-2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 tags:
   - name: pet
     description: Everything about your Pets
@@ -26,6 +26,15 @@ paths:
       description: ''
       operationId: addPet
       responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
         '405':
           description: Invalid input
       security:
@@ -41,6 +50,15 @@ paths:
       description: ''
       operationId: updatePet
       responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid ID supplied
         '404':
@@ -67,6 +85,7 @@ paths:
           required: true
           style: form
           explode: false
+          deprecated: true
           schema:
             type: array
             items:
@@ -373,7 +392,7 @@ paths:
         default:
           description: successful operation
       security:
-        - auth_cookie: []
+        - api_key: []
       requestBody:
         content:
           application/json:
@@ -392,7 +411,7 @@ paths:
         default:
           description: successful operation
       security:
-        - auth_cookie: []
+        - api_key: []
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
   /user/createWithList:
@@ -406,7 +425,7 @@ paths:
         default:
           description: successful operation
       security:
-        - auth_cookie: []
+        - api_key: []
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
   /user/login:
@@ -436,7 +455,7 @@ paths:
           headers:
             Set-Cookie:
               description: >-
-                Cookie authentication key for use with the `auth_cookie`
+                Cookie authentication key for use with the `api_key`
                 apiKey authentication.
               schema:
                 type: string
@@ -447,7 +466,7 @@ paths:
                 type: integer
                 format: int32
             X-Expires-After:
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
               schema:
                 type: string
                 format: date-time
@@ -471,7 +490,7 @@ paths:
         default:
           description: successful operation
       security:
-        - auth_cookie: []
+        - api_key: []
   '/user/{username}':
     get:
       tags:
@@ -519,7 +538,7 @@ paths:
         '404':
           description: User not found
       security:
-        - auth_cookie: []
+        - api_key: []
       requestBody:
         content:
           application/json:
@@ -546,7 +565,7 @@ paths:
         '404':
           description: User not found
       security:
-        - auth_cookie: []
+        - api_key: []
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -584,10 +603,6 @@ components:
       type: apiKey
       name: api_key
       in: header
-    auth_cookie:
-      type: apiKey
-      name: AUTH_KEY
-      in: cookie
   schemas:
     Order:
       title: Pet Order
@@ -702,6 +717,7 @@ components:
         status:
           type: string
           description: pet status in the store
+          deprecated: true
           enum:
             - available
             - pending

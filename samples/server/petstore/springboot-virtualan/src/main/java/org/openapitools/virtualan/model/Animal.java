@@ -1,5 +1,6 @@
 package org.openapitools.virtualan.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,20 +9,27 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Animal
  */
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
+  @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
+  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
 })
-
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Animal   {
+
   @JsonProperty("className")
   private String className;
 
@@ -37,10 +45,8 @@ public class Animal   {
    * Get className
    * @return className
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public String getClassName() {
     return className;
   }
@@ -58,9 +64,8 @@ public class Animal   {
    * Get color
    * @return color
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getColor() {
     return color;
   }
@@ -69,9 +74,8 @@ public class Animal   {
     this.color = color;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -92,7 +96,6 @@ public class Animal   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Animal {\n");
-    
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("}");
@@ -103,7 +106,7 @@ public class Animal   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

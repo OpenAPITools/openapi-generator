@@ -15,6 +15,9 @@
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <RootNamespace>{{packageName}}</RootNamespace>
     <Version>{{packageVersion}}</Version>
+    {{#nullableReferenceTypes}}
+    <Nullable>annotations</Nullable>
+    {{/nullableReferenceTypes}}
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,10 +26,10 @@
     <PackageReference Include="FubarCoder.RestSharp.Portable.HttpClient" Version="4.0.7" />
     {{/netStandard}}
     {{^netStandard}}
-    <PackageReference Include="RestSharp" Version="105.1.0" />
+    <PackageReference Include="RestSharp" Version="{{restsharp.version}}" />
     {{/netStandard}}
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="JsonSubTypes" Version="1.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="{{newtonsoft-json.version}}" />
+    <PackageReference Include="JsonSubTypes" Version="{{json-subtypes.version}}" />
   </ItemGroup>
 
   {{^netStandard}}

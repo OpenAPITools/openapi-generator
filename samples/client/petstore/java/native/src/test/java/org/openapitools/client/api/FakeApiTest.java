@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * API tests for FakeApi
  */
@@ -51,8 +52,9 @@ public class FakeApiTest {
     @Test
     public void createXmlItemTest() throws ApiException {
         XmlItem xmlItem = null;
+        
         api.createXmlItem(xmlItem);
-
+        
         // TODO: test validations
     }
     
@@ -67,8 +69,9 @@ public class FakeApiTest {
     @Test
     public void fakeOuterBooleanSerializeTest() throws ApiException {
         Boolean body = null;
-        Boolean response = api.fakeOuterBooleanSerialize(body);
-
+        Boolean response = 
+        api.fakeOuterBooleanSerialize(body);
+        
         // TODO: test validations
     }
     
@@ -83,8 +86,9 @@ public class FakeApiTest {
     @Test
     public void fakeOuterCompositeSerializeTest() throws ApiException {
         OuterComposite body = null;
-        OuterComposite response = api.fakeOuterCompositeSerialize(body);
-
+        OuterComposite response = 
+        api.fakeOuterCompositeSerialize(body);
+        
         // TODO: test validations
     }
     
@@ -99,8 +103,9 @@ public class FakeApiTest {
     @Test
     public void fakeOuterNumberSerializeTest() throws ApiException {
         BigDecimal body = null;
-        BigDecimal response = api.fakeOuterNumberSerialize(body);
-
+        BigDecimal response = 
+        api.fakeOuterNumberSerialize(body);
+        
         // TODO: test validations
     }
     
@@ -115,8 +120,9 @@ public class FakeApiTest {
     @Test
     public void fakeOuterStringSerializeTest() throws ApiException {
         String body = null;
-        String response = api.fakeOuterStringSerialize(body);
-
+        String response = 
+        api.fakeOuterStringSerialize(body);
+        
         // TODO: test validations
     }
     
@@ -131,8 +137,9 @@ public class FakeApiTest {
     @Test
     public void testBodyWithFileSchemaTest() throws ApiException {
         FileSchemaTestClass body = null;
+        
         api.testBodyWithFileSchema(body);
-
+        
         // TODO: test validations
     }
     
@@ -148,8 +155,9 @@ public class FakeApiTest {
     public void testBodyWithQueryParamsTest() throws ApiException {
         String query = null;
         User body = null;
+        
         api.testBodyWithQueryParams(query, body);
-
+        
         // TODO: test validations
     }
     
@@ -164,15 +172,16 @@ public class FakeApiTest {
     @Test
     public void testClientModelTest() throws ApiException {
         Client body = null;
-        Client response = api.testClientModel(body);
-
+        Client response = 
+        api.testClientModel(body);
+        
         // TODO: test validations
     }
     
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      *
      * @throws ApiException
      *          if the Api call fails
@@ -193,8 +202,9 @@ public class FakeApiTest {
         OffsetDateTime dateTime = null;
         String password = null;
         String paramCallback = null;
+        
         api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
-
+        
         // TODO: test validations
     }
     
@@ -216,8 +226,9 @@ public class FakeApiTest {
         Double enumQueryDouble = null;
         List<String> enumFormStringArray = null;
         String enumFormString = null;
+        
         api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
-
+        
         // TODO: test validations
     }
     
@@ -237,7 +248,17 @@ public class FakeApiTest {
         Integer stringGroup = null;
         Boolean booleanGroup = null;
         Long int64Group = null;
-        api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+        
+        FakeApi.APItestGroupParametersRequest request = FakeApi.APItestGroupParametersRequest.newBuilder()
+          .requiredStringGroup(requiredStringGroup)
+          .requiredBooleanGroup(requiredBooleanGroup)
+          .requiredInt64Group(requiredInt64Group)
+          .stringGroup(stringGroup)
+          .booleanGroup(booleanGroup)
+          .int64Group(int64Group)
+          .build();
+        
+        api.testGroupParameters(request);
 
         // TODO: test validations
     }
@@ -253,8 +274,9 @@ public class FakeApiTest {
     @Test
     public void testInlineAdditionalPropertiesTest() throws ApiException {
         Map<String, String> param = null;
+        
         api.testInlineAdditionalProperties(param);
-
+        
         // TODO: test validations
     }
     
@@ -270,8 +292,30 @@ public class FakeApiTest {
     public void testJsonFormDataTest() throws ApiException {
         String param = null;
         String param2 = null;
+        
         api.testJsonFormData(param, param2);
-
+        
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * To test the collection format in query parameters
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testQueryParameterCollectionFormatTest() throws ApiException {
+        List<String> pipe = null;
+        List<String> ioutil = null;
+        List<String> http = null;
+        List<String> url = null;
+        List<String> context = null;
+        
+        api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+        
         // TODO: test validations
     }
     

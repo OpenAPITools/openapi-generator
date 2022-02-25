@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 public class {{classname}}Verticle extends AbstractVerticle {
-    final static Logger LOGGER = LoggerFactory.getLogger({{classname}}Verticle.class); 
-    
-    {{#operations}}{{#operation}}{{#vendorExtensions}}final static String {{x-serviceid-varname}} = "{{x-serviceid}}";
+    static final Logger LOGGER = LoggerFactory.getLogger({{classname}}Verticle.class);
+
+    {{#operations}}{{#operation}}{{#vendorExtensions}}static final String {{x-serviceid-varname}} = "{{x-serviceid}}";
     {{/vendorExtensions}}{{/operation}}{{/operations}}
     final {{classname}} service;
 
@@ -41,7 +41,7 @@ public class {{classname}}Verticle extends AbstractVerticle {
                 String serviceId = "{{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}";
                 {{#hasParams}}
                     {{#allParams}}
-                        {{#isListContainer}}
+                        {{#isArray}}
                 JsonArray {{paramName}}Param = message.body().getJsonArray("{{baseName}}");
                 {{#required}}
                 if({{paramName}}Param == null) {
@@ -52,11 +52,11 @@ public class {{classname}}Verticle extends AbstractVerticle {
                     Json.mapper.getTypeFactory().constructCollectionType(List.class, {{{baseType}}}.class));
                 {{/required}}
                 {{^required}}
-                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param.encode(),
+                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param.encode(),
                     Json.mapper.getTypeFactory().constructCollectionType(List.class, {{{baseType}}}.class));
                 {{/required}}
-                        {{/isListContainer}}
-                        {{^isListContainer}}
+                        {{/isArray}}
+                        {{^isArray}}
                             {{#isPrimitiveType}}
                                 {{#isString}}
                 String {{paramName}}Param = message.body().getString("{{baseName}}");
@@ -81,7 +81,7 @@ public class {{classname}}Verticle extends AbstractVerticle {
                 {{{dataType}}} {{paramName}} = Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
                 {{/required}}
                 {{^required}}
-                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
+                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
                 {{/required}}
                                 {{/isString}}
                             {{/isPrimitiveType}}
@@ -93,7 +93,7 @@ public class {{classname}}Verticle extends AbstractVerticle {
                 }
                 {{{dataType}}} {{paramName}} = Json.mapper.readValue({{paramName}}Param.encode(), {{{dataType}}}.class);
                             {{/isPrimitiveType}}
-                        {{/isListContainer}}
+                        {{/isArray}}
                     {{/allParams}}
                 {{/hasParams}}
                 {{#rxInterface}}
@@ -109,7 +109,7 @@ public class {{classname}}Verticle extends AbstractVerticle {
         });
         {{/operation}}{{/operations}}
     }
-    
+
     private void manageError(Message<JsonObject> message, Throwable cause, String serviceName) {
         int code = MainApiException.INTERNAL_SERVER_ERROR.getStatusCode();
         String statusMessage = MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage();
@@ -117,12 +117,12 @@ public class {{classname}}Verticle extends AbstractVerticle {
             code = ((MainApiException)cause).getStatusCode();
             statusMessage = ((MainApiException)cause).getStatusMessage();
         } else {
-            logUnexpectedError(serviceName, cause); 
+            logUnexpectedError(serviceName, cause);
         }
-            
+
         message.fail(code, statusMessage);
     }
-    
+
     private void logUnexpectedError(String serviceName, Throwable cause) {
         LOGGER.error("Unexpected error in "+ serviceName, cause);
     }

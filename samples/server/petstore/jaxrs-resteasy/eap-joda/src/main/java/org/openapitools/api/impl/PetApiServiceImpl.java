@@ -16,7 +16,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
 public class PetApiServiceImpl implements PetApi {
       public Response addPet(Pet body,SecurityContext securityContext) {
       // do some magic!

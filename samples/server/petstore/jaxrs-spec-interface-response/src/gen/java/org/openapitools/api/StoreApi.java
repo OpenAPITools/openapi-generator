@@ -16,11 +16,11 @@ import javax.validation.Valid;
 
 @Path("/store")
 @Api(description = "the store API")
-public interface StoreApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public interface StoreApi {
 
     @DELETE
     @Path("/order/{order_id}")
-    @ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", tags={ "store",  })
+    @ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Order not found", response = Void.class) })
@@ -30,8 +30,9 @@ public interface StoreApi {
     @Path("/inventory")
     @Produces({ "application/json" })
     @ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", authorizations = {
+        
         @Authorization(value = "api_key")
-    }, tags={ "store",  })
+         }, tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
     Response getInventory();
@@ -39,7 +40,7 @@ public interface StoreApi {
     @GET
     @Path("/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Find purchase order by ID", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions", tags={ "store",  })
+    @ApiOperation(value = "Find purchase order by ID", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions", tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
@@ -53,5 +54,5 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
-    Response placeOrder(@Valid Order order);
+    Response placeOrder(@Valid @NotNull Order body);
 }

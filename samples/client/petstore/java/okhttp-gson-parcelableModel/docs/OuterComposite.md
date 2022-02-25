@@ -2,13 +2,18 @@
 
 # OuterComposite
 
+
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**myNumber** | [**BigDecimal**](BigDecimal.md) |  |  [optional]
+**myNumber** | **BigDecimal** |  |  [optional]
 **myString** | **String** |  |  [optional]
 **myBoolean** | **Boolean** |  |  [optional]
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

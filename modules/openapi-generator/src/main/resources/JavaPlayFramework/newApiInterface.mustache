@@ -3,11 +3,23 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 
+import com.google.inject.Inject;
+import com.typesafe.config.Config;
+import play.mvc.Controller;
 import play.mvc.Http;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import play.mvc.Result;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import openapitools.OpenAPIUtils;
+import openapitools.SecurityAPIUtils;
+import static play.mvc.Results.ok;
+import static play.mvc.Results.unauthorized;
+import play.libs.Files.TemporaryFile;
 {{#supportAsync}}
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 {{/supportAsync}}
@@ -18,9 +30,19 @@ import javax.validation.constraints.*;
 
 {{#operations}}
 @SuppressWarnings("RedundantThrows")
-public interface {{classname}}ControllerImpInterface {
+public abstract class {{classname}}ControllerImpInterface {
+    {{#useBeanValidation}}
+    @Inject private Config configuration;
+    {{/useBeanValidation}}
+    @Inject private SecurityAPIUtils securityAPIUtils;
+    private ObjectMapper mapper = new ObjectMapper();
+
 {{#operation}}
-    {{^returnType}}void{{/returnType}}{{#returnType}}{{#supportAsync}}CompletionStage<{{/supportAsync}}{{>returnTypesNoVoid}}{{#supportAsync}}>{{/supportAsync}}{{/returnType}} {{operationId}}({{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}};
+    public {{#supportAsync}}CompletionStage<{{/supportAsync}}Result{{#supportAsync}}>{{/supportAsync}} {{operationId}}Http(Http.Request request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{^-last}}, {{/-last}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}} {
+{{>responseToResult}}
+    }
+
+    public abstract {{^returnType}}void{{/returnType}}{{#returnType}}{{#supportAsync}}CompletionStage<{{/supportAsync}}{{>returnTypesNoVoid}}{{#supportAsync}}>{{/supportAsync}}{{/returnType}} {{operationId}}(Http.Request request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{^-last}}, {{/-last}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}};
 
 {{/operation}}
 }

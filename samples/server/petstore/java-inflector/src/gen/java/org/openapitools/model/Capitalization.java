@@ -10,25 +10,25 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class Capitalization   {
   @JsonProperty("smallCamel")
-  private String smallCamel = null;
+  private String smallCamel;
 
   @JsonProperty("CapitalCamel")
-  private String capitalCamel = null;
+  private String capitalCamel;
 
   @JsonProperty("small_Snake")
-  private String smallSnake = null;
+  private String smallSnake;
 
   @JsonProperty("Capital_Snake")
-  private String capitalSnake = null;
+  private String capitalSnake;
 
   @JsonProperty("SCA_ETH_Flow_Points")
-  private String scAETHFlowPoints = null;
+  private String scAETHFlowPoints;
 
   @JsonProperty("ATT_NAME")
-  private String ATT_NAME = null;
+  private String ATT_NAME;
 
   /**
    **/
@@ -135,7 +135,7 @@ public class Capitalization   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -175,7 +175,7 @@ public class Capitalization   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

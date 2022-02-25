@@ -52,7 +52,7 @@ public class SerializerUtilsTest {
                "      description: Some description\n" +
                "      operationId: pingOp\n" +
                "      responses:\n" +
-               "        200:\n" +
+               "        \"200\":\n" +
                "          description: Ok\n" +
                "components:\n" +
                "  schemas:\n" +
@@ -178,8 +178,8 @@ public class SerializerUtilsTest {
                 "      description: Some description\n" +
                 "      operationId: pingOp\n" +
                 "      responses:\n" +
-                "        200:\n" +
-                "          description: Ok\n"; 
+                "        \"200\":\n" +
+                "          description: Ok\n";
         assertEquals(content, expected);
     }
 
@@ -210,7 +210,7 @@ public class SerializerUtilsTest {
                 "      }\n" +
                 "    }\n" +
                 "  }\n" +
-                "}"; 
+                "}";
         assertEquals(content, expected);
     }
 

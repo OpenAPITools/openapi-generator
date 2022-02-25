@@ -1,24 +1,35 @@
 package org.openapitools.virtualan.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.virtualan.model.Category;
 import org.openapitools.virtualan.model.Tag;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Pet
  */
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet   {
+
   @JsonProperty("id")
   private Long id;
 
@@ -30,7 +41,7 @@ public class Pet   {
 
   @JsonProperty("photoUrls")
   @Valid
-  private List<String> photoUrls = new ArrayList<>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   @JsonProperty("tags")
   @Valid
@@ -52,8 +63,12 @@ public class Pet   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
@@ -81,9 +96,8 @@ public class Pet   {
    * Get id
    * @return id
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Long getId() {
     return id;
   }
@@ -101,10 +115,8 @@ public class Pet   {
    * Get category
    * @return category
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public Category getCategory() {
     return category;
   }
@@ -122,10 +134,8 @@ public class Pet   {
    * Get name
    * @return name
   */
+  @NotNull 
   @ApiModelProperty(example = "doggie", required = true, value = "")
-  @NotNull
-
-
   public String getName() {
     return name;
   }
@@ -134,7 +144,7 @@ public class Pet   {
     this.name = name;
   }
 
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -148,15 +158,14 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
-  public List<String> getPhotoUrls() {
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
-  public void setPhotoUrls(List<String> photoUrls) {
+  @JsonDeserialize(as = LinkedHashSet.class)
+  public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
@@ -177,10 +186,8 @@ public class Pet   {
    * Get tags
    * @return tags
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public List<Tag> getTags() {
     return tags;
   }
@@ -198,9 +205,8 @@ public class Pet   {
    * pet status in the store
    * @return status
   */
+  
   @ApiModelProperty(value = "pet status in the store")
-
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -209,9 +215,8 @@ public class Pet   {
     this.status = status;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -236,7 +241,6 @@ public class Pet   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pet {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
@@ -251,7 +255,7 @@ public class Pet   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

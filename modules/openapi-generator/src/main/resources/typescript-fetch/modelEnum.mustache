@@ -1,15 +1,4 @@
-/**
- * {{{description}}}
- * @export
- * @enum {string}
- */
-export enum {{classname}} {
-{{#allowableValues}}
-{{#enumVars}}
-    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
-{{/enumVars}}
-{{/allowableValues}}
-}
+{{>modelEnumInterfaces}}
 
 export function {{classname}}FromJSON(json: any): {{classname}} {
     return {{classname}}FromJSONTyped(json, false);
@@ -19,6 +8,6 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     return json as {{classname}};
 }
 
-export function {{classname}}ToJSON(value?: {{classname}}): any {
+export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     return value as any;
 }

@@ -28,12 +28,14 @@ import java.io.IOException;
  * Model for testing reserved words
  */
 @ApiModel(description = "Model for testing reserved words")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelReturn {
   public static final String SERIALIZED_NAME_RETURN = "return";
   @SerializedName(SERIALIZED_NAME_RETURN)
   private Integer _return;
 
+  public ModelReturn() { 
+  }
 
   public ModelReturn _return(Integer _return) {
     
@@ -53,14 +55,13 @@ public class ModelReturn {
   }
 
 
-
   public void setReturn(Integer _return) {
     this._return = _return;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -76,7 +77,6 @@ public class ModelReturn {
     return Objects.hash(_return);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -90,7 +90,7 @@ public class ModelReturn {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

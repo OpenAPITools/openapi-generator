@@ -1,0 +1,11 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-jvm-okhttp4-coroutines
+library: jvm-okhttp4
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  serializationLibrary: gson
+  useCoroutines: "true"
+  artifactId: kotlin-petstore-okhttp4-coroutines-client
+  serializableModel: "true"
+  dateLibrary: java8

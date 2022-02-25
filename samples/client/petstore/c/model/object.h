@@ -9,10 +9,11 @@
 #include "../external/cJSON.h"
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
+#include "../include/binary.h"
 
 
 typedef struct object_t {
-	void *temporary;
+    void *temporary;
 } object_t;
 
 object_t *object_create();

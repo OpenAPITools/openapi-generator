@@ -1,0 +1,48 @@
+# {{packageName}} - Kotlin database library for {{appName}}
+
+## Requires
+
+{{#jvm}}
+* Kotlin 1.3.61
+* Gradle 4.9
+{{/jvm}}
+{{#multiplatform}}
+* Kotlin 1.3.50
+{{/multiplatform}}
+
+## Build
+
+{{#jvm}}
+First, create the gradle wrapper script:
+
+```
+gradle wrapper
+```
+
+Then, run:
+
+{{/jvm}}
+```
+./gradlew check assemble
+```
+
+This runs all tests and packages the library.
+
+## Features/Implementation Notes
+
+* Some Kotlin and Java types are fully qualified to avoid conflicts with types defined in OpenAPI definitions.
+* Supports Mapper using API model classes.
+* Supports SQLite types.
+
+{{#generateModelDocs}}
+<a name="documentation-for-models"></a>
+## Documentation for Models
+
+{{#modelPackage}}
+{{#models}}{{#model}} - [{{{modelPackage}}}.{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
+{{/model}}{{/models}}
+{{/modelPackage}}
+{{^modelPackage}}
+No model defined in this package
+{{/modelPackage}}
+{{/generateModelDocs}}

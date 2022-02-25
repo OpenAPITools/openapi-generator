@@ -4,6 +4,8 @@
         "noImplicitAny": false,
         "suppressImplicitAnyIndexErrors": true,
         "target": "ES5",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
         "strict": true,
         "moduleResolution": "node",
         "removeComments": true,

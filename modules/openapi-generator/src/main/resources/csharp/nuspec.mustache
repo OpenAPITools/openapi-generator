@@ -12,7 +12,7 @@
         <authors>$author$</authors>
 
         <!-- Owners are typically nuget.org identities that allow gallery
-             users to earily find other packages by the same owners.  -->
+             users to easily find other packages by the same owners.  -->
         <owners>$author$</owners>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <developmentDependency>false</developmentDependency>
@@ -21,21 +21,21 @@
              nuget.org gallery uses information you add in the portal. -->
         <description>{{packageDescription}}</description>
         {{#termsOfService}}
-        <copyright>{{termsOfService}}</copyright>
+        <copyright>{{.}}</copyright>
         {{/termsOfService}}
         {{#licenseUrl}}
-        <licenseUrl>{{licenseUrl}}</licenseUrl>
+        <licenseUrl>{{.}}</licenseUrl>
         {{/licenseUrl}}
 
         <!-- Dependencies are automatically installed when the package is installed -->
         <dependencies>
 
-            <dependency id="NewtonSoft.Json" version="12.0.1" />
-            <dependency id="JsonSubTypes" version="1.5.2" />
-            <dependency id="RestSharp" version="105.1.0" />
+            <dependency id="NewtonSoft.Json" version="{{newtonsoft-json.version}}" />
+            <dependency id="JsonSubTypes" version="{{json-subtypes.version}}" />
+            <dependency id="RestSharp" version="{{restsharp.version}}" />
             {{#generatePropertyChanged}}
-            <dependency id="Fody" version="1.29.4" />
-            <dependency id="PropertyChanged.Fody" version="1.51.3" />
+            <dependency id="Fody" version="{{fody.version}}" />
+            <dependency id="PropertyChanged.Fody" version="{{propertychanged-fody.version}}" />
             {{/generatePropertyChanged}}
 
         </dependencies>

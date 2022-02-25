@@ -1,0 +1,9 @@
+{{#isFormParam}}
+{{^isFile}}
+        RequestParameter body = requestParameters.body();
+        JsonObject {{paramName}} = body != null ? body.getJsonObject() : null;
+{{/isFile}}
+{{#isFile}}
+        {{{dataType}}} {{paramName}} = routingContext.fileUploads().iterator().next();
+{{/isFile}}
+{{/isFormParam}}

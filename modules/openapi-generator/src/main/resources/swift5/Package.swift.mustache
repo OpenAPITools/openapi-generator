@@ -1,0 +1,57 @@
+// swift-tools-version:5.1
+
+import PackageDescription
+
+let package = Package(
+    name: "{{projectName}}",
+    platforms: [
+        {{#useVapor}}
+        .macOS(.v10_15),
+        {{/useVapor}}
+        {{^useVapor}}
+        {{#useAlamofire}}
+        .iOS(.v10),
+        .macOS(.v10_12),
+        .tvOS(.v10),
+        {{/useAlamofire}}
+        {{^useAlamofire}}
+        .iOS(.v9),
+        .macOS(.v10_11),
+        .tvOS(.v9),
+        {{/useAlamofire}}
+        .watchOS(.v3),
+        {{/useVapor}}
+    ],
+    products: [
+        // Products define the executables and libraries produced by a package, and make them visible to other packages.
+        .library(
+            name: "{{projectName}}",
+            targets: ["{{projectName}}"]
+        ),
+    ],
+    dependencies: [
+        // Dependencies declare other packages that this package depends on.
+        .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.1"),
+        {{#useAlamofire}}
+        .package(url: "https://github.com/Alamofire/Alamofire", from: "5.4.3"),
+        {{/useAlamofire}}
+        {{#usePromiseKit}}
+        .package(url: "https://github.com/mxcl/PromiseKit", from: "6.15.3"),
+        {{/usePromiseKit}}
+        {{#useRxSwift}}
+        .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.2.0"),
+        {{/useRxSwift}}
+        {{#useVapor}}
+        .package(url: "https://github.com/vapor/vapor", from: "4.0.0")
+        {{/useVapor}}
+    ],
+    targets: [
+        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
+        // Targets can depend on other targets in this package, and on products in packages which this package depends on.
+        .target(
+            name: "{{projectName}}",
+            dependencies: ["AnyCodable", {{#useVapor}}"Vapor", {{/useVapor}}{{#useAlamofire}}"Alamofire", {{/useAlamofire}}{{#usePromiseKit}}"PromiseKit", {{/usePromiseKit}}{{#useRxSwift}}"RxSwift"{{/useRxSwift}}],
+            path: "{{swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}"
+        ),
+    ]
+)

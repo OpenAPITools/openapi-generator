@@ -1,0 +1,38 @@
+pub struct MakeService<T, C> where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
+{
+    api_impl: T,
+    marker: PhantomData<C>,
+}
+
+impl<T, C> MakeService<T, C> where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
+{
+    pub fn new(api_impl: T) -> Self {
+        MakeService {
+            api_impl,
+            marker: PhantomData
+        }
+    }
+}
+
+impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
+{
+    type Response = Service<T, C>;
+    type Error = crate::ServiceError;
+    type Future = future::Ready<Result<Self::Response, Self::Error>>;
+
+    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+        Poll::Ready(Ok(()))
+    }
+
+    fn call(&mut self, target: Target) -> Self::Future {
+        futures::future::ok(Service::new(
+            self.api_impl.clone(),
+        ))
+    }
+}

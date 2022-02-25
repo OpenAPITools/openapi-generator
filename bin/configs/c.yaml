@@ -1,0 +1,4 @@
+generatorName: c
+outputDir: samples/client/petstore/c
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/C-libcurl

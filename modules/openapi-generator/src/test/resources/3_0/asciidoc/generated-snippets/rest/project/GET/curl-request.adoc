@@ -1,0 +1,4 @@
+[source,bash]
+----
+$ curl 'http://samplehost.timeatwork.manathome.org:8080/rest/project/' -i -X GET
+----

@@ -1,0 +1,56 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}
+
+#include "{{classname}}.h"
+
+namespace {{modelNamespace}}
+{
+
+nlohmann::json {{classname}}::to_json() const
+{
+    nlohmann::json j;
+    {{#modelNamespaceDeclarations}}::{{this}}{{/modelNamespaceDeclarations}}::to_json(j, *this);
+    return j;
+}
+
+{{classname}} {{classname}}::from_json(const nlohmann::json& j)
+{
+    {{classname}} o{};
+    {{#modelNamespaceDeclarations}}::{{this}}{{/modelNamespaceDeclarations}}::from_json(j, o);
+    return o;
+}
+
+bool {{classname}}::operator==(const {{classname}}& other) const
+{
+    return {{#vars}}{{name}} == other.{{name}}{{^-last}} && {{/-last}}{{/vars}};
+}
+
+bool {{classname}}::operator!=(const {{classname}}& other) const
+{
+    return !(*this == other);
+}
+
+void to_json(nlohmann::json& j, const {{classname}}& o)
+{
+    {{#vars}}
+    {{^required}}if (!o.{{name}}.isEmpty()){{/required}}
+        j["{{baseName}}"] = o.{{name}}{{^required}}.get(){{/required}};
+    {{/vars}}
+}
+
+void from_json(const nlohmann::json& j, {{classname}}& o)
+{
+    {{#vars}}
+    {{#required}}j.at("{{baseName}}").get_to(o.{{name}});{{/required}}
+    {{^required}}if (j.find("{{baseName}}") != j.end()) {
+        {{{dataType}}} temporary_{{name}};
+        j.at("{{baseName}}").get_to(temporary_{{name}});
+        o.{{name}} = temporary_{{name}};
+    }{{/required}}
+    {{/vars}}
+}
+
+} // namespace {{modelNamespace}}
+
+{{/model}}
+{{/models}}

@@ -2,16 +2,17 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**array_number** | **Array&lt;Float&gt;** |  | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **array_number** | **Array&lt;Float&gt;** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::ArrayOfNumberOnly.new(array_number: null)
+instance = Petstore::ArrayOfNumberOnly.new(
+  array_number: null
+)
 ```
-
 

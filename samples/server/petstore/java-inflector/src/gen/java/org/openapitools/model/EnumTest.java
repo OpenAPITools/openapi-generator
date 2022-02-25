@@ -3,6 +3,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,7 +13,7 @@ import org.openapitools.model.OuterEnum;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class EnumTest   {
   /**
    * Gets or Sets enumString
@@ -43,12 +44,12 @@ public class EnumTest   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("enum_string")
-  private EnumStringEnum enumString = null;
+  private EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -79,12 +80,12 @@ public class EnumTest   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("enum_string_required")
-  private EnumStringRequiredEnum enumStringRequired = null;
+  private EnumStringRequiredEnum enumStringRequired;
 
   /**
    * Gets or Sets enumInteger
@@ -113,12 +114,12 @@ public class EnumTest   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("enum_integer")
-  private EnumIntegerEnum enumInteger = null;
+  private EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -147,15 +148,15 @@ public class EnumTest   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("enum_number")
-  private EnumNumberEnum enumNumber = null;
+  private EnumNumberEnum enumNumber;
 
   @JsonProperty("outerEnum")
-  private OuterEnum outerEnum = null;
+  private OuterEnum outerEnum;
 
   /**
    **/
@@ -244,7 +245,7 @@ public class EnumTest   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -282,7 +283,7 @@ public class EnumTest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

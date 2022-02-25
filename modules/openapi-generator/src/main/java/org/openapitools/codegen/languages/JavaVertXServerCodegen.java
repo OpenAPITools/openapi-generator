@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,13 @@ import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.URLPathUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
@@ -36,6 +42,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class JavaVertXServerCodegen extends AbstractJavaCodegen {
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaVertXServerCodegen.class);
 
     protected String resourceFolder = "src/main/resources";
     protected String rootPackage = "org.openapitools.server.api";
@@ -58,6 +65,12 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     public JavaVertXServerCodegen() {
         super();
 
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+            .stability(Stability.DEPRECATED)
+            .build();
+
         // set the output folder here
         outputFolder = "generated-code" + File.separator + "javaVertXServer";
 
@@ -77,12 +90,12 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         artifactVersion = apiVersion;
         this.setDateLibrary("java8");
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.ARTIFACT_VERSION, this.getArtifactVersion());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
 
         additionalProperties.put(ROOT_PACKAGE, rootPackage);
 
@@ -131,6 +144,8 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     public void processOpts() {
         super.processOpts();
 
+        LOGGER.warn("IMPORTANT: This generator has been deprecated. Please use `java-vertx-web` instead");
+
         apiTestTemplateFiles.clear();
 
         importMapping.remove("JsonCreator");
@@ -152,10 +167,13 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
                 sourceFolder + File.separator + rootPackage.replace(".", File.separator),
                 "MainApiException.java"));
 
-        writeOptional(outputFolder, new SupportingFile("vertx-default-jul-logging.mustache",
-                resourceFolder, "vertx-default-jul-logging.properties"));
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("vertx-default-jul-logging.mustache",
+                resourceFolder, "vertx-default-jul-logging.properties")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
+                .doNotOverwrite());
     }
 
     @Override

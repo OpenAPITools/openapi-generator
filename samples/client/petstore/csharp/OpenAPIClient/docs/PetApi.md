@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 ## AddPet
 
-> void AddPet (Pet body)
+> void AddPet (Pet pet)
 
 Add a new pet to the store
 
@@ -42,12 +42,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(Configuration.Default);
-            var body = new Pet(); // Pet | Pet object that needs to be added to the store
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Add a new pet to the store
-                apiInstance.AddPet(body);
+                apiInstance.AddPet(pet);
             }
             catch (ApiException e)
             {
@@ -65,7 +65,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -80,10 +80,11 @@ void (empty response body)
 - **Content-Type**: application/json, application/xml
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
+| **200** | Successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 [[Back to top]](#)
@@ -118,8 +119,8 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(Configuration.Default);
-            var petId = 789;  // long | Pet id to delete
-            var apiKey = apiKey_example;  // string |  (optional) 
+            var petId = 789L;  // long | Pet id to delete
+            var apiKey = "apiKey_example";  // string |  (optional) 
 
             try
             {
@@ -158,10 +159,11 @@ void (empty response body)
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
+| **200** | Successful operation |  -  |
 | **400** | Invalid pet value |  -  |
 
 [[Back to top]](#)
@@ -198,7 +200,7 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(Configuration.Default);
-            var status = status_example;  // List<string> | Status values that need to be considered for filter
+            var status = new List<string>(); // List<string> | Status values that need to be considered for filter
 
             try
             {
@@ -222,7 +224,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | **List&lt;string&gt;**| Status values that need to be considered for filter | 
+ **status** | [**List&lt;string&gt;**](string.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -236,6 +238,7 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -316,6 +319,7 @@ Name | Type | Description  | Notes
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -358,7 +362,7 @@ namespace Example
             // Configuration.Default.AddApiKeyPrefix("api_key", "Bearer");
 
             var apiInstance = new PetApi(Configuration.Default);
-            var petId = 789;  // long | ID of pet to return
+            var petId = 789L;  // long | ID of pet to return
 
             try
             {
@@ -397,6 +401,7 @@ Name | Type | Description  | Notes
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -412,7 +417,7 @@ Name | Type | Description  | Notes
 
 ## UpdatePet
 
-> void UpdatePet (Pet body)
+> void UpdatePet (Pet pet)
 
 Update an existing pet
 
@@ -436,12 +441,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(Configuration.Default);
-            var body = new Pet(); // Pet | Pet object that needs to be added to the store
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Update an existing pet
-                apiInstance.UpdatePet(body);
+                apiInstance.UpdatePet(pet);
             }
             catch (ApiException e)
             {
@@ -459,7 +464,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -474,10 +479,11 @@ void (empty response body)
 - **Content-Type**: application/json, application/xml
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
+| **200** | Successful operation |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
@@ -514,9 +520,9 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(Configuration.Default);
-            var petId = 789;  // long | ID of pet that needs to be updated
-            var name = name_example;  // string | Updated name of the pet (optional) 
-            var status = status_example;  // string | Updated status of the pet (optional) 
+            var petId = 789L;  // long | ID of pet that needs to be updated
+            var name = "name_example";  // string | Updated name of the pet (optional) 
+            var status = "status_example";  // string | Updated status of the pet (optional) 
 
             try
             {
@@ -556,9 +562,11 @@ void (empty response body)
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 [[Back to top]](#)
@@ -593,9 +601,9 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(Configuration.Default);
-            var petId = 789;  // long | ID of pet to update
-            var additionalMetadata = additionalMetadata_example;  // string | Additional data to pass to server (optional) 
-            var file = BINARY_DATA_HERE;  // System.IO.Stream | file to upload (optional) 
+            var petId = 789L;  // long | ID of pet to update
+            var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
+            var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload (optional) 
 
             try
             {
@@ -636,6 +644,7 @@ Name | Type | Description  | Notes
 - **Content-Type**: multipart/form-data
 - **Accept**: application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -673,9 +682,9 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(Configuration.Default);
-            var petId = 789;  // long | ID of pet to update
-            var requiredFile = BINARY_DATA_HERE;  // System.IO.Stream | file to upload
-            var additionalMetadata = additionalMetadata_example;  // string | Additional data to pass to server (optional) 
+            var petId = 789L;  // long | ID of pet to update
+            var requiredFile = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload
+            var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
 
             try
             {
@@ -715,6 +724,7 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: multipart/form-data
 - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

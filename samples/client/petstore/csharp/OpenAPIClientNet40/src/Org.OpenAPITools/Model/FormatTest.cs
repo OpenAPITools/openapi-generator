@@ -51,7 +51,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="dateTime">dateTime.</param>
         /// <param name="uuid">uuid.</param>
         /// <param name="password">password (required).</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string))
+        /// <param name="bigDecimal">bigDecimal.</param>
+        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), decimal bigDecimal = default(decimal))
         {
             // to ensure "number" is required (not null)
             if (number == null)
@@ -102,6 +103,7 @@ namespace Org.OpenAPITools.Model
             this.Binary = binary;
             this.DateTime = dateTime;
             this.Uuid = uuid;
+            this.BigDecimal = bigDecimal;
         }
         
         /// <summary>
@@ -125,7 +127,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Number
         /// </summary>
-        [DataMember(Name="number", EmitDefaultValue=false)]
+        [DataMember(Name="number", EmitDefaultValue=true)]
         public decimal Number { get; set; }
 
         /// <summary>
@@ -149,7 +151,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Byte
         /// </summary>
-        [DataMember(Name="byte", EmitDefaultValue=false)]
+        [DataMember(Name="byte", EmitDefaultValue=true)]
         public byte[] Byte { get; set; }
 
         /// <summary>
@@ -161,7 +163,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        [DataMember(Name="date", EmitDefaultValue=false)]
+        [DataMember(Name="date", EmitDefaultValue=true)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime Date { get; set; }
 
@@ -180,8 +182,14 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
-        [DataMember(Name="password", EmitDefaultValue=false)]
+        [DataMember(Name="password", EmitDefaultValue=true)]
         public string Password { get; set; }
+
+        /// <summary>
+        /// Gets or Sets BigDecimal
+        /// </summary>
+        [DataMember(Name="BigDecimal", EmitDefaultValue=false)]
+        public decimal BigDecimal { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -204,6 +212,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
+            sb.Append("  BigDecimal: ").Append(BigDecimal).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -302,6 +311,11 @@ namespace Org.OpenAPITools.Model
                     this.Password == input.Password ||
                     (this.Password != null &&
                     this.Password.Equals(input.Password))
+                ) && 
+                (
+                    this.BigDecimal == input.BigDecimal ||
+                    (this.BigDecimal != null &&
+                    this.BigDecimal.Equals(input.BigDecimal))
                 );
         }
 
@@ -340,6 +354,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Uuid.GetHashCode();
                 if (this.Password != null)
                     hashCode = hashCode * 59 + this.Password.GetHashCode();
+                if (this.BigDecimal != null)
+                    hashCode = hashCode * 59 + this.BigDecimal.GetHashCode();
                 return hashCode;
             }
         }
@@ -351,6 +367,8 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
+
+            
             // Integer (int) maximum
             if(this.Integer > (int)100)
             {
@@ -363,6 +381,8 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
             }
 
+
+            
             // Int32 (int) maximum
             if(this.Int32 > (int)200)
             {
@@ -375,6 +395,8 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
             }
 
+
+            
             // Number (decimal) maximum
             if(this.Number > (decimal)543.2)
             {
@@ -387,6 +409,8 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
+
+            
             // Float (float) maximum
             if(this.Float > (float)987.6)
             {
@@ -399,6 +423,8 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
             }
 
+
+            
             // Double (double) maximum
             if(this.Double > (double)123.4)
             {
@@ -411,6 +437,8 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
             }
 
+
+            
             // String (string) pattern
             Regex regexString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexString.Match(this.String).Success)
@@ -418,6 +446,8 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for String, must match a pattern of " + regexString, new [] { "String" });
             }
 
+
+            
             // Password (string) maxLength
             if(this.Password != null && this.Password.Length > 64)
             {
@@ -429,7 +459,7 @@ namespace Org.OpenAPITools.Model
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
             }
-
+            
             yield break;
         }
     }

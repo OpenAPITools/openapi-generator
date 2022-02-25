@@ -1,7 +1,7 @@
 <?php
 /**
  * {{classname}}Test
- * PHP version 5
+ * PHP version 7.1.3
  *
  * @category Class
  * @package  {{apiTestsPackage}}
@@ -80,7 +80,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
         $pattern = '{<%paramName%>}';
         <%={{ }}=%>
         {{#pattern}}
-        $data = $this->genTestData('{{pattern}}');
+        $data = $this->genTestData('{{.}}');
         {{/pattern}}
         {{^pattern}}
         {{#isLong}}
@@ -99,7 +99,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
         $path = str_replace($pattern, $data, $path);
         {{/pathParams}}
 
-        $crawler = $client->request('{{httpMethod}}', $path);
+        $crawler = $client->request('{{httpMethod}}', $path{{#hasBodyParam}}, [], [], ['CONTENT_TYPE' => 'application/json']{{/hasBodyParam}});
     }
     {{/operation}}
 
@@ -110,7 +110,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
         $ast      = $compiler->parse($regexp);
         $generator = new \Hoa\Regex\Visitor\Isotropic(new \Hoa\Math\Sampler\Random());
 
-        return $generator->visit($ast); 
+        return $generator->visit($ast);
     }
 }
 {{/operations}}

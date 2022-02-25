@@ -10,10 +10,15 @@
 """
 
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-
 import six
+
+from petstore_api.configuration import Configuration
 
 
 class Pet(object):
@@ -48,8 +53,11 @@ class Pet(object):
         'status': 'status'
     }
 
-    def __init__(self, id=None, category=None, name=None, photo_urls=None, tags=None, status=None):  # noqa: E501
+    def __init__(self, id=None, category=None, name=None, photo_urls=None, tags=None, status=None, local_vars_configuration=None):  # noqa: E501
         """Pet - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration.get_default_copy()
+        self.local_vars_configuration = local_vars_configuration
 
         self._id = None
         self._category = None
@@ -86,7 +94,7 @@ class Pet(object):
 
 
         :param id: The id of this Pet.  # noqa: E501
-        :type: int
+        :type id: int
         """
 
         self._id = id
@@ -107,7 +115,7 @@ class Pet(object):
 
 
         :param category: The category of this Pet.  # noqa: E501
-        :type: Category
+        :type category: Category
         """
 
         self._category = category
@@ -128,9 +136,9 @@ class Pet(object):
 
 
         :param name: The name of this Pet.  # noqa: E501
-        :type: str
+        :type name: str
         """
-        if name is None:
+        if self.local_vars_configuration.client_side_validation and name is None:  # noqa: E501
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
@@ -151,9 +159,9 @@ class Pet(object):
 
 
         :param photo_urls: The photo_urls of this Pet.  # noqa: E501
-        :type: list[str]
+        :type photo_urls: list[str]
         """
-        if photo_urls is None:
+        if self.local_vars_configuration.client_side_validation and photo_urls is None:  # noqa: E501
             raise ValueError("Invalid value for `photo_urls`, must not be `None`")  # noqa: E501
 
         self._photo_urls = photo_urls
@@ -174,7 +182,7 @@ class Pet(object):
 
 
         :param tags: The tags of this Pet.  # noqa: E501
-        :type: list[Tag]
+        :type tags: list[Tag]
         """
 
         self._tags = tags
@@ -197,10 +205,10 @@ class Pet(object):
         pet status in the store  # noqa: E501
 
         :param status: The status of this Pet.  # noqa: E501
-        :type: str
+        :type status: str
         """
         allowed_values = ["available", "pending", "sold"]  # noqa: E501
-        if status not in allowed_values:
+        if self.local_vars_configuration.client_side_validation and status not in allowed_values:  # noqa: E501
             raise ValueError(
                 "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
                 .format(status, allowed_values)
@@ -208,27 +216,35 @@ class Pet(object):
 
         self._status = status
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = getfullargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 
@@ -245,8 +261,11 @@ class Pet(object):
         if not isinstance(other, Pet):
             return False
 
-        return self.__dict__ == other.__dict__
+        return self.to_dict() == other.to_dict()
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
-        return not self == other
+        if not isinstance(other, Pet):
+            return True
+
+        return self.to_dict() != other.to_dict()

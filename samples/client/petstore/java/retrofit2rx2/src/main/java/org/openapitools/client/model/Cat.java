@@ -24,17 +24,21 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
+import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.CatAllOf;
 
 /**
  * Cat
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Cat extends Animal {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
 
+  public Cat() { 
+    this.className = this.getClass().getSimpleName();
+  }
 
   public Cat declawed(Boolean declawed) {
     
@@ -54,14 +58,13 @@ public class Cat extends Animal {
   }
 
 
-
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -78,7 +81,6 @@ public class Cat extends Animal {
     return Objects.hash(declawed, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -93,7 +95,7 @@ public class Cat extends Animal {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

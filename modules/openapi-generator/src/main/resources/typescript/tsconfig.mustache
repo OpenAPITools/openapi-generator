@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    /* Basic Options */
+    "target": "{{#supportsES6}}es6{{/supportsES6}}{{^supportsES6}}es5{{/supportsES6}}",
+    "module": "{{#supportsES6}}es6{{/supportsES6}}{{^supportsES6}}commonjs{{/supportsES6}}",
+    "moduleResolution": "node",
+    "declaration": true,
+
+    /* Additional Checks */
+     "noUnusedLocals": false,                /* Report errors on unused locals. */ // TODO: reenable (unused imports!)
+     "noUnusedParameters": false,            /* Report errors on unused parameters. */ // TODO: set to true again
+     "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
+     "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
+
+    "removeComments": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "noLib": false,
+    {{#platforms}}
+    {{#node}}
+    "lib": [ "es6" ],
+    {{/node}}
+    {{#browser}}
+    "lib": [ "es6", "dom" ],
+    {{/browser}}
+    {{/platforms}}
+    {{#useInversify}}
+    "experimentalDecorators": true,
+    {{/useInversify}}
+  },
+  "exclude": [
+    "dist",
+    "node_modules"
+  ],
+  "filesGlob": [
+    "./**/*.ts",
+  ]
+}

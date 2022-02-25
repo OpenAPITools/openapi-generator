@@ -45,14 +45,14 @@ export default class UserApi {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {module:model/User} body Created user object
+     * @param {module:model/User} user Created user object
      * @param {module:api/UserApi~createUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    createUser(body, callback) {
-      let postBody = body;
-      // verify the required parameter 'body' is set
-      if (body === undefined || body === null) {
-        throw new Error("Missing the required parameter 'body' when calling createUser");
+    createUser(user, callback) {
+      let postBody = user;
+      // verify the required parameter 'user' is set
+      if (user === undefined || user === null) {
+        throw new Error("Missing the required parameter 'user' when calling createUser");
       }
 
       let pathParams = {
@@ -65,7 +65,7 @@ export default class UserApi {
       };
 
       let authNames = [];
-      let contentTypes = [];
+      let contentTypes = ['application/json'];
       let accepts = [];
       let returnType = null;
       return this.apiClient.callApi(
@@ -85,14 +85,15 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<module:model/User>} body List of user object
+     * 
+     * @param {Array.<module:model/User>} user List of user object
      * @param {module:api/UserApi~createUsersWithArrayInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    createUsersWithArrayInput(body, callback) {
-      let postBody = body;
-      // verify the required parameter 'body' is set
-      if (body === undefined || body === null) {
-        throw new Error("Missing the required parameter 'body' when calling createUsersWithArrayInput");
+    createUsersWithArrayInput(user, callback) {
+      let postBody = user;
+      // verify the required parameter 'user' is set
+      if (user === undefined || user === null) {
+        throw new Error("Missing the required parameter 'user' when calling createUsersWithArrayInput");
       }
 
       let pathParams = {
@@ -105,7 +106,7 @@ export default class UserApi {
       };
 
       let authNames = [];
-      let contentTypes = [];
+      let contentTypes = ['application/json'];
       let accepts = [];
       let returnType = null;
       return this.apiClient.callApi(
@@ -125,14 +126,15 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<module:model/User>} body List of user object
+     * 
+     * @param {Array.<module:model/User>} user List of user object
      * @param {module:api/UserApi~createUsersWithListInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    createUsersWithListInput(body, callback) {
-      let postBody = body;
-      // verify the required parameter 'body' is set
-      if (body === undefined || body === null) {
-        throw new Error("Missing the required parameter 'body' when calling createUsersWithListInput");
+    createUsersWithListInput(user, callback) {
+      let postBody = user;
+      // verify the required parameter 'user' is set
+      if (user === undefined || user === null) {
+        throw new Error("Missing the required parameter 'user' when calling createUsersWithListInput");
       }
 
       let pathParams = {
@@ -145,7 +147,7 @@ export default class UserApi {
       };
 
       let authNames = [];
-      let contentTypes = [];
+      let contentTypes = ['application/json'];
       let accepts = [];
       let returnType = null;
       return this.apiClient.callApi(
@@ -207,6 +209,7 @@ export default class UserApi {
 
     /**
      * Get user by user name
+     * 
      * @param {String} username The name that needs to be fetched. Use user1 for testing.
      * @param {module:api/UserApi~getUserByNameCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/User}
@@ -249,6 +252,7 @@ export default class UserApi {
 
     /**
      * Logs user into the system
+     * 
      * @param {String} username The user name for login
      * @param {String} password The password for login in clear text
      * @param {module:api/UserApi~loginUserCallback} callback The callback function, accepting three arguments: error, data, response
@@ -297,6 +301,7 @@ export default class UserApi {
 
     /**
      * Logs out current logged in user session
+     * 
      * @param {module:api/UserApi~logoutUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
     logoutUser(callback) {
@@ -334,18 +339,18 @@ export default class UserApi {
      * Updated user
      * This can only be done by the logged in user.
      * @param {String} username name that need to be deleted
-     * @param {module:model/User} body Updated user object
+     * @param {module:model/User} user Updated user object
      * @param {module:api/UserApi~updateUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    updateUser(username, body, callback) {
-      let postBody = body;
+    updateUser(username, user, callback) {
+      let postBody = user;
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling updateUser");
       }
-      // verify the required parameter 'body' is set
-      if (body === undefined || body === null) {
-        throw new Error("Missing the required parameter 'body' when calling updateUser");
+      // verify the required parameter 'user' is set
+      if (user === undefined || user === null) {
+        throw new Error("Missing the required parameter 'user' when calling updateUser");
       }
 
       let pathParams = {
@@ -359,7 +364,7 @@ export default class UserApi {
       };
 
       let authNames = [];
-      let contentTypes = [];
+      let contentTypes = ['application/json'];
       let accepts = [];
       let returnType = null;
       return this.apiClient.callApi(

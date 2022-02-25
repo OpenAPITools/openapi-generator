@@ -1,0 +1,109 @@
+{{>licenseInfo}}
+#ifndef {{prefix}}_{{classname}}_H
+#define {{prefix}}_{{classname}}_H
+
+#include "{{prefix}}Helpers.h"
+#include "{{prefix}}HttpRequest.h"
+#include "{{prefix}}ServerConfiguration.h"
+#include "{{prefix}}Oauth.h"
+
+{{#imports}}{{{import}}}
+{{/imports}}
+
+#include <QObject>
+#include <QByteArray>
+#include <QStringList>
+#include <QList>
+#include <QNetworkAccessManager>
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+class {{classname}} : public QObject {
+    Q_OBJECT
+
+public:
+    {{classname}}(const int timeOut = 0);
+    ~{{classname}}();
+
+    void initializeServerConfigs();
+    int setDefaultServerValue(int serverIndex,const QString &operation, const QString &variable,const QString &val);
+    void setServerIndex(const QString &operation, int serverIndex);
+    void setApiKey(const QString &apiKeyName, const QString &apiKey);
+    void setBearerToken(const QString &token);
+    void setUsername(const QString &username);
+    void setPassword(const QString &password);
+    void setTimeOut(const int timeOut);
+    void setWorkingDirectory(const QString &path);
+    void setNetworkAccessManager(QNetworkAccessManager* manager);
+    int addServerConfiguration(const QString &operation, const QUrl &url, const QString &description = "", const QMap<QString, {{prefix}}ServerVariable> &variables = QMap<QString, {{prefix}}ServerVariable>());
+    void setNewServerForAllOperations(const QUrl &url, const QString &description = "", const QMap<QString, {{prefix}}ServerVariable> &variables =  QMap<QString, {{prefix}}ServerVariable>());
+    void setNewServer(const QString &operation, const QUrl &url, const QString &description = "", const QMap<QString, {{prefix}}ServerVariable> &variables =  QMap<QString, {{prefix}}ServerVariable>());
+    void addHeaders(const QString &key, const QString &value);
+    void enableRequestCompression();
+    void enableResponseCompression();
+    void abortRequests();
+    QString getParamStylePrefix(const QString &style);
+    QString getParamStyleSuffix(const QString &style);
+    QString getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode);
+{{#operations}}{{#operation}}
+{{#hasParams}}    /**
+    {{#allParams}}
+    {{#required}}
+    * @param[in]  {{paramName}} {{{dataType}}} [required]
+    {{/required}}
+    {{^required}}
+    * @param[in]  {{paramName}} {{{dataType}}} [optional]
+    {{/required}}
+    {{/allParams}}
+    */{{/hasParams}}
+    {{#isDeprecated}}Q_DECL_DEPRECATED {{/isDeprecated}}void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const ::{{cppNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}{{^required}} = ::{{cppNamespace}}::OptionalParam<{{{dataType}}}>(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
+{{/operation}}{{/operations}}
+
+private:
+    QMap<QString,int> _serverIndices;
+    QMap<QString,QList<{{prefix}}ServerConfiguration>> _serverConfigs;
+    QMap<QString, QString> _apiKeys;
+    QString _bearerToken;
+    QString _username;
+    QString _password;
+    int _timeOut;
+    QString _workingDirectory;
+    QNetworkAccessManager* _manager;
+    QMap<QString, QString> _defaultHeaders;
+    bool _isResponseCompressionEnabled;
+    bool _isRequestCompressionEnabled;
+    {{prefix}}HttpRequestInput _latestInput;
+    {{prefix}}HttpRequestWorker *_latestWorker;
+    QStringList _latestScope;
+    OauthCode _authFlow;
+    OauthImplicit _implicitFlow;
+    OauthCredentials _credentialFlow;
+    OauthPassword _passwordFlow;
+    int _OauthMethod = 0;
+{{#operations}}{{#operation}}
+    void {{nickname}}Callback({{prefix}}HttpRequestWorker *worker);{{/operation}}{{/operations}}
+
+signals:
+{{#operations}}{{#operation}}
+    void {{nickname}}Signal({{#returnType}}{{{.}}} summary{{/returnType}});{{/operation}}{{/operations}}
+{{#operations}}{{#operation}}
+    void {{nickname}}SignalFull({{prefix}}HttpRequestWorker *worker{{#returnType}}, {{{.}}} summary{{/returnType}});{{/operation}}{{/operations}}
+{{#operations}}{{#operation}}
+    void {{nickname}}SignalE({{#returnType}}{{{.}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
+{{#operations}}{{#operation}}
+    void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
+
+    void abortRequestsSignal();
+    void allPendingRequestsCompleted();
+
+public slots:
+    void tokenAvailable();
+    
+};
+
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}
+#endif

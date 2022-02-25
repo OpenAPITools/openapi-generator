@@ -10,10 +10,15 @@
 """
 
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-
 import six
+
+from petstore_api.configuration import Configuration
 
 
 class User(object):
@@ -52,8 +57,11 @@ class User(object):
         'user_status': 'userStatus'
     }
 
-    def __init__(self, id=None, username=None, first_name=None, last_name=None, email=None, password=None, phone=None, user_status=None):  # noqa: E501
+    def __init__(self, id=None, username=None, first_name=None, last_name=None, email=None, password=None, phone=None, user_status=None, local_vars_configuration=None):  # noqa: E501
         """User - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration.get_default_copy()
+        self.local_vars_configuration = local_vars_configuration
 
         self._id = None
         self._username = None
@@ -98,7 +106,7 @@ class User(object):
 
 
         :param id: The id of this User.  # noqa: E501
-        :type: int
+        :type id: int
         """
 
         self._id = id
@@ -119,7 +127,7 @@ class User(object):
 
 
         :param username: The username of this User.  # noqa: E501
-        :type: str
+        :type username: str
         """
 
         self._username = username
@@ -140,7 +148,7 @@ class User(object):
 
 
         :param first_name: The first_name of this User.  # noqa: E501
-        :type: str
+        :type first_name: str
         """
 
         self._first_name = first_name
@@ -161,7 +169,7 @@ class User(object):
 
 
         :param last_name: The last_name of this User.  # noqa: E501
-        :type: str
+        :type last_name: str
         """
 
         self._last_name = last_name
@@ -182,7 +190,7 @@ class User(object):
 
 
         :param email: The email of this User.  # noqa: E501
-        :type: str
+        :type email: str
         """
 
         self._email = email
@@ -203,7 +211,7 @@ class User(object):
 
 
         :param password: The password of this User.  # noqa: E501
-        :type: str
+        :type password: str
         """
 
         self._password = password
@@ -224,7 +232,7 @@ class User(object):
 
 
         :param phone: The phone of this User.  # noqa: E501
-        :type: str
+        :type phone: str
         """
 
         self._phone = phone
@@ -247,32 +255,40 @@ class User(object):
         User Status  # noqa: E501
 
         :param user_status: The user_status of this User.  # noqa: E501
-        :type: int
+        :type user_status: int
         """
 
         self._user_status = user_status
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = getfullargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 
@@ -289,8 +305,11 @@ class User(object):
         if not isinstance(other, User):
             return False
 
-        return self.__dict__ == other.__dict__
+        return self.to_dict() == other.to_dict()
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
-        return not self == other
+        if not isinstance(other, User):
+            return True
+
+        return self.to_dict() != other.to_dict()

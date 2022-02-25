@@ -14,11 +14,16 @@ module PetApiHandlerParams =
     //#endregion
 
     
+    type AddPetStatusCode200Response = {
+      content:Pet;
+      
+    }
+    
     type AddPetStatusCode405Response = {
       content:string;
       
     }
-    type AddPetResult = AddPetStatusCode405 of AddPetStatusCode405Response
+    type AddPetResult = AddPetStatusCode200 of AddPetStatusCode200Response|AddPetStatusCode405 of AddPetStatusCode405Response
 
     type AddPetArgs = {
       bodyParams:AddPetBodyParams
@@ -58,7 +63,7 @@ module PetApiHandlerParams =
     //#endregion
 
     
-    type FindPetsByStatusDefaultStatusCodeResponse = {
+    type FindPetsByStatusStatusCode200Response = {
       content:Pet[];
       
     }
@@ -67,7 +72,7 @@ module PetApiHandlerParams =
       content:string;
       
     }
-    type FindPetsByStatusResult = FindPetsByStatusDefaultStatusCode of FindPetsByStatusDefaultStatusCodeResponse|FindPetsByStatusStatusCode400 of FindPetsByStatusStatusCode400Response
+    type FindPetsByStatusResult = FindPetsByStatusStatusCode200 of FindPetsByStatusStatusCode200Response|FindPetsByStatusStatusCode400 of FindPetsByStatusStatusCode400Response
 
     type FindPetsByStatusArgs = {
       queryParams:Result<FindPetsByStatusQueryParams,string>;
@@ -78,14 +83,11 @@ module PetApiHandlerParams =
     type FindPetsByTagsQueryParams = {
       tags : string[] ;
       
-
-      maxCount : int option;
-      
     }
     //#endregion
 
     
-    type FindPetsByTagsDefaultStatusCodeResponse = {
+    type FindPetsByTagsStatusCode200Response = {
       content:Pet[];
       
     }
@@ -94,7 +96,7 @@ module PetApiHandlerParams =
       content:string;
       
     }
-    type FindPetsByTagsResult = FindPetsByTagsDefaultStatusCode of FindPetsByTagsDefaultStatusCodeResponse|FindPetsByTagsStatusCode400 of FindPetsByTagsStatusCode400Response
+    type FindPetsByTagsResult = FindPetsByTagsStatusCode200 of FindPetsByTagsStatusCode200Response|FindPetsByTagsStatusCode400 of FindPetsByTagsStatusCode400Response
 
     type FindPetsByTagsArgs = {
       queryParams:Result<FindPetsByTagsQueryParams,string>;
@@ -107,7 +109,7 @@ module PetApiHandlerParams =
     //#endregion
 
     
-    type GetPetByIdDefaultStatusCodeResponse = {
+    type GetPetByIdStatusCode200Response = {
       content:Pet;
       
     }
@@ -121,7 +123,7 @@ module PetApiHandlerParams =
       content:string;
       
     }
-    type GetPetByIdResult = GetPetByIdDefaultStatusCode of GetPetByIdDefaultStatusCodeResponse|GetPetByIdStatusCode400 of GetPetByIdStatusCode400Response|GetPetByIdStatusCode404 of GetPetByIdStatusCode404Response
+    type GetPetByIdResult = GetPetByIdStatusCode200 of GetPetByIdStatusCode200Response|GetPetByIdStatusCode400 of GetPetByIdStatusCode400Response|GetPetByIdStatusCode404 of GetPetByIdStatusCode404Response
 
     type GetPetByIdArgs = {
       pathParams:GetPetByIdPathParams;
@@ -132,6 +134,11 @@ module PetApiHandlerParams =
     type UpdatePetBodyParams = Pet 
     //#endregion
 
+    
+    type UpdatePetStatusCode200Response = {
+      content:Pet;
+      
+    }
     
     type UpdatePetStatusCode400Response = {
       content:string;
@@ -147,7 +154,7 @@ module PetApiHandlerParams =
       content:string;
       
     }
-    type UpdatePetResult = UpdatePetStatusCode400 of UpdatePetStatusCode400Response|UpdatePetStatusCode404 of UpdatePetStatusCode404Response|UpdatePetStatusCode405 of UpdatePetStatusCode405Response
+    type UpdatePetResult = UpdatePetStatusCode200 of UpdatePetStatusCode200Response|UpdatePetStatusCode400 of UpdatePetStatusCode400Response|UpdatePetStatusCode404 of UpdatePetStatusCode404Response|UpdatePetStatusCode405 of UpdatePetStatusCode405Response
 
     type UpdatePetArgs = {
       bodyParams:UpdatePetBodyParams
@@ -200,11 +207,11 @@ module PetApiHandlerParams =
     //#endregion
 
     
-    type UploadFileDefaultStatusCodeResponse = {
+    type UploadFileStatusCode200Response = {
       content:ApiResponse;
       
     }
-    type UploadFileResult = UploadFileDefaultStatusCode of UploadFileDefaultStatusCodeResponse
+    type UploadFileResult = UploadFileStatusCode200 of UploadFileStatusCode200Response
 
     type UploadFileArgs = {
       pathParams:UploadFilePathParams;

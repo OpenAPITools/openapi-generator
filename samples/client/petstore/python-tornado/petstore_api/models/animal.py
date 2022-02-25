@@ -10,10 +10,15 @@
 """
 
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-
 import six
+
+from petstore_api.configuration import Configuration
 
 
 class Animal(object):
@@ -42,11 +47,15 @@ class Animal(object):
 
     discriminator_value_class_map = {
         'Dog': 'Dog',
-        'Cat': 'Cat'
+        'Cat': 'Cat',
+        'BigCat': 'BigCat'
     }
 
-    def __init__(self, class_name=None, color='red'):  # noqa: E501
+    def __init__(self, class_name=None, color='red', local_vars_configuration=None):  # noqa: E501
         """Animal - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration.get_default_copy()
+        self.local_vars_configuration = local_vars_configuration
 
         self._class_name = None
         self._color = None
@@ -72,9 +81,9 @@ class Animal(object):
 
 
         :param class_name: The class_name of this Animal.  # noqa: E501
-        :type: str
+        :type class_name: str
         """
-        if class_name is None:
+        if self.local_vars_configuration.client_side_validation and class_name is None:  # noqa: E501
             raise ValueError("Invalid value for `class_name`, must not be `None`")  # noqa: E501
 
         self._class_name = class_name
@@ -95,7 +104,7 @@ class Animal(object):
 
 
         :param color: The color of this Animal.  # noqa: E501
-        :type: str
+        :type color: str
         """
 
         self._color = color
@@ -106,27 +115,35 @@ class Animal(object):
         discriminator_value = data[discriminator_key]
         return self.discriminator_value_class_map.get(discriminator_value)
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = getfullargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 
@@ -143,8 +160,11 @@ class Animal(object):
         if not isinstance(other, Animal):
             return False
 
-        return self.__dict__ == other.__dict__
+        return self.to_dict() == other.to_dict()
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
-        return not self == other
+        if not isinstance(other, Animal):
+            return True
+
+        return self.to_dict() != other.to_dict()

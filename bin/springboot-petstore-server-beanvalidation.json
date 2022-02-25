@@ -1,5 +1,0 @@
-{
-    "artifactId": "spring-boot-beanvalidation",
-    "library": "spring-boot",
-    "useBeanValidation": true
-}

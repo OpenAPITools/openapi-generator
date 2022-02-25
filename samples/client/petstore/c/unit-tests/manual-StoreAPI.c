@@ -98,6 +98,8 @@ int main() {
 		free(pair->value);
 		keyValuePair_free(pair);
 	}
-	list_free(elementToReturn);
+	list_freeList(elementToReturn);
 	apiClient_free(apiClient5);
+
+	apiClient_unsetupGlobalEnv();
 }

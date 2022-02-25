@@ -10,10 +10,15 @@
 """
 
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-
 import six
+
+from petstore_api.configuration import Configuration
 
 
 class Order(object):
@@ -48,8 +53,11 @@ class Order(object):
         'complete': 'complete'
     }
 
-    def __init__(self, id=None, pet_id=None, quantity=None, ship_date=None, status=None, complete=False):  # noqa: E501
+    def __init__(self, id=None, pet_id=None, quantity=None, ship_date=None, status=None, complete=False, local_vars_configuration=None):  # noqa: E501
         """Order - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration.get_default_copy()
+        self.local_vars_configuration = local_vars_configuration
 
         self._id = None
         self._pet_id = None
@@ -88,7 +96,7 @@ class Order(object):
 
 
         :param id: The id of this Order.  # noqa: E501
-        :type: int
+        :type id: int
         """
 
         self._id = id
@@ -109,7 +117,7 @@ class Order(object):
 
 
         :param pet_id: The pet_id of this Order.  # noqa: E501
-        :type: int
+        :type pet_id: int
         """
 
         self._pet_id = pet_id
@@ -130,7 +138,7 @@ class Order(object):
 
 
         :param quantity: The quantity of this Order.  # noqa: E501
-        :type: int
+        :type quantity: int
         """
 
         self._quantity = quantity
@@ -151,7 +159,7 @@ class Order(object):
 
 
         :param ship_date: The ship_date of this Order.  # noqa: E501
-        :type: datetime
+        :type ship_date: datetime
         """
 
         self._ship_date = ship_date
@@ -174,10 +182,10 @@ class Order(object):
         Order Status  # noqa: E501
 
         :param status: The status of this Order.  # noqa: E501
-        :type: str
+        :type status: str
         """
         allowed_values = ["placed", "approved", "delivered"]  # noqa: E501
-        if status not in allowed_values:
+        if self.local_vars_configuration.client_side_validation and status not in allowed_values:  # noqa: E501
             raise ValueError(
                 "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
                 .format(status, allowed_values)
@@ -201,32 +209,40 @@ class Order(object):
 
 
         :param complete: The complete of this Order.  # noqa: E501
-        :type: bool
+        :type complete: bool
         """
 
         self._complete = complete
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = getfullargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 
@@ -243,8 +259,11 @@ class Order(object):
         if not isinstance(other, Order):
             return False
 
-        return self.__dict__ == other.__dict__
+        return self.to_dict() == other.to_dict()
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
-        return not self == other
+        if not isinstance(other, Order):
+            return True
+
+        return self.to_dict() != other.to_dict()

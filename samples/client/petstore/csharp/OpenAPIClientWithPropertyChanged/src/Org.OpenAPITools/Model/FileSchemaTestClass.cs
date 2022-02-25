@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets File
         /// </summary>
-        [DataMember(Name="file", EmitDefaultValue=false)]
+        [DataMember(Name="file", EmitDefaultValue=true)]
         public File File { get; set; }
 
         /// <summary>
         /// Gets or Sets Files
         /// </summary>
-        [DataMember(Name="files", EmitDefaultValue=false)]
+        [DataMember(Name="files", EmitDefaultValue=true)]
         public List<File> Files { get; set; }
 
         /// <summary>

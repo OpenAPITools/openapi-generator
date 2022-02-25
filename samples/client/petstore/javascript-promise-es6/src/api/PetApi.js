@@ -38,14 +38,16 @@ export default class PetApi {
 
     /**
      * Add a new pet to the store
-     * @param {module:model/Pet} body Pet object that needs to be added to the store
+     * 
+     * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    addPetWithHttpInfo(body) {
-      let postBody = body;
-      // verify the required parameter 'body' is set
-      if (body === undefined || body === null) {
-        throw new Error("Missing the required parameter 'body' when calling addPet");
+    addPetWithHttpInfo(pet, opts) {
+      opts = opts || {};
+      let postBody = pet;
+      // verify the required parameter 'pet' is set
+      if (pet === undefined || pet === null) {
+        throw new Error("Missing the required parameter 'pet' when calling addPet");
       }
 
       let pathParams = {
@@ -61,20 +63,30 @@ export default class PetApi {
       let contentTypes = ['application/json', 'application/xml'];
       let accepts = [];
       let returnType = null;
+      let basePaths = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2'];
+      let basePath = basePaths[0]; // by default use the first one in "servers" defined in OpenAPI
+      if (typeof opts['_base_path_index'] !== 'undefined') {
+        if (opts['_base_path_index']  >= basePaths.length || opts['_base_path_index'] <  0) {
+          throw new Error("Invalid index " + opts['_base_path_index'] + " when selecting the host settings. Must be less than " + basePaths.length);
+        }
+        basePath = basePaths[opts['_base_path_index']];
+      }
+
       return this.apiClient.callApi(
         '/pet', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null
+        authNames, contentTypes, accepts, returnType, basePath
       );
     }
 
     /**
      * Add a new pet to the store
-     * @param {module:model/Pet} body Pet object that needs to be added to the store
+     * 
+     * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    addPet(body) {
-      return this.addPetWithHttpInfo(body)
+    addPet(pet, opts) {
+      return this.addPetWithHttpInfo(pet, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -83,6 +95,7 @@ export default class PetApi {
 
     /**
      * Deletes a pet
+     * 
      * @param {Number} petId Pet id to delete
      * @param {Object} opts Optional parameters
      * @param {String} opts.apiKey 
@@ -120,6 +133,7 @@ export default class PetApi {
 
     /**
      * Deletes a pet
+     * 
      * @param {Number} petId Pet id to delete
      * @param {Object} opts Optional parameters
      * @param {String} opts.apiKey 
@@ -279,14 +293,16 @@ export default class PetApi {
 
     /**
      * Update an existing pet
-     * @param {module:model/Pet} body Pet object that needs to be added to the store
+     * 
+     * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    updatePetWithHttpInfo(body) {
-      let postBody = body;
-      // verify the required parameter 'body' is set
-      if (body === undefined || body === null) {
-        throw new Error("Missing the required parameter 'body' when calling updatePet");
+    updatePetWithHttpInfo(pet, opts) {
+      opts = opts || {};
+      let postBody = pet;
+      // verify the required parameter 'pet' is set
+      if (pet === undefined || pet === null) {
+        throw new Error("Missing the required parameter 'pet' when calling updatePet");
       }
 
       let pathParams = {
@@ -302,20 +318,30 @@ export default class PetApi {
       let contentTypes = ['application/json', 'application/xml'];
       let accepts = [];
       let returnType = null;
+      let basePaths = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2'];
+      let basePath = basePaths[0]; // by default use the first one in "servers" defined in OpenAPI
+      if (typeof opts['_base_path_index'] !== 'undefined') {
+        if (opts['_base_path_index']  >= basePaths.length || opts['_base_path_index'] <  0) {
+          throw new Error("Invalid index " + opts['_base_path_index'] + " when selecting the host settings. Must be less than " + basePaths.length);
+        }
+        basePath = basePaths[opts['_base_path_index']];
+      }
+
       return this.apiClient.callApi(
         '/pet', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null
+        authNames, contentTypes, accepts, returnType, basePath
       );
     }
 
     /**
      * Update an existing pet
-     * @param {module:model/Pet} body Pet object that needs to be added to the store
+     * 
+     * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    updatePet(body) {
-      return this.updatePetWithHttpInfo(body)
+    updatePet(pet, opts) {
+      return this.updatePetWithHttpInfo(pet, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -324,6 +350,7 @@ export default class PetApi {
 
     /**
      * Updates a pet in the store with form data
+     * 
      * @param {Number} petId ID of pet that needs to be updated
      * @param {Object} opts Optional parameters
      * @param {String} opts.name Updated name of the pet
@@ -363,6 +390,7 @@ export default class PetApi {
 
     /**
      * Updates a pet in the store with form data
+     * 
      * @param {Number} petId ID of pet that needs to be updated
      * @param {Object} opts Optional parameters
      * @param {String} opts.name Updated name of the pet
@@ -379,6 +407,7 @@ export default class PetApi {
 
     /**
      * uploads an image
+     * 
      * @param {Number} petId ID of pet to update
      * @param {Object} opts Optional parameters
      * @param {String} opts.additionalMetadata Additional data to pass to server
@@ -418,6 +447,7 @@ export default class PetApi {
 
     /**
      * uploads an image
+     * 
      * @param {Number} petId ID of pet to update
      * @param {Object} opts Optional parameters
      * @param {String} opts.additionalMetadata Additional data to pass to server
@@ -434,6 +464,7 @@ export default class PetApi {
 
     /**
      * uploads an image (required)
+     * 
      * @param {Number} petId ID of pet to update
      * @param {File} requiredFile file to upload
      * @param {Object} opts Optional parameters
@@ -477,6 +508,7 @@ export default class PetApi {
 
     /**
      * uploads an image (required)
+     * 
      * @param {Number} petId ID of pet to update
      * @param {File} requiredFile file to upload
      * @param {Object} opts Optional parameters

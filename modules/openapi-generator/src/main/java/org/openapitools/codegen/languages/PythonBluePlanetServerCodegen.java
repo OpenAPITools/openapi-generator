@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,19 +17,45 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.EnumSet;
 
-public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServerCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PythonBluePlanetServerCodegen.class);
+public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServerCodegen {
+    private final Logger LOGGER = LoggerFactory.getLogger(PythonBluePlanetServerCodegen.class);
 
     protected String modelDocPath = "";
     protected String modelTestPath = "";
 
     public PythonBluePlanetServerCodegen() {
         super("python-blueplanet", true);
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
+
         testPackage = "tests";
         embeddedTemplateDir = templateDir = "python-blueplanet";
     }
@@ -210,7 +236,8 @@ public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServer
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + File.separator + modelDocPath).replace('.', File.separatorChar);
+        // character replaces should _only_ occur on paths we define. Don't replace on outputFolder (which is supplied by the user and should always be considered correct)
+        return outputFolder + File.separator + modelDocPath.replace('.', File.separatorChar);
     }
 
     @Override
@@ -238,4 +265,6 @@ public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServer
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
+    public String generatorLanguageVersion() { return "2.7+ and 3.5.2+"; };
 }

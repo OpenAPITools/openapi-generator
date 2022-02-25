@@ -1,5 +1,6 @@
 package apimodels;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
@@ -8,10 +9,11 @@ import javax.validation.constraints.*;
 /**
  * CatAllOf
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class CatAllOf   {
   @JsonProperty("declawed")
+  
   private Boolean declawed;
 
   public CatAllOf declawed(Boolean declawed) {
@@ -23,7 +25,7 @@ public class CatAllOf   {
    * Get declawed
    * @return declawed
   **/
-    public Boolean getDeclawed() {
+  public Boolean getDeclawed() {
     return declawed;
   }
 
@@ -33,7 +35,7 @@ public class CatAllOf   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -64,7 +66,7 @@ public class CatAllOf   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -1,0 +1,8 @@
+generatorName: rust-server
+outputDir: samples/server/petstore/rust-server/output/rust-server-test
+inputSpec: modules/openapi-generator/src/test/resources/2_0/rust-server/rust-server-test.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust-server
+generateAliasAsModel: true
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: rust-server-test

@@ -33,7 +33,7 @@ import javax.validation.Valid;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class EnumArrays  implements Serializable {
   /**
    * Gets or Sets justSymbol
@@ -114,7 +114,7 @@ public class EnumArrays  implements Serializable {
    * Get justSymbol
    * @return justSymbol
    **/
-  @JsonProperty("just_symbol")
+  @JsonProperty(value = "just_symbol")
   @ApiModelProperty(value = "")
   
   public JustSymbolEnum getJustSymbol() {
@@ -142,7 +142,7 @@ public class EnumArrays  implements Serializable {
    * Get arrayEnum
    * @return arrayEnum
    **/
-  @JsonProperty("array_enum")
+  @JsonProperty(value = "array_enum")
   @ApiModelProperty(value = "")
   
   public List<ArrayEnumEnum> getArrayEnum() {
@@ -155,7 +155,7 @@ public class EnumArrays  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -172,7 +172,6 @@ public class EnumArrays  implements Serializable {
     return Objects.hash(justSymbol, arrayEnum);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -188,7 +187,7 @@ public class EnumArrays  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

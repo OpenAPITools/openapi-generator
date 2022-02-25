@@ -13,10 +13,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-public class EnumArrays  implements Serializable {
+@JsonTypeName("EnumArrays")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class EnumArrays  implements Serializable {
   
 
 public enum JustSymbolEnum {
@@ -41,18 +43,18 @@ public enum JustSymbolEnum {
     }
 
     @JsonCreator
-    public static JustSymbolEnum fromValue(String v) {
+    public static JustSymbolEnum fromValue(String value) {
         for (JustSymbolEnum b : JustSymbolEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
   private @Valid JustSymbolEnum justSymbol;
- 
+
 public enum ArrayEnumEnum {
 
     FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
@@ -75,17 +77,17 @@ public enum ArrayEnumEnum {
     }
 
     @JsonCreator
-    public static ArrayEnumEnum fromValue(String v) {
+    public static ArrayEnumEnum fromValue(String value) {
         for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
-  private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
+  private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   /**
    **/
@@ -95,16 +97,20 @@ public enum ArrayEnumEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
+
+  @JsonProperty("just_symbol")
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
 
-  /**
+/**
    **/
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
@@ -112,18 +118,38 @@ public enum ArrayEnumEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
+
+  @JsonProperty("array_enum")
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
 
+  public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
+    if (this.arrayEnum == null) {
+      this.arrayEnum = new ArrayList<>();
+    }
+
+    this.arrayEnum.add(arrayEnumItem);
+    return this;
+  }
+
+  public EnumArrays removeArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
+    if (arrayEnumItem != null && this.arrayEnum != null) {
+      this.arrayEnum.remove(arrayEnumItem);
+    }
+
+    return this;
+  }
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -131,8 +157,8 @@ public enum ArrayEnumEnum {
       return false;
     }
     EnumArrays enumArrays = (EnumArrays) o;
-    return Objects.equals(justSymbol, enumArrays.justSymbol) &&
-        Objects.equals(arrayEnum, enumArrays.arrayEnum);
+    return Objects.equals(this.justSymbol, enumArrays.justSymbol) &&
+        Objects.equals(this.arrayEnum, enumArrays.arrayEnum);
   }
 
   @Override
@@ -155,11 +181,13 @@ public enum ArrayEnumEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

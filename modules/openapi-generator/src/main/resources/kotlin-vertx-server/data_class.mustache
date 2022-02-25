@@ -1,0 +1,42 @@
+
+{{#parcelizeModels}}
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+{{/parcelizeModels}}
+import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
+/**
+ * {{{description}}}
+{{#vars}}
+ * @param {{name}} {{{description}}}
+{{/vars}}
+ */
+{{#parcelizeModels}}
+@Parcelize
+{{/parcelizeModels}}
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class {{classname}} (
+{{#requiredVars}}
+{{>data_class_req_var}}{{^-last}},
+{{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
+{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_opt_var}}{{^-last}},
+{{/-last}}{{/optionalVars}}
+){{#parcelizeModels}} : Parcelable{{/parcelizeModels}} {
+{{#hasEnums}}{{#vars}}{{#isEnum}}
+    /**
+    * {{{description}}}
+    * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+    */
+    enum class {{nameInCamelCase}}(val value: {{dataType}}){
+    {{#allowableValues}}{{#enumVars}}
+        {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{/enumVars}}{{/allowableValues}}
+    }
+{{/isEnum}}{{/vars}}{{/hasEnums}}
+    {{#requiredVars}}
+        {{>modelMutable}} {{{name}}} get() = _{{{name}}} ?: throw IllegalArgumentException("{{{name}}} is required")
+                    {{#modelMutable}}set(value){ _{{{name}}} = value }{{/modelMutable}}
+    {{/requiredVars}}
+}

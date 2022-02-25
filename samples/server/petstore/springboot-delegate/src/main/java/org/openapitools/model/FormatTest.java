@@ -1,24 +1,35 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.UUID;
-import org.springframework.core.io.Resource;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * FormatTest
  */
 
+@JsonTypeName("format_test")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FormatTest   {
+
   @JsonProperty("integer")
   private Integer integer;
 
@@ -44,12 +55,14 @@ public class FormatTest   {
   private byte[] _byte;
 
   @JsonProperty("binary")
-  private Resource binary;
+  private org.springframework.core.io.Resource binary;
 
   @JsonProperty("date")
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
   @JsonProperty("dateTime")
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
 
   @JsonProperty("uuid")
@@ -57,6 +70,9 @@ public class FormatTest   {
 
   @JsonProperty("password")
   private String password;
+
+  @JsonProperty("BigDecimal")
+  private BigDecimal bigDecimal;
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;
@@ -69,9 +85,8 @@ public class FormatTest   {
    * maximum: 100
    * @return integer
   */
+  @Min(10) @Max(100) 
   @ApiModelProperty(value = "")
-
-@Min(10) @Max(100) 
   public Integer getInteger() {
     return integer;
   }
@@ -91,9 +106,8 @@ public class FormatTest   {
    * maximum: 200
    * @return int32
   */
+  @Min(20) @Max(200) 
   @ApiModelProperty(value = "")
-
-@Min(20) @Max(200) 
   public Integer getInt32() {
     return int32;
   }
@@ -111,9 +125,8 @@ public class FormatTest   {
    * Get int64
    * @return int64
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Long getInt64() {
     return int64;
   }
@@ -133,11 +146,8 @@ public class FormatTest   {
    * maximum: 543.2
    * @return number
   */
+  @NotNull @Valid @DecimalMin("32.1") @DecimalMax("543.2") 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-@DecimalMin("32.1") @DecimalMax("543.2") 
   public BigDecimal getNumber() {
     return number;
   }
@@ -157,9 +167,8 @@ public class FormatTest   {
    * maximum: 987.6
    * @return _float
   */
+  @DecimalMin("54.3") @DecimalMax("987.6") 
   @ApiModelProperty(value = "")
-
-@DecimalMin("54.3") @DecimalMax("987.6") 
   public Float getFloat() {
     return _float;
   }
@@ -179,9 +188,8 @@ public class FormatTest   {
    * maximum: 123.4
    * @return _double
   */
+  @DecimalMin("67.8") @DecimalMax("123.4") 
   @ApiModelProperty(value = "")
-
-@DecimalMin("67.8") @DecimalMax("123.4") 
   public Double getDouble() {
     return _double;
   }
@@ -199,9 +207,8 @@ public class FormatTest   {
    * Get string
    * @return string
   */
+  @Pattern(regexp = "/[a-z]/i") 
   @ApiModelProperty(value = "")
-
-@Pattern(regexp="/[a-z]/i") 
   public String getString() {
     return string;
   }
@@ -219,10 +226,8 @@ public class FormatTest   {
    * Get _byte
    * @return _byte
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-@Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$") 
   public byte[] getByte() {
     return _byte;
   }
@@ -231,7 +236,7 @@ public class FormatTest   {
     this._byte = _byte;
   }
 
-  public FormatTest binary(Resource binary) {
+  public FormatTest binary(org.springframework.core.io.Resource binary) {
     this.binary = binary;
     return this;
   }
@@ -240,15 +245,13 @@ public class FormatTest   {
    * Get binary
    * @return binary
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
-  public Resource getBinary() {
+  public org.springframework.core.io.Resource getBinary() {
     return binary;
   }
 
-  public void setBinary(Resource binary) {
+  public void setBinary(org.springframework.core.io.Resource binary) {
     this.binary = binary;
   }
 
@@ -261,11 +264,8 @@ public class FormatTest   {
    * Get date
    * @return date
   */
+  @NotNull @Valid 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
   public LocalDate getDate() {
     return date;
   }
@@ -283,10 +283,8 @@ public class FormatTest   {
    * Get dateTime
    * @return dateTime
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -304,10 +302,8 @@ public class FormatTest   {
    * Get uuid
    * @return uuid
   */
+  @Valid 
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
-
-  @Valid
-
   public UUID getUuid() {
     return uuid;
   }
@@ -325,10 +321,8 @@ public class FormatTest   {
    * Get password
    * @return password
   */
+  @NotNull @Size(min = 10, max = 64) 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-@Size(min=10,max=64) 
   public String getPassword() {
     return password;
   }
@@ -337,9 +331,27 @@ public class FormatTest   {
     this.password = password;
   }
 
+  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+    return this;
+  }
+
+  /**
+   * Get bigDecimal
+   * @return bigDecimal
+  */
+  @Valid 
+  @ApiModelProperty(value = "")
+  public BigDecimal getBigDecimal() {
+    return bigDecimal;
+  }
+
+  public void setBigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+  }
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -354,24 +366,24 @@ public class FormatTest   {
         Objects.equals(this._float, formatTest._float) &&
         Objects.equals(this._double, formatTest._double) &&
         Objects.equals(this.string, formatTest.string) &&
-        Objects.equals(this._byte, formatTest._byte) &&
+        Arrays.equals(this._byte, formatTest._byte) &&
         Objects.equals(this.binary, formatTest.binary) &&
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
-        Objects.equals(this.password, formatTest.password);
+        Objects.equals(this.password, formatTest.password) &&
+        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FormatTest {\n");
-    
     sb.append("    integer: ").append(toIndentedString(integer)).append("\n");
     sb.append("    int32: ").append(toIndentedString(int32)).append("\n");
     sb.append("    int64: ").append(toIndentedString(int64)).append("\n");
@@ -385,6 +397,7 @@ public class FormatTest   {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -393,7 +406,7 @@ public class FormatTest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -1,0 +1,6 @@
+generatorName: cpp-restsdk
+outputDir: samples/client/petstore/cpp-restsdk/client
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/cpp-rest-sdk-client
+additionalProperties:
+  packageName: CppRestPetstoreClient

@@ -43,10 +43,10 @@ export default class <&classname> {
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with an object containing data of type {@link <&vendorExtensions.x-jsdoc-type>} and HTTP response</returnType><^returnType>, with an object containing HTTP response</returnType></usePromises>
      */
-</emitJSDoc>    <operationId><#usePromises>WithHttpInfo</usePromises>(<vendorExtensions.x-codegen-argList>) {
-      <#vendorExtensions.x-codegen-hasOptionalParams>
+</emitJSDoc>    <operationId><#usePromises>WithHttpInfo</usePromises>(<vendorExtensions.x-codegen-arg-list>) {
+      <#vendorExtensions.x-codegen-has-optional-params>
       opts = opts || {};
-      </vendorExtensions.x-codegen-hasOptionalParams>
+      </vendorExtensions.x-codegen-has-optional-params>
       let postBody = <#bodyParam><#required><paramName></required><^required>opts['<paramName>']</required></bodyParam><^bodyParam>null</bodyParam>;
 <#allParams>
 <#required>
@@ -58,21 +58,21 @@ export default class <&classname> {
 </allParams>
 
       let pathParams = {<#pathParams>
-        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></pathParams>
+        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><^-last>,</-last></pathParams>
       };
       let queryParams = {<#queryParams>
-        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><#hasMore>,</hasMore></queryParams>
+        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><^-last>,</-last></queryParams>
       };
       let headerParams = {<#headerParams>
-        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></headerParams>
+        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><^-last>,</-last></headerParams>
       };
       let formParams = {<#formParams>
-        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><#hasMore>,</hasMore></formParams>
+        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><^-last>,</-last></formParams>
       };
 
-      let authNames = [<#authMethods>'<name>'<#hasMore>, </hasMore></authMethods>];
-      let contentTypes = [<#consumes>'<& mediaType>'<#hasMore>, </hasMore></consumes>];
-      let accepts = [<#produces>'<& mediaType>'<#hasMore>, </hasMore></produces>];
+      let authNames = [<#authMethods>'<name>'<^-last>, </-last></authMethods>];
+      let contentTypes = [<#consumes>'<& mediaType>'<^-last>, </-last></consumes>];
+      let accepts = [<#produces>'<& mediaType>'<^-last>, </-last></produces>];
       let returnType = <#vendorExtensions.x-return-type><&vendorExtensions.x-return-type></vendorExtensions.x-return-type><^vendorExtensions.x-return-type>null</vendorExtensions.x-return-type>;
       <#servers.0>
       let basePaths = [<#servers>'<url>'<^-last>, </-last></servers>];
@@ -105,8 +105,8 @@ export default class <&classname> {
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with data of type {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises>
      */
 </emitJSDoc>
-    <operationId>(<vendorExtensions.x-codegen-argList>) {
-      return this.<operationId>WithHttpInfo(<vendorExtensions.x-codegen-argList>)
+    <operationId>(<vendorExtensions.x-codegen-arg-list>) {
+      return this.<operationId>WithHttpInfo(<vendorExtensions.x-codegen-arg-list>)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

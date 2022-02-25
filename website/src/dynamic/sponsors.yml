@@ -1,0 +1,40 @@
+-
+  caption: "NamSor"
+  image: "img/companies/namsor.png"
+  infoLink: "https://www.namsor.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "Lightbow"
+  image: "img/companies/lightbow.png"
+  infoLink: "https://www.lightbow.net/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "DocSpring"
+  image: "img/companies/docspring.png"
+  infoLink: "https://docspring.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "Datadog"
+  image: "img/companies/datadog.png"
+  infoLink: "https://datadoghq.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "Thales"
+  image: "img/companies/thales.jpg"
+  infoLink: "https://cpl.thalesgroup.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "Apideck"
+  image: "img/companies/apideck.jpg"
+  infoLink: "https://www.apideck.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "PEXA"
+  image: "img/companies/pexa.png"
+  infoLink: "https://www.pexa.com.au/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "Numary"
+  image: "img/companies/numary.png"
+  infoLink: "https://www.numary.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true

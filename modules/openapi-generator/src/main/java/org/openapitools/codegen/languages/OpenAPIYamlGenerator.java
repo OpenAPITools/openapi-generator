@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,29 +17,42 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.templating.mustache.OnChangeLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.ImmutableMap.Builder;
 import com.samskivert.mustache.Mustache.Lambda;
 
 import io.swagger.v3.oas.models.Operation;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
 public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfig {
     public static final String OUTPUT_NAME = "outputFile";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(OpenAPIYamlGenerator.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(OpenAPIYamlGenerator.class);
 
     protected String outputFile = "openapi/openapi.yaml";
 
     public OpenAPIYamlGenerator() {
         super();
+
+        modifyFeatureSet(features -> features
+                .documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
+                .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
+                .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
+                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
+                .globalFeatures(EnumSet.allOf(GlobalFeature.class))
+                .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
+                .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class))
+        );
+
         embeddedTemplateDir = templateDir = "openapi-yaml";
         outputFolder = "generated-code/openapi-yaml";
         cliOptions.add(CliOption.newString(OUTPUT_NAME, "Output filename").defaultValue(outputFile));
@@ -72,7 +85,7 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    protected Builder<String, Lambda> addMustacheLambdas() {
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("onchange", new OnChangeLambda());
     }
@@ -107,4 +120,6 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         return input;
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return null; }
 }

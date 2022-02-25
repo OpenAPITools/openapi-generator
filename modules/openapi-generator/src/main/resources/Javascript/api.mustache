@@ -52,7 +52,7 @@
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with an object containing data of type {@link <&vendorExtensions.x-jsdoc-type>} and HTTP response</returnType><^returnType>, with an object containing HTTP response</returnType></usePromises>
      */
-</emitJSDoc>    this.<operationId><#usePromises>WithHttpInfo</usePromises> = function(<vendorExtensions.x-codegen-argList>) {<#hasOptionalParams>
+</emitJSDoc>    this.<operationId><#usePromises>WithHttpInfo</usePromises> = function(<vendorExtensions.x-codegen-arg-list>) {<#hasOptionalParams>
       opts = opts || {};</hasOptionalParams>
       var postBody = <#bodyParam><#required><paramName></required><^required>opts['<paramName>']</required></bodyParam><^bodyParam>null</bodyParam>;
 <#allParams>
@@ -65,7 +65,7 @@
 </allParams>
 
       var pathParams = {<#pathParams>
-        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></pathParams>
+        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><^-last>,</-last></pathParams>
       };
       var queryParams = {<#queryParams><^collectionFormat>
         '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required>,</collectionFormat></queryParams>
@@ -77,15 +77,15 @@
         },</collectionFormat></queryParams>
       };
       var headerParams = {<#headerParams>
-        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></headerParams>
+        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><^-last>,</-last></headerParams>
       };
       var formParams = {<#formParams>
-        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><#hasMore>,</hasMore></formParams>
+        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><^-last>,</-last></formParams>
       };
 
-      var authNames = [<#authMethods>'<name>'<#hasMore>, </hasMore></authMethods>];
-      var contentTypes = [<#consumes>'<& mediaType>'<#hasMore>, </hasMore></consumes>];
-      var accepts = [<#produces>'<& mediaType>'<#hasMore>, </hasMore></produces>];
+      var authNames = [<#authMethods>'<name>'<^-last>, </-last></authMethods>];
+      var contentTypes = [<#consumes>'<& mediaType>'<^-last>, </-last></consumes>];
+      var accepts = [<#produces>'<& mediaType>'<^-last>, </-last></produces>];
       var returnType = <#vendorExtensions.x-return-type><&vendorExtensions.x-return-type></vendorExtensions.x-return-type><^vendorExtensions.x-return-type>null</vendorExtensions.x-return-type>;
       <#servers.0>
       let basePaths = [<#servers>'<url>'<^-last>, </-last></servers>];
@@ -117,8 +117,8 @@
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with data of type {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises>
      */
-</emitJSDoc>    this.<operationId> = function(<vendorExtensions.x-codegen-argList>) {
-      return this.<operationId>WithHttpInfo(<vendorExtensions.x-codegen-argList>)
+</emitJSDoc>    this.<operationId> = function(<vendorExtensions.x-codegen-arg-list>) {
+      return this.<operationId>WithHttpInfo(<vendorExtensions.x-codegen-arg-list>)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

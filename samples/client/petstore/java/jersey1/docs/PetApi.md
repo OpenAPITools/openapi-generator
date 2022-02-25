@@ -77,6 +77,7 @@ null (empty response body)
 - **Content-Type**: application/json, application/xml
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -146,6 +147,7 @@ null (empty response body)
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -218,6 +220,7 @@ Name | Type | Description  | Notes
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -227,7 +230,7 @@ Name | Type | Description  | Notes
 
 ## findPetsByTags
 
-> List&lt;Pet&gt; findPetsByTags(tags)
+> Set&lt;Pet&gt; findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -254,9 +257,9 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
+        Set<String> tags = Arrays.asList(); // Set<String> | Tags to filter by
         try {
-            List<Pet> result = apiInstance.findPetsByTags(tags);
+            Set<Pet> result = apiInstance.findPetsByTags(tags);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#findPetsByTags");
@@ -274,11 +277,11 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by |
+ **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by |
 
 ### Return type
 
-[**List&lt;Pet&gt;**](Pet.md)
+[**Set&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -288,6 +291,7 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -362,6 +366,7 @@ Name | Type | Description  | Notes
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -430,6 +435,7 @@ null (empty response body)
 
 - **Content-Type**: application/json, application/xml
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -505,6 +511,7 @@ null (empty response body)
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -513,7 +520,7 @@ null (empty response body)
 
 ## uploadFile
 
-> ModelApiResponse uploadFile(petId, additionalMetadata, file)
+> ModelApiResponse uploadFile(petId, additionalMetadata, _file)
 
 uploads an image
 
@@ -540,9 +547,9 @@ public class Example {
         PetApi apiInstance = new PetApi(defaultClient);
         Long petId = 56L; // Long | ID of pet to update
         String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
-        File file = new File("/path/to/file"); // File | file to upload
+        File _file = new File("/path/to/file"); // File | file to upload
         try {
-            ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
+            ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, _file);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#uploadFile");
@@ -562,7 +569,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
  **additionalMetadata** | **String**| Additional data to pass to server | [optional]
- **file** | **File**| file to upload | [optional]
+ **_file** | **File**| file to upload | [optional]
 
 ### Return type
 
@@ -576,6 +583,7 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: multipart/form-data
 - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -648,6 +656,7 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: multipart/form-data
 - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

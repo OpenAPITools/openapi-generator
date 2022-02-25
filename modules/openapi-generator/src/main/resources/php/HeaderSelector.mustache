@@ -1,7 +1,7 @@
 <?php
 /**
  * ApiException
- * PHP version 5
+ * PHP version 7.3
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -66,14 +66,14 @@ class HeaderSelector
      *
      * @param string[] $accept Array of header
      *
-     * @return string Accept (e.g. application/json)
+     * @return null|string Accept (e.g. application/json)
      */
     private function selectAcceptHeader($accept)
     {
         if (count($accept) === 0 || (count($accept) === 1 && $accept[0] === '')) {
             return null;
-        } elseif (preg_grep("/application\/json/i", $accept)) {
-            return 'application/json';
+        } elseif ($jsonAccept = preg_grep('~(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$~', $accept)) {
+            return implode(',', $jsonAccept);
         } else {
             return implode(',', $accept);
         }
@@ -97,4 +97,3 @@ class HeaderSelector
         }
     }
 }
-

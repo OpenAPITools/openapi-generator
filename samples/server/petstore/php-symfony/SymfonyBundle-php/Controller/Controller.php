@@ -2,7 +2,7 @@
 /**
  * Controller
  *
- * PHP version 5
+ * PHP version 7.1.3
  *
  * @category Class
  * @package  OpenAPI\Server\Controller
@@ -30,6 +30,7 @@
 namespace OpenAPI\Server\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use OpenAPI\Server\Service\SerializerInterface;
@@ -164,7 +165,7 @@ class Controller extends AbstractController
     {
         // Figure out what the client accepts
         $accept = preg_split("/[\s,]+/", $accept);
-        
+
         if (in_array('*/*', $accept) || in_array('application/*', $accept)) {
             // Prefer JSON if the client has no preference
             if (in_array('application/json', $produced)) {
@@ -185,5 +186,41 @@ class Controller extends AbstractController
 
         // If we reach this point, we don't have a common ground between server and client
         return null;
+    }
+
+    /**
+     * Checks whether Content-Type request header presented in supported formats.
+     *
+     * @param Request $request  Request instance.
+     * @param array   $consumes Array of supported content types.
+     *
+     * @return bool Returns true if Content-Type supported otherwise false.
+     */
+    public static function isContentTypeAllowed(Request $request, array $consumes = [])
+    {
+        if (!empty($consumes) && $consumes[0] !== '*/*') {
+            $currentFormat = $request->getContentType();
+            foreach ($consumes as $mimeType) {
+                // canonize mime type
+                if (is_string($mimeType) && false !== $pos = strpos($mimeType, ';')) {
+                    $mimeType = trim(substr($mimeType, 0, $pos));
+                }
+
+                if (!$format = $request->getFormat($mimeType)) {
+                    // add custom format to request
+                    $format = $mimeType;
+                    $request->setFormat($format, $format);
+                    $currentFormat = $request->getContentType();
+                }
+
+                if ($format === $currentFormat) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return true;
     }
 }

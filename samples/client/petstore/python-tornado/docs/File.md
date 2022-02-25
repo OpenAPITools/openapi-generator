@@ -1,5 +1,7 @@
 # File
 
+Must be named `File` for test.
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

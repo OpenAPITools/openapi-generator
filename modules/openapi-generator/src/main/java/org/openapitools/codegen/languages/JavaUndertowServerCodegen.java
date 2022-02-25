@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,11 +20,13 @@ package org.openapitools.codegen.languages;
 import org.apache.commons.lang3.BooleanUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -32,7 +34,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaUndertowServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaUndertowServerCodegen.class);
 
     protected String title = "OpenAPI Undertow Server";
     protected String implFolder = "src/main/java";
@@ -40,15 +42,17 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
     public JavaUndertowServerCodegen() {
         super();
 
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+
         embeddedTemplateDir = templateDir = "java-undertow-server";
         invokerPackage = "org.openapitools.handler";
         artifactId = "openapi-undertow-server";
         dateLibrary = "legacy"; //TODO: add joda support
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
-        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
 
         apiTestTemplateFiles.clear(); // TODO: add test template
 
@@ -59,7 +63,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         apiDocTemplateFiles.remove("api_doc.mustache");
 
         if(GlobalSettings.getProperty("swagger.codegen.undertow.apipackage") != null && GlobalSettings.getProperty("openapi.codegen.undertow.apipackage") == null) {
-            LOGGER.warn("System property 'swagger.codegen.undertow.apipackage' was renamed to 'swagger.codegen.undertow.apipackage'");
+            LOGGER.warn("System property 'swagger.codegen.undertow.apipackage' was renamed to 'openapi.codegen.undertow.apipackage'");
             apiPackage = GlobalSettings.getProperty("swagger.codegen.undertow.apipackage", "org.openapitools.handler");
         } else {
             apiPackage = GlobalSettings.getProperty("openapi.codegen.undertow.apipackage", "org.openapitools.handler");
@@ -95,12 +99,15 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
         apiTemplateFiles.remove("api.mustache");
 
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
+                .doNotOverwrite());
 
         // keep the yaml in config folder for framework validation.
         supportingFiles.add(new SupportingFile("openapi.mustache", ("src.main.resources.config").replace(".", java.io.File.separator), "openapi.json"));
-        supportingFiles.add(new SupportingFile("handler.mustache", ("src.main.java.org.openapitools.handler").replace(".", java.io.File.separator), "PathHandlerProvider.java"));
+        supportingFiles.add(new SupportingFile("interface.mustache", (String.format(Locale.ROOT, "src.main.java.%s", apiPackage)).replace(".", java.io.File.separator), "PathHandlerInterface.java"));
+        supportingFiles.add(new SupportingFile("handler.mustache", (String.format(Locale.ROOT, "src.main.java.%s", apiPackage)).replace(".", java.io.File.separator), "PathHandlerProvider.java"));
         supportingFiles.add(new SupportingFile("service.mustache", ("src.main.resources.META-INF.services").replace(".", java.io.File.separator), "com.networknt.server.HandlerProvider"));
 
         // configuration files

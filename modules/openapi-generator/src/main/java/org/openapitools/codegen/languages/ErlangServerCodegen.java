@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,11 +18,13 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +33,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ErlangServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ErlangServerCodegen.class);
 
     protected String apiVersion = "1.0.0";
     protected String apiPath = "src";
@@ -40,6 +42,27 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
 
     public ErlangServerCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
 
         // set the output folder here
         outputFolder = "generated-code/erlang-server";
@@ -150,7 +173,8 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("openapi.mustache", "", toPrivFilePath(this.openApiSpecName, "json")));
         supportingFiles.add(new SupportingFile("default_logic_handler.mustache", "", toSourceFilePath("default_logic_handler", "erl")));
         supportingFiles.add(new SupportingFile("logic_handler.mustache", "", toSourceFilePath("logic_handler", "erl")));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
+            .doNotOverwrite());
     }
 
     @Override
@@ -232,7 +256,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -302,4 +326,11 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         return input.replace("-ifdef", "- if def").replace("-endif", "- end if");
     }
 
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
 }

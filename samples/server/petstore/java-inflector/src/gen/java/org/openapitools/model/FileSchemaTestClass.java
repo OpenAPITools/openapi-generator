@@ -7,39 +7,40 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.model.ModelFile;
 
 
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class FileSchemaTestClass   {
   @JsonProperty("file")
-  private java.io.File file = null;
+  private ModelFile _file;
 
   @JsonProperty("files")
-  private List<java.io.File> files = null;
+  private List<ModelFile> files = null;
 
   /**
    **/
-  public FileSchemaTestClass file(java.io.File file) {
-    this.file = file;
+  public FileSchemaTestClass _file(ModelFile _file) {
+    this._file = _file;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
   @JsonProperty("file")
-  public java.io.File getFile() {
-    return file;
+  public ModelFile getFile() {
+    return _file;
   }
-  public void setFile(java.io.File file) {
-    this.file = file;
+  public void setFile(ModelFile _file) {
+    this._file = _file;
   }
 
   /**
    **/
-  public FileSchemaTestClass files(List<java.io.File> files) {
+  public FileSchemaTestClass files(List<ModelFile> files) {
     this.files = files;
     return this;
   }
@@ -47,16 +48,16 @@ public class FileSchemaTestClass   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("files")
-  public List<java.io.File> getFiles() {
+  public List<ModelFile> getFiles() {
     return files;
   }
-  public void setFiles(List<java.io.File> files) {
+  public void setFiles(List<ModelFile> files) {
     this.files = files;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -64,13 +65,13 @@ public class FileSchemaTestClass   {
       return false;
     }
     FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(file, fileSchemaTestClass.file) &&
+    return Objects.equals(_file, fileSchemaTestClass._file) &&
         Objects.equals(files, fileSchemaTestClass.files);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(file, files);
+    return Objects.hash(_file, files);
   }
 
   @Override
@@ -78,7 +79,7 @@ public class FileSchemaTestClass   {
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
     
-    sb.append("    file: ").append(toIndentedString(file)).append("\n");
+    sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -88,7 +89,7 @@ public class FileSchemaTestClass   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

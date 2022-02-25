@@ -1,0 +1,8 @@
+generatorName: csharp
+outputDir: samples/client/petstore/csharp/OpenAPIClientNetCoreProject
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp
+additionalProperties:
+  targetFramework: netstandard1.3
+  packageGuid: '{67035b31-f8e5-41a4-9673-954035084f7d}'
+  netCoreProjectFile: "true"

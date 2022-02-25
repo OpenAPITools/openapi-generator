@@ -3,6 +3,7 @@
 /**
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * PHP version 7.2.5
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -16,6 +17,10 @@
  * > https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/resources/php-laravel/
  */
 
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
 /**
  * patch call123TestSpecialTags
  * Summary: To test special tags
@@ -23,6 +28,13 @@
  * Output-Formats: [application/json]
  */
 Route::patch('/v2/another-fake/dummy', 'AnotherFakeController@call123TestSpecialTags');
+/**
+ * get fooGet
+ * Summary: 
+ * Notes: 
+ * Output-Formats: [application/json]
+ */
+Route::get('/v2/foo', 'DefaultController@fooGet');
 /**
  * patch testClientModel
  * Summary: To test \&quot;client\&quot; model
@@ -52,9 +64,16 @@ Route::get('/v2/fake', 'FakeController@testEnumParameters');
  */
 Route::delete('/v2/fake', 'FakeController@testGroupParameters');
 /**
+ * put testBodyWithBinary
+ * Summary: 
+ * Notes: For this test, the body has to be a binary file.
+
+ */
+Route::put('/v2/fake/body-with-binary', 'FakeController@testBodyWithBinary');
+/**
  * put testBodyWithFileSchema
  * Summary: 
- * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+ * Notes: For this test, the body for this request must reference a schema named &#x60;File&#x60;.
 
  */
 Route::put('/v2/fake/body-with-file-schema', 'FakeController@testBodyWithFileSchema');
@@ -66,12 +85,19 @@ Route::put('/v2/fake/body-with-file-schema', 'FakeController@testBodyWithFileSch
  */
 Route::put('/v2/fake/body-with-query-params', 'FakeController@testBodyWithQueryParams');
 /**
- * post createXmlItem
- * Summary: creates an XmlItem
- * Notes: this route creates an XmlItem
+ * get fakeHealthGet
+ * Summary: Health check endpoint
+ * Notes: 
+ * Output-Formats: [application/json]
+ */
+Route::get('/v2/fake/health', 'FakeController@fakeHealthGet');
+/**
+ * get fakeHttpSignatureTest
+ * Summary: test http signature authentication
+ * Notes: 
 
  */
-Route::post('/v2/fake/create_xml_item', 'FakeController@createXmlItem');
+Route::get('/v2/fake/http-signature-test', 'FakeController@fakeHttpSignatureTest');
 /**
  * post testInlineAdditionalProperties
  * Summary: test inline additionalProperties
@@ -114,6 +140,20 @@ Route::post('/v2/fake/outer/number', 'FakeController@fakeOuterNumberSerialize');
  * Output-Formats: [*_/_*]
  */
 Route::post('/v2/fake/outer/string', 'FakeController@fakeOuterStringSerialize');
+/**
+ * post fakePropertyEnumIntegerSerialize
+ * Summary: 
+ * Notes: Test serialization of enum (int) properties with examples
+ * Output-Formats: [*_/_*]
+ */
+Route::post('/v2/fake/property/enum-int', 'FakeController@fakePropertyEnumIntegerSerialize');
+/**
+ * put testQueryParameterCollectionFormat
+ * Summary: 
+ * Notes: To test the collection format in query parameters
+
+ */
+Route::put('/v2/fake/test-query-parameters', 'FakeController@testQueryParameterCollectionFormat');
 /**
  * patch testClassname
  * Summary: To test class name in snake case
@@ -269,3 +309,6 @@ Route::get('/v2/user/{username}', 'UserController@getUserByName');
  */
 Route::put('/v2/user/{username}', 'UserController@updateUser');
 
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});

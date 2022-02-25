@@ -36,7 +36,7 @@ import javax.validation.Valid;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class MapTest  implements Serializable {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
@@ -102,7 +102,7 @@ public class MapTest  implements Serializable {
    * Get mapMapOfString
    * @return mapMapOfString
    **/
-  @JsonProperty("map_map_of_string")
+  @JsonProperty(value = "map_map_of_string")
   @ApiModelProperty(value = "")
   @Valid 
   public Map<String, Map<String, String>> getMapMapOfString() {
@@ -130,7 +130,7 @@ public class MapTest  implements Serializable {
    * Get mapOfEnumString
    * @return mapOfEnumString
    **/
-  @JsonProperty("map_of_enum_string")
+  @JsonProperty(value = "map_of_enum_string")
   @ApiModelProperty(value = "")
   
   public Map<String, InnerEnum> getMapOfEnumString() {
@@ -158,7 +158,7 @@ public class MapTest  implements Serializable {
    * Get directMap
    * @return directMap
    **/
-  @JsonProperty("direct_map")
+  @JsonProperty(value = "direct_map")
   @ApiModelProperty(value = "")
   
   public Map<String, Boolean> getDirectMap() {
@@ -186,7 +186,7 @@ public class MapTest  implements Serializable {
    * Get indirectMap
    * @return indirectMap
    **/
-  @JsonProperty("indirect_map")
+  @JsonProperty(value = "indirect_map")
   @ApiModelProperty(value = "")
   
   public Map<String, Boolean> getIndirectMap() {
@@ -199,7 +199,7 @@ public class MapTest  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -218,7 +218,6 @@ public class MapTest  implements Serializable {
     return Objects.hash(mapMapOfString, mapOfEnumString, directMap, indirectMap);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -236,7 +235,7 @@ public class MapTest  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

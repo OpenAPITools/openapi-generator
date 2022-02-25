@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,9 +20,9 @@ package org.openapitools.codegen.languages.features;
 public interface BeanValidationExtendedFeatures {
 
     // Language (implementing Client/Server) supports automatic BeanValidation (1.1)
-    public static final String USE_BEANVALIDATION_FEATURE = "useBeanValidationFeature";
+    String USE_BEANVALIDATION_FEATURE = "useBeanValidationFeature";
 
-    public void setUseBeanValidationFeature(boolean useBeanValidationFeature);
+    void setUseBeanValidationFeature(boolean useBeanValidationFeature);
 
 
 }

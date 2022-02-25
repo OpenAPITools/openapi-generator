@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,10 +23,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -39,6 +41,28 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
 
     public CppTizenClientCodegen() {
         super();
+
+        // TODO: cpp-tizen maintainer review
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BearerToken
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling,
+                        GlobalFeature.MultiServer
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
+
         outputFolder = "";
         modelTemplateFiles.put("model-header.mustache", ".h");
         modelTemplateFiles.put("model-body.mustache", ".cpp");
@@ -47,7 +71,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         embeddedTemplateDir = templateDir = "cpp-tizen-client";
         modelPackage = "";
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "bool",
                         "int",
@@ -55,7 +79,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
                         "double",
                         "float")
         );
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "bool",
                         "int",
@@ -81,7 +105,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
                         "unsigned", "using", "virtual", "void", "volatile", "wchar_t", "while", "xor", "xor_eq"
                 ));
 
-        super.typeMapping = new HashMap<String, String>();
+        super.typeMapping = new HashMap<>();
 
         //typeMapping.put("Date", "DateTime");
         //typeMapping.put("DateTime", "DateTime");
@@ -104,7 +128,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         typeMapping.put("UUID", "std::string");
         typeMapping.put("URI", "std::string");
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
 
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, "Helpers.h"));
@@ -151,7 +175,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         if (languageSpecificPrimitives.contains(name)) {
             return name;
         } else {
-            return name + "";
+            return super.getTypeDeclaration(name);
         }
     }
 
@@ -176,7 +200,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         if (languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
         } else {
-            return openAPIType + "";
+            return openAPIType;
         }
     }
 
@@ -264,11 +288,14 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
     @Override
     public String toVarName(String name) {
         String paramName = name.replaceAll("[^a-zA-Z0-9_]", "");
-        paramName = Character.toLowerCase(paramName.charAt(0)) + paramName.substring(1);
+        if (name.length() > 0 ) {
+            // additionalProperties name is "" so name.length() == 0
+            paramName = Character.toLowerCase(paramName.charAt(0)) + paramName.substring(1);
+        }
         if (isReservedWord(paramName)) {
             return escapeReservedWord(paramName);
         }
-        return "" + paramName;
+        return paramName;
     }
 
     @Override
@@ -292,6 +319,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
      * @param name the name of the property
      * @return getter name based on naming convention
      */
+    @Override
     public String toBooleanGetter(String name) {
         return "get" + getterAndSetterCapitalize(name);
     }

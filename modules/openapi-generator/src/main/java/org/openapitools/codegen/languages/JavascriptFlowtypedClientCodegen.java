@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,14 +19,10 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
-
-import java.text.SimpleDateFormat;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.dashize;
@@ -38,6 +34,8 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
 
     public JavascriptFlowtypedClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
@@ -66,7 +64,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
                 "Math", "NaN", "Number", "Object",
                 "prototype", "String", "toString", "undefined", "valueOf"));
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("string", "boolean", "number", "Array", "Object", "Date", "File", "Blob")
         );
 
@@ -97,7 +95,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
 
-        defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
+        defaultIncludes = new HashSet<>(languageSpecificPrimitives);
         outputFolder = "generated-code/javascript-flowtyped";
         embeddedTemplateDir = templateDir = "Javascript-Flowtyped";
 
@@ -107,7 +105,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -175,14 +173,14 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + "" + var.enumName);
+                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
                         var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + "" + var.enumName);
+                                .replace(var.enumName, cm.classname + var.enumName);
                     }
                 }
             }
@@ -225,4 +223,6 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         this.npmRepository = npmRepository;
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }

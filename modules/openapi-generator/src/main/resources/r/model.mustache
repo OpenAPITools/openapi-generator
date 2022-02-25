@@ -3,15 +3,21 @@
 {{>partial_header}}
 #' @docType class
 #' @title {{classname}}
+#'
 #' @description {{classname}} Class
+#'
 #' @format An \code{R6Class} generator object
+#'
 {{#vars}}
-#' @field {{baseName}} {{title}} {{^isPrimitiveType}} \link[{{packageName}}:{{complexType}}]{ {{/isPrimitiveType}} {{#isContainer}} {{#isListContainer}}list({{#items}}{{dataType}}{{/items}}){{/isListContainer}}{{#isMapContainer}}named list({{#items}}{{dataType}}{{/items}}){{/isMapContainer}} {{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}} {{^isPrimitiveType}} } {{/isPrimitiveType}} {{^required}}[optional]{{/required}}
+#' @field {{baseName}} {{title}} {{#isContainer}}{{#isArray}}list( {{/isArray}}{{#isMap}}named list( {{/isMap}}{{/isContainer}}{{^isPrimitiveType}}\link{{=<% %>=}}{<%/isPrimitiveType%><%={{ }}=%>{{#isContainer}}{{#items}}{{dataType}}{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}{{=<% %>=}}<%^isPrimitiveType%>}<%={{ }}=%>{{/isPrimitiveType}}{{#isContainer}}{{#isArray}} ){{/isArray}}{{#isMap}} ){{/isMap}}{{/isContainer}} {{^required}}[optional]{{/required}}
 #'
 {{/vars}}
-#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
+{{#isEnum}}
+{{>modelEnum}}
+{{/isEnum}}
+{{^isEnum}}
 #' @export
 {{classname}} <- R6::R6Class(
   '{{classname}}',
@@ -19,11 +25,13 @@
     {{#vars}}
     `{{{baseName}}}` = NULL,
     {{/vars}}
-    initialize = function({{#requiredVars}}`{{baseName}}`{{#hasMore}}, {{/hasMore}}{{/requiredVars}}{{#optionalVars}}{{#-first}}{{#requiredVars.0}}, {{/requiredVars.0}}{{/-first}}`{{baseName}}`={{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}NULL{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalVars}}, ...){
+    initialize = function(
+        {{#requiredVars}}`{{baseName}}`, {{/requiredVars}}{{#optionalVars}}`{{baseName}}`={{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}...
+    ) {
       local.optional.var <- list(...)
       {{#requiredVars}}
       if (!missing(`{{baseName}}`)) {
-        {{^isListContainer}}
+        {{^isContainer}}
         {{#isInteger}}
         stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
         {{/isInteger}}
@@ -39,6 +47,9 @@
         {{#isString}}
         stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
         {{/isString}}
+        {{#isBoolean}}
+        stopifnot(is.logical(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isBoolean}}
         {{#isDate}}
         stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
         {{/isDate}}
@@ -48,8 +59,8 @@
         {{^isPrimitiveType}}
         stopifnot(R6::is.R6(`{{baseName}}`))
         {{/isPrimitiveType}}
-        {{/isListContainer}}
-        {{#isListContainer}}
+        {{/isContainer}}
+        {{#isContainer}}
         {{#isPrimitiveType}}
         stopifnot(is.vector(`{{baseName}}`), length(`{{baseName}}`) != 0)
         sapply(`{{baseName}}`, function(x) stopifnot(is.character(x)))
@@ -58,13 +69,13 @@
         stopifnot(is.vector(`{{baseName}}`), length(`{{baseName}}`) != 0)
         sapply(`{{baseName}}`, function(x) stopifnot(R6::is.R6(x)))
         {{/isPrimitiveType}}
-        {{/isListContainer}}
+        {{/isContainer}}
         self$`{{baseName}}` <- `{{baseName}}`
       }
       {{/requiredVars}}
       {{#optionalVars}}
       if (!is.null(`{{baseName}}`)) {
-        {{^isListContainer}}
+        {{^isContainer}}
         {{#isInteger}}
         stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
         {{/isInteger}}
@@ -80,6 +91,9 @@
         {{#isString}}
         stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
         {{/isString}}
+        {{#isBoolean}}
+        stopifnot(is.logical(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isBoolean}}
         {{#isDate}}
         stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
         {{/isDate}}
@@ -89,8 +103,8 @@
         {{^isPrimitiveType}}
         stopifnot(R6::is.R6(`{{baseName}}`))
         {{/isPrimitiveType}}
-        {{/isListContainer}}
-        {{#isListContainer}}
+        {{/isContainer}}
+        {{#isContainer}}
         {{#isPrimitiveType}}
         stopifnot(is.vector(`{{baseName}}`), length(`{{baseName}}`) != 0)
         sapply(`{{baseName}}`, function(x) stopifnot(is.character(x)))
@@ -99,7 +113,7 @@
         stopifnot(is.vector(`{{baseName}}`), length(`{{baseName}}`) != 0)
         sapply(`{{baseName}}`, function(x) stopifnot(R6::is.R6(x)))
         {{/isPrimitiveType}}
-        {{/isListContainer}}
+        {{/isContainer}}
         self$`{{baseName}}` <- `{{baseName}}`
       }
       {{/optionalVars}}
@@ -109,22 +123,32 @@
       {{#vars}}
       if (!is.null(self$`{{baseName}}`)) {
         {{classname}}Object[['{{baseName}}']] <-
-        {{#isListContainer}}
-        {{#isPrimitiveType}}
+       {{#isContainer}}
+       {{#isArray}}
+       {{#isPrimitiveType}}
           self$`{{baseName}}`
+       {{/isPrimitiveType}}
+       {{^isPrimitiveType}}
+          lapply(self$`{{baseName}}`, function(x) x$toJSON())
         {{/isPrimitiveType}}
-        {{^isPrimitiveType}}
-          sapply(self$`{{baseName}}`, function(x) x$toJSON())
-        {{/isPrimitiveType}}
-        {{/isListContainer}}
-        {{^isListContainer}}
-        {{#isPrimitiveType}}
+       {{/isArray}}
+       {{#isMap}}
+       {{#isPrimitiveType}}
           self$`{{baseName}}`
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}
+       {{/isPrimitiveType}}
+       {{^isPrimitiveType}}
+          lapply(self$`{{baseName}}`, function(x) x$toJSON())
+       {{/isPrimitiveType}}
+       {{/isMap}}
+       {{/isContainer}}
+       {{^isContainer}}
+       {{#isPrimitiveType}}
+          self$`{{baseName}}`
+       {{/isPrimitiveType}}
+       {{^isPrimitiveType}}
           self$`{{baseName}}`$toJSON()
-        {{/isPrimitiveType}}
-        {{/isListContainer}}
+       {{/isPrimitiveType}}
+       {{/isContainer}}
       }
       {{/vars}}
 
@@ -135,7 +159,7 @@
       {{#vars}}
       if (!is.null({{classname}}Object$`{{baseName}}`)) {
         {{#isContainer}}
-        self$`{{baseName}}` <- ApiClient$new()$deserializeObj({{classname}}Object$`{{baseName}}`, "{{dataType}}", "package:{{packageName}}")
+        self$`{{baseName}}` <- ApiClient$new()$deserializeObj({{classname}}Object$`{{baseName}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
         {{/isContainer}}
         {{^isContainer}}
         {{#isPrimitiveType}}
@@ -149,6 +173,7 @@
         {{/isContainer}}
       }
       {{/vars}}
+      self
     },
     toJSONString = function() {
       jsoncontent <- c(
@@ -156,38 +181,57 @@
         if (!is.null(self$`{{baseName}}`)) {
         sprintf(
         '"{{baseName}}":
-        {{#isListContainer}}
+        {{#isContainer}}
+        {{#isArray}}
         {{#isPrimitiveType}}
            {{#isNumeric}}[%d]{{/isNumeric}}{{^isNumeric}}[%s]{{/isNumeric}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}[%s]
         {{/isPrimitiveType}}
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{#isMap}}
         {{#isPrimitiveType}}
-          {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}"%s"{{/isNumeric}}
+          {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}%s
         {{/isPrimitiveType}}
-        {{/isListContainer}}',
-        {{#isListContainer}}
+        {{/isMap}}
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#isPrimitiveType}}
+          {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}%s
+        {{/isPrimitiveType}}
+        {{/isContainer}}',
+        {{#isContainer}}
+        {{#isArray}}
         {{#isPrimitiveType}}
         paste(unlist(lapply(self$`{{{baseName}}}`, function(x) paste0('"', x, '"'))), collapse=",")
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        paste(unlist(lapply(self$`{{{baseName}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA))), collapse=",")
+        paste(sapply(self$`{{{baseName}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
         {{/isPrimitiveType}}
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{#isMap}}
         {{#isPrimitiveType}}
-        self$`{{baseName}}`
+        jsonlite::toJSON(lapply(self$`{{{baseName}}}`, function(x){ x }), auto_unbox = TRUE, digits=NA)
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        jsonlite::toJSON(lapply(self$`{{{baseName}}}`, function(x){ x$toJSON() }), auto_unbox = TRUE, digits=NA)
+        {{/isPrimitiveType}}
+        {{/isMap}}
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#isPrimitiveType}}
+        {{#isBoolean}}tolower({{/isBoolean}}self$`{{baseName}}`{{#isBoolean}}){{/isBoolean}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         jsonlite::toJSON(self$`{{baseName}}`$toJSON(), auto_unbox=TRUE, digits = NA)
         {{/isPrimitiveType}}
-        {{/isListContainer}}
-        )}{{#hasMore}},{{/hasMore}}
-        {{/vars}}
+        {{/isContainer}}
+        )}{{^-last}},{{/-last}}
+      {{/vars}}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
       paste('{', jsoncontent, '}', sep = "")
@@ -197,7 +241,7 @@
       {{#vars}}
       {{! AAPI - added condition for handling container type of parameters, map and array}}
       {{#isContainer}}
-      self$`{{baseName}}` <- ApiClient$new()$deserializeObj({{classname}}Object$`{{baseName}}`, "{{dataType}}","package:{{packageName}}")
+      self$`{{baseName}}` <- ApiClient$new()$deserializeObj({{classname}}Object$`{{baseName}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
       {{/isContainer}}
       {{^isContainer}}
       {{#isPrimitiveType}}
@@ -212,5 +256,6 @@
     }
   )
 )
+{{/isEnum}}
 {{/model}}
 {{/models}}

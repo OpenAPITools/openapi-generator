@@ -1,5 +1,6 @@
 package apimodels;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
@@ -8,10 +9,11 @@ import javax.validation.constraints.*;
 /**
  * Model for testing reserved words
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ModelReturn   {
   @JsonProperty("return")
+  
   private Integer _return;
 
   public ModelReturn _return(Integer _return) {
@@ -23,7 +25,7 @@ public class ModelReturn   {
    * Get _return
    * @return _return
   **/
-    public Integer getReturn() {
+  public Integer getReturn() {
     return _return;
   }
 
@@ -33,7 +35,7 @@ public class ModelReturn   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -64,7 +66,7 @@ public class ModelReturn   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -85,31 +85,28 @@ public class MysqlSchemaCodegenTest {
     public void testToCodegenMysqlDataTypeArgument() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         String strArgument = "HelloWorld";
-        HashMap<String, Object> strProp = codegen.toCodegenMysqlDataTypeArgument(strArgument, true);
+        HashMap<String, Object> strProp = codegen.toCodegenMysqlDataTypeArgument(strArgument);
         Assert.assertTrue((Boolean) strProp.get("isString"));
-        Assert.assertTrue((Boolean) strProp.get("hasMore"));
         Assert.assertFalse((Boolean) strProp.get("isFloat"));
         Assert.assertFalse((Boolean) strProp.get("isInteger"));
         Assert.assertFalse((Boolean) strProp.get("isNumeric"));
-        Assert.assertSame((String) strProp.get("argumentValue"), strArgument);
+        Assert.assertSame(strProp.get("argumentValue"), strArgument);
 
         Integer intArgument = 10;
-        HashMap<String, Object> intProp = codegen.toCodegenMysqlDataTypeArgument(intArgument, true);
+        HashMap<String, Object> intProp = codegen.toCodegenMysqlDataTypeArgument(intArgument);
         Assert.assertFalse((Boolean) intProp.get("isString"));
-        Assert.assertTrue((Boolean) intProp.get("hasMore"));
         Assert.assertFalse((Boolean) intProp.get("isFloat"));
         Assert.assertTrue((Boolean) intProp.get("isInteger"));
         Assert.assertTrue((Boolean) intProp.get("isNumeric"));
-        Assert.assertSame((Integer) intProp.get("argumentValue"), intArgument);
+        Assert.assertSame(intProp.get("argumentValue"), intArgument);
 
         Double floatArgument = 3.14;
-        HashMap<String, Object> floatProp = codegen.toCodegenMysqlDataTypeArgument(floatArgument, false);
+        HashMap<String, Object> floatProp = codegen.toCodegenMysqlDataTypeArgument(floatArgument);
         Assert.assertFalse((Boolean) floatProp.get("isString"));
-        Assert.assertFalse((Boolean) floatProp.get("hasMore"));
         Assert.assertTrue((Boolean) floatProp.get("isFloat"));
         Assert.assertFalse((Boolean) floatProp.get("isInteger"));
         Assert.assertTrue((Boolean) floatProp.get("isNumeric"));
-        Assert.assertSame((Double) floatProp.get("argumentValue"), floatArgument);
+        Assert.assertSame(floatProp.get("argumentValue"), floatArgument);
     }
 
     @Test
@@ -272,6 +269,43 @@ public class MysqlSchemaCodegenTest {
         Assert.assertTrue(codegen.getJsonDataTypeEnabled());
         codegen.setJsonDataTypeEnabled(false);
         Assert.assertFalse(codegen.getJsonDataTypeEnabled());
+    }
+
+    @Test
+    public void testSetNamedParametersEnabled() {
+        final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
+        codegen.setNamedParametersEnabled(true);
+        Assert.assertTrue(codegen.getNamedParametersEnabled());
+        codegen.setNamedParametersEnabled(false);
+        Assert.assertFalse(codegen.getNamedParametersEnabled());
+    }
+
+    @Test
+    public void testGetNamedParametersEnabled() {
+        final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
+        Assert.assertFalse(codegen.getNamedParametersEnabled());
+        codegen.setNamedParametersEnabled(true);
+        Assert.assertTrue(codegen.getNamedParametersEnabled());
+    }
+
+    @Test
+    public void testSetIdentifierNamingConvention() {
+        final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
+        Assert.assertSame("original", codegen.getIdentifierNamingConvention());
+        codegen.setIdentifierNamingConvention("invalidValue");
+        Assert.assertSame("original", codegen.getIdentifierNamingConvention());
+        codegen.setIdentifierNamingConvention("snake_case");
+        Assert.assertSame("snake_case", codegen.getIdentifierNamingConvention());
+        codegen.setIdentifierNamingConvention("anotherInvalid");
+        Assert.assertSame("snake_case", codegen.getIdentifierNamingConvention());
+    }
+
+    @Test
+    public void testGetIdentifierNamingConvention() {
+        final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
+        Assert.assertSame("original", codegen.getIdentifierNamingConvention());
+        codegen.setIdentifierNamingConvention("snake_case");
+        Assert.assertSame("snake_case", codegen.getIdentifierNamingConvention());
     }
 
 }

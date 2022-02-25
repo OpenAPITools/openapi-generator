@@ -89,12 +89,12 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
- - [ApiResponse](ApiResponse.md)
- - [Category](Category.md)
- - [Order](Order.md)
- - [Pet](Pet.md)
- - [Tag](Tag.md)
- - [User](User.md)
+ - [ApiResponse](docs/ApiResponse.md)
+ - [Category](docs/Category.md)
+ - [Order](docs/Order.md)
+ - [Pet](docs/Pet.md)
+ - [Tag](docs/Tag.md)
+ - [User](docs/User.md)
 
 
 ## Documentation for Authorization
@@ -106,7 +106,14 @@ Authentication schemes defined for the API:
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
+### auth_cookie
+
+- **Type**: API key
+- **API key parameter name**: AUTH_KEY
+- **Location**: 
+
 
 ## Author
+
 
 

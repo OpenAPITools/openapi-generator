@@ -17,7 +17,7 @@
   'use strict';
 
 {{#emitJSDoc}}  /**
-   * @module {{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient
+   * @module {{#invokerPackage}}{{.}}/{{/invokerPackage}}ApiClient
    * @version {{projectVersion}}
    */
 
@@ -25,7 +25,7 @@
    * Manages low level client-server communications, parameter marshalling, etc. There should not be any need for an
    * application to use this class directly - the *Api and model classes provide the public API for the service. The
    * contents of this file should be regarded as internal but are documented for completeness.
-   * @alias module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient
+   * @alias module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}ApiClient
    * @class
    */
 {{/emitJSDoc}}  var exports = function() {
@@ -43,9 +43,9 @@
 {{/emitJSDoc}}{{=< >=}}    this.authentications = {
 <#authMethods>
 <#isBasic>
-<^isBasicBearer>
+<#isBasicBasic>
       '<name>': {type: 'basic'}<^-last>,</-last>
-</isBasicBearer>
+</isBasicBasic>
 <#isBasicBearer>
       '<name>': {type: 'bearer'}<^-last>,</-last><#bearerFormat> // <&.></bearerFormat>
 </isBasicBearer>
@@ -119,7 +119,26 @@
     if (param instanceof Date) {
       return param.toJSON();
     }
+    if (this.canBeJsonified(param)) {
+      return JSON.stringify(param);
+    }
     return param.toString();
+  };
+
+{{#emitJSDoc}}  /**
+    * Returns a boolean indicating if the parameter could be JSON.stringified
+    * @param param The actual parameter
+    * @returns {Boolean} Flag indicating if <code>param</code> can be JSON.stringified
+    */
+{{/emitJSDoc}}  exports.prototype.canBeJsonified = function(str) {
+    if (typeof str !== 'string' && typeof str !== 'object') return false;
+    try {
+      const type = str.toString();
+      return type === '[object Object]'
+          || type === '[object Array]';
+    } catch (err) {
+      return false;
+    }
   };
 
 {{#emitJSDoc}}
@@ -144,7 +163,7 @@
     }
 
     var _this = this;
-    url = url.replace(/\{([\w-]+)\}/g, function(fullMatch, key) {
+    url = url.replace(/\{([\w-\.]+)\}/g, function(fullMatch, key) {
       var value;
       if (pathParams.hasOwnProperty(key)) {
         value = _this.paramToString(pathParams[key]);
@@ -277,7 +296,7 @@
   /**
    * Builds a string representation of an array-type actual parameter, according to the given collection format.
    * @param {Array} param An array parameter.
-   * @param {module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient.CollectionFormatEnum} collectionFormat The array element separator strategy.
+   * @param {module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}ApiClient.CollectionFormatEnum} collectionFormat The array element separator strategy.
    * @returns {String|Array} A string representation of the supplied collection, using the specified delimiter. Returns
    * <code>param</code> as is if <code>collectionFormat</code> is <code>multi</code>.
    */
@@ -287,16 +306,18 @@
     }
     switch (collectionFormat) {
       case 'csv':
-        return param.map(this.paramToString).join(',');
+        return param.map(this.paramToString, this).join(',');
       case 'ssv':
-        return param.map(this.paramToString).join(' ');
+        return param.map(this.paramToString, this).join(' ');
       case 'tsv':
-        return param.map(this.paramToString).join('\t');
+        return param.map(this.paramToString, this).join('\t');
       case 'pipes':
-        return param.map(this.paramToString).join('|');
+        return param.map(this.paramToString, this).join('|');
       case 'multi':
         // return the array directly as SuperAgent will handle it as expected
-        return param.map(this.paramToString);
+        return param.map(this.paramToString, this);
+      case 'passthrough':
+        return param;
       default:
         throw new Error('Unknown collection format: ' + collectionFormat);
     }
@@ -319,7 +340,10 @@
           break;
         case 'bearer':
           if (auth.accessToken) {
-            request.set({'Authorization': 'Bearer ' + auth.accessToken});
+            var localVarBearerToken = typeof auth.accessToken === 'function'
+              ? auth.accessToken()
+              : auth.accessToken
+            request.set({'Authorization': 'Bearer ' + localVarBearerToken});
           }
           break;
         case 'apiKey':
@@ -373,7 +397,7 @@
 
 {{#emitJSDoc}}{{^usePromises}}  /**
    * Callback function to receive the result of the operation.
-   * @callback module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient~callApiCallback
+   * @callback module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}ApiClient~callApiCallback
    * @param {String} error Error message, if any.
    * @param data The data returned by the service call.
    * @param {String} response The complete HTTP response.
@@ -394,7 +418,7 @@
    * @param {Array.<String>} accepts An array of acceptable response MIME types.
    * @param {(String|Array|ObjectFunction)} returnType The required type to return; can be a string for simple types or the
    * constructor for a complex type.{{^usePromises}}
-   * @param {module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient~callApiCallback} callback The callback function.{{/usePromises}}
+   * @param {module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}ApiClient~callApiCallback} callback The callback function.{{/usePromises}}
    * @returns {{#usePromises}}{Promise} A {@link https://www.promisejs.org/|Promise} object{{/usePromises}}{{^usePromises}}{Object} The SuperAgent request object{{/usePromises}}.
    */
 {{/emitJSDoc}}  exports.prototype.callApi = function callApi(path, httpMethod, pathParams,
@@ -459,8 +483,6 @@
       if(contentType != 'multipart/form-data') {
         request.type(contentType);
       }
-    } else if (!request.header['Content-Type']) {
-      request.type('application/json');
     }
 
     if (contentType === 'application/x-www-form-urlencoded') {
@@ -469,15 +491,23 @@
       var _formParams = this.normalizeParams(formParams);
       for (var key in _formParams) {
         if (_formParams.hasOwnProperty(key)) {
-          if (this.isFileParam(_formParams[key])) {
+          let _formParamsValue = _formParams[key];
+          if (this.isFileParam(_formParamsValue)) {
             // file field
-            request.attach(key, _formParams[key]);
+            request.attach(key, _formParamsValue);
+          } else if (Array.isArray(_formParamsValue) && _formParamsValue.length
+            && this.isFileParam(_formParamsValue[0])) {
+            // multiple files
+            _formParamsValue.forEach(file => request.attach(key, file));
           } else {
-            request.field(key, _formParams[key]);
+            request.field(key, _formParamsValue);
           }
         }
       }
     } else if (bodyParam !== null && bodyParam !== undefined) {
+      if (!request.header['Content-Type']) {
+          request.type('application/json');
+      }
       request.send(bodyParam);
     }
 
@@ -540,12 +570,15 @@
 {{/usePromises}}  };
 
 {{#emitJSDoc}}  /**
-   * Parses an ISO-8601 string representation of a date value.
+   * Parses an ISO-8601 string representation or epoch representation of a date value.
    * @param {String} str The date value as a string.
    * @returns {Date} The parsed date object.
    */
 {{/emitJSDoc}}  exports.parseDate = function(str) {
-    return new Date(str.replace(/T/i, ' '));
+    if (isNaN(str)) {
+      return new Date(str.replace(/(\d)(T)(\d)/i, '$1 $3'));
+    }
+    return new Date(+str);
   };
 
 {{#emitJSDoc}}  /**
@@ -573,7 +606,7 @@
       case 'Date':
         return this.parseDate(String(data));
       case 'Blob':
-      	return data;
+        return data;
       default:
         if (type === Object) {
           // generic object, return directly
@@ -701,7 +734,7 @@
 
 {{#emitJSDoc}}  /**
    * The default API client implementation.
-   * @type {module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient}
+   * @type {module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}ApiClient}
    */
 {{/emitJSDoc}}  exports.instance = new exports();
 

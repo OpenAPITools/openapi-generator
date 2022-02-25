@@ -1,0 +1,132 @@
+= {{{appName}}}
+{{#headerAttributes}}
+{{infoEmail}}
+{{{version}}}
+:toc: left
+:numbered:
+:toclevels: 3
+:source-highlighter: highlightjs
+:keywords: openapi, rest, {{appName}}
+:specDir: {{specDir}}
+:snippetDir: {{snippetDir}}
+:generator-template: v1 2019-12-20
+:info-url: {{infoUrl}}
+:app-name: {{appName}}
+{{/headerAttributes}}
+
+{{#useIntroduction}}
+== Introduction
+{{/useIntroduction}}
+{{^useIntroduction}}
+[abstract]
+.Abstract
+{{/useIntroduction}}
+{{{appDescription}}}
+
+{{#specinclude}}intro.adoc{{/specinclude}}
+
+{{#hasAuthMethods}}
+== Access
+
+{{#authMethods}}
+{{#isBasic}}
+{{#isBasicBasic}}* *HTTP Basic* Authentication _{{{name}}}_{{/isBasicBasic}}
+{{#isBasicBearer}}* *Bearer* Authentication {{/isBasicBearer}}
+{{/isBasic}}
+{{#isOAuth}}* *OAuth*  AuthorizationUrl: _{{authorizationUrl}}_, TokenUrl:   _{{tokenUrl}}_ {{/isOAuth}}
+{{#isApiKey}}* *APIKey* KeyParamName:     _{{keyParamName}}_,     KeyInQuery: _{{isKeyInQuery}}_, KeyInHeader: _{{isKeyInHeader}}_{{/isApiKey}}
+{{/authMethods}}
+
+{{/hasAuthMethods}}
+
+== Endpoints
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+
+[.{{baseName}}]
+=== {{baseName}}
+
+{{#operation}}
+
+[.{{nickname}}]
+{{#useMethodAndPath}}
+==== {{httpMethod}} {{path}}
+
+Operation Id:: {{nickname}}
+
+{{/useMethodAndPath}}
+{{^useMethodAndPath}}
+==== {{nickname}}
+
+`{{httpMethod}} {{path}}`
+{{/useMethodAndPath}}
+
+{{{summary}}}
+
+===== Description
+
+{{{notes}}}
+
+{{#specinclude}}{{path}}/{{httpMethod}}/spec.adoc{{/specinclude}}
+
+
+{{> params}}
+
+===== Return Type
+
+{{#hasReference}}
+{{^returnSimpleType}}{{returnContainer}}[{{/returnSimpleType}}<<{{returnBaseType}}>>{{^returnSimpleType}}]{{/returnSimpleType}}
+{{/hasReference}}
+
+{{^hasReference}}
+{{#returnType}}<<{{.}}>>{{/returnType}}
+{{^returnType}}-{{/returnType}}
+{{/hasReference}}
+
+{{#hasProduces}}
+===== Content Type
+
+{{#produces}}
+* {{{mediaType}}}
+{{/produces}}
+{{/hasProduces}}
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+{{#responses}}
+
+| {{code}}
+| {{message}}
+| {{#containerType}}{{dataType}}[<<{{baseType}}>>]{{/containerType}} {{^containerType}}<<{{dataType}}>>{{/containerType}}
+
+{{/responses}}
+|===
+
+{{^skipExamples}}
+===== Samples
+
+{{#snippetinclude}}{{path}}/{{httpMethod}}/http-request.adoc{{/snippetinclude}}
+{{#snippetinclude}}{{path}}/{{httpMethod}}/http-response.adoc{{/snippetinclude}}
+
+{{#snippetlink}}* wiremock data, {{path}}/{{httpMethod}}/{{httpMethod}}.json{{/snippetlink}}
+{{/skipExamples}}
+
+ifdef::internal-generation[]
+===== Implementation
+{{#specinclude}}{{path}}/{{httpMethod}}/implementation.adoc{{/specinclude}}
+
+endif::internal-generation[]
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+{{> model}}

@@ -11,9 +11,9 @@ Name | Type | Description | Notes
 **mapUnderscorearrayUnderscoreanytype** | **map[String, array[map]]** |  | [optional] [default to null]
 **mapUnderscoremapUnderscorestring** | **map[String, map[String, string]]** |  | [optional] [default to null]
 **mapUnderscoremapUnderscoreanytype** | **map[String, map[String, map]]** |  | [optional] [default to null]
-**anytypeUnderscore1** | [**map**](.md) |  | [optional] [default to null]
-**anytypeUnderscore2** | [**map**](.md) |  | [optional] [default to null]
-**anytypeUnderscore3** | [**map**](.md) |  | [optional] [default to null]
+**anytypeUnderscore1** | **map** |  | [optional] [default to null]
+**anytypeUnderscore2** | **map** |  | [optional] [default to null]
+**anytypeUnderscore3** | **map** |  | [optional] [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

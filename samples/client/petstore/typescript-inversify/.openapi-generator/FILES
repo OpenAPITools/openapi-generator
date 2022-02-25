@@ -1,0 +1,16 @@
+ApiServiceBinder.ts
+Headers.ts
+HttpClient.ts
+HttpResponse.ts
+IAPIConfiguration.ts
+IHttpClient.ts
+api/pet.service.ts
+api/store.service.ts
+api/user.service.ts
+model/apiResponse.ts
+model/category.ts
+model/order.ts
+model/pet.ts
+model/tag.ts
+model/user.ts
+variables.ts

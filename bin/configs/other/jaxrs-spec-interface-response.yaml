@@ -1,0 +1,10 @@
+generatorName: jaxrs-spec
+outputDir: samples/server/petstore/jaxrs-spec-interface-response
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/spec
+additionalProperties:
+  artifactId: jaxrs-spec-interface-response-petstore-server
+  interfaceOnly: "true"
+  serializableModel: "true"
+  hideGenerationTimestamp: "true"
+  returnResponse: "true"

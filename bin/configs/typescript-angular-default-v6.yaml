@@ -1,0 +1,7 @@
+generatorName: typescript-angular
+outputDir: samples/client/petstore/typescript-angular-v6-not-provided-in-root/builds/default
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-angular
+additionalProperties:
+  ngVersion: 6.0.0
+  providedInRoot: "false"

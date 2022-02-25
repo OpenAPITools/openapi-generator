@@ -1,7 +1,4 @@
-FROM jimschubert/8-jdk-alpine-mvn:1.0
-
-RUN set -x && \
-    apk add --no-cache bash
+FROM maven:3.6.3-jdk-11-openj9
 
 ENV GEN_DIR /opt/openapi-generator
 WORKDIR ${GEN_DIR}
@@ -27,7 +24,8 @@ RUN mvn -am -pl "modules/openapi-generator-cli" package
 
 # This exists at the end of the file to benefit from cached layers when modifying docker-entrypoint.sh.
 COPY docker-entrypoint.sh /usr/local/bin/
+RUN ln -s /usr/local/bin/docker-entrypoint.sh /usr/local/bin/openapi-generator
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 CMD ["help"]

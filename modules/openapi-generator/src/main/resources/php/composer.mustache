@@ -1,7 +1,9 @@
 {
-    "name": "{{gitUserId}}/{{gitRepoId}}",
+    {{#composerPackageName}}
+    "name": "{{.}}",
+    {{/composerPackageName}}
     {{#artifactVersion}}
-    "version": "{{artifactVersion}}",
+    "version": "{{.}}",
     {{/artifactVersion}}
     "description": "{{{appDescription}}}",
     "keywords": [
@@ -22,21 +24,21 @@
         }
     ],
     "require": {
-        "php": ">=7.1",
+        "php": "^7.3 || ^8.0",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "guzzlehttp/guzzle": "^6.2"
+        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/psr7": "^1.7 || ^2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.4",
-        "squizlabs/php_codesniffer": "~2.6",
-        "friendsofphp/php-cs-fixer": "~2.12"
+        "phpunit/phpunit": "^8.0 || ^9.0",
+        "friendsofphp/php-cs-fixer": "^2.12"
     },
     "autoload": {
         "psr-4": { "{{escapedInvokerPackage}}\\" : "{{srcBasePath}}/" }
     },
     "autoload-dev": {
-        "psr-4": { "{{escapedInvokerPackage}}\\" : "{{testBasePath}}/" }
+        "psr-4": { "{{escapedInvokerPackage}}\\Test\\" : "{{testBasePath}}/" }
     }
 }

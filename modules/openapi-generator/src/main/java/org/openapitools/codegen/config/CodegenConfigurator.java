@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.config;
 
+import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import io.swagger.parser.OpenAPIParser;
@@ -27,8 +28,10 @@ import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -60,7 +63,7 @@ public class CodegenConfigurator {
     private String generatorName;
     private String inputSpec;
     private String templatingEngineName;
-    private Map<String, String> systemProperties = new HashMap<>();
+    private Map<String, String> globalProperties = new HashMap<>();
     private Map<String, String> instantiationTypes = new HashMap<>();
     private Map<String, String> typeMappings = new HashMap<>();
     private Map<String, Object> additionalProperties = new HashMap<>();
@@ -70,34 +73,87 @@ public class CodegenConfigurator {
     private Map<String, String> serverVariables = new HashMap<>();
     private String auth;
 
+    private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
+
     public CodegenConfigurator() {
 
     }
 
-    public static CodegenConfigurator fromFile(String configFile) {
+    public static CodegenConfigurator fromFile(String configFile, Module... modules) {
+        // NOTE: some config parameters may be missing from the configFile and may be passed in as command line args
 
         if (isNotEmpty(configFile)) {
-            ObjectMapper mapper;
+            DynamicSettings settings = readDynamicSettings(configFile, modules);
 
-            if (FilenameUtils.isExtension(configFile, new String[]{"yml", "yaml"})) {
-                mapper = Yaml.mapper();
-            } else {
-                mapper = Json.mapper();
+            CodegenConfigurator configurator = new CodegenConfigurator();
+
+            GeneratorSettings generatorSettings = settings.getGeneratorSettings();
+            WorkflowSettings workflowSettings = settings.getWorkflowSettings();
+            List<TemplateDefinition> userDefinedTemplateSettings = settings.getFiles();
+
+            // We copy "cached" properties into configurator so it is appropriately configured with all settings in external files.
+            // FIXME: target is to eventually move away from CodegenConfigurator properties except gen/workflow settings.
+            configurator.generatorName = generatorSettings.getGeneratorName();
+            configurator.inputSpec = workflowSettings.getInputSpec();
+            configurator.templatingEngineName = workflowSettings.getTemplatingEngineName();
+            if (workflowSettings.getGlobalProperties() != null) {
+                configurator.globalProperties.putAll(workflowSettings.getGlobalProperties());
+            }
+            if(generatorSettings.getInstantiationTypes() != null) {
+                configurator.instantiationTypes.putAll(generatorSettings.getInstantiationTypes());
+            }
+            if(generatorSettings.getTypeMappings() != null) {
+                configurator.typeMappings.putAll(generatorSettings.getTypeMappings());
+            }
+            if(generatorSettings.getAdditionalProperties() != null) {
+                configurator.additionalProperties.putAll(generatorSettings.getAdditionalProperties());
+            }
+            if(generatorSettings.getImportMappings() != null) {
+                configurator.importMappings.putAll(generatorSettings.getImportMappings());
+            }
+            if(generatorSettings.getLanguageSpecificPrimitives() != null) {
+                configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
+            }
+            if(generatorSettings.getReservedWordMappings() != null) {
+                configurator.reservedWordMappings.putAll(generatorSettings.getReservedWordMappings());
+            }
+            if(generatorSettings.getServerVariables() != null) {
+                configurator.serverVariables.putAll(generatorSettings.getServerVariables());
             }
 
-            mapper.registerModule(new GuavaModule());
+            configurator.generatorSettingsBuilder = GeneratorSettings.newBuilder(generatorSettings);
+            configurator.workflowSettingsBuilder = WorkflowSettings.newBuilder(workflowSettings);
 
-            try {
-                DynamicSettings settings = mapper.readValue(new File(configFile), DynamicSettings.class);
-                CodegenConfigurator configurator = new CodegenConfigurator();
-                configurator.generatorSettingsBuilder = GeneratorSettings.newBuilder(settings.getGeneratorSettings());
-                configurator.workflowSettingsBuilder = WorkflowSettings.newBuilder(settings.getWorkflowSettings());
-                return configurator;
-            } catch (IOException ex) {
-                LOGGER.error("Unable to deserialize config file: " + configFile, ex);
+            if (userDefinedTemplateSettings != null) {
+                configurator.userDefinedTemplates.addAll(userDefinedTemplateSettings);
             }
+
+            return configurator;
         }
         return null;
+    }
+
+    private static DynamicSettings readDynamicSettings(String configFile, Module... modules) {
+        ObjectMapper mapper;
+
+        if (FilenameUtils.isExtension(configFile.toLowerCase(Locale.ROOT), new String[]{"yml", "yaml"})) {
+            mapper = Yaml.mapper().copy();
+        } else {
+            mapper = Json.mapper().copy();
+        }
+
+        if (modules != null && modules.length > 0) {
+            mapper.registerModules(modules);
+        }
+
+        mapper.registerModule(new GuavaModule());
+
+        try {
+            return mapper.readValue(new File(configFile), DynamicSettings.class);
+        } catch (IOException ex) {
+            LOGGER.error(ex.getMessage());
+            throw new RuntimeException("Unable to deserialize config file: " + configFile);
+        }
     }
 
     public CodegenConfigurator addServerVariable(String key, String value) {
@@ -136,9 +192,9 @@ public class CodegenConfigurator {
         return this;
     }
 
-    public CodegenConfigurator addSystemProperty(String key, String value) {
-        this.systemProperties.put(key, value);
-        workflowSettingsBuilder.withSystemProperty(key, value);
+    public CodegenConfigurator addGlobalProperty(String key, String value) {
+        this.globalProperties.put(key, value);
+        workflowSettingsBuilder.withGlobalProperty(key, value);
         return this;
     }
 
@@ -167,21 +223,31 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setApiPackage(String apiPackage) {
+        if (StringUtils.isNotEmpty(apiPackage)) {
+            addAdditionalProperty(CodegenConstants.API_PACKAGE, apiPackage);
+        }
         generatorSettingsBuilder.withApiPackage(apiPackage);
         return this;
     }
 
     public CodegenConfigurator setArtifactId(String artifactId) {
+        if (StringUtils.isNotEmpty(artifactId)) {
+            addAdditionalProperty(CodegenConstants.ARTIFACT_ID, artifactId);
+        }
         generatorSettingsBuilder.withArtifactId(artifactId);
         return this;
     }
 
     public CodegenConfigurator setArtifactVersion(String artifactVersion) {
+        if (StringUtils.isNotEmpty(artifactVersion)) {
+            addAdditionalProperty(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
+        }
         generatorSettingsBuilder.withArtifactVersion(artifactVersion);
         return this;
     }
 
     public CodegenConfigurator setAuth(String auth) {
+        // do not cache this in additional properties.
         this.auth = auth;
         return this;
     }
@@ -197,7 +263,7 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setGenerateAliasAsModel(boolean generateAliasAsModel) {
-        // TODO: Move to GlobalSettings?
+        workflowSettingsBuilder.withGenerateAliasAsModel(generateAliasAsModel);
         ModelUtils.setGenerateAliasAsModel(generateAliasAsModel);
         return this;
     }
@@ -218,26 +284,41 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setGitRepoId(String gitRepoId) {
+        if (StringUtils.isNotEmpty(gitRepoId)) {
+            addAdditionalProperty(CodegenConstants.GIT_REPO_ID, gitRepoId);
+        }
         generatorSettingsBuilder.withGitRepoId(gitRepoId);
         return this;
     }
 
     public CodegenConfigurator setGitHost(String gitHost) {
+        if (StringUtils.isNotEmpty(gitHost)) {
+            addAdditionalProperty(CodegenConstants.GIT_HOST, gitHost);
+        }
         generatorSettingsBuilder.withGitHost(gitHost);
         return this;
     }
 
     public CodegenConfigurator setGitUserId(String gitUserId) {
+        if (StringUtils.isNotEmpty(gitUserId)) {
+            addAdditionalProperty(CodegenConstants.GIT_USER_ID, gitUserId);
+        }
         generatorSettingsBuilder.withGitUserId(gitUserId);
         return this;
     }
 
     public CodegenConfigurator setGroupId(String groupId) {
+        if (StringUtils.isNotEmpty(groupId)) {
+            addAdditionalProperty(CodegenConstants.GROUP_ID, groupId);
+        }
         generatorSettingsBuilder.withGroupId(groupId);
         return this;
     }
 
     public CodegenConfigurator setHttpUserAgent(String httpUserAgent) {
+        if (StringUtils.isNotEmpty(httpUserAgent)) {
+            addAdditionalProperty(CodegenConstants.HTTP_USER_AGENT, httpUserAgent);
+        }
         generatorSettingsBuilder.withHttpUserAgent(httpUserAgent);
         return this;
     }
@@ -266,6 +347,9 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setInvokerPackage(String invokerPackage) {
+        if (StringUtils.isNotEmpty(invokerPackage)) {
+            addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+        }
         generatorSettingsBuilder.withInvokerPackage(invokerPackage);
         return this;
     }
@@ -287,17 +371,34 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator setApiNameSuffix(String suffix) {
+        if (StringUtils.isNotEmpty(suffix)) {
+            addAdditionalProperty(CodegenConstants.API_NAME_SUFFIX, suffix);
+        }
+        generatorSettingsBuilder.withApiNameSuffix(suffix);
+        return this;
+    }
+
     public CodegenConfigurator setModelNamePrefix(String prefix) {
+        if (StringUtils.isNotEmpty(prefix)) {
+            addAdditionalProperty(CodegenConstants.MODEL_NAME_PREFIX, prefix);
+        }
         generatorSettingsBuilder.withModelNamePrefix(prefix);
         return this;
     }
 
     public CodegenConfigurator setModelNameSuffix(String suffix) {
+        if (StringUtils.isNotEmpty(suffix)) {
+            addAdditionalProperty(CodegenConstants.MODEL_NAME_SUFFIX, suffix);
+        }
         generatorSettingsBuilder.withModelNameSuffix(suffix);
         return this;
     }
 
     public CodegenConfigurator setModelPackage(String modelPackage) {
+        if (StringUtils.isNotEmpty(modelPackage)) {
+            addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        }
         generatorSettingsBuilder.withModelPackage(modelPackage);
         return this;
     }
@@ -308,17 +409,28 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setPackageName(String packageName) {
+        if (StringUtils.isNotEmpty(packageName)) {
+            addAdditionalProperty(CodegenConstants.PACKAGE_NAME, packageName);
+        }
         generatorSettingsBuilder.withPackageName(packageName);
         return this;
     }
 
     public CodegenConfigurator setReleaseNote(String releaseNote) {
+        if (StringUtils.isNotEmpty(releaseNote)) {
+            addAdditionalProperty(CodegenConstants.RELEASE_NOTE, releaseNote);
+        }
         generatorSettingsBuilder.withReleaseNote(releaseNote);
         return this;
     }
 
     public CodegenConfigurator setRemoveOperationIdPrefix(boolean removeOperationIdPrefix) {
         workflowSettingsBuilder.withRemoveOperationIdPrefix(removeOperationIdPrefix);
+        return this;
+    }
+
+    public CodegenConfigurator setSkipOperationExample(boolean skipOperationExample) {
+        workflowSettingsBuilder.withSkipOperationExample(skipOperationExample);
         return this;
     }
 
@@ -332,9 +444,9 @@ public class CodegenConfigurator {
         return this;
     }
 
-    public CodegenConfigurator setSystemProperties(Map<String, String> systemProperties) {
-        this.systemProperties = systemProperties;
-        workflowSettingsBuilder.withSystemProperties(systemProperties);
+    public CodegenConfigurator setGlobalProperties(Map<String, String> globalProperties) {
+        this.globalProperties = globalProperties;
+        workflowSettingsBuilder.withGlobalProperties(globalProperties);
         return this;
     }
 
@@ -367,18 +479,20 @@ public class CodegenConfigurator {
 
     @SuppressWarnings("WeakerAccess")
     public Context<?> toContext() {
-        Validate.notEmpty(generatorName, "language/generatorName must be specified");
+        Validate.notEmpty(generatorName, "generator name must be specified");
         Validate.notEmpty(inputSpec, "input spec must be specified");
 
+        GeneratorSettings generatorSettings = generatorSettingsBuilder.build();
+        CodegenConfig config = CodegenConfigLoader.forName(generatorSettings.getGeneratorName());
         if (isEmpty(templatingEngineName)) {
-            // Built-in templates are mustache, but allow users to use a simplified handlebars engine for their custom templates.
-            workflowSettingsBuilder.withTemplatingEngineName("mustache");
+            // if templatingEngineName is empty check the config for a default
+            String defaultTemplatingEngine = config.defaultTemplatingEngine();
+            workflowSettingsBuilder.withTemplatingEngineName(defaultTemplatingEngine);
         } else {
             workflowSettingsBuilder.withTemplatingEngineName(templatingEngineName);
         }
 
         // at this point, all "additionalProperties" are set, and are now immutable per GeneratorSettings instance.
-        GeneratorSettings generatorSettings = generatorSettingsBuilder.build();
         WorkflowSettings workflowSettings = workflowSettingsBuilder.build();
 
         if (workflowSettings.isVerbose()) {
@@ -392,11 +506,17 @@ public class CodegenConfigurator {
             GlobalSettings.setProperty("debugModels", "");
             GlobalSettings.setProperty("debugOperations", "");
             GlobalSettings.setProperty("debugSupportingFiles", "");
+            GlobalSettings.setProperty("verbose", "true");
+        } else {
+            GlobalSettings.setProperty("verbose", "false");
         }
 
-        for (Map.Entry<String, String> entry : workflowSettings.getSystemProperties().entrySet()) {
+        for (Map.Entry<String, String> entry : workflowSettings.getGlobalProperties().entrySet()) {
             GlobalSettings.setProperty(entry.getKey(), entry.getValue());
         }
+
+        // if caller resets GlobalSettings, we'll need to reset generateAliasAsModel. As noted in this method, this should be moved.
+        ModelUtils.setGenerateAliasAsModel(workflowSettings.isGenerateAliasAsModel());
 
         // TODO: Support custom spec loader implementations (https://github.com/OpenAPITools/openapi-generator/issues/844)
         final List<AuthorizationValue> authorizationValues = AuthParser.parse(this.auth);
@@ -405,16 +525,28 @@ public class CodegenConfigurator {
         SwaggerParseResult result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
 
         // TODO: Move custom validations to a separate type as part of a "Workflow"
-        Set<String> validationMessages = new HashSet<>(result.getMessages());
+        Set<String> validationMessages = new HashSet<>(null != result.getMessages() ? result.getMessages() : new ArrayList<>());
         OpenAPI specification = result.getOpenAPI();
+        // TODO: The line below could be removed when at least one of the issue below has been resolved.
+        // https://github.com/swagger-api/swagger-parser/issues/1369
+        // https://github.com/swagger-api/swagger-parser/pull/1374
+        //ModelUtils.getOpenApiVersion(specification, inputSpec, authorizationValues);
 
         // NOTE: We will only expose errors+warnings if there are already errors in the spec.
         if (validationMessages.size() > 0) {
             Set<String> warnings = new HashSet<>();
             if (specification != null) {
-                List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
-                if (unusedModels != null) {
-                    unusedModels.forEach(name -> warnings.add("Unused model: " + name));
+
+                // Wrap the getUnusedSchemas() in try catch block so it catches the NPE
+                // when the input spec file is not correct
+                try{
+                    List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
+                    if (unusedModels != null) {
+                        unusedModels.forEach(name -> warnings.add("Unused model: " + name));
+                    }
+                } catch (Exception e){
+                    System.err.println("[error] There is an error with OpenAPI specification parsed from the input spec file: " + inputSpec);
+                    System.err.println("[error] Please make sure the spec file has correct format and all required fields are populated with valid value.");
                 }
             }
 
@@ -448,11 +580,13 @@ public class CodegenConfigurator {
     }
 
     public ClientOptInput toClientOptInput() {
-        CodegenConfig config = CodegenConfigLoader.forName(generatorName);
-
         Context<?> context = toContext();
         WorkflowSettings workflowSettings = context.getWorkflowSettings();
         GeneratorSettings generatorSettings = context.getGeneratorSettings();
+
+        // We load the config via generatorSettings.getGeneratorName() because this is guaranteed to be set
+        // regardless of entrypoint (CLI sets properties on this type, config deserialization sets on generatorSettings).
+        CodegenConfig config = CodegenConfigLoader.forName(generatorSettings.getGeneratorName());
 
         if (isNotEmpty(generatorSettings.getLibrary())) {
             config.setLibrary(generatorSettings.getLibrary());
@@ -464,6 +598,7 @@ public class CodegenConfigurator {
         config.setSkipOverwrite(workflowSettings.isSkipOverwrite());
         config.setIgnoreFilePathOverride(workflowSettings.getIgnoreFileOverride());
         config.setRemoveOperationIdPrefix(workflowSettings.isRemoveOperationIdPrefix());
+        config.setSkipOperationExample(workflowSettings.isSkipOperationExample());
         config.setEnablePostProcessFile(workflowSettings.isEnablePostProcessFile());
         config.setEnableMinimalUpdate(workflowSettings.isEnableMinimalUpdate());
         config.setStrictSpecBehavior(workflowSettings.isStrictSpecBehavior());
@@ -493,7 +628,8 @@ public class CodegenConfigurator {
         }
 
         ClientOptInput input = new ClientOptInput()
-                .config(config);
+                .config(config)
+                .userDefinedTemplates(userDefinedTemplates);
 
         return input.openAPI((OpenAPI)context.getSpecDocument());
     }

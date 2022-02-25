@@ -1,0 +1,67 @@
+{{>licenseInfo}}
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.MediaType;
+{{^disableMultipart}}
+import org.apache.cxf.jaxrs.ext.multipart.*;
+{{/disableMultipart}}
+
+import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+
+{{#appName}}
+/**
+ * {{{appName}}}
+ *
+ {{#appDescription}}
+ * <p>{{{.}}}
+ *
+ {{/appDescription}}
+ */
+{{/appName}}
+
+@RegisterRestClient{{#configKey}}(configKey="{{configKey}}"){{/configKey}}
+@RegisterProvider(ApiExceptionMapper.class)
+@Path("{{#useAnnotatedBasePath}}{{contextPath}}{{/useAnnotatedBasePath}}{{commonPath}}")
+public interface {{classname}}  {
+{{#operations}}
+{{#operation}}
+
+    {{#summary}}
+    /**
+     * {{summary}}
+     *
+     {{#notes}}
+     * {{.}}
+     *
+     {{/notes}}
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
+     */
+    {{/summary}}
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
+    @{{httpMethod}}
+    {{#subresourceOperation}}@Path("{{{path}}}"){{/subresourceOperation}}
+{{#hasConsumes}}
+    @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} })
+{{/hasConsumes}}
+{{#hasProduces}}
+    @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} })
+{{/hasProduces}}
+    public {{{returnType}}}{{^returnType}}void{{/returnType}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
+{{/operation}}
+}
+{{/operations}}

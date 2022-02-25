@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,9 +22,11 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -32,7 +34,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
 
     protected String title = "OpenAPI Inflector";
     protected String implFolder = "src/main/java";
@@ -40,7 +42,9 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
     public JavaInflectorServerCodegen() {
         super();
 
-        sourceFolder = "src/gen/java";
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+
+        sourceFolder = "src"+ File.separator+"gen"+ File.separator +"java";
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaInflector";
         invokerPackage = "org.openapitools.controllers";
@@ -55,17 +59,17 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
-        additionalProperties.put("jackson", "true");
+        additionalProperties.put(JACKSON, "true");
     }
 
     @Override
@@ -87,10 +91,14 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
     public void processOpts() {
         super.processOpts();
 
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
-        writeOptional(outputFolder, new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml"));
-        writeOptional(outputFolder, new SupportingFile("inflector.mustache", "", "inflector.yaml"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("inflector.mustache", "", "inflector.yaml")
+                .doNotOverwrite());
         supportingFiles.add(new SupportingFile("openapi.mustache",
                 "src/main/openapi",
                 "openapi.yaml")

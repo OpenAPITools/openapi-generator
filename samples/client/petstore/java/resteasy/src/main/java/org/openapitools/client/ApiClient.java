@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.time.OffsetDateTime;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -45,9 +47,10 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-
-public class ApiClient {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class ApiClient extends JavaTimeFormatter {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
+  private Map<String, String> defaultCookieMap = new HashMap<String, String>();
   private String basePath = "http://petstore.swagger.io:80/v2";
   private boolean debugging = false;
 
@@ -262,10 +265,10 @@ public class ApiClient {
   /**
    * The path of temporary folder used to store downloaded files from endpoints
    * with file response. The default value is <code>null</code>, i.e. using
-   * the system's default tempopary folder.
+   * the system's default temporary folder.
    *
    * @return the temporary folder path
-   * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/io/File.html#createTempFile(java.lang.String,%20java.lang.String,%20java.io.File)"></a>
+   * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html#createTempFile(java.lang.String,%20java.lang.String,%20java.nio.file.attribute.FileAttribute...)">createTempFile</a>
    */
   public String getTempFolderPath() {
     return tempFolderPath;
@@ -328,6 +331,8 @@ public class ApiClient {
       return "";
     } else if (param instanceof Date) {
       return formatDate((Date) param);
+    } else if (param instanceof OffsetDateTime) {
+      return formatOffsetDateTime((OffsetDateTime) param);
     } else if (param instanceof Collection) {
       StringBuilder b = new StringBuilder();
       for(Object o : (Collection)param) {
@@ -581,15 +586,15 @@ public class ApiClient {
         prefix = filename.substring(0, pos) + "-";
         suffix = filename.substring(pos);
       }
-      // File.createTempFile requires the prefix to be at least three characters long
+      // Files.createTempFile requires the prefix to be at least three characters long
       if (prefix.length() < 3)
         prefix = "download-";
     }
 
     if (tempFolderPath == null)
-      return File.createTempFile(prefix, suffix);
+      return Files.createTempFile(prefix, suffix).toFile();
     else
-      return File.createTempFile(prefix, suffix, new File(tempFolderPath));
+      return Files.createTempFile(Paths.get(tempFolderPath), prefix, suffix).toFile();
   }
 
   /**
@@ -601,6 +606,7 @@ public class ApiClient {
    * @param queryParams The query parameters
    * @param body The request body object
    * @param headerParams The header parameters
+   * @param cookieParams The cookie parameters
    * @param formParams The form parameters
    * @param accept The request's Accept header
    * @param contentType The request's Content-Type header
@@ -609,8 +615,8 @@ public class ApiClient {
    * @return The response body in type of string
    * @throws ApiException if the invocation failed
    */
-  public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
-    updateParamsForAuth(authNames, queryParams, headerParams);
+  public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+    updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
     // Not using `.target(this.basePath).path(path)` below,
     // to support (constant) query string in `path`, e.g. "/posts?draft=1"
@@ -626,18 +632,34 @@ public class ApiClient {
 
     Invocation.Builder invocationBuilder = target.request().accept(accept);
 
-    for (Entry<String, String> headerParamsEnrty : headerParams.entrySet()) {
-      String value = headerParamsEnrty.getValue();
+    for (Entry<String, String> headerParamsEntry : headerParams.entrySet()) {
+      String value = headerParamsEntry.getValue();
       if (value != null) {
-        invocationBuilder = invocationBuilder.header(headerParamsEnrty.getKey(), value);
+        invocationBuilder = invocationBuilder.header(headerParamsEntry.getKey(), value);
       }
     }
 
-    for (Entry<String, String> defaultHeaderEnrty: defaultHeaderMap.entrySet()) {
-      if (!headerParams.containsKey(defaultHeaderEnrty.getKey())) {
-        String value = defaultHeaderEnrty.getValue();
+    for (Entry<String, String> defaultHeaderEntry: defaultHeaderMap.entrySet()) {
+      if (!headerParams.containsKey(defaultHeaderEntry.getKey())) {
+        String value = defaultHeaderEntry.getValue();
         if (value != null) {
-          invocationBuilder = invocationBuilder.header(defaultHeaderEnrty.getKey(), value);
+          invocationBuilder = invocationBuilder.header(defaultHeaderEntry.getKey(), value);
+        }
+      }
+    }
+
+    for (Entry<String, String> cookieParamsEntry : cookieParams.entrySet()) {
+      String value = cookieParamsEntry.getValue();
+      if (value != null) {
+        invocationBuilder = invocationBuilder.cookie(cookieParamsEntry.getKey(), value);
+      }
+    }
+
+    for (Entry<String, String> defaultCookieEntry: defaultHeaderMap.entrySet()) {
+      if (!cookieParams.containsKey(defaultCookieEntry.getKey())) {
+        String value = defaultCookieEntry.getValue();
+        if (value != null) {
+          invocationBuilder = invocationBuilder.cookie(defaultCookieEntry.getKey(), value);
         }
       }
     }
@@ -724,11 +746,11 @@ public class ApiClient {
    *
    * @param authNames The authentications to apply
    */
-  private void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams) {
+  private void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
       if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
-      auth.applyToParams(queryParams, headerParams);
+      auth.applyToParams(queryParams, headerParams, cookieParams);
     }
   }
 }

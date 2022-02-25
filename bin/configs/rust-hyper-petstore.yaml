@@ -1,0 +1,8 @@
+generatorName: rust
+outputDir: samples/client/petstore/rust/hyper/petstore
+library: hyper
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: "false"
+  packageName: petstore-hyper

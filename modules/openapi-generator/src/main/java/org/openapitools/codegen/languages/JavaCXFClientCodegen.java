@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,7 +33,7 @@ import java.util.Map;
 public class JavaCXFClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, UseGenericResponseFeatures, GzipTestFeatures, LoggingTestFeatures {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodegen.class);
 
     /**
      * Name of the sub-directory in "src/main/resource" where to find the
@@ -49,12 +49,14 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
     protected boolean useLoggingFeatureForTests = false;
 
+    private boolean useJackson = false;
+
     public JavaCXFClientCodegen() {
         super();
 
         supportsInheritance = true;
 
-        sourceFolder = "src/gen/java";
+        sourceFolder = "src"+ File.separator +"gen"+ File.separator +"java";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-client";
         dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
@@ -62,13 +64,13 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         modelPackage = "org.openapitools.model";
         outputFolder = "generated-code/JavaJaxRS-CXF";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
@@ -88,32 +90,34 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
     }
 
-
     @Override
     public void processOpts() {
         super.processOpts();
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            boolean useBeanValidationProp = convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION);
-            this.setUseBeanValidation(useBeanValidationProp);
+            this.setUseBeanValidation(convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION));
         }
 
         if (additionalProperties.containsKey(USE_GENERIC_RESPONSE)) {
-            this.setUseGenericResponse(convertPropertyToBoolean(USE_GENERIC_RESPONSE));
+            this.setUseGenericResponse(convertPropertyToBooleanAndWriteBack(USE_GENERIC_RESPONSE));
         }
 
-        if (useGenericResponse) {
-            writePropertyBack(USE_GENERIC_RESPONSE, useGenericResponse);
+        if (additionalProperties.containsKey(USE_GZIP_FEATURE_FOR_TESTS)) {
+            this.setUseGzipFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE_FOR_TESTS));
         }
 
-        this.setUseGzipFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE_FOR_TESTS));
-        this.setUseLoggingFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS));
+        if (additionalProperties.containsKey(USE_LOGGING_FEATURE_FOR_TESTS)) {
+            this.setUseLoggingFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS));
+        }
 
+        if (additionalProperties.containsKey(JACKSON)) {
+            useJackson = convertPropertyToBooleanAndWriteBack(JACKSON);
+        }
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
-
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
+            .doNotOverwrite());
     }
 
     @Override
@@ -140,6 +144,24 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         model.imports.remove("ApiModel");
         model.imports.remove("JsonSerialize");
         model.imports.remove("ToStringSerializer");
+
+
+        if (useJackson) {
+            //Add jackson imports when model has inner enum
+            if (Boolean.FALSE.equals(model.isEnum) && Boolean.TRUE.equals(model.hasEnums)) {
+                model.imports.add("JsonCreator");
+                model.imports.add("JsonValue");
+            }
+
+            //Add JsonNullable import and mark property nullable for templating if necessary
+            if (openApiNullable) {
+                if (Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
+                    property.getVendorExtensions().put("x-is-jackson-optional-nullable", true);
+                    model.imports.add("JsonNullable");
+                    model.imports.add("JsonIgnore");
+                }
+            }
+        }
     }
 
     @Override
@@ -153,20 +175,43 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         return "Generates a Java JAXRS Client based on Apache CXF framework.";
     }
 
+    @Override
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
     }
 
+    public boolean isUseBeanValidation() {
+        return useBeanValidation;
+    }
+
+    @Override
     public void setUseGzipFeatureForTests(boolean useGzipFeatureForTests) {
         this.useGzipFeatureForTests = useGzipFeatureForTests;
     }
 
+    public boolean isUseGzipFeatureForTests() {
+        return useGzipFeatureForTests;
+    }
+
+    @Override
     public void setUseLoggingFeatureForTests(boolean useLoggingFeatureForTests) {
         this.useLoggingFeatureForTests = useLoggingFeatureForTests;
     }
 
+    public boolean isUseLoggingFeatureForTests() {
+        return useLoggingFeatureForTests;
+    }
+
+    @Override
     public void setUseGenericResponse(boolean useGenericResponse) {
         this.useGenericResponse = useGenericResponse;
     }
 
+    public boolean isUseGenericResponse() {
+        return useGenericResponse;
+    }
+
+    public boolean isUseJackson() {
+        return useJackson;
+    }
 }

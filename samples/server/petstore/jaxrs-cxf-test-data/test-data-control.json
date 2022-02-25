@@ -59,6 +59,23 @@
         "param" : {
           "testItemCount" : 1
         }
+      },
+      "testQueryParameterCollectionFormat" : {
+        "pipe" : {
+          "testItemCount" : 1
+        },
+        "ioutil" : {
+          "testItemCount" : 1
+        },
+        "http" : {
+          "testItemCount" : 1
+        },
+        "url" : {
+          "testItemCount" : 1
+        },
+        "context" : {
+          "testItemCount" : 1
+        }
       }
     },
     "PetApi" : {

@@ -32,7 +32,7 @@ import javax.validation.Valid;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class EnumArrays   {
   /**
    * Gets or Sets justSymbol
@@ -113,7 +113,7 @@ public class EnumArrays   {
    * Get justSymbol
    * @return justSymbol
    **/
-  @JsonProperty("just_symbol")
+  @JsonProperty(value = "just_symbol")
   @ApiModelProperty(value = "")
   
   public JustSymbolEnum getJustSymbol() {
@@ -131,7 +131,7 @@ public class EnumArrays   {
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
     if (this.arrayEnum == null) {
-      this.arrayEnum = new ArrayList<ArrayEnumEnum>();
+      this.arrayEnum = new ArrayList<>();
     }
     this.arrayEnum.add(arrayEnumItem);
     return this;
@@ -141,7 +141,7 @@ public class EnumArrays   {
    * Get arrayEnum
    * @return arrayEnum
    **/
-  @JsonProperty("array_enum")
+  @JsonProperty(value = "array_enum")
   @ApiModelProperty(value = "")
   
   public List<ArrayEnumEnum> getArrayEnum() {
@@ -154,7 +154,7 @@ public class EnumArrays   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -171,7 +171,6 @@ public class EnumArrays   {
     return Objects.hash(justSymbol, arrayEnum);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -187,7 +186,7 @@ public class EnumArrays   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,16 +28,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ScalaGatlingCodegen extends AbstractScalaCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaGatlingCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ScalaGatlingCodegen.class);
 
     // source folder where to write the files
     protected String resourceFolder = "src" + File.separator + "gatling" + File.separator + "resources";
@@ -76,6 +78,30 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
 
     public ScalaGatlingCodegen() {
         super();
+
+        // Although the generator supports authorization, it's done via manual header modification and it's done
+        // globally. This means it doesn't _technically_ support auth per OpenAPI Spec (which would allow, for example, a different API key per operation),
+        // so it's not listed here as supported.
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath
+                )
+        );
 
         sourceFolder = "src" + File.separator + "gatling" + File.separator + "scala";
 
@@ -151,7 +177,6 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
         importMapping.remove("Map");
 
         importMapping.put("Date", "java.util.Date");
-        importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("enum", "NSString");
@@ -226,8 +251,9 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      */
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        for (String pathname : openAPI.getPaths().keySet()) {
-            PathItem path = openAPI.getPaths().get(pathname);
+        for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
+            String pathname = openAPIGetPathsEntry.getKey();
+            PathItem path = openAPIGetPathsEntry.getValue();
             if (path.readOperations() == null) {
                 continue;
             }
@@ -254,7 +280,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                 if (operation.getParameters() != null) {
 
                     for (Parameter parameter : operation.getParameters()) {
-                        if (parameter.getIn().equalsIgnoreCase("header")) {
+                        if ("header".equalsIgnoreCase(parameter.getIn())) {
                             headerParameters.add(parameter);
                         }
                     /* need to revise below as form parameter is no longer in the parameter list
@@ -262,10 +288,10 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                         formParameters.add(parameter);
                     }
                     */
-                        if (parameter.getIn().equalsIgnoreCase("query")) {
+                        if ("query".equalsIgnoreCase(parameter.getIn())) {
                             queryParameters.add(parameter);
                         }
-                        if (parameter.getIn().equalsIgnoreCase("path")) {
+                        if ("path".equalsIgnoreCase(parameter.getIn())) {
                             pathParameters.add(parameter);
                         }
                     /* TODO need to revise below as body is no longer in the parameter
@@ -288,7 +314,11 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                             operation.setVendorExtension("x-gatling-body-feeder", operation.getOperationId() + "BodyFeeder");
                             operation.setVendorExtension("x-gatling-body-feeder-params", StringUtils.join(sessionBodyVars, ","));
                             try {
-                                FileUtils.writeStringToFile(new File(outputFolder + File.separator + dataFolder + File.separator + operation.getOperationId() + "-" + "bodyParams.csv"), StringUtils.join(bodyFeederParams, ","));
+                                FileUtils.writeStringToFile(
+                                    new File(outputFolder + File.separator + dataFolder + File.separator + operation.getOperationId() + "-" + "bodyParams.csv"),
+                                    StringUtils.join(bodyFeederParams, ","),
+                                    StandardCharsets.UTF_8
+                                );
                             } catch (IOException ioe) {
                                 LOGGER.error("Could not create feeder file for operationId" + operation.getOperationId(), ioe);
                             }
@@ -316,7 +346,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
     /**
      * Creates all the necessary openapi vendor extensions and feeder files for gatling
      *
-     * @param operation     OpoenAPI Operation
+     * @param operation     OpenAPI Operation
      * @param parameters    OpenAPI Parameters
      * @param parameterType OpenAPI Parameter Type
      */
@@ -334,7 +364,11 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
             operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) + "-params", vendorList);
             operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) + "-feeder", operation.getOperationId() + parameterType.toUpperCase(Locale.ROOT) + "Feeder");
             try {
-                FileUtils.writeStringToFile(new File(outputFolder + File.separator + dataFolder + File.separator + operation.getOperationId() + "-" + parameterType.toLowerCase(Locale.ROOT) + "Params.csv"), StringUtils.join(parameterNames, ","));
+                FileUtils.writeStringToFile(
+                    new File(outputFolder + File.separator + dataFolder + File.separator + operation.getOperationId() + "-" + parameterType.toLowerCase(Locale.ROOT) + "Params.csv"),
+                    StringUtils.join(parameterNames, ","),
+                    StandardCharsets.UTF_8
+                );
             } catch (IOException ioe) {
                 LOGGER.error("Could not create feeder file for operationId" + operation.getOperationId(), ioe);
             }
@@ -354,7 +388,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);

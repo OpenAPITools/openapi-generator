@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 @RequestScoped
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen")
 public class PetApiServiceImpl implements PetApiService {
       @Override
       public Response addPet(Pet body, SecurityContext securityContext) {
@@ -56,7 +56,7 @@ public class PetApiServiceImpl implements PetApiService {
       return Response.ok().entity("magic!").build();
   }
       @Override
-      public Response uploadFile(Long petId, String additionalMetadata, InputStream fileInputStream, Attachment fileDetail, SecurityContext securityContext) {
+      public Response uploadFile(Long petId, String additionalMetadata, InputStream _fileInputStream, Attachment _fileDetail, SecurityContext securityContext) {
       // do some magic!
       return Response.ok().entity("magic!").build();
   }

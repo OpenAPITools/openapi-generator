@@ -15,7 +15,7 @@
     <licenses>
         <license>
             <name>Unlicense</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.html</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -135,14 +135,18 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                   <source>1.8</source>
+                   <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
+                <version>3.1.1</version>
+                <configuration>
+                    <doclint>none</doclint>
+                    <source>1.8</source>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -171,11 +175,31 @@
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
             <version>${resteasy-version}</version>
+            <exclusions>
+              <exclusion>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jaxrs-services</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>net.jcip</groupId>
+                <artifactId>jcip-annotations</artifactId>
+                </exclusion>
+              </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-multipart-provider</artifactId>
             <version>${resteasy-version}</version>
+            <exclusions>
+              <exclusion>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+              </exclusion>
+            </exclusions>
         </dependency>
         <!-- JSON processing: jackson -->
         <dependency>
@@ -199,27 +223,9 @@
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-joda</artifactId>
-            <version>${jackson-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>${jodatime-version}</version>
-        </dependency>
-
-        <!-- Base64 encoding that works in both JVM and Android -->
-        <dependency>
-            <groupId>com.brsanthu</groupId>
-            <artifactId>migbase64</artifactId>
-            <version>2.2</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jackson2-provider</artifactId>
-            <version>3.1.3.Final</version>
+            <version>${resteasy-version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -231,6 +237,12 @@
             <artifactId>jackson-datatype-threetenbp</artifactId>
             <version>${threetenbp-version}</version>
         </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -241,14 +253,14 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.5.22</swagger-annotations-version>
-        <resteasy-version>3.1.3.Final</resteasy-version>
-        <jackson-version>2.9.9</jackson-version>
-        <jackson-databind-version>2.9.9</jackson-databind-version>
-        <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
-        <threetenbp-version>2.6.4</threetenbp-version>
-        <jodatime-version>2.9.9</jodatime-version>
+        <swagger-annotations-version>1.6.3</swagger-annotations-version>
+        <resteasy-version>4.5.11.Final</resteasy-version>
+        <jackson-version>2.10.5</jackson-version>
+        <jackson-databind-version>2.10.5.1</jackson-databind-version>
+        <jackson-databind-nullable-version>0.2.2</jackson-databind-nullable-version>
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        <threetenbp-version>2.9.10</threetenbp-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <junit-version>4.12</junit-version>
+        <junit-version>4.13</junit-version>
     </properties>
 </project>

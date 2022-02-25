@@ -1,8 +1,10 @@
 {{>licenseInfo}}
-package {{mainPackage}}.core
+package {{invokerPackage}}
 
 import java.io.File
 import java.net.URLEncoder
+import java.util.UUID
+import java.time.OffsetDateTime
 
 import scala.util.Try
 
@@ -25,6 +27,8 @@ sealed trait ApiReturnWithHeaders {
   def getDoubleHeader(name: String): Option[Double] = castedHeader(name, java.lang.Double.parseDouble)
 
   def getBooleanHeader(name: String): Option[Boolean] = castedHeader(name, java.lang.Boolean.parseBoolean)
+
+  def getOffsetDateTimeHeader(name: String): Option[OffsetDateTime] = castedHeader(name, java.time.OffsetDateTime.parse)
 
   private def castedHeader[U](name: String, conversion: String => U): Option[U] = {
     Try {
@@ -60,13 +64,15 @@ object ApiMethods {
 trait ApiModel
 
 /**
- * Single trait defining a credential that can be transformed to a paramName / paramValue tupple
+ * Single trait defining a credential that can be transformed to a paramName / paramValue tuple
  */
 sealed trait Credentials {
   def asQueryParam: Option[(String, String)] = None
 }
 
 sealed case class BasicCredentials(user: String, password: String) extends Credentials
+
+sealed case class BearerToken(token: String) extends Credentials
 
 sealed case class ApiKeyCredentials(key: ApiKeyValue, keyName: String, location: ApiKeyLocation) extends Credentials {
   override def asQueryParam: Option[(String, String)] = location match {
@@ -84,6 +90,8 @@ object ApiKeyLocations {
   case object QUERY extends ApiKeyLocation
 
   case object HEADER extends ApiKeyLocation
+
+  case object COOKIE extends ApiKeyLocation
 
 }
 
@@ -151,7 +159,7 @@ object CollectionFormats {
 object ParametersMap {
 
   /**
-   * Pimp parameters maps (Map[String, Any]) in order to transform them in a sequence of String -> Any tupples,
+   * Pimp parameters maps (Map[String, Any]) in order to transform them in a sequence of String -> Any tuples,
    * with valid url-encoding, arrays handling, files preservation, ...
    */
   implicit class ParametersMapImprovements(val m: Map[String, Any]) {
@@ -174,6 +182,7 @@ object ParametersMap {
       case Some(opt) => formattedParams(name, opt)
       case s: Seq[Any] => formattedParams(name, ArrayValues(s))
       case v: String => Seq((name, urlEncode(v)))
+      case v: UUID => formattedParams(name, v.toString)
       case NumericValue(v) => Seq((name, urlEncode(v)))
       case f: File => Seq((name, f))
       case m: ApiModel => Seq((name, m))

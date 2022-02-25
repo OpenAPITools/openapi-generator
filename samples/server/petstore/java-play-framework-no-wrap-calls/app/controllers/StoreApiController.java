@@ -3,64 +3,57 @@ package controllers;
 import java.util.Map;
 import apimodels.Order;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
-import play.Configuration;
+import com.typesafe.config.Config;
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class StoreApiController extends Controller {
-
     private final StoreApiControllerImpInterface imp;
     private final ObjectMapper mapper;
-    private final Configuration configuration;
+    private final Config configuration;
 
     @Inject
-    private StoreApiController(Configuration configuration, StoreApiControllerImpInterface imp) {
+    private StoreApiController(Config configuration, StoreApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
 
-
     
-    public Result deleteOrder(String orderId) throws Exception {
-        imp.deleteOrder(orderId);
-        return ok();
+    public Result deleteOrder(Http.Request request, String orderId) throws Exception {
+        return imp.deleteOrderHttp(request, orderId);
     }
 
     
-    public Result getInventory() throws Exception {
-        Map<String, Integer> obj = imp.getInventory();
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+    public Result getInventory(Http.Request request) throws Exception {
+        return imp.getInventoryHttp(request);
     }
 
     
-    public Result getOrderById( @Min(1) @Max(5)Long orderId) throws Exception {
-        Order obj = imp.getOrderById(orderId);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+    public Result getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
+        return imp.getOrderByIdHttp(request, orderId);
     }
 
     
-    public Result placeOrder() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result placeOrder(Http.Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         Order body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), Order.class);
@@ -70,11 +63,7 @@ public class StoreApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        Order obj = imp.placeOrder(body);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.placeOrderHttp(request, body);
     }
+
 }

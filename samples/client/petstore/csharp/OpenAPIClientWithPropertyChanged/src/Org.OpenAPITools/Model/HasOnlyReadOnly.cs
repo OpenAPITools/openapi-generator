@@ -44,13 +44,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Bar
         /// </summary>
-        [DataMember(Name="bar", EmitDefaultValue=false)]
+        [DataMember(Name="bar", EmitDefaultValue=true)]
         public string Bar { get; private set; }
 
         /// <summary>
         /// Gets or Sets Foo
         /// </summary>
-        [DataMember(Name="foo", EmitDefaultValue=false)]
+        [DataMember(Name="foo", EmitDefaultValue=true)]
         public string Foo { get; private set; }
 
         /// <summary>

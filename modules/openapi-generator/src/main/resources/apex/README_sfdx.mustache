@@ -2,7 +2,7 @@
 
 {{#appDescription}}
 
-{{{appDescription}}}
+{{{.}}}
 {{/appDescription}}
 
 ## Requirements
@@ -56,14 +56,14 @@ ApiKeyAuth {{{name}}} = (ApiKeyAuth) client.getAuthentication('{{{name}}}');
 
 Map<String, Object> params = new Map<String, Object>{
   {{#allParams}}
-    '{{{paramName}}}' => {{{example}}}{{#hasMore}},{{/hasMore}}
+    '{{{paramName}}}' => {{{example}}}{{^-last}},{{/-last}}
   {{/allParams}}
 };
 {{/hasParams}}
 
 try {
     // cross your fingers
-    {{#returnType}}{{{returnType}}} result = {{/returnType}}api.{{{operationId}}}({{#hasParams}}params{{/hasParams}});
+    {{#returnType}}{{{.}}} result = {{/returnType}}api.{{{operationId}}}({{#hasParams}}params{{/hasParams}});
   {{#returnType}}
     System.debug(result);
   {{/returnType}}
@@ -78,7 +78,7 @@ All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ## Documentation for Models
@@ -112,5 +112,5 @@ Class | Method | HTTP request | Description
 
 ## Author
 
-{{#apiInfo}}{{#apis}}{{^hasMore}}{{infoEmail}}
-{{/hasMore}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}{{#apis}}{{#-last}}{{infoEmail}}
+{{/-last}}{{/apis}}{{/apiInfo}}

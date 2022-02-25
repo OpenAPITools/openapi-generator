@@ -4,7 +4,7 @@
     "description" : "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\",
     "license" : {
       "name" : "Apache-2.0",
-      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+      "url" : "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
     "title" : "OpenAPI Petstore",
     "version" : "1.0.0"
@@ -177,7 +177,8 @@
             "items" : {
               "type" : "string"
             },
-            "type" : "array"
+            "type" : "array",
+            "uniqueItems" : true
           },
           "style" : "form"
         } ],
@@ -189,7 +190,8 @@
                   "items" : {
                     "$ref" : "#/components/schemas/Pet"
                   },
-                  "type" : "array"
+                  "type" : "array",
+                  "uniqueItems" : true
                 }
               },
               "application/json" : {
@@ -197,7 +199,8 @@
                   "items" : {
                     "$ref" : "#/components/schemas/Pet"
                   },
-                  "type" : "array"
+                  "type" : "array",
+                  "uniqueItems" : true
                 }
               }
             },
@@ -1049,7 +1052,7 @@
         "x-accepts" : "application/json"
       },
       "post" : {
-        "description" : "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n가짜 엔드 포인트\n",
+        "description" : "Fake endpoint for testing various parameters\n 假端點\n 偽のエンドポイント\n 가짜 엔드 포인트",
         "operationId" : "testEndpointParameters",
         "requestBody" : {
           "content" : {
@@ -1155,7 +1158,7 @@
         "security" : [ {
           "http_basic_test" : [ ]
         } ],
-        "summary" : "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n가짜 엔드 포인트\n",
+        "summary" : "Fake endpoint for testing various parameters\n 假端點\n 偽のエンドポイント\n 가짜 엔드 포인트",
         "tags" : [ "fake" ],
         "x-contentType" : "application/x-www-form-urlencoded",
         "x-accepts" : "application/json"
@@ -1504,7 +1507,7 @@
         "x-accepts" : "application/json"
       }
     },
-    "/fake/test-query-paramters" : {
+    "/fake/test-query-parameters" : {
       "put" : {
         "description" : "To test the collection format in query parameters",
         "operationId" : "testQueryParameterCollectionFormat",
@@ -1797,6 +1800,7 @@
               "type" : "string"
             },
             "type" : "array",
+            "uniqueItems" : true,
             "xml" : {
               "name" : "photoUrl",
               "wrapped" : true
@@ -1934,6 +1938,13 @@
           "$ref" : "#/components/schemas/Cat_allOf"
         } ]
       },
+      "BigCat" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Cat"
+        }, {
+          "$ref" : "#/components/schemas/BigCat_allOf"
+        } ]
+      },
       "Animal" : {
         "discriminator" : {
           "propertyName" : "className"
@@ -1959,14 +1970,14 @@
       "format_test" : {
         "properties" : {
           "integer" : {
-            "maximum" : 1E+2,
-            "minimum" : 1E+1,
+            "maximum" : 100,
+            "minimum" : 10,
             "type" : "integer"
           },
           "int32" : {
             "format" : "int32",
-            "maximum" : 2E+2,
-            "minimum" : 2E+1,
+            "maximum" : 200,
+            "minimum" : 20,
             "type" : "integer"
           },
           "int64" : {
@@ -2020,6 +2031,10 @@
             "format" : "password",
             "maxLength" : 64,
             "minLength" : 10,
+            "type" : "string"
+          },
+          "BigDecimal" : {
+            "format" : "number",
             "type" : "string"
           }
         },
@@ -2816,14 +2831,25 @@
           "breed" : {
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       },
       "Cat_allOf" : {
         "properties" : {
           "declawed" : {
             "type" : "boolean"
           }
-        }
+        },
+        "type" : "object"
+      },
+      "BigCat_allOf" : {
+        "properties" : {
+          "kind" : {
+            "enum" : [ "lions", "tigers", "leopards", "jaguars" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
       }
     },
     "securitySchemes" : {
@@ -2854,5 +2880,6 @@
         "type" : "http"
       }
     }
-  }
+  },
+  "x-original-swagger-version" : "2.0"
 }

@@ -16,6 +16,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -29,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class SpecialModelName  implements Serializable {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
@@ -44,7 +45,7 @@ public class SpecialModelName  implements Serializable {
    * Get $specialPropertyName
    * @return $specialPropertyName
    **/
-  @JsonProperty("$special[property.name]")
+  @JsonProperty(value = "$special[property.name]")
   @ApiModelProperty(value = "")
   
   public Long get$SpecialPropertyName() {
@@ -57,7 +58,7 @@ public class SpecialModelName  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -73,7 +74,6 @@ public class SpecialModelName  implements Serializable {
     return Objects.hash($specialPropertyName);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -88,7 +88,7 @@ public class SpecialModelName  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

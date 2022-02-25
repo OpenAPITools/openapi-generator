@@ -5,7 +5,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>4.1.2-SNAPSHOT</version>
+        <version>6.0.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -15,6 +15,8 @@
     <description>maven plugin to build modules from OpenAPI Generator</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.exclusions>**/src/main/java/org/openapitools/codegen/plugin/**/*</sonar.exclusions>
+        <!-- used for integration tests verification scripts, managed by the test harness plugin -->
     </properties>
     <dependencies>
         <dependency>
@@ -56,7 +58,25 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-<!--             <version>4.12</version> -->
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-verifier</artifactId>
+            <version>1.7.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugin-testing</groupId>
+            <artifactId>maven-plugin-testing-harness</artifactId>
+            <version>3.3.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>3.3.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -90,13 +110,71 @@
         </pluginManagement>
         <plugins>
             <plugin>
-                <groupId>net.revelc.code</groupId>
-                <artifactId>formatter-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
                 <configuration>
-                    <!-- Point at the eclipse-formatter.xml in the parent project directory -->
-                    <configFile>${project.basedir}${file.separator}${project.parent.relativePath}${file.separator}eclipse-formatter.xml</configFile>
+                    <configLocation>${project.parent.basedir}${file.separator}google_checkstyle.xml</configLocation>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>integration</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-invoker-plugin</artifactId>
+                        <version>3.2.2</version>
+                        <configuration>
+                            <debug>false</debug>
+                            <failIfNoProjects>true</failIfNoProjects>
+                            <postBuildHookScript>verify</postBuildHookScript>
+                            <streamLogsOnFailures>true</streamLogsOnFailures>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.codehaus.groovy</groupId>
+                                <artifactId>groovy</artifactId>
+                                <version>${groovy.version}</version>
+                                <scope>runtime</scope>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <id>integration-test</id>
+                                <goals>
+                                    <goal>install</goal>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>static-analysis</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <configuration>
+                            <excludeFilterFile>${project.parent.basedir}${file.separator}spotbugs-exclude.xml</excludeFilterFile>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>se.bjurr.violations</groupId>
+                        <artifactId>violations-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

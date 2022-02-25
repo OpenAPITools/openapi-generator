@@ -1,11 +1,11 @@
 openapi: 3.0.1
 info:
-  description: 'This spec is mainly for testing Petstore server and contains fake
-    endpoints, models. Please do not use this for any other purpose. Special characters:
-    " \'
+  description: "This spec is mainly for testing Petstore server and contains fake\
+    \ endpoints, models. Please do not use this for any other purpose. Special characters:\
+    \ \" \\"
   license:
     name: Apache-2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: OpenAPI Petstore
   version: 1.0.0
 servers:
@@ -32,7 +32,7 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
-        405:
+        "405":
           content: {}
           description: Invalid input
       security:
@@ -56,13 +56,13 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Pet not found
-        405:
+        "405":
           content: {}
           description: Validation exception
       security:
@@ -94,7 +94,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -107,7 +107,7 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid status value
       security:
@@ -120,8 +120,8 @@ paths:
   /pet/findByTags:
     get:
       deprecated: true
-      description: Multiple tags can be provided with comma separated strings. Use
-        tag1, tag2, tag3 for testing.
+      description: "Multiple tags can be provided with comma separated strings. Use\
+        \ tag1, tag2, tag3 for testing."
       operationId: findPetsByTags
       parameters:
       - description: Tags to filter by
@@ -135,7 +135,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -148,7 +148,7 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid tag value
       security:
@@ -174,7 +174,7 @@ paths:
           format: int64
           type: integer
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid pet value
       security:
@@ -196,7 +196,7 @@ paths:
           format: int64
           type: integer
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -205,10 +205,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Pet not found
       security:
@@ -238,7 +238,7 @@ paths:
                   description: Updated status of the pet
                   type: string
       responses:
-        405:
+        "405":
           content: {}
           description: Invalid input
       security:
@@ -272,7 +272,7 @@ paths:
                   format: binary
                   type: string
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -290,7 +290,7 @@ paths:
       description: Returns a map of status codes to quantities
       operationId: getInventory
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -315,7 +315,7 @@ paths:
         description: order placed for purchasing the pet
         required: true
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -324,7 +324,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid Order
       summary: Place an order for a pet
@@ -344,10 +344,10 @@ paths:
         schema:
           type: string
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Order not found
       summary: Delete purchase order by ID
@@ -368,7 +368,7 @@ paths:
           minimum: 1
           type: integer
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -377,10 +377,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Order not found
       summary: Find purchase order by ID
@@ -462,7 +462,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -482,7 +482,7 @@ paths:
               schema:
                 format: date-time
                 type: string
-        400:
+        "400":
           content: {}
           description: Invalid username/password supplied
       summary: Logs user into the system
@@ -510,10 +510,10 @@ paths:
         schema:
           type: string
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid username supplied
-        404:
+        "404":
           content: {}
           description: User not found
       summary: Delete user
@@ -529,7 +529,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -538,10 +538,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid username supplied
-        404:
+        "404":
           content: {}
           description: User not found
       summary: Get user by user name
@@ -565,10 +565,10 @@ paths:
         description: Updated user object
         required: true
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid user supplied
-        404:
+        "404":
           content: {}
           description: User not found
       summary: Updated user
@@ -587,7 +587,7 @@ paths:
         description: client model
         required: true
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -682,10 +682,10 @@ paths:
                   - (xyz)
                   type: string
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid request
-        404:
+        "404":
           content: {}
           description: Not found
       summary: To test enum parameters
@@ -702,7 +702,7 @@ paths:
         description: client model
         required: true
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -713,11 +713,11 @@ paths:
       - fake
       x-codegen-request-body-name: body
     post:
-      description: |
+      description: |-
         Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
+         假端點
+         偽のエンドポイント
+         가짜 엔드 포인트
       operationId: testEndpointParameters
       requestBody:
         content:
@@ -758,11 +758,11 @@ paths:
                   type: number
                 string:
                   description: None
-                  pattern: /[a-z]/i
+                  pattern: "/[a-z]/i"
                   type: string
                 pattern_without_delimiter:
                   description: None
-                  pattern: ^[A-Z].*
+                  pattern: "^[A-Z].*"
                   type: string
                 byte:
                   description: None
@@ -796,19 +796,19 @@ paths:
               - pattern_without_delimiter
         required: true
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid username supplied
-        404:
+        "404":
           content: {}
           description: User not found
       security:
       - http_basic_test: []
-      summary: |
+      summary: |-
         Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
+         假端點
+         偽のエンドポイント
+         가짜 엔드 포인트
       tags:
       - fake
   /fake/outer/number:
@@ -823,7 +823,7 @@ paths:
         description: Input number as post body
         required: false
       responses:
-        200:
+        "200":
           content:
             '*/*':
               schema:
@@ -844,7 +844,7 @@ paths:
         description: Input string as post body
         required: false
       responses:
-        200:
+        "200":
           content:
             '*/*':
               schema:
@@ -865,7 +865,7 @@ paths:
         description: Input boolean as post body
         required: false
       responses:
-        200:
+        "200":
           content:
             '*/*':
               schema:
@@ -886,7 +886,7 @@ paths:
         description: Input composite as post body
         required: false
       responses:
-        200:
+        "200":
           content:
             '*/*':
               schema:
@@ -914,7 +914,7 @@ paths:
               - param2
         required: true
       responses:
-        200:
+        "200":
           content: {}
           description: successful operation
       summary: test json serialization of form data
@@ -933,7 +933,7 @@ paths:
         description: request body
         required: true
       responses:
-        200:
+        "200":
           content: {}
           description: successful operation
       summary: test inline additionalProperties
@@ -956,7 +956,7 @@ paths:
               $ref: '#/components/schemas/User'
         required: true
       responses:
-        200:
+        "200":
           content: {}
           description: Success
       tags:
@@ -974,7 +974,7 @@ paths:
         description: client model
         required: true
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -984,6 +984,41 @@ paths:
       tags:
       - $another-fake?
       x-codegen-request-body-name: body
+  /fake/hyphenParam/{hyphen-param}:
+    get:
+      description: To test hyphen in path parameter name
+      operationId: hyphenParam
+      parameters:
+      - description: Parameter with hyphen in name
+        in: path
+        name: hyphen-param
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: Success
+      tags:
+      - fake
+  /fake/operation-with-numeric-id:
+    get:
+      operationId: 123example
+      responses:
+        "200":
+          content: {}
+          description: success
+      tags:
+      - fake
+  /fake/response-with-numerical-description:
+    get:
+      operationId: fake_response_with_numerical_description
+      responses:
+        "200":
+          content: {}
+          description: "1234"
+      tags:
+      - fake
 components:
   schemas:
     Order:
@@ -1154,7 +1189,7 @@ components:
           type: integer
       type: object
       xml:
-        name: $special[model.name]
+        name: "$special[model.name]"
     Return:
       description: Model for testing reserved words
       properties:
@@ -1176,7 +1211,7 @@ components:
           type: integer
         property:
           type: string
-        123Number:
+        "123Number":
           readOnly: true
           type: integer
       required:
@@ -1184,7 +1219,7 @@ components:
       type: object
       xml:
         name: Name
-    200_response:
+    "200_response":
       description: Model for testing model name starting with number
       properties:
         name:
@@ -1228,13 +1263,13 @@ components:
     format_test:
       properties:
         integer:
-          maximum: 1E+2
-          minimum: 1E+1
+          maximum: 100
+          minimum: 10
           type: integer
         int32:
           format: int32
-          maximum: 2E+2
-          minimum: 2E+1
+          maximum: 200
+          minimum: 20
           type: integer
         int64:
           format: int64
@@ -1254,11 +1289,11 @@ components:
           minimum: 67.8
           type: number
         string:
-          pattern: /[a-z]/i
+          pattern: "/[a-z]/i"
           type: string
         byte:
           format: byte
-          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+          pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
           type: string
         binary:
           format: binary
@@ -1347,9 +1382,18 @@ components:
             $ref: '#/components/schemas/Animal'
           type: object
       type: object
+    ObjectContainingObjectWithOnlyAdditionalProperties:
+      properties:
+        inner:
+          $ref: '#/components/schemas/ObjectWithOnlyAdditionalProperties'
+      type: object
+    ObjectWithOnlyAdditionalProperties:
+      additionalProperties:
+        type: string
+      type: object
     List:
       properties:
-        123-list:
+        "123-list":
           type: string
       type: object
     Client:
@@ -1521,10 +1565,12 @@ components:
       properties:
         breed:
           type: string
+      type: object
     Cat_allOf:
       properties:
         declawed:
           type: boolean
+      type: object
   securitySchemes:
     petstore_auth:
       flows:
@@ -1545,4 +1591,5 @@ components:
     http_basic_test:
       scheme: basic
       type: http
+x-original-swagger-version: "2.0"
 

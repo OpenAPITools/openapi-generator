@@ -1,0 +1,535 @@
+-
+  caption: "Aalborg University"
+  image: "img/companies/aalborg_university.png"
+  infoLink: "https://www.aau.dk/"
+  pinned: false
+-
+  caption: "Adaptant Solutions AG"
+  image: "img/companies/adaptant.png"
+  infoLink: "https://www.adaptant.io/"
+  pinned: false
+-
+  caption: "adesso SE"
+  image: "img/companies/adesso.png"
+  infoLink: "https://www.adesso.de/"
+  pinned: false
+-
+  caption: "Agoda"
+  image: "img/companies/agoda.png"
+  infoLink: "https://www.agoda.com/"
+  pinned: false
+-
+  caption: "Allianz"
+  image: "img/companies/allianz.png"
+  infoLink: "https://www.allianz.com"
+  pinned: false
+-
+  caption: "Angular.Schule"
+  image: "img/companies/angular-schule.svg"
+  infoLink: "https://angular.schule/"
+  pinned: false
+-
+  caption: "ANZ"
+  image: "img/companies/anz.png"
+  infoLink: "https://www.anz.com/"
+  pinned: false
+-
+  caption: "Arduino"
+  image: "img/companies/arduino.png"
+  infoLink: "https://www.arduino.cc/"
+  pinned: false
+-
+  caption: ASKUL
+  image: "img/companies/logo-askul-01.gif"
+  infoLink: "https://www.askul.co.jp/"
+  pinned: true
+-
+  caption: "b<>com"
+  image: "img/companies/b-com.png"
+  infoLink: "https://b-com.com/en"
+  pinned: false
+-
+  caption: "百度营销"
+  image: "img/companies/ebaidu.jpeg"
+  infoLink: "https://e.baidu.com"
+  pinned: false
+-
+  caption: "Banzai Cloud"
+  image: "img/companies/banzai_cloud.png"
+  infoLink: "https://banzaicloud.com/"
+  pinned: false
+-
+  caption: "BIMData.io"
+  image: "img/companies/bimdataio.png"
+  infoLink: "https://bimdata.io/"
+  pinned: false
+-
+  caption: "Bithost GmbH"
+  image: "img/companies/bithost.svg"
+  infoLink: "https://www.bithost.ch/"
+  pinned: true
+-
+  caption: Bosch Connected Industry
+  image: "img/companies/bosch.png"
+  infoLink: "https://www.bosch-connected-industry.com"
+  pinned: false
+-
+  caption: Boxever
+  image: "img/companies/boxever.svg"
+  infoLink: "https://www.boxever.com/"
+  pinned: false
+-
+  caption: Bunker Holding Group
+  image: "img/companies/bunker-holding.png"
+  infoLink: "https://www.bunker-holding.com/"
+  pinned: false
+-
+  caption: "California State University, Northridge"
+  image: "img/companies/CSUNS.png"
+  infoLink: "https://www.csun.edu/"
+  pinned: false
+-
+  caption: CAM
+  image: "img/companies/cam.png"
+  infoLink: "https://www.cam-inc.co.jp"
+  pinned: false
+-
+  caption: Camptocamp
+  image: "img/companies/camptocamp.png"
+  infoLink: "https://www.camptocamp.com/en"
+  pinned: false
+-
+  caption: Cisco 
+  image: "img/companies/cisco.png"
+  infoLink: "https://www.cisco.com"
+  pinned: false
+-
+  caption: "codecentric AG"
+  image: "img/companies/codecentric.png"
+  infoLink: "https://www.codecentric.de/"
+  pinned: false
+-
+  caption: "CoinAPI"
+  image: "img/companies/coinapi.png"
+  infoLink: "https://www.coinapi.io/"
+  pinned: false
+-
+  caption: Commencis
+  image: "img/companies/commencis.png"
+  infoLink: "https://www.commencis.com/"
+  pinned: false
+-
+  caption: "Crossover Health"
+  image: "img/companies/crossover_health.png"
+  infoLink: "https://crossoverhealth.com/"
+  pinned: false
+-
+  caption: Cupix
+  image: "img/companies/cupix.png"
+  infoLink: "https://www.cupix.com/"
+  pinned: false
+-
+  caption: "Datadog"
+  image: "img/companies/datadog.png"
+  infoLink: "https://www.datadoghq.com"
+  pinned: false
+-
+  caption: "DB Systel"
+  image: "img/companies/db-systel.png"
+  infoLink: "https://www.dbsystel.de"
+  pinned: false
+-
+  caption: "DocSpring"
+  image: "img/companies/docspring.png"
+  infoLink: "https://docspring.com"
+  pinned: false
+-
+  caption: "dwango"
+  image: "img/companies/dwango.png"
+  infoLink: "https://dwango.co.jp/"
+  pinned: false
+-
+  caption: "Edge Impulse"
+  image: "img/companies/edge_impulse.png"
+  infoLink: "https://www.edgeimpulse.com/"
+  pinned: false
+-
+  caption: "Elastic Email"
+  image: "img/companies/elasticemail.png"
+  infoLink: "https://elasticemail.com/"
+  pinned: false
+-
+  caption: "Element AI"
+  image: "img/companies/element_ai.png"
+  infoLink: "https://www.elementai.com/"
+  pinned: false
+-
+  caption: "emineo"
+  image: "img/companies/emineo.png"
+  infoLink: "https://www.emineo.ch/"
+  pinned: false
+-
+  caption: "freee"
+  image: "img/companies/freee.png"
+  infoLink: "https://corp.freee.co.jp/en/"
+  pinned: false
+-
+  caption: "Fenergo"
+  image: "img/companies/fenergo.png"
+  infoLink: "https://www.fenergo.com/"
+  pinned: false
+-
+  caption: FiNC Technologies
+  image: "img/companies/finc-technologies.png"
+  infoLink: "https://company.finc.com/"
+  pinned: false
+-
+  caption: "FreshCells"
+  image: "img/companies/freshcells.png"
+  infoLink: "https://www.freshcells.de/"
+  pinned: false
+-
+  caption: "Fuse"
+  image: "img/companies/fuseno.png"
+  infoLink: "https://www.fuse.no/"
+  pinned: false
+-
+  caption: "Gantner"
+  image: "img/companies/gantner.png"
+  infoLink: "https://www.gantner.com/"
+  pinned: false
+-
+  caption: "GetYourGuide"
+  image: "img/companies/getyourguide.png"
+  infoLink: "https://www.getyourguide.com/"
+  pinned: false
+-
+  caption: Giant Monkey GmbH
+  image: "img/companies/gm.png"
+  infoLink: "https://www.giantmonkey.de/"
+  pinned: true
+-
+  caption: "GMO Pepabo"
+  image: "img/companies/pepabo.png"
+  infoLink: "https://pepabo.com/en/"
+  pinned: false
+-
+  caption: "GoDaddy"
+  image: "img/companies/godaddy.png"
+  infoLink: "https://www.godaddy.com/"
+  pinned: false
+-
+  caption: "Gumtree"
+  image: "img/companies/gumtree.png"
+  infoLink: "https://gumtree.com/"
+  pinned: false
+-
+  caption: "Here"
+  image: "img/companies/here.png"
+  infoLink: "https://developer.here.com/"
+  pinned: false
+-
+  caption: "IBM"
+  image: "img/companies/ibm.svg"
+  infoLink: "https://www.ibm.com"
+  pinned: false
+-
+  caption: JustStar
+  image: "img/companies/juststar.png"
+  infoLink: "https://www.juststarinfo.com/"
+  pinned: true
+-
+  caption: k6.io 
+  image: "img/companies/k6.png"
+  infoLink: "https://k6.io"
+  pinned: false
+-
+  caption: Klarna
+  image: "img/companies/klarna.svg"
+  infoLink: "https://www.klarna.com/us/"
+  pinned: false
+-
+  caption: "Linode"
+  image: "img/companies/linode.png"
+  infoLink: "https://www.linode.com/"
+  pinned: false
+-
+  caption: "Kronsoft Development"
+  image: "img/companies/kronsoft.png"
+  infoLink: "https://www.kronsoft.ro/home/"
+  pinned: false
+-
+  caption: "Kubernetes"
+  image: "img/companies/kubernetes.png"
+  infoLink: "https://kubernetes.io/"
+  pinned: false
+-
+  caption: "Kurusugawa Computer Inc."
+  image: "img/companies/kurusugawa.png"
+  infoLink: "https://www.kurusugawa.jp/"
+  pinned: false
+-
+  caption: "LVM Versicherungen"
+  image: "img/companies/lvm_versicherungen.png"
+  infoLink: "https://www.lvm.de"
+  pinned: false
+-
+  caption: "Lumeris"
+  image: "img/companies/lumeris.png"
+  infoLink: "https://www.lumeris.com"
+  pinned: false
+-
+  caption: M3, Inc.
+  image: "img/companies/m3.png"
+  infoLink: "https://jobs.m3.com/engineer/"
+  pinned: false
+-
+  caption: MailSlurp
+  image: "img/companies/mailslurp.png"
+  infoLink: "https://www.mailslurp.com/"
+  pinned: false
+-
+  caption: "Médiavision"
+  image: "img/companies/mediavision.jpeg"
+  infoLink: "https://www.mediavision.fr/"
+  pinned: false
+-
+  caption: Metaswitch
+  image: "img/companies/metaswitch.svg"
+  infoLink: "https://www.metaswitch.com/"
+  pinned: true
+-
+  caption: MoonVision
+  image: "img/companies/moonvision.png"
+  infoLink: "https://www.moonvision.io/"
+  pinned: false
+-
+  caption: Myworkout
+  image: "img/companies/myworkout.png"
+  infoLink: "https://myworkout.com/"
+  pinned: false
+-
+  caption: NamSor
+  image: "img/companies/namsor.png"
+  infoLink: "https://www.namsor.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  pinned: false
+-
+  caption: Nokia 
+  image: "img/companies/nokia.png"
+  infoLink: "https://www.nokia.com/"
+  pinned: false
+-
+  caption: Options Clearing Corporation (OCC)
+  image: "img/companies/occ.jpg"
+  infoLink: "https://www.theocc.com/"
+  pinned: false
+-
+  caption: Openet
+  image: "img/companies/openet.jpg"
+  infoLink: "https://www.openet.com/"
+  pinned: false
+-
+  caption: OPTiM
+  image: "img/companies/optim.png"
+  infoLink: "https://www.optim.co.jp/"
+  pinned: false
+-
+  caption: Oracle
+  image: "img/companies/oracle.png"
+  infoLink: "https://www.oracle.com"
+  pinned: false
+-
+  caption: Paxos
+  image: "img/companies/paxos.png"
+  infoLink: "https://www.paxos.com/"
+  pinned: false
+-
+  caption: "PLAID, Inc."
+  image: "img/companies/plaidcojp.jpg"
+  infoLink: "https://plaid.co.jp/"
+  pinned: false
+-
+  caption: Plaid
+  image: "img/companies/plaid.png"
+  infoLink: "https://www.plaid.com/"
+  pinned: false
+-
+  caption: Ponicode
+  image: "img/companies/ponicode.png"
+  infoLink: "https://ponicode.dev/"
+  pinned: false
+-
+  caption: Pricefx
+  image: "img/companies/pricefx.png"
+  infoLink: "https://www.pricefx.com/"
+  pinned: false
+-
+  caption: "Prometheus/Alertmanager"
+  image: "img/companies/prometheus.png"
+  infoLink: "https://github.com/prometheus/alertmanager"
+  pinned: false
+-
+  caption: "Qulix Systems"
+  image: "img/companies/qulix.png"
+  infoLink: "https://www.qulix.com"
+  pinned: false
+-
+  caption: Raksul
+  image: "img/companies/raksul-corporate.svg"
+  infoLink: "https://corp.raksul.com"
+  pinned: false
+-
+  caption: "Raiffeisen Schweiz Genossenschaft"
+  image: "img/companies/raiffeisen.png"
+  infoLink: "https://www.raiffeisen.ch/"
+  pinned: false
+-
+  caption: "RedHat"
+  image: "img/companies/redhat.png"
+  infoLink: "https://www.redhat.com"
+  pinned: false
+-
+  caption: "RepreZen API Studio"
+  image: "img/companies/reprezen.png"
+  infoLink: "https://www.reprezen.com/swagger-openapi-code-generation-api-first-microservices-enterprise-development"
+  pinned: false
+-
+  caption: "REST United"
+  image: "img/companies/rest-united.png"
+  infoLink: "https://restunited.com/"
+  pinned: false
+-
+  caption: "Shotstack"
+  image: "img/companies/shotstack.svg"
+  infoLink: "https://shotstack.io"
+  pinned: false
+-
+  caption: "SmartHR"
+  image: "img/companies/smarthr.png"
+  infoLink: "https://smarthr.co.jp/"
+  pinned: false
+-
+  caption: "Sony Interactive Entertainment"
+  image: "img/companies/sie.jpeg"
+  infoLink: "https://www.sie.com/en/index.html"
+  pinned: false
+-
+  caption: "Splitit"
+  image: "img/companies/splitit.png"
+  infoLink: "https://www.splitit.com/"
+  pinned: false
+-
+  caption: Stingray
+  image: "img/companies/stingray.png"
+  infoLink: "http://www.stingray.com/"
+  pinned: true
+-
+  caption: Suva
+  image: "img/companies/suva.svg"
+  infoLink: "https://www.suva.ch/"
+  pinned: false
+-
+  caption: Telstra
+  image: "img/companies/telstra.svg"
+  infoLink: "https://dev.telstra.com/"
+  pinned: true
+-
+  caption: The University of Aizu
+  image: "img/companies/uoa.png"
+  infoLink: "https://www.u-aizu.ac.jp/en/"
+  pinned: false
+-
+  caption: "TravelTime platform"
+  image: "img/companies/traveltime.jpg"
+  infoLink: "https://www.traveltimeplatform.com/"
+  pinned: false
+-
+  caption: "TribalScale"
+  image: "img/companies/tribalscale.png"
+  infoLink: "https://www.tribalscale.com"
+  pinned: false
+-
+  caption: "TUI InfoTec GmbH"
+  image: "img/companies/infotec.png"
+  infoLink: "http://www.tui-infotec.com/"
+  pinned: false
+-
+  caption: "Twitter"
+  image: "img/companies/twitter.png"
+  infoLink: "https://twitter.com"
+  pinned: false
+-
+  caption: "unblu inc."
+  image: "img/companies/unblu.svg"
+  infoLink: "https://www.unblu.com/"
+  pinned: true
+-
+  caption: "Veamly"
+  image: "img/companies/veamly.png"
+  infoLink: "https://www.veamly.com/"
+  pinned: false
+-
+  caption: "viadee"
+  image: "img/companies/viadee.jpg"
+  infoLink: "https://www.viadee.de"
+  pinned: false
+-
+  caption: "VMware"
+  image: "img/companies/vmware.png"
+  infoLink: "https://www.vmware.com/"
+  pinned: false
+-
+  caption: Vonage
+  image: "img/companies/vonage.png"
+  infoLink: "https://vonage.com"
+  pinned: false
+-
+  caption: Vouchery.io
+  image: "img/companies/voucheryio.png"
+  infoLink: "https://vouchery.io"
+  pinned: false
+-
+  caption: wbt-solutions
+  image: "img/companies/wbt_solutions.png"
+  infoLink: "https://www.wbt-solutions.de/"
+  pinned: false
+-
+  caption: Woleet
+  image: "img/companies/woleet.png"
+  infoLink: "https://woleet.io"
+  pinned: false 
+-
+  caption: WSO2
+  image: "img/companies/wso2.png"
+  infoLink: "https://wso2.com/"
+  pinned: true
+-
+  caption: Xero
+  image: "img/companies/xero.png"
+  infoLink: "https://www.xero.com/"
+  pinned: false
+-
+  caption: Yahoo! Japan
+  image: "img/companies/yahoo_japan.png"
+  infoLink: "https://www.yahoo.co.jp"
+  pinned: false
+-
+  caption: YITU Technology
+  image: "img/companies/yitu.jpeg"
+  infoLink: "https://www.yitutech.com/"
+  pinned: false
+-
+  caption: Yelp 
+  image: "img/companies/yelp.png"
+  infoLink: "https://www.yelp.com/"
+  pinned: false
+-
+  caption: Zalando
+  image: "img/companies/zalando.jpg"
+  infoLink: "https://www.zalando.com/"
+  pinned: true
+-
+  caption: ZOZO Technologies
+  image: "img/companies/zozo-technologies.png"
+  infoLink: "https://tech.zozo.com/en/"
+  pinned: false

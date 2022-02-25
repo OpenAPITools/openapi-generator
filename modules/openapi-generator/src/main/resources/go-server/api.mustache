@@ -1,0 +1,32 @@
+{{>partial_header}}
+package {{packageName}}
+
+import (
+	"context"
+	"net/http"{{#apiInfo}}{{#apis}}{{#imports}}
+	"{{import}}"{{/imports}}{{/apis}}{{/apiInfo}}
+)
+
+
+{{#apiInfo}}{{#apis}}
+// {{classname}}Router defines the required methods for binding the api requests to a responses for the {{classname}}
+// The {{classname}}Router implementation should parse necessary information from the http request,
+// pass the data to a {{classname}}Servicer to perform the required actions, then write the service results to the http response.
+type {{classname}}Router interface { {{#operations}}{{#operation}}
+	{{#isDeprecated}}
+	// Deprecated
+	{{/isDeprecated}}
+	{{operationId}}(http.ResponseWriter, *http.Request){{/operation}}{{/operations}}
+}{{/apis}}{{/apiInfo}}{{#apiInfo}}{{#apis}}
+
+
+// {{classname}}Servicer defines the api actions for the {{classname}} service
+// This interface intended to stay up to date with the openapi yaml used to generate it,
+// while the service implementation can be ignored with the .openapi-generator-ignore file
+// and updated with the logic required for the API.
+type {{classname}}Servicer interface { {{#operations}}{{#operation}}
+	{{#isDeprecated}}
+	// Deprecated
+	{{/isDeprecated}}
+	{{operationId}}(context.Context{{#allParams}}, {{dataType}}{{/allParams}}) (ImplResponse, error){{/operation}}{{/operations}}
+}{{/apis}}{{/apiInfo}}

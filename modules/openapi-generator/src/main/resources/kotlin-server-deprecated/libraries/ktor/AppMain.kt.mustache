@@ -1,0 +1,145 @@
+package {{packageName}}
+
+import com.codahale.metrics.Slf4jReporter
+import com.typesafe.config.ConfigFactory
+import io.ktor.application.Application
+import io.ktor.application.ApplicationStopping
+import io.ktor.application.install
+import io.ktor.application.log
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.apache.Apache
+import io.ktor.config.HoconApplicationConfig
+{{#featureAutoHead}}
+import io.ktor.features.AutoHeadResponse
+{{/featureAutoHead}}
+{{#featureCompression}}
+import io.ktor.features.Compression
+{{/featureCompression}}
+{{#featureCORS}}
+import io.ktor.features.CORS
+{{/featureCORS}}
+{{#featureConditionalHeaders}}
+import io.ktor.features.ConditionalHeaders
+{{/featureConditionalHeaders}}
+import io.ktor.features.ContentNegotiation
+import io.ktor.features.DefaultHeaders
+{{#featureHSTS}}
+import io.ktor.features.HSTS
+{{/featureHSTS}}
+import io.ktor.gson.GsonConverter
+import io.ktor.http.ContentType
+import io.ktor.locations.KtorExperimentalLocationsAPI
+import io.ktor.locations.Locations
+import io.ktor.metrics.Metrics
+import io.ktor.routing.Routing
+import java.util.concurrent.TimeUnit
+import io.ktor.util.KtorExperimentalAPI
+{{#hasAuthMethods}}
+import io.ktor.auth.Authentication
+import io.ktor.auth.oauth
+import org.openapitools.server.infrastructure.ApiKeyCredential
+import org.openapitools.server.infrastructure.ApiPrincipal
+import org.openapitools.server.infrastructure.apiKeyAuth
+{{/hasAuthMethods}}
+{{#generateApis}}{{#apiInfo}}{{#apis}}import {{apiPackage}}.{{classname}}
+{{/apis}}{{/apiInfo}}{{/generateApis}}
+
+@KtorExperimentalAPI
+internal val settings = HoconApplicationConfig(ConfigFactory.defaultApplication(HTTP::class.java.classLoader))
+
+object HTTP {
+    val client = HttpClient(Apache)
+}
+
+@KtorExperimentalAPI
+@KtorExperimentalLocationsAPI
+fun Application.main() {
+    install(DefaultHeaders)
+    install(Metrics) {
+        val reporter = Slf4jReporter.forRegistry(registry)
+                .outputTo(log)
+                .convertRatesTo(TimeUnit.SECONDS)
+                .convertDurationsTo(TimeUnit.MILLISECONDS)
+                .build()
+        reporter.start(10, TimeUnit.SECONDS)
+    }
+{{#generateApis}}
+    install(ContentNegotiation) {
+        register(ContentType.Application.Json, GsonConverter())
+    }
+    {{#featureAutoHead}}
+    install(AutoHeadResponse) // see http://ktor.io/features/autoheadresponse.html
+    {{/featureAutoHead}}
+    {{#featureConditionalHeaders}}
+    install(ConditionalHeaders) // see http://ktor.io/features/conditional-headers.html
+    {{/featureConditionalHeaders}}
+    {{#featureHSTS}}
+    install(HSTS, ApplicationHstsConfiguration()) // see http://ktor.io/features/hsts.html
+    {{/featureHSTS}}
+    {{#featureCORS}}
+    install(CORS, ApplicationCORSConfiguration()) // see http://ktor.io/features/cors.html
+    {{/featureCORS}}
+    {{#featureCompression}}
+    install(Compression, ApplicationCompressionConfiguration()) // see http://ktor.io/features/compression.html
+    {{/featureCompression}}
+    install(Locations) // see http://ktor.io/features/locations.html
+    {{#hasAuthMethods}}
+    install(Authentication) {
+    {{#authMethods}}
+        {{#isBasic}}
+        basic("{{{name}}}") {
+        validate { credentials ->
+            // TODO: "Apply your basic authentication functionality."
+            // Accessible in-method via call.principal<UserIdPrincipal>()
+            if (credentials.name == "Swagger" && "Codegen" == credentials.password) {
+                UserIdPrincipal(credentials.name)
+            } else {
+                null
+            }
+        }
+        {{/isBasic}}
+        {{#isApiKey}}
+        // "Implement API key auth ({{{name}}}) for parameter name '{{{keyParamName}}}'."
+        apiKeyAuth("{{{name}}}") {
+            validate { apikeyCredential: ApiKeyCredential ->
+                when {
+                    apikeyCredential.value == "keyboardcat" -> ApiPrincipal(apikeyCredential)
+                    else -> null
+                }
+            }
+        }
+        {{/isApiKey}}
+        {{#isOAuth}}
+            {{#bodyAllowed}}
+            {{/bodyAllowed}}
+            {{^bodyAllowed}}
+        oauth("{{name}}") {
+            client = HttpClient(Apache)
+            providerLookup = { ApplicationAuthProviders["{{{name}}}"] }
+            urlProvider = { _ ->
+            // TODO: define a callback url here.
+            "/"
+            }
+        }
+            {{/bodyAllowed}}
+        {{/isOAuth}}
+    {{/authMethods}}
+    }
+    {{/hasAuthMethods}}
+    install(Routing) {
+    {{#apiInfo}}
+    {{#apis}}
+    {{#operations}}
+        {{classname}}()
+    {{/operations}}
+    {{/apis}}
+    {{/apiInfo}}
+    }
+
+{{/generateApis}}
+
+    environment.monitor.subscribe(ApplicationStopping)
+    {
+        HTTP.client.close()
+    }
+}

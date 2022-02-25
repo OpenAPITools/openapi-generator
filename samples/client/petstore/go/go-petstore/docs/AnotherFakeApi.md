@@ -10,18 +10,51 @@ Method | HTTP request | Description
 
 ## Call123TestSpecialTags
 
-> Client Call123TestSpecialTags(ctx, body)
+> Client Call123TestSpecialTags(ctx).Body(body).Execute()
+
 To test special tags
 
-To test special tags and operation ID starting with number
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := *openapiclient.NewClient() // Client | client model
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.AnotherFakeApi.Call123TestSpecialTags(context.Background()).Body(body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AnotherFakeApi.Call123TestSpecialTags``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `Call123TestSpecialTags`: Client
+    fmt.Fprintf(os.Stdout, "Response from `AnotherFakeApi.Call123TestSpecialTags`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCall123TestSpecialTagsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md) | client model | 
 
 ### Return type
 

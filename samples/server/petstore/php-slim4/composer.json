@@ -1,0 +1,44 @@
+{
+  "minimum-stability": "RC",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/ybelenko/slim-token-authentication",
+      "no-api": true
+    }
+  ],
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "dyorg/slim-token-authentication": "dev-slim4",
+    "php-di/slim-bridge": "^3.2",
+    "slim/psr7": "^1.1.0",
+    "ybelenko/openapi-data-mocker": "^1.0",
+    "ybelenko/openapi-data-mocker-server-middleware": "^1.0"
+  },
+  "require-dev": {
+    "overtrue/phplint": "^2.0.2",
+    "phpunit/phpunit": "^8.0 || ^9.0",
+    "squizlabs/php_codesniffer": "^3.5"
+  },
+  "autoload": {
+    "psr-4": { "OpenAPIServer\\": [
+      "lib/",
+      "src/"
+    ]}
+  },
+  "autoload-dev": {
+    "psr-4": { "OpenAPIServer\\": "tests/" }
+  },
+  "scripts": {
+    "test": [
+      "phpunit"
+    ],
+    "test-apis": "phpunit --testsuite Apis",
+    "test-models": "phpunit --testsuite Models",
+    "phpcs": "phpcs",
+    "phplint": "phplint ./ --exclude=vendor"
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

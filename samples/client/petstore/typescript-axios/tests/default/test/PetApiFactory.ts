@@ -4,9 +4,9 @@ import {
   Pet,
   PetStatusEnum,
   Category
-} from "@swagger/typescript-axios-petstore";
-import { Configuration } from "@swagger/typescript-axios-petstore";
-import axios, {AxiosInstance, AxiosResponse} from "axios";
+} from "@openapitools/typescript-axios-petstore";
+import { Configuration } from "@openapitools/typescript-axios-petstore";
+import axios, {AxiosInstance, AxiosResponse} from "@openapitools/typescript-axios-petstore/node_modules/axios";
 
 let config: Configuration;
 

@@ -1,0 +1,40 @@
+openapi: 3.0.1
+info:
+  title: 'Buggy Api'
+  version: '1.0'
+paths:
+  /foo/bar:
+    post:
+      responses:
+        '200':
+          description: ok
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+
+  /foo/bar2:
+    post:
+      responses:
+        '200':
+          description: ok
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/bar2'
+components:
+  schemas:
+    bar2:
+      type: object
+      example: { n: 4.56 }
+      properties:
+        n:
+          type: number
+          example: 4.56
+    inline_response_200:
+      type: object
+      example: { n: 1.23 }
+      properties:
+        n:
+          type: number
+          example: 1.23

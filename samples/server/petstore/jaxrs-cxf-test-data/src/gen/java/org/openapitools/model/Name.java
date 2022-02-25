@@ -5,13 +5,6 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -20,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Model for testing model name same as property name
  */
 @ApiModel(description="Model for testing model name same as property name")
+
 public class Name  {
   
   @ApiModelProperty(required = true, value = "")
@@ -46,7 +40,7 @@ public class Name  {
   /**
    * Sets the <code>name</code> property.
    */
-  public void setName(Integer name) {
+ public void setName(Integer name) {
     this.name = name;
   }
 
@@ -71,7 +65,7 @@ public class Name  {
    * Sets the <code>snakeCase</code> property.
    * <br><em>N.B. <code>snakeCase</code> is <b>read only</b>; client code should not call this method</em>.
    */
-  public void setSnakeCase(Integer snakeCase) {
+ public void setSnakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
 
@@ -96,7 +90,7 @@ public class Name  {
   /**
    * Sets the <code>property</code> property.
    */
-  public void setProperty(String property) {
+ public void setProperty(String property) {
     this.property = property;
   }
 
@@ -121,7 +115,7 @@ public class Name  {
    * Sets the <code>_123number</code> property.
    * <br><em>N.B. <code>_123number</code> is <b>read only</b>; client code should not call this method</em>.
    */
-  public void set123number(Integer _123number) {
+ public void set123number(Integer _123number) {
     this._123number = _123number;
   }
 
@@ -152,7 +146,7 @@ public class Name  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

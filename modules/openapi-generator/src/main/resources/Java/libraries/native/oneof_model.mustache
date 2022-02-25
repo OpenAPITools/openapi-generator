@@ -1,0 +1,231 @@
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import {{invokerPackage}}.JSON;
+
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
+@JsonDeserialize(using = {{classname}}.{{classname}}Deserializer.class)
+@JsonSerialize(using = {{classname}}.{{classname}}Serializer.class)
+public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
+    private static final Logger log = Logger.getLogger({{classname}}.class.getName());
+
+    public static class {{classname}}Serializer extends StdSerializer<{{classname}}> {
+        public {{classname}}Serializer(Class<{{classname}}> t) {
+            super(t);
+        }
+
+        public {{classname}}Serializer() {
+            this(null);
+        }
+
+        @Override
+        public void serialize({{classname}} value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+            jgen.writeObject(value.getActualInstance());
+        }
+    }
+
+    public static class {{classname}}Deserializer extends StdDeserializer<{{classname}}> {
+        public {{classname}}Deserializer() {
+            this({{classname}}.class);
+        }
+
+        public {{classname}}Deserializer(Class<?> vc) {
+            super(vc);
+        }
+
+        @Override
+        public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+            JsonNode tree = jp.readValueAsTree();
+            Object deserialized = null;
+            {{#useOneOfDiscriminatorLookup}}
+            {{#discriminator}}
+            {{classname}} new{{classname}} = new {{classname}}();
+            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            String discriminatorValue = (String)result2.get("{{{propertyBaseName}}}");
+            switch (discriminatorValue) {
+            {{#mappedModels}}
+                case "{{{mappingName}}}":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs({{{modelName}}}.class);
+                    new{{classname}}.setActualInstance(deserialized);
+                    return new{{classname}};
+            {{/mappedModels}}
+                default:
+                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
+            }
+
+            {{/discriminator}}
+            {{/useOneOfDiscriminatorLookup}}
+            boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
+            int match = 0;
+            JsonToken token = tree.traverse(jp.getCodec()).nextToken();
+            {{#oneOf}}
+            // deserialize {{{.}}}
+            try {
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if ({{{.}}}.class.equals(Integer.class) || {{{.}}}.class.equals(Long.class) || {{{.}}}.class.equals(Float.class) || {{{.}}}.class.equals(Double.class) || {{{.}}}.class.equals(Boolean.class) || {{{.}}}.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= (({{{.}}}.class.equals(Integer.class) || {{{.}}}.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= (({{{.}}}.class.equals(Float.class) || {{{.}}}.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= ({{{.}}}.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= ({{{.}}}.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        {{#isNullable}}
+                        attemptParsing |= (token == JsonToken.VALUE_NULL);
+                        {{/isNullable}}
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
+                }
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema '{{{.}}}'", e);
+            }
+
+            {{/oneOf}}
+            if (match == 1) {
+                {{classname}} ret = new {{classname}}();
+                ret.setActualInstance(deserialized);
+                return ret;
+            }
+            throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+        }
+
+        /**
+         * Handle deserialization of the 'null' value.
+         */
+        @Override
+        public {{classname}} getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+        {{#isNullable}}
+            return null;
+        {{/isNullable}}
+        {{^isNullable}}
+            throw new JsonMappingException(ctxt.getParser(), "{{classname}} cannot be null");
+        {{/isNullable}}
+        }
+    }
+
+    // store a list of schema names defined in oneOf
+    public static final Map<String, Class<?>> schemas = new HashMap<>();
+
+    public {{classname}}() {
+        super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+    }
+{{> libraries/native/additional_properties }}
+    {{#additionalPropertiesType}}
+    /**
+     * Return true if this {{name}} object is equal to o.
+     */
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o) && Objects.equals(this.additionalProperties, (({{classname}})o).additionalProperties);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
+    }
+    {{/additionalPropertiesType}}
+    {{#oneOf}}
+    public {{classname}}({{{.}}} o) {
+        super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+        setActualInstance(o);
+    }
+
+    {{/oneOf}}
+    static {
+        {{#oneOf}}
+        schemas.put("{{{.}}}", {{{.}}}.class);
+        {{/oneOf}}
+        JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
+        {{#discriminator}}
+        // Initialize and register the discriminator mappings.
+        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        {{#mappedModels}}
+        mappings.put("{{mappingName}}", {{modelName}}.class);
+        {{/mappedModels}}
+        mappings.put("{{name}}", {{classname}}.class);
+        JSON.registerDiscriminator({{classname}}.class, "{{propertyBaseName}}", mappings);
+        {{/discriminator}}
+    }
+
+    @Override
+    public Map<String, Class<?>> getSchemas() {
+        return {{classname}}.schemas;
+    }
+
+    /**
+     * Set the instance that matches the oneOf child schema, check
+     * the instance parameter is valid against the oneOf child schemas:
+     * {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}
+     *
+     * It could be an instance of the 'oneOf' schemas.
+     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
+     */
+    @Override
+    public void setActualInstance(Object instance) {
+        {{#isNullable}}
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
+        {{/isNullable}}
+        {{#oneOf}}
+        if (JSON.isInstanceOf({{{.}}}.class, instance, new HashSet<Class<?>>())) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        {{/oneOf}}
+        throw new RuntimeException("Invalid instance type. Must be {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}");
+    }
+
+    /**
+     * Get the actual instance, which can be the following:
+     * {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}
+     *
+     * @return The actual instance ({{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}})
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
+
+    {{#oneOf}}
+    /**
+     * Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `{{{.}}}`
+     * @throws ClassCastException if the instance is not `{{{.}}}`
+     */
+    public {{{.}}} get{{{.}}}() throws ClassCastException {
+        return ({{{.}}})super.getActualInstance();
+    }
+
+    {{/oneOf}}
+}

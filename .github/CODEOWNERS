@@ -1,0 +1,30 @@
+## Core team
+modules/openapi-generator/src/main/java/org/openapitools/codegen/*.java @OpenAPITools/generator-core-team
+modules/openapi-generator/src/main/java/org/openapitools/codegen/auth/*.java @OpenAPITools/generator-core-team
+modules/openapi-generator/src/main/java/org/openapitools/codegen/config/*.java @OpenAPITools/generator-core-team
+modules/openapi-generator/src/main/java/org/openapitools/codegen/examples/*.java @OpenAPITools/generator-core-team
+modules/openapi-generator/src/main/java/org/openapitools/codegen/ignore/**/*.java @OpenAPITools/generator-core-team
+modules/openapi-generator/src/main/java/org/openapitools/codegen/serializer/*.java @OpenAPITools/generator-core-team
+modules/openapi-generator/src/main/java/org/openapitools/codegen/templating/**/*.java @OpenAPITools/generator-core-team
+modules/openapi-generator/src/main/java/org/openapitools/codegen/utils/**/*.java @OpenAPITools/generator-core-team
+modules/openapi-generator-core/**/* @OpenAPITools/generator-core-team
+
+# No need for auto-generated subdirectories (reduces noise)
+docs/ @OpenAPITools/generator-core-team
+
+## Individual interests
+.github/**/* @jimschubert
+scripts/**/* @jimschubert
+website/**/* @jimschubert
+bin/ci/**/* @jimschubert
+
+## Build related
+CI/**/* @OpenAPITools/build
+.mvn/**/* @OpenAPITools/build
+bin/utils/**/* @OpenAPITools/build
+
+## Module-specific
+modules/openapi-generator-cli/**/* @jimschubert
+modules/openapi-generator-gradle-plugin/**/* @jimschubert
+modules/openapi-generator-maven-plugin/**/* @jimschubert
+

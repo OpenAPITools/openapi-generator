@@ -1,0 +1,34 @@
+    def __repr__(self):
+        """For `print` and `pprint`"""
+        return self.to_str()
+
+    def __ne__(self, other):
+        """Returns true if both objects are not equal"""
+        return not self == other
+
+    def __setattr__(self, attr, value):
+        """set the value of an attribute using dot notation: `instance.attr = val`"""
+        self[attr] = value
+
+    def __getattr__(self, attr):
+        """get the value of an attribute using dot notation: `instance.attr`"""
+        return self.{{#attrNoneIfUnset}}get{{/attrNoneIfUnset}}{{^attrNoneIfUnset}}__getitem__{{/attrNoneIfUnset}}(attr)
+
+    def __copy__(self):
+        cls = self.__class__
+        if self.get("_spec_property_naming", False):
+            return cls._new_from_openapi_data(**self.__dict__)
+        else:
+            return new_cls.__new__(cls, **self.__dict__)
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+
+        if self.get("_spec_property_naming", False):
+            new_inst = cls._new_from_openapi_data()
+        else:
+            new_inst = cls.__new__(cls)
+
+        for k, v in self.__dict__.items():
+            setattr(new_inst, k, deepcopy(v, memo))
+        return new_inst

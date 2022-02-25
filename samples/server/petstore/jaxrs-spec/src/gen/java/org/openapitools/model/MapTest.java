@@ -14,13 +14,15 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-public class MapTest  implements Serializable {
+@JsonTypeName("MapTest")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MapTest  implements Serializable {
   
-  private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
- 
+  private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+
 public enum InnerEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
@@ -42,6 +44,21 @@ public enum InnerEnum {
         return String.valueOf(value);
     }
 
+    /**
+     * Convert a String into String, as specified in the
+     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+     */
+	public static InnerEnum fromString(String s) {
+        for (InnerEnum b : InnerEnum.values()) {
+            // using Objects.toString() to be safe if value type non-object type
+            // because types like 'int' etc. will be auto-boxed
+            if (java.util.Objects.toString(b.value).equals(s)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+	}
+	
     @JsonCreator
     public static InnerEnum fromValue(String value) {
         for (InnerEnum b : InnerEnum.values()) {
@@ -53,9 +70,9 @@ public enum InnerEnum {
     }
 }
 
-  private @Valid Map<String, InnerEnum> mapOfEnumString = new HashMap<String, InnerEnum>();
-  private @Valid Map<String, Boolean> directMap = new HashMap<String, Boolean>();
-  private @Valid Map<String, Boolean> indirectMap = new HashMap<String, Boolean>();
+  private @Valid Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private @Valid Map<String, Boolean> directMap = new HashMap<>();
+  private @Valid Map<String, Boolean> indirectMap = new HashMap<>();
 
   /**
    **/
@@ -65,16 +82,36 @@ public enum InnerEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
+
+  @JsonProperty("map_map_of_string")
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
-  /**
+  public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
+    if (this.mapMapOfString == null) {
+      this.mapMapOfString = new HashMap<>();
+    }
+
+    this.mapMapOfString.put(key, mapMapOfStringItem);
+    return this;
+  }
+
+  public MapTest removeMapMapOfStringItem(Map<String, String> mapMapOfStringItem) {
+    if (mapMapOfStringItem != null && this.mapMapOfString != null) {
+      this.mapMapOfString.remove(mapMapOfStringItem);
+    }
+
+    return this;
+  }
+/**
    **/
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
@@ -82,16 +119,36 @@ public enum InnerEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("map_of_enum_string")
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
+
+  @JsonProperty("map_of_enum_string")
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
-  /**
+  public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
+    if (this.mapOfEnumString == null) {
+      this.mapOfEnumString = new HashMap<>();
+    }
+
+    this.mapOfEnumString.put(key, mapOfEnumStringItem);
+    return this;
+  }
+
+  public MapTest removeMapOfEnumStringItem(InnerEnum mapOfEnumStringItem) {
+    if (mapOfEnumStringItem != null && this.mapOfEnumString != null) {
+      this.mapOfEnumString.remove(mapOfEnumStringItem);
+    }
+
+    return this;
+  }
+/**
    **/
   public MapTest directMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
@@ -99,16 +156,36 @@ public enum InnerEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("direct_map")
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
+
+  @JsonProperty("direct_map")
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
 
-  /**
+  public MapTest putDirectMapItem(String key, Boolean directMapItem) {
+    if (this.directMap == null) {
+      this.directMap = new HashMap<>();
+    }
+
+    this.directMap.put(key, directMapItem);
+    return this;
+  }
+
+  public MapTest removeDirectMapItem(Boolean directMapItem) {
+    if (directMapItem != null && this.directMap != null) {
+      this.directMap.remove(directMapItem);
+    }
+
+    return this;
+  }
+/**
    **/
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
@@ -116,18 +193,38 @@ public enum InnerEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("indirect_map")
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
+
+  @JsonProperty("indirect_map")
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 
+  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
+    if (this.indirectMap == null) {
+      this.indirectMap = new HashMap<>();
+    }
+
+    this.indirectMap.put(key, indirectMapItem);
+    return this;
+  }
+
+  public MapTest removeIndirectMapItem(Boolean indirectMapItem) {
+    if (indirectMapItem != null && this.indirectMap != null) {
+      this.indirectMap.remove(indirectMapItem);
+    }
+
+    return this;
+  }
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -163,11 +260,13 @@ public enum InnerEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

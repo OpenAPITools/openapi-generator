@@ -1,0 +1,86 @@
+package {{packageName}}.infrastructure
+
+{{#moshi}}
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.ToJson
+{{/moshi}}
+{{#gson}}
+import com.google.gson.TypeAdapter
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
+import com.google.gson.stream.JsonToken.NULL
+import java.io.IOException
+{{/gson}}
+{{#kotlinx_serialization}}
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.SerialDescriptor
+{{/kotlinx_serialization}}
+{{^threetenbp}}
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+{{/threetenbp}}
+{{#threetenbp}}
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.format.DateTimeFormatter
+{{/threetenbp}}
+
+{{#moshi}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}class OffsetDateTimeAdapter {
+    @ToJson
+    fun toJson(value: OffsetDateTime): String {
+        return DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(value)
+    }
+
+    @FromJson
+    fun fromJson(value: String): OffsetDateTime {
+        return OffsetDateTime.parse(value, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+    }
+
+}
+{{/moshi}}
+{{#gson}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}class OffsetDateTimeAdapter(private val formatter: DateTimeFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME) : TypeAdapter<OffsetDateTime>() {
+    @Throws(IOException::class)
+    override fun write(out: JsonWriter?, value: OffsetDateTime?) {
+        if (value == null) {
+            out?.nullValue()
+        } else {
+            out?.value(formatter.format(value))
+        }
+    }
+
+    @Throws(IOException::class)
+    override fun read(out: JsonReader?): OffsetDateTime? {
+        out ?: return null
+
+        when (out.peek()) {
+            NULL -> {
+                out.nextNull()
+                return null
+            }
+            else -> {
+                return OffsetDateTime.parse(out.nextString(), formatter)
+            }
+        }
+    }
+}
+{{/gson}}
+{{#kotlinx_serialization}}
+@Serializer(forClass = OffsetDateTime::class)
+object OffsetDateTimeAdapter : KSerializer<OffsetDateTime> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("OffsetDateTime", PrimitiveKind.STRING)
+
+    override fun serialize(encoder: Encoder, value: OffsetDateTime) {
+        encoder.encodeString(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(value))
+    }
+
+    override fun deserialize(decoder: Decoder): OffsetDateTime {
+        return OffsetDateTime.parse(decoder.decodeString(), DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+    }
+}
+{{/kotlinx_serialization}}

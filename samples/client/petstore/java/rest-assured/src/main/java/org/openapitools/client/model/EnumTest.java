@@ -24,11 +24,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.OuterEnum;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * EnumTest
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -242,6 +245,8 @@ public class EnumTest {
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
   private OuterEnum outerEnum;
 
+  public EnumTest() { 
+  }
 
   public EnumTest enumString(EnumStringEnum enumString) {
     
@@ -261,7 +266,6 @@ public class EnumTest {
   }
 
 
-
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
@@ -277,12 +281,13 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
+  @javax.annotation.Nonnull
+  @NotNull
   @ApiModelProperty(required = true, value = "")
 
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
-
 
 
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
@@ -308,7 +313,6 @@ public class EnumTest {
   }
 
 
-
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
@@ -332,7 +336,6 @@ public class EnumTest {
   }
 
 
-
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
@@ -349,12 +352,12 @@ public class EnumTest {
    * @return outerEnum
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
-
 
 
   public void setOuterEnum(OuterEnum outerEnum) {
@@ -363,7 +366,7 @@ public class EnumTest {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -383,7 +386,6 @@ public class EnumTest {
     return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -401,7 +403,7 @@ public class EnumTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

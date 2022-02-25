@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="../../../../custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -25,48 +25,45 @@ export interface Order {
      * @type {number}
      * @memberof Order
      */
-    id?: number;
+    'id'?: number;
     /**
      * 
      * @type {number}
      * @memberof Order
      */
-    petId?: number;
+    'petId'?: number;
     /**
      * 
      * @type {number}
      * @memberof Order
      */
-    quantity?: number;
+    'quantity'?: number;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof Order
      */
-    shipDate?: Date;
+    'shipDate'?: string;
     /**
      * Order Status
      * @type {string}
      * @memberof Order
      */
-    status?: OrderStatusEnum;
+    'status'?: OrderStatusEnum;
     /**
      * 
      * @type {boolean}
      * @memberof Order
      */
-    complete?: boolean;
+    'complete'?: boolean;
 }
 
-/**
-    * @export
-    * @enum {string}
-    */
-export enum OrderStatusEnum {
-    Placed = 'placed',
-    Approved = 'approved',
-    Delivered = 'delivered'
-}
+export const OrderStatusEnum = {
+    Placed: 'placed',
+    Approved: 'approved',
+    Delivered: 'delivered'
+} as const;
 
+export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
 

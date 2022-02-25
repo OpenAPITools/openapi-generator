@@ -1,5 +1,6 @@
 package org.openapitools.virtualan.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,14 +10,21 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * AdditionalPropertiesNumber
  */
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
+
   @JsonProperty("name")
   private String name;
 
@@ -29,9 +37,8 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
    * Get name
    * @return name
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getName() {
     return name;
   }
@@ -40,9 +47,8 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
     this.name = name;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -73,7 +79,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,17 +19,16 @@ package org.openapitools.codegen.languages.features;
 
 public interface SpringFeatures extends BeanValidationFeatures {
 
-    public static final String GENERATE_SPRING_APPLICATION = "generateSpringApplication";
+    String GENERATE_SPRING_APPLICATION = "generateSpringApplication";
 
-    public static final String GENERATE_SPRING_BOOT_APPLICATION = "generateSpringBootApplication";
+    String GENERATE_SPRING_BOOT_APPLICATION = "generateSpringBootApplication";
 
-    public static final String USE_SPRING_ANNOTATION_CONFIG = "useSpringAnnotationConfig";
+    String USE_SPRING_ANNOTATION_CONFIG = "useSpringAnnotationConfig";
 
-    public void setGenerateSpringApplication(boolean useGenerateSpringApplication);
+    void setGenerateSpringApplication(boolean useGenerateSpringApplication);
 
-    public void setGenerateSpringBootApplication(boolean generateSpringBootApplication);
+    void setGenerateSpringBootApplication(boolean generateSpringBootApplication);
 
-    public void setUseSpringAnnotationConfig(boolean useSpringAnnotationConfig);
-
+    void setUseSpringAnnotationConfig(boolean useSpringAnnotationConfig);
 
 }

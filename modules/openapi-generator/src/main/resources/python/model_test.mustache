@@ -1,16 +1,15 @@
-# coding: utf-8
-
 {{>partial_header}}
 
-from __future__ import absolute_import
-
+import sys
 import unittest
 
+import {{packageName}}
 {{#models}}
 {{#model}}
-import {{packageName}}
-from {{modelPackage}}.{{classFilename}} import {{classname}}  # noqa: E501
-from {{packageName}}.rest import ApiException
+{{#imports}}
+{{{.}}}
+{{/imports}}
+from {{modelPackage}}.{{classFilename}} import {{classname}}
 
 
 class Test{{classname}}(unittest.TestCase):
@@ -25,7 +24,7 @@ class Test{{classname}}(unittest.TestCase):
     def test{{classname}}(self):
         """Test {{classname}}"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = {{packageName}}.models.{{classFilename}}.{{classname}}()  # noqa: E501
+        # model = {{classname}}()  # noqa: E501
         pass
 
 {{/model}}

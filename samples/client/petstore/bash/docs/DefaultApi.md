@@ -15,7 +15,7 @@ Method | HTTP request | Description
 ### Example
 
 ```bash
- fooGet
+petstore-cli fooGet
 ```
 
 ### Parameters

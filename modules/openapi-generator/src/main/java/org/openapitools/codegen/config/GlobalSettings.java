@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,7 +25,7 @@ import java.util.Properties;
  *
  * This provides a set of properties specific to the executing thread, such that the generator may not modify system properties
  * consumed by other threads.
- * 
+ *
  * @author gndrm
  * @since 2018
  */
@@ -34,7 +34,10 @@ public class GlobalSettings {
     private static ThreadLocal<Properties> properties = new InheritableThreadLocal<Properties>() {
         @Override
         protected Properties initialValue() {
-            return (Properties) System.getProperties().clone();
+            // avoid using System.getProperties().clone() which is broken in Gradle - see https://github.com/gradle/gradle/issues/17344
+            Properties copy = new Properties();
+            copy.putAll(System.getProperties());
+            return copy;
         };
     };
 

@@ -18,10 +18,12 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * ReadOnlyFirst
@@ -30,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
   private String bar;
@@ -38,6 +40,16 @@ public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAZ = "baz";
   private String baz;
 
+  public ReadOnlyFirst() { 
+  }
+
+  @JsonCreator
+  public ReadOnlyFirst(
+    @JsonProperty(JSON_PROPERTY_BAR) String bar
+  ) {
+    this();
+    this.bar = bar;
+  }
 
    /**
    * Get bar
@@ -75,14 +87,15 @@ public class ReadOnlyFirst {
   }
 
 
-
+  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBaz(String baz) {
     this.baz = baz;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -99,7 +112,6 @@ public class ReadOnlyFirst {
     return Objects.hash(bar, baz);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -114,7 +126,7 @@ public class ReadOnlyFirst {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

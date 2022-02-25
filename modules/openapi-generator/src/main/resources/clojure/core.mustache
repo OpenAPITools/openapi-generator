@@ -8,8 +8,8 @@
            (java.text SimpleDateFormat)))
 
 (def auth-definitions
-  {<#authMethods>"<&name>" <#isBasic>{:type :basic}</isBasic><#isApiKey>{:type :api-key<#isKeyInHeader> :in :header</isKeyInHeader><#isKeyInQuery> :in :query</isKeyInQuery> :param-name "<&keyParamName>"}</isApiKey><#isOAuth>{:type :oauth2}</isOAuth><#hasMore>
-   </hasMore></authMethods>})
+  {<#authMethods>"<&name>" <#isBasic>{:type :basic}</isBasic><#isApiKey>{:type :api-key<#isKeyInHeader> :in :header</isKeyInHeader><#isKeyInQuery> :in :query</isKeyInQuery> :param-name "<&keyParamName>"}</isApiKey><#isOAuth>{:type :oauth2}</isOAuth><^-last>
+   </-last></authMethods>})
 
 (def default-api-context
   "Default API context."
@@ -18,8 +18,8 @@
    :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
    :decode-models   false
    :debug           false
-   :auths           {<#authMethods>"<&name>" nil<#hasMore>
-                     </hasMore></authMethods>}})
+   :auths           {<#authMethods>"<&name>" nil<^-last>
+                     </-last></authMethods>}})
 
 (def ^:dynamic *api-context*
   "Dynamic API context to be applied in API calls."
@@ -105,7 +105,7 @@
     :else (str param)))
 
 (defn auth->opts
-  "Process the given auth to an option map that might conatin request options and parameters."
+  "Process the given auth to an option map that might contain request options and parameters."
   [{:keys [type in param-name]} value]
   (case type
     :basic {:req-opts {:basic-auth value}}
@@ -126,7 +126,7 @@
     opts))
 
 (defn auths->opts
-  "Process the given auth names to an option map that might conatin request options and parameters."
+  "Process the given auth names to an option map that might contain request options and parameters."
   [auth-names]
   (reduce process-auth {} auth-names))
 
@@ -142,7 +142,7 @@
     (str (:base-url *api-context*) path)))
 
 (defn normalize-array-param
-  "Normalize array paramater according to :collection-format specified in the parameter's meta data.
+  "Normalize array parameter according to :collection-format specified in the parameter's meta data.
   When the parameter contains File, a seq is returned so as to keep File parameters.
   For :multi collection format, a seq is returned which will be handled properly by clj-http.
   For other cases, a string is returned."

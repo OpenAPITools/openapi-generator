@@ -1,0 +1,100 @@
+<#
+.SYNOPSIS
+
+{{{summary}}}{{^summary}}No summary available.{{/summary}}
+
+.DESCRIPTION
+
+{{{description}}}{{^description}}No description available.{{/description}}
+
+.PARAMETER Json
+
+JSON object
+
+.OUTPUTS
+
+{{{classname}}}<PSCustomObject>
+#>
+function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
+    [CmdletBinding()]
+    Param (
+        [AllowEmptyString()]
+        [string]$Json
+    )
+
+    Process {
+        $match = 0
+        $matchType = $null
+        $matchInstance = $null
+
+        {{#isNullable}}
+        # nullable check
+        if ([string]::IsNullOrEmpty($Json) -or $Json -eq "{}") {
+            return [PSCustomObject]@{
+                "ActualType" = $null
+                "ActualInstance" = $null
+                "AnyOfSchemas" = @({{#anyOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/anyOf}})
+            }
+        }
+
+        {{/isNullable}}
+        {{#discriminator}}
+        {{#mappedModels}}
+        {{#-first}}
+        $JsonData = ConvertFrom-Json -InputObject $Json
+        {{/-first}}
+        # check if the discriminator value is '{{{mappingName}}}'
+        if ($JsonData.PSobject.Properties["{{{propertyBaseName}}}"].value -eq "{{{mappingName}}}") {
+            # try to match {{{modelName}}} defined in the anyOf schemas
+            try {
+                $matchInstance = ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{modelName}}} $Json
+
+                foreach($property in $matchInstance.PsObject.Properties) {
+                    if ($null -ne $property.Value) {
+                        $matchType = "{{{modelName}}}"
+                        return [PSCustomObject]@{
+                            "ActualType" = ${matchType}
+                            "ActualInstance" = ${matchInstance}
+                            "anyOfSchemas" = @({{#anyOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/anyOf}})
+                        }
+                    }
+                }
+            } catch {
+                # fail to match the schema defined in anyOf with the discriminator lookup, proceed to the next one
+                Write-Debug "Failed to match '{{{modelName}}}' defined in anyOf ({{{apiNamePrefix}}}{{{classname}}}) using the discriminator lookup ({{{mappingName}}}). Proceeding with the typical anyOf type matching."
+            }
+        }
+
+        {{/mappedModels}}
+        {{/discriminator}}
+        {{#anyOf}}
+        if ($match -ne 0) { # no match yet
+            # try to match {{{.}}} defined in the anyOf schemas
+            try {
+                $matchInstance = ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{.}}} $Json
+
+                foreach($property in $matchInstance.PsObject.Properties) {
+                    if ($null -ne $property.Value) {
+                        $matchType = "{{{.}}}"
+                        $match++
+                        break
+                    }
+                }
+            } catch {
+                # fail to match the schema defined in anyOf, proceed to the next one
+                Write-Debug "Failed to match '{{{.}}}' defined in anyOf ({{{apiNamePrefix}}}{{{classname}}}). Proceeding to the next one if any."
+            }
+        }
+
+        {{/anyOf}}
+        if ($match -eq 1) {
+            return [PSCustomObject]@{
+                "ActualType" = ${matchType}
+                "ActualInstance" = ${matchInstance}
+                "anyOfSchemas" = @({{#anyOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/anyOf}})
+            }
+        } else {
+            throw "Error! The JSON payload doesn't matches any type defined in anyOf schemas ({{{anyOf}}}). JSON Payload: $($Json)"
+        }
+    }
+}

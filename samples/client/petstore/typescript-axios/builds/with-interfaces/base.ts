@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -16,7 +16,7 @@
 import { Configuration } from "./configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
+import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 
 export const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
 
@@ -38,7 +38,7 @@ export const COLLECTION_FORMATS = {
  */
 export interface RequestArgs {
     url: string;
-    options: any;
+    options: AxiosRequestConfig;
 }
 
 /**

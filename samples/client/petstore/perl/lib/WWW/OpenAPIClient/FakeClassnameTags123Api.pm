@@ -22,7 +22,7 @@ package WWW::OpenAPIClient::FakeClassnameTags123Api;
 require 5.6.0;
 use strict;
 use warnings;
-use utf8; 
+use utf8;
 use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
@@ -52,17 +52,17 @@ sub new {
 # test_classname
 #
 # To test class name in snake case
-# 
-# @param Client $body client model (required)
+#
+# @param Client $client client model (required)
 {
     my $params = {
-    'body' => {
+    'client' => {
         data_type => 'Client',
         description => 'client model',
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'test_classname' } = { 
+    __PACKAGE__->method_documentation->{ 'test_classname' } = {
         summary => 'To test class name in snake case',
         params => $params,
         returns => 'Client',
@@ -73,9 +73,9 @@ sub new {
 sub test_classname {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling test_classname");
+    # verify the required parameter 'client' is set
+    unless (exists $args{'client'}) {
+      croak("Missing the required parameter 'client' when calling test_classname");
     }
 
     # parse inputs
@@ -95,8 +95,8 @@ sub test_classname {
 
     my $_body_data;
     # body params
-    if ( exists $args{'body'}) {
-        $_body_data = $args{'body'};
+    if ( exists $args{'client'}) {
+        $_body_data = $args{'client'};
     }
 
     # authentication setting, if any

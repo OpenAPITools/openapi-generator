@@ -32,9 +32,10 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new StoreApi(Configuration.Default);
-            var orderId = orderId_example;  // string | ID of the order that needs to be deleted
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new StoreApi(config);
+            var orderId = "orderId_example";  // string | ID of the order that needs to be deleted
 
             try
             {
@@ -71,6 +72,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -101,13 +103,14 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
             // Configure API key authorization: api_key
-            Configuration.Default.AddApiKey("api_key", "YOUR_API_KEY");
+            config.AddApiKey("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.AddApiKeyPrefix("api_key", "Bearer");
+            // config.AddApiKeyPrefix("api_key", "Bearer");
 
-            var apiInstance = new StoreApi(Configuration.Default);
+            var apiInstance = new StoreApi(config);
 
             try
             {
@@ -142,6 +145,7 @@ This endpoint does not need any parameter.
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -171,9 +175,10 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new StoreApi(Configuration.Default);
-            var orderId = 789;  // long | ID of pet that needs to be fetched
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new StoreApi(config);
+            var orderId = 789L;  // long | ID of pet that needs to be fetched
 
             try
             {
@@ -211,6 +216,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -222,7 +228,7 @@ No authorization required
 
 <a name="placeorder"></a>
 # **PlaceOrder**
-> Order PlaceOrder (Order body)
+> Order PlaceOrder (Order order)
 
 Place an order for a pet
 
@@ -240,14 +246,15 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new StoreApi(Configuration.Default);
-            var body = new Order(); // Order | order placed for purchasing the pet
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new StoreApi(config);
+            var order = new Order(); // Order | order placed for purchasing the pet
 
             try
             {
                 // Place an order for a pet
-                Order result = apiInstance.PlaceOrder(body);
+                Order result = apiInstance.PlaceOrder(order);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -265,7 +272,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
@@ -277,8 +284,9 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

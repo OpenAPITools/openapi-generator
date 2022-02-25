@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.Name = name;
             }
-            
+
             // to ensure "photoUrls" is required (not null)
             if (photoUrls == null)
             {
@@ -98,13 +98,13 @@ namespace Org.OpenAPITools.Model
             {
                 this.PhotoUrls = photoUrls;
             }
-            
+
             this.Id = id;
             this.Category = category;
             this.Tags = tags;
             this.Status = status;
         }
-        
+
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
@@ -120,13 +120,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name="name", EmitDefaultValue=true)]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
-        [DataMember(Name="photoUrls", EmitDefaultValue=false)]
+        [DataMember(Name="photoUrls", EmitDefaultValue=true)]
         public List<string> PhotoUrls { get; set; }
 
         /// <summary>
@@ -153,14 +153,14 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -250,6 +250,8 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
+
+
             yield break;
         }
     }

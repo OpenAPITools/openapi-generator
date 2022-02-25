@@ -1,0 +1,30 @@
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_spec_property_naming',
+        '_path_to_item',
+        '_configuration',
+        '_visited_composed_classes',
+    ])
+
+{{> model_templates/method_init_shared }}
+
+{{#isEnum}}
+        self.value = value
+{{/isEnum}}
+{{#requiredVars}}
+{{^isReadOnly}}
+        self.{{name}} = {{name}}
+{{/isReadOnly}}
+{{/requiredVars}}
+        for var_name, var_value in kwargs.items():
+            if var_name not in self.attribute_map and \
+                        self._configuration is not None and \
+                        self._configuration.discard_unknown_keys and \
+                        self.additional_properties_type is None:
+                # discard variable.
+                continue
+            setattr(self, var_name, var_value)
+            if var_name in self.read_only_vars:
+                raise ApiAttributeError(f"`{var_name}` is a read-only attribute. Use `from_openapi_data` to instantiate "
+                                     f"class with read only attributes.")

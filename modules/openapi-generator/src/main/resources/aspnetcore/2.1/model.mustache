@@ -17,27 +17,41 @@ namespace {{modelPackage}}
     /// {{description}}
     /// </summary>
     [DataContract]
-    public {{#modelClassModifier}}{{modelClassModifier}} {{/modelClassModifier}}class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>
-    { {{#vars}}{{#isEnum}}{{^isModel}}{{>enumClass}}{{/isModel}}{{/isEnum}}{{#items.isEnum}}{{^isModel}}{{#items}}{{>enumClass}}{{/items}}{{/isModel}}{{/items.isEnum}}
+    public {{#modelClassModifier}}{{.}} {{/modelClassModifier}}class {{classname}} : {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>
+    {
+        {{#vars}}
+        {{#items.isEnum}}
+        {{#items}}
+        {{^complexType}}
+{{>enumClass}}
+        {{/complexType}}
+        {{/items}}
+        {{/items.isEnum}}
+        {{#isEnum}}
+        {{^complexType}}
+{{>enumClass}}
+        {{/complexType}}
+        {{/isEnum}}
         /// <summary>
-        /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
         /// </summary>{{#description}}
-        /// <value>{{description}}</value>{{/description}}{{#required}}
+        /// <value>{{.}}</value>{{/description}}{{#required}}
         [Required]{{/required}}{{#pattern}}
-        [RegularExpression("{{{pattern}}}")]{{/pattern}}{{#minLength}}{{#maxLength}}
+        [RegularExpression("{{{.}}}")]{{/pattern}}{{#minLength}}{{#maxLength}}
         [StringLength({{maxLength}}, MinimumLength={{minLength}})]{{/maxLength}}{{/minLength}}{{#minLength}}{{^maxLength}}
         [MinLength({{minLength}})]{{/maxLength}}{{/minLength}}{{^minLength}}{{#maxLength}}
-        [MaxLength({{maxLength}})]{{/maxLength}}{{/minLength}}{{#minimum}}{{#maximum}}
+        [MaxLength({{.}})]{{/maxLength}}{{/minLength}}{{#minimum}}{{#maximum}}
         [Range({{minimum}}, {{maximum}})]{{/maximum}}{{/minimum}}
         [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}})]
         {{#isEnum}}
-        public {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{name}} { get; set; }{{#defaultValue}} = {{{defaultValue}}};{{/defaultValue}}
+        public {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
         {{^isEnum}}
-        public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }{{#defaultValue}} = {{{defaultValue}}};{{/defaultValue}}
+        public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
-        {{#hasMore}}
-        {{/hasMore}}
+        {{^-last}}
+
+        {{/-last}}
         {{/vars}}
 
         /// <summary>
@@ -59,9 +73,9 @@ namespace {{modelPackage}}
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public {{#parent}}{{^isMapModel}}{{^isArrayModel}}new {{/isArrayModel}}{{/isMapModel}}{{/parent}}string ToJson()
+        public {{#parent}}{{^isMap}}{{^isArray}}new {{/isArray}}{{/isMap}}{{/parent}}string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -89,15 +103,15 @@ namespace {{modelPackage}}
             return {{#vars}}{{^isContainer}}
                 (
                     {{name}} == other.{{name}} ||
-                    {{^vendorExtensions.isValueType}}{{name}} != null &&{{/vendorExtensions.isValueType}}
+                    {{^vendorExtensions.x-is-value-type}}{{name}} != null &&{{/vendorExtensions.x-is-value-type}}
                     {{name}}.Equals(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{#isContainer}}
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{#isContainer}}
                 (
                     {{name}} == other.{{name}} ||
-                    {{^vendorExtensions.isValueType}}{{name}} != null &&
+                    {{^vendorExtensions.x-is-value-type}}{{name}} != null &&
                     other.{{name}} != null &&
-                    {{/vendorExtensions.isValueType}}{{name}}.SequenceEqual(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
+                    {{/vendorExtensions.x-is-value-type}}{{name}}.SequenceEqual(other.{{name}})
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
         }
 
         /// <summary>
@@ -111,7 +125,7 @@ namespace {{modelPackage}}
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
                 {{#vars}}
-                    {{^vendorExtensions.isValueType}}if ({{name}} != null){{/vendorExtensions.isValueType}}
+                    {{^vendorExtensions.x-is-value-type}}if ({{name}} != null){{/vendorExtensions.x-is-value-type}}
                     hashCode = hashCode * 59 + {{name}}.GetHashCode();
                 {{/vars}}
                 return hashCode;

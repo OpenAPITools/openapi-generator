@@ -18,6 +18,11 @@ class DateTimeSerializerTest extends TestCase
         $data = ObjectSerializer::sanitizeForSerialization($input);
 
         $this->assertEquals($data->dateTime, '1973-04-30T17:05:00+02:00');
+
+        ObjectSerializer::setDateTimeFormat(\DateTime::RFC3339_EXTENDED);
+        $dataFraction = ObjectSerializer::sanitizeForSerialization($input);
+        $this->assertEquals($dataFraction->dateTime, '1973-04-30T17:05:00.000+02:00');
+        ObjectSerializer::setDateTimeFormat(\DateTime::ATOM);
     }
 
     public function testDateSanitazion()

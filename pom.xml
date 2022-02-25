@@ -3,6 +3,7 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>5</version>
+        <relativePath/><!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
@@ -10,7 +11,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>4.1.2-SNAPSHOT</version>
+    <version>6.0.0-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -54,6 +55,11 @@
             <name>Sunn</name>
             <email>sunn.ssb@live.com</email>
         </developer>
+        <developer>
+            <id>spacether</id>
+            <name>Justin Black</name>
+            <email>justin.a.black@gmail.com</email>
+        </developer>
     </developers>
     <issueManagement>
         <system>github</system>
@@ -72,7 +78,7 @@
     <licenses>
         <license>
             <name>Apache License 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.html</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -83,17 +89,17 @@
             <extension>
                 <groupId>org.jvnet.wagon-svn</groupId>
                 <artifactId>wagon-svn</artifactId>
-                <version>1.8</version>
+                <version>${wagon-svn.version}</version>
             </extension>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-ssh-external</artifactId>
-                <version>1.0-alpha-6</version>
+                <version>${wagon-ssh-external.version}</version>
             </extension>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-webdav</artifactId>
-                <version>1.0-beta-1</version>
+                <version>${wagon-webdav.version}</version>
             </extension>
         </extensions>
         <defaultGoal>install</defaultGoal>
@@ -101,74 +107,95 @@
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
-                <groupId>net.revelc.code</groupId>
-                <artifactId>formatter-maven-plugin</artifactId>
-                <!-- Uncomment this to format before checkstyle -->
-                <!-- <executions>
-                    <execution>
-                        <id>format</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-                    </execution>
-                </executions> -->
-                <configuration>
-                    <compilerSource>1.8</compilerSource>
-                    <compilerCompliance>1.8</compilerCompliance>
-                    <compilerTargetPlatform>1.8</compilerTargetPlatform>
-                    <lineEnding>LF</lineEnding>
-                </configuration>
-            </plugin>
-            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.17</version>
+                <version>${checkstyle.plugin.version}</version>
+                <configuration>
+                    <consoleOutput>false</consoleOutput>
+                    <failsOnError>false</failsOnError>
+                    <excludes>**/samples/*.java</excludes>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <configuration>
-                            <configLocation>google_checkstyle.xml</configLocation>
-                            Don't include generated sources a la http://stackoverflow.com/a/30406454
-                            <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-                            <encoding>UTF-8</encoding>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnError>true</failsOnError>
-                            <linkXRef>false</linkXRef>
-                        </configuration>
+                        <id>checkstyle-check</id>
                         <goals>
                             <goal>check</goal>
                         </goals>
+                        <phase>verify</phase>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.puppycrawl.tools</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>6.19</version>
-                    </dependency>
-                </dependencies>
-            </plugin>-->
+            </plugin>
+            <!-- https://www.jacoco.org/jacoco/trunk/doc/maven.html -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-site</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <element>PACKAGE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>**/gradle-wrapper.jar</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire-version}</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <printSummary>true</printSummary>
+                    <parallel>classes</parallel>
+                    <threadCountClasses>3</threadCountClasses>
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <junitArtifactName>none:none</junitArtifactName>
                     <testNGArtifactName>org.testng:testng</testNGArtifactName>
-                    <argLine>-XX:+StartAttachListener</argLine>
-                    <argLine>-javaagent:"${settings.localRepository}/org/jmockit/jmockit/${jmockit-version}/jmockit-${jmockit-version}.jar"</argLine>
+                    <argLine>@{argLine} -XX:+StartAttachListener</argLine>
+                    <systemPropertyVariables>
+                        <org.openapitools.codegen.utils.oncelogger.expiry>1000</org.openapitools.codegen.utils.oncelogger.expiry>
+                        <org.openapitools.codegen.utils.oncelogger.cachesize>5000</org.openapitools.codegen.utils.oncelogger.cachesize>
+                    </systemPropertyVariables>
                 </configuration>
                 <dependencies>
-                    <!-- Required to be set so it can be downloaded for surefire plugin -->
                     <dependency>
-                        <groupId>org.jmockit</groupId>
-                        <artifactId>jmockit</artifactId>
-                        <version>${jmockit-version}</version>
-                        <scope>compile</scope>
+                        <!--  must be on the classpath for test instrumentation  -->
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>org.jacoco.agent</artifactId>
+                        <classifier>runtime</classifier>
+                        <version>${jacoco.version}</version>
+                        <scope>runtime</scope>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -188,16 +215,16 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.source}</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${maven-jar-plugin.version}</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
@@ -212,20 +239,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.7.1</version>
+                <version>${maven-site-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
+                <version>${maven-release-plugin.version}</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
-                    <source>1.8</source>
+                    <source>${maven.compiler.source}</source>
                     <encoding>UTF-8</encoding>
                     <maxmemory>1g</maxmemory>
                     <failOnWarnings>true</failOnWarnings>
@@ -266,6 +293,9 @@
                         </goals>
                         <configuration>
                             <rules>
+                                <requireJavaVersion>
+                                  <version>1.8.0</version>
+                                </requireJavaVersion>
                                 <requireMavenVersion>
                                     <version>3.2.5</version>
                                 </requireMavenVersion>
@@ -312,9 +342,62 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>net.revelc.code</groupId>
-                    <artifactId>formatter-maven-plugin</artifactId>
-                    <version>0.5.2</version>
+                    <groupId>se.bjurr.violations</groupId>
+                    <artifactId>violations-maven-plugin</artifactId>
+                    <version>${violations-maven-plugin.version}</version>
+                    <configuration>
+                        <maxViolations>0</maxViolations>
+                        <detailLevel>VERBOSE</detailLevel>
+                        <minSeverity>ERROR</minSeverity>
+                        <violations>
+                            <violation>
+                                <parser>FINDBUGS</parser>
+                                <reporter>Spotbugs</reporter>
+                                <folder>${project.basedir}</folder>
+                                <pattern>.*/spotbugsXml\.xml$</pattern>
+                            </violation>
+                            <violation>
+                                <parser>PMD</parser>
+                                <reporter>PMD</reporter>
+                                <folder>${project.basedir}</folder>
+                                <pattern>.*/pmd\.xml$</pattern>
+                            </violation>
+                            <violation>
+                                <parser>CHECKSTYLE</parser>
+                                <reporter>Checkstyle</reporter>
+                                <folder>${project.basedir}</folder>
+                                <pattern>.*/checkstyle-result\.xml$</pattern>
+                            </violation>
+                        </violations>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>violations</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>${spotbugs-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-pmd-plugin</artifactId>
+                    <version>${pmd-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${checkstyle.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>pl.project13.maven</groupId>
+                    <artifactId>git-commit-id-plugin</artifactId>
+                    <version>${git-commit-id-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -355,47 +438,6 @@
         </profile>
 
         <profile>
-            <id>release-profile</id>
-            <properties>
-                <skipTests>true</skipTests>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>net.alchim31.maven</groupId>
-                        <artifactId>scala-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>compile</goal>
-                                    <goal>testCompile</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration/>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>add-source</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>add-source</goal>
-                                </goals>
-                                <configuration>
-                                    <sources>
-                                        <source>src/main/scala</source>
-                                    </sources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
             <id>release-sign-artifacts</id>
             <activation>
                 <property>
@@ -420,6 +462,73 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <!-- CI related -->
+        <profile>
+            <!-- This profile will run much more in-depth static analysis checks. -->
+            <id>static-analysis</id>
+            <properties>
+                <skipTests>true</skipTests>
+                <maven.javadoc.skip>true</maven.javadoc.skip>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <version>${spotbugs-plugin.version}</version>
+                        <configuration>
+                            <failOnError>false</failOnError>
+                            <!-- https://spotbugs.readthedocs.io/en/stable/effort.html -->
+                            <effort>min</effort>
+                            <excludeFilterFile>${project.basedir}${file.separator}spotbugs-exclude.xml</excludeFilterFile>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>spotbugs-check</id>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <phase>verify</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                        <version>${pmd-plugin.version}</version>
+                        <configuration>
+                            <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                            <failOnViolation>false</failOnViolation>
+                            <printFailingErrors>false</printFailingErrors>
+                            <rulesets>
+                                <ruleset>category/java/errorprone.xml</ruleset>
+                            </rulesets>
+                            <excludes>
+                                <exclude>**/samples/**/*</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>pmd-check</id>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <phase>verify</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <version>${spotbugs-plugin.version}</version>
+                    </plugin>
+                </plugins>
+            </reporting>
         </profile>
         <!-- Samples -->
         <profile>
@@ -495,7 +604,7 @@
             </modules>
         </profile>
         <profile>
-            <id>java-client-jersey2</id>
+            <id>java-client-jersey2-java8</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -503,11 +612,11 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/jersey2</module>
+                <module>samples/client/petstore/java/jersey2-java8</module>
             </modules>
         </profile>
         <profile>
-            <id>java-client-jersey2-java6</id>
+            <id>java-client-openapi3-jersey2-java8</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -515,7 +624,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/jersey2-java6</module>
+                <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
             </modules>
         </profile>
         <profile>
@@ -540,18 +649,6 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/java/okhttp-gson-parcelableModel</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>java-client-retrofit</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/java/retrofit</module>
             </modules>
         </profile>
         <profile>
@@ -591,18 +688,6 @@
             </modules>
         </profile>
         <profile>
-            <id>javascript-client</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>javascript</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/javascript</module>
-            </modules>
-        </profile>
-        <profile>
             <id>javascript-client-es6</id>
             <activation>
                 <property>
@@ -612,18 +697,6 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/javascript-es6</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>javascript-client-promise</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>javascript</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/javascript-promise</module>
             </modules>
         </profile>
         <profile>
@@ -648,6 +721,30 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/scala-httpclient</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>java-micronaut-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java-micronaut-client</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>java-micronaut-server</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/java-micronaut-server</module>
             </modules>
         </profile>
         <profile>
@@ -796,6 +893,42 @@
             </modules>
         </profile>
         <profile>
+            <id>typescript-client-tests-default</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/typescript/tests/default</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>typescript-client-tests-deno</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/typescript/tests/deno</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>typescript-client-tests-jquery</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/typescript/tests/jquery</module>
+            </modules>
+        </profile>
+        <profile>
             <id>typescript-fetch-client-tests-default</id>
             <activation>
                 <property>
@@ -856,18 +989,6 @@
             </modules>
         </profile>
         <profile>
-            <id>typescript-angularjs-client</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/typescript-angularjs</module>
-            </modules>
-        </profile>
-        <profile>
             <id>typescript-node-npm-client</id>
             <activation>
                 <property>
@@ -891,7 +1012,6 @@
                 <module>samples/client/petstore/python</module>
             </modules>
         </profile>
-        <!--
         <profile>
             <id>ruby-client</id>
             <activation>
@@ -904,7 +1024,6 @@
                 <module>samples/client/petstore/ruby</module>
             </modules>
         </profile>
-        -->
         <profile>
             <id>go-client</id>
             <activation>
@@ -915,18 +1034,6 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/go</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>spring-mvc</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/server/petstore/spring-mvc</module>
             </modules>
         </profile>
         <profile>
@@ -978,30 +1085,6 @@
             </modules>
         </profile>
         <profile>
-            <id>spring-cloud</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/spring-cloud</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>scalatra-server</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/server/petstore/scalatra</module>
-            </modules>
-        </profile>
-        <profile>
             <id>java-inflector</id>
             <activation>
                 <property>
@@ -1034,49 +1117,37 @@
                 </property>
             </activation>
             <modules>
+                <!-- TODO: move to github action or circleci
+                <module>samples/client/petstore/crystal</module>-->
+                <!-- servers -->
+                <module>samples/server/petstore/python-aiohttp</module>
+                <module>samples/server/petstore/python-aiohttp-srclayout</module>
+                <module>samples/server/petstore/python-fastapi</module>
+                <module>samples/server/petstore/python-flask</module>
+                <!-- TODO: will move these to Github action
+                <module>samples/server/petstore/php-slim4</module>
+                <module>samples/server/petstore/php-laravel</module>
+                <module>samples/server/petstore/php-lumen</module>-->
+                <module>samples/server/petstore/rust-server</module>
                 <!-- clients -->
+                <!--<module>samples/client/petstore/perl</module>
+                <module>samples/client/petstore/bash</module>-->
+                <module>samples/client/petstore/ruby-faraday</module>
+                <module>samples/client/petstore/ruby</module>
+                <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
-                <!-- <module>samples/client/petstore/cpp-qt5</module> -->
-                <module>samples/client/petstore/elm-0.18</module>
+                -->
+                <module>samples/client/petstore/cpp-qt</module>
                 <module>samples/client/petstore/rust</module>
-                <module>samples/client/petstore/rust-reqwest</module>
-                <!--<module>samples/client/petstore/perl</module>-->
-                <module>samples/client/petstore/php/OpenAPIClient-php</module>
-                <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
-                <module>samples/server/petstore/php-slim</module>
-                <module>samples/client/petstore/javascript</module>
-                <module>samples/client/petstore/javascript-es6</module>
-                <module>samples/openapi3/client/petstore/javascript-es6</module>
-                <module>samples/client/petstore/javascript-promise</module>
-                <module>samples/client/petstore/javascript-promise-es6</module>
-                <module>samples/client/petstore/javascript-flowtyped</module>
-                <module>samples/client/petstore/python</module>
-                <module>samples/client/petstore/python-experimental</module>
+                <module>samples/client/petstore/rust/reqwest/petstore</module>
+                <module>samples/client/petstore/rust/reqwest/petstore-async</module>
+                <!-- commented out due to php ^7.3 || ^8.0 not in travis
+                <module>samples/client/petstore/php/OpenAPIClient-php</module> -->
+                <!--<module>samples/client/petstore/javascript-apollo</module>-->
+                <module>samples/client/petstore/python-legacy</module>
                 <module>samples/client/petstore/python-asyncio</module>
                 <module>samples/client/petstore/python-tornado</module>
-                <module>samples/openapi3/client/petstore/python</module>
-                <module>samples/client/petstore/typescript-fetch/builds/default</module>
-                <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
-                <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
-                <module>samples/client/petstore/typescript-fetch/tests/default</module>
-                <!-- comment out due to CI failure, e.g. https://travis-ci.org/OpenAPITools/openapi-generator/builds/574865730
-                <module>samples/client/petstore/typescript-axios/tests/default</module>-->
-                <module>samples/client/petstore/typescript-node/npm</module>
-                <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
-                <!-- comment out due to github rate limit error
-                <module>samples/client/petstore/typescript-angularjs</module>-->
-                <!-- comment out due to error `npm run build`
-                <module>samples/client/petstore/typescript-jquery/npm</module>-->
-                <!--<module>samples/client/petstore/typescript-angular-v2/npm</module>-->
-                <module>samples/client/petstore/typescript-angular-v4/npm</module>
-                <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
-                <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
-                <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
-                <!--<module>samples/client/petstore/bash</module>-->
-                <module>samples/server/petstore/rust-server</module>
-                <module>samples/server/petstore/python-aiohttp</module>
-                <module>samples/server/petstore/python-flask</module>
-                <module>samples/server/petstore/python-flask-python2</module>
+                <module>samples/openapi3/client/petstore/python-legacy</module>
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1089,143 +1160,105 @@
                 </property>
             </activation>
             <modules>
-                <!-- clients -->
-                <!-- test non-java projects -->
-                <module>samples/client/petstore/go</module>
-                <module>samples/client/petstore/go-experimental</module>
-                <!-- test java-related projects -->
-                <!--<module>samples/client/petstore/scala-akka</module>-->
-                <module>samples/client/petstore/scala-httpclient</module>
-                <module>samples/client/petstore/scalaz</module>
-                <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/java/feign</module>
-                <module>samples/client/petstore/java/feign10x</module>
-                <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2</module>
-                <module>samples/client/petstore/java/jersey2-java8</module>
-                <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit</module>
-                <module>samples/client/petstore/java/retrofit2</module>
-                <module>samples/client/petstore/java/retrofit2rx</module>
-                <module>samples/client/petstore/java/retrofit2-play25</module>
-                <module>samples/client/petstore/java/retrofit2-play26</module>
-                <module>samples/client/petstore/jaxrs-cxf-client</module>
-                <module>samples/client/petstore/java/resttemplate</module>
-                <module>samples/client/petstore/java/resttemplate-withXml</module>
-                <module>samples/client/petstore/java/webclient</module>
-                <module>samples/client/petstore/java/vertx</module>
-                <module>samples/client/petstore/java/resteasy</module>
-                <module>samples/client/petstore/java/google-api-client</module>
-                <module>samples/client/petstore/java/rest-assured</module>
-                <module>samples/client/petstore/groovy</module>
                 <!-- servers -->
-                <module>samples/server/petstore/jaxrs-jersey</module>
-                <module>samples/server/petstore/jaxrs-spec</module>
-                <module>samples/server/petstore/jaxrs-spec-interface</module>
-                <module>samples/server/petstore/jaxrs-spec-interface-response</module>
-                <module>samples/server/petstore/java-vertx/rx</module>
-                <module>samples/server/petstore/java-vertx/async</module>
+                <module>samples/server/petstore/java-camel</module>
+                <module>samples/server/petstore/java-vertx-web</module>
                 <module>samples/server/petstore/java-inflector</module>
                 <module>samples/server/petstore/java-pkmst</module>
-                <module>samples/server/petstore/java-play-framework</module>
-                <module>samples/server/petstore/java-play-framework-no-wrap-calls</module>
-                <module>samples/server/petstore/java-play-framework-no-swagger-ui</module>
-                <module>samples/server/petstore/java-play-framework-no-interface</module>
-                <module>samples/server/petstore/java-play-framework-no-exception-handling</module>
-                <module>samples/server/petstore/java-play-framework-no-bean-validation</module>
-                <module>samples/server/petstore/java-play-framework-fake-endpoints</module>
-                <module>samples/server/petstore/java-play-framework-controller-only</module>
-                <module>samples/server/petstore/java-play-framework-api-package-override</module>
                 <module>samples/server/petstore/java-undertow</module>
-                <module>samples/server/petstore/jaxrs/jersey1</module>
-                <module>samples/server/petstore/jaxrs/jersey1-useTags</module>
-                <!-- move to other CI as the following fails often in CircleCI
-                <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs/jersey2-useTags</module> -->
-                <module>samples/server/petstore/jaxrs-datelib-j8</module>
-                <module>samples/server/petstore/jaxrs-resteasy/default</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
-                <module>samples/server/petstore/jaxrs-resteasy/joda</module>
-                <!--<module>samples/server/petstore/kotlin-server/ktor</module>-->
-                <!-- move to other CI as the following fails often in CircleCI
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>-->
-                <module>samples/client/petstore/spring-cloud</module>
-                <module>samples/server/petstore/springboot</module>
-                <module>samples/server/petstore/springboot-beanvalidation</module>
-                <module>samples/server/petstore/springboot-useoptional</module>
-                <module>samples/server/petstore/jaxrs-cxf</module>
-                <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
-                <module>samples/server/petstore/jaxrs-cxf-cdi</module>
-                <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
-                <module>samples/server/petstore/java-msf4j</module>
-                <module>samples/server/petstore/scala-lagom-server</module>
-                <module>samples/server/petstore/scala-play-server</module>
-                <module>samples/server/petstore/scalatra</module>
-                <module>samples/server/petstore/scala-finch</module>
-                <module>samples/server/petstore/kotlin-springboot</module>
             </modules>
         </profile>
-        <!-- test with JDK7 in CircleCI -->
         <profile>
-            <id>samples.circleci.jdk7</id>
+            <id>samples.circleci.spring</id>
             <activation>
                 <property>
                     <name>env</name>
-                    <value>samples.circleci.jdk7</value>
+                    <value>samples.circleci.spring</value>
                 </property>
             </activation>
             <modules>
                 <!-- clients -->
-                <module>samples/openapi3/client/petstore/ruby</module>
-                <!-- test java-related projects -->
-                <!--<module>samples/client/petstore/scala-akka</module>-->
-                <module>samples/client/petstore/scala-httpclient</module>
-                <module>samples/client/petstore/scalaz</module>
-                <module>samples/client/petstore/java/feign</module>
-                <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2</module>
-                <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit</module>
-                <module>samples/client/petstore/java/retrofit2</module>
-                <module>samples/client/petstore/java/retrofit2rx</module>
-                <module>samples/client/petstore/jaxrs-cxf-client</module>
-                <module>samples/client/petstore/java/resttemplate</module>
-                <module>samples/client/petstore/java/resttemplate-withXml</module>
-                <module>samples/client/petstore/java/vertx</module>
-                <module>samples/client/petstore/java/resteasy</module>
-                <module>samples/client/petstore/java/google-api-client</module>
-                <!-- servers -->
-                <module>samples/server/petstore/jaxrs-jersey</module>
-                <module>samples/server/petstore/jaxrs-spec</module>
-                <module>samples/server/petstore/jaxrs-spec-interface</module>
-                <module>samples/server/petstore/jaxrs-spec-interface-response</module>
-                <module>samples/server/petstore/java-vertx/rx</module>
-                <module>samples/server/petstore/java-vertx/async</module>
-                <module>samples/server/petstore/java-inflector</module>
-                <module>samples/server/petstore/java-undertow</module>
-                <module>samples/server/petstore/jaxrs/jersey1</module>
-                <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs/jersey1-useTags</module>
-                <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
-                <module>samples/server/petstore/jaxrs-resteasy/default</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
-                <module>samples/server/petstore/jaxrs-resteasy/joda</module>
-                <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/client/petstore/spring-cloud</module>
-                <module>samples/server/petstore/springboot</module>
-                <module>samples/server/petstore/springboot-beanvalidation</module>
-                <module>samples/server/petstore/springboot-useoptional</module>
-                <module>samples/server/petstore/jaxrs-cxf</module>
-                <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
-                <module>samples/server/petstore/jaxrs-cxf-cdi</module>
-                <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
-                <module>samples/server/petstore/java-msf4j</module>
+            </modules>
+        </profile>
+        <!-- node 3 tests in CircleCI -->
+        <profile>
+            <id>samples.circleci.node3</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.circleci.node3</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- clients -->
+                <module>samples/client/petstore/python</module>
+                <module>samples/client/petstore/python_disallowAdditionalPropertiesIfNotPresent</module>
+                <!--<module>samples/openapi3/client/petstore/python-legacy</module>-->
+                <!-- TODO comment out below when the test for typescript-nestjs is ready
+                <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
+                <!-- comment out due to error `npm run build`
+                <module>samples/client/petstore/typescript-jquery/npm</module>-->
+                <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
+                <module>samples/client/petstore/typescript-angular-v11-provided-in-root</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/default</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/default</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/jquery</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/jquery</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/object_params</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/object_params</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/inversify</module>
+                <!-- comment out due to failure in travis ci
+                <module>samples/openapi3/client/petstore/typescript/tests/inversify</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/deno</module>-->
+                <module>samples/client/petstore/typescript-fetch/builds/default</module>
+                <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
+                <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
+                <module>samples/client/petstore/typescript-fetch/tests/default</module>
+                <module>samples/client/petstore/typescript-node/npm</module>
+                <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
+                <module>samples/client/petstore/typescript-axios/builds/with-npm-version</module>
+                <module>samples/client/petstore/typescript-axios/tests/default</module>
+                <module>samples/client/petstore/javascript-flowtyped</module>
+                <module>samples/client/petstore/javascript-es6</module>
+                <module>samples/client/petstore/javascript-promise-es6</module>
+            </modules>
+        </profile>
+        <!-- node 4 tests in CircleCI -->
+        <profile>
+            <id>samples.circleci.node4</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.circleci.node4</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- python clients which don't need the server running -->
+                <module>samples/openapi3/client/petstore/python</module>
+                <module>samples/openapi3/client/petstore/python-experimental</module>
+            </modules>
+        </profile>
+        <!-- other tests in CircleCI -->
+        <profile>
+            <id>samples.circleci.others</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.circleci.others</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- clients -->
+                <!-- test java-related projects -->
+                <module>samples/client/petstore/scala-akka</module>
+                <module>samples/client/petstore/scala-sttp</module>
+                <module>samples/client/petstore/scala-httpclient</module>
+                <module>samples/client/petstore/clojure</module>
+                <module>samples/client/petstore/java/jersey2-java8</module>
+                <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
+                <module>samples/client/others/java/okhttp-gson-streaming</module>
+                <module>samples/client/petstore/java/okhttp-gson</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->
@@ -1239,34 +1272,11 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <module>samples/client/petstore/elm</module>
-                <module>samples/client/petstore/elixir</module>
+                <module>samples/openapi3/client/elm</module>
+                <!--<module>samples/client/petstore/elixir</module>-->
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
-                <module>samples/client/petstore/kotlin/</module>
-                <module>samples/client/petstore/kotlin-threetenbp/</module>
-                <module>samples/client/petstore/kotlin-string/</module>
-                <!-- servers -->
-                <module>samples/server/petstore/erlang-server</module>
-                <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
-            </modules>
-        </profile>
-        <!-- test with JDK11 in drone.io -->
-        <profile>
-            <id>samples.droneio</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>samples.droneio</value>
-                </property>
-            </activation>
-            <modules>
-                <!-- clients -->
-                <module>samples/client/petstore/java/native</module>
+                <!--<module>samples/server/petstore/erlang-server</module>-->
             </modules>
         </profile>
         <!-- test with Haskell -->
@@ -1284,6 +1294,38 @@
                 <!--<module>samples/client/petstore/haskell-http-client</module>-->
                 <!-- servers -->
                 <!--<module>samples/server/petstore/haskell-servant</module>-->
+                <!-- test Go projects -->
+                <module>samples/client/petstore/go</module>
+                <module>samples/openapi3/client/petstore/go</module>
+                <module>samples/server/petstore/go-api-server</module>
+                <module>samples/server/petstore/go-gin-api-server</module>
+                <module>samples/server/petstore/go-echo-server</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>samples.dart-2.13</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.dart-2.13</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>samples.dart-2.10</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.dart-2.10</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
             </modules>
         </profile>
         <profile>
@@ -1295,6 +1337,29 @@
                 </property>
             </activation>
             <modules>
+                <!-- swift 5 samples -->
+                <module>samples/client/petstore/swift5/alamofireLibrary</module>
+                <module>samples/client/petstore/swift5/combineLibrary</module>
+                <module>samples/client/petstore/swift5/default</module>
+                <module>samples/client/petstore/swift5/deprecated</module>
+                <module>samples/client/petstore/swift5/frozenEnums</module>
+                <module>samples/client/petstore/swift5/nonPublicApi</module>
+                <module>samples/client/petstore/swift5/objcCompatible</module>
+                <module>samples/client/petstore/swift5/promisekitLibrary</module>
+                <module>samples/client/petstore/swift5/readonlyProperties</module>
+                <module>samples/client/petstore/swift5/resultLibrary</module>
+                <module>samples/client/petstore/swift5/rxswiftLibrary</module>
+                <module>samples/client/petstore/swift5/urlsessionLibrary</module>
+                <!-- swift 5 tests -->
+                <!-- temporarily comment them because they are flaky
+                <module>samples/client/petstore/swift5/alamofireLibrary/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/combineLibrary/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/default/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/promisekitLibrary/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/rxswiftLibrary/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/urlsessionLibrary/SwaggerClientTests</module>
+                -->
+                <!-- swift 1.x, 3.x, 4.x client generators have been deprecated
                 <module>samples/client/petstore/swift4/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/rxswift/SwaggerClientTests</module>
@@ -1303,40 +1368,37 @@
                 <module>samples/client/petstore/swift3/rxswift/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift/promisekit/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift/rxswift/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift/rxswift/SwaggerClientTests</module>-->
                 <!-- comment out objc tests as it's timing out
                 <module>samples/client/petstore/objc/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/objc/core-data/SwaggerClientTests</module>-->
             </modules>
         </profile>
         <profile>
-            <id>samples.bash</id>
+            <id>openapi-generator</id>
             <activation>
+                <activeByDefault>true</activeByDefault>
                 <property>
-                    <name>env</name>
-                    <value>samples.bash</value>
+                    <name>!integration-test</name>
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/bash</module>
+                <module>modules/openapi-generator-core</module>
+                <module>modules/openapi-generator</module>
+                <module>modules/openapi-generator-cli</module>
+                <module>modules/openapi-generator-maven-plugin</module>
+                <module>modules/openapi-generator-gradle-plugin</module>
+                <module>modules/openapi-generator-online</module>
             </modules>
         </profile>
     </profiles>
-    <modules>
-        <module>modules/openapi-generator-core</module>
-        <module>modules/openapi-generator</module>
-        <module>modules/openapi-generator-cli</module>
-        <module>modules/openapi-generator-maven-plugin</module>
-        <module>modules/openapi-generator-gradle-plugin</module>
-        <module>modules/openapi-generator-online</module>
-    </modules>
     <reporting>
         <outputDirectory>target/site</outputDirectory>
         <plugins>
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>${scala-maven-plugin-version}</version>
+                <version>${scala-maven-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -1349,7 +1411,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>${maven-project-info-reports-plugin.version}</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -1365,19 +1427,19 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>${junit-version}</version>
+                <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
-                <version>${testng-version}</version>
+                <version>${testng.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>org.jmockit</groupId>
-                <artifactId>jmockit</artifactId>
-                <version>${jmockit-version}</version>
+                <groupId>org.openrewrite</groupId>
+                <artifactId>rewrite-maven</artifactId>
+                <version>${openrewrite.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -1394,24 +1456,47 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <swagger-parser-groupid>org.openapitools.swagger.parser</swagger-parser-groupid>
-        <swagger-core-version>2.0.9</swagger-core-version>
-        <swagger-parser-version>2.0.14-OpenAPITools.org-1</swagger-parser-version>
-        <scala-version>2.11.1</scala-version>
-        <felix-version>3.3.1</felix-version>
-        <commons-io-version>2.4</commons-io-version>
-        <commons-cli-version>1.2</commons-cli-version>
-        <junit-version>4.8.1</junit-version>
-        <jackson-version>2.8.9</jackson-version>
-        <maven-plugin-version>1.0.0</maven-plugin-version>
-        <commons-lang-version>3.4</commons-lang-version>
-        <slf4j-version>1.7.12</slf4j-version>
-        <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
-        <jmustache-version>1.14</jmustache-version>
-        <handlebars.java-version>4.1.2</handlebars.java-version>
-        <testng-version>6.14.3</testng-version>
-        <surefire-version>3.0.0-M3</surefire-version>
-        <jmockit-version>1.46</jmockit-version>
-        <reflections-version>0.9.10</reflections-version>
+
+        <archunit.version>0.23.0</archunit.version>
+        <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
+        <commons-cli.version>1.4</commons-cli.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <commons-lang.version>3.12.0</commons-lang.version>
+        <commons-text.version>1.9</commons-text.version>
+        <diffutils.version>1.3.0</diffutils.version>
+        <generex.version>1.0.2</generex.version>
+        <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
+        <groovy.version>3.0.9</groovy.version>
+        <guava.version>30.1.1-jre</guava.version>
+        <handlebars-java.version>4.2.1</handlebars-java.version>
+        <jackson-threetenbp.version>2.10.0</jackson-threetenbp.version>
+        <jackson.version>2.13.1</jackson.version>
+        <jacoco.version>0.8.7</jacoco.version>
+        <jmustache.version>1.14</jmustache.version>
+        <junit.version>4.13.2</junit.version>
+        <kotlin.version>1.6.10</kotlin.version>
+        <maven-compiler-plugin.version>3.10.0</maven-compiler-plugin.version>
+        <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
+        <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
+        <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+        <mockito.version>4.3.1</mockito.version>
+        <pmd-plugin.version>3.12.0</pmd-plugin.version>
+        <reflections.version>0.10</reflections.version>
+        <rxgen.version>1.3</rxgen.version>
+        <scala-maven-plugin.version>4.3.1</scala-maven-plugin.version>
+        <slf4j.version>1.7.32</slf4j.version>
+        <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <openrewrite.version>7.18.2</openrewrite.version>
+        <swagger-core.version>2.1.12</swagger-core.version>
+        <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
+        <swagger-parser.version>2.0.29</swagger-parser.version>
+        <testng.version>7.3.0</testng.version>
+        <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
+        <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>
+        <wagon-svn.version>1.12</wagon-svn.version>
+        <wagon-webdav.version>1.0-beta-2</wagon-webdav.version>
     </properties>
 </project>

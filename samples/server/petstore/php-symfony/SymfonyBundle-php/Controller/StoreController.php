@@ -2,7 +2,7 @@
 
 /**
  * StoreController
- * PHP version 5
+ * PHP version 7.1.3
  *
  * @category Class
  * @package  OpenAPI\Server\Controller
@@ -85,7 +85,7 @@ class StoreController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
@@ -155,14 +155,14 @@ class StoreController extends Controller
 
             // Set authentication method 'api_key'
             $handler->setapi_key($securityapi_key);
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
             $result = $handler->getInventory($responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {
@@ -224,7 +224,7 @@ class StoreController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("int");
         $asserts[] = new Assert\GreaterThanOrEqual(1);
-        $asserts[] = new Assert\LessThanOrEqual(1);
+        $asserts[] = new Assert\LessThanOrEqual(5);
         $response = $this->validate($orderId, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -234,14 +234,14 @@ class StoreController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
             $result = $handler->getOrderById($orderId, $responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {
@@ -283,9 +283,8 @@ class StoreController extends Controller
     public function placeOrderAction(Request $request)
     {
         // Make sure that the client is providing something that we can consume
-        $consumes = [];
-        $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
-        if (!in_array($inputFormat, $consumes)) {
+        $consumes = ['application/json'];
+        if (!static::isContentTypeAllowed($request, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
         }
@@ -302,13 +301,14 @@ class StoreController extends Controller
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $order = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
-            $body = $this->deserialize($body, 'OpenAPI\Server\Model\Order', $inputFormat);
+            $inputFormat = $request->getMimeType($request->getContentType());
+            $order = $this->deserialize($order, 'OpenAPI\Server\Model\Order', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -318,7 +318,7 @@ class StoreController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Order");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($order, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -327,14 +327,14 @@ class StoreController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
-            $result = $handler->placeOrder($body, $responseCode, $responseHeaders);
+            $result = $handler->placeOrder($order, $responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {

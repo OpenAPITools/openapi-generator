@@ -1,0 +1,22 @@
+import type { HttpFile } from "../http/http";
+import type { Configuration } from "../configuration";
+
+{{#models}}
+{{#model}}
+import { {{{ classname }}} } from "../models/{{{ classFilename }}}";
+{{/model}}
+{{/models}}
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+
+
+export abstract class AbstractPromise{{classname}} {
+    {{#operation}}
+    public abstract {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
+
+    {{/operation}}
+}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

@@ -18,9 +18,11 @@ Method | HTTP request | Description
 
 ## addPet
 
-> addPet(body)
+> addPet(pet)
 
 Add a new pet to the store
+
+
 
 ### Example
 
@@ -32,8 +34,8 @@ let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
 let apiInstance = new OpenApiPetstore.PetApi();
-let body = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
-apiInstance.addPet(body, (error, data, response) => {
+let pet = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
+apiInstance.addPet(pet, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -47,7 +49,7 @@ apiInstance.addPet(body, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -68,6 +70,8 @@ null (empty response body)
 > deletePet(petId, opts)
 
 Deletes a pet
+
+
 
 ### Example
 
@@ -265,9 +269,11 @@ Name | Type | Description  | Notes
 
 ## updatePet
 
-> updatePet(body)
+> updatePet(pet)
 
 Update an existing pet
+
+
 
 ### Example
 
@@ -279,8 +285,8 @@ let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
 let apiInstance = new OpenApiPetstore.PetApi();
-let body = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
-apiInstance.updatePet(body, (error, data, response) => {
+let pet = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
+apiInstance.updatePet(pet, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -294,7 +300,7 @@ apiInstance.updatePet(body, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -315,6 +321,8 @@ null (empty response body)
 > updatePetWithForm(petId, opts)
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 
@@ -369,6 +377,8 @@ null (empty response body)
 
 uploads an image
 
+
+
 ### Example
 
 ```javascript
@@ -421,6 +431,8 @@ Name | Type | Description  | Notes
 > ApiResponse uploadFileWithRequiredFile(petId, requiredFile, opts)
 
 uploads an image (required)
+
+
 
 ### Example
 

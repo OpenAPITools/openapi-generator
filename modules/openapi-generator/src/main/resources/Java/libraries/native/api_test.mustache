@@ -1,0 +1,60 @@
+{{>licenseInfo}}
+
+package {{package}};
+
+import {{invokerPackage}}.ApiException;
+{{#imports}}import {{import}};
+{{/imports}}
+import org.junit.Test;
+import org.junit.Ignore;
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+{{/fullJavaUtil}}
+
+{{#asyncNative}}
+import java.util.concurrent.CompletableFuture;
+{{/asyncNative}}
+
+/**
+ * API tests for {{classname}}
+ */
+@Ignore
+public class {{classname}}Test {
+
+    private final {{classname}} api = new {{classname}}();
+
+    {{#operations}}{{#operation}}
+    /**
+     * {{summary}}
+     *
+     * {{notes}}
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void {{operationId}}Test() throws ApiException {
+        {{#allParams}}
+        {{{dataType}}} {{paramName}} = null;
+        {{/allParams}}
+        {{^vendorExtensions.x-group-parameters}}
+        {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}} response = {{/returnType}}
+        {{^returnType}}{{#asyncNative}}CompletableFuture<Void> response = {{/asyncNative}}{{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{/vendorExtensions.x-group-parameters}}
+        {{#vendorExtensions.x-group-parameters}}{{#hasParams}}
+        {{classname}}.API{{operationId}}Request request = {{classname}}.API{{operationId}}Request.newBuilder(){{#allParams}}
+          .{{paramName}}({{paramName}}){{/allParams}}
+          .build();{{/hasParams}}
+        {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}} response = {{/returnType}}
+        {{^returnType}}{{#asyncNative}}CompletableFuture<Void> response = {{/asyncNative}}{{/returnType}}api.{{operationId}}({{#hasParams}}request{{/hasParams}});
+        {{/vendorExtensions.x-group-parameters}}
+
+        // TODO: test validations
+    }
+    {{/operation}}{{/operations}}
+}

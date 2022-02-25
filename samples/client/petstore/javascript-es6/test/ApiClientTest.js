@@ -1,10 +1,10 @@
 if (typeof module === 'object' && module.exports) {
   var expect = require('expect.js');
-  var SwaggerPetstore = require('../src/index');
+  var OpenAPIPetstore = require('../src/index');
   var sinon = require('sinon');
 }
 
-var apiClient = SwaggerPetstore.ApiClient.instance;
+var apiClient = OpenAPIPetstore.ApiClient.instance;
 
 describe('ApiClient', function() {
   describe('defaults', function() {
@@ -13,6 +13,7 @@ describe('ApiClient', function() {
       expect(apiClient.basePath).to.be('http://petstore.swagger.io:80/v2');
       expect(apiClient.authentications).to.eql({
         petstore_auth: {type: 'oauth2'},
+        bearer_test: {type: 'bearer'},
         http_basic_test: {type: 'basic'},
         api_key: {type: 'apiKey', 'in': 'header', name: 'api_key'},
         api_key_query: {type: 'apiKey', 'in': 'query', name: 'api_key_query'},
@@ -45,7 +46,7 @@ describe('ApiClient', function() {
     });
 
     it('should have correct default values with new API client and can customize it', function() {
-      var newClient = new SwaggerPetstore.ApiClient;
+      var newClient = new OpenAPIPetstore.ApiClient;
       expect(newClient.basePath).to.be('http://petstore.swagger.io:80/v2');
       expect(newClient.buildUrl('/abc', {})).to.be('http://petstore.swagger.io:80/v2/abc');
 
@@ -131,6 +132,35 @@ describe('ApiClient', function() {
     });
   });
 
+  describe('multipleServers', function() {
+    describe('host settings', function() {
+      var hosts = apiClient.hostSettings();
+      it('should have proper 1st URL', function() {
+        expect(hosts[0]['url']).to.be('http://{server}.swagger.io:{port}/v2');
+        expect(hosts[0]['variables']['server']['default_value']).to.be('petstore');
+      });
+
+      it('should have proper 2nd URL', function() {
+        expect(hosts[1]['url']).to.be('https://localhost:8080/{version}');
+        expect(hosts[1]['variables']['version']['default_value']).to.be('v2');
+      });
+    });
+
+    describe('get host from settings', function() {
+      it('should have correct default URL', function() {
+        expect(apiClient.getBasePathFromSettings(0)).to.be('http://petstore.swagger.io:80/v2');
+      });
+
+      it('should have correct URL with port 8080', function() {
+        expect(apiClient.getBasePathFromSettings(0, {'port': '8080'})).to.be('http://petstore.swagger.io:8080/v2');
+      });
+
+      it('should have correct URL with port 8080 and dev-petstore', function() {
+        expect(apiClient.getBasePathFromSettings(0, {'server': 'dev-petstore', 'port': '8080'})).to.be('http://dev-petstore.swagger.io:8080/v2');
+      });
+    });
+  });
+
   describe('#applyAuthToRequest', function() {
     var req, newClient;
 
@@ -143,7 +173,7 @@ describe('ApiClient', function() {
       sinon.stub(req, 'auth');
       sinon.stub(req, 'set');
       sinon.stub(req, 'query');
-      newClient = new SwaggerPetstore.ApiClient();
+      newClient = new OpenAPIPetstore.ApiClient();
     });
 
     describe('basic', function() {
@@ -344,7 +374,7 @@ describe('ApiClient', function() {
     });
 
     it('should put default headers in request', function() {
-      var newClient = new SwaggerPetstore.ApiClient;
+      var newClient = new OpenAPIPetstore.ApiClient;
       newClient.defaultHeaders['Content-Type'] = 'text/plain'
       newClient.defaultHeaders['api_key'] = 'special-key'
 
@@ -356,7 +386,7 @@ describe('ApiClient', function() {
     });
 
     it('should override default headers with provided header params', function() {
-      var newClient = new SwaggerPetstore.ApiClient;
+      var newClient = new OpenAPIPetstore.ApiClient;
       newClient.defaultHeaders['Content-Type'] = 'text/plain'
       newClient.defaultHeaders['api_key'] = 'special-key'
 

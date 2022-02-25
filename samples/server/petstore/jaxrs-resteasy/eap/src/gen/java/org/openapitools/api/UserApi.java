@@ -5,6 +5,7 @@ import org.openapitools.model.*;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
+import java.util.Date;
 import java.util.List;
 import org.openapitools.model.User;
 
@@ -24,9 +25,9 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the user API")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
 public interface UserApi  {
-   
+
     @POST
     
     

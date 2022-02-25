@@ -2,8 +2,11 @@ package apimodels;
 
 import apimodels.Category;
 import apimodels.Tag;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
@@ -12,22 +15,31 @@ import javax.validation.constraints.*;
 /**
  * Pet
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Pet   {
   @JsonProperty("id")
+  
   private Long id;
 
   @JsonProperty("category")
+  @Valid
+
   private Category category;
 
   @JsonProperty("name")
+  @NotNull
+
   private String name;
 
   @JsonProperty("photoUrls")
-  private List<String> photoUrls = new ArrayList<>();
+  @NotNull
+
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   @JsonProperty("tags")
+  @Valid
+
   private List<Tag> tags = null;
 
   /**
@@ -64,6 +76,7 @@ public class Pet   {
   }
 
   @JsonProperty("status")
+  
   private StatusEnum status;
 
   public Pet id(Long id) {
@@ -75,7 +88,7 @@ public class Pet   {
    * Get id
    * @return id
   **/
-    public Long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -92,7 +105,6 @@ public class Pet   {
    * Get category
    * @return category
   **/
-  @Valid
   public Category getCategory() {
     return category;
   }
@@ -110,7 +122,6 @@ public class Pet   {
    * Get name
    * @return name
   **/
-  @NotNull
   public String getName() {
     return name;
   }
@@ -119,7 +130,7 @@ public class Pet   {
     this.name = name;
   }
 
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -133,12 +144,12 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
   **/
-  @NotNull
-  public List<String> getPhotoUrls() {
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
-  public void setPhotoUrls(List<String> photoUrls) {
+  @JsonDeserialize(as = LinkedHashSet.class)
+  public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
@@ -159,7 +170,6 @@ public class Pet   {
    * Get tags
    * @return tags
   **/
-  @Valid
   public List<Tag> getTags() {
     return tags;
   }
@@ -177,7 +187,7 @@ public class Pet   {
    * pet status in the store
    * @return status
   **/
-    public StatusEnum getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
@@ -187,7 +197,7 @@ public class Pet   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -228,7 +238,7 @@ public class Pet   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

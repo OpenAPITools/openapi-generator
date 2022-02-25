@@ -1,0 +1,8 @@
+generatorName: jaxrs-resteasy-eap
+outputDir: samples/server/petstore/jaxrs-resteasy/eap-java8
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/resteasy/eap
+additionalProperties:
+  artifactId: jaxrs-resteasy-eap-java8-server
+  hideGenerationTimestamp: "true"
+  dateLibrary: java8

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ObjcClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ObjcClientCodegen.class);
 
     public static final String CLASS_PREFIX = "classPrefix";
     public static final String POD_NAME = "podName";
@@ -42,7 +43,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String DEFAULT_LICENSE = "Proprietary";
     public static final String CORE_DATA = "coreData";
 
-    protected Set<String> foundationClasses = new HashSet<String>();
+    protected Set<String> foundationClasses = new HashSet<>();
     protected String podName = "OpenAPIClient";
     protected String podVersion = "1.0.0";
     protected String classPrefix = "OAI";
@@ -59,10 +60,34 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean generateCoreData = false;
 
-    protected Set<String> advancedMapingTypes = new HashSet<String>();
+    protected Set<String> advancedMappingTypes = new HashSet<>();
 
     public ObjcClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath,
+                        ClientModificationFeature.UserAgent
+                )
+        );
+
         supportsInheritance = true;
         outputFolder = "generated-code" + File.separator + "objc";
         modelTemplateFiles.put("model-header.mustache", ".h");
@@ -92,15 +117,15 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         defaultIncludes.add("NSManagedObject");
         defaultIncludes.add("NSData");
 
-        advancedMapingTypes.add("NSDictionary");
-        advancedMapingTypes.add("NSArray");
-        advancedMapingTypes.add("NSMutableArray");
-        advancedMapingTypes.add("NSMutableDictionary");
-        advancedMapingTypes.add("NSObject");
-        advancedMapingTypes.add("NSNumber");
-        advancedMapingTypes.add("NSURL");
-        advancedMapingTypes.add("NSString");
-        advancedMapingTypes.add("NSDate");
+        advancedMappingTypes.add("NSDictionary");
+        advancedMappingTypes.add("NSArray");
+        advancedMappingTypes.add("NSMutableArray");
+        advancedMappingTypes.add("NSMutableDictionary");
+        advancedMappingTypes.add("NSObject");
+        advancedMappingTypes.add("NSNumber");
+        advancedMappingTypes.add("NSURL");
+        advancedMappingTypes.add("NSString");
+        advancedMappingTypes.add("NSDate");
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("NSNumber");
@@ -160,9 +185,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "description", "class"
                 ));
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
 
-        foundationClasses = new HashSet<String>(
+        foundationClasses = new HashSet<>(
                 Arrays.asList(
                         "NSNumber",
                         "NSObject",
@@ -355,7 +380,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             // In this condition, type of Schema p is array of model,
             // return container type combine inner type with pointer, e.g. `NSArray<SWGTag>*'
             else {
-                for (String sd : advancedMapingTypes) {
+                for (String sd : advancedMappingTypes) {
                     if (innerTypeDeclaration.startsWith(sd)) {
                         return getSchemaType(p) + "<" + innerTypeDeclaration + "*>*";
                     }
@@ -363,7 +388,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 return getSchemaType(p) + "<" + innerTypeDeclaration + ">*";
             }
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
 
             String innerTypeDeclaration = getTypeDeclaration(inner);
 
@@ -373,7 +398,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (languageSpecificPrimitives.contains(innerTypeDeclaration)) {
                 return getSchemaType(p) + "<NSString*, " + innerTypeDeclaration + "*>*";
             } else {
-                for (String s : advancedMapingTypes) {
+                for (String s : advancedMappingTypes) {
                     if (innerTypeDeclaration.startsWith(s)) {
                         return getSchemaType(p) + "<NSString*, " + innerTypeDeclaration + "*>*";
                     }
@@ -410,7 +435,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelName(String type) {
         // model name cannot use reserved keyword
         if (reservedWords.contains(type)) {
-            LOGGER.warn(type + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + type) + " before further processing");
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {} before further processing",
+                    type, "model_" + type);
             type = "model_" + type; // e.g. return => ModelReturn (after camelize)
         }
 
@@ -429,7 +455,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
      * Convert input to proper model name according to ObjC style guide
      * without checking for reserved words
      *
-     * @param type Model anme
+     * @param type Model name
      * @return model Name in ObjC style guide
      */
     public String toModelNameWithoutReservedWordCheck(String type) {
@@ -589,7 +615,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), true));
             operationId = "call_" + operationId;
         }
 
@@ -627,12 +653,13 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
                 if (!operation.allParams.isEmpty()) {
                     String firstParamName = operation.allParams.get(0).paramName;
-                    operation.vendorExtensions.put("firstParamAltName", camelize(firstParamName));
+                    operation.vendorExtensions.put("x-first-param-alt-name", camelize(firstParamName));
                 }
             }
         }
@@ -642,7 +669,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty schema) {
         super.postProcessModelProperty(model, schema);
-        schema.vendorExtensions.put("x-uppercaseName", camelize(schema.name));
+        schema.vendorExtensions.put("x-uppercase-name", camelize(schema.name));
     }
 
     /**
@@ -739,14 +766,14 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             // e.g. [[SWGPet alloc] init
             example = "[[" + type + " alloc] init]";
         } else {
-            LOGGER.warn("Example value for " + type + " not handled properly in setParameterExampleValue");
+            LOGGER.warn("Example value for {} not handled properly in setParameterExampleValue", type);
         }
 
         if (example == null) {
             example = "NULL";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
             example = "@[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "@{@\"key\" : " + example + "}";
         }
 
@@ -764,4 +791,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.OBJECTIVE_C; }
 }

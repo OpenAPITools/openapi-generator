@@ -1,0 +1,38 @@
+# {{classname}}
+
+{{#description}}
+{{&description}}
+
+{{/description}}
+## anyOf schemas
+{{#anyOf}}
+* [{{{.}}}]({{{.}}}.md)
+{{/anyOf}}
+
+{{#isNullable}}
+NOTE: this class is nullable.
+
+{{/isNullable}}
+## Example
+```java
+// Import classes:
+import {{{package}}}.{{{classname}}};
+{{#anyOf}}
+import {{{package}}}.{{{.}}};
+{{/anyOf}}
+
+public class Example {
+    public static void main(String[] args) {
+        {{classname}} example{{classname}} = new {{classname}}();
+        {{#anyOf}}
+
+        // create a new {{{.}}}
+        {{{.}}} example{{{.}}} = new {{{.}}}();
+        // set {{{classname}}} to {{{.}}}
+        example{{classname}}.setActualInstance(example{{{.}}});
+        // to get back the {{{.}}} set earlier
+        {{{.}}} test{{{.}}} = ({{{.}}}) example{{classname}}.getActualInstance();
+        {{/anyOf}}
+    }
+}
+```

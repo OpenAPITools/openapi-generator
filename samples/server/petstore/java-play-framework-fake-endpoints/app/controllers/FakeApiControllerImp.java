@@ -15,82 +15,84 @@ import play.mvc.Http;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.io.FileInputStream;
+import play.libs.Files.TemporaryFile;
 import javax.validation.constraints.*;
-
-public class FakeApiControllerImp implements FakeApiControllerImpInterface {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+public class FakeApiControllerImp extends FakeApiControllerImpInterface {
     @Override
-    public void createXmlItem(XmlItem xmlItem) throws Exception {
+    public void createXmlItem(Http.Request request, XmlItem xmlItem) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public Boolean fakeOuterBooleanSerialize(Boolean body) throws Exception {
+    public Boolean fakeOuterBooleanSerialize(Http.Request request, Boolean body) throws Exception {
         //Do your magic!!!
         return new Boolean(true);
     }
 
     @Override
-    public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws Exception {
+    public OuterComposite fakeOuterCompositeSerialize(Http.Request request, OuterComposite body) throws Exception {
         //Do your magic!!!
         return new OuterComposite();
     }
 
     @Override
-    public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws Exception {
+    public BigDecimal fakeOuterNumberSerialize(Http.Request request, BigDecimal body) throws Exception {
         //Do your magic!!!
         return new BigDecimal(1.0);
     }
 
     @Override
-    public String fakeOuterStringSerialize(String body) throws Exception {
+    public String fakeOuterStringSerialize(Http.Request request, String body) throws Exception {
         //Do your magic!!!
         return new String();
     }
 
     @Override
-    public void testBodyWithFileSchema(FileSchemaTestClass body) throws Exception {
+    public void testBodyWithFileSchema(Http.Request request, FileSchemaTestClass body) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void testBodyWithQueryParams( @NotNull String query, User body) throws Exception {
+    public void testBodyWithQueryParams(Http.Request request, @NotNull String query, User body) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public Client testClientModel(Client body) throws Exception {
+    public Client testClientModel(Http.Request request, Client body) throws Exception {
         //Do your magic!!!
         return new Client();
     }
 
     @Override
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, Http.MultipartFormData.FilePart binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws Exception {
+    public void testEndpointParameters(Http.Request request, BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, Http.MultipartFormData.FilePart<TemporaryFile> binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws Exception {
+    public void testEnumParameters(Http.Request request, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void testGroupParameters( @NotNull Integer requiredStringGroup, Boolean requiredBooleanGroup,  @NotNull Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws Exception {
+    public void testGroupParameters(Http.Request request, @NotNull Integer requiredStringGroup, Boolean requiredBooleanGroup, @NotNull Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void testInlineAdditionalProperties(Map<String, String> param) throws Exception {
+    public void testInlineAdditionalProperties(Http.Request request, Map<String, String> param) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void testJsonFormData(String param, String param2) throws Exception {
+    public void testJsonFormData(Http.Request request, String param, String param2) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void testQueryParameterCollectionFormat( @NotNull List<String> pipe,  @NotNull List<String> ioutil,  @NotNull List<String> http,  @NotNull List<String> url,  @NotNull List<String> context) throws Exception {
+    public void testQueryParameterCollectionFormat(Http.Request request, @NotNull List<String> pipe, @NotNull List<String> ioutil, @NotNull List<String> http, @NotNull List<String> url, @NotNull List<String> context) throws Exception {
         //Do your magic!!!
     }
 

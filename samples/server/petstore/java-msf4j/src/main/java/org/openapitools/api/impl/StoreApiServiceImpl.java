@@ -17,7 +17,7 @@ import org.wso2.msf4j.formparam.FileInfo;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class StoreApiServiceImpl extends StoreApiService {
     @Override
     public Response deleteOrder(String orderId

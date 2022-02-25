@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -1364,7 +1364,11 @@ class JsonCacheImpl implements JsonCache.Root {
         } else {
             JsonNode node = root.at(ptr);
             Object value = node.isPojo() && !JsonNode.class.isAssignableFrom(type) ? ((POJONode) node).getPojo() : node;
-            result = mapper.convertValue(value, type);
+            if ((value != null) && (value.getClass() == type)) {
+                result = (T) value;
+            } else {
+                result = mapper.convertValue(value, type);
+            }
         }
         return result;
     }
@@ -1598,23 +1602,23 @@ class JsonCacheImpl implements JsonCache.Root {
                                 destObject.set(fieldName, srcChild);
                                 // Mark the cache as dirty as we've added items from another file.
                                 isDirty = true;
-                                LOGGER.info("Existing root property '" + fieldName
-                                        + "' has been overwritten by incoming data");
+                                LOGGER.info("Existing root property '{}' has been overwritten by incoming data",
+                                        fieldName);
                                 break;
                             case MERGE_RECURSIVE:
                                 if (destChild.isContainerNode() && srcChild.isContainerNode())
                                     merge((ContainerNode<?>) destChild, (ContainerNode<?>) srcChild);
                                 break;
                             case KEEP_EXISTING:
-                                LOGGER.info("Existing root property '" + fieldName
-                                        + "' will not be overwritten by incoming data");
+                                LOGGER.info("Existing root property '{}' will not be overwritten by incoming data",
+                                        fieldName);
                             default:
                                 // Nothing to do.
                                 break;
                         }
                     } else {
                         destObject.set(fieldName, srcChild);
-                        LOGGER.info("New property '" + fieldName + "' has been added from incoming data");
+                        LOGGER.info("New property '{}' has been added from incoming data", fieldName);
                         // Mark the cache as dirty as we've added items from another file.
                         isDirty = true;
                     }

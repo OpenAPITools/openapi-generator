@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   AdditionalPropertiesAnyType.JSON_PROPERTY_NAME
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
   public static final String JSON_PROPERTY_NAME = "name";
   @JsonProperty(JSON_PROPERTY_NAME)
@@ -45,7 +45,7 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
    * Get name
    * @return name
    **/
-  @JsonProperty("name")
+  @JsonProperty(value = "name")
   @ApiModelProperty(value = "")
   
   public String getName() {
@@ -58,7 +58,7 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -75,7 +75,6 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
     return Objects.hash(name, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -90,7 +89,7 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

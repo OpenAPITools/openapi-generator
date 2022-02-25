@@ -1,0 +1,4 @@
+generatorName: typescript-redux-query
+outputDir: samples/client/petstore/typescript-redux-query/builds/default
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-redux-query

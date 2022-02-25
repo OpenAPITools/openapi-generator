@@ -1,0 +1,10 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-reactive
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  artifactId: springboot-reactive
+  documentationProvider: springfox
+  reactive: "true"
+  hideGenerationTimestamp: "true"
+  delegatePattern: "true"

@@ -1,0 +1,48 @@
+#' @export
+{{#allowableValues}}
+{{classname}} <- R6::R6Class(
+    "{{classname}}",
+    public = list(
+        initialize = function(...) {
+            local.optional.var <- list(...)
+            val <- unlist(local.optional.var)
+            enumvec <- .parse_{{name}}()
+
+            stopifnot(length(val) == 1L)
+
+            if (!val %in% enumvec)
+                stop("Use one of the valid values: ",
+                    paste0(enumvec, collapse = ", "))
+            private$value <- val
+        },
+        toJSON = function() {
+            jsonlite::toJSON(private$value, auto_unbox = TRUE)
+        },
+        fromJSON = function({{classname}}Json) {
+            private$value <- jsonlite::fromJSON({{classname}}Json,
+                simplifyVector = FALSE)
+            self
+        },
+        toJSONString = function() {
+            as.character(jsonlite::toJSON(private$value,
+                auto_unbox = TRUE))
+        },
+        fromJSONString = function({{classname}}Json) {
+            private$value <- jsonlite::fromJSON({{classname}}Json,
+                simplifyVector = FALSE)
+            self
+        }
+    ),
+    private = list(
+        value = NULL
+    )
+)
+
+# add to utils.R
+.parse_{{name}} <- function(vals) {
+    res <- gsub("^\\[|\\]$", "",
+        "{{{values}}}"
+    )
+    unlist(strsplit(res, ", "))
+}
+{{/allowableValues}}

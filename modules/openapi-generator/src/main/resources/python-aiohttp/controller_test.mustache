@@ -29,11 +29,11 @@ async def test_{{operationId}}(client):
     {{paramName}} = {{{example}}}
     {{/bodyParam}}
     {{#queryParams}}
-    {{#-first}}params = [{{/-first}}{{^-first}}                {{/-first}}('{{^vendorExtensions.x-python-connexion-openapi-name}}{{paramName}}{{/vendorExtensions.x-python-connexion-openapi-name}}{{#vendorExtensions.x-python-connexion-openapi-name}}{{vendorExtensions.x-python-connexion-openapi-name}}{{/vendorExtensions.x-python-connexion-openapi-name}}', {{{example}}}){{#hasMore}},{{/hasMore}}{{#-last}}]{{/-last}}
+    {{#-first}}params = [{{/-first}}{{^-first}}                {{/-first}}('{{^vendorExtensions.x-python-connexion-openapi-name}}{{paramName}}{{/vendorExtensions.x-python-connexion-openapi-name}}{{#vendorExtensions.x-python-connexion-openapi-name}}{{vendorExtensions.x-python-connexion-openapi-name}}{{/vendorExtensions.x-python-connexion-openapi-name}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
     {{/queryParams}}
-    headers = { {{#vendorExtensions.x-prefered-produce}}
-        'Accept': '{{mediaType}}',{{/vendorExtensions.x-prefered-produce}}{{#vendorExtensions.x-prefered-consume}}
-        'Content-Type': '{{mediaType}}',{{/vendorExtensions.x-prefered-consume}}{{#headerParams}}
+    headers = { {{#vendorExtensions.x-preferred-produce}}
+        'Accept': '{{mediaType}}',{{/vendorExtensions.x-preferred-produce}}{{#vendorExtensions.x-preferred-consume}}
+        'Content-Type': '{{mediaType}}',{{/vendorExtensions.x-preferred-consume}}{{#headerParams}}
         '{{paramName}}': {{{example}}},{{/headerParams}}{{#authMethods}}
         {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}'{{name}}': 'special-key',{{/isApiKey}}{{#isBasicBasic}}'Authorization': 'BasicZm9vOmJhcg==',{{/isBasicBasic}}{{#isBasicBearer}}'Authorization': 'Bearer special-key',{{/isBasicBearer}}{{/authMethods}}
     }
@@ -48,15 +48,15 @@ async def test_{{operationId}}(client):
     {{#-first}}
     data = {
     {{/-first}}
-        '{{paramName}}': {{{example}}}{{#hasMore}},{{/hasMore}}
-    {{^hasMore}}
+        '{{paramName}}': {{{example}}}{{^-last}},{{/-last}}
+    {{#-last}}
         }
-    {{/hasMore}}
+    {{/-last}}
     {{/isMultipart}}
     {{/formParams}}
     response = await client.request(
         method='{{httpMethod}}',
-        path='{{#contextPath}}{{{.}}}{{/contextPath}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/pathParams}},
+        path='{{{contextPath}}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
         headers=headers,{{#bodyParam}}
         json={{paramName}},{{/bodyParam}}{{#formParams}}{{#-first}}
         data=data,{{/-first}}{{/formParams}}{{#queryParams}}{{#-first}}

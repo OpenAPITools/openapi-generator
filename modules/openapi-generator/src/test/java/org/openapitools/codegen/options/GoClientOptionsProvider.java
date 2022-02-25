@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,6 +31,11 @@ public class GoClientOptionsProvider implements OptionsProvider {
     public static final boolean ENUM_CLASS_PREFIX_VALUE = true;
     public static final Boolean PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = true;
     public static final boolean IS_GO_SUBMODULE_VALUE = true;
+    public static final boolean STRUCT_PREFIX_VALUE = true;
+    public static final boolean WITH_AWSV4_SIGNATURE = true;
+    public static final boolean GENERATE_INTERFACES_VALUE = true;
+    public static final boolean DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_VALUE = true;
+    public static final boolean USE_ONE_OF_DISCRIMINATOR_LOOKUP_VALUE = true;
 
     @Override
     public String getLanguage() {
@@ -43,12 +48,16 @@ public class GoClientOptionsProvider implements OptionsProvider {
         return builder
                 .put(CodegenConstants.PACKAGE_VERSION, PACKAGE_VERSION_VALUE)
                 .put(CodegenConstants.PACKAGE_NAME, PACKAGE_NAME_VALUE)
+                .put(CodegenConstants.IS_GO_SUBMODULE, "true")
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
-                .put(CodegenConstants.WITH_GO_CODEGEN_COMMENT, "true")
                 .put(CodegenConstants.WITH_XML, "true")
                 .put(CodegenConstants.ENUM_CLASS_PREFIX, "true")
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, "true")
-                .put(CodegenConstants.IS_GO_SUBMODULE, "true")
+                .put(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, "true")
+                .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
+                .put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true")
+                .put("generateInterfaces", "true")
+                .put("structPrefix", "true")
                 .build();
     }
 

@@ -9,19 +9,24 @@ import javax.validation.constraints.*;
 /**
  * An order for a pets from the pet store
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Order   {
   @JsonProperty("id")
+  
   private Long id;
 
   @JsonProperty("petId")
+  
   private Long petId;
 
   @JsonProperty("quantity")
+  
   private Integer quantity;
 
   @JsonProperty("shipDate")
+  @Valid
+
   private OffsetDateTime shipDate;
 
   /**
@@ -58,9 +63,11 @@ public class Order   {
   }
 
   @JsonProperty("status")
+  
   private StatusEnum status;
 
   @JsonProperty("complete")
+  
   private Boolean complete = false;
 
   public Order id(Long id) {
@@ -72,7 +79,7 @@ public class Order   {
    * Get id
    * @return id
   **/
-    public Long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -89,7 +96,7 @@ public class Order   {
    * Get petId
    * @return petId
   **/
-    public Long getPetId() {
+  public Long getPetId() {
     return petId;
   }
 
@@ -106,7 +113,7 @@ public class Order   {
    * Get quantity
    * @return quantity
   **/
-    public Integer getQuantity() {
+  public Integer getQuantity() {
     return quantity;
   }
 
@@ -123,7 +130,6 @@ public class Order   {
    * Get shipDate
    * @return shipDate
   **/
-  @Valid
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -141,7 +147,7 @@ public class Order   {
    * Order Status
    * @return status
   **/
-    public StatusEnum getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
@@ -158,7 +164,7 @@ public class Order   {
    * Get complete
    * @return complete
   **/
-    public Boolean getComplete() {
+  public Boolean getComplete() {
     return complete;
   }
 
@@ -168,7 +174,7 @@ public class Order   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -209,7 +215,7 @@ public class Order   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,7 @@ import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ErlangProperCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ErlangProperCodegen.class);
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -58,6 +59,31 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
 
     public ErlangProperCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BasicAuth
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath
+                )
+        );
+
         outputFolder = "generated-code/erlang";
         modelTemplateFiles.put("model.mustache", ".erl");
         apiTemplateFiles.put("api.mustache", "_api.erl");
@@ -104,7 +130,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Erlang application name (convention: lowercase).")
                 .defaultValue(this.packageName));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Erlang application version")
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Erlang application version")
                 .defaultValue(this.packageVersion));
     }
 
@@ -239,7 +265,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
         String r = "";
         CodegenParameter q = (CodegenParameter) o;
         if (q.required) {
-            if (q.isListContainer) {
+            if (q.isArray) {
                 r += "[{<<\"" + q.baseName + "\">>, X} || X <- " + q.paramName + "]";
             } else {
                 r += "{<<\"" + q.baseName + "\">>, " + q.paramName + "}";
@@ -333,7 +359,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
             operationId = "call_" + operationId;
         }
 
@@ -350,7 +376,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             // force http method to lower case
             o.httpMethod = o.httpMethod.toLowerCase(Locale.ROOT);
 
-            if (o.isListContainer) {
+            if (o.isArray) {
                 o.returnType = "[" + o.returnBaseType + "]";
             }
 
@@ -460,7 +486,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             this.isEnum = cm.isEnum;
             this.hasRequired = cm.hasRequired;
             this.hasOptional = cm.hasOptional;
-            this.isArrayModel = cm.isArrayModel;
+            this.isArray = cm.isArray;
             this.hasChildren = cm.hasChildren;
             this.hasOnlyReadOnly = cm.hasOnlyReadOnly;
             this.externalDocumentation = cm.externalDocumentation;
@@ -489,10 +515,9 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
-            this.isMapContainer = o.isMapContainer;
-            this.isListContainer = o.isListContainer;
+            this.isMap = o.isMap;
+            this.isArray = o.isArray;
             this.isMultipart = o.isMultipart;
-            this.hasMore = o.hasMore;
             this.isResponseBinary = o.isResponseBinary;
             this.hasReference = o.hasReference;
             this.isRestfulIndex = o.isRestfulIndex;
@@ -543,4 +568,12 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             this.replacedPathName = replacedPathName;
         }
     }
+
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
 }

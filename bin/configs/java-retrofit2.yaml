@@ -1,0 +1,8 @@
+generatorName: java
+outputDir: samples/client/petstore/java/retrofit2
+library: retrofit2
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: petstore-retrofit2
+  hideGenerationTimestamp: "true"

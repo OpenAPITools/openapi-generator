@@ -15,13 +15,13 @@ public class Bootstrap extends HttpServlet {
   public void init(ServletConfig config) throws ServletException {
     Info info = new Info()
       .title("OpenAPI Server")
-      .description("This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.")
+      .description("This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\")
       .termsOfService("")
       .contact(new Contact()
         .email(""))
       .license(new License()
         .name("Apache-2.0")
-        .url("http://www.apache.org/licenses/LICENSE-2.0.html"));
+        .url("https://www.apache.org/licenses/LICENSE-2.0.html"));
 
     ServletContext context = config.getServletContext();
     Swagger swagger = new Swagger().info(info);

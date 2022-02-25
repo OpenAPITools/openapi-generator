@@ -10,7 +10,7 @@
 
 {{^parent}}
 {{{defaultInclude}}}
-#include "../ModelBase.h"
+#include "{{packageName}}/ModelBase.h"
 {{/parent}}
 
 {{#imports}}{{{this}}}
@@ -20,9 +20,13 @@
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
 
+{{#vendorExtensions.x-has-forward-declarations}}
+{{#vendorExtensions.x-forward-declarations}}{{.}}
+{{/vendorExtensions.x-forward-declarations}}
+{{/vendorExtensions.x-has-forward-declarations}}
 {{#isEnum}}
 class {{declspec}} {{classname}}
-    : public {{#parent}}{{{parent}}}{{/parent}}{{^parent}}ModelBase{{/parent}}
+    : public {{{parent}}}{{^parent}}ModelBase{{/parent}}
 {
 public:
     {{classname}}();
@@ -34,22 +38,22 @@ public:
     void validate() override;
 
     web::json::value toJson() const override;
-    void fromJson(const web::json::value& json) override;
+    bool fromJson(const web::json::value& json) override;
 
     void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
-    void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
+    bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
-    enum class e{{classname}} 
+    enum class e{{classname}}
     {
         {{#allowableValues}}
-        {{#values}}
+        {{#enumVars}}
         {{#enumDescription}}
         /// <summary>
-        /// {{enumDescription}}
+        /// {{.}}
         /// </summary>
         {{/enumDescription}}
-        {{classname}}_{{.}}{{^last}},{{/last}}
-        {{/values}}
+        {{classname}}_{{{name}}}{{^last}},{{/last}}
+        {{/enumVars}}
         {{/allowableValues}}
     };
 
@@ -66,7 +70,7 @@ public:
 /// {{description}}
 /// </summary>
 class {{declspec}} {{classname}}
-    : public {{#parent}}{{{parent}}}{{/parent}}{{^parent}}ModelBase{{/parent}}
+    : public {{{parent}}}{{^parent}}ModelBase{{/parent}}
 {
 public:
     {{classname}}();
@@ -78,10 +82,10 @@ public:
     void validate() override;
 
     web::json::value toJson() const override;
-    void fromJson(const web::json::value& json) override;
+    bool fromJson(const web::json::value& json) override;
 
     void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
-    void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
+    bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
     /////////////////////////////////////////////
     /// {{classname}} members
@@ -93,9 +97,8 @@ public:
     /// </summary>
     {{#isContainer}}{{{dataType}}}& {{getter}}();
     {{/isContainer}}{{^isContainer}}{{{dataType}}} {{getter}}() const;
-    {{/isContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
+    {{/isContainer}}bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();
-    {{/required}}
 
     {{#isPrimitiveType}}
     void {{setter}}({{{dataType}}} value);
@@ -111,8 +114,7 @@ protected:
     {{#vars}}
     {{^isInherited}}
     {{{dataType}}} m_{{name}};
-    {{^required}}bool m_{{name}}IsSet;
-    {{/required}}
+    bool m_{{name}}IsSet;
     {{/isInherited}}
     {{/vars}}
 };

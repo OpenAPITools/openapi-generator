@@ -56,15 +56,24 @@ public class {{classname}} {
         return reqSpec;
     }
 
+    public List<Oper> getAllOperations() {
+        return Arrays.asList(
+{{#operations}}
+{{#operation}}
+                {{operationId}}(){{^-last}},{{/-last}}
+{{/operation}}
+{{/operations}}
+        );
+    }
 {{#operations}}
 {{#operation}}
 
     @ApiOperation(value = "{{{summary}}}",
             notes = "{{{notes}}}",
             nickname = "{{{operationId}}}",
-            tags = { {{#tags}}{{#name}}"{{{name}}}"{{/name}}{{^-last}}, {{/-last}}{{/tags}} })
+            tags = { {{#tags}}{{#name}}"{{{.}}}"{{/name}}{{^-last}}, {{/-last}}{{/tags}} })
     @ApiResponses(value = { {{#responses}}
-            @ApiResponse(code = {{{code}}}, message = "{{{message}}}") {{#hasMore}},{{/hasMore}}{{/responses}} })
+            @ApiResponse(code = {{{code}}}, message = "{{{message}}}") {{^-last}},{{/-last}}{{/responses}} })
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
@@ -94,7 +103,7 @@ public class {{classname}} {
      * @see #{{#isPathParam}}{{paramName}}Path{{/isPathParam}}{{#isQueryParam}}{{paramName}}Query{{/isQueryParam}}{{#isFormParam}}{{^isFile}}{{paramName}}Form{{/isFile}}{{#isFile}}{{paramName}}MultiPart{{/isFile}}{{/isFormParam}}{{#isHeaderParam}}{{paramName}}Header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
      {{/allParams}}
      {{#returnType}}
-     * return {{returnType}}
+     * return {{.}}
      {{/returnType}}
      {{#isDeprecated}}
      * @deprecated
@@ -107,7 +116,7 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public static class {{operationIdCamelCase}}Oper {
+    public static class {{operationIdCamelCase}}Oper implements Oper {
 
         public static final Method REQ_METHOD = {{httpMethod}};
         public static final String REQ_URI = "{{path}}";
@@ -134,6 +143,7 @@ public class {{classname}} {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }

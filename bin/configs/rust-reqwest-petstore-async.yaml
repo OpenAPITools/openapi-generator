@@ -1,0 +1,10 @@
+generatorName: rust
+outputDir: samples/client/petstore/rust/reqwest/petstore-async
+library: reqwest
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: true
+  supportMultipleResponses: true
+  packageName: petstore-reqwest-async
+  useSingleRequestParameter: true

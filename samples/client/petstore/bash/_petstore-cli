@@ -296,7 +296,7 @@ case $state in
   ops)
     # Operations
     _values "Operations" \
-            "123Test@$%SpecialTags[To test special tags]"             "createXmlItem[creates an XmlItem]" \
+            "call123TestSpecialTags[To test special tags]"             "createXmlItem[creates an XmlItem]" \
             "fakeOuterBooleanSerialize[]" \
             "fakeOuterCompositeSerialize[]" \
             "fakeOuterNumberSerialize[]" \
@@ -305,13 +305,14 @@ case $state in
             "testBodyWithQueryParams[]" \
             "testClientModel[To test \"client\" model]" \
             "testEndpointParameters[Fake endpoint for testing various parameters
-假端點
-偽のエンドポイント
-가짜 엔드 포인트]" \
+ 假端點
+ 偽のエンドポイント
+ 가짜 엔드 포인트]" \
             "testEnumParameters[To test enum parameters]" \
             "testGroupParameters[Fake endpoint to test group parameters (optional)]" \
             "testInlineAdditionalProperties[test inline additionalProperties]" \
-            "testJsonFormData[test json serialization of form data]"             "testClassname[To test class name in snake case]"             "addPet[Add a new pet to the store]" \
+            "testJsonFormData[test json serialization of form data]" \
+            "testQueryParameterCollectionFormat[]"             "testClassname[To test class name in snake case]"             "addPet[Add a new pet to the store]" \
             "deletePet[Deletes a pet]" \
             "findPetsByStatus[Finds Pets by status]" \
             "findPetsByTags[Finds Pets by tags]" \
@@ -329,14 +330,15 @@ case $state in
             "getUserByName[Get user by user name]" \
             "loginUser[Logs user into the system]" \
             "logoutUser[Logs out current logged in user session]" \
-            "updateUser[Updated user]" 
+            "updateUser[Updated user]" \
+
     _arguments "(--help)--help[Print information about operation]"
 
     ret=0
     ;;
   args)
     case $line[1] in
-      123Test@$%SpecialTags)
+      call123TestSpecialTags)
         local -a _op_arguments
         _op_arguments=(
                               )
@@ -431,6 +433,17 @@ case $state in
         local -a _op_arguments
         _op_arguments=(
                               )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      testQueryParameterCollectionFormat)
+        local -a _op_arguments
+        _op_arguments=(
+                    "pipe=:[QUERY] "
+"ioutil=:[QUERY] "
+"http=:[QUERY] "
+"url=:[QUERY] "
+"context=:[QUERY] "
+          )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       testClassname)

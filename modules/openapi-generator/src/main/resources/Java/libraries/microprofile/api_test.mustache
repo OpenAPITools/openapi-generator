@@ -1,0 +1,76 @@
+{{>licenseInfo}}
+
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+import org.junit.Test;
+import org.junit.Before;
+import static org.junit.Assert.*;
+
+import org.eclipse.microprofile.rest.client.RestClientBuilder;
+
+import java.net.URL;
+import java.net.MalformedURLException;
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+{{/fullJavaUtil}}
+
+
+
+/**
+ {{#appName}}
+ * {{{.}}} Test
+ *
+ {{/appName}}
+ * API tests for {{classname}}
+ */
+{{#generateSpringBootApplication}}
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = SpringBootApplication.class)
+@WebAppConfiguration
+@IntegrationTest("server.port=0")
+{{/generateSpringBootApplication}}
+public class {{classname}}Test {
+
+    private {{classname}} client;
+    private String baseUrl = "http://localhost:9080";
+
+    @Before
+    public void setup() throws MalformedURLException {
+        client = RestClientBuilder.newBuilder()
+                        .baseUrl(new URL(baseUrl))
+                        .register(ApiException.class)
+                        .build({{classname}}.class);
+    }
+
+    {{#operations}}{{#operation}}
+    /**
+     {{#summary}}
+     * {{summary}}
+     *
+     {{#notes}}
+     * {{.}}
+     *
+     {{/notes}}
+     {{/summary}}
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void {{operationId}}Test() {
+        // TODO: test validations
+        {{#allParams}}
+        {{^isFile}}{{{dataType}}} {{paramName}} = null;{{/isFile}}{{#isFile}}org.apache.cxf.jaxrs.ext.multipart.Attachment {{paramName}} = null;{{/isFile}}
+        {{/allParams}}
+        //{{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        //{{#returnType}}assertNotNull(response);{{/returnType}}
+
+
+    }
+    {{/operation}}{{/operations}}
+}

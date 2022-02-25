@@ -8,20 +8,22 @@
 
 #' @docType class
 #' @title Pet
+#'
 #' @description Pet Class
+#'
 #' @format An \code{R6Class} generator object
-#' @field id   integer  [optional]
 #'
-#' @field category   \link[petstore:Category]{  Category  }  [optional]
+#' @field id  integer [optional]
 #'
-#' @field name   character  
+#' @field category  \link{Category} [optional]
 #'
-#' @field photoUrls    list(character)   
+#' @field name  character 
 #'
-#' @field tags   \link[petstore:Tag]{   list(Tag)   }  [optional]
+#' @field photoUrls  list( character ) 
 #'
-#' @field status   character  [optional]
+#' @field tags  list( \link{Tag} ) [optional]
 #'
+#' @field status  character [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -35,7 +37,9 @@ Pet <- R6::R6Class(
     `photoUrls` = NULL,
     `tags` = NULL,
     `status` = NULL,
-    initialize = function(`name`, `photoUrls`, `id`=NULL, `category`=NULL, `tags`=NULL, `status`=NULL, ...){
+    initialize = function(
+        `name`, `photoUrls`, `id`=NULL, `category`=NULL, `tags`=NULL, `status`=NULL, ...
+    ) {
       local.optional.var <- list(...)
       if (!missing(`name`)) {
         stopifnot(is.character(`name`), length(`name`) == 1)
@@ -84,7 +88,7 @@ Pet <- R6::R6Class(
       }
       if (!is.null(self$`tags`)) {
         PetObject[['tags']] <-
-          sapply(self$`tags`, function(x) x$toJSON())
+          lapply(self$`tags`, function(x) x$toJSON())
       }
       if (!is.null(self$`status`)) {
         PetObject[['status']] <-
@@ -107,14 +111,15 @@ Pet <- R6::R6Class(
         self$`name` <- PetObject$`name`
       }
       if (!is.null(PetObject$`photoUrls`)) {
-        self$`photoUrls` <- ApiClient$new()$deserializeObj(PetObject$`photoUrls`, "array[character]", "package:petstore")
+        self$`photoUrls` <- ApiClient$new()$deserializeObj(PetObject$`photoUrls`, "array[character]", loadNamespace("petstore"))
       }
       if (!is.null(PetObject$`tags`)) {
-        self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]", "package:petstore")
+        self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]", loadNamespace("petstore"))
       }
       if (!is.null(PetObject$`status`)) {
         self$`status` <- PetObject$`status`
       }
+      self
     },
     toJSONString = function() {
       jsoncontent <- c(
@@ -151,7 +156,7 @@ Pet <- R6::R6Class(
         '"tags":
         [%s]
 ',
-        paste(unlist(lapply(self$`tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA))), collapse=",")
+        paste(sapply(self$`tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
         )},
         if (!is.null(self$`status`)) {
         sprintf(
@@ -169,8 +174,8 @@ Pet <- R6::R6Class(
       self$`id` <- PetObject$`id`
       self$`category` <- Category$new()$fromJSON(jsonlite::toJSON(PetObject$category, auto_unbox = TRUE, digits = NA))
       self$`name` <- PetObject$`name`
-      self$`photoUrls` <- ApiClient$new()$deserializeObj(PetObject$`photoUrls`, "array[character]","package:petstore")
-      self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]","package:petstore")
+      self$`photoUrls` <- ApiClient$new()$deserializeObj(PetObject$`photoUrls`, "array[character]", loadNamespace("petstore"))
+      self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]", loadNamespace("petstore"))
       self$`status` <- PetObject$`status`
       self
     }

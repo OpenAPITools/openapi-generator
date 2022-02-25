@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,6 +23,9 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,10 +34,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpSlimServerCodegen extends AbstractPhpCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
 
     public static final String USER_CLASSNAME_KEY = "userClassname";
 
@@ -45,6 +48,25 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
     public PhpSlimServerCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+        );
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
 
         // clear import mapping (from default generator) as slim does not use it
         // at the moment
@@ -70,7 +92,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
         // override cliOptions from AbstractPhpCodegen
         for (CliOption co : cliOptions) {
-            if (co.getOpt().equals(AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION)) {
+            if (AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION.equals(co.getOpt())) {
                 co.setDescription("naming convention of variable name, e.g. camelCase.");
                 co.setDefault("camelCase");
                 break;
@@ -85,12 +107,12 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
     @Override
     public String getName() {
-        return "php-slim";
+        return "php-slim-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a PHP Slim Framework server library.";
+        return "Generates a PHP Slim Framework server library. IMPORTANT NOTE: this generator (Slim 3.x)  is no longer actively maintained so please use 'php-slim4' generator instead.";
     }
 
     @Override
@@ -211,7 +233,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         // remove \t, \n, \r
         // replace \ with \\
         // replace " with \"
-        // outter unescape to retain the original multi-byte characters
+        // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         input = super.escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(
@@ -219,7 +241,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
                                 .replace("\\/", "/"))
                         .replaceAll("[\\t\\n\\r]", " ")
                         .replace("\\", "\\\\"));
-                        // .replace("\"", "\\\""));
+        // .replace("\"", "\\\""));
 
         // from AbstractPhpCodegen.java
         // Trim the string to avoid leading and trailing spaces.

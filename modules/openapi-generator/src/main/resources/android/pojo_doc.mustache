@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-{{#vars}}**{{name}}** | {{#isEnum}}[**{{datatypeWithEnum}}**](#{{datatypeWithEnum}}){{/isEnum}}{{^isEnum}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}}{{/isEnum}} | {{description}} | {{^required}} [optional]{{/required}}{{#readOnly}} [readonly]{{/readOnly}}
+{{#vars}}**{{name}}** | {{#isEnum}}[**{{datatypeWithEnum}}**](#{{datatypeWithEnum}}){{/isEnum}}{{^isEnum}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}}{{/isEnum}} | {{description}} | {{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}}
 {{/vars}}
 {{#vars}}{{#isEnum}}
 
