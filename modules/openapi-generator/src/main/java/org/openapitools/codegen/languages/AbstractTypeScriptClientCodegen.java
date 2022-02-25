@@ -751,6 +751,18 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
+    protected void addImports(Set<String> importsToBeAddedTo, Set<String> importsToAdd) {
+        super.addImports(
+                importsToBeAddedTo,
+                importsToAdd
+                    .stream()
+                    .filter(StringUtils::isNotEmpty)
+                    .map(i -> splitComposedType(i))
+                    .flatMap(types -> Arrays.stream(types))
+                    .collect(Collectors.toSet()));
+    }
+
+    @Override
     protected void addImport(CodegenModel m, String type) {
         if (type == null) {
             return;
