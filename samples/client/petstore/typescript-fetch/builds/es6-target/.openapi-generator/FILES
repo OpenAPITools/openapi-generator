@@ -15,4 +15,5 @@ src/models/Tag.ts
 src/models/User.ts
 src/models/index.ts
 src/runtime.ts
+tsconfig.esm.json
 tsconfig.json

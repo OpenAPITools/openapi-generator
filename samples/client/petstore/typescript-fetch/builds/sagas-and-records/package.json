@@ -5,8 +5,11 @@
   "author": "OpenAPI-Generator",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
+  "module": "./dist/esm/index.js",
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc"  },
+    "build": "tsc && tsc -p tsconfig.esm.json"
+  },
   "devDependencies": {
     "immutable": "^4.0.0-rc.12",
     "normalizr": "^3.6.1",
