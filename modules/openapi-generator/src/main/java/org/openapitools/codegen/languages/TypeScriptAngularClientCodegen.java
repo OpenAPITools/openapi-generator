@@ -51,7 +51,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
-    public static final String PROVIDED_IN_ROOT = "providedInRoot";
     public static final String PROVIDED_IN = "providedIn";
     public static final String ENFORCE_GENERIC_MODULE_WITH_PROVIDERS = "enforceGenericModuleWithProviders";
     public static final String HTTP_CONTEXT_IN_OPTIONS = "httpContextInOptions";
@@ -108,13 +107,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
-        this.cliOptions.add(CliOption.newBoolean(PROVIDED_IN_ROOT,
-                "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0). IMPORTANT: Deprecated for angular version greater or equal to 9.0.0, use **providedIn** instead.",
-                false));
         CliOption providedInCliOpt = new CliOption(PROVIDED_IN,
-                "Use this property to provide Injectables in wanted level (it is only valid in angular version greater or equal to 9.0.0).").defaultValue("root");
+                "Use this property to provide Injectables in wanted level.").defaultValue("root");
         Map<String, String> providedInOptions = new HashMap<>();
-        providedInOptions.put(PROVIDED_IN_LEVEL.none.toString(), "No providedIn (same as providedInRoot=false)");
+        providedInOptions.put(PROVIDED_IN_LEVEL.none.toString(), "No providedIn)");
         providedInOptions.put(PROVIDED_IN_LEVEL.root.toString(), "The application-level injector in most apps.");
         providedInOptions.put(PROVIDED_IN_LEVEL.platform.toString(), "A special singleton platform injector shared by all applications on the page.");
         providedInOptions.put(PROVIDED_IN_LEVEL.any.toString(), "Provides a unique instance in each lazy loaded module while all eagerly loaded modules share one instance.");
@@ -212,9 +208,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         additionalProperties.put("providedIn", providedIn);
         additionalProperties.put("isProvidedInNone", getIsProvidedInNone());
 
-        if (ngVersion.atLeast("9.0.0")) {
-            additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, true);
-        }
+        additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, true);
 
         if (ngVersion.atLeast("12.0.0")) {
             additionalProperties.put(HTTP_CONTEXT_IN_OPTIONS, true);
