@@ -137,6 +137,7 @@ public class SpringCodegenTest {
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/BirdsApi.java"), "@CookieValue");
     }
 
+    /* Issue #11731 */
     @Test
     public void doGenerateMediatypes() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -144,7 +145,7 @@ public class SpringCodegenTest {
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/spring/issue_missingmediatypes.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/3_0/spring/issue_11731.yaml", null, new ParseOptions()).getOpenAPI();
 
         SpringCodegen codegen = new SpringCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
@@ -164,9 +165,9 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/CustomersApi.java"), "MediaType.valueOf(\"application/hal+json\")");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/CustomersApi.java"), "setExampleResponse(request, \"application/hal+json\", exampleString)");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/VersionApi.java"), "MediaType.valueOf(\"text/plain\")");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/VersionApi.java"), "setExampleResponse(request, \"text/plain\", exampleString)");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"), "MediaType.valueOf(\"application/json\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"), "setExampleResponse(request, \"application/json\", exampleString)");
     }
 
     @Test

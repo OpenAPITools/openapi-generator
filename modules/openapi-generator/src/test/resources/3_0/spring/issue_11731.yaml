@@ -1,10 +1,7 @@
 openapi: 3.0.2
 info:
   title: Petstore - OpenAPI 3.0
-  description: |-
-    Forked and modified by International Network Support & Service - Glas.
-    This document contains some more endpoints containing APIs that don't have only common formats like application/json and other commonly used formats, and contains also float numbers and Umlaute.
-    This is to test & check if a tool can handle also those formats.
+  description: Specification to reproduce issues with mediatypes other than common application/json
   termsOfService: http://inss.ch
   contact:
     email: openapi@inss.ch
@@ -12,79 +9,42 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
-externalDocs:
-  description: Find out more about Swagger
-  url: http://swagger.io
 servers:
   - url: http://localhost:8080/api/v3
-tags:
-  - name: troublemaker
-    description: APIs causing possibly issues.
-  - name: pet
-    description: Everything about your Pets
-    externalDocs:
-      description: Find out more
-      url: http://swagger.io
-  - name: store
-    description: Operations about user
-  - name: user
-    description: Access to Petstore orders
-    externalDocs:
-      description: Find out more about our store
-      url: http://swagger.io
 paths:
-  /books:
+  /pet/{petId}:
     get:
       tags:
-        - book-controller
-      summary: getAll
-      operationId: getAllUsingGET
-      responses:
-        200:
-          description: OK
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/ResourcesBookResource'
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Not Found
-          content: {}
-  /books/{customerId}:
-    get:
-      tags:
-        - book-controller
-      summary: getAllByCustomerId
-      operationId: getAllByCustomerIdUsingGET
+        - pet
+        - troublemaker
+      summary: Find pet by ID
+      description: Returns a single pet with example of a german Umlaut.
+      operationId: getPetById
       parameters:
-        - name: customerId
+        - name: petId
           in: path
-          description: customerId
+          description: ID of pet to return
           required: true
           schema:
             type: integer
             format: int64
+            example: 99
       responses:
-        200:
-          description: OK
+        '200':
+          description: successful operation
           content:
-            application/hal+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ResourcesBookResource'
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Not Found
-          content: {}
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+      security:
+        - api_key: []
+        - petstore_auth:
+            - write:pets
+            - read:pets
   /customers:
     get:
       tags:
@@ -250,35 +210,41 @@ paths:
 
 components:
   schemas:
-    Book:
-      title: Book
+    Pet:
+      required:
+        - name
+        - photoUrls
       type: object
       properties:
-        author:
-          type: string
-        errorMsg:
-          type: string
         id:
           type: integer
           format: int64
-        language:
+          example: 10
+          description: 'Id'
+        name:
           type: string
-        title:
-          type: string
-    BookResource:
-      title: BookResource
-      type: object
-      properties:
-        _links:
+          example: SChäferhund
+          description: 'Name'
+        category:
+          $ref: '#/components/schemas/Category'
+        photoUrls:
           type: array
-          xml:
-            name: link
-            attribute: false
-            wrapped: false
           items:
-            $ref: '#/components/schemas/Link'
-        book:
-          $ref: '#/components/schemas/Book'
+            type: string
+          example: [http://example.com/photo.png, http://example.com/photo2,png]
+          description: 'Photo urls.'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        status:
+          type: string
+          description: pet status in the store
+          enum:
+            - available
+            - pending
+            - sold
+          example: available
     Customer:
       title: Customer
       type: object
@@ -354,26 +320,6 @@ components:
             name: type
             attribute: true
             wrapped: false
-    ResourcesBookResource:
-      title: Resources«BookResource»
-      type: object
-      properties:
-        _embedded:
-          type: array
-          xml:
-            name: embedded
-            attribute: false
-            wrapped: true
-          items:
-            $ref: '#/components/schemas/BookResource'
-        _links:
-          type: array
-          xml:
-            name: link
-            attribute: false
-            wrapped: false
-          items:
-            $ref: '#/components/schemas/Link'
     ResourcesCustomerResource:
       title: Resources«CustomerResource»
       type: object
