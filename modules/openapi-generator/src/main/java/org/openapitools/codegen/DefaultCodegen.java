@@ -565,6 +565,9 @@ public class DefaultCodegen implements CodegenConfig {
                 parent.getChildren().add(cm);
                 parent.hasChildren = true;
                 Schema parentSchema = this.openAPI.getComponents().getSchemas().get(parent.name);
+                if (parentSchema == null) {
+                    throw new NullPointerException(parent.name+" in "+this.openAPI.getComponents().getSchemas());
+                }
                 if (parentSchema.getDiscriminator() == null) {
                     parent = allModels.get(parent.getParent());
                 } else {
