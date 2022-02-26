@@ -174,6 +174,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             LOGGER.info("  (you can select the angular version by setting the additionalProperties (--additional-properties in CLI) ngVersion)");
         }
 
+        if (!ngVersion.atLeast("9.0.0")) {
+            throw new IllegalArgumentException("Invalid ngVersion: " + ngVersion + ". Only Angular v9+ is supported.");
+        }
+
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration(ngVersion);
         }
@@ -202,10 +206,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
         }
 
-        if (ngVersion.atLeast("9.0.0") && additionalProperties.containsKey(PROVIDED_IN)) {
+        if (additionalProperties.containsKey(PROVIDED_IN)) {
             setProvidedIn(additionalProperties.get(PROVIDED_IN).toString());
-        } else {
-            throw new IllegalArgumentException("Invalid ngVersion. Only Angular v9+ is supported.");
         }
         additionalProperties.put("providedIn", providedIn);
         additionalProperties.put("isProvidedInNone", getIsProvidedInNone());
