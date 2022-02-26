@@ -168,7 +168,7 @@ public class AdditionalPropertiesString extends HashMap<String, String> implemen
       if (jsonObj == null) {
         if (AdditionalPropertiesString.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesString is not found in the empty JSON string", AdditionalPropertiesString.openapiRequiredFields.toString()));
         }
       }
