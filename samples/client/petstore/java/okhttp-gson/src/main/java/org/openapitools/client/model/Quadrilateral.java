@@ -109,7 +109,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
 
                     // deserialize ComplexQuadrilateral
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         ComplexQuadrilateral.validateJsonObject(jsonObject);
                         actualAdapter = adapterComplexQuadrilateral;
                         match++;
@@ -121,7 +121,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
 
                     // deserialize SimpleQuadrilateral
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         SimpleQuadrilateral.validateJsonObject(jsonObject);
                         actualAdapter = adapterSimpleQuadrilateral;
                         match++;

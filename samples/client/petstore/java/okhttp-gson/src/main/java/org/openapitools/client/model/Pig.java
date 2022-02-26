@@ -109,7 +109,7 @@ public class Pig extends AbstractOpenApiSchema {
 
                     // deserialize BasquePig
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         BasquePig.validateJsonObject(jsonObject);
                         actualAdapter = adapterBasquePig;
                         match++;
@@ -121,7 +121,7 @@ public class Pig extends AbstractOpenApiSchema {
 
                     // deserialize DanishPig
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         DanishPig.validateJsonObject(jsonObject);
                         actualAdapter = adapterDanishPig;
                         match++;

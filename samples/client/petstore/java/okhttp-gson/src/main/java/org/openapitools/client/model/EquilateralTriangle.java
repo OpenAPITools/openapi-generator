@@ -172,7 +172,7 @@ public class EquilateralTriangle {
       if (jsonObj == null) {
         if (EquilateralTriangle.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in EquilateralTriangle is not found in the empty JSON string", EquilateralTriangle.openapiRequiredFields.toString()));
         }
       }

@@ -118,7 +118,7 @@ public class Mammal extends AbstractOpenApiSchema {
 
                     // deserialize Pig
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Pig.validateJsonObject(jsonObject);
                         actualAdapter = adapterPig;
                         match++;
@@ -130,7 +130,7 @@ public class Mammal extends AbstractOpenApiSchema {
 
                     // deserialize Whale
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Whale.validateJsonObject(jsonObject);
                         actualAdapter = adapterWhale;
                         match++;
@@ -142,7 +142,7 @@ public class Mammal extends AbstractOpenApiSchema {
 
                     // deserialize Zebra
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Zebra.validateJsonObject(jsonObject);
                         actualAdapter = adapterZebra;
                         match++;
