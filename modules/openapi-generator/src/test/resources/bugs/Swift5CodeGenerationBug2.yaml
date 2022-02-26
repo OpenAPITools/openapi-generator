@@ -84,7 +84,7 @@ components:
           $ref: '#/components/schemas/Pet'
         type:
           type: string
-          description: Type Diskriminator
+          description: Type Discriminator
       description: Base Pet
       discriminator:
         propertyName: type

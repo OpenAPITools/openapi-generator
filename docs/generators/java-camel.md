@@ -37,7 +37,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |camelRestClientRequestValidation|enable validation of the client request to check whether the Content-Type and Accept headers from the client is supported by the Rest-DSL configuration| |false|
 |camelRestComponent|name of the Camel component to use as the REST consumer| |servlet|
 |camelSecurityDefinitions|generate camel security definitions| |true|
-|camelUseDefaulValidationtErrorProcessor|generate default validation error processor| |true|
+|camelUseDefaultValidationErrorProcessor|generate default validation error processor| |true|
 |camelValidationErrorProcessor|validation error processor bean name| |validationErrorProcessor|
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|

@@ -16,7 +16,7 @@ function handleError(err, request, response, next) {
 /**
  * The purpose of this route is to collect the request variables as defined in the
  * OpenAPI document and pass them to the handling controller as another Express
- * middleware. All parameters are collected in the requet.swagger.values key-value object
+ * middleware. All parameters are collected in the request.swagger.values key-value object
  *
  * The assumption is that security handlers have already verified and allowed access
  * to this path. If the business-logic of a particular path is dependant on authentication

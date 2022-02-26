@@ -4,7 +4,7 @@ const Service = require('./Service');
 /**
 * Add a new pet to the store
 *
-* body Pet Pet object that needs to be added to the store
+* body Pet object that needs to be added to the store
 * no response value expected for this operation
 * */
 const addPet = ({ body }) => new Promise(
@@ -109,7 +109,7 @@ const getPetById = ({ petId }) => new Promise(
 /**
 * Update an existing pet
 *
-* body Pet Pet object that needs to be added to the store
+* body Pet object that needs to be added to the store
 * no response value expected for this operation
 * */
 const updatePet = ({ body }) => new Promise(

@@ -25,7 +25,7 @@ const createUser = ({ body }) => new Promise(
 /**
 * Creates list of users with given input array
 *
-* body List List of user object
+* body List of user object
 * no response value expected for this operation
 * */
 const createUsersWithArrayInput = ({ body }) => new Promise(
@@ -45,7 +45,7 @@ const createUsersWithArrayInput = ({ body }) => new Promise(
 /**
 * Creates list of users with given input array
 *
-* body List List of user object
+* body List of user object
 * no response value expected for this operation
 * */
 const createUsersWithListInput = ({ body }) => new Promise(

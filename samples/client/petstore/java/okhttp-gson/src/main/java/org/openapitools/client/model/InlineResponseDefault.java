@@ -139,7 +139,7 @@ public class InlineResponseDefault {
       if (jsonObj == null) {
         if (InlineResponseDefault.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in InlineResponseDefault is not found in the empty JSON string", InlineResponseDefault.openapiRequiredFields.toString()));
         }
       }

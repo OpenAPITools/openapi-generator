@@ -17,7 +17,7 @@ namespace Org.OpenAPITools.Client
         private string _raw;
 
         /// <summary>
-        /// Consturcts an OAuthToken object.
+        /// Constructs an OAuthToken object.
         /// </summary>
         /// <param name="value"></param>
         /// <param name="timeout"></param>

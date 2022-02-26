@@ -162,7 +162,7 @@ public class ClassModel implements Parcelable {
       if (jsonObj == null) {
         if (ClassModel.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in ClassModel is not found in the empty JSON string", ClassModel.openapiRequiredFields.toString()));
         }
       }

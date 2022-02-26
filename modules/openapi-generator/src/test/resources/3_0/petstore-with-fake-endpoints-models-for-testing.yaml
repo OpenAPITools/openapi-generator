@@ -827,7 +827,7 @@ paths:
             format: int64
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/outer/number:
     post:
       tags:
@@ -1208,7 +1208,7 @@ servers:
           - 'v1'
           - 'v2'
         default: 'v2'
-  - url: https://127.0.0.1/no_varaible
+  - url: https://127.0.0.1/no_variable
     description: The local server without variables
 components:
   requestBodies:

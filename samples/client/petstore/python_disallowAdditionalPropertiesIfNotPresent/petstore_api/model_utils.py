@@ -1076,7 +1076,7 @@ def order_response_types(required_types):
     return sorted_types
 
 
-def remove_uncoercible(required_types_classes, current_item, spec_property_naming,
+def remove_incoercible(required_types_classes, current_item, spec_property_naming,
                        must_convert=True):
     """Only keeps the type conversions that are possible
 
@@ -1439,7 +1439,7 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
         ApiKeyError
     """
     valid_classes_ordered = order_response_types(valid_classes)
-    valid_classes_coercible = remove_uncoercible(
+    valid_classes_coercible = remove_incoercible(
         valid_classes_ordered, input_value, spec_property_naming)
     if not valid_classes_coercible or key_type:
         # we do not handle keytype errors, json will take care
@@ -1584,7 +1584,7 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
     # input_value's type is in valid_classes
     if len(valid_classes) > 1 and configuration:
         # there are valid classes which are not the current class
-        valid_classes_coercible = remove_uncoercible(
+        valid_classes_coercible = remove_incoercible(
             valid_classes, input_value, spec_property_naming, must_convert=False)
         if valid_classes_coercible:
             converted_instance = attempt_convert_item(

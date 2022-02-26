@@ -167,7 +167,7 @@ components:
           type: string
     baseAllOf:
       properties:
-        sampleBasePropery:
+        sampleBaseProperty:
           type: string
       type: object
     aNullableContainer:

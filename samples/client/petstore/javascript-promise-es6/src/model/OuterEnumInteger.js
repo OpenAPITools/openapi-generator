@@ -42,7 +42,7 @@ export default class OuterEnumInteger {
     
 
     /**
-    * Returns a <code>OuterEnumInteger</code> enum value from a Javascript object name.
+    * Returns a <code>OuterEnumInteger</code> enum value from a JavaScript object name.
     * @param {Object} data The plain JavaScript object containing the name of the enum value.
     * @return {module:model/OuterEnumInteger} The enum <code>OuterEnumInteger</code> value.
     */

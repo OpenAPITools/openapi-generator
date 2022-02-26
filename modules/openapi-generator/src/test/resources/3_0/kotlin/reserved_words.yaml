@@ -214,7 +214,7 @@ components:
           $ref: '#/components/schemas/Linked'
 
     Linked:
-      description: Refernce links
+      description: Reference links
       type: object
       properties:
         as:

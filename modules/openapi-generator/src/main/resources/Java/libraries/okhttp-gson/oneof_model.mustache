@@ -96,7 +96,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{#oneOf}}
                     // deserialize {{{.}}}
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         {{.}}.validateJsonObject(jsonObject);
                         actualAdapter = adapter{{.}};
                         match++;

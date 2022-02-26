@@ -2244,7 +2244,7 @@ impl EnumArrays {
 }
 
 /// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
@@ -4400,7 +4400,7 @@ impl OuterComposite {
 }
 
 /// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]

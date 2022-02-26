@@ -155,7 +155,7 @@ namespace {{packageName}}.Client
     }
     {{! NOTE: Any changes related to RestSharp should be done in this class. All other client classes are for extensibility by consumers.}}
     /// <summary>
-    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementatios),
+    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementations),
     /// encapsulating general REST accessor use cases.
     /// </summary>
     {{>visibility}} partial class ApiClient : ISynchronousClient{{#supportsAsync}}, IAsynchronousClient{{/supportsAsync}}

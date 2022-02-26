@@ -635,7 +635,7 @@ class ApiClient {
                 }
             },
             {
-              'url': "https://127.0.0.1/no_varaible",
+              'url': "https://127.0.0.1/no_variable",
               'description': "The local server without variables",
             }
       ];

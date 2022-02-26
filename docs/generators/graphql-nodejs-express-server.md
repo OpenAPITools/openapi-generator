@@ -9,7 +9,7 @@ title: Documentation for the graphql-nodejs-express-server Generator
 | generator name | graphql-nodejs-express-server | pass this to the generate command after -g |
 | generator stability | STABLE | |
 | generator type | SERVER | |
-| generator language | Javascript | |
+| generator language | JavaScript | |
 | generator default templating engine | mustache | |
 | helpTxt | Generates a GraphQL Node.js Express server (beta) including it's types, queries, mutations, (resolvers) | |
 

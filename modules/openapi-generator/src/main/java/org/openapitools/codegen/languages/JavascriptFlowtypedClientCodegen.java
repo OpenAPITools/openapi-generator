@@ -196,7 +196,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     public String getHelp() {
-        return "Generates a Javascript client library (beta) using Flow types and Fetch API.";
+        return "Generates a JavaScript client library (beta) using Flow types and Fetch API.";
     }
 
     public String getNpmName() {

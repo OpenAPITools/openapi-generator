@@ -110,7 +110,7 @@ public class JSONTest {
             // OK
         }
         try {
-            // unexpected miliseconds
+            // unexpected milliseconds
             json.deserialize("\"2015-11-07T03:49:09.000Z\"", Date.class);
             fail("json parsing should fail");
         } catch (RuntimeException e) {
@@ -277,7 +277,7 @@ public class JSONTest {
                 });
         assertTrue(exception7.getMessage().contains("The field `unknown_field` in the JSON string is not defined in the `Tag` properties. JSON: {\"unknown_field\":543,\"id\":\"tag 123\"}"));
 
-        // test Pet with invalid tags (missing reqired)
+        // test Pet with invalid tags (missing required)
         String json8 = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"]}";
         Exception exception8 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
                 PetWithRequiredTags t8 = gson.fromJson(json8, PetWithRequiredTags.class);

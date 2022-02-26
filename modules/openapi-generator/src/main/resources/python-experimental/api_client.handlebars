@@ -995,7 +995,7 @@ class ApiClient:
         :param stream: if True, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Also when True, if the openapi spec describes a file download,
-                                 the data will be written to a local filesystme file and the BinarySchema
+                                 the data will be written to a local filesystem file and the BinarySchema
                                  instance will also inherit from FileSchema and FileIO
                                  Default is False.
         :type stream: bool, optional
@@ -1114,12 +1114,12 @@ class ApiClient:
                 " `POST`, `PATCH`, `PUT` or `DELETE`."
             )
 
-    def update_params_for_auth(self, headers, querys, auth_settings,
+    def update_params_for_auth(self, headers, queries, auth_settings,
                                resource_path, method, body):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
-        :param querys: Query parameters tuple list to be updated.
+        :param queries: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
         :param resource_path: A string representation of the HTTP request resource path.
         :param method: A string representation of the HTTP request method.
@@ -1143,12 +1143,12 @@ class ApiClient:
                         # that are calculated dynamically.
                         signing_info = self.configuration.signing_info
                         auth_headers = signing_info.get_http_signature_headers(
-                                            resource_path, method, headers, body, querys)
+                                            resource_path, method, headers, body, queries)
                         for key, value in auth_headers.items():
                             headers.add(key, value)
 {{/if}}
                 elif auth_setting['in'] == 'query':
-                    querys.append((auth_setting['key'], auth_setting['value']))
+                    queries.append((auth_setting['key'], auth_setting['value']))
                 else:
                     raise ApiValueError(
                         'Authentication token must be in `query` or `header`'

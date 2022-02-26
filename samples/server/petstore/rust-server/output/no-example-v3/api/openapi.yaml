@@ -13,7 +13,7 @@ paths:
           application/json:
             schema:
               properties:
-                propery:
+                property:
                   type: string
               required:
               - property
@@ -33,7 +33,7 @@ components:
   schemas:
     inline_object:
       properties:
-        propery:
+        property:
           type: string
       required:
       - property

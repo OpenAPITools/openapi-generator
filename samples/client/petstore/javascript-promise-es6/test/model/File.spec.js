@@ -50,13 +50,13 @@
   describe('File', function() {
     it('should create an instance of File', function() {
       // uncomment below and update the code to test File
-      //var instane = new OpenApiPetstore.File();
+      //var instance = new OpenApiPetstore.File();
       //expect(instance).to.be.a(OpenApiPetstore.File);
     });
 
     it('should have the property sourceURI (base name: "sourceURI")', function() {
       // uncomment below and update the code to test the property sourceURI
-      //var instane = new OpenApiPetstore.File();
+      //var instance = new OpenApiPetstore.File();
       //expect(instance).to.be();
     });
 

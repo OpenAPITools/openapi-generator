@@ -222,7 +222,7 @@ public class Fruit extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Apple`. If the actual instanct is not `Apple`,
+     * Get the actual instance of `Apple`. If the actual instance is not `Apple`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Apple`
@@ -233,7 +233,7 @@ public class Fruit extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Banana`. If the actual instanct is not `Banana`,
+     * Get the actual instance of `Banana`. If the actual instance is not `Banana`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Banana`

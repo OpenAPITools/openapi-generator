@@ -50,37 +50,37 @@
   describe('EnumTest', function() {
     it('should create an instance of EnumTest', function() {
       // uncomment below and update the code to test EnumTest
-      //var instane = new OpenApiPetstore.EnumTest();
+      //var instance = new OpenApiPetstore.EnumTest();
       //expect(instance).to.be.a(OpenApiPetstore.EnumTest);
     });
 
     it('should have the property enumString (base name: "enum_string")', function() {
       // uncomment below and update the code to test the property enumString
-      //var instane = new OpenApiPetstore.EnumTest();
+      //var instance = new OpenApiPetstore.EnumTest();
       //expect(instance).to.be();
     });
 
     it('should have the property enumStringRequired (base name: "enum_string_required")', function() {
       // uncomment below and update the code to test the property enumStringRequired
-      //var instane = new OpenApiPetstore.EnumTest();
+      //var instance = new OpenApiPetstore.EnumTest();
       //expect(instance).to.be();
     });
 
     it('should have the property enumInteger (base name: "enum_integer")', function() {
       // uncomment below and update the code to test the property enumInteger
-      //var instane = new OpenApiPetstore.EnumTest();
+      //var instance = new OpenApiPetstore.EnumTest();
       //expect(instance).to.be();
     });
 
     it('should have the property enumNumber (base name: "enum_number")', function() {
       // uncomment below and update the code to test the property enumNumber
-      //var instane = new OpenApiPetstore.EnumTest();
+      //var instance = new OpenApiPetstore.EnumTest();
       //expect(instance).to.be();
     });
 
     it('should have the property outerEnum (base name: "outerEnum")', function() {
       // uncomment below and update the code to test the property outerEnum
-      //var instane = new OpenApiPetstore.EnumTest();
+      //var instance = new OpenApiPetstore.EnumTest();
       //expect(instance).to.be();
     });
 

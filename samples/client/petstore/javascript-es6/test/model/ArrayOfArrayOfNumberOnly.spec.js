@@ -50,13 +50,13 @@
   describe('ArrayOfArrayOfNumberOnly', function() {
     it('should create an instance of ArrayOfArrayOfNumberOnly', function() {
       // uncomment below and update the code to test ArrayOfArrayOfNumberOnly
-      //var instane = new OpenApiPetstore.ArrayOfArrayOfNumberOnly();
+      //var instance = new OpenApiPetstore.ArrayOfArrayOfNumberOnly();
       //expect(instance).to.be.a(OpenApiPetstore.ArrayOfArrayOfNumberOnly);
     });
 
     it('should have the property arrayArrayNumber (base name: "ArrayArrayNumber")', function() {
       // uncomment below and update the code to test the property arrayArrayNumber
-      //var instane = new OpenApiPetstore.ArrayOfArrayOfNumberOnly();
+      //var instance = new OpenApiPetstore.ArrayOfArrayOfNumberOnly();
       //expect(instance).to.be();
     });
 

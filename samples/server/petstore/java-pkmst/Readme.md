@@ -19,7 +19,7 @@ i)Allow you to configure Oauth2 security based authorization for your microservi
 
  Additional Features
  j)generate sample cucumber file and dependency to drive your Behaviour driven development.
- k)generate gatling based performance test, which can be excuted via build pipeline like jenkins etc.
+ k)generate gatling based performance test, which can be executed via build pipeline like jenkins etc.
  
  
 Working:

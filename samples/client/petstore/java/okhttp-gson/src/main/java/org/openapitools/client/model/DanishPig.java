@@ -139,7 +139,7 @@ public class DanishPig {
       if (jsonObj == null) {
         if (DanishPig.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in DanishPig is not found in the empty JSON string", DanishPig.openapiRequiredFields.toString()));
         }
       }

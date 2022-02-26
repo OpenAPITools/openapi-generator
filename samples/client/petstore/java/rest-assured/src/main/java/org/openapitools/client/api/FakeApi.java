@@ -191,7 +191,7 @@ public class FakeApi {
             nickname = "testGroupParameters",
             tags = { "fake" })
     @ApiResponses(value = { 
-            @ApiResponse(code = 400, message = "Someting wrong")  })
+            @ApiResponse(code = 400, message = "Something wrong")  })
     public TestGroupParametersOper testGroupParameters() {
         return new TestGroupParametersOper(createReqSpec());
     }

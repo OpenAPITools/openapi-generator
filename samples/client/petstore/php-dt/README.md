@@ -113,7 +113,7 @@ $config = [
             //'another-security-scheme' => AnotherSecuritySchemeProvider::class,
         ],
         'aliases' => [
-            //'custom-name-for-htt-bearer' => OpenAPIGenerator\APIClient\SecurityProvider\HttpBearer::class,
+            //'custom-name-for-http-bearer' => OpenAPIGenerator\APIClient\SecurityProvider\HttpBearer::class,
         ],
     ],
 ];

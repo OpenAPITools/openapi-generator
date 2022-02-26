@@ -361,7 +361,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toVarName(String name) {
         // translate @ for properties (like @type) to at_. 
-        // Otherwise an additional "type" property will leed to duplcates
+        // Otherwise an additional "type" property will leed to duplicates
         name = name.replaceAll("^@", "at_");
 
         // replace - with _ e.g. created-at => created_at

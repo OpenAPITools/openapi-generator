@@ -7,16 +7,16 @@ use crate::header;
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct InlineObject {
-    #[serde(rename = "propery")]
+    #[serde(rename = "property")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub propery: Option<String>,
+    pub property: Option<String>,
 
 }
 
 impl InlineObject {
     pub fn new() -> InlineObject {
         InlineObject {
-            propery: None,
+            property: None,
         }
     }
 }
@@ -28,9 +28,9 @@ impl std::string::ToString for InlineObject {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
-        if let Some(ref propery) = self.propery {
-            params.push("propery".to_string());
-            params.push(propery.to_string());
+        if let Some(ref property) = self.property {
+            params.push("property".to_string());
+            params.push(property.to_string());
         }
 
         params.join(",").to_string()
@@ -47,7 +47,7 @@ impl std::str::FromStr for InlineObject {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
-            pub propery: Vec<String>,
+            pub property: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -64,7 +64,7 @@ impl std::str::FromStr for InlineObject {
 
             if let Some(key) = key_result {
                 match key {
-                    "propery" => intermediate_rep.propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "property" => intermediate_rep.property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing InlineObject".to_string())
                 }
             }
@@ -75,7 +75,7 @@ impl std::str::FromStr for InlineObject {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(InlineObject {
-            propery: intermediate_rep.propery.into_iter().next(),
+            property: intermediate_rep.property.into_iter().next(),
         })
     }
 }

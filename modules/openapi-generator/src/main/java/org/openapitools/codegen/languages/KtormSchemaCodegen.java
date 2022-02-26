@@ -161,8 +161,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         typeMapping.put("short", "kotlin.Short");
         typeMapping.put("char", "kotlin.String");
         typeMapping.put("real", "kotlin.Double");
-        typeMapping.put("UUID", "java.util.UUID"); //be explict
-        typeMapping.put("URI", "java.net.URI"); //be explict
+        typeMapping.put("UUID", "java.util.UUID"); //be explicit
+        typeMapping.put("URI", "java.net.URI"); //be explicit
         typeMapping.put("decimal", "java.math.BigDecimal");
         typeMapping.put("BigDecimal", "java.math.BigDecimal");
         typeMapping.put("AnyType", "kotlin.Any");

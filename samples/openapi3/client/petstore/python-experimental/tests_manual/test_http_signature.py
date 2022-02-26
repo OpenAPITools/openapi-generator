@@ -279,7 +279,7 @@
 #             ]
 #         )
 #         config = Configuration(host=HOST, signing_info=signing_cfg)
-#         # Set the OAuth2 acces_token to None. Here we are interested in testing
+#         # Set the OAuth2 access_token to None. Here we are interested in testing
 #         # the HTTP signature scheme.
 #         config.access_token = None
 #
@@ -310,7 +310,7 @@
 #             private_key_passphrase=self.private_key_passphrase,
 #         )
 #         config = Configuration(host=HOST, signing_info=signing_cfg)
-#         # Set the OAuth2 acces_token to None. Here we are interested in testing
+#         # Set the OAuth2 access_token to None. Here we are interested in testing
 #         # the HTTP signature scheme.
 #         config.access_token = None
 #
@@ -346,7 +346,7 @@
 #             ]
 #         )
 #         config = Configuration(host=HOST, signing_info=signing_cfg)
-#         # Set the OAuth2 acces_token to None. Here we are interested in testing
+#         # Set the OAuth2 access_token to None. Here we are interested in testing
 #         # the HTTP signature scheme.
 #         config.access_token = None
 #
@@ -382,7 +382,7 @@
 #             ]
 #         )
 #         config = Configuration(host=HOST, signing_info=signing_cfg)
-#         # Set the OAuth2 acces_token to None. Here we are interested in testing
+#         # Set the OAuth2 access_token to None. Here we are interested in testing
 #         # the HTTP signature scheme.
 #         config.access_token = None
 #
@@ -418,7 +418,7 @@
 #             ]
 #         )
 #         config = Configuration(host=HOST, signing_info=signing_cfg)
-#         # Set the OAuth2 acces_token to None. Here we are interested in testing
+#         # Set the OAuth2 access_token to None. Here we are interested in testing
 #         # the HTTP signature scheme.
 #         config.access_token = None
 #

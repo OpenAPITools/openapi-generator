@@ -76,8 +76,8 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
-    def test_get_inline_additionl_properties_ref_payload(self):
-        """Test case for get_inline_additionl_properties_ref_payload
+    def test_get_inline_additional_properties_ref_payload(self):
+        """Test case for get_inline_additional_properties_ref_payload
 
         """
         pass

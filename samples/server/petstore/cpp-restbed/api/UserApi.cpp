@@ -670,7 +670,7 @@ void UserApiUserLoginResource::handler_GET_internal(const std::shared_ptr<restbe
         result = resultObject;
         // Description: calls per hour allowed by the user
         setResponseHeader(session, "X-Rate-Limit");
-        // Description: date in UTC when toekn expires
+        // Description: date in UTC when token expires
         setResponseHeader(session, "X-Expires-After");
 
         const constexpr auto contentType = "application/json";

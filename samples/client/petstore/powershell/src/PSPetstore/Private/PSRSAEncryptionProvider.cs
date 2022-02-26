@@ -18,7 +18,7 @@ using System.Text;
 namespace RSAEncryption
 {
     /// <summary>
-    /// A RSA enccryption provider.
+    /// A RSA encryption provider.
     /// </summary>
     public class RSAEncryptionProvider
     {
@@ -326,7 +326,7 @@ namespace RSAEncryption
         /// <summary>
         /// Decrypt the key.
         /// </summary>
-        /// <param name="chipherData">Cipher data.</param>
+        /// <param name="cipherData">Cipher data.</param>
         /// <param name="desKey">Key to decrypt.</param>
         /// <param name="IV">Initialization vector.</param>
         /// <returns>Decrypted key.</returns>

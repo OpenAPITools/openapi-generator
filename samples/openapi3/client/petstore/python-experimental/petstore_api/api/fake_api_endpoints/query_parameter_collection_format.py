@@ -156,7 +156,7 @@ request_query_ref_param = api_client.QueryParameter(
     required=True,
     explode=True,
 )
-_path = '/fake/test-query-paramters'
+_path = '/fake/test-query-parameters'
 _method = 'PUT'
 
 

@@ -253,10 +253,10 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 writer.write(underscored(fragment.execute()));
             }
         });
-        additionalProperties.put("modulized", new Mustache.Lambda() {
+        additionalProperties.put("modularized", new Mustache.Lambda() {
             @Override
             public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                writer.write(modulized(fragment.execute()));
+                writer.write(modularized(fragment.execute()));
             }
         });
 
@@ -271,7 +271,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         if (moduleName == null) {
             if (info.getTitle() != null) {
                 // default to the appName (from title field)
-                setModuleName(modulized(escapeText(info.getTitle())));
+                setModuleName(modularized(escapeText(info.getTitle())));
             } else {
                 setModuleName(defaultModuleName);
             }
@@ -366,12 +366,12 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         return join("_", underscoredWords);
     }
 
-    private String modulized(String words) {
-        ArrayList<String> modulizedWords = new ArrayList<>();
+    private String modularized(String words) {
+        ArrayList<String> modularizedWords = new ArrayList<>();
         for (String word : words.split(" ")) {
-            modulizedWords.add(camelize(word));
+            modularizedWords.add(camelize(word));
         }
-        return join("", modulizedWords);
+        return join("", modularizedWords);
     }
 
     /**

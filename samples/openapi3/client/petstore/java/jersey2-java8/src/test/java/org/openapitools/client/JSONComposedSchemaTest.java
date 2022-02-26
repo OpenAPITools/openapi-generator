@@ -225,7 +225,7 @@ public class JSONComposedSchemaTest {
     @Test
     public void testOneOfMultipleDiscriminators() throws Exception {
         // 'shapeType' is a discriminator for the 'Shape' model and
-        // 'triangleType' is a discriminator forr the 'Triangle' model.
+        // 'triangleType' is a discriminator for the 'Triangle' model.
         String str = "{ \"shapeType\": \"Triangle\", \"triangleType\": \"EquilateralTriangle\" }";
 
         // We should be able to deserialize a equilateral triangle into a EquilateralTriangle class.

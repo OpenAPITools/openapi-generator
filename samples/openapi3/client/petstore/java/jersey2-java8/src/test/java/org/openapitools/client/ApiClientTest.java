@@ -104,7 +104,7 @@ public class ApiClientTest {
 
         String result = "{\"id\":4321,\"category\":{\"id\":4321,\"name\":\"jersey2 java8 category\"},\"name\":\"jersey2 java8 pet\",\"photoUrls\":[\"A\",\"B\",\"C\"],\"tags\":[{\"id\":4321,\"name\":\"jersey2 java8 tag\"}],\"status\":\"available\"}";
         assertEquals(result, apiClient.serializeToString(pet, null, "application/json", false));
-        // nulllable and there should be no diffencne as the payload is not null
+        // nullable and there should be no difference as the payload is not null
         assertEquals(result, apiClient.serializeToString(pet, null, "application/json", true));
 
         // non-nullable null object should be converted to "" (empty body)

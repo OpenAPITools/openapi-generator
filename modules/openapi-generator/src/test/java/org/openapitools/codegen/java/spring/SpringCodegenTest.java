@@ -721,8 +721,8 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/BearsApi.java"), "@PathVariable");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java"), "allowableValues = \"sleeping, awake\"");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java"), "@PathVariable");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/GirafesApi.java"), "allowableValues = \"0, 1\"");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/GirafesApi.java"), "@PathVariable");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/GiraffesApi.java"), "allowableValues = \"0, 1\"");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/GiraffesApi.java"), "@PathVariable");
     }
 
     @Test

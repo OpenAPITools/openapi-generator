@@ -511,7 +511,7 @@ impl AnyOfObject {
 }
 
 /// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
@@ -831,7 +831,7 @@ impl DuplicateXmlObject {
 
 /// Test a model containing a special character in the enum
 /// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
@@ -1218,7 +1218,7 @@ impl Model12345AnyOfObject {
 }
 
 /// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
@@ -2352,7 +2352,7 @@ impl Result {
 }
 
 /// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]

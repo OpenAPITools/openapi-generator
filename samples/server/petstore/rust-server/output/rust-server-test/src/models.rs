@@ -190,9 +190,9 @@ pub struct AllOfObject {
     #[serde(skip_serializing_if="Option::is_none")]
     pub sample_property: Option<String>,
 
-    #[serde(rename = "sampleBasePropery")]
+    #[serde(rename = "sampleBaseProperty")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sample_base_propery: Option<String>,
+    pub sample_base_property: Option<String>,
 
 }
 
@@ -200,7 +200,7 @@ impl AllOfObject {
     pub fn new() -> AllOfObject {
         AllOfObject {
             sample_property: None,
-            sample_base_propery: None,
+            sample_base_property: None,
         }
     }
 }
@@ -218,9 +218,9 @@ impl std::string::ToString for AllOfObject {
         }
 
 
-        if let Some(ref sample_base_propery) = self.sample_base_propery {
-            params.push("sampleBasePropery".to_string());
-            params.push(sample_base_propery.to_string());
+        if let Some(ref sample_base_property) = self.sample_base_property {
+            params.push("sampleBaseProperty".to_string());
+            params.push(sample_base_property.to_string());
         }
 
         params.join(",").to_string()
@@ -238,7 +238,7 @@ impl std::str::FromStr for AllOfObject {
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
             pub sample_property: Vec<String>,
-            pub sample_base_propery: Vec<String>,
+            pub sample_base_property: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -256,7 +256,7 @@ impl std::str::FromStr for AllOfObject {
             if let Some(key) = key_result {
                 match key {
                     "sampleProperty" => intermediate_rep.sample_property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "sampleBasePropery" => intermediate_rep.sample_base_propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "sampleBaseProperty" => intermediate_rep.sample_base_property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing AllOfObject".to_string())
                 }
             }
@@ -268,7 +268,7 @@ impl std::str::FromStr for AllOfObject {
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(AllOfObject {
             sample_property: intermediate_rep.sample_property.into_iter().next(),
-            sample_base_propery: intermediate_rep.sample_base_propery.into_iter().next(),
+            sample_base_property: intermediate_rep.sample_base_property.into_iter().next(),
         })
     }
 }
@@ -315,16 +315,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct BaseAllOf {
-    #[serde(rename = "sampleBasePropery")]
+    #[serde(rename = "sampleBaseProperty")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sample_base_propery: Option<String>,
+    pub sample_base_property: Option<String>,
 
 }
 
 impl BaseAllOf {
     pub fn new() -> BaseAllOf {
         BaseAllOf {
-            sample_base_propery: None,
+            sample_base_property: None,
         }
     }
 }
@@ -336,9 +336,9 @@ impl std::string::ToString for BaseAllOf {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
-        if let Some(ref sample_base_propery) = self.sample_base_propery {
-            params.push("sampleBasePropery".to_string());
-            params.push(sample_base_propery.to_string());
+        if let Some(ref sample_base_property) = self.sample_base_property {
+            params.push("sampleBaseProperty".to_string());
+            params.push(sample_base_property.to_string());
         }
 
         params.join(",").to_string()
@@ -355,7 +355,7 @@ impl std::str::FromStr for BaseAllOf {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
-            pub sample_base_propery: Vec<String>,
+            pub sample_base_property: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -372,7 +372,7 @@ impl std::str::FromStr for BaseAllOf {
 
             if let Some(key) = key_result {
                 match key {
-                    "sampleBasePropery" => intermediate_rep.sample_base_propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "sampleBaseProperty" => intermediate_rep.sample_base_property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing BaseAllOf".to_string())
                 }
             }
@@ -383,7 +383,7 @@ impl std::str::FromStr for BaseAllOf {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(BaseAllOf {
-            sample_base_propery: intermediate_rep.sample_base_propery.into_iter().next(),
+            sample_base_property: intermediate_rep.sample_base_property.into_iter().next(),
         })
     }
 }

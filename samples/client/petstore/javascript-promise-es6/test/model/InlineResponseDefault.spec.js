@@ -50,7 +50,7 @@
   describe('InlineResponseDefault', function() {
     it('should create an instance of InlineResponseDefault', function() {
       // uncomment below and update the code to test InlineResponseDefault
-      //var instane = new OpenApiPetstore.InlineResponseDefault();
+      //var instance = new OpenApiPetstore.InlineResponseDefault();
       //expect(instance).to.be.a(OpenApiPetstore.InlineResponseDefault);
     });
 

@@ -111,10 +111,10 @@
         } else {
             // Use a for loop instead of forEach to avoid nested functions
             // Otherwise "return" will not work properly
-            for(var propt in currentNode){
-                if (currentNode.hasOwnProperty(propt)) {
-                    currentChild = currentNode[propt]
-                    if (id == propt) {
+            for(var prop in currentNode){
+                if (currentNode.hasOwnProperty(prop)) {
+                    currentChild = currentNode[prop]
+                    if (id == prop) {
                         return currentChild;
                     } else {
                         // Search in the current child

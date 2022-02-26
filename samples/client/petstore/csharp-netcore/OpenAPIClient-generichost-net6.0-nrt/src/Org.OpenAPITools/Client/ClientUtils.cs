@@ -337,7 +337,7 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        /// Adds a Polly circiut breaker to your clients.
+        /// Adds a Polly circuit breaker to your clients.
         /// </summary>
         /// <param name="client"></param>
         /// <param name="handledEventsAllowedBeforeBreaking"></param>

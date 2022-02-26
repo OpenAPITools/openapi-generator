@@ -57,7 +57,7 @@ public class EnumValueTest {
             assertEquals(fromString.getEnumNumber().toString(), "1.1");
 
         } catch (Exception e) {
-            fail("Exception thrown during serialization/deserialzation of JSON: " + e.getMessage());
+            fail("Exception thrown during serialization/deserialization of JSON: " + e.getMessage());
         }
     }
 }

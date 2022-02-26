@@ -297,7 +297,7 @@ public class EnumArrays implements Parcelable {
       if (jsonObj == null) {
         if (EnumArrays.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in EnumArrays is not found in the empty JSON string", EnumArrays.openapiRequiredFields.toString()));
         }
       }

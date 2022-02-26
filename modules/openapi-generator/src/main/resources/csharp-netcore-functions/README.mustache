@@ -104,7 +104,7 @@ c.Proxy = webProxy;
 {{#useHttpClient}}
 
 ### Connections
-Each ApiClass (properly the ApiClient inside it) will create an istance of HttpClient. It will use that for the entire lifecycle and dispose it when called the Dispose method.
+Each ApiClass (properly the ApiClient inside it) will create an instance of HttpClient. It will use that for the entire lifecycle and dispose it when called the Dispose method.
 
 To better manager the connections it's a common practice to reuse the HttpClient and HttpClientHander (see [here](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net) for details). To use your own HttpClient instance just pass it to the ApiClass constructor.
 

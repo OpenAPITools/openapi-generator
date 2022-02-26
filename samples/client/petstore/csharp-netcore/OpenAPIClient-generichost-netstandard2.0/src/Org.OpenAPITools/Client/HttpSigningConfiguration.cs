@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Client
         public string SigningAlgorithm { get; set; }
 
         /// <summary>
-        /// Gets the Signature validaty period in seconds
+        /// Gets the Signature validity period in seconds
         /// </summary>
         public int SignatureValidityPeriod { get; set; }
 
@@ -196,7 +196,7 @@ namespace Org.OpenAPITools.Client
             foreach (var keyVal in httpSignatureHeader)
                 headerValuesList.Add(string.Format("{0}: {1}", keyVal.Key, keyVal.Value));
 
-            //Concatinate headers value separated by new line
+            //Concatenate headers value separated by new line
             var headerValuesString = string.Join("\n", headerValuesList);
             var signatureStringHash = GetStringHash(HashAlgorithm.ToString(), headerValuesString);
             string headerSignatureStr = null;
@@ -324,7 +324,7 @@ namespace Org.OpenAPITools.Client
         private  byte[] ConvertToECDSAANS1Format(byte[] signedBytes)
         {
             var derBytes = new List<byte>();
-            byte derLength = 68; //default lenght for ECDSA code signinged bit 0x44
+            byte derLength = 68; //default length for ECDSA code signinged bit 0x44
             byte rbytesLength = 32; //R length 0x20
             byte sbytesLength = 32; //S length 0x20
             var rBytes = new List<byte>();
@@ -371,7 +371,7 @@ namespace Org.OpenAPITools.Client
             return derBytes.ToArray();
         }
 
-        private  RSACryptoServiceProvider GetRSAProviderFromPemFile(String pemfile, SecureString keyPassPharse = null)
+        private  RSACryptoServiceProvider GetRSAProviderFromPemFile(String pemfile, SecureString keyPassPhrase = null)
         {
             const String pempubheader = "-----BEGIN PUBLIC KEY-----";
             const String pempubfooter = "-----END PUBLIC KEY-----";
@@ -388,7 +388,7 @@ namespace Org.OpenAPITools.Client
 
             if (isPrivateKeyFile)
             {
-                pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPharse);
+                pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPhrase);
 
                 if (pemkey == null)
                     return null;
@@ -398,7 +398,7 @@ namespace Org.OpenAPITools.Client
             return null;
         }
 
-        private byte[] ConvertPrivateKeyToBytes(String instr, SecureString keyPassPharse = null)
+        private byte[] ConvertPrivateKeyToBytes(String instr, SecureString keyPassPhrase = null)
         {
             const String pemprivheader = "-----BEGIN RSA PRIVATE KEY-----";
             const String pemprivfooter = "-----END RSA PRIVATE KEY-----";
@@ -446,12 +446,12 @@ namespace Org.OpenAPITools.Client
                     binkey = Convert.FromBase64String(encryptedstr);
                 }
                 catch (System.FormatException)
-                {   //data is not in base64 fromat
+                {   //data is not in base64 format
                     return null;
                 }
 
-                // TODO: what do we do here if keyPassPharse is null?
-                byte[] deskey = GetEncryptedKey(salt, keyPassPharse, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
+                // TODO: what do we do here if keyPassPhrase is null?
+                byte[] deskey = GetEncryptedKey(salt, keyPassPhrase, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
                 if (deskey == null)
                     return null;
 

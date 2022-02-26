@@ -421,7 +421,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toVarName(String name) {
         // translate @ for properties (like @type) to at_. 
-        // Otherwise an additional "type" property will leed to duplcates
+        // Otherwise an additional "type" property will leed to duplicates
         name = name.replaceAll("^@", "at_");
 
         String sanitizedName = super.sanitizeName(name);

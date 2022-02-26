@@ -14,7 +14,7 @@
 import http from "k6/http";
 import { group, check, sleep } from "k6";
 
-const BASE_URL = "https://127.0.0.1/no_varaible";
+const BASE_URL = "https://127.0.0.1/no_variable";
 // Sleep duration between successive requests.
 // You might want to edit the value of this variable or remove calls to the sleep function on the script.
 const SLEEP_DURATION = 0.1;

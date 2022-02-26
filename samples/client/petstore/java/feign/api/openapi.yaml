@@ -32,7 +32,7 @@ servers:
       - v1
       - v2
 - description: The local server without variables
-  url: https://127.0.0.1/no_varaible
+  url: https://127.0.0.1/no_variable
 tags:
 - description: Everything about your Pets
   name: pet
@@ -710,7 +710,7 @@ paths:
         style: form
       responses:
         "400":
-          description: Someting wrong
+          description: Something wrong
       security:
       - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)

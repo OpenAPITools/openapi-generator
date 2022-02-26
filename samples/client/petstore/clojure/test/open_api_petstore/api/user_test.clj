@@ -59,10 +59,10 @@
 
 (comment
 ;;disable the following due to change in the response type:
-;;ERROR in (test-login-and-lougout-user) (core.clj:4789)
+;;ERROR in (test-login-and-logout-user) (core.clj:4789)
 ;;expected: (re-matches #"logged in user session" result)
 ;;  actual: java.lang.ClassCastException: clojure.lang.PersistentArrayMap cannot be cast to java.lang.CharSequence
-(deftest test-login-and-lougout-user
+(deftest test-login-and-logout-user
   (let [{:keys [username password] :as user} (make-random-user)
         _ (create-user {:user user})
         result (login-user {:username username :password password})]

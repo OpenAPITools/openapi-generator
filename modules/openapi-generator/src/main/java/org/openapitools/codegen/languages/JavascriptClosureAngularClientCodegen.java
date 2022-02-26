@@ -136,7 +136,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
     @Override
     public String getHelp() {
-        return "Generates a Javascript AngularJS client library (beta) annotated with Google Closure Compiler annotations" +
+        return "Generates a JavaScript AngularJS client library (beta) annotated with Google Closure Compiler annotations" +
             "(https://developers.google.com/closure/compiler/docs/js-for-compiler?hl=en)";
     }
 
