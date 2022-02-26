@@ -6,9 +6,9 @@ return CompletableFuture.supplyAsync(()-> {
             {{/async}}getRequest().ifPresent(request -> {
 {{#async}}    {{/async}}            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
     {{/-first}}
-{{#async}}        {{/async}}{{^async}}    {{/async}}            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
+{{#async}}        {{/async}}{{^async}}    {{/async}}            if (mediaType.isCompatibleWith(MediaType.valueOf({{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}))) {
 {{#async}}        {{/async}}{{^async}}    {{/async}}                String exampleString = {{>exampleString}};
-{{#async}}        {{/async}}{{^async}}    {{/async}}                ApiUtil.setExampleResponse(request, "{{{contentType}}}", exampleString);
+{{#async}}        {{/async}}{{^async}}    {{/async}}                ApiUtil.setExampleResponse(request, {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}, exampleString);
 {{#async}}        {{/async}}{{^async}}    {{/async}}                break;
 {{#async}}        {{/async}}{{^async}}    {{/async}}            }
     {{#-last}}

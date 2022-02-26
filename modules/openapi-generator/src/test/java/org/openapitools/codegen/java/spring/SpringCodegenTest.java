@@ -138,7 +138,6 @@ public class SpringCodegenTest {
     }
 
     @Test
-    /** Oliver Glas OG */
     public void doGenerateMediatypes() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -166,6 +165,8 @@ public class SpringCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/CustomersApi.java"), "MediaType.valueOf(\"application/hal+json\")");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/CustomersApi.java"), "setExampleResponse(request, \"application/hal+json\", exampleString)");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/VersionApi.java"), "MediaType.valueOf(\"text/plain\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/VersionApi.java"), "setExampleResponse(request, \"text/plain\", exampleString)");
     }
 
     @Test
