@@ -23,6 +23,8 @@ Mono<Pet> PetController.addPet(pet)
 
 Add a new pet to the store
 
+
+
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -45,6 +47,8 @@ Mono<Object> PetController.deletePet(petIdapiKey)
 ```
 
 Deletes a pet
+
+
 
 ### Parameters
 Name | Type | Description  | Notes
@@ -143,6 +147,8 @@ Mono<Pet> PetController.updatePet(pet)
 
 Update an existing pet
 
+
+
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -166,6 +172,8 @@ Mono<Object> PetController.updatePetWithForm(petIdnamestatus)
 
 Updates a pet in the store with form data
 
+
+
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -188,6 +196,8 @@ Mono<ModelApiResponse> PetController.uploadFile(petIdadditionalMetadata_file)
 ```
 
 uploads an image
+
+
 
 ### Parameters
 Name | Type | Description  | Notes

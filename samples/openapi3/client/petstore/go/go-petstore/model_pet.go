@@ -125,7 +125,7 @@ func (o *Pet) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Pet) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -149,7 +149,7 @@ func (o *Pet) GetPhotoUrls() []string {
 // GetPhotoUrlsOk returns a tuple with the PhotoUrls field value
 // and a boolean to check if the value has been set.
 func (o *Pet) GetPhotoUrlsOk() ([]string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.PhotoUrls, true

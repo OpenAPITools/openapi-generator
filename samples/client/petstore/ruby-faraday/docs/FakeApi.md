@@ -995,6 +995,8 @@ nil (empty response body)
 
 test inline additionalProperties
 
+
+
 ### Examples
 
 ```ruby
@@ -1055,6 +1057,8 @@ No authorization required
 > test_json_form_data(param, param2)
 
 test json serialization of form data
+
+
 
 ### Examples
 

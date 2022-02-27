@@ -20,8 +20,15 @@ package org.openapitools.codegen.java;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
+
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
@@ -209,7 +216,7 @@ public class AbstractJavaCodegenTest {
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo;@Bar");
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
@@ -224,14 +231,14 @@ public class AbstractJavaCodegenTest {
         Collections.sort(sortedAdditionalModelTypeAnnotations);
         Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
     }
-    
+
     @Test
     public void testAdditionalModelTypeAnnotationsNewLineLinux() throws Exception {
         OpenAPI openAPI = TestUtils.createOpenAPI();
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo\n@Bar");
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
@@ -246,14 +253,14 @@ public class AbstractJavaCodegenTest {
         Collections.sort(sortedAdditionalModelTypeAnnotations);
         Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
     }
-    
+
     @Test
     public void testAdditionalModelTypeAnnotationsNewLineWindows() throws Exception {
         OpenAPI openAPI = TestUtils.createOpenAPI();
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo\r\n@Bar");
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
@@ -268,17 +275,17 @@ public class AbstractJavaCodegenTest {
         Collections.sort(sortedAdditionalModelTypeAnnotations);
         Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
     }
-    
+
     @Test
     public void testAdditionalModelTypeAnnotationsMixed() throws Exception {
         OpenAPI openAPI = TestUtils.createOpenAPI();
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, " \t @Foo;\r\n@Bar  ;\n @Foobar  ");
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
-        
+
         final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
         additionalModelTypeAnnotations.add("@Foo");
         additionalModelTypeAnnotations.add("@Bar");
@@ -291,17 +298,17 @@ public class AbstractJavaCodegenTest {
         Collections.sort(sortedAdditionalModelTypeAnnotations);
         Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
     }
-    
+
     @Test
     public void testAdditionalModelTypeAnnotationsNoDuplicate() throws Exception {
         OpenAPI openAPI = TestUtils.createOpenAPI();
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo;@Bar;@Foo");
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
-        
+
         final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
         additionalModelTypeAnnotations.add("@Foo");
         additionalModelTypeAnnotations.add("@Bar");
@@ -313,7 +320,7 @@ public class AbstractJavaCodegenTest {
         Collections.sort(sortedAdditionalModelTypeAnnotations);
         Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
     }
-    
+
     @Test
     public void toEnumValue() {
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -524,7 +531,6 @@ public class AbstractJavaCodegenTest {
     }
 
 
-
     @Test(description = "tests if default version with snapshot is used when setArtifactVersion is used")
     public void snapshotVersionAlreadySnapshotTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -540,8 +546,36 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void toDefaultValueDateTimeLegacyTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setDateLibrary("legacy");
+        String defaultValue;
+
+        // Test default value for date format
+        DateSchema dateSchema = new DateSchema();
+        LocalDate defaultLocalDate = LocalDate.of(2019, 2, 15);
+        Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        dateSchema.setDefault(date);
+        defaultValue = codegen.toDefaultValue(dateSchema);
+
+        // dateLibrary <> java8
+        Assert.assertNull(defaultValue);
+
+        DateTimeSchema dateTimeSchema = new DateTimeSchema();
+        OffsetDateTime defaultDateTime = OffsetDateTime.parse("1984-12-19T03:39:57-08:00");
+        ZonedDateTime expectedDateTime = defaultDateTime.atZoneSameInstant(ZoneId.systemDefault());
+        dateTimeSchema.setDefault(defaultDateTime);
+        defaultValue = codegen.toDefaultValue(dateTimeSchema);
+
+        // dateLibrary <> java8
+        Assert.assertNull(defaultValue);
+    }
+
+    @Test
     public void toDefaultValueTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setDateLibrary("java8");
+
 
         Schema<?> schema = createObjectSchemaWithMinItems();
         String defaultValue = codegen.toDefaultValue(schema);
@@ -575,11 +609,18 @@ public class AbstractJavaCodegenTest {
 
         // Test default value for date format
         DateSchema dateSchema = new DateSchema();
-        LocalDate defaultLocalDate = LocalDate.of(2019,2,15);
+        LocalDate defaultLocalDate = LocalDate.of(2019, 2, 15);
         Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         dateSchema.setDefault(date);
         defaultValue = codegen.toDefaultValue(dateSchema);
-        Assert.assertEquals(defaultLocalDate, LocalDate.parse(defaultValue));
+        Assert.assertEquals(defaultValue, "LocalDate.parse(\"" + defaultLocalDate.toString() + "\")");
+
+        DateTimeSchema dateTimeSchema = new DateTimeSchema();
+        OffsetDateTime defaultDateTime = OffsetDateTime.parse("1984-12-19T03:39:57-08:00");
+        ZonedDateTime expectedDateTime = defaultDateTime.atZoneSameInstant(ZoneId.systemDefault());
+        dateTimeSchema.setDefault(defaultDateTime);
+        defaultValue = codegen.toDefaultValue(dateTimeSchema);
+        Assert.assertTrue(defaultValue.startsWith("OffsetDateTime.parse(\"" + expectedDateTime.toString()));
 
         // Test default value for number without format
         NumberSchema numberSchema = new NumberSchema();
@@ -592,6 +633,44 @@ public class AbstractJavaCodegenTest {
         numberSchema.setFormat("double");
         defaultValue = codegen.toDefaultValue(numberSchema);
         Assert.assertEquals(defaultValue, doubleValue + "d");
+    }
+
+    @Test
+    public void dateDefaultValueIsIsoDate() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml");
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Set<String> imports = new HashSet<>();
+        CodegenParameter parameter = codegen.fromParameter(openAPI.getPaths().get("/thingy/{date}").getGet().getParameters().get(2), imports);
+
+        Assert.assertEquals(parameter.dataType, "Date");
+        Assert.assertEquals(parameter.isDate, true);
+        Assert.assertEquals(parameter.defaultValue, "1974-01-01");
+        Assert.assertEquals(imports.size(), 1);
+        Assert.assertEquals(imports.iterator().next(), "Date");
+
+        Assert.assertNotNull(parameter.getSchema());
+        Assert.assertEquals(parameter.getSchema().baseType, "Date");
+    }
+
+    @Test
+    public void dateDefaultValueIsIsoDateTime() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml");
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Set<String> imports = new HashSet<>();
+        CodegenParameter parameter = codegen.fromParameter(openAPI.getPaths().get("/thingy/{date}").getGet().getParameters().get(1), imports);
+
+        Assert.assertEquals(parameter.dataType, "Date");
+        Assert.assertEquals(parameter.isDateTime, true);
+        Assert.assertEquals(parameter.defaultValue, "1973-12-19T03:39:57-08:00");
+        Assert.assertEquals(imports.size(), 1);
+        Assert.assertEquals(imports.iterator().next(), "Date");
+
+        Assert.assertNotNull(parameter.getSchema());
+        Assert.assertEquals(parameter.getSchema().baseType, "Date");
     }
 
     @Test

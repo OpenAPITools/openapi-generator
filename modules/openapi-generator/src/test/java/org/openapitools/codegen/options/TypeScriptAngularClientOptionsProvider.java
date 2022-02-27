@@ -39,7 +39,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
     private static final String NPM_VERSION = "1.1.2";
     private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
-    public static final String NG_VERSION = "2";
+    public static final String NG_VERSION = "12";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String FILE_NAMING_VALUE = "camelCase";
     public static final String API_MODULE_PREFIX = "";
@@ -75,7 +75,6 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptAngularClientCodegen.SNAPSHOT, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.WITH_INTERFACES, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.USE_SINGLE_REQUEST_PARAMETER, Boolean.FALSE.toString())
-                .put(TypeScriptAngularClientCodegen.PROVIDED_IN_ROOT, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.PROVIDED_IN, PROVIDED_IN_LEVEL)
                 .put(TypeScriptAngularClientCodegen.TAGGED_UNIONS, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.NPM_REPOSITORY, NPM_REPOSITORY)

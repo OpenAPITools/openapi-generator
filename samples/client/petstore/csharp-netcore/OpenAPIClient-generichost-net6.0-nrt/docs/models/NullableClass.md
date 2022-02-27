@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **IntegerProp** | **int?** |  | [optional] 
 **NumberProp** | **decimal?** |  | [optional] 
 **BooleanProp** | **bool?** |  | [optional] 
-**StringProp** | [**string?**](string?.md) |  | [optional] 
+**StringProp** | **string** |  | [optional] 
 **DateProp** | **DateTime?** |  | [optional] 
 **DatetimeProp** | **DateTime?** |  | [optional] 
 **ArrayNullableProp** | **List&lt;Object&gt;** |  | [optional] 

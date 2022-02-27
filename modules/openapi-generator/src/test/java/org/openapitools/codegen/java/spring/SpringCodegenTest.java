@@ -17,6 +17,14 @@
 
 package org.openapitools.codegen.java.spring;
 
+import static java.util.stream.Collectors.groupingBy;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
+import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
+
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -24,9 +32,26 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
+import java.util.stream.Collectors;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
@@ -289,11 +314,11 @@ public class SpringCodegenTest {
     @Test
     public void interfaceDefaultImplDisableWithResponseWrapper() {
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
         codegen.additionalProperties().put(RESPONSE_WRAPPER, "aWrapper");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get("jdk8"), false);
+        // jdk8 tag has been removed
+        Assert.assertEquals(codegen.additionalProperties().get("jdk8"), null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -370,7 +395,6 @@ public class SpringCodegenTest {
     @Test
     public void springcloudWithAsyncAndJava8HasResponseWrapperCompletableFuture() {
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
         codegen.additionalProperties().put(SpringCodegen.ASYNC, true);
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
         codegen.processOpts();
@@ -380,21 +404,8 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void springcloudWithAsyncHasResponseWrapperCallable() {
-        final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(SpringCodegen.JAVA_8, false);
-        codegen.additionalProperties().put(SpringCodegen.ASYNC, true);
-        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
-        codegen.processOpts();
-
-        Assert.assertNull(codegen.additionalProperties().get("jdk8-default-interface"));
-        Assert.assertEquals(codegen.additionalProperties().get(RESPONSE_WRAPPER), "Callable");
-    }
-
-    @Test
     public void springcloudWithJava8DisableJdk8() {
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
         codegen.processOpts();
 
@@ -567,8 +578,9 @@ public class SpringCodegenTest {
         // Check that api validates mixed multipart request
         final File multipartMixedApi = files.get("MultipartMixedApi.java");
         assertFileContains(multipartMixedApi.toPath(), "MultipartFile file",
+                "@Valid @RequestParam(value = \"status\", required = true)",
                 "@RequestPart(value = \"file\", required = true)",
-                "@Valid @RequestPart(value = \"marker\", required = false)");
+                "@Valid @RequestParam(value = \"marker\", required = false)");
     }
 
     // Helper function, intended to reduce boilerplate
@@ -669,7 +681,6 @@ public class SpringCodegenTest {
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.setUseBeanValidation(useBeanValidation);
         codegen.setPerformBeanValidation(performBeanValidation);
-        codegen.setJava8(java8);
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -726,6 +737,19 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<Map<String, DummyRequest>>");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApi.java"), "Mono<DummyRequest>");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<DummyRequest>");
+    }
+
+    @Test
+    public void shouldEscapeReservedKeyWordsForRequestParameters_7506_Regression() throws Exception {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-boot");
+        codegen.setDelegatePattern(true);
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/issue7506.yaml");
+
+        final File multipartArrayApiDelegate = files.get("ExampleApi.java");
+        assertFileContains(multipartArrayApiDelegate.toPath(), "@RequestPart(value = \"super\", required = false) MultipartFile _super");
+        assertFileContains(multipartArrayApiDelegate.toPath(), "@RequestPart(value = \"package\", required = false) MultipartFile _package");
     }
 
     @Test
@@ -801,7 +825,7 @@ public class SpringCodegenTest {
     }
 
     /**define the destinationFilename*/
-    private final static String DESTINATIONFILE = "OpenAPIDocumentationConfig.java";
+    private final static String DESTINATIONFILE = "SpringFoxConfiguration.java";
     /**define the templateFile*/
     private final static String TEMPLATEFILE = "openapiDocumentationConfig.mustache";
 
@@ -813,14 +837,14 @@ public class SpringCodegenTest {
     public void testConfigFileGeneration() {
 
         final SpringCodegen codegen = new SpringCodegen();
-
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
         codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, false);
         codegen.additionalProperties().put(SpringCodegen.SPRING_CLOUD_LIBRARY, "spring-cloud");
-        codegen.additionalProperties().put(SpringCodegen.OPENAPI_DOCKET_CONFIG, true);
         codegen.additionalProperties().put(SpringCodegen.REACTIVE, false);
         codegen.additionalProperties().put(SpringCodegen.API_FIRST, false);
 
         codegen.processOpts();
+
         final List<SupportingFile> supList = codegen.supportingFiles();
         String tmpFile;
         String desFile;
@@ -834,9 +858,71 @@ public class SpringCodegenTest {
                 assertEquals(desFile, DESTINATIONFILE);
             }
         }
-        if(!flag){
+        if (!flag) {
             fail("OpenAPIDocumentationConfig.java not generated");
         }
+    }
+
+    @Test
+    public void shouldAddNotNullOnRequiredAttributes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/issue_5026-b.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java"), "status");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java"), "@NotNull");
+        Files.readAllLines(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java")).forEach(System.out::println);
+
+    }
+
+    @Test
+    public void shouldNotAddNotNullOnReadOnlyAttributes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/issue_5026.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java"), "status");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java"), "@NotNull");
+        Files.readAllLines(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java")).forEach(System.out::println);
+
     }
 
     @Test
@@ -908,4 +994,42 @@ public class SpringCodegenTest {
         };
     }
 
+    @Test
+    public void apiFirstShouldNotGenerateApiOrModel() {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(SpringCodegen.API_FIRST, true);
+        codegen.processOpts();
+        Assert.assertTrue(codegen.modelTemplateFiles().isEmpty());
+        Assert.assertTrue(codegen.apiTemplateFiles().isEmpty());
+    }
+
+    @Test
+    public void testIssue11323() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+              .readLocation("src/test/resources/3_0/spring/issue_11323.yml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        //codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Address.java"),
+              "@JsonValue", "import com.fasterxml.jackson.annotation.JsonValue;");
+    }
 }

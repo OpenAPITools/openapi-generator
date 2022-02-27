@@ -63,9 +63,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
     public static final String SUPPORT_STREAMING = "supportStreaming";
-    public static final String GRADLE_PROPERTIES= "gradleProperties";
-    public static final String ERROR_OBJECT_TYPE= "errorObjectType";
-    public static final String ERROR_OBJECT_SUBTYPE= "errorObjectSubtype";
+    public static final String GRADLE_PROPERTIES = "gradleProperties";
+    public static final String ERROR_OBJECT_TYPE = "errorObjectType";
+    public static final String ERROR_OBJECT_SUBTYPE = "errorObjectSubtype";
 
     public static final String MICROPROFILE_DEFAULT = "default";
     public static final String MICROPROFILE_KUMULUZEE = "kumuluzee";
@@ -116,6 +116,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected List<String> errorObjectSubtype;
     protected String authFolder;
     protected String serializationLibrary = null;
+    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     public JavaClientCodegen() {
         super();
@@ -156,9 +157,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, libraries"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
         cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint (beta)", this.supportStreaming));
-        cliOptions.add(CliOption.newString(GRADLE_PROPERTIES, "Append additional Gradle proeprties to the gradle.properties file"));
+        cliOptions.add(CliOption.newString(GRADLE_PROPERTIES, "Append additional Gradle properties to the gradle.properties file"));
         cliOptions.add(CliOption.newString(ERROR_OBJECT_TYPE, "Error Object type. (This option is for okhttp-gson-next-gen only)"));
         cliOptions.add(CliOption.newString(CONFIG_KEY, "Config key in @RegisterRestClient. Default to none. Only `microprofile` supports this option."));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC + " Only jersey2, native, okhttp-gson support this option."));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libraries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -228,6 +230,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             dateLibrary = "legacy";
         }
         super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP)) {
+            setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
+        }
 
         // RxJava
         if (additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)) {
@@ -329,7 +337,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         additionalProperties.put(ERROR_OBJECT_TYPE, errorObjectType);
 
         if (additionalProperties.containsKey(ERROR_OBJECT_SUBTYPE)) {
-            this.setErrorObjectSubtype((List<String>)additionalProperties.get(ERROR_OBJECT_SUBTYPE));
+            this.setErrorObjectSubtype((List<String>) additionalProperties.get(ERROR_OBJECT_SUBTYPE));
         }
         additionalProperties.put(ERROR_OBJECT_SUBTYPE, errorObjectSubtype);
 
@@ -350,6 +358,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", invokerFolder, "ServerConfiguration.java"));
         supportingFiles.add(new SupportingFile("ServerVariable.mustache", invokerFolder, "ServerVariable.java"));
+        supportingFiles.add(new SupportingFile("maven.yml.mustache", ".github/workflows", "maven.yml"));
         if (dynamicOperations) {
             supportingFiles.add(new SupportingFile("openapi.mustache", projectFolder + "/resources/openapi", "openapi.yaml"));
             supportingFiles.add(new SupportingFile("apiOperation.mustache", invokerFolder, "ApiOperation.java"));
@@ -903,6 +912,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         return objs;
     }
 
+    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
+        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
+    }
+
+    public boolean getUseOneOfDiscriminatorLookup() {
+        return this.useOneOfDiscriminatorLookup;
+    }
+
     public void setUseRxJava(boolean useRxJava) {
         this.useRxJava = useRxJava;
         doNotUseRx = false;
@@ -979,15 +996,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     public void setGradleProperties(final String gradleProperties) {
-        this.gradleProperties= gradleProperties;
+        this.gradleProperties = gradleProperties;
     }
 
     public void setErrorObjectType(final String errorObjectType) {
-        this.errorObjectType= errorObjectType;
+        this.errorObjectType = errorObjectType;
     }
 
     public void setErrorObjectSubtype(final List<String> errorObjectSubtype) {
-        this.errorObjectSubtype= errorObjectSubtype;
+        this.errorObjectSubtype = errorObjectSubtype;
     }
 
     /**

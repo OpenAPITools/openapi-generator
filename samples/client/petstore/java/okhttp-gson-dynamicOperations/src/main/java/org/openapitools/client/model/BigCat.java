@@ -198,7 +198,7 @@ public class BigCat extends Cat {
       if (jsonObj == null) {
         if (BigCat.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in BigCat is not found in the empty JSON string", BigCat.openapiRequiredFields.toString()));
         }
       }

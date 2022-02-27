@@ -25,6 +25,9 @@
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
         {{/springFoxDocumentationProvider}}
+        {{#useSwaggerUI}}
+        <swagger-ui.version>4.4.1-1</swagger-ui.version>
+        {{/useSwaggerUI}}
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -37,7 +40,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>{{#springFoxDocumentationProvider}}2.5.8{{/springFoxDocumentationProvider}}{{^springFoxDocumentationProvider}}2.6.2{{/springFoxDocumentationProvider}}</version>
+        <version>{{#springFoxDocumentationProvider}}2.5.8{{/springFoxDocumentationProvider}}{{^springFoxDocumentationProvider}}2.6.3{{/springFoxDocumentationProvider}}</version>
     </parent>
 {{/parentOverridden}}
     <build>
@@ -94,11 +97,20 @@
         </dependency>
         {{#springDocDocumentationProvider}}
           <!--SpringDoc dependencies -->
+        {{#useSwaggerUI}}
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
+            <artifactId>springdoc-openapi-{{#reactive}}webflux-{{/reactive}}ui</artifactId>
             <version>${springdoc.version}</version>
         </dependency>
+        {{/useSwaggerUI}}
+        {{^useSwaggerUI}}
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-core</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+        {{/useSwaggerUI}}
         {{/springDocDocumentationProvider}}
         {{#springFoxDocumentationProvider}}
         <!--SpringFox dependencies -->
@@ -108,6 +120,19 @@
             <version>${springfox.version}</version>
         </dependency>
         {{/springFoxDocumentationProvider}}
+        {{#useSwaggerUI}}
+        {{^springDocDocumentationProvider}}
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>${swagger-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
+        </dependency>
+        {{/springDocDocumentationProvider}}
+        {{/useSwaggerUI}}
         {{^springFoxDocumentationProvider}}
         {{^springDocDocumentationProvider}}
         {{#swagger1AnnotationLibrary}}
@@ -157,13 +182,6 @@
             <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
         {{/joda}}
-        {{#threetenbp}}
-        <dependency>
-            <groupId>com.github.joschi.jackson</groupId>
-            <artifactId>jackson-datatype-threetenbp</artifactId>
-            <version>2.9.10</version>
-        </dependency>
-        {{/threetenbp}}
         {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -203,6 +221,11 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

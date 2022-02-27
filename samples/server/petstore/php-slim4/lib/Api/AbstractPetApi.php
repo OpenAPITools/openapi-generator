@@ -40,6 +40,7 @@ abstract class AbstractPetApi
     /**
      * POST addPet
      * Summary: Add a new pet to the store
+     * Notes: 
      * Output-Formats: [application/xml, application/json]
      *
      * @param ServerRequestInterface $request  Request
@@ -60,6 +61,7 @@ abstract class AbstractPetApi
     /**
      * DELETE deletePet
      * Summary: Deletes a pet
+     * Notes: 
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
@@ -149,6 +151,7 @@ abstract class AbstractPetApi
     /**
      * PUT updatePet
      * Summary: Update an existing pet
+     * Notes: 
      * Output-Formats: [application/xml, application/json]
      *
      * @param ServerRequestInterface $request  Request
@@ -169,6 +172,7 @@ abstract class AbstractPetApi
     /**
      * POST updatePetWithForm
      * Summary: Updates a pet in the store with form data
+     * Notes: 
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
@@ -192,6 +196,7 @@ abstract class AbstractPetApi
     /**
      * POST uploadFile
      * Summary: uploads an image
+     * Notes: 
      * Output-Formats: [application/json]
      *
      * @param ServerRequestInterface $request  Request

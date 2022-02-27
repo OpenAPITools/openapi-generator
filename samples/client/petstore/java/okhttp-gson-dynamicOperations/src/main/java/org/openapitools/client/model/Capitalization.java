@@ -288,7 +288,7 @@ public class Capitalization {
       if (jsonObj == null) {
         if (Capitalization.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in Capitalization is not found in the empty JSON string", Capitalization.openapiRequiredFields.toString()));
         }
       }

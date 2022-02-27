@@ -549,7 +549,7 @@ public class AdditionalPropertiesClass implements Parcelable {
       if (jsonObj == null) {
         if (AdditionalPropertiesClass.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesClass is not found in the empty JSON string", AdditionalPropertiesClass.openapiRequiredFields.toString()));
         }
       }

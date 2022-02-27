@@ -107,7 +107,7 @@ public class GmFruit extends AbstractOpenApiSchema {
 
                     // deserialize Apple
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Apple.validateJsonObject(jsonObject);
                         log.log(Level.FINER, "Input data matches schema 'Apple'");
                         GmFruit ret = new GmFruit();
@@ -120,7 +120,7 @@ public class GmFruit extends AbstractOpenApiSchema {
 
                     // deserialize Banana
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Banana.validateJsonObject(jsonObject);
                         log.log(Level.FINER, "Input data matches schema 'Banana'");
                         GmFruit ret = new GmFruit();

@@ -62,7 +62,7 @@ namespace YourProject
         {
             var host = CreateHostBuilder(args).Build();{{#apiInfo}}{{#apis}}{{#-first}}
             var api = host.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();{{#operations}}{{#-first}}{{#operation}}{{#-first}}
-            ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}> foo = await api.{{operationId}}WithHttpInfoAsync("todo");{{/-first}}{{/operation}}{{/-first}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
+            ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> foo = await api.{{operationId}}WithHttpInfoAsync("todo");{{/-first}}{{/operation}}{{/-first}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
@@ -109,7 +109,7 @@ namespace YourProject
 - [Microsoft.Extensions.Hosting](https://www.nuget.org/packages/Microsoft.Extensions.Hosting/) - 5.0.0 or later
 - [Microsoft.Extensions.Http](https://www.nuget.org/packages/Microsoft.Extensions.Http/) - 5.0.0 or later{{#supportsRetry}}
 - [Microsoft.Extensions.Http.Polly](https://www.nuget.org/packages/Microsoft.Extensions.Http.Polly/) - 5.0.1 or later
-- [Polly](https://www.nuget.org/packages/Polly/) - 7.2.2 or later{{/supportsRetry}}
+- [Polly](https://www.nuget.org/packages/Polly/) - 7.2.3 or later{{/supportsRetry}}
 - [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/) - 12.0.3 or later
 - [JsonSubTypes](https://www.nuget.org/packages/JsonSubTypes/) - 1.7.0 or later{{#useCompareNetObjects}}
 - [CompareNETObjects](https://www.nuget.org/packages/CompareNETObjects) - 4.61.0 or later{{/useCompareNetObjects}}{{#validatable}}
