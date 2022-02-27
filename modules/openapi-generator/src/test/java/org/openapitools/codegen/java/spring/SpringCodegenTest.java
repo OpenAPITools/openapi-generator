@@ -39,9 +39,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import java.util.stream.Collectors;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
@@ -59,22 +58,6 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.groupingBy;
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
-import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
 
 import com.google.common.collect.ImmutableMap;
 
