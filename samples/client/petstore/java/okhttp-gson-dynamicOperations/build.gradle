@@ -119,7 +119,7 @@ dependencies {
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
     implementation 'io.swagger.parser.v3:swagger-parser-v3:2.0.23'
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
-    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:3.11.2'
 }
 
