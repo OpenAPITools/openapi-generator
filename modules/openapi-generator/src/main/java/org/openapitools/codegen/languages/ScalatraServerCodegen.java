@@ -121,10 +121,10 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
 
     @Override
     public void processOpts() {
-    	super.processOpts();
-    	
-    	String appPackage = invokerPackage + ".app";
-    	
+        super.processOpts();
+        
+        String appPackage = invokerPackage + ".app";
+        
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.mustache", "", "build.sbt"));
         supportingFiles.add(new SupportingFile("web.xml", "/src/main/webapp/WEB-INF", "web.xml"));
@@ -197,6 +197,6 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
     }
 
     private String sourceFolderByPackage(String packageName) {
-    	return sourceFolder + File.separator + packageName.replaceAll("[.]", File.separator);
+        return sourceFolder + File.separator + packageName.replaceAll("[.]", File.separator);
     }
 }
