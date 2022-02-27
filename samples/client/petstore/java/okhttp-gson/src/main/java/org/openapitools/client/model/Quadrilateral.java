@@ -104,6 +104,26 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                     Object deserialized = null;
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
+                    // use discriminator value for faster oneOf lookup
+                    Quadrilateral newQuadrilateral = new Quadrilateral();
+                    if (jsonObject.get("quadrilateralType") == null) {
+                        log.log(Level.WARNING, "Failed to lookup discriminator value for Quadrilateral as `quadrilateralType` was not found in the payload or the payload is empty.");
+                    } else  {
+                        // look up the discriminator value in the field `quadrilateralType`
+                        switch (jsonObject.get("quadrilateralType").getAsString()) {
+                            case "ComplexQuadrilateral":
+                                deserialized = adapterComplexQuadrilateral.fromJsonTree(jsonObject);
+                                newQuadrilateral.setActualInstance(deserialized);
+                                return newQuadrilateral;
+                            case "SimpleQuadrilateral":
+                                deserialized = adapterSimpleQuadrilateral.fromJsonTree(jsonObject);
+                                newQuadrilateral.setActualInstance(deserialized);
+                                return newQuadrilateral;
+                            default:
+                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", jsonObject.get("quadrilateralType").getAsString()));
+                        }
+                    }
+
                     int match = 0;
                     TypeAdapter actualAdapter = elementAdapter;
 

@@ -104,6 +104,26 @@ public class NullableShape extends AbstractOpenApiSchema {
                     Object deserialized = null;
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
+                    // use discriminator value for faster oneOf lookup
+                    NullableShape newNullableShape = new NullableShape();
+                    if (jsonObject.get("shapeType") == null) {
+                        log.log(Level.WARNING, "Failed to lookup discriminator value for NullableShape as `shapeType` was not found in the payload or the payload is empty.");
+                    } else  {
+                        // look up the discriminator value in the field `shapeType`
+                        switch (jsonObject.get("shapeType").getAsString()) {
+                            case "Quadrilateral":
+                                deserialized = adapterQuadrilateral.fromJsonTree(jsonObject);
+                                newNullableShape.setActualInstance(deserialized);
+                                return newNullableShape;
+                            case "Triangle":
+                                deserialized = adapterTriangle.fromJsonTree(jsonObject);
+                                newNullableShape.setActualInstance(deserialized);
+                                return newNullableShape;
+                            default:
+                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for NullableShape. Possible values: Quadrilateral Triangle", jsonObject.get("shapeType").getAsString()));
+                        }
+                    }
+
                     int match = 0;
                     TypeAdapter actualAdapter = elementAdapter;
 
