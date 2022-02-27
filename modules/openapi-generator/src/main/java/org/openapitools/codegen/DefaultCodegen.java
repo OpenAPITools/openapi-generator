@@ -259,7 +259,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected String enumUnknownDefaultCaseName = "unknown_default_open_api";
 
     // make openapi available to all methods
-    protected OpenAPI openAPI = null;
+    protected OpenAPI openAPI;
 
     // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
     private Map<String, Schema> modelNameToSchemaCache;
