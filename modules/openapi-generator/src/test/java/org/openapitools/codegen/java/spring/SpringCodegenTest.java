@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
@@ -57,6 +58,8 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+
+import com.google.common.collect.ImmutableMap;
 
 public class SpringCodegenTest {
 
@@ -95,9 +98,53 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
+            .assertTypeAnnotations()
+                .hasSize(3)
+                .containsWithName("Validated")
+                .containsWithName("Generated")
+                .containsWithNameAndAttributes("Generated", ImmutableMap.of(
+                    "value", "\"org.openapitools.codegen.languages.SpringCodegen\""
+                ))
+                .containsWithNameAndAttributes("Tag", ImmutableMap.of(
+                    "name", "\"zebras\""
+                ))
+            .toType()
+            .assertMethod("getZebras")
+                .hasReturnType("ResponseEntity<Void>")
+                .assertMethodAnnotations()
+                .hasSize(2)
+                .containsWithNameAndAttributes("Operation", ImmutableMap.of("operationId", "\"getZebras\""))
+                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
+                    "method", "RequestMethod.GET",
+                    "value", "\"/zebras\""
+                ))
+                    .toMethod()
+                        .hasParameter("limit").withType("BigDecimal")
+                        .assertParameterAnnotations()
+                            .containsWithName("Valid")
+                            .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"limit\""))
+                            .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("required", "false", "value", "\"limit\""))
+                        .toParameter()
+                        .toMethod()
+                        .hasParameter("animalParams").withType("AnimalParams");
+
+        // todo: to remove
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"),
             "AnimalParams");
 
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/AnimalParams.java"))
+            .hasImports("org.springframework.format.annotation.DateTimeFormat")
+            .hasProperty("born").withType("LocalDate")
+                .assertPropertyAnnotations()
+                .containsWithNameAndAttributes("DateTimeFormat", ImmutableMap.of("iso", "DateTimeFormat.ISO.DATE"))
+                .toProperty()
+            .toType()
+            .hasProperty("lastSeen").withType("OffsetDateTime")
+                .assertPropertyAnnotations()
+                .containsWithNameAndAttributes("DateTimeFormat", ImmutableMap.of("iso", "DateTimeFormat.ISO.DATE_TIME"));
+
+        // todo: to remove
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/AnimalParams.java"),
             "@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)", "@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)");
 
