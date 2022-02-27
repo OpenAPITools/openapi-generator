@@ -81,7 +81,7 @@ public interface DefaultApi {
     )
     ResponseEntity<Void> updatePetWithForm(
         @ApiParam(value = "A date path parameter", required = true, defaultValue = "1970-01-01") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @ApiParam(value = "Updated last vist timestamp", defaultValue = "1971-12-19T03:39:57-08:00") @RequestParam(value="visitDate", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
+        @ApiParam(value = "Updated last vist timestamp", defaultValue = "1971-12-19T03:39:57-08:00") @Valid @RequestParam(value = "visitDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
     );
 
 }

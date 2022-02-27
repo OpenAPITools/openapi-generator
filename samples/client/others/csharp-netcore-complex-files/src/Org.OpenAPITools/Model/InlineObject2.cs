@@ -32,6 +32,12 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "inline_object_2")]
     public partial class InlineObject2 : IEquatable<InlineObject2>, IValidatableObject
     {
+
+        /// <summary>
+        /// Gets or Sets Status
+        /// </summary>
+        [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = false)]
+        public MultipartMixedStatus Status { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineObject2" /> class.
         /// </summary>
@@ -40,10 +46,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineObject2" /> class.
         /// </summary>
+        /// <param name="status">status (required).</param>
         /// <param name="marker">marker.</param>
         /// <param name="file">a file (required).</param>
-        public InlineObject2(MultipartMixedMarker marker = default(MultipartMixedMarker), System.IO.Stream file = default(System.IO.Stream))
+        public InlineObject2(MultipartMixedStatus status = default(MultipartMixedStatus), MultipartMixedMarker marker = default(MultipartMixedMarker), System.IO.Stream file = default(System.IO.Stream))
         {
+            this.Status = status;
             // to ensure "file" is required (not null)
             if (file == null) {
                 throw new ArgumentNullException("file is a required property for InlineObject2 and cannot be null");
@@ -73,6 +81,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class InlineObject2 {\n");
+            sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  Marker: ").Append(Marker).Append("\n");
             sb.Append("  File: ").Append(File).Append("\n");
             sb.Append("}\n");
@@ -117,6 +126,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
+                hashCode = (hashCode * 59) + this.Status.GetHashCode();
                 if (this.Marker != null)
                 {
                     hashCode = (hashCode * 59) + this.Marker.GetHashCode();
