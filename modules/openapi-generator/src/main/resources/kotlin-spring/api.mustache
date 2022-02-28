@@ -40,7 +40,7 @@ import kotlinx.coroutines.flow.Flow;
 import kotlin.collections.List
 import kotlin.collections.Map
 
-@RestController
+@RestController{{#beanQualifiers}}("{{package}}.{{classname}}Controller"){{/beanQualifiers}}
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}

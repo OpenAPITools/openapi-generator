@@ -374,4 +374,25 @@ public class KotlinSpringServerCodegenTest {
                 "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)"
         );
     }
+
+    @Test(description = "test bean qualifiers")
+    public void beanQualifiers() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.BEAN_QUALIFIERS, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/bean-qualifiers.yaml"))
+                        .config(codegen))
+                .generate();
+
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApiController.kt"),
+                "@RestController(\"org.openapitools.api.PingApiController\")"
+        );
+    }
 }
