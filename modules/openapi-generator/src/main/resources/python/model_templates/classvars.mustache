@@ -67,11 +67,6 @@
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
         """
-{{#imports}}
-{{#-first}}
-        lazy_import()
-{{/-first}}
-{{/imports}}
         return ({{{dataType}}},)  # noqa: E501
 {{/additionalProperties}}
 {{^additionalProperties}}
@@ -90,11 +85,6 @@
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
-{{#imports}}
-{{#-first}}
-        lazy_import()
-{{/-first}}
-{{/imports}}
         return {
 {{#isAlias}}
             'value': ({{{dataType}}},),
@@ -109,7 +99,7 @@
             '{{name}}': ({{{dataType}}},),  # noqa: E501
 {{/requiredVars}}
 {{#optionalVars}}
-            '{{name}}': ({{{dataType}}},),  # noqa: E501
+            '{{name}}': ({{{dataType}}},),  # noqa: E501 TODO: check if we have to add none_type
 {{/optionalVars}}
         }
 
@@ -121,11 +111,9 @@
 {{#discriminator}}
 {{#mappedModels}}
 {{#-first}}
-{{#imports}}
-{{#-first}}
-        lazy_import()
-{{/-first}}
-{{/imports}}
+{{#discriminatorImports}}
+        {{{.}}}
+{{/discriminatorImports}}
 {{/-first}}
 {{/mappedModels}}
         val = {

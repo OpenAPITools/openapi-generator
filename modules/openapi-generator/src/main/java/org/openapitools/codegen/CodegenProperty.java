@@ -812,6 +812,13 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     @Override
     public void setHasMultipleTypes(boolean hasMultipleTypes) { this.hasMultipleTypes = hasMultipleTypes; }
 
+    public String getDataTypeHint() {
+        if(this.dataType.startsWith("[") && this.dataType.endsWith("]")) {
+            return "List" + this.dataType;
+        }
+        return this.dataType;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenProperty{");

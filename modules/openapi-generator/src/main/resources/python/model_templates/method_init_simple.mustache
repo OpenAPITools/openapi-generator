@@ -54,7 +54,7 @@
         self._path_to_item = _path_to_item
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
-        self.value = value
+        self.value: {{{dataTypeHint}}} = value
         if kwargs:
             raise ApiTypeError(
                 "Invalid named arguments=%s passed to %s. Remove those invalid named arguments." % (

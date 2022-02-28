@@ -35,7 +35,7 @@
             value = validate_and_convert_types(
                 value, required_types_mixed, path_to_item, self._spec_property_naming,
                 self._check_type, configuration=self._configuration)
-        if (name,) in self.allowed_values:
+        if (name,) in self.allowed_values and value is not None:
             check_allowed_values(
                 self.allowed_values,
                 (name,),

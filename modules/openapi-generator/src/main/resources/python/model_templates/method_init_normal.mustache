@@ -14,9 +14,12 @@
 {{/isEnum}}
 {{#requiredVars}}
 {{^isReadOnly}}
-        self.{{name}} = {{name}}
+        self.{{name}}: {{{dataTypeHint}}} = {{name}}  # TODO check if ^read-only useful
 {{/isReadOnly}}
 {{/requiredVars}}
+{{#optionalVars}}
+        self.{{name}}: {{{dataTypeHint}}} = None
+{{/optionalVars}}
         for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \

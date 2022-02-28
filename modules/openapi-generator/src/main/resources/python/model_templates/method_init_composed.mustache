@@ -66,7 +66,12 @@
         self._var_name_to_model_instances = composed_info[1]
         self._additional_properties_model_instances = composed_info[2]
         discarded_args = composed_info[3]
-
+{{#requiredVars}}
+        self.{{name}}: {{{dataTypeHint}}} = {{name}}
+{{/requiredVars}}
+{{#optionalVars}}
+        self.{{name}}: {{{dataTypeHint}}} = None
+{{/optionalVars}}
         for var_name, var_value in kwargs.items():
             if var_name in discarded_args and \
                         self._configuration is not None and \
