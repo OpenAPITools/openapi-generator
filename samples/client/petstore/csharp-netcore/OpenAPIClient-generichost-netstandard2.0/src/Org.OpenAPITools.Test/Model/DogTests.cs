@@ -56,14 +56,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
 
-        /// <summary>
-        /// Test the property 'Breed'
-        /// </summary>
-        [Fact]
-        public void BreedTest()
-        {
-            // TODO unit test for the property 'Breed'
-        }
 
     }
 

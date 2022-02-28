@@ -56,14 +56,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
 
-        /// <summary>
-        /// Test the property 'Declawed'
-        /// </summary>
-        [Fact]
-        public void DeclawedTest()
-        {
-            // TODO unit test for the property 'Declawed'
-        }
 
     }
 

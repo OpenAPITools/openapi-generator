@@ -57,14 +57,6 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'ShapeType'
-        /// </summary>
-        [Fact]
-        public void ShapeTypeTest()
-        {
-            // TODO unit test for the property 'ShapeType'
-        }
-        /// <summary>
         /// Test the property 'QuadrilateralType'
         /// </summary>
         [Fact]

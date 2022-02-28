@@ -56,22 +56,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
 
-        /// <summary>
-        /// Test the property 'Name'
-        /// </summary>
-        [Fact]
-        public void NameTest()
-        {
-            // TODO unit test for the property 'Name'
-        }
-        /// <summary>
-        /// Test the property 'PetType'
-        /// </summary>
-        [Fact]
-        public void PetTypeTest()
-        {
-            // TODO unit test for the property 'PetType'
-        }
 
     }
 

@@ -57,6 +57,38 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
+        /// Test the property 'Number'
+        /// </summary>
+        [Fact]
+        public void NumberTest()
+        {
+            // TODO unit test for the property 'Number'
+        }
+        /// <summary>
+        /// Test the property 'Byte'
+        /// </summary>
+        [Fact]
+        public void ByteTest()
+        {
+            // TODO unit test for the property 'Byte'
+        }
+        /// <summary>
+        /// Test the property 'Date'
+        /// </summary>
+        [Fact]
+        public void DateTest()
+        {
+            // TODO unit test for the property 'Date'
+        }
+        /// <summary>
+        /// Test the property 'Password'
+        /// </summary>
+        [Fact]
+        public void PasswordTest()
+        {
+            // TODO unit test for the property 'Password'
+        }
+        /// <summary>
         /// Test the property 'Integer'
         /// </summary>
         [Fact]
@@ -79,14 +111,6 @@ namespace Org.OpenAPITools.Test.Model
         public void Int64Test()
         {
             // TODO unit test for the property 'Int64'
-        }
-        /// <summary>
-        /// Test the property 'Number'
-        /// </summary>
-        [Fact]
-        public void NumberTest()
-        {
-            // TODO unit test for the property 'Number'
         }
         /// <summary>
         /// Test the property 'Float'
@@ -121,28 +145,12 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'String'
         }
         /// <summary>
-        /// Test the property 'Byte'
-        /// </summary>
-        [Fact]
-        public void ByteTest()
-        {
-            // TODO unit test for the property 'Byte'
-        }
-        /// <summary>
         /// Test the property 'Binary'
         /// </summary>
         [Fact]
         public void BinaryTest()
         {
             // TODO unit test for the property 'Binary'
-        }
-        /// <summary>
-        /// Test the property 'Date'
-        /// </summary>
-        [Fact]
-        public void DateTest()
-        {
-            // TODO unit test for the property 'Date'
         }
         /// <summary>
         /// Test the property 'DateTime'
@@ -159,14 +167,6 @@ namespace Org.OpenAPITools.Test.Model
         public void UuidTest()
         {
             // TODO unit test for the property 'Uuid'
-        }
-        /// <summary>
-        /// Test the property 'Password'
-        /// </summary>
-        [Fact]
-        public void PasswordTest()
-        {
-            // TODO unit test for the property 'Password'
         }
         /// <summary>
         /// Test the property 'PatternWithDigits'
