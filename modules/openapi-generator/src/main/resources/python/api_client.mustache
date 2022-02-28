@@ -11,10 +11,6 @@ import typing
 from urllib.parse import quote
 from urllib3.fields import RequestField
 
-{{#tornado}}
-import tornado.gen
-{{/tornado}}
-
 from {{packageName}} import rest
 from {{packageName}}.configuration import Configuration
 from {{packageName}}.exceptions import ApiTypeError, ApiValueError, ApiException
@@ -61,7 +57,7 @@ class ApiClient(object):
     def __init__(self, configuration=None, header_name=None, header_value=None,
                  cookie=None, pool_threads=1):
         if configuration is None:
-            configuration = Configuration.get_default_copy()
+            configuration = Configuration()
         self.configuration = configuration
         self.pool_threads = pool_threads
 
@@ -73,13 +69,14 @@ class ApiClient(object):
         # Set default User-Agent.
         self.user_agent = '{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/python{{/httpUserAgent}}'
 
-    def __enter__(self):
+    async def __aenter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
-        self.close()
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        await self.close()
 
-    def close(self):
+    async def close(self):
+        await self.rest_client.close()
         if self._pool:
             self._pool.close()
             self._pool.join()
@@ -109,10 +106,7 @@ class ApiClient(object):
     def set_default_header(self, header_name, header_value):
         self.default_headers[header_name] = header_value
 
-    {{#tornado}}
-    @tornado.gen.coroutine
-    {{/tornado}}
-    {{#asyncio}}async {{/asyncio}}def __call_api(
+    async def __call_api(
         self,
         resource_path: str,
         method: str,
@@ -191,7 +185,7 @@ class ApiClient(object):
 
         try:
             # perform request and return response
-            response_data = {{#asyncio}}await {{/asyncio}}{{#tornado}}yield {{/tornado}}self.request(
+            response_data = await self.request(
                 method, url, query_params=query_params, headers=header_params,
                 post_params=post_params, body=body,
                 _preload_content=_preload_content,
@@ -205,25 +199,17 @@ class ApiClient(object):
         return_data = response_data
 
         if not _preload_content:
-            {{^tornado}}
-            return (return_data)
-            {{/tornado}}
-            {{#tornado}}
-            raise tornado.gen.Return(return_data)
-            {{/tornado}}
             return return_data
 
-        # deserialize response data
-        if response_type:
-            if response_type != (file_type,):
-                encoding = "utf-8"
-                content_type = response_data.getheader('content-type')
-                if content_type is not None:
-                    match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
-                    if match:
-                        encoding = match.group(1)
-                response_data.data = response_data.data.decode(encoding)
+        if response_type not in ["file", "bytes"]:
+            match = None
+            if content_type is not None:
+                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
+            encoding = match.group(1) if match else "utf-8"
+            response_data.data = response_data.data.decode(encoding)
 
+        # deserialize response data
+        if response_type and response_data.status != 204:
             return_data = self.deserialize(
                 response_data,
                 response_type,
@@ -232,20 +218,11 @@ class ApiClient(object):
         else:
             return_data = None
 
-{{^tornado}}
         if _return_http_data_only:
-            return (return_data)
+            return return_data
         else:
             return (return_data, response_data.status,
                     response_data.getheaders())
-{{/tornado}}
-{{#tornado}}
-        if _return_http_data_only:
-            raise tornado.gen.Return(return_data)
-        else:
-            raise tornado.gen.Return((return_data, response_data.status,
-                                      response_data.getheaders()))
-{{/tornado}}
 
     def parameters_to_multipart(self, params, collection_types):
         """Get parameters as list of tuples, formatting as json if value is collection_types
@@ -259,17 +236,19 @@ class ApiClient(object):
             collection_types = (dict)
         for k, v in params.items() if isinstance(params, dict) else params:  # noqa: E501
             if isinstance(v, collection_types): # v is instance of collection_type, formatting as application/json
-                 v = json.dumps(v, ensure_ascii=False).encode("utf-8")
-                 field = RequestField(k, v)
-                 field.make_multipart(content_type="application/json; charset=utf-8")
-                 new_params.append(field)
+                v = json.dumps(v, ensure_ascii=False).encode("utf-8")
+                field = RequestField(k, v)
+                field.make_multipart(content_type="application/json; charset=utf-8")
+                new_params.append(field)
+            elif isinstance(v, str):
+                params.append((k, (v, "text/plain; charset=utf-8")))
             else:
-                 new_params.append((k, v))
+                new_params.append((k, v))
         return new_params
 
     @classmethod
     def sanitize_for_serialization(cls, obj):
-        """Prepares data for transmission before it is sent with the rest client
+        """Builds a JSON POST object.
         If obj is None, return None.
         If obj is str, int, long, float, bool, return directly.
         If obj is datetime.datetime, datetime.date
@@ -277,7 +256,6 @@ class ApiClient(object):
         If obj is list, sanitize each element in the list.
         If obj is dict, return the dict.
         If obj is OpenAPI model, return the properties dict.
-        If obj is io.IOBase, return the bytes
         :param obj: The data to serialize.
         :return: The serialized form of data.
         """
@@ -285,8 +263,6 @@ class ApiClient(object):
             return {
                 key: cls.sanitize_for_serialization(val) for key, val in model_to_dict(obj, serialize=True).items()
             }
-        elif isinstance(obj, io.IOBase):
-            return cls.get_file_data_and_close_file(obj)
         elif isinstance(obj, (str, int, float, none_type, bool)):
             return obj
         elif isinstance(obj, (datetime, date)):
@@ -530,12 +506,6 @@ class ApiClient(object):
                 new_params.append((k, v))
         return new_params
 
-    @staticmethod
-    def get_file_data_and_close_file(file_instance: io.IOBase) -> bytes:
-        file_data = file_instance.read()
-        file_instance.close()
-        return file_data
-
     def files_parameters(self, files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None):
         """Builds form parameters.
 
@@ -561,11 +531,12 @@ class ApiClient(object):
                         "for %s must be open." % param_name
                     )
                 filename = os.path.basename(file_instance.name)
-                filedata = self.get_file_data_and_close_file(file_instance)
+                filedata = file_instance.read()
                 mimetype = (mimetypes.guess_type(filename)[0] or
                             'application/octet-stream')
                 params.append(
                     tuple([param_name, tuple([filename, filedata, mimetype])]))
+                file_instance.close()
 
         return params
 

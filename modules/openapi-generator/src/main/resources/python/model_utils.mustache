@@ -799,9 +799,8 @@ def remove_uncoercible(required_types_classes, current_item, spec_property_namin
             continue
 
         class_pair = (current_type_simple, required_type_class_simplified)
-        if must_convert and class_pair in COERCIBLE_TYPE_PAIRS[spec_property_naming]:
-            results_classes.append(required_type_class)
-        elif class_pair in UPCONVERSION_TYPE_PAIRS:
+        if (must_convert and class_pair in COERCIBLE_TYPE_PAIRS[spec_property_naming]) \
+                or class_pair in UPCONVERSION_TYPE_PAIRS:
             results_classes.append(required_type_class)
     return results_classes
 
