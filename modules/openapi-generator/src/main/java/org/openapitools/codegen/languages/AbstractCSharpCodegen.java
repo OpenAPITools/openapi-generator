@@ -403,7 +403,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return super.addMustacheLambdas()
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
                 .put("required", new RequiredParameterLambda().generator(this))
-                .put("optional", new OptionalParameterLambda().generator(this));
+                .put("optional", new OptionalParameterLambda().generator(this))
+                .put("joinWithComma", new JoinWithCommaLambda());
     }
 
     @Override

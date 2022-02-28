@@ -6,7 +6,9 @@
         /// <value>{{.}}</value>
         {{/description}}
         {{#isString}}
+        {{^useGenericHost}}
         [JsonConverter(typeof(StringEnumConverter))]
+        {{/useGenericHost}}
         {{/isString}}
         {{>visibility}} enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}
         {

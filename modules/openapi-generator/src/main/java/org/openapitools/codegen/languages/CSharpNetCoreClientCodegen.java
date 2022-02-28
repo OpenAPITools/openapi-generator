@@ -42,6 +42,7 @@ import java.util.List;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 
 @SuppressWarnings("Duplicates")
 public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
@@ -900,8 +901,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
         supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
         supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
-        supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
-        supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
+        supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateJsonConverter.cs"));
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
         supportingFiles.add(new SupportingFile("IApi.mustache", clientPackageDir, getInterfacePrefix() + "Api.cs"));
 
@@ -1340,9 +1340,91 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 cm.isNullable = true;
                 cm.anyOf.remove("Null");
             }
+
+            for (CodegenProperty cp : cm.readWriteVars) {
+                // allVars may not have all properties
+                // see modules\openapi-generator\src\test\resources\3_0\allOf.yaml
+                // property boosterSeat will be in readWriteVars but not allVars
+                // the property is present in the model but gets removed at CodegenModel#removeDuplicatedProperty
+                if (Boolean.FALSE.equals(cm.allVars.stream().anyMatch(v -> v.baseName.equals(cp.baseName)))) {
+                    LOGGER.debug("Property " + cp.baseName + " was found in readWriteVars but not in allVars. Adding it back to allVars");
+                    cm.allVars.add(cp);
+                }
+            }
+
+            for (CodegenProperty cp : cm.allVars) {
+                // some properties do not have isInherited set correctly
+                // see modules\openapi-generator\src\test\resources\3_0\allOf.yaml
+                // Child properties Type, LastName, FirstName will have isInherited set to false when it should be true
+                if (Boolean.TRUE.equals(cm.parentVars.stream().anyMatch(v -> !cp.isInherited && v.baseName.equals(cp.baseName) && v.dataType.equals(cp.dataType)))) {
+                    LOGGER.debug("Property " + cp.baseName + " was found in the parentVars but not marked as inherited.");
+                    cp.isInherited = true;
+                }
+            }
         }
 
         return objs;
+    }
+
+    /**
+     * Invoked by {@link DefaultGenerator} after all models have been post-processed, allowing for a last pass of codegen-specific model cleanup.
+     *
+     * @param objs Current state of codegen object model.
+     * @return An in-place modified state of the codegen object model.
+     */
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        // other libraries probably want these fixes, but lets avoid breaking changes for now
+        if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))){
+            return objs;
+        }
+
+        ArrayList<CodegenModel> allModels = new ArrayList<CodegenModel>();
+        for (Map.Entry<String, Object> entry : objs.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+            allModels.add(model);
+        }
+
+        for (CodegenModel cm : allModels) {
+            if (cm.parent != null){
+                // remove the parent CodegenProperty from the model
+                // we need it gone so we can use allOf/oneOf/anyOf in the constructor
+                cm.allOf.removeIf(item -> item.equals(cm.parent));
+                cm.oneOf.removeIf(item -> item.equals(cm.parent));
+                cm.anyOf.removeIf(item -> item.equals(cm.parent));
+            }
+
+            cm.anyOf.forEach(anyOf -> removePropertiesDeclaredInComposedClass(anyOf, allModels, cm));
+            cm.oneOf.forEach(oneOf -> removePropertiesDeclaredInComposedClass(oneOf, allModels, cm));
+            cm.allOf.forEach(allOf -> removePropertiesDeclaredInComposedClass(allOf, allModels, cm));
+        }
+
+        return objs;
+    }
+
+    /**
+     * Removes properties from a model which are also defined in a composed class.
+     *
+     * @param className The name which may be a composed model
+     * @param allModels A collection of all CodegenModel
+     * @param cm The CodegenModel to correct
+     */
+    private void removePropertiesDeclaredInComposedClass(String className, List<CodegenModel> allModels, CodegenModel cm) {
+        CodegenModel otherModel = allModels.stream().filter(m -> m.classname.equals(className)).findFirst().orElse(null);
+        if (otherModel == null){
+            return;
+        }
+
+        otherModel.readWriteVars.stream().filter(v -> cm.readWriteVars.stream().anyMatch(cmV -> cmV.baseName.equals(v.baseName))).collect(Collectors.toList())
+            .forEach(v -> {
+                cm.readWriteVars.removeIf(item -> item.baseName.equals(v.baseName));
+                cm.vars.removeIf(item -> item.baseName.equals(v.baseName));
+                cm.readOnlyVars.removeIf(item -> item.baseName.equals(v.baseName));
+                cm.requiredVars.removeIf(item -> item.baseName.equals(v.baseName));
+                cm.allVars.removeIf(item -> item.baseName.equals(v.baseName));
+            });
     }
 
     @Override

@@ -27,8 +27,10 @@
     {{#useCompareNetObjects}}
     <PackageReference Include="CompareNETObjects" Version="4.61.0" />
     {{/useCompareNetObjects}}
+    {{^useGenericHost}}
     <PackageReference Include="JsonSubTypes" Version="1.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    {{/useGenericHost}}
       {{#useRestSharp}}
     <PackageReference Include="RestSharp" Version="106.13.0" />
       {{/useRestSharp}}
