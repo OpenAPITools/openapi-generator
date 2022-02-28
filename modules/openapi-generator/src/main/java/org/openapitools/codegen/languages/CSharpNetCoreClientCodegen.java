@@ -692,9 +692,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setNetCoreProjectFileFlag(true);
 
             if (!additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES) && !strategies.stream().anyMatch(s ->
-                        s.equals(FrameworkStrategy.NETCOREAPP_3_1) ||
-                        s.equals(FrameworkStrategy.NET_5_0) ||
-                        s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))) {
+                            s.equals(FrameworkStrategy.NETCOREAPP_3_1) ||
+                            s.equals(FrameworkStrategy.NET_5_0) ||
+                            s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))) {
                 // starting in .net 6.0, NRT is enabled by default. If not specified, lets enable NRT to match the framework's default
                 setNullableReferenceTypes(true);
             }
