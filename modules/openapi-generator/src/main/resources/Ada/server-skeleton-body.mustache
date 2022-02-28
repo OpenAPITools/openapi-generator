@@ -1,12 +1,12 @@
 {{>licenseInfo}}
 pragma Warnings (Off, "*is not referenced");
-with Swagger.Streams;
-with Swagger.Servers.Operation;
+with {{openApiPackageName}}.Streams;
+with {{openApiPackageName}}.Servers.Operation;
 package body {{package}}.Skeletons is
    pragma Style_Checks ("-mr");
    pragma Warnings (Off, "*use clause for package*");
 
-   use Swagger.Streams;
+   use {{openApiPackageName}}.Streams;
 
    package body Skeleton is
 
@@ -16,18 +16,19 @@ package body {{package}}.Skeletons is
 {{#operation}}
 
       package API_{{operationId}} is
-         new Swagger.Servers.Operation (Handler => {{operationId}},
-                                        Method  => Swagger.Servers.{{httpMethod}},
-                                        URI     => URI_Prefix & "{{path}}");
+         new {{openApiPackageName}}.Servers.Operation
+            (Handler => {{operationId}},
+             Method  => {{openApiPackageName}}.Servers.{{httpMethod}},
+             URI     => URI_Prefix & "{{path}}");
 
       --  {{summary}}
       procedure {{operationId}}
-         (Req     : in out Swagger.Servers.Request'Class;
-          Reply   : in out Swagger.Servers.Response'Class;
-          Stream  : in out Swagger.Servers.Output_Stream'Class;
-          Context : in out Swagger.Servers.Context_Type) is
+         (Req     : in out {{openApiPackageName}}.Servers.Request'Class;
+          Reply   : in out {{openApiPackageName}}.Servers.Response'Class;
+          Stream  : in out {{openApiPackageName}}.Servers.Output_Stream'Class;
+          Context : in out {{openApiPackageName}}.Servers.Context_Type) is
          {{#hasBodyParam}}
-         Input   : Swagger.Value_Type;
+         Input   : {{openApiPackageName}}.Value_Type;
          {{/hasBodyParam}}
          Impl : Implementation_Type;
          {{#allParams}}
@@ -50,19 +51,19 @@ package body {{package}}.Skeletons is
          {{/scopes}}
          {{/vendorExtensions.x-auth-scopes}}
          {{#queryParams}}
-         Swagger.Servers.Get_Query_Parameter (Req, "{{baseName}}", {{paramName}});
+         {{openApiPackageName}}.Servers.Get_Query_Parameter (Req, "{{baseName}}", {{paramName}});
          {{/queryParams}}
          {{#pathParams}}
-         Swagger.Servers.Get_Path_Parameter (Req, {{vendorExtensions.x-path-index}}, {{paramName}});
+         {{openApiPackageName}}.Servers.Get_Path_Parameter (Req, {{vendorExtensions.x-path-index}}, {{paramName}});
          {{/pathParams}}
          {{#hasFormParams}}
          {{#formParams}}
-         Swagger.Servers.Get_Parameter (Context, "{{baseName}}", {{paramName}});
+         {{openApiPackageName}}.Servers.Get_Parameter (Context, "{{baseName}}", {{paramName}});
          {{/formParams}}
          {{/hasFormParams}}
          {{#hasParams}}
          {{#hasBodyParam}}
-         Swagger.Servers.Read (Req, Input);
+         {{openApiPackageName}}.Servers.Read (Req, Input);
 {{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
          {{package}}.Models.Deserialize (Input, "{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{#isFile}}
          --  TODO: Serialize (Input.Stream, "{{basename}}", {{paramName}});{{/isFile}}{{^isFile}}{{^isLong}}
@@ -84,8 +85,8 @@ package body {{package}}.Skeletons is
          {{#returnType}}
          if Context.Get_Status = 200 then
             Stream.Start_Document;{{#vendorExtensions.x-codegen-response.isString}}
-            Swagger.Streams.Serialize (Stream, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
-            Swagger.Streams.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
+            {{openApiPackageName}}.Streams.Serialize (Stream, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
+            {{openApiPackageName}}.Streams.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
             {{package}}.Models.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{/vendorExtensions.x-codegen-response.isString}}
             Stream.End_Document;
          end if;{{/returnType}}
@@ -95,13 +96,13 @@ package body {{package}}.Skeletons is
 {{/apis}}
 {{/apiInfo}}
 
-      procedure Register (Server : in out Swagger.Servers.Application_Type'Class) is
+      procedure Register (Server : in out {{openApiPackageName}}.Servers.Application_Type'Class) is
       begin
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
 {{#operation}}
-         Swagger.Servers.Register (Server, API_{{operationId}}.Definition);
+         {{openApiPackageName}}.Servers.Register (Server, API_{{operationId}}.Definition);
 {{/operation}}
 {{/operations}}
 {{/apis}}
@@ -119,12 +120,12 @@ package body {{package}}.Skeletons is
 
       --  {{summary}}
       procedure {{operationId}}
-         (Req     : in out Swagger.Servers.Request'Class;
-          Reply   : in out Swagger.Servers.Response'Class;
-          Stream  : in out Swagger.Servers.Output_Stream'Class;
-          Context : in out Swagger.Servers.Context_Type) is
+         (Req     : in out {{openApiPackageName}}.Servers.Request'Class;
+          Reply   : in out {{openApiPackageName}}.Servers.Response'Class;
+          Stream  : in out {{openApiPackageName}}.Servers.Output_Stream'Class;
+          Context : in out {{openApiPackageName}}.Servers.Context_Type) is
          {{#hasBodyParam}}
-         Input   : Swagger.Value_Type;
+         Input   : {{openApiPackageName}}.Value_Type;
          {{/hasBodyParam}}
          {{#allParams}}
          {{paramName}} : {{dataType}};
@@ -146,19 +147,19 @@ package body {{package}}.Skeletons is
          {{/scopes}}
          {{/vendorExtensions.x-auth-scopes}}
          {{#queryParams}}
-         Swagger.Servers.Get_Query_Parameter (Req, "{{baseName}}", {{paramName}});
+         {{openApiPackageName}}.Servers.Get_Query_Parameter (Req, "{{baseName}}", {{paramName}});
          {{/queryParams}}
          {{#pathParams}}
-         Swagger.Servers.Get_Path_Parameter (Req, {{vendorExtensions.x-path-index}}, {{paramName}});
+         {{openApiPackageName}}.Servers.Get_Path_Parameter (Req, {{vendorExtensions.x-path-index}}, {{paramName}});
          {{/pathParams}}
          {{#hasFormParams}}
          {{#formParams}}
-         Swagger.Servers.Get_Parameter (Context, "{{baseName}}", {{paramName}});
+         {{openApiPackageName}}.Servers.Get_Parameter (Context, "{{baseName}}", {{paramName}});
          {{/formParams}}
          {{/hasFormParams}}
          {{#hasParams}}
          {{#hasBodyParam}}
-         Swagger.Servers.Read (Req, Input);
+         {{openApiPackageName}}.Servers.Read (Req, Input);
          {{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
          {{package}}.Models.Deserialize (Input, "{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{#isFile}}
          --  TODO: Serialize (Input.Stream, "{{basename}}", {{paramName}});{{/isFile}}{{^isFile}}{{^isLong}}
@@ -180,29 +181,30 @@ package body {{package}}.Skeletons is
          {{#returnType}}
          if Context.Get_Status = 200 then
             Stream.Start_Document;{{#vendorExtensions.x-codegen-response.isString}}
-            Swagger.Streams.Serialize (Stream, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
-            Swagger.Streams.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
+            {{openApiPackageName}}.Streams.Serialize (Stream, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
+            {{openApiPackageName}}.Streams.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
             {{package}}.Models.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{/vendorExtensions.x-codegen-response.isString}}
             Stream.End_Document;
          end if;{{/returnType}}
       end {{operationId}};
 
       package API_{{operationId}} is
-         new Swagger.Servers.Operation (Handler => {{operationId}},
-                                        Method  => Swagger.Servers.{{httpMethod}},
-                                        URI     => URI_Prefix & "{{path}}");
+         new {{openApiPackageName}}.Servers.Operation
+            (Handler => {{operationId}},
+             Method  => {{openApiPackageName}}.Servers.{{httpMethod}},
+             URI     => URI_Prefix & "{{path}}");
 {{/operation}}
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
 
-      procedure Register (Server : in out Swagger.Servers.Application_Type'Class) is
+      procedure Register (Server : in out {{openApiPackageName}}.Servers.Application_Type'Class) is
       begin
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
 {{#operation}}
-         Swagger.Servers.Register (Server, API_{{operationId}}.Definition);
+         {{openApiPackageName}}.Servers.Register (Server, API_{{operationId}}.Definition);
 {{/operation}}
 {{/operations}}
 {{/apis}}
@@ -220,7 +222,7 @@ package body {{package}}.Skeletons is
             ({{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
              {{/-last}}{{/allParams}}{{#returnType}};
              Result : out {{.}}{{/returnType}};
-             Context : in out Swagger.Servers.Context_Type) is
+             Context : in out {{openApiPackageName}}.Servers.Context_Type) is
          begin
             Impl.{{operationId}}
                ({{#allParams}}{{paramName}}{{^-last}},
@@ -232,13 +234,13 @@ package body {{package}}.Skeletons is
          {{^hasParams}}
          {{#returnType}}
          procedure {{operationId}} (Result : out {{returnType}};
-         Context : in out Swagger.Servers.Context_Type) is
+         Context : in out {{openApiPackageName}}.Servers.Context_Type) is
          begin
             Impl.{{operationId}} (Result, Context);
          end {{operationId}};
          {{/returnType}}
          {{^returnType}}
-         procedure {{operationId}} (Context : in out Swagger.Servers.Context_Type) is
+         procedure {{operationId}} (Context : in out {{openApiPackageName}}.Servers.Context_Type) is
          begin
             Impl.{{operationId}} (Context);
          end {{operationId}};

@@ -2,11 +2,11 @@
 {{#imports}}with {{import}};
 {{/imports}}
 with {{package}}.Models;
-with Swagger.Clients;
+with {{openApiPackageName}}.Clients;
 package {{package}}.Clients is
    pragma Style_Checks ("-mr");
 
-   type Client_Type is new Swagger.Clients.Client_Type with null record;
+   type Client_Type is new {{openApiPackageName}}.Clients.Client_Type with null record;
 
 {{#apiInfo}}
 {{#apis}}

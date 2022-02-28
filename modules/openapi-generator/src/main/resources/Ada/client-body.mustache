@@ -1,6 +1,6 @@
 {{>licenseInfo}}
 pragma Warnings (Off, "*is not referenced");
-with Swagger.Streams;
+with {{openApiPackageName}}.Streams;
 package body {{package}}.Clients is
    pragma Style_Checks ("-mr");
 {{#apiInfo}}
@@ -14,23 +14,23 @@ package body {{package}}.Clients is
       (Client : in out Client_Type{{#hasParams}};{{/hasParams}}{{#allParams}}
        {{paramName}} : in {{^isFile}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}{{package}}.Models.{{/isContainer}}{{/isPrimitiveType}}{{/isString}}{{/isFile}}{{dataType}}{{^-last}};{{/-last}}{{/allParams}}{{#returnType}};
        Result : out {{.}}{{/returnType}}) is
-      URI   : Swagger.Clients.URI_Type;{{#hasBodyParam}}
-      Req   : Swagger.Clients.Request_Type;{{/hasBodyParam}}{{#hasFormParams}}
-      Req   : Swagger.Clients.Request_Type;{{/hasFormParams}}
+      URI   : {{openApiPackageName}}.Clients.URI_Type;{{#hasBodyParam}}
+      Req   : {{openApiPackageName}}.Clients.Request_Type;{{/hasBodyParam}}{{#hasFormParams}}
+      Req   : {{openApiPackageName}}.Clients.Request_Type;{{/hasFormParams}}
       {{#returnType}}
-      Reply : Swagger.Value_Type;
+      Reply : {{openApiPackageName}}.Value_Type;
       {{/returnType}}
    begin
 {{#hasProduces}}
-      Client.Set_Accept (({{#produces}}{{#vendorExtensions.x-has-uniq-produces}}1 => {{/vendorExtensions.x-has-uniq-produces}}Swagger.Clients.{{adaMediaType}}{{^-last}},
+      Client.Set_Accept (({{#produces}}{{#vendorExtensions.x-has-uniq-produces}}1 => {{/vendorExtensions.x-has-uniq-produces}}{{openApiPackageName}}.Clients.{{adaMediaType}}{{^-last}},
                           {{/-last}}{{/produces}}));{{/hasProduces}}{{#hasBodyParam}}
-      Client.Initialize (Req, ({{#hasConsumes}}{{#consumes}}{{#vendorExtensions.x-has-uniq-consumes}}1 => {{/vendorExtensions.x-has-uniq-consumes}}Swagger.Clients.{{adaMediaType}}{{^-last}},
-                               {{/-last}}{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}1 => Swagger.Clients.APPLICATION_JSON{{/hasConsumes}}));{{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
+      Client.Initialize (Req, ({{#hasConsumes}}{{#consumes}}{{#vendorExtensions.x-has-uniq-consumes}}1 => {{/vendorExtensions.x-has-uniq-consumes}}{{openApiPackageName}}.Clients.{{adaMediaType}}{{^-last}},
+                               {{/-last}}{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}1 => {{openApiPackageName}}.Clients.APPLICATION_JSON{{/hasConsumes}}));{{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
       {{package}}.Models.Serialize (Req.Stream, "", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{#isFile}}
       --  TODO: Serialize (Req.Stream, "{{basename}}", {{paramName}});{{/isFile}}{{^isFile}}{{^isLong}}
       Req.Stream.Write_Entity ("{{baseName}}", {{paramName}});{{/isLong}}{{#isLong}}
       Serialize (Req.Stream, "{{baseName}}", {{paramName}});{{/isLong}}{{/isFile}}{{/vendorExtensions.x-is-model-type}}{{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}
-      Client.Initialize (Req, (1 => Swagger.Clients.APPLICATION_FORM));{{#formParams}}{{#vendorExtensions.x-is-model-type}}
+      Client.Initialize (Req, (1 => {{openApiPackageName}}.Clients.APPLICATION_FORM));{{#formParams}}{{#vendorExtensions.x-is-model-type}}
       {{package}}.Models.Serialize (Req.Stream, "{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}
       Req.Stream.Write_Entity ("{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{/formParams}}{{/hasFormParams}}
 {{#queryParams}}{{#isQueryParam}}{{^isPrimitiveType}}{{^isString}}{{^isContainer}}{{^isDateTime}}
@@ -40,11 +40,11 @@ package body {{package}}.Clients is
       URI.Add_Param ("{{baseName}}", {{paramName}});{{/isContainer}}{{#isDateTime}}
       URI.Add_Param ("{{baseName}}", {{paramName}});{{/isDateTime}}{{/isQueryParam}}{{/queryParams}}
       URI.Set_Path ("{{path}}");{{#pathParams}}
-      URI.Set_Path_Param ("{{baseName}}", {{^isString}}Swagger.To_String ({{/isString}}{{paramName}}{{^isString}}){{/isString}});{{/pathParams}}
-      Client.Call (Swagger.Clients.{{httpMethod}}, URI{{#hasBodyParam}}, Req{{/hasBodyParam}}{{#hasFormParams}}, Req{{/hasFormParams}}{{#returnType}}, Reply{{/returnType}});
+      URI.Set_Path_Param ("{{baseName}}", {{^isString}}{{openApiPackageName}}.To_String ({{/isString}}{{paramName}}{{^isString}}){{/isString}});{{/pathParams}}
+      Client.Call ({{openApiPackageName}}.Clients.{{httpMethod}}, URI{{#hasBodyParam}}, Req{{/hasBodyParam}}{{#hasFormParams}}, Req{{/hasFormParams}}{{#returnType}}, Reply{{/returnType}});
       {{#returnType}}
       {{^vendorExtensions.x-is-model-type}}
-      Swagger.Streams.Deserialize (Reply, "", Result);
+      {{openApiPackageName}}.Streams.Deserialize (Reply, "", Result);
       {{/vendorExtensions.x-is-model-type}}
       {{#vendorExtensions.x-is-model-type}}
       {{package}}.Models.Deserialize (Reply, "", Result);

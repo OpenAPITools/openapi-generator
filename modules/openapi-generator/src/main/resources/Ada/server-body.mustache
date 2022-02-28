@@ -24,7 +24,7 @@ package body {{package}}.Servers is
        {{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
        {{/-last}}{{/allParams}}{{#returnType}};
        Result  : out {{.}}{{/returnType}};
-       Context : in out Swagger.Servers.Context_Type) is
+       Context : in out {{openApiPackageName}.Servers.Context_Type) is
    begin
       null;
    end {{operationId}};

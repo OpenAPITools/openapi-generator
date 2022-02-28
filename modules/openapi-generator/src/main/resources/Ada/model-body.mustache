@@ -5,23 +5,24 @@ package body {{package}}.Models is
 
    pragma Warnings (Off, "*use clause for package*");
 
-   use Swagger.Streams;
+   use {{openApiPackageName}}.Streams;
 
 {{#orderedModels}}
 {{#model}}{{^isArray}}
 
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+   procedure Serialize (Into  : in out {{openApiPackageName}}.Streams.Output_Stream'Class;
                         Name  : in String;
                         Value : in {{classname}}) is
    begin
       Into.Start_Entity (Name);{{#vars}}{{#vendorExtensions.x-is-stream-type}}{{^isLong}}
-      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/isLong}}{{#isLong}}
-      Into.Write_Long_Entity ("{{baseName}}", Value.{{name}});{{/isLong}}{{/vendorExtensions.x-is-stream-type}}{{^vendorExtensions.x-is-stream-type}}
+      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/isLong}}{{#isLong}}{{#vendorExtensions.x-is-required}}
+      Into.Write_Long_Entity ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}
+      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-required}}{{/isLong}}{{/vendorExtensions.x-is-stream-type}}{{^vendorExtensions.x-is-stream-type}}
       Serialize (Into, "{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-stream-type}}{{/vars}}
       Into.End_Entity (Name);
    end Serialize;
 
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+   procedure Serialize (Into  : in out {{openApiPackageName}}.Streams.Output_Stream'Class;
                         Name  : in String;
                         Value : in {{classname}}_Vectors.Vector) is
    begin
@@ -32,24 +33,24 @@ package body {{package}}.Models is
       Into.End_Array (Name);
    end Serialize;
 
-   procedure Deserialize (From  : in Swagger.Value_Type;
+   procedure Deserialize (From  : in {{openApiPackageName}}.Value_Type;
                           Name  : in String;
                           Value : out {{classname}}) is
-      Object : Swagger.Value_Type;
+      Object : {{openApiPackageName}}.Value_Type;
    begin
-      Swagger.Streams.Deserialize (From, Name, Object);{{#vars}}{{#vendorExtensions.x-is-model-type}}
+      {{openApiPackageName}}.Streams.Deserialize (From, Name, Object);{{#vars}}{{#vendorExtensions.x-is-model-type}}
       Deserialize (Object, "{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}
-      Swagger.Streams.Deserialize (Object, "{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-model-type}}{{/vars}}
+      {{openApiPackageName}}.Streams.Deserialize (Object, "{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-model-type}}{{/vars}}
    end Deserialize;
 
-   procedure Deserialize (From  : in Swagger.Value_Type;
+   procedure Deserialize (From  : in {{openApiPackageName}}.Value_Type;
                           Name  : in String;
                           Value : out {{classname}}_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
+      List : {{openApiPackageName}}.Value_Array_Type;
       Item : {{classname}};
    begin
       Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
+      {{openApiPackageName}}.Streams.Deserialize (From, Name, List);
       for Data of List loop
          Deserialize (Data, "", Item);
          Value.Append (Item);

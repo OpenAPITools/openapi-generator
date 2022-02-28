@@ -3,21 +3,15 @@ abstract project Config is
 
    type Yes_No is ("yes", "no");
 
-   type Library_Type_Type is ("relocatable", "static");
+   type Library_Type_Type is ("relocatable", "static", "static-pic");
 
-   type Mode_Type is ("distrib", "debug", "optimize", "profile");
-   Mode : Mode_Type := external ("MODE", "debug");
+   type Build_Type is ("distrib", "debug", "optimize", "profile", "coverage");
+   Mode : Build_Type := external ("BUILD", "debug");
 
-   Coverage : Yes_No := External ("COVERAGE", "no");
    Processors := External ("PROCESSORS", "1");
 
    package Builder is
-       case Mode is
-          when "debug" =>
-             for Default_Switches ("Ada") use ("-g", "-j" & Processors);
-          when others =>
-             for Default_Switches ("Ada") use ("-g", "-O2", "-j" & Processors);
-       end case;
+       for Default_Switches ("Ada") use ("-j" & Processors);
    end Builder;
 
    package compiler is
@@ -25,25 +19,24 @@ abstract project Config is
       defaults := ("-gnat2012");
       case Mode is
          when "distrib" =>
-            for Default_Switches ("Ada") use defaults & ("-gnatafno", "-gnatVa", "-gnatwa");
+            for Default_Switches ("Ada") use defaults & ("-O2", "-gnatafno", "-gnatVa", "-gnatwa");
 
          when "debug" =>
             for Default_Switches ("Ada") use defaults & warnings
-               & ("-gnata", "-gnatVaMI", "-gnaty3abcefhiklmnprstxM99");
+               & ("-g", "-gnata", "-gnatVaMI", "-gnaty3abcefhiklmnprstxM127");
+
+         when "coverage" =>
+            for Default_Switches ("Ada") use defaults & warnings
+               & ("-g", "-O2", "-gnata", "-gnatVaMI", "-gnaty3abcefhiklmnprstxM127",
+                  "-fprofile-arcs", "-ftest-coverage");
 
          when "optimize" =>
             for Default_Switches ("Ada") use defaults & warnings
-               & ("-gnatn", "-gnatp", "-fdata-sections", "-ffunction-sections");
+               & ("-O2", "-gnatn", "-gnatp", "-fdata-sections", "-ffunction-sections");
 
          when "profile" =>
             for Default_Switches ("Ada") use defaults & warnings & ("-pg");
-      end case;
 
-      case Coverage is
-      when "yes" =>
-         for Default_Switches ("ada") use Compiler'Default_Switches ("Ada") &
-           ("-fprofile-arcs", "-ftest-coverage");
-      when others =>
       end case;
    end compiler;
 
@@ -69,18 +62,15 @@ abstract project Config is
          when "optimize" =>
             for Default_Switches ("Ada") use ("-Wl,--gc-sections");
 
+         when "coverage" =>
+            for Default_Switches ("ada") use ("-fprofile-arcs");
+	 
 	 when others =>
 	    null;
       end case;
 
-      case Coverage is
-      when "yes" =>
-         for Default_Switches ("ada") use Linker'Default_Switches ("ada") &
-           ("-fprofile-arcs");
-      when others =>
-      end case;
-   end linker;
-
+   end linker;        
+ 
    package Ide is
       for VCS_Kind use "git";
    end Ide;
