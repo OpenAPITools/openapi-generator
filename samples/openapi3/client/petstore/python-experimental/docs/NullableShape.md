@@ -1,6 +1,6 @@
 # NullableShape
 
-The value may be a shape or the 'null' value. The 'nullable' attribute was introduced in OAS schema >= 3.0 and has been deprecated in OAS schema >= 3.1. For a nullable composed schema to work, one of its chosen oneOf schemas must be type null
+The value may be a shape or the 'null' value. For a composed schema to validate a null payload, one of its chosen oneOf schemas must be type null or nullable (introduced in OAS schema >= 3.0)
 
 #### Properties
 Name | Type | Description | Notes

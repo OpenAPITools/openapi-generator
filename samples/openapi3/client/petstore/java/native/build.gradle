@@ -64,7 +64,7 @@ artifacts {
 ext {
     swagger_annotations_version = "1.5.22"
     jackson_version = "2.10.4"
-    junit_version = "4.13.1"
+    junit_version = "4.13.2"
 }
 
 dependencies {

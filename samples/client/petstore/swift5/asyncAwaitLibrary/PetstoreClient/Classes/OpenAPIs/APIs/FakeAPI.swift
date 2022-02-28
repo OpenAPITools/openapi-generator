@@ -15,11 +15,10 @@ open class FakeAPI {
     /**
 
      - parameter body: (body) Input boolean as post body (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Bool
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func fakeOuterBooleanSerialize(body: Bool? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> Bool {
+    open class func fakeOuterBooleanSerialize(body: Bool? = nil) async throws -> Bool {
         var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
@@ -29,7 +28,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+                requestTask = fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -70,11 +69,10 @@ open class FakeAPI {
     /**
 
      - parameter body: (body) Input composite as post body (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: OuterComposite
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> OuterComposite {
+    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil) async throws -> OuterComposite {
         var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
@@ -84,7 +82,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+                requestTask = fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -125,11 +123,10 @@ open class FakeAPI {
     /**
 
      - parameter body: (body) Input number as post body (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Double
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func fakeOuterNumberSerialize(body: Double? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> Double {
+    open class func fakeOuterNumberSerialize(body: Double? = nil) async throws -> Double {
         var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
@@ -139,7 +136,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = fakeOuterNumberSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+                requestTask = fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -180,11 +177,10 @@ open class FakeAPI {
     /**
 
      - parameter body: (body) Input string as post body (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: String
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func fakeOuterStringSerialize(body: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> String {
+    open class func fakeOuterStringSerialize(body: String? = nil) async throws -> String {
         var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
@@ -194,7 +190,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = fakeOuterStringSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+                requestTask = fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -235,11 +231,10 @@ open class FakeAPI {
     /**
 
      - parameter body: (body)  
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testBodyWithFileSchema(body: FileSchemaTestClass, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
+    open class func testBodyWithFileSchema(body: FileSchemaTestClass) async throws {
         var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
@@ -249,7 +244,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testBodyWithFileSchemaWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+                requestTask = testBodyWithFileSchemaWithRequestBuilder(body: body).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -291,11 +286,10 @@ open class FakeAPI {
 
      - parameter query: (query)  
      - parameter body: (body)  
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testBodyWithQueryParams(query: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
+    open class func testBodyWithQueryParams(query: String, body: User) async throws {
         var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
@@ -305,7 +299,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute(apiResponseQueue) { result in
+                requestTask = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -350,11 +344,10 @@ open class FakeAPI {
      To test \"client\" model
      
      - parameter body: (body) client model 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Client
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testClientModel(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> Client {
+    open class func testClientModel(body: Client) async throws -> Client {
         var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
@@ -364,7 +357,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testClientModelWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+                requestTask = testClientModelWithRequestBuilder(body: body).execute { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -420,11 +413,10 @@ open class FakeAPI {
      - parameter dateTime: (form) None (optional)
      - parameter password: (form) None (optional)
      - parameter callback: (form) None (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
+    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) async throws {
         var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
@@ -434,7 +426,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute(apiResponseQueue) { result in
+                requestTask = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -585,11 +577,10 @@ open class FakeAPI {
      - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
      - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
      - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
+    open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) async throws {
         var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
@@ -599,7 +590,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute(apiResponseQueue) { result in
+                requestTask = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -668,11 +659,10 @@ open class FakeAPI {
      - parameter stringGroup: (query) String in group parameters (optional)
      - parameter booleanGroup: (header) Boolean in group parameters (optional)
      - parameter int64Group: (query) Integer in group parameters (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
+    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) async throws {
         var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
@@ -682,7 +672,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute(apiResponseQueue) { result in
+                requestTask = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -737,11 +727,10 @@ open class FakeAPI {
      test inline additionalProperties
      
      - parameter param: (body) request body 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testInlineAdditionalProperties(param: [String: String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
+    open class func testInlineAdditionalProperties(param: [String: String]) async throws {
         var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
@@ -751,7 +740,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute(apiResponseQueue) { result in
+                requestTask = testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -794,11 +783,10 @@ open class FakeAPI {
      
      - parameter param: (form) field1 
      - parameter param2: (form) field2 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testJsonFormData(param: String, param2: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
+    open class func testJsonFormData(param: String, param2: String) async throws {
         var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
@@ -808,7 +796,7 @@ open class FakeAPI {
                   return
                 }
 
-                requestTask = testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute(apiResponseQueue) { result in
+                requestTask = testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())

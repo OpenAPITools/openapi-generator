@@ -442,6 +442,7 @@ class StoreApi(object):
     def place_order(self, order, **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -471,6 +472,7 @@ class StoreApi(object):
     def place_order_with_http_info(self, order, **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -552,10 +554,12 @@ class StoreApi(object):
             ['application/xml', 'application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json'],
                 'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501

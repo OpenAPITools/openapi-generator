@@ -21,6 +21,8 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
+
+
 ### Example
 ```powershell
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
@@ -69,6 +71,8 @@ Name | Type | Description  | Notes
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-ApiKey] <String><br>
 
 Deletes a pet
+
+
 
 ### Example
 ```powershell
@@ -264,6 +268,8 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
+
+
 ### Example
 ```powershell
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
@@ -313,6 +319,8 @@ Name | Type | Description  | Notes
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Status] <String><br>
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 ```powershell
@@ -365,6 +373,8 @@ void (empty response body)
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-File] <System.IO.FileInfo><br>
 
 uploads an image
+
+
 
 ### Example
 ```powershell

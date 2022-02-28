@@ -366,6 +366,65 @@ public class JSONTest {
 
     /**
      * Validate a oneOf schema can be deserialized into the expected class.
+     * The oneOf schema has a discriminator. 
+     */
+    @Test
+    public void testOneOfSchemaWithDiscriminator() throws Exception {
+        {
+            String str = "{ \"className\": \"whale\", \"hasBaleen\": false, \"hasTeeth\": false }";
+
+            // make sure deserialization works for pojo object
+            Whale w = json.getGson().fromJson(str, Whale.class);
+            assertEquals(w.getClassName(), "whale");
+            assertEquals(w.getHasBaleen(), false);
+            assertEquals(w.getHasTeeth(), false);
+
+            Mammal o = json.getGson().fromJson(str, Mammal.class);
+            assertTrue(o.getActualInstance() instanceof Whale);
+            Whale inst = (Whale) o.getActualInstance();
+            assertEquals(inst.getClassName(), "whale");
+            assertEquals(inst.getHasBaleen(), false);
+            assertEquals(inst.getHasTeeth(), false);
+            assertEquals(json.getGson().toJson(inst), "{\"hasBaleen\":false,\"hasTeeth\":false,\"className\":\"whale\"}");
+            assertEquals(inst.toJson(), "{\"hasBaleen\":false,\"hasTeeth\":false,\"className\":\"whale\"}");
+            assertEquals(json.getGson().toJson(o), "{\"hasBaleen\":false,\"hasTeeth\":false,\"className\":\"whale\"}");
+            assertEquals(o.toJson(), "{\"hasBaleen\":false,\"hasTeeth\":false,\"className\":\"whale\"}");
+
+            String str2 = "{ \"className\": \"zebra\", \"type\": \"plains\" }";
+
+            // make sure deserialization works for pojo object
+            Zebra z = Zebra.fromJson(str2);
+            assertEquals(z.toJson(), "{\"className\":\"zebra\",\"type\":\"plains\"}");
+
+            Mammal o2 = json.getGson().fromJson(str2, Mammal.class);
+            assertTrue(o2.getActualInstance() instanceof Zebra);
+            Zebra inst2 = (Zebra) o2.getActualInstance();
+            assertEquals(json.getGson().toJson(inst2), "{\"className\":\"zebra\",\"type\":\"plains\"}");
+            assertEquals(inst2.toJson(), "{\"className\":\"zebra\",\"type\":\"plains\"}");
+            assertEquals(json.getGson().toJson(o2), "{\"className\":\"zebra\",\"type\":\"plains\"}");
+            assertEquals(o2.toJson(), "{\"className\":\"zebra\",\"type\":\"plains\"}");
+        }
+        {
+            // incorrect payload results in exception
+            String str = "{ \"cultivar\": \"golden delicious\", \"mealy\": false, \"garbage_prop\": \"abc\" }";
+            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                Mammal o = json.getGson().fromJson(str, Mammal.class);
+            });
+            assertTrue(exception.getMessage().contains("Failed deserialization for Mammal: 0 classes match result, expected 1. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}"));
+        }
+        {
+            // Try to deserialize empty object. This should fail 'oneOf' because none will match
+            // whale or zebra.
+            String str = "{ }";
+            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                json.getGson().fromJson(str, Mammal.class);
+            });
+            assertTrue(exception.getMessage().contains("Failed deserialization for Mammal: 0 classes match result, expected 1"));
+        }
+    }
+
+    /**
+     * Validate a oneOf schema can be deserialized into the expected class.
      * The oneOf schema does not have a discriminator. 
      */
     @Test

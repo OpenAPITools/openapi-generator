@@ -6,6 +6,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -32,18 +33,18 @@ import java.util.Optional;
 
 @Singleton
 public class SecurityAPIUtils {
-    private final String bearerPrefix = "Bearer ";
+    private static final String BEARER_PREFIX = "Bearer ";
     private final ObjectMapper mapper;
 
-    private boolean useOnlineValidation = false;
+    private static final boolean USE_ONLINE_VALIDATION = false;
 
     // Online validation
-    private HashMap<String, String> tokenIntrospectEndpoints = new HashMap<>();
+    private final HashMap<String, String> tokenIntrospectEndpoints = new HashMap<>();
     private final String clientId;
     private final String clientSecret;
 
     // Offline validation
-    private HashMap<String, String> jwksEndpoints = new HashMap<>();
+    private final HashMap<String, String> jwksEndpoints = new HashMap<>();
     private String tokenKeyId = "";
     private JWTVerifier tokenVerifier; //Reusable verifier instance until tokenKeyId changes.
 
@@ -59,12 +60,13 @@ public class SecurityAPIUtils {
         jwksEndpoints.put("petstore_auth", "");
     }
 
+    //This function is not currently used because we hardcode USE_ONLINE_VALIDATION to false but might in the future versions
     private boolean isRequestTokenValidByOnlineCheck(Http.Request request, String securityMethodName) {
         try {
             Optional<String> authToken = request.getHeaders().get(HttpHeaders.AUTHORIZATION);
 
             if (authToken.isPresent()) {
-                String tokenWithoutBearerPrefix = authToken.get().substring(bearerPrefix.length());
+                String tokenWithoutBearerPrefix = authToken.get().substring(BEARER_PREFIX.length());
 
                 HttpClientBuilder builder = HttpClientBuilder.create();
                 HttpClient httpClient = builder.build();
@@ -78,9 +80,9 @@ public class SecurityAPIUtils {
 
                 HttpResponse response = httpClient.execute(httppost);
                 String responseJsonString = EntityUtils.toString(response.getEntity());
-                HashMap responseJsonObject = mapper.readValue(responseJsonString, HashMap.class);
+                JsonNode responseJsonObject = mapper.readTree(responseJsonString);
 
-                return response.getStatusLine().getStatusCode() == HttpStatus.SC_OK && (boolean) responseJsonObject.get("active");
+                return response.getStatusLine().getStatusCode() == HttpStatus.SC_OK && responseJsonObject.get("active").asBoolean();
             }
         } catch (Exception exception) {
             return false;
@@ -94,7 +96,7 @@ public class SecurityAPIUtils {
             Optional<String> authHeader = request.getHeaders().get(HttpHeaders.AUTHORIZATION);
 
             if (authHeader.isPresent()) {
-                String bearerToken = authHeader.get().substring(bearerPrefix.length());
+                String bearerToken = authHeader.get().substring(BEARER_PREFIX.length());
                 return isTokenValidByOfflineCheck(bearerToken, securityMethodName);
             }
         } catch (Exception exception) {
@@ -110,8 +112,9 @@ public class SecurityAPIUtils {
             String issuer = jwt.getIssuer();
             String keyId = jwt.getKeyId();
             if (!tokenKeyId.equals(keyId)) {
-                if (securityMethodName == null) {
-                    securityMethodName = jwksEndpoints.keySet().stream().findFirst().get();
+                Optional<String> optionalSecurityMethodName = jwksEndpoints.keySet().stream().findFirst();
+                if (securityMethodName == null && optionalSecurityMethodName.isPresent()) {
+                    securityMethodName = optionalSecurityMethodName.get();
                 }
 
                 Jwk jwk = new UrlJwkProvider(new URL(this.jwksEndpoints.get(securityMethodName))).get(keyId);
@@ -128,7 +131,7 @@ public class SecurityAPIUtils {
                 tokenKeyId = keyId;
             }
 
-            DecodedJWT verifiedJWT = tokenVerifier.verify(bearerToken);
+            tokenVerifier.verify(bearerToken);
 
             return true;
         } catch (Exception exception) {
@@ -140,7 +143,7 @@ public class SecurityAPIUtils {
         try {
             Optional<String> authHeader = requestWithPreviouslyVerifiedToken.getHeaders().get(HttpHeaders.AUTHORIZATION);
             if (authHeader.isPresent()) {
-                String bearerToken = authHeader.get().substring(bearerPrefix.length());
+                String bearerToken = authHeader.get().substring(BEARER_PREFIX.length());
                 return getOAuthUserIdFromToken(bearerToken);
             }
         } catch (Exception exception) {
@@ -160,6 +163,6 @@ public class SecurityAPIUtils {
     }
 
     public boolean isRequestTokenValid(Http.Request request, String securityMethodName) {
-        return useOnlineValidation ? isRequestTokenValidByOnlineCheck(request, securityMethodName) : isRequestTokenValidByOfflineCheck(request, securityMethodName);
+        return USE_ONLINE_VALIDATION ? isRequestTokenValidByOnlineCheck(request, securityMethodName) : isRequestTokenValidByOfflineCheck(request, securityMethodName);
     }
 }

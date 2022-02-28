@@ -464,6 +464,7 @@ defmodule OpenapiPetstore.Api.Fake do
 
   @doc """
   test inline additionalProperties
+  
 
   ## Parameters
 
@@ -490,6 +491,7 @@ defmodule OpenapiPetstore.Api.Fake do
 
   @doc """
   test json serialization of form data
+  
 
   ## Parameters
 

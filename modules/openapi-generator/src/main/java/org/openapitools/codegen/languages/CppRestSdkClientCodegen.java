@@ -44,6 +44,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     protected String packageVersion = "1.0.0";
     protected String declspec = "";
     protected String defaultInclude = "";
+    protected String apiDirName = "api";
     protected String modelDirName = "model";
 
     private final Set<String> parentModels = new HashSet<>();
@@ -143,29 +144,6 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                 VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
                 Boolean.toString(this.variableNameFirstCharacterUppercase));
 
-        supportingFiles.add(new SupportingFile("modelbase-header.mustache", "", "ModelBase.h"));
-        supportingFiles.add(new SupportingFile("modelbase-source.mustache", "", "ModelBase.cpp"));
-        supportingFiles.add(new SupportingFile("object-header.mustache", "", "Object.h"));
-        supportingFiles.add(new SupportingFile("object-source.mustache", "", "Object.cpp"));
-        supportingFiles.add(new SupportingFile("apiclient-header.mustache", "", "ApiClient.h"));
-        supportingFiles.add(new SupportingFile("apiclient-source.mustache", "", "ApiClient.cpp"));
-        supportingFiles.add(new SupportingFile("apiconfiguration-header.mustache", "", "ApiConfiguration.h"));
-        supportingFiles.add(new SupportingFile("apiconfiguration-source.mustache", "", "ApiConfiguration.cpp"));
-        supportingFiles.add(new SupportingFile("apiexception-header.mustache", "", "ApiException.h"));
-        supportingFiles.add(new SupportingFile("apiexception-source.mustache", "", "ApiException.cpp"));
-        supportingFiles.add(new SupportingFile("ihttpbody-header.mustache", "", "IHttpBody.h"));
-        supportingFiles.add(new SupportingFile("jsonbody-header.mustache", "", "JsonBody.h"));
-        supportingFiles.add(new SupportingFile("jsonbody-source.mustache", "", "JsonBody.cpp"));
-        supportingFiles.add(new SupportingFile("httpcontent-header.mustache", "", "HttpContent.h"));
-        supportingFiles.add(new SupportingFile("httpcontent-source.mustache", "", "HttpContent.cpp"));
-        supportingFiles.add(new SupportingFile("multipart-header.mustache", "", "MultipartFormData.h"));
-        supportingFiles.add(new SupportingFile("multipart-source.mustache", "", "MultipartFormData.cpp"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("cmake-lists.mustache", "", "CMakeLists.txt"));
-        supportingFiles.add(new SupportingFile("cmake-config.mustache", "", "Config.cmake.in"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
 
@@ -229,24 +207,54 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         additionalProperties.put("declspec", declspec);
         additionalProperties.put("defaultInclude", defaultInclude);
         additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);
+
+        importMapping.put("HttpContent", "#include \"" + packageName + "/" + "HttpContent.h\"");
+        importMapping.put("Object", "#include \"" + packageName + "/" + "Object.h\"");
+
+        supportingFiles.add(new SupportingFile("modelbase-header.mustache", getHeaderFolder(), "ModelBase.h"));
+        supportingFiles.add(new SupportingFile("modelbase-source.mustache", getSourceFolder(), "ModelBase.cpp"));
+        supportingFiles.add(new SupportingFile("object-header.mustache", getHeaderFolder(), "Object.h"));
+        supportingFiles.add(new SupportingFile("object-source.mustache", getSourceFolder(), "Object.cpp"));
+        supportingFiles.add(new SupportingFile("apiclient-header.mustache", getHeaderFolder(), "ApiClient.h"));
+        supportingFiles.add(new SupportingFile("apiclient-source.mustache", getSourceFolder(), "ApiClient.cpp"));
+        supportingFiles.add(new SupportingFile("apiconfiguration-header.mustache", getHeaderFolder(), "ApiConfiguration.h"));
+        supportingFiles.add(new SupportingFile("apiconfiguration-source.mustache", getSourceFolder(), "ApiConfiguration.cpp"));
+        supportingFiles.add(new SupportingFile("apiexception-header.mustache", getHeaderFolder(), "ApiException.h"));
+        supportingFiles.add(new SupportingFile("apiexception-source.mustache", getSourceFolder(), "ApiException.cpp"));
+        supportingFiles.add(new SupportingFile("ihttpbody-header.mustache", getHeaderFolder(), "IHttpBody.h"));
+        supportingFiles.add(new SupportingFile("jsonbody-header.mustache", getHeaderFolder(), "JsonBody.h"));
+        supportingFiles.add(new SupportingFile("jsonbody-source.mustache", getSourceFolder(), "JsonBody.cpp"));
+        supportingFiles.add(new SupportingFile("httpcontent-header.mustache", getHeaderFolder(), "HttpContent.h"));
+        supportingFiles.add(new SupportingFile("httpcontent-source.mustache", getSourceFolder(), "HttpContent.cpp"));
+        supportingFiles.add(new SupportingFile("multipart-header.mustache", getHeaderFolder(), "MultipartFormData.h"));
+        supportingFiles.add(new SupportingFile("multipart-source.mustache", getSourceFolder(), "MultipartFormData.cpp"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("cmake-lists.mustache", "", "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("cmake-config.mustache", "", "Config.cmake.in"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
-    /**
-     * Location to write model files. You can use the modelPackage() as defined
-     * when the class is instantiated
-     */
-    @Override
-    public String modelFileFolder() {
-        return outputFolder + "/" + modelDirName;
+    protected String getHeaderFolder() {
+        return "include/" + packageName;
     }
 
-    /**
-     * Location to write api files. You can use the apiPackage() as defined when
-     * the class is instantiated
-     */
+    protected String getSourceFolder() {
+        return "src";
+    }
+
     @Override
-    public String apiFileFolder() {
-        return outputFolder + "/api";
+    public String apiFilename(String templateName, String tag) {
+        String suffix = apiTemplateFiles().get(templateName);
+        String targetOutDir = suffix.equals(".h") ? getHeaderFolder() : getSourceFolder();
+        return outputFolder + "/" + targetOutDir + "/" + apiDirName + "/" + toApiFilename(tag) + suffix;
+    }
+
+    @Override
+    public String modelFilename(String templateName, String modelName) {
+        String suffix = modelTemplateFiles().get(templateName);
+        String targetOutDir = suffix.equals(".h") ? getHeaderFolder() : getSourceFolder();
+        return outputFolder + "/" + targetOutDir + "/" + modelDirName + "/" + toModelFilename(modelName) + suffix;
     }
 
     @Override
@@ -254,7 +262,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         } else {
-            return "#include \"" + modelDirName + "/" + toModelFilename(name) + ".h\"";
+            return "#include \"" + packageName + "/" + modelDirName + "/" + toModelFilename(name) + ".h\"";
         }
     }
 

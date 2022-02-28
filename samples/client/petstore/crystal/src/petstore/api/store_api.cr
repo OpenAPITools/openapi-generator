@@ -195,6 +195,7 @@ module Petstore
     end
 
     # Place an order for a pet
+    # 
     # @param order [Order] order placed for purchasing the pet
     # @return [Order]
     def place_order(order : Order)
@@ -203,6 +204,7 @@ module Petstore
     end
 
     # Place an order for a pet
+    # 
     # @param order [Order] order placed for purchasing the pet
     # @return [Array<(Order, Integer, Hash)>] Order data, response status code and response headers
     def place_order_with_http_info(order : Order)
