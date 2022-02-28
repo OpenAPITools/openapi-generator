@@ -691,9 +691,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setNetCoreProjectFileFlag(true);
 
             if (!additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES) && !strategies.stream().anyMatch(s ->
-                    s.equals(FrameworkStrategy.NETCOREAPP_2_0) ||
-                            s.equals(FrameworkStrategy.NETCOREAPP_2_1) ||
-                            s.equals(FrameworkStrategy.NETCOREAPP_3_0) ||
                             s.equals(FrameworkStrategy.NETCOREAPP_3_1) ||
                             s.equals(FrameworkStrategy.NET_5_0) ||
                             s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))) {
