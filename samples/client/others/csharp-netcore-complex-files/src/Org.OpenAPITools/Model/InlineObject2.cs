@@ -37,7 +37,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Status
         /// </summary>
         [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = false)]
-        public MultipartMixedStatus Status { get; set; }
+        // public MultipartMixedStatus Status { get; set; }
+        public MultipartMixedStatus Status { get; set; } // a
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineObject2" /> class.
         /// </summary>
@@ -49,7 +50,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="status">status (required).</param>
         /// <param name="marker">marker.</param>
         /// <param name="file">a file (required).</param>
-        public InlineObject2(MultipartMixedStatus status = default(MultipartMixedStatus), MultipartMixedMarker marker = default(MultipartMixedMarker), System.IO.Stream file = default(System.IO.Stream))
+        // public InlineObject2(MultipartMixedStatus status = default(MultipartMixedStatus), MultipartMixedMarker marker = default(MultipartMixedMarker), System.IO.Stream file = default(System.IO.Stream))
+        public InlineObject2(MultipartMixedStatus status, MultipartMixedMarker marker = default, System.IO.Stream file)
         {
             this.Status = status;
             // to ensure "file" is required (not null)
