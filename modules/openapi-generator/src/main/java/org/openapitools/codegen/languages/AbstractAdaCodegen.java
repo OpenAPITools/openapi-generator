@@ -192,7 +192,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         super.processOpts();
 
         if (additionalProperties.containsKey(HTTP_SUPPORT_OPTION)) {
-            String httpSupport = additionalProperties.get(HTTP_SUPPORT_OPTION).toString().toLowerCase();
+            String httpSupport = additionalProperties.get(HTTP_SUPPORT_OPTION).toString().toLowerCase(Locale.ROOT);
 
             if ("aws".equals(httpSupport)) {
                 this.httpClientPackageName = "Aws";
