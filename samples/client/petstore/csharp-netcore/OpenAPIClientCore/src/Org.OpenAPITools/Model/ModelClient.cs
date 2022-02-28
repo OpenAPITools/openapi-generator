@@ -36,7 +36,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
         /// <param name="_client">_client.</param>
-        public ModelClient(string _client = default(string))
+        // public ModelClient(string _client = default(string))
+        public ModelClient(string _client = default)
         {
             this._Client = _client;
         }
@@ -45,7 +46,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _Client
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
-        public string _Client { get; set; }
+        // public string _Client { get; set; }
+        public string _Client { get; set; } // c
 
         /// <summary>
         /// Returns the string presentation of the object

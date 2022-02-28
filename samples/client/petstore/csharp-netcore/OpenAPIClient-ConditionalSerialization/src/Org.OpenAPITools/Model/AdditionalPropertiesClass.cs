@@ -43,7 +43,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapWithUndeclaredPropertiesAnytype3">mapWithUndeclaredPropertiesAnytype3.</param>
         /// <param name="emptyMap">an object with no declared properties and no undeclared properties, hence it&#39;s an empty map..</param>
         /// <param name="mapWithUndeclaredPropertiesString">mapWithUndeclaredPropertiesString.</param>
-        public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>), Object anytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype2 = default(Object), Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default(Dictionary<string, Object>), Object emptyMap = default(Object), Dictionary<string, string> mapWithUndeclaredPropertiesString = default(Dictionary<string, string>))
+        // public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>), Object anytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype2 = default(Object), Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default(Dictionary<string, Object>), Object emptyMap = default(Object), Dictionary<string, string> mapWithUndeclaredPropertiesString = default(Dictionary<string, string>))
+        public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default, Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default, Object anytype1 = default, Object mapWithUndeclaredPropertiesAnytype1 = default, Object mapWithUndeclaredPropertiesAnytype2 = default, Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default, Object emptyMap = default, Dictionary<string, string> mapWithUndeclaredPropertiesString = default)
         {
             this._MapProperty = mapProperty;
             this._MapOfMapProperty = mapOfMapProperty;
@@ -60,6 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapProperty
         /// </summary>
         [DataMember(Name = "map_property", EmitDefaultValue = false)]
+        // public Dictionary<string, string> MapProperty
         public Dictionary<string, string> MapProperty
         {
             get{ return _MapProperty;}
@@ -84,6 +86,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapOfMapProperty
         /// </summary>
         [DataMember(Name = "map_of_map_property", EmitDefaultValue = false)]
+        // public Dictionary<string, Dictionary<string, string>> MapOfMapProperty
         public Dictionary<string, Dictionary<string, string>> MapOfMapProperty
         {
             get{ return _MapOfMapProperty;}
@@ -108,6 +111,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Anytype1
         /// </summary>
         [DataMember(Name = "anytype_1", EmitDefaultValue = true)]
+        // public Object Anytype1
         public Object Anytype1
         {
             get{ return _Anytype1;}
@@ -132,6 +136,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype1
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_1", EmitDefaultValue = false)]
+        // public Object MapWithUndeclaredPropertiesAnytype1
         public Object MapWithUndeclaredPropertiesAnytype1
         {
             get{ return _MapWithUndeclaredPropertiesAnytype1;}
@@ -156,6 +161,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype2
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_2", EmitDefaultValue = false)]
+        // public Object MapWithUndeclaredPropertiesAnytype2
         public Object MapWithUndeclaredPropertiesAnytype2
         {
             get{ return _MapWithUndeclaredPropertiesAnytype2;}
@@ -180,6 +186,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype3
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_3", EmitDefaultValue = false)]
+        // public Dictionary<string, Object> MapWithUndeclaredPropertiesAnytype3
         public Dictionary<string, Object> MapWithUndeclaredPropertiesAnytype3
         {
             get{ return _MapWithUndeclaredPropertiesAnytype3;}
@@ -205,6 +212,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.</value>
         [DataMember(Name = "empty_map", EmitDefaultValue = false)]
+        // public Object EmptyMap
         public Object EmptyMap
         {
             get{ return _EmptyMap;}
@@ -229,6 +237,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapWithUndeclaredPropertiesString
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_string", EmitDefaultValue = false)]
+        // public Dictionary<string, string> MapWithUndeclaredPropertiesString
         public Dictionary<string, string> MapWithUndeclaredPropertiesString
         {
             get{ return _MapWithUndeclaredPropertiesString;}

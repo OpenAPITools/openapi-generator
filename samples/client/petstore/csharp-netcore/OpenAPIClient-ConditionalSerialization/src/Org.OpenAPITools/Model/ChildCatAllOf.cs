@@ -77,7 +77,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name.</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat).</param>
-        public ChildCatAllOf(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat)
+        // public ChildCatAllOf(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat)
+        public ChildCatAllOf(string name = default, PetTypeEnum petType = PetTypeEnum.ChildCat)
         {
             this._Name = name;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -87,6 +88,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
+        // public string Name
         public string Name
         {
             get{ return _Name;}

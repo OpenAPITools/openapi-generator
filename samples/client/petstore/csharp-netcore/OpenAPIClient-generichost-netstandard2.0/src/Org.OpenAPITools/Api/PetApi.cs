@@ -392,7 +392,8 @@ namespace Org.OpenAPITools.Api
                     if ((pet as object) is System.IO.Stream stream)
                         request.Content = new StreamContent(stream);
                     else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(pet, ClientUtils.JsonSerializerSettings));
+                        // request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(pet, ClientUtils.JsonSerializerSettings));
+                        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(pet, ClientUtils.JsonSerializerOptions));
 
                     List<TokenBase> tokens = new List<TokenBase>();
 
@@ -422,7 +423,7 @@ namespace Org.OpenAPITools.Api
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
                         
-                    request.Method = new HttpMethod("POST"); 
+                    request.Method = new HttpMethod("POST");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -445,7 +446,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -543,7 +544,7 @@ namespace Org.OpenAPITools.Api
                     
                     oauthToken.UseInHeader(request, "");
                         
-                    request.Method = new HttpMethod("DELETE"); 
+                    request.Method = new HttpMethod("DELETE");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -566,7 +567,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -681,7 +682,7 @@ namespace Org.OpenAPITools.Api
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = new HttpMethod("GET"); 
+                    request.Method = new HttpMethod("GET");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -704,7 +705,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<List<Pet>> apiResponse = new ApiResponse<List<Pet>>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Pet>>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -822,7 +823,7 @@ namespace Org.OpenAPITools.Api
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = new HttpMethod("GET"); 
+                    request.Method = new HttpMethod("GET");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -845,7 +846,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<List<Pet>> apiResponse = new ApiResponse<List<Pet>>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Pet>>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -947,7 +948,7 @@ namespace Org.OpenAPITools.Api
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = new HttpMethod("GET"); 
+                    request.Method = new HttpMethod("GET");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -970,7 +971,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<Pet> apiResponse = new ApiResponse<Pet>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Pet>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<Pet>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1054,7 +1055,8 @@ namespace Org.OpenAPITools.Api
                     if ((pet as object) is System.IO.Stream stream)
                         request.Content = new StreamContent(stream);
                     else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(pet, ClientUtils.JsonSerializerSettings));
+                        // request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(pet, ClientUtils.JsonSerializerSettings));
+                        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(pet, ClientUtils.JsonSerializerOptions));
 
                     List<TokenBase> tokens = new List<TokenBase>();
 
@@ -1084,7 +1086,7 @@ namespace Org.OpenAPITools.Api
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
                         
-                    request.Method = new HttpMethod("PUT"); 
+                    request.Method = new HttpMethod("PUT");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -1107,7 +1109,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1228,7 +1230,7 @@ namespace Org.OpenAPITools.Api
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
                         
-                    request.Method = new HttpMethod("POST"); 
+                    request.Method = new HttpMethod("POST");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -1251,7 +1253,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1378,7 +1380,7 @@ namespace Org.OpenAPITools.Api
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = new HttpMethod("POST"); 
+                    request.Method = new HttpMethod("POST");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -1401,7 +1403,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<ApiResponse> apiResponse = new ApiResponse<ApiResponse>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResponse>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1530,7 +1532,7 @@ namespace Org.OpenAPITools.Api
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = new HttpMethod("POST"); 
+                    request.Method = new HttpMethod("POST");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -1553,7 +1555,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<ApiResponse> apiResponse = new ApiResponse<ApiResponse>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResponse>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();

@@ -36,7 +36,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MultipartMixedMarker" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        public MultipartMixedMarker(string name = default(string))
+        // public MultipartMixedMarker(string name = default(string))
+        public MultipartMixedMarker(string name = default)
         {
             this.Name = name;
         }
@@ -45,7 +46,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name { get; set; }
+        // public string Name { get; set; }
+        public string Name { get; set; } // c
 
         /// <summary>
         /// Returns the string presentation of the object

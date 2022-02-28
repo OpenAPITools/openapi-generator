@@ -95,7 +95,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate.</param>
         /// <param name="status">Order Status.</param>
         /// <param name="complete">complete (default to false).</param>
-        public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
+        // public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
+        public Order(long id = default, long petId = default, int quantity = default, DateTime shipDate = default, StatusEnum status = default, bool complete = false)
         {
             this._Id = id;
             this._PetId = petId;
@@ -109,6 +110,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
+        // public long Id
         public long Id
         {
             get{ return _Id;}
@@ -133,6 +135,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetId
         /// </summary>
         [DataMember(Name = "petId", EmitDefaultValue = false)]
+        // public long PetId
         public long PetId
         {
             get{ return _PetId;}
@@ -157,6 +160,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Quantity
         /// </summary>
         [DataMember(Name = "quantity", EmitDefaultValue = false)]
+        // public int Quantity
         public int Quantity
         {
             get{ return _Quantity;}
@@ -181,6 +185,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShipDate
         /// </summary>
         [DataMember(Name = "shipDate", EmitDefaultValue = false)]
+        // public DateTime ShipDate
         public DateTime ShipDate
         {
             get{ return _ShipDate;}
@@ -205,6 +210,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Complete
         /// </summary>
         [DataMember(Name = "complete", EmitDefaultValue = true)]
+        // public bool Complete
         public bool Complete
         {
             get{ return _Complete;}

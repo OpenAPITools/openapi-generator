@@ -49,7 +49,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="className">className (required).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Animal(string className = default(string), string color = "red")
+        // public Animal(string className = default(string), string color = "red")
+        public Animal(string className, string color = "red")
         {
             // to ensure "className" is required (not null)
             if (className == null) {
@@ -63,6 +64,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
+        // public string ClassName
         public string ClassName
         {
             get{ return _ClassName;}
@@ -87,6 +89,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Color
         /// </summary>
         [DataMember(Name = "color", EmitDefaultValue = false)]
+        // public string Color
         public string Color
         {
             get{ return _Color;}

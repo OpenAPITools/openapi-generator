@@ -48,6 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ParentPet" /> class.
         /// </summary>
         /// <param name="petType">petType (required) (default to &quot;ParentPet&quot;).</param>
+        // public ParentPet(string petType = "ParentPet") : base(petType)
         public ParentPet(string petType = "ParentPet") : base(petType)
         {
             this.AdditionalProperties = new Dictionary<string, object>();

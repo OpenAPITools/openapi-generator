@@ -45,7 +45,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="BasquePig" /> class.
         /// </summary>
         /// <param name="className">className (required).</param>
-        public BasquePig(string className = default(string))
+        // public BasquePig(string className = default(string))
+        public BasquePig(string className)
         {
             // to ensure "className" is required (not null)
             if (className == null) {
@@ -59,7 +60,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
-        public string ClassName { get; set; }
+        // public string ClassName { get; set; }
+        public string ClassName { get; set; } // c
 
         /// <summary>
         /// Gets or Sets additional properties

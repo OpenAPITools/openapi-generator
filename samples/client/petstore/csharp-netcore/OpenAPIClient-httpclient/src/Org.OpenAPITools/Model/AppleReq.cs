@@ -43,7 +43,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="cultivar">cultivar (required).</param>
         /// <param name="mealy">mealy.</param>
-        public AppleReq(string cultivar = default(string), bool mealy = default(bool))
+        // public AppleReq(string cultivar = default(string), bool mealy = default(bool))
+        public AppleReq(string cultivar, bool mealy = default)
         {
             // to ensure "cultivar" is required (not null)
             if (cultivar == null) {
@@ -57,13 +58,15 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Cultivar
         /// </summary>
         [DataMember(Name = "cultivar", IsRequired = true, EmitDefaultValue = false)]
-        public string Cultivar { get; set; }
+        // public string Cultivar { get; set; }
+        public string Cultivar { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Mealy
         /// </summary>
         [DataMember(Name = "mealy", EmitDefaultValue = true)]
-        public bool Mealy { get; set; }
+        // public bool Mealy { get; set; }
+        public bool Mealy { get; set; } // c
 
         /// <summary>
         /// Returns the string presentation of the object

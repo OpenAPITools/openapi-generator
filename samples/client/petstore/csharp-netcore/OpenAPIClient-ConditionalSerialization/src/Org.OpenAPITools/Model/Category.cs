@@ -45,7 +45,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="id">id.</param>
         /// <param name="name">name (required) (default to &quot;default-name&quot;).</param>
-        public Category(long id = default(long), string name = "default-name")
+        // public Category(long id = default(long), string name = "default-name")
+        public Category(long id = default, string name = "default-name")
         {
             // to ensure "name" is required (not null)
             if (name == null) {
@@ -60,6 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
+        // public long Id
         public long Id
         {
             get{ return _Id;}
@@ -84,6 +86,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
+        // public string Name
         public string Name
         {
             get{ return _Name;}

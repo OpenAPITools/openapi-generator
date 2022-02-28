@@ -36,7 +36,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="NumberOnly" /> class.
         /// </summary>
         /// <param name="justNumber">justNumber.</param>
-        public NumberOnly(decimal justNumber = default(decimal))
+        // public NumberOnly(decimal justNumber = default(decimal))
+        public NumberOnly(decimal justNumber = default)
         {
             this._JustNumber = justNumber;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,6 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustNumber
         /// </summary>
         [DataMember(Name = "JustNumber", EmitDefaultValue = false)]
+        // public decimal JustNumber
         public decimal JustNumber
         {
             get{ return _JustNumber;}

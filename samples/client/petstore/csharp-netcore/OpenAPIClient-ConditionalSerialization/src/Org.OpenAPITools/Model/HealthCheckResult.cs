@@ -36,7 +36,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="HealthCheckResult" /> class.
         /// </summary>
         /// <param name="nullableMessage">nullableMessage.</param>
-        public HealthCheckResult(string nullableMessage = default(string))
+        // public HealthCheckResult(string nullableMessage = default(string))
+        public HealthCheckResult(string nullableMessage = default)
         {
             this._NullableMessage = nullableMessage;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,6 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NullableMessage
         /// </summary>
         [DataMember(Name = "NullableMessage", EmitDefaultValue = true)]
+        // public string NullableMessage
         public string NullableMessage
         {
             get{ return _NullableMessage;}

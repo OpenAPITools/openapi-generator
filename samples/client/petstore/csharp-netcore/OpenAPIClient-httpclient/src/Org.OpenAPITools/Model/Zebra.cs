@@ -64,7 +64,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Type
         /// </summary>
         [DataMember(Name = "type", EmitDefaultValue = false)]
-        public TypeEnum? Type { get; set; }
+        // public TypeEnum? Type { get; set; }
+        public TypeEnum Type { get; set; } // a
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
         /// </summary>
@@ -78,7 +79,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="type">type.</param>
         /// <param name="className">className (required).</param>
-        public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string)) : base()
+        // public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string)) : base()
+        public Zebra(TypeEnum type = default, string className) : base()
         {
             // to ensure "className" is required (not null)
             if (className == null) {
@@ -93,7 +95,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
-        public string ClassName { get; set; }
+        // public string ClassName { get; set; }
+        public string ClassName { get; set; } // c
 
         /// <summary>
         /// Gets or Sets additional properties

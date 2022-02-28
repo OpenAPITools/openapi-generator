@@ -103,7 +103,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="photoUrls">photoUrls (required).</param>
         /// <param name="tags">tags.</param>
         /// <param name="status">pet status in the store.</param>
-        public Pet(long id = default(long), Category category = default(Category), string name = default(string), List<string> photoUrls = default(List<string>), List<Tag> tags = default(List<Tag>), StatusEnum? status = default(StatusEnum?))
+        // public Pet(long id = default(long), Category category = default(Category), string name = default(string), List<string> photoUrls = default(List<string>), List<Tag> tags = default(List<Tag>), StatusEnum? status = default(StatusEnum?))
+        public Pet(long id = default, Category category = default, string name, List<string> photoUrls, List<Tag> tags = default, StatusEnum status = default)
         {
             // to ensure "name" is required (not null)
             if (name == null) {
@@ -126,6 +127,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
+        // public long Id
         public long Id
         {
             get{ return _Id;}
@@ -150,6 +152,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Category
         /// </summary>
         [DataMember(Name = "category", EmitDefaultValue = false)]
+        // public Category Category
         public Category Category
         {
             get{ return _Category;}
@@ -174,6 +177,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
+        // public string Name
         public string Name
         {
             get{ return _Name;}
@@ -198,6 +202,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PhotoUrls
         /// </summary>
         [DataMember(Name = "photoUrls", IsRequired = true, EmitDefaultValue = false)]
+        // public List<string> PhotoUrls
         public List<string> PhotoUrls
         {
             get{ return _PhotoUrls;}
@@ -222,6 +227,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Tags
         /// </summary>
         [DataMember(Name = "tags", EmitDefaultValue = false)]
+        // public List<Tag> Tags
         public List<Tag> Tags
         {
             get{ return _Tags;}

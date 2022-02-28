@@ -43,7 +43,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapWithUndeclaredPropertiesAnytype3">mapWithUndeclaredPropertiesAnytype3.</param>
         /// <param name="emptyMap">an object with no declared properties and no undeclared properties, hence it&#39;s an empty map..</param>
         /// <param name="mapWithUndeclaredPropertiesString">mapWithUndeclaredPropertiesString.</param>
-        public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>), Object anytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype2 = default(Object), Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default(Dictionary<string, Object>), Object emptyMap = default(Object), Dictionary<string, string> mapWithUndeclaredPropertiesString = default(Dictionary<string, string>))
+        // public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>), Object anytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype2 = default(Object), Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default(Dictionary<string, Object>), Object emptyMap = default(Object), Dictionary<string, string> mapWithUndeclaredPropertiesString = default(Dictionary<string, string>))
+        public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default, Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default, Object anytype1 = default, Object mapWithUndeclaredPropertiesAnytype1 = default, Object mapWithUndeclaredPropertiesAnytype2 = default, Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default, Object emptyMap = default, Dictionary<string, string> mapWithUndeclaredPropertiesString = default)
         {
             this.MapProperty = mapProperty;
             this.MapOfMapProperty = mapOfMapProperty;
@@ -60,50 +61,58 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapProperty
         /// </summary>
         [DataMember(Name = "map_property", EmitDefaultValue = false)]
-        public Dictionary<string, string> MapProperty { get; set; }
+        // public Dictionary<string, string> MapProperty { get; set; }
+        public Dictionary<string, string> MapProperty { get; set; } // c
 
         /// <summary>
         /// Gets or Sets MapOfMapProperty
         /// </summary>
         [DataMember(Name = "map_of_map_property", EmitDefaultValue = false)]
-        public Dictionary<string, Dictionary<string, string>> MapOfMapProperty { get; set; }
+        // public Dictionary<string, Dictionary<string, string>> MapOfMapProperty { get; set; }
+        public Dictionary<string, Dictionary<string, string>> MapOfMapProperty { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Anytype1
         /// </summary>
         [DataMember(Name = "anytype_1", EmitDefaultValue = true)]
-        public Object Anytype1 { get; set; }
+        // public Object Anytype1 { get; set; }
+        public Object Anytype1 { get; set; } // c
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype1
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_1", EmitDefaultValue = false)]
-        public Object MapWithUndeclaredPropertiesAnytype1 { get; set; }
+        // public Object MapWithUndeclaredPropertiesAnytype1 { get; set; }
+        public Object MapWithUndeclaredPropertiesAnytype1 { get; set; } // c
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype2
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_2", EmitDefaultValue = false)]
-        public Object MapWithUndeclaredPropertiesAnytype2 { get; set; }
+        // public Object MapWithUndeclaredPropertiesAnytype2 { get; set; }
+        public Object MapWithUndeclaredPropertiesAnytype2 { get; set; } // c
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype3
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_3", EmitDefaultValue = false)]
-        public Dictionary<string, Object> MapWithUndeclaredPropertiesAnytype3 { get; set; }
+        // public Dictionary<string, Object> MapWithUndeclaredPropertiesAnytype3 { get; set; }
+        public Dictionary<string, Object> MapWithUndeclaredPropertiesAnytype3 { get; set; } // c
 
         /// <summary>
         /// an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.
         /// </summary>
         /// <value>an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.</value>
         [DataMember(Name = "empty_map", EmitDefaultValue = false)]
-        public Object EmptyMap { get; set; }
+        // public Object EmptyMap { get; set; }
+        public Object EmptyMap { get; set; } // c
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesString
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_string", EmitDefaultValue = false)]
-        public Dictionary<string, string> MapWithUndeclaredPropertiesString { get; set; }
+        // public Dictionary<string, string> MapWithUndeclaredPropertiesString { get; set; }
+        public Dictionary<string, string> MapWithUndeclaredPropertiesString { get; set; } // c
 
         /// <summary>
         /// Gets or Sets additional properties

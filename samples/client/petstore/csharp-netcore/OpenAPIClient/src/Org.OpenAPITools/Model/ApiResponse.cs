@@ -38,7 +38,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="code">code.</param>
         /// <param name="type">type.</param>
         /// <param name="message">message.</param>
-        public ApiResponse(int code = default(int), string type = default(string), string message = default(string))
+        // public ApiResponse(int code = default(int), string type = default(string), string message = default(string))
+        public ApiResponse(int code = default, string type = default, string message = default)
         {
             this.Code = code;
             this.Type = type;
@@ -50,19 +51,22 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Code
         /// </summary>
         [DataMember(Name = "code", EmitDefaultValue = false)]
-        public int Code { get; set; }
+        // public int Code { get; set; }
+        public int Code { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [DataMember(Name = "type", EmitDefaultValue = false)]
-        public string Type { get; set; }
+        // public string Type { get; set; }
+        public string Type { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Message
         /// </summary>
         [DataMember(Name = "message", EmitDefaultValue = false)]
-        public string Message { get; set; }
+        // public string Message { get; set; }
+        public string Message { get; set; } // c
 
         /// <summary>
         /// Gets or Sets additional properties

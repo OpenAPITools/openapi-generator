@@ -47,7 +47,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value..</param>
         /// <param name="anyTypeProp">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389.</param>
         /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values..</param>
-        public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), Object objectWithNoDeclaredProps = default(Object), Object objectWithNoDeclaredPropsNullable = default(Object), Object anyTypeProp = default(Object), Object anyTypePropNullable = default(Object))
+        // public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), Object objectWithNoDeclaredProps = default(Object), Object objectWithNoDeclaredPropsNullable = default(Object), Object anyTypeProp = default(Object), Object anyTypePropNullable = default(Object))
+        public User(long id = default, string username = default, string firstName = default, string lastName = default, string email = default, string password = default, string phone = default, int userStatus = default, Object objectWithNoDeclaredProps = default, Object objectWithNoDeclaredPropsNullable = default, Object anyTypeProp = default, Object anyTypePropNullable = default)
         {
             this._Id = id;
             this._Username = username;
@@ -68,6 +69,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
+        // public long Id
         public long Id
         {
             get{ return _Id;}
@@ -92,6 +94,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Username
         /// </summary>
         [DataMember(Name = "username", EmitDefaultValue = false)]
+        // public string Username
         public string Username
         {
             get{ return _Username;}
@@ -116,6 +119,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets FirstName
         /// </summary>
         [DataMember(Name = "firstName", EmitDefaultValue = false)]
+        // public string FirstName
         public string FirstName
         {
             get{ return _FirstName;}
@@ -140,6 +144,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LastName
         /// </summary>
         [DataMember(Name = "lastName", EmitDefaultValue = false)]
+        // public string LastName
         public string LastName
         {
             get{ return _LastName;}
@@ -164,6 +169,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Email
         /// </summary>
         [DataMember(Name = "email", EmitDefaultValue = false)]
+        // public string Email
         public string Email
         {
             get{ return _Email;}
@@ -188,6 +194,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name = "password", EmitDefaultValue = false)]
+        // public string Password
         public string Password
         {
             get{ return _Password;}
@@ -212,6 +219,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Phone
         /// </summary>
         [DataMember(Name = "phone", EmitDefaultValue = false)]
+        // public string Phone
         public string Phone
         {
             get{ return _Phone;}
@@ -237,6 +245,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>User Status</value>
         [DataMember(Name = "userStatus", EmitDefaultValue = false)]
+        // public int UserStatus
         public int UserStatus
         {
             get{ return _UserStatus;}
@@ -262,6 +271,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.</value>
         [DataMember(Name = "objectWithNoDeclaredProps", EmitDefaultValue = false)]
+        // public Object ObjectWithNoDeclaredProps
         public Object ObjectWithNoDeclaredProps
         {
             get{ return _ObjectWithNoDeclaredProps;}
@@ -287,6 +297,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</value>
         [DataMember(Name = "objectWithNoDeclaredPropsNullable", EmitDefaultValue = true)]
+        // public Object ObjectWithNoDeclaredPropsNullable
         public Object ObjectWithNoDeclaredPropsNullable
         {
             get{ return _ObjectWithNoDeclaredPropsNullable;}
@@ -312,6 +323,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</value>
         [DataMember(Name = "anyTypeProp", EmitDefaultValue = true)]
+        // public Object AnyTypeProp
         public Object AnyTypeProp
         {
             get{ return _AnyTypeProp;}
@@ -337,6 +349,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</value>
         [DataMember(Name = "anyTypePropNullable", EmitDefaultValue = true)]
+        // public Object AnyTypePropNullable
         public Object AnyTypePropNullable
         {
             get{ return _AnyTypePropNullable;}

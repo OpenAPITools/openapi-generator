@@ -37,7 +37,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DogAllOf" /> class.
         /// </summary>
         /// <param name="breed">breed.</param>
-        public DogAllOf(string breed = default(string))
+        // public DogAllOf(string breed = default(string))
+        public DogAllOf(string breed = default)
         {
             this.Breed = breed;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -47,7 +48,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Breed
         /// </summary>
         [DataMember(Name = "breed", EmitDefaultValue = false)]
-        public string Breed { get; set; }
+        // public string Breed { get; set; }
+        public string Breed { get; set; } // c
 
         /// <summary>
         /// Gets or Sets additional properties

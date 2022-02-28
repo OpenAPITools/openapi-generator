@@ -36,7 +36,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ReadOnlyFirst" /> class.
         /// </summary>
         /// <param name="baz">baz.</param>
-        public ReadOnlyFirst(string baz = default(string))
+        // public ReadOnlyFirst(string baz = default(string))
+        public ReadOnlyFirst(string baz = default)
         {
             this.Baz = baz;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,7 +47,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [DataMember(Name = "bar", EmitDefaultValue = false)]
-        public string Bar { get; private set; }
+        // public string Bar { get; private set; }
+        public string Bar { get; private set; } // c
 
         /// <summary>
         /// Returns false as Bar should not be serialized given that it's read-only.
@@ -60,7 +62,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Baz
         /// </summary>
         [DataMember(Name = "baz", EmitDefaultValue = false)]
-        public string Baz { get; set; }
+        // public string Baz { get; set; }
+        public string Baz { get; set; } // c
 
         /// <summary>
         /// Gets or Sets additional properties

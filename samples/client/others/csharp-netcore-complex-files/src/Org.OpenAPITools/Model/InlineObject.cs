@@ -36,7 +36,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="InlineObject" /> class.
         /// </summary>
         /// <param name="files">Many files.</param>
-        public InlineObject(List<System.IO.Stream> files = default(List<System.IO.Stream>))
+        // public InlineObject(List<System.IO.Stream> files = default(List<System.IO.Stream>))
+        public InlineObject(List<System.IO.Stream> files = default)
         {
             this.Files = files;
         }
@@ -46,7 +47,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Many files</value>
         [DataMember(Name = "files", EmitDefaultValue = false)]
-        public List<System.IO.Stream> Files { get; set; }
+        // public List<System.IO.Stream> Files { get; set; }
+        public List<System.IO.Stream> Files { get; set; } // c
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -38,7 +38,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid.</param>
         /// <param name="dateTime">dateTime.</param>
         /// <param name="map">map.</param>
-        public MixedPropertiesAndAdditionalPropertiesClass(Guid uuid = default(Guid), DateTime dateTime = default(DateTime), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
+        // public MixedPropertiesAndAdditionalPropertiesClass(Guid uuid = default(Guid), DateTime dateTime = default(DateTime), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
+        public MixedPropertiesAndAdditionalPropertiesClass(Guid uuid = default, DateTime dateTime = default, Dictionary<string, Animal> map = default)
         {
             this._Uuid = uuid;
             this._DateTime = dateTime;
@@ -50,6 +51,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
+        // public Guid Uuid
         public Guid Uuid
         {
             get{ return _Uuid;}
@@ -74,6 +76,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
+        // public DateTime DateTime
         public DateTime DateTime
         {
             get{ return _DateTime;}
@@ -98,6 +101,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Map
         /// </summary>
         [DataMember(Name = "map", EmitDefaultValue = false)]
+        // public Dictionary<string, Animal> Map
         public Dictionary<string, Animal> Map
         {
             get{ return _Map;}

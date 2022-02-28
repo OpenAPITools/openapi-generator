@@ -36,7 +36,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="InlineResponseDefault" /> class.
         /// </summary>
         /// <param name="_string">_string.</param>
-        public InlineResponseDefault(Foo _string = default(Foo))
+        // public InlineResponseDefault(Foo _string = default(Foo))
+        public InlineResponseDefault(Foo _string = default)
         {
             this.String = _string;
         }
@@ -45,7 +46,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets String
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public Foo String { get; set; }
+        // public Foo String { get; set; }
+        public Foo String { get; set; } // c
 
         /// <summary>
         /// Returns the string presentation of the object

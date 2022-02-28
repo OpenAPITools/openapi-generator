@@ -188,7 +188,8 @@ namespace Org.OpenAPITools.Api
                     if ((modelClient as object) is System.IO.Stream stream)
                         request.Content = new StreamContent(stream);
                     else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(modelClient, ClientUtils.JsonSerializerSettings));
+                        // request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(modelClient, ClientUtils.JsonSerializerSettings));
+                        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(modelClient, ClientUtils.JsonSerializerOptions));
 
                     List<TokenBase> tokens = new List<TokenBase>();
                     
@@ -220,7 +221,7 @@ namespace Org.OpenAPITools.Api
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = HttpMethod.Patch; 
+                    request.Method = HttpMethod.Patch;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -243,7 +244,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<ModelClient> apiResponse = new ApiResponse<ModelClient>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<ModelClient>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<ModelClient>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();

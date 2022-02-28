@@ -44,7 +44,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TriangleInterface" /> class.
         /// </summary>
         /// <param name="triangleType">triangleType (required).</param>
-        public TriangleInterface(string triangleType = default(string))
+        // public TriangleInterface(string triangleType = default(string))
+        public TriangleInterface(string triangleType)
         {
             // to ensure "triangleType" is required (not null)
             if (triangleType == null) {
@@ -58,6 +59,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets TriangleType
         /// </summary>
         [DataMember(Name = "triangleType", IsRequired = true, EmitDefaultValue = false)]
+        // public string TriangleType
         public string TriangleType
         {
             get{ return _TriangleType;}

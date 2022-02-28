@@ -56,7 +56,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password (required).</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
+        // public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
+        public FormatTest(int integer = default, int int32 = default, long int64 = default, decimal number, float _float = default, double _double = default, decimal _decimal = default, string _string = default, byte[] _byte, System.IO.Stream binary = default, DateTime date, DateTime dateTime = default, Guid uuid = default, string password, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default)
         {
             this.Number = number;
             // to ensure "_byte" is required (not null)
@@ -88,100 +89,116 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Integer
         /// </summary>
         [DataMember(Name = "integer", EmitDefaultValue = false)]
-        public int Integer { get; set; }
+        // public int Integer { get; set; }
+        public int Integer { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
         [DataMember(Name = "int32", EmitDefaultValue = false)]
-        public int Int32 { get; set; }
+        // public int Int32 { get; set; }
+        public int Int32 { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [DataMember(Name = "int64", EmitDefaultValue = false)]
-        public long Int64 { get; set; }
+        // public long Int64 { get; set; }
+        public long Int64 { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Number
         /// </summary>
         [DataMember(Name = "number", IsRequired = true, EmitDefaultValue = false)]
-        public decimal Number { get; set; }
+        // public decimal Number { get; set; }
+        public decimal Number { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Float
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float Float { get; set; }
+        // public float Float { get; set; }
+        public float Float { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double Double { get; set; }
+        // public double Double { get; set; }
+        public double Double { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Decimal
         /// </summary>
         [DataMember(Name = "decimal", EmitDefaultValue = false)]
-        public decimal Decimal { get; set; }
+        // public decimal Decimal { get; set; }
+        public decimal Decimal { get; set; } // c
 
         /// <summary>
         /// Gets or Sets String
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public string String { get; set; }
+        // public string String { get; set; }
+        public string String { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Byte
         /// </summary>
         [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = false)]
-        public byte[] Byte { get; set; }
+        // public byte[] Byte { get; set; }
+        public byte[] Byte { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Binary
         /// </summary>
         [DataMember(Name = "binary", EmitDefaultValue = false)]
-        public System.IO.Stream Binary { get; set; }
+        // public System.IO.Stream Binary { get; set; }
+        public System.IO.Stream Binary { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
         [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
-        public DateTime Date { get; set; }
+        // public DateTime Date { get; set; }
+        public DateTime Date { get; set; } // c
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
-        public DateTime DateTime { get; set; }
+        // public DateTime DateTime { get; set; }
+        public DateTime DateTime { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public Guid Uuid { get; set; }
+        // public Guid Uuid { get; set; }
+        public Guid Uuid { get; set; } // c
 
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name = "password", IsRequired = true, EmitDefaultValue = false)]
-        public string Password { get; set; }
+        // public string Password { get; set; }
+        public string Password { get; set; } // c
 
         /// <summary>
         /// A string that is a 10 digit number. Can have leading zeros.
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
         [DataMember(Name = "pattern_with_digits", EmitDefaultValue = false)]
-        public string PatternWithDigits { get; set; }
+        // public string PatternWithDigits { get; set; }
+        public string PatternWithDigits { get; set; } // c
 
         /// <summary>
         /// A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
         /// </summary>
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [DataMember(Name = "pattern_with_digits_and_delimiter", EmitDefaultValue = false)]
-        public string PatternWithDigitsAndDelimiter { get; set; }
+        // public string PatternWithDigitsAndDelimiter { get; set; }
+        public string PatternWithDigitsAndDelimiter { get; set; } // c
 
         /// <summary>
         /// Returns the string presentation of the object

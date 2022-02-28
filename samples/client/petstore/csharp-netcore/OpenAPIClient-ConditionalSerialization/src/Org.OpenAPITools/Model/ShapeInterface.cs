@@ -44,7 +44,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ShapeInterface" /> class.
         /// </summary>
         /// <param name="shapeType">shapeType (required).</param>
-        public ShapeInterface(string shapeType = default(string))
+        // public ShapeInterface(string shapeType = default(string))
+        public ShapeInterface(string shapeType)
         {
             // to ensure "shapeType" is required (not null)
             if (shapeType == null) {
@@ -58,6 +59,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeType
         /// </summary>
         [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
+        // public string ShapeType
         public string ShapeType
         {
             get{ return _ShapeType;}

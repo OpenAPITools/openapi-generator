@@ -38,7 +38,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="myNumber">myNumber.</param>
         /// <param name="myString">myString.</param>
         /// <param name="myBoolean">myBoolean.</param>
-        public OuterComposite(decimal myNumber = default(decimal), string myString = default(string), bool myBoolean = default(bool))
+        // public OuterComposite(decimal myNumber = default(decimal), string myString = default(string), bool myBoolean = default(bool))
+        public OuterComposite(decimal myNumber = default, string myString = default, bool myBoolean = default)
         {
             this._MyNumber = myNumber;
             this._MyString = myString;
@@ -50,6 +51,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyNumber
         /// </summary>
         [DataMember(Name = "my_number", EmitDefaultValue = false)]
+        // public decimal MyNumber
         public decimal MyNumber
         {
             get{ return _MyNumber;}
@@ -74,6 +76,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyString
         /// </summary>
         [DataMember(Name = "my_string", EmitDefaultValue = false)]
+        // public string MyString
         public string MyString
         {
             get{ return _MyString;}
@@ -98,6 +101,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyBoolean
         /// </summary>
         [DataMember(Name = "my_boolean", EmitDefaultValue = true)]
+        // public bool MyBoolean
         public bool MyBoolean
         {
             get{ return _MyBoolean;}

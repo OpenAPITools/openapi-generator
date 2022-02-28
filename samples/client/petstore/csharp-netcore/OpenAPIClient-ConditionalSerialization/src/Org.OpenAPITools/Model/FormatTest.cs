@@ -59,7 +59,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password (required).</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
+        // public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
+        public FormatTest(int integer = default, int int32 = default, long int64 = default, decimal number, float _float = default, double _double = default, decimal _decimal = default, string _string = default, byte[] _byte, System.IO.Stream binary = default, DateTime date, DateTime dateTime = default, Guid uuid = default, string password, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default)
         {
             this._Number = number;
             // to ensure "_byte" is required (not null)
@@ -92,6 +93,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Integer
         /// </summary>
         [DataMember(Name = "integer", EmitDefaultValue = false)]
+        // public int Integer
         public int Integer
         {
             get{ return _Integer;}
@@ -116,6 +118,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int32
         /// </summary>
         [DataMember(Name = "int32", EmitDefaultValue = false)]
+        // public int Int32
         public int Int32
         {
             get{ return _Int32;}
@@ -140,6 +143,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int64
         /// </summary>
         [DataMember(Name = "int64", EmitDefaultValue = false)]
+        // public long Int64
         public long Int64
         {
             get{ return _Int64;}
@@ -164,6 +168,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Number
         /// </summary>
         [DataMember(Name = "number", IsRequired = true, EmitDefaultValue = false)]
+        // public decimal Number
         public decimal Number
         {
             get{ return _Number;}
@@ -188,6 +193,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Float
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
+        // public float Float
         public float Float
         {
             get{ return _Float;}
@@ -212,6 +218,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Double
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
+        // public double Double
         public double Double
         {
             get{ return _Double;}
@@ -236,6 +243,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Decimal
         /// </summary>
         [DataMember(Name = "decimal", EmitDefaultValue = false)]
+        // public decimal Decimal
         public decimal Decimal
         {
             get{ return _Decimal;}
@@ -260,6 +268,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets String
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
+        // public string String
         public string String
         {
             get{ return _String;}
@@ -284,6 +293,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Byte
         /// </summary>
         [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = false)]
+        // public byte[] Byte
         public byte[] Byte
         {
             get{ return _Byte;}
@@ -308,6 +318,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Binary
         /// </summary>
         [DataMember(Name = "binary", EmitDefaultValue = false)]
+        // public System.IO.Stream Binary
         public System.IO.Stream Binary
         {
             get{ return _Binary;}
@@ -333,6 +344,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonConverter(typeof(OpenAPIDateConverter))]
         [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = false)]
+        // public DateTime Date
         public DateTime Date
         {
             get{ return _Date;}
@@ -357,6 +369,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
+        // public DateTime DateTime
         public DateTime DateTime
         {
             get{ return _DateTime;}
@@ -381,6 +394,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
+        // public Guid Uuid
         public Guid Uuid
         {
             get{ return _Uuid;}
@@ -405,6 +419,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name = "password", IsRequired = true, EmitDefaultValue = false)]
+        // public string Password
         public string Password
         {
             get{ return _Password;}
@@ -430,6 +445,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
         [DataMember(Name = "pattern_with_digits", EmitDefaultValue = false)]
+        // public string PatternWithDigits
         public string PatternWithDigits
         {
             get{ return _PatternWithDigits;}
@@ -455,6 +471,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [DataMember(Name = "pattern_with_digits_and_delimiter", EmitDefaultValue = false)]
+        // public string PatternWithDigitsAndDelimiter
         public string PatternWithDigitsAndDelimiter
         {
             get{ return _PatternWithDigitsAndDelimiter;}

@@ -39,7 +39,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id.</param>
         /// <param name="deprecatedRef">deprecatedRef.</param>
         /// <param name="bars">bars.</param>
-        public ObjectWithDeprecatedFields(string uuid = default(string), decimal id = default(decimal), DeprecatedObject deprecatedRef = default(DeprecatedObject), List<string> bars = default(List<string>))
+        // public ObjectWithDeprecatedFields(string uuid = default(string), decimal id = default(decimal), DeprecatedObject deprecatedRef = default(DeprecatedObject), List<string> bars = default(List<string>))
+        public ObjectWithDeprecatedFields(string uuid = default, decimal id = default, DeprecatedObject deprecatedRef = default, List<string> bars = default)
         {
             this._Uuid = uuid;
             this._Id = id;
@@ -52,6 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
+        // public string Uuid
         public string Uuid
         {
             get{ return _Uuid;}
@@ -77,6 +79,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         [Obsolete]
+        // public decimal Id
         public decimal Id
         {
             get{ return _Id;}
@@ -102,6 +105,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "deprecatedRef", EmitDefaultValue = false)]
         [Obsolete]
+        // public DeprecatedObject DeprecatedRef
         public DeprecatedObject DeprecatedRef
         {
             get{ return _DeprecatedRef;}
@@ -127,6 +131,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "bars", EmitDefaultValue = false)]
         [Obsolete]
+        // public List<string> Bars
         public List<string> Bars
         {
             get{ return _Bars;}

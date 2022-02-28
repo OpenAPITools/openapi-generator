@@ -48,7 +48,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
         /// </summary>
         /// <param name="petType">petType (required).</param>
-        public GrandparentAnimal(string petType = default(string))
+        // public GrandparentAnimal(string petType = default(string))
+        public GrandparentAnimal(string petType)
         {
             // to ensure "petType" is required (not null)
             if (petType == null) {
@@ -62,6 +63,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetType
         /// </summary>
         [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
+        // public string PetType
         public string PetType
         {
             get{ return _PetType;}

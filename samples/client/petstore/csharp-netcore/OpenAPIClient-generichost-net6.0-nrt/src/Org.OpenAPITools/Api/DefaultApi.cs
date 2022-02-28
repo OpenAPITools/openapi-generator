@@ -192,7 +192,7 @@ namespace Org.OpenAPITools.Api
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = HttpMethod.Get; 
+                    request.Method = HttpMethod.Get;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -215,7 +215,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<InlineResponseDefault?> apiResponse = new ApiResponse<InlineResponseDefault?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<InlineResponseDefault>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<InlineResponseDefault>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }

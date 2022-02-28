@@ -38,7 +38,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayOfString">arrayOfString.</param>
         /// <param name="arrayArrayOfInteger">arrayArrayOfInteger.</param>
         /// <param name="arrayArrayOfModel">arrayArrayOfModel.</param>
-        public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long>> arrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
+        // public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long>> arrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
+        public ArrayTest(List<string> arrayOfString = default, List<List<long>> arrayArrayOfInteger = default, List<List<ReadOnlyFirst>> arrayArrayOfModel = default)
         {
             this._ArrayOfString = arrayOfString;
             this._ArrayArrayOfInteger = arrayArrayOfInteger;
@@ -50,6 +51,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayOfString
         /// </summary>
         [DataMember(Name = "array_of_string", EmitDefaultValue = false)]
+        // public List<string> ArrayOfString
         public List<string> ArrayOfString
         {
             get{ return _ArrayOfString;}
@@ -74,6 +76,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
         [DataMember(Name = "array_array_of_integer", EmitDefaultValue = false)]
+        // public List<List<long>> ArrayArrayOfInteger
         public List<List<long>> ArrayArrayOfInteger
         {
             get{ return _ArrayArrayOfInteger;}
@@ -98,6 +101,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayOfModel
         /// </summary>
         [DataMember(Name = "array_array_of_model", EmitDefaultValue = false)]
+        // public List<List<ReadOnlyFirst>> ArrayArrayOfModel
         public List<List<ReadOnlyFirst>> ArrayArrayOfModel
         {
             get{ return _ArrayArrayOfModel;}

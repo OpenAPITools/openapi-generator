@@ -37,7 +37,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="specialPropertyName">specialPropertyName.</param>
         /// <param name="specialModelName">specialModelName.</param>
-        public SpecialModelName(long specialPropertyName = default(long), string specialModelName = default(string))
+        // public SpecialModelName(long specialPropertyName = default(long), string specialModelName = default(string))
+        public SpecialModelName(long specialPropertyName = default, string specialModelName = default)
         {
             this.SpecialPropertyName = specialPropertyName;
             this._SpecialModelName = specialModelName;
@@ -48,13 +49,15 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SpecialPropertyName
         /// </summary>
         [DataMember(Name = "$special[property.name]", EmitDefaultValue = false)]
-        public long SpecialPropertyName { get; set; }
+        // public long SpecialPropertyName { get; set; }
+        public long SpecialPropertyName { get; set; } // c
 
         /// <summary>
         /// Gets or Sets _SpecialModelName
         /// </summary>
         [DataMember(Name = "_special_model.name_", EmitDefaultValue = false)]
-        public string _SpecialModelName { get; set; }
+        // public string _SpecialModelName { get; set; }
+        public string _SpecialModelName { get; set; } // c
 
         /// <summary>
         /// Gets or Sets additional properties

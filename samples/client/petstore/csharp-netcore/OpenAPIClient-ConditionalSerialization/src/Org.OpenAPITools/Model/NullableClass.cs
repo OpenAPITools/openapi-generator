@@ -47,7 +47,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectNullableProp">objectNullableProp.</param>
         /// <param name="objectAndItemsNullableProp">objectAndItemsNullableProp.</param>
         /// <param name="objectItemsNullable">objectItemsNullable.</param>
-        public NullableClass(int? integerProp = default(int?), decimal? numberProp = default(decimal?), bool? booleanProp = default(bool?), string stringProp = default(string), DateTime? dateProp = default(DateTime?), DateTime? datetimeProp = default(DateTime?), List<Object> arrayNullableProp = default(List<Object>), List<Object> arrayAndItemsNullableProp = default(List<Object>), List<Object> arrayItemsNullable = default(List<Object>), Dictionary<string, Object> objectNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectAndItemsNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectItemsNullable = default(Dictionary<string, Object>)) : base()
+        // public NullableClass(int? integerProp = default(int?), decimal? numberProp = default(decimal?), bool? booleanProp = default(bool?), string stringProp = default(string), DateTime? dateProp = default(DateTime?), DateTime? datetimeProp = default(DateTime?), List<Object> arrayNullableProp = default(List<Object>), List<Object> arrayAndItemsNullableProp = default(List<Object>), List<Object> arrayItemsNullable = default(List<Object>), Dictionary<string, Object> objectNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectAndItemsNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectItemsNullable = default(Dictionary<string, Object>)) : base()
+        public NullableClass(int? integerProp = default, decimal? numberProp = default, bool? booleanProp = default, string stringProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, List<Object> arrayNullableProp = default, List<Object> arrayAndItemsNullableProp = default, List<Object> arrayItemsNullable = default, Dictionary<string, Object> objectNullableProp = default, Dictionary<string, Object> objectAndItemsNullableProp = default, Dictionary<string, Object> objectItemsNullable = default) : base()
         {
             this._IntegerProp = integerProp;
             this._NumberProp = numberProp;
@@ -67,6 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets IntegerProp
         /// </summary>
         [DataMember(Name = "integer_prop", EmitDefaultValue = true)]
+        // public int? IntegerProp
         public int? IntegerProp
         {
             get{ return _IntegerProp;}
@@ -91,6 +93,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NumberProp
         /// </summary>
         [DataMember(Name = "number_prop", EmitDefaultValue = true)]
+        // public decimal? NumberProp
         public decimal? NumberProp
         {
             get{ return _NumberProp;}
@@ -115,6 +118,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets BooleanProp
         /// </summary>
         [DataMember(Name = "boolean_prop", EmitDefaultValue = true)]
+        // public bool? BooleanProp
         public bool? BooleanProp
         {
             get{ return _BooleanProp;}
@@ -139,6 +143,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets StringProp
         /// </summary>
         [DataMember(Name = "string_prop", EmitDefaultValue = true)]
+        // public string StringProp
         public string StringProp
         {
             get{ return _StringProp;}
@@ -164,6 +169,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonConverter(typeof(OpenAPIDateConverter))]
         [DataMember(Name = "date_prop", EmitDefaultValue = true)]
+        // public DateTime? DateProp
         public DateTime? DateProp
         {
             get{ return _DateProp;}
@@ -188,6 +194,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DatetimeProp
         /// </summary>
         [DataMember(Name = "datetime_prop", EmitDefaultValue = true)]
+        // public DateTime? DatetimeProp
         public DateTime? DatetimeProp
         {
             get{ return _DatetimeProp;}
@@ -212,6 +219,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayNullableProp
         /// </summary>
         [DataMember(Name = "array_nullable_prop", EmitDefaultValue = true)]
+        // public List<Object> ArrayNullableProp
         public List<Object> ArrayNullableProp
         {
             get{ return _ArrayNullableProp;}
@@ -236,6 +244,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayAndItemsNullableProp
         /// </summary>
         [DataMember(Name = "array_and_items_nullable_prop", EmitDefaultValue = true)]
+        // public List<Object> ArrayAndItemsNullableProp
         public List<Object> ArrayAndItemsNullableProp
         {
             get{ return _ArrayAndItemsNullableProp;}
@@ -260,6 +269,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayItemsNullable
         /// </summary>
         [DataMember(Name = "array_items_nullable", EmitDefaultValue = false)]
+        // public List<Object> ArrayItemsNullable
         public List<Object> ArrayItemsNullable
         {
             get{ return _ArrayItemsNullable;}
@@ -284,6 +294,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ObjectNullableProp
         /// </summary>
         [DataMember(Name = "object_nullable_prop", EmitDefaultValue = true)]
+        // public Dictionary<string, Object> ObjectNullableProp
         public Dictionary<string, Object> ObjectNullableProp
         {
             get{ return _ObjectNullableProp;}
@@ -308,6 +319,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ObjectAndItemsNullableProp
         /// </summary>
         [DataMember(Name = "object_and_items_nullable_prop", EmitDefaultValue = true)]
+        // public Dictionary<string, Object> ObjectAndItemsNullableProp
         public Dictionary<string, Object> ObjectAndItemsNullableProp
         {
             get{ return _ObjectAndItemsNullableProp;}
@@ -332,6 +344,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ObjectItemsNullable
         /// </summary>
         [DataMember(Name = "object_items_nullable", EmitDefaultValue = false)]
+        // public Dictionary<string, Object> ObjectItemsNullable
         public Dictionary<string, Object> ObjectItemsNullable
         {
             get{ return _ObjectItemsNullable;}

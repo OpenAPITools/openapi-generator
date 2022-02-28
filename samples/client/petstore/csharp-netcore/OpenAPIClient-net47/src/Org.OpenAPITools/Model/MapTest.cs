@@ -58,7 +58,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapOfEnumString
         /// </summary>
         [DataMember(Name = "map_of_enum_string", EmitDefaultValue = false)]
-        public Dictionary<string, InnerEnum> MapOfEnumString { get; set; }
+        // public Dictionary<string, InnerEnum> MapOfEnumString { get; set; }
+        public Dictionary<string, InnerEnum> MapOfEnumString { get; set; } // a
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>
@@ -66,7 +67,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapOfEnumString">mapOfEnumString.</param>
         /// <param name="directMap">directMap.</param>
         /// <param name="indirectMap">indirectMap.</param>
-        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool> directMap = default(Dictionary<string, bool>), Dictionary<string, bool> indirectMap = default(Dictionary<string, bool>))
+        // public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool> directMap = default(Dictionary<string, bool>), Dictionary<string, bool> indirectMap = default(Dictionary<string, bool>))
+        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default, Dictionary<string, InnerEnum> mapOfEnumString = default, Dictionary<string, bool> directMap = default, Dictionary<string, bool> indirectMap = default)
         {
             this.MapMapOfString = mapMapOfString;
             this.MapOfEnumString = mapOfEnumString;
@@ -79,19 +81,22 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapMapOfString
         /// </summary>
         [DataMember(Name = "map_map_of_string", EmitDefaultValue = false)]
-        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
+        // public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
+        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; } // c
 
         /// <summary>
         /// Gets or Sets DirectMap
         /// </summary>
         [DataMember(Name = "direct_map", EmitDefaultValue = false)]
-        public Dictionary<string, bool> DirectMap { get; set; }
+        // public Dictionary<string, bool> DirectMap { get; set; }
+        public Dictionary<string, bool> DirectMap { get; set; } // c
 
         /// <summary>
         /// Gets or Sets IndirectMap
         /// </summary>
         [DataMember(Name = "indirect_map", EmitDefaultValue = false)]
-        public Dictionary<string, bool> IndirectMap { get; set; }
+        // public Dictionary<string, bool> IndirectMap { get; set; }
+        public Dictionary<string, bool> IndirectMap { get; set; } // c
 
         /// <summary>
         /// Gets or Sets additional properties

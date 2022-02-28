@@ -36,6 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="HasOnlyReadOnly" /> class.
         /// </summary>
         [JsonConstructorAttribute]
+        // public HasOnlyReadOnly()
         public HasOnlyReadOnly()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -45,7 +46,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [DataMember(Name = "bar", EmitDefaultValue = false)]
-        public string Bar { get; private set; }
+        // public string Bar { get; private set; }
+        public string Bar { get; private set; } // c
 
         /// <summary>
         /// Returns false as Bar should not be serialized given that it's read-only.
@@ -59,7 +61,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Foo
         /// </summary>
         [DataMember(Name = "foo", EmitDefaultValue = false)]
-        public string Foo { get; private set; }
+        // public string Foo { get; private set; }
+        public string Foo { get; private set; } // c
 
         /// <summary>
         /// Returns false as Foo should not be serialized given that it's read-only.

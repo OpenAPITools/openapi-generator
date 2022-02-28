@@ -42,7 +42,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="marker">marker.</param>
         /// <param name="file">a file (required).</param>
-        public InlineObject2(MultipartMixedMarker marker = default(MultipartMixedMarker), System.IO.Stream file = default(System.IO.Stream))
+        // public InlineObject2(MultipartMixedMarker marker = default(MultipartMixedMarker), System.IO.Stream file = default(System.IO.Stream))
+        public InlineObject2(MultipartMixedMarker marker = default, System.IO.Stream file)
         {
             // to ensure "file" is required (not null)
             if (file == null) {
@@ -56,14 +57,16 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Marker
         /// </summary>
         [DataMember(Name = "marker", EmitDefaultValue = false)]
-        public MultipartMixedMarker Marker { get; set; }
+        // public MultipartMixedMarker Marker { get; set; }
+        public MultipartMixedMarker Marker { get; set; } // c
 
         /// <summary>
         /// a file
         /// </summary>
         /// <value>a file</value>
         [DataMember(Name = "file", IsRequired = true, EmitDefaultValue = false)]
-        public System.IO.Stream File { get; set; }
+        // public System.IO.Stream File { get; set; }
+        public System.IO.Stream File { get; set; } // c
 
         /// <summary>
         /// Returns the string presentation of the object

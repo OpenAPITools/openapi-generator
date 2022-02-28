@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Client
 {

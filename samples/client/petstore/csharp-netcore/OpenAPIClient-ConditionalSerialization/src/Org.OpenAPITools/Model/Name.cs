@@ -45,7 +45,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name (required).</param>
         /// <param name="property">property.</param>
-        public Name(int name = default(int), string property = default(string))
+        // public Name(int name = default(int), string property = default(string))
+        public Name(int name, string property = default)
         {
             this.__Name = name;
             this._Property = property;
@@ -56,6 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _Name
         /// </summary>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
+        // public int _Name
         public int _Name
         {
             get{ return __Name;}
@@ -80,8 +82,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SnakeCase
         /// </summary>
         [DataMember(Name = "snake_case", EmitDefaultValue = false)]
-        public int SnakeCase { get; private set; }
-
+        // public int SnakeCase { get; private set; }
+        public int SnakeCase { get; private set; } // d
         /// <summary>
         /// Returns false as SnakeCase should not be serialized given that it's read-only.
         /// </summary>
@@ -94,6 +96,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Property
         /// </summary>
         [DataMember(Name = "property", EmitDefaultValue = false)]
+        // public string Property
         public string Property
         {
             get{ return _Property;}
@@ -118,8 +121,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _123Number
         /// </summary>
         [DataMember(Name = "123Number", EmitDefaultValue = false)]
-        public int _123Number { get; private set; }
-
+        // public int _123Number { get; private set; }
+        public int _123Number { get; private set; } // d
         /// <summary>
         /// Returns false as _123Number should not be serialized given that it's read-only.
         /// </summary>
