@@ -168,7 +168,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
       if (jsonObj == null) {
         if (AdditionalPropertiesBoolean.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesBoolean is not found in the empty JSON string", AdditionalPropertiesBoolean.openapiRequiredFields.toString()));
         }
       }

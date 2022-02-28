@@ -26,8 +26,8 @@ type AnotherFakeApi interface {
 
 	To test special tags and operation ID starting with number
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiCall123TestSpecialTagsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCall123TestSpecialTagsRequest
 	*/
 	Call123TestSpecialTags(ctx context.Context) ApiCall123TestSpecialTagsRequest
 

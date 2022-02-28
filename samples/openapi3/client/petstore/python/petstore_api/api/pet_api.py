@@ -447,6 +447,7 @@ class PetApi(object):
     ):
         """Add a new pet to the store  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -524,6 +525,7 @@ class PetApi(object):
     ):
         """Deletes a pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -836,6 +838,7 @@ class PetApi(object):
     ):
         """Update an existing pet  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -913,6 +916,7 @@ class PetApi(object):
     ):
         """Updates a pet in the store with form data  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 

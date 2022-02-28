@@ -93,7 +93,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{#anyOf}}
                     // deserialize {{{.}}}
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         {{.}}.validateJsonObject(jsonObject);
                         log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
                         {{classname}} ret = new {{classname}}();

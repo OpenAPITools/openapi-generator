@@ -354,7 +354,7 @@ public class PetWithRequiredTags {
       if (jsonObj == null) {
         if (PetWithRequiredTags.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in PetWithRequiredTags is not found in the empty JSON string", PetWithRequiredTags.openapiRequiredFields.toString()));
         }
       }

@@ -56,6 +56,7 @@ module Petstore
       }
 
       connection = Faraday.new(:url => config.base_url, :ssl => ssl_options) do |conn|
+        conn.proxy = config.proxy if config.proxy
         conn.request(:basic_auth, config.username, config.password)
         @config.configure_middleware(conn)
         if opts[:header_params]["Content-Type"] == "multipart/form-data"
@@ -106,7 +107,7 @@ module Petstore
     # @option opts [Hash] :query_params Query parameters
     # @option opts [Hash] :form_params Query parameters
     # @option opts [Object] :body HTTP body (JSON/XML)
-    # @return [Typhoeus::Request] A Typhoeus Request
+    # @return [Faraday::Request] A Faraday Request
     def build_request(http_method, path, request, opts = {})
       url = build_request_url(path, opts)
       http_method = http_method.to_sym.downcase
@@ -117,12 +118,6 @@ module Petstore
 
       update_params_for_auth! header_params, query_params, opts[:auth_names]
 
-      req_opts = {
-        :params_encoding => @config.params_encoding,
-        :timeout => @config.timeout,
-        :verbose => @config.debugging
-      }
-
       if [:post, :patch, :put, :delete].include?(http_method)
         req_body = build_request_body(header_params, form_params, opts[:body])
         if @config.debugging
@@ -131,7 +126,12 @@ module Petstore
       end
       request.headers = header_params
       request.body = req_body
-      request.options = OpenStruct.new(req_opts)
+
+      # Overload default options only if provided
+      request.options.params_encoding = @config.params_encoding if @config.params_encoding
+      request.options.timeout         = @config.timeout         if @config.timeout
+      request.options.verbose         = @config.debugging       if @config.debugging
+
       request.url url
       request.params = query_params
       download_file(request) if opts[:return_type] == 'File'

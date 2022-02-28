@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
@@ -57,6 +58,8 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+
+import com.google.common.collect.ImmutableMap;
 
 public class SpringCodegenTest {
 
@@ -95,9 +98,53 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
+            .assertTypeAnnotations()
+                .hasSize(3)
+                .containsWithName("Validated")
+                .containsWithName("Generated")
+                .containsWithNameAndAttributes("Generated", ImmutableMap.of(
+                    "value", "\"org.openapitools.codegen.languages.SpringCodegen\""
+                ))
+                .containsWithNameAndAttributes("Tag", ImmutableMap.of(
+                    "name", "\"zebras\""
+                ))
+            .toType()
+            .assertMethod("getZebras")
+                .hasReturnType("ResponseEntity<Void>")
+                .assertMethodAnnotations()
+                .hasSize(2)
+                .containsWithNameAndAttributes("Operation", ImmutableMap.of("operationId", "\"getZebras\""))
+                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
+                    "method", "RequestMethod.GET",
+                    "value", "\"/zebras\""
+                ))
+                    .toMethod()
+                        .hasParameter("limit").withType("BigDecimal")
+                        .assertParameterAnnotations()
+                            .containsWithName("Valid")
+                            .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"limit\""))
+                            .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("required", "false", "value", "\"limit\""))
+                        .toParameter()
+                        .toMethod()
+                        .hasParameter("animalParams").withType("AnimalParams");
+
+        // todo: to remove
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"),
             "AnimalParams");
 
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/AnimalParams.java"))
+            .hasImports("org.springframework.format.annotation.DateTimeFormat")
+            .hasProperty("born").withType("LocalDate")
+                .assertPropertyAnnotations()
+                .containsWithNameAndAttributes("DateTimeFormat", ImmutableMap.of("iso", "DateTimeFormat.ISO.DATE"))
+                .toProperty()
+            .toType()
+            .hasProperty("lastSeen").withType("OffsetDateTime")
+                .assertPropertyAnnotations()
+                .containsWithNameAndAttributes("DateTimeFormat", ImmutableMap.of("iso", "DateTimeFormat.ISO.DATE_TIME"));
+
+        // todo: to remove
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/AnimalParams.java"),
             "@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)", "@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)");
 
@@ -514,8 +561,9 @@ public class SpringCodegenTest {
         // Check that api validates mixed multipart request
         final File multipartMixedApi = files.get("MultipartMixedApi.java");
         assertFileContains(multipartMixedApi.toPath(), "MultipartFile file",
+                "@Valid @RequestParam(value = \"status\", required = true)",
                 "@RequestPart(value = \"file\", required = true)",
-                "@Valid @RequestPart(value = \"marker\", required = false)");
+                "@Valid @RequestParam(value = \"marker\", required = false)");
     }
 
     // Helper function, intended to reduce boilerplate
@@ -938,5 +986,33 @@ public class SpringCodegenTest {
         Assert.assertTrue(codegen.apiTemplateFiles().isEmpty());
     }
 
+    @Test
+    public void testIssue11323() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
 
+        OpenAPI openAPI = new OpenAPIParser()
+              .readLocation("src/test/resources/3_0/spring/issue_11323.yml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        //codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Address.java"),
+              "@JsonValue", "import com.fasterxml.jackson.annotation.JsonValue;");
+    }
 }

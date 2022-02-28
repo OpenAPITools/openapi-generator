@@ -104,12 +104,32 @@ public class Shape extends AbstractOpenApiSchema {
                     Object deserialized = null;
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
+                    // use discriminator value for faster oneOf lookup
+                    Shape newShape = new Shape();
+                    if (jsonObject.get("shapeType") == null) {
+                        log.log(Level.WARNING, "Failed to lookup discriminator value for Shape as `shapeType` was not found in the payload or the payload is empty.");
+                    } else  {
+                        // look up the discriminator value in the field `shapeType`
+                        switch (jsonObject.get("shapeType").getAsString()) {
+                            case "Quadrilateral":
+                                deserialized = adapterQuadrilateral.fromJsonTree(jsonObject);
+                                newShape.setActualInstance(deserialized);
+                                return newShape;
+                            case "Triangle":
+                                deserialized = adapterTriangle.fromJsonTree(jsonObject);
+                                newShape.setActualInstance(deserialized);
+                                return newShape;
+                            default:
+                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Shape. Possible values: Quadrilateral Triangle", jsonObject.get("shapeType").getAsString()));
+                        }
+                    }
+
                     int match = 0;
                     TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize Quadrilateral
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Quadrilateral.validateJsonObject(jsonObject);
                         actualAdapter = adapterQuadrilateral;
                         match++;
@@ -121,7 +141,7 @@ public class Shape extends AbstractOpenApiSchema {
 
                     // deserialize Triangle
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Triangle.validateJsonObject(jsonObject);
                         actualAdapter = adapterTriangle;
                         match++;

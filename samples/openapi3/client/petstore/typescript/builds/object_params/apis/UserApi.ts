@@ -66,6 +66,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * 
      * Creates list of users with given input array
      * @param user List of user object
      */
@@ -113,6 +114,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * 
      * Creates list of users with given input array
      * @param user List of user object
      */
@@ -198,6 +200,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * 
      * Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
@@ -229,6 +232,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * 
      * Logs user into the system
      * @param username The user name for login
      * @param password The password for login in clear text
@@ -276,6 +280,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * 
      * Logs out current logged in user session
      */
     public async logoutUser(_options?: Configuration): Promise<RequestContext> {

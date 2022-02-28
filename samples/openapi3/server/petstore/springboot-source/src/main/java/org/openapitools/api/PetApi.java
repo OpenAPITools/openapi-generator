@@ -32,6 +32,7 @@ public interface PetApi {
 
     /**
      * POST /pet : Add a new pet to the store
+     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
@@ -67,6 +68,7 @@ public interface PetApi {
 
     /**
      * DELETE /pet/{petId} : Deletes a pet
+     * 
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
@@ -194,6 +196,7 @@ public interface PetApi {
 
     /**
      * PUT /pet : Update an existing pet
+     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
@@ -231,6 +234,7 @@ public interface PetApi {
 
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
+     * 
      *
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
@@ -244,8 +248,8 @@ public interface PetApi {
     )
     default ResponseEntity<Void> updatePetWithForm(
          @PathVariable("petId") Long petId,
-         @Valid @RequestPart(value = "name", required = false) String name,
-         @Valid @RequestPart(value = "status", required = false) String status
+         @Valid @RequestParam(value = "name", required = false) String name,
+         @Valid @RequestParam(value = "status", required = false) String status
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -254,6 +258,7 @@ public interface PetApi {
 
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
+     * 
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
@@ -268,7 +273,7 @@ public interface PetApi {
     )
     default ResponseEntity<ModelApiResponse> uploadFile(
          @PathVariable("petId") Long petId,
-         @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
+         @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
          @RequestPart(value = "file", required = false) MultipartFile file
     ) {
         getRequest().ifPresent(request -> {

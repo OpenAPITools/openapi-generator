@@ -182,6 +182,8 @@ class StoreApi {
 
   /// Place an order for a pet
   ///
+  /// 
+  ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
@@ -216,6 +218,8 @@ class StoreApi {
   }
 
   /// Place an order for a pet
+  ///
+  /// 
   ///
   /// Parameters:
   ///

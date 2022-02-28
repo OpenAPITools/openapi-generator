@@ -139,7 +139,7 @@ public class QuadrilateralInterface {
       if (jsonObj == null) {
         if (QuadrilateralInterface.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in QuadrilateralInterface is not found in the empty JSON string", QuadrilateralInterface.openapiRequiredFields.toString()));
         }
       }
