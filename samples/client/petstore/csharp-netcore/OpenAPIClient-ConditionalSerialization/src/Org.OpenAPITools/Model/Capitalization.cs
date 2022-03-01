@@ -41,8 +41,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="capitalSnake">capitalSnake.</param>
         /// <param name="sCAETHFlowPoints">sCAETHFlowPoints.</param>
         /// <param name="aTTNAME">Name of the pet .</param>
-        // public Capitalization(string smallCamel = default(string), string capitalCamel = default(string), string smallSnake = default(string), string capitalSnake = default(string), string sCAETHFlowPoints = default(string), string aTTNAME = default(string))
-        public Capitalization(string smallCamel = default, string capitalCamel = default, string smallSnake = default, string capitalSnake = default, string sCAETHFlowPoints = default, string aTTNAME = default)
+        public Capitalization(string smallCamel = default(string), string capitalCamel = default(string), string smallSnake = default(string), string capitalSnake = default(string), string sCAETHFlowPoints = default(string), string aTTNAME = default(string))
         {
             this._SmallCamel = smallCamel;
             this._CapitalCamel = capitalCamel;
@@ -57,7 +56,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SmallCamel
         /// </summary>
         [DataMember(Name = "smallCamel", EmitDefaultValue = false)]
-        // public string SmallCamel
         public string SmallCamel
         {
             get{ return _SmallCamel;}
@@ -82,7 +80,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets CapitalCamel
         /// </summary>
         [DataMember(Name = "CapitalCamel", EmitDefaultValue = false)]
-        // public string CapitalCamel
         public string CapitalCamel
         {
             get{ return _CapitalCamel;}
@@ -107,7 +104,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SmallSnake
         /// </summary>
         [DataMember(Name = "small_Snake", EmitDefaultValue = false)]
-        // public string SmallSnake
         public string SmallSnake
         {
             get{ return _SmallSnake;}
@@ -132,7 +128,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets CapitalSnake
         /// </summary>
         [DataMember(Name = "Capital_Snake", EmitDefaultValue = false)]
-        // public string CapitalSnake
         public string CapitalSnake
         {
             get{ return _CapitalSnake;}
@@ -157,7 +152,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SCAETHFlowPoints
         /// </summary>
         [DataMember(Name = "SCA_ETH_Flow_Points", EmitDefaultValue = false)]
-        // public string SCAETHFlowPoints
         public string SCAETHFlowPoints
         {
             get{ return _SCAETHFlowPoints;}
@@ -183,7 +177,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Name of the pet </value>
         [DataMember(Name = "ATT_NAME", EmitDefaultValue = false)]
-        // public string ATT_NAME
         public string ATT_NAME
         {
             get{ return _ATT_NAME;}

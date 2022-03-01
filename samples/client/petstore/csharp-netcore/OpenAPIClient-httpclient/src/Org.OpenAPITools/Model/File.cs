@@ -37,8 +37,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="File" /> class.
         /// </summary>
         /// <param name="sourceURI">Test capitalization.</param>
-        // public File(string sourceURI = default(string))
-        public File(string sourceURI = default)
+        public File(string sourceURI = default(string))
         {
             this.SourceURI = sourceURI;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -49,8 +48,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Test capitalization</value>
         [DataMember(Name = "sourceURI", EmitDefaultValue = false)]
-        // public string SourceURI { get; set; }
-        public string SourceURI { get; set; } // c
+        public string SourceURI { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

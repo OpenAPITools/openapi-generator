@@ -36,8 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
         /// <param name="_123list">_123list.</param>
-        // public List(string _123list = default(string))
-        public List(string _123list = default)
+        public List(string _123list = default(string))
         {
             this.__123List = _123list;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -47,7 +46,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _123List
         /// </summary>
         [DataMember(Name = "123-list", EmitDefaultValue = false)]
-        // public string _123List
         public string _123List
         {
             get{ return __123List;}

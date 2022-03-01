@@ -36,8 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="InlineObject1" /> class.
         /// </summary>
         /// <param name="file">One file.</param>
-        // public InlineObject1(System.IO.Stream file = default(System.IO.Stream))
-        public InlineObject1(System.IO.Stream file = default)
+        public InlineObject1(System.IO.Stream file = default(System.IO.Stream))
         {
             this.File = file;
         }
@@ -47,8 +46,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>One file</value>
         [DataMember(Name = "file", EmitDefaultValue = false)]
-        // public System.IO.Stream File { get; set; }
-        public System.IO.Stream File { get; set; } // c
+        public System.IO.Stream File { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

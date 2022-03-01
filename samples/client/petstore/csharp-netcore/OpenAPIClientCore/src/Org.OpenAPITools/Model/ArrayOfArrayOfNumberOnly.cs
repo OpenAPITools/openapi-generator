@@ -36,8 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ArrayOfArrayOfNumberOnly" /> class.
         /// </summary>
         /// <param name="arrayArrayNumber">arrayArrayNumber.</param>
-        // public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber = default(List<List<decimal>>))
-        public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber = default)
+        public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber = default(List<List<decimal>>))
         {
             this.ArrayArrayNumber = arrayArrayNumber;
         }
@@ -46,8 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayNumber
         /// </summary>
         [DataMember(Name = "ArrayArrayNumber", EmitDefaultValue = false)]
-        // public List<List<decimal>> ArrayArrayNumber { get; set; }
-        public List<List<decimal>> ArrayArrayNumber { get; set; } // c
+        public List<List<decimal>> ArrayArrayNumber { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

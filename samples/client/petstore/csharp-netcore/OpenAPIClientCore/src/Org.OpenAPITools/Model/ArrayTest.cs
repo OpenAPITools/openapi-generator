@@ -38,8 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayOfString">arrayOfString.</param>
         /// <param name="arrayArrayOfInteger">arrayArrayOfInteger.</param>
         /// <param name="arrayArrayOfModel">arrayArrayOfModel.</param>
-        // public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long>> arrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
-        public ArrayTest(List<string> arrayOfString = default, List<List<long>> arrayArrayOfInteger = default, List<List<ReadOnlyFirst>> arrayArrayOfModel = default)
+        public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long>> arrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
         {
             this.ArrayOfString = arrayOfString;
             this.ArrayArrayOfInteger = arrayArrayOfInteger;
@@ -50,22 +49,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayOfString
         /// </summary>
         [DataMember(Name = "array_of_string", EmitDefaultValue = false)]
-        // public List<string> ArrayOfString { get; set; }
-        public List<string> ArrayOfString { get; set; } // c
+        public List<string> ArrayOfString { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
         [DataMember(Name = "array_array_of_integer", EmitDefaultValue = false)]
-        // public List<List<long>> ArrayArrayOfInteger { get; set; }
-        public List<List<long>> ArrayArrayOfInteger { get; set; } // c
+        public List<List<long>> ArrayArrayOfInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfModel
         /// </summary>
         [DataMember(Name = "array_array_of_model", EmitDefaultValue = false)]
-        // public List<List<ReadOnlyFirst>> ArrayArrayOfModel { get; set; }
-        public List<List<ReadOnlyFirst>> ArrayArrayOfModel { get; set; } // c
+        public List<List<ReadOnlyFirst>> ArrayArrayOfModel { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

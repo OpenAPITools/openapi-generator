@@ -87,8 +87,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name.</param>
         /// <param name="petType">petType (required) (default to PetTypeEnum.ChildCat).</param>
-        // public ChildCat(string name = default(string), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
-        public ChildCat(string name = default, PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
+        public ChildCat(string name = default(string), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
         {
             this._PetType = petType;
             this._Name = name;
@@ -99,7 +98,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        // public string Name
         public string Name
         {
             get{ return _Name;}

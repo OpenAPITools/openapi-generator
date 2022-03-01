@@ -39,8 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeOrNull">shapeOrNull.</param>
         /// <param name="nullableShape">nullableShape.</param>
         /// <param name="shapes">shapes.</param>
-        // public Drawing(Shape mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>)) : base()
-        public Drawing(Shape mainShape = default, ShapeOrNull shapeOrNull = default, NullableShape nullableShape = default, List<Shape> shapes = default) : base()
+        public Drawing(Shape mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>)) : base()
         {
             this._MainShape = mainShape;
             this._ShapeOrNull = shapeOrNull;
@@ -52,7 +51,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MainShape
         /// </summary>
         [DataMember(Name = "mainShape", EmitDefaultValue = false)]
-        // public Shape MainShape
         public Shape MainShape
         {
             get{ return _MainShape;}
@@ -77,7 +75,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeOrNull
         /// </summary>
         [DataMember(Name = "shapeOrNull", EmitDefaultValue = false)]
-        // public ShapeOrNull ShapeOrNull
         public ShapeOrNull ShapeOrNull
         {
             get{ return _ShapeOrNull;}
@@ -102,7 +99,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NullableShape
         /// </summary>
         [DataMember(Name = "nullableShape", EmitDefaultValue = true)]
-        // public NullableShape NullableShape
         public NullableShape NullableShape
         {
             get{ return _NullableShape;}
@@ -127,7 +123,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Shapes
         /// </summary>
         [DataMember(Name = "shapes", EmitDefaultValue = false)]
-        // public List<Shape> Shapes
         public List<Shape> Shapes
         {
             get{ return _Shapes;}

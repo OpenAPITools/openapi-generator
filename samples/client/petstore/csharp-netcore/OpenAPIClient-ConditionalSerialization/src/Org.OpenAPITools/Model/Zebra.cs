@@ -97,8 +97,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="type">type.</param>
         /// <param name="className">className (required).</param>
-        // public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string)) : base()
-        public Zebra(TypeEnum type = default, string className) : base()
+        public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string)) : base()
         {
             // to ensure "className" is required (not null)
             if (className == null) {
@@ -113,7 +112,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
-        // public string ClassName
         public string ClassName
         {
             get{ return _ClassName;}

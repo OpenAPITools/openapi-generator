@@ -42,8 +42,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="shapeType">shapeType (required).</param>
         /// <param name="triangleType">triangleType (required).</param>
-        // public IsoscelesTriangle(string shapeType = default(string), string triangleType = default(string))
-        public IsoscelesTriangle(string shapeType, string triangleType)
+        public IsoscelesTriangle(string shapeType = default(string), string triangleType = default(string))
         {
             // to ensure "shapeType" is required (not null)
             if (shapeType == null) {
@@ -61,7 +60,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeType
         /// </summary>
         [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
-        // public string ShapeType
         public string ShapeType
         {
             get{ return _ShapeType;}
@@ -86,7 +84,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets TriangleType
         /// </summary>
         [DataMember(Name = "triangleType", IsRequired = true, EmitDefaultValue = false)]
-        // public string TriangleType
         public string TriangleType
         {
             get{ return _TriangleType;}

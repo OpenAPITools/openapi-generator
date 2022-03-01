@@ -41,8 +41,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="QuadrilateralInterface" /> class.
         /// </summary>
         /// <param name="quadrilateralType">quadrilateralType (required).</param>
-        // public QuadrilateralInterface(string quadrilateralType = default(string))
-        public QuadrilateralInterface(string quadrilateralType)
+        public QuadrilateralInterface(string quadrilateralType = default(string))
         {
             // to ensure "quadrilateralType" is required (not null)
             if (quadrilateralType == null) {
@@ -55,8 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets QuadrilateralType
         /// </summary>
         [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = false)]
-        // public string QuadrilateralType { get; set; }
-        public string QuadrilateralType { get; set; } // c
+        public string QuadrilateralType { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

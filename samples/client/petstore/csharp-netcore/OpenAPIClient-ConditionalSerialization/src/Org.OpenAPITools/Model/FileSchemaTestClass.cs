@@ -37,8 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="file">file.</param>
         /// <param name="files">files.</param>
-        // public FileSchemaTestClass(File file = default(File), List<File> files = default(List<File>))
-        public FileSchemaTestClass(File file = default, List<File> files = default)
+        public FileSchemaTestClass(File file = default(File), List<File> files = default(List<File>))
         {
             this._File = file;
             this._Files = files;
@@ -49,7 +48,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets File
         /// </summary>
         [DataMember(Name = "file", EmitDefaultValue = false)]
-        // public File File
         public File File
         {
             get{ return _File;}
@@ -74,7 +72,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Files
         /// </summary>
         [DataMember(Name = "files", EmitDefaultValue = false)]
-        // public List<File> Files
         public List<File> Files
         {
             get{ return _Files;}

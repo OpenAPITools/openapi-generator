@@ -46,8 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="hasBaleen">hasBaleen.</param>
         /// <param name="hasTeeth">hasTeeth.</param>
         /// <param name="className">className (required).</param>
-        // public Whale(bool hasBaleen = default(bool), bool hasTeeth = default(bool), string className = default(string))
-        public Whale(bool hasBaleen = default, bool hasTeeth = default, string className)
+        public Whale(bool hasBaleen = default(bool), bool hasTeeth = default(bool), string className = default(string))
         {
             // to ensure "className" is required (not null)
             if (className == null) {
@@ -63,7 +62,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets HasBaleen
         /// </summary>
         [DataMember(Name = "hasBaleen", EmitDefaultValue = true)]
-        // public bool HasBaleen
         public bool HasBaleen
         {
             get{ return _HasBaleen;}
@@ -88,7 +86,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets HasTeeth
         /// </summary>
         [DataMember(Name = "hasTeeth", EmitDefaultValue = true)]
-        // public bool HasTeeth
         public bool HasTeeth
         {
             get{ return _HasTeeth;}
@@ -113,7 +110,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
-        // public string ClassName
         public string ClassName
         {
             get{ return _ClassName;}

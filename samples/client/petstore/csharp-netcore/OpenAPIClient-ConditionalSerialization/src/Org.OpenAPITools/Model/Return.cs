@@ -36,8 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
         /// <param name="_return">_return.</param>
-        // public Return(int _return = default(int))
-        public Return(int _return = default)
+        public Return(int _return = default(int))
         {
             this.__Return = _return;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -47,7 +46,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _Return
         /// </summary>
         [DataMember(Name = "return", EmitDefaultValue = false)]
-        // public int _Return
         public int _Return
         {
             get{ return __Return;}

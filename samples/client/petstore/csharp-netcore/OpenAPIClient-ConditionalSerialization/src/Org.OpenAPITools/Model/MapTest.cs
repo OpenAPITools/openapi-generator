@@ -86,8 +86,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapOfEnumString">mapOfEnumString.</param>
         /// <param name="directMap">directMap.</param>
         /// <param name="indirectMap">indirectMap.</param>
-        // public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool> directMap = default(Dictionary<string, bool>), Dictionary<string, bool> indirectMap = default(Dictionary<string, bool>))
-        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default, Dictionary<string, InnerEnum> mapOfEnumString = default, Dictionary<string, bool> directMap = default, Dictionary<string, bool> indirectMap = default)
+        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool> directMap = default(Dictionary<string, bool>), Dictionary<string, bool> indirectMap = default(Dictionary<string, bool>))
         {
             this._MapMapOfString = mapMapOfString;
             this._MapOfEnumString = mapOfEnumString;
@@ -100,7 +99,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapMapOfString
         /// </summary>
         [DataMember(Name = "map_map_of_string", EmitDefaultValue = false)]
-        // public Dictionary<string, Dictionary<string, string>> MapMapOfString
         public Dictionary<string, Dictionary<string, string>> MapMapOfString
         {
             get{ return _MapMapOfString;}
@@ -125,7 +123,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DirectMap
         /// </summary>
         [DataMember(Name = "direct_map", EmitDefaultValue = false)]
-        // public Dictionary<string, bool> DirectMap
         public Dictionary<string, bool> DirectMap
         {
             get{ return _DirectMap;}
@@ -150,7 +147,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets IndirectMap
         /// </summary>
         [DataMember(Name = "indirect_map", EmitDefaultValue = false)]
-        // public Dictionary<string, bool> IndirectMap
         public Dictionary<string, bool> IndirectMap
         {
             get{ return _IndirectMap;}

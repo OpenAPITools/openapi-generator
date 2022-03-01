@@ -51,15 +51,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetType
         /// </summary>
         [DataMember(Name = "pet_type", EmitDefaultValue = false)]
-        // public PetTypeEnum? PetType { get; set; }
-        public PetTypeEnum PetType { get; set; } // a
+        public PetTypeEnum? PetType { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCatAllOf" /> class.
         /// </summary>
         /// <param name="name">name.</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat).</param>
-        // public ChildCatAllOf(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat)
-        public ChildCatAllOf(string name = default, PetTypeEnum petType = PetTypeEnum.ChildCat)
+        public ChildCatAllOf(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat)
         {
             this.Name = name;
             this.PetType = petType;
@@ -70,8 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        // public string Name { get; set; }
-        public string Name { get; set; } // c
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

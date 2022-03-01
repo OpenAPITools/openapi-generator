@@ -45,8 +45,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="shapeType">shapeType (required).</param>
         /// <param name="quadrilateralType">quadrilateralType (required).</param>
-        // public ComplexQuadrilateral(string shapeType = default(string), string quadrilateralType = default(string))
-        public ComplexQuadrilateral(string shapeType, string quadrilateralType)
+        public ComplexQuadrilateral(string shapeType = default(string), string quadrilateralType = default(string))
         {
             // to ensure "shapeType" is required (not null)
             if (shapeType == null) {
@@ -65,7 +64,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeType
         /// </summary>
         [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
-        // public string ShapeType
         public string ShapeType
         {
             get{ return _ShapeType;}
@@ -90,7 +88,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets QuadrilateralType
         /// </summary>
         [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = false)]
-        // public string QuadrilateralType
         public string QuadrilateralType
         {
             get{ return _QuadrilateralType;}

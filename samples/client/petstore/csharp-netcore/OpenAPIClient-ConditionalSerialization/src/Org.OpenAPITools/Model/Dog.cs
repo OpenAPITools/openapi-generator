@@ -48,8 +48,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="breed">breed.</param>
         /// <param name="className">className (required) (default to &quot;Dog&quot;).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        // public Dog(string breed = default(string), string className = "Dog", string color = "red") : base(className, color)
-        public Dog(string breed = default, string className = "Dog", string color = "red") : base(className, color)
+        public Dog(string breed = default(string), string className = "Dog", string color = "red") : base(className, color)
         {
             this._Breed = breed;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -59,7 +58,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Breed
         /// </summary>
         [DataMember(Name = "breed", EmitDefaultValue = false)]
-        // public string Breed
         public string Breed
         {
             get{ return _Breed;}

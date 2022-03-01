@@ -36,8 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DeprecatedObject" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        // public DeprecatedObject(string name = default(string))
-        public DeprecatedObject(string name = default)
+        public DeprecatedObject(string name = default(string))
         {
             this._Name = name;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -47,7 +46,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        // public string Name
         public string Name
         {
             get{ return _Name;}

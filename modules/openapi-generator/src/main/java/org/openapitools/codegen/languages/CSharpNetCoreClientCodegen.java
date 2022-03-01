@@ -1370,6 +1370,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     * Without this method, property petType in GrandparentAnimal will not make it through ParentPet and into ChildCat
     */
     private void EnsureInheritedVariablesArePresent(CodegenModel derivedModel) {
+        // every c# generator should definetly want this, or we should fix the issue
+        // still, lets avoid breaking changes :(
+        if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))){
+            return;
+        }
+
         if (derivedModel.parentModel == null){
             return;
         }
