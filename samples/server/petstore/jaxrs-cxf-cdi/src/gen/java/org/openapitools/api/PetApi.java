@@ -87,6 +87,7 @@ public class PetApi  {
     @Path("/findByTags")
     
     @Produces({ "application/xml", "application/json" })
+    @SuppressWarnings("deprecation")
     @ApiOperation(value = "Finds Pets by tags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
