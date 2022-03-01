@@ -162,7 +162,7 @@ public class NumberOnly implements Parcelable {
       if (jsonObj == null) {
         if (NumberOnly.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in NumberOnly is not found in the empty JSON string", NumberOnly.openapiRequiredFields.toString()));
         }
       }

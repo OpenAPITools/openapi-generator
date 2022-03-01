@@ -113,12 +113,36 @@ public class Triangle extends AbstractOpenApiSchema {
                     Object deserialized = null;
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
+                    // use discriminator value for faster oneOf lookup
+                    Triangle newTriangle = new Triangle();
+                    if (jsonObject.get("triangleType") == null) {
+                        log.log(Level.WARNING, "Failed to lookup discriminator value for Triangle as `triangleType` was not found in the payload or the payload is empty.");
+                    } else  {
+                        // look up the discriminator value in the field `triangleType`
+                        switch (jsonObject.get("triangleType").getAsString()) {
+                            case "EquilateralTriangle":
+                                deserialized = adapterEquilateralTriangle.fromJsonTree(jsonObject);
+                                newTriangle.setActualInstance(deserialized);
+                                return newTriangle;
+                            case "IsoscelesTriangle":
+                                deserialized = adapterIsoscelesTriangle.fromJsonTree(jsonObject);
+                                newTriangle.setActualInstance(deserialized);
+                                return newTriangle;
+                            case "ScaleneTriangle":
+                                deserialized = adapterScaleneTriangle.fromJsonTree(jsonObject);
+                                newTriangle.setActualInstance(deserialized);
+                                return newTriangle;
+                            default:
+                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Triangle. Possible values: EquilateralTriangle IsoscelesTriangle ScaleneTriangle", jsonObject.get("triangleType").getAsString()));
+                        }
+                    }
+
                     int match = 0;
                     TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize EquilateralTriangle
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         EquilateralTriangle.validateJsonObject(jsonObject);
                         actualAdapter = adapterEquilateralTriangle;
                         match++;
@@ -130,7 +154,7 @@ public class Triangle extends AbstractOpenApiSchema {
 
                     // deserialize IsoscelesTriangle
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         IsoscelesTriangle.validateJsonObject(jsonObject);
                         actualAdapter = adapterIsoscelesTriangle;
                         match++;
@@ -142,7 +166,7 @@ public class Triangle extends AbstractOpenApiSchema {
 
                     // deserialize ScaleneTriangle
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         ScaleneTriangle.validateJsonObject(jsonObject);
                         actualAdapter = adapterScaleneTriangle;
                         match++;

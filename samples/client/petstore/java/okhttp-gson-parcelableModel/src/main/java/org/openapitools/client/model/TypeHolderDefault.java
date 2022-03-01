@@ -302,7 +302,7 @@ public class TypeHolderDefault implements Parcelable {
       if (jsonObj == null) {
         if (TypeHolderDefault.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in TypeHolderDefault is not found in the empty JSON string", TypeHolderDefault.openapiRequiredFields.toString()));
         }
       }

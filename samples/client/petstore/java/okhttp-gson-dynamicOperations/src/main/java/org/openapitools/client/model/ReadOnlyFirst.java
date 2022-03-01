@@ -167,7 +167,7 @@ public class ReadOnlyFirst {
       if (jsonObj == null) {
         if (ReadOnlyFirst.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in ReadOnlyFirst is not found in the empty JSON string", ReadOnlyFirst.openapiRequiredFields.toString()));
         }
       }

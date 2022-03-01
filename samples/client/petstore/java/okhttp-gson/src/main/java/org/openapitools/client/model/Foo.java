@@ -138,7 +138,7 @@ public class Foo {
       if (jsonObj == null) {
         if (Foo.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in Foo is not found in the empty JSON string", Foo.openapiRequiredFields.toString()));
         }
       }
