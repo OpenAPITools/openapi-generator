@@ -137,3 +137,4 @@ org.openapitools.codegen.languages.TypeScriptReduxQueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
 org.openapitools.codegen.languages.WsdlSchemaCodegen
 org.openapitools.codegen.languages.PureCloudJavaClientCodegen
+org.openapitools.codegen.languages.PureCloudJavaGuestClientCodegen
