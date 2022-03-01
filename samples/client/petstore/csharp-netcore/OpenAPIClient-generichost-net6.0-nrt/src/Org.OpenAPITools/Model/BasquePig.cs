@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         public BasquePig(string className)
         {
             if (className == null)
-                throw new ArgumentNullException("className is a required property for BasquePig and cannot be null");
+                throw new ArgumentNullException("className is a required property for BasquePig and cannot be null.");
             ClassName = className;
         }
 

@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeOrNull">shapeOrNull</param>
         /// <param name="nullableShape">nullableShape</param>
         /// <param name="shapes">shapes</param>
-        public Drawing(Shape mainShape = default, ShapeOrNull shapeOrNull = default, NullableShape nullableShape = default, List<Shape> shapes = default) : base()
+        public Drawing(Shape mainShape = default, ShapeOrNull shapeOrNull = default, NullableShape nullableShape = default, List<Shape> shapes = default) : base(mainShape, shapeOrNull, nullableShape, shapes)
         {
             MainShape = mainShape;
             ShapeOrNull = shapeOrNull;
@@ -136,6 +136,15 @@ namespace Org.OpenAPITools.Model
             }
         }
 
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        {
+            yield break;
+        }
     }
 
 }

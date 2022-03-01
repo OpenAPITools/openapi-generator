@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         public GrandparentAnimal(string petType)
         {
             if (petType == null)
-                throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
+                throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null.");
             PetType = petType;
         }
 

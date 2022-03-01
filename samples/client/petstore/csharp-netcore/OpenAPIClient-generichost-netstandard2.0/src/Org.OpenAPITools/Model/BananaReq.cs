@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public BananaReq(decimal lengthCm, bool sweet = default)
         {
             if (lengthCm == null)
-                throw new ArgumentNullException("lengthCm is a required property for BananaReq and cannot be null");
+                throw new ArgumentNullException("lengthCm is a required property for BananaReq and cannot be null.");
             LengthCm = lengthCm;
             Sweet = sweet;
         }

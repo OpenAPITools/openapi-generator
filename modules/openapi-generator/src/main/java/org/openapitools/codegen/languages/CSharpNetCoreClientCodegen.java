@@ -517,6 +517,14 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         postProcessPattern(property.pattern, property.vendorExtensions);
         postProcessEmitDefaultValue(property.vendorExtensions);
 
+        if (GENERICHOST.equals(getLibrary())) {
+            // all c# libraries should want this, but avoid breaking changes for now
+            // a class cannot contain a property with the same name
+            if (property.name.equals(model.classname)) {
+                property.name = property.name + "Property";
+            }
+        }
+
         super.postProcessModelProperty(model, property);
     }
 
@@ -1343,14 +1351,39 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 // some properties do not have isInherited set correctly
                 // see modules\openapi-generator\src\test\resources\3_0\allOf.yaml
                 // Child properties Type, LastName, FirstName will have isInherited set to false when it should be true
-                if (Boolean.TRUE.equals(cm.parentVars.stream().anyMatch(v -> !cp.isInherited && v.baseName.equals(cp.baseName) && v.dataType.equals(cp.dataType)))) {
-                    LOGGER.debug("Property " + cp.baseName + " was found in the parentVars but not marked as inherited.");
+                if (cp.isInherited){
+                    continue;
+                }
+                if (Boolean.TRUE.equals(cm.parentVars.stream().anyMatch(v -> v.baseName.equals(cp.baseName) && v.dataType.equals(cp.dataType)))) {
+                    LOGGER.warn("Property " + cp.baseName + " was found in the parentVars but not marked as inherited.");
                     cp.isInherited = true;
                 }
             }
         }
 
         return objs;
+    }
+
+    /**
+    * Ensures that a model has all inherited properties
+    * Check modules\openapi-generator\src\test\resources\3_0\java\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+    * Without this method, property petType in GrandparentAnimal will not make it through ParentPet and into ChildCat
+    */
+    private void EnsureInheritedVariablesArePresent(CodegenModel derivedModel) {
+        if (derivedModel.parentModel == null){
+            return;
+        }
+
+        for (CodegenProperty parentProperty : derivedModel.parentModel.allVars){
+            if (Boolean.FALSE.equals(derivedModel.allVars.stream().anyMatch(v -> v.baseName.equals(parentProperty.baseName)))) {
+                CodegenProperty clone = parentProperty.clone();
+                clone.isInherited = true;
+                LOGGER.debug("Inherited property " + clone.name + " from model" + derivedModel.parentModel.classname + " was not found in " + derivedModel.classname + ". Adding a clone now.");
+                derivedModel.allVars.add(clone);
+            }
+        }
+
+        EnsureInheritedVariablesArePresent(derivedModel.parentModel);
     }
 
     /**
@@ -1386,6 +1419,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             cm.anyOf.forEach(anyOf -> removePropertiesDeclaredInComposedClass(anyOf, allModels, cm));
             cm.oneOf.forEach(oneOf -> removePropertiesDeclaredInComposedClass(oneOf, allModels, cm));
             cm.allOf.forEach(allOf -> removePropertiesDeclaredInComposedClass(allOf, allModels, cm));
+
+            EnsureInheritedVariablesArePresent(cm);
         }
 
         return objs;

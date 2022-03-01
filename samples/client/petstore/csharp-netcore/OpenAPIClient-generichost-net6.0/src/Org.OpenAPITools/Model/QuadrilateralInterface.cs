@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         public QuadrilateralInterface(string quadrilateralType)
         {
             if (quadrilateralType == null)
-                throw new ArgumentNullException("quadrilateralType is a required property for QuadrilateralInterface and cannot be null");
+                throw new ArgumentNullException("quadrilateralType is a required property for QuadrilateralInterface and cannot be null.");
             QuadrilateralType = quadrilateralType;
         }
 

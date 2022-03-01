@@ -43,9 +43,9 @@ namespace Org.OpenAPITools.Model
         public Pet(string name, List<string> photoUrls, long id = default, Category category = default, List<Tag> tags = default, StatusEnum status = default)
         {
             if (name == null)
-                throw new ArgumentNullException("name is a required property for Pet and cannot be null");
+                throw new ArgumentNullException("name is a required property for Pet and cannot be null.");
             if (photoUrls == null)
-                throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
+                throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null.");
             Name = name;
             PhotoUrls = photoUrls;
             Id = id;

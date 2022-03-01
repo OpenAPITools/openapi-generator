@@ -29,15 +29,15 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Cat
     /// </summary>
-    public partial class Cat : Animal, IEquatable<Cat>, IValidatableObject
+    public partial class Cat : Animal, IEquatable<Cat>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
         /// <param name="catAllOf">catAllOf</param>
-        /// <param name="className">className (required) (default to &quot;Cat&quot;)</param>
+        /// <param name="className">className (required)</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
-        public Cat(CatAllOf catAllOf, string className = "Cat", string? color = "red") : base(className, color)
+        public Cat(CatAllOf catAllOf, string className, string? color = "red") : base(className, color)
         {
             CatAllOf = catAllOf;
         }
@@ -56,7 +56,6 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Cat {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -90,10 +89,6 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
                 return hashCode;
             }
         }

@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         public TriangleInterface(string triangleType)
         {
             if (triangleType == null)
-                throw new ArgumentNullException("triangleType is a required property for TriangleInterface and cannot be null");
+                throw new ArgumentNullException("triangleType is a required property for TriangleInterface and cannot be null.");
             TriangleType = triangleType;
         }
 

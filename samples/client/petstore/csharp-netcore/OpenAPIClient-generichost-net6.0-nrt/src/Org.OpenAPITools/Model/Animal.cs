@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public Animal(string className, string? color = "red")
         {
             if (className == null)
-                throw new ArgumentNullException("className is a required property for Animal and cannot be null");
+                throw new ArgumentNullException("className is a required property for Animal and cannot be null.");
             ClassName = className;
             Color = color;
         }

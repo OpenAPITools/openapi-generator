@@ -34,7 +34,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="HasOnlyReadOnly" /> class.
         /// </summary>
-        public HasOnlyReadOnly()
+        /// <param name="bar">bar</param>
+        /// <param name="foo">foo</param>
+        public HasOnlyReadOnly(string? bar = default, string? foo = default)
         {
             Bar = bar;
             Foo = foo;

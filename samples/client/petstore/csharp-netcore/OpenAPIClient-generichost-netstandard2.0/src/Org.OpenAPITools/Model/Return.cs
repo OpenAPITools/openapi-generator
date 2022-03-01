@@ -34,17 +34,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
-        /// <param name="_return">_return</param>
-        public Return(int _return = default)
+        /// <param name="returnProperty">returnProperty</param>
+        public Return(int returnProperty = default)
         {
-            Return = _return;
+            ReturnProperty = returnProperty;
         }
 
         /// <summary>
-        /// Gets or Sets Return
+        /// Gets or Sets ReturnProperty
         /// </summary>
         [JsonPropertyName("return")]
-        public int Return { get; set; }
+        public int ReturnProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -60,7 +60,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Return {\n");
-            sb.Append("  _Return: ").Append(_Return).Append("\n");
+            sb.Append("  ReturnProperty: ").Append(ReturnProperty).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -95,7 +95,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this._Return.GetHashCode();
+                hashCode = (hashCode * 59) + this.ReturnProperty.GetHashCode();
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

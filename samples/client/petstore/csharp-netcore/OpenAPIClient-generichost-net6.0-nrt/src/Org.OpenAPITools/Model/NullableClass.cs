@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectNullableProp">objectNullableProp</param>
         /// <param name="objectAndItemsNullableProp">objectAndItemsNullableProp</param>
         /// <param name="objectItemsNullable">objectItemsNullable</param>
-        public NullableClass(int? integerProp = default, decimal? numberProp = default, bool? booleanProp = default, string? stringProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, List<Object>? arrayNullableProp = default, List<Object>? arrayAndItemsNullableProp = default, List<Object>? arrayItemsNullable = default, Dictionary<string, Object>? objectNullableProp = default, Dictionary<string, Object>? objectAndItemsNullableProp = default, Dictionary<string, Object>? objectItemsNullable = default) : base()
+        public NullableClass(int? integerProp = default, decimal? numberProp = default, bool? booleanProp = default, string? stringProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, List<Object>? arrayNullableProp = default, List<Object>? arrayAndItemsNullableProp = default, List<Object>? arrayItemsNullable = default, Dictionary<string, Object>? objectNullableProp = default, Dictionary<string, Object>? objectAndItemsNullableProp = default, Dictionary<string, Object>? objectItemsNullable = default)
         {
             IntegerProp = integerProp;
             NumberProp = numberProp;
@@ -240,6 +240,15 @@ namespace Org.OpenAPITools.Model
             }
         }
 
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        {
+            yield break;
+        }
     }
 
 }

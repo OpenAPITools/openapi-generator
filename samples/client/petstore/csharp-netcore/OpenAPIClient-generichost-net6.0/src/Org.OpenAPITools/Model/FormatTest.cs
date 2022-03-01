@@ -53,13 +53,13 @@ namespace Org.OpenAPITools.Model
         public FormatTest(decimal number, byte[] _byte, DateTime date, string password, int integer = default, int int32 = default, long int64 = default, float _float = default, double _double = default, decimal _decimal = default, string _string = default, System.IO.Stream binary = default, DateTime dateTime = default, Guid uuid = default, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default)
         {
             if (number == null)
-                throw new ArgumentNullException("number is a required property for FormatTest and cannot be null");
+                throw new ArgumentNullException("number is a required property for FormatTest and cannot be null.");
             if (_byte == null)
-                throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
+                throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null.");
             if (date == null)
-                throw new ArgumentNullException("date is a required property for FormatTest and cannot be null");
+                throw new ArgumentNullException("date is a required property for FormatTest and cannot be null.");
             if (password == null)
-                throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
+                throw new ArgumentNullException("password is a required property for FormatTest and cannot be null.");
             Number = number;
             Byte = _byte;
             Date = date;

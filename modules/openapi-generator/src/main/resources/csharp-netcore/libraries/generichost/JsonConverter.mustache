@@ -106,14 +106,14 @@
 
             {{#oneOf}}
             if ({{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}} != null)
-                return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{#allOf}}{{#lambda.camelcase_param}}{{.}}  {{/lambda.camelcase_param}}{{/allOf}}{{#anyOf}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#readWriteVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/readWriteVars}}{{/lambda.joinWithComma}});
+                return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{#allOf}}{{#lambda.camelcase_param}}{{.}}  {{/lambda.camelcase_param}}{{/allOf}}{{#anyOf}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/allVars}}{{/lambda.joinWithComma}});
 
             {{#-last}}
             throw new JsonException();
             {{/-last}}
             {{/oneOf}}
             {{^oneOf}}
-            return new {{classname}}({{#lambda.joinWithComma}}{{#anyOf}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allOf}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/allOf}}{{#readWriteVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/readWriteVars}}{{/lambda.joinWithComma}});
+            return new {{classname}}({{#lambda.joinWithComma}}{{#anyOf}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allOf}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/allOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/allVars}}{{/lambda.joinWithComma}});
             {{/oneOf}}
         }
 

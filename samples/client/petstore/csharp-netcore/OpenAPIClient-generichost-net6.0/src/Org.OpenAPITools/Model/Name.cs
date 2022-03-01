@@ -34,23 +34,25 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
-        /// <param name="name">name (required)</param>
+        /// <param name="nameProperty">nameProperty (required)</param>
+        /// <param name="snakeCase">snakeCase</param>
         /// <param name="property">property</param>
-        public Name(int name, string property = default)
+        /// <param name="_123number">_123number</param>
+        public Name(int nameProperty, int snakeCase = default, string property = default, int _123number = default)
         {
-            if (name == null)
-                throw new ArgumentNullException("name is a required property for Name and cannot be null");
-            Name = name;
+            if (nameProperty == null)
+                throw new ArgumentNullException("nameProperty is a required property for Name and cannot be null.");
+            NameProperty = nameProperty;
             SnakeCase = snakeCase;
             Property = property;
             _123Number = _123number;
         }
 
         /// <summary>
-        /// Gets or Sets Name
+        /// Gets or Sets NameProperty
         /// </summary>
         [JsonPropertyName("name")]
-        public int Name { get; set; }
+        public int NameProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets SnakeCase
@@ -84,7 +86,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Name {\n");
-            sb.Append("  _Name: ").Append(_Name).Append("\n");
+            sb.Append("  NameProperty: ").Append(NameProperty).Append("\n");
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
             sb.Append("  Property: ").Append(Property).Append("\n");
             sb.Append("  _123Number: ").Append(_123Number).Append("\n");
@@ -122,7 +124,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this._Name.GetHashCode();
+                hashCode = (hashCode * 59) + this.NameProperty.GetHashCode();
                 hashCode = (hashCode * 59) + this.SnakeCase.GetHashCode();
                 if (this.Property != null)
                 {

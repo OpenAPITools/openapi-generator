@@ -29,13 +29,14 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ChildCat
     /// </summary>
-    public partial class ChildCat : ParentPet, IEquatable<ChildCat>, IValidatableObject
+    public partial class ChildCat : ParentPet, IEquatable<ChildCat>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
         /// <param name="childCatAllOf">childCatAllOf</param>
-        public ChildCat(ChildCatAllOf childCatAllOf) : base()
+        /// <param name="petType">petType (required)</param>
+        public ChildCat(ChildCatAllOf childCatAllOf, string petType) : base(petType)
         {
             ChildCatAllOf = childCatAllOf;
         }
@@ -54,7 +55,6 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ChildCat {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -88,10 +88,6 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
                 return hashCode;
             }
         }
@@ -127,6 +123,7 @@ namespace Org.OpenAPITools.Model
 
             Utf8JsonReader childCatAllOfReader = reader;
             Client.ClientUtils.TryDeserialize<ChildCatAllOf>(ref childCatAllOfReader, options, out ChildCatAllOf? childCatAllOf);
+            string? petType = default;
 
             while (reader.Read())
             {
@@ -140,11 +137,14 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "pet_type":
+                            petType = reader.GetString();
+                            break;
                     }
                 }
             }
 
-            return new ChildCat(childCatAllOf);
+            return new ChildCat(childCatAllOf, petType);
         }
 
         /// <summary>

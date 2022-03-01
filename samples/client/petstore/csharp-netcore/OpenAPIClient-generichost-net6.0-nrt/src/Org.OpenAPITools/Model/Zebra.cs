@@ -36,10 +36,10 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="className">className (required)</param>
         /// <param name="type">type</param>
-        public Zebra(string className, TypeEnum? type = default) : base()
+        public Zebra(string className, TypeEnum? type = default)
         {
             if (className == null)
-                throw new ArgumentNullException("className is a required property for Zebra and cannot be null");
+                throw new ArgumentNullException("className is a required property for Zebra and cannot be null.");
             ClassName = className;
             Type = type;
         }
@@ -80,6 +80,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("className")]
         public string ClassName { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -139,6 +145,15 @@ namespace Org.OpenAPITools.Model
             }
         }
 
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        {
+            yield break;
+        }
     }
 
 }

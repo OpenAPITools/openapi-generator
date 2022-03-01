@@ -1,7 +1,7 @@
     /// <summary>
     /// {{description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
-    {{>visibility}} partial class {{classname}} : {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
+    {{>visibility}} partial class {{classname}} : {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}{{^parentModel}}, IValidatableObject{{/parentModel}}{{/validatable}}
     {
         {{#oneOf}}
         /// <summary>
@@ -14,17 +14,17 @@
         {{#allOf}}
         /// <param name="{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}">{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}</param>
         {{/allOf}}
-        {{#readWriteVars}}
+        {{#allVars}}
         /// <param name="{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}">{{description}}{{^description}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
-        {{/readWriteVars}}
-        public {{classname}}({{#lambda.joinWithComma}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{#anyOf}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#readWriteVars}}{{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#defaultValue}} = {{^isDateTime}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^required}}{{^defaultValue}} = default{{/defaultValue}}{{/required}}  {{/readWriteVars}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#isInherited}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/isInherited}}{{#anyOf}}{{#isInherited}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/anyOf}}{{#parentVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/parentVars}}{{/lambda.joinWithComma}}){{/parent}}
+        {{/allVars}}
+        public {{classname}}({{#lambda.joinWithComma}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{#anyOf}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allVars}}{{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#defaultValue}} = {{^isDateTime}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^required}}{{^defaultValue}} = default{{/defaultValue}}{{/required}}  {{/allVars}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#isInherited}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/isInherited}}{{#anyOf}}{{#isInherited}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/anyOf}}{{#allVars}}{{#isInherited}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/allVars}}{{/lambda.joinWithComma}}){{/parent}}
         {
             {{#allVars}}
             {{^isInherited}}
             {{#required}}
             {{^isNullable}}
             if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} == null)
-                throw new ArgumentNullException("{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} is a required property for {{classname}} and cannot be null");
+                throw new ArgumentNullException("{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} is a required property for {{classname}} and cannot be null.");
             {{/isNullable}}
             {{/required}}
             {{/isInherited}}
@@ -54,17 +54,17 @@
         {{#allOf}}
         /// <param name="{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}">{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}</param>
         {{/allOf}}
-        {{#readWriteVars}}
+        {{#allVars}}
         /// <param name="{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}">{{description}}{{^description}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
-        {{/readWriteVars}}
-        public {{classname}}({{#lambda.joinWithComma}}{{#anyOf}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allOf}}{{.}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/allOf}}{{#readWriteVars}}{{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#defaultValue}} = {{^isDateTime}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^required}}{{^defaultValue}} = default{{/defaultValue}}{{/required}}  {{/readWriteVars}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#anyOf}}{{#isInherited}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/anyOf}}{{#parentVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/parentVars}}{{/lambda.joinWithComma}}){{/parent}}
+        {{/allVars}}
+        public {{classname}}({{#lambda.joinWithComma}}{{#anyOf}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allOf}}{{.}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/allOf}}{{#allVars}}{{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#defaultValue}} = {{^isDateTime}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^required}}{{^defaultValue}} = default{{/defaultValue}}{{/required}}  {{/allVars}}{{/lambda.joinWithComma}}){{#parentModel}} : base({{#lambda.joinWithComma}}{{#anyOf}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/allVars}}{{/lambda.joinWithComma}}){{/parentModel}}
         {
             {{#allVars}}
             {{^isInherited}}
             {{#required}}
             {{^isNullable}}
             if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} == null)
-                throw new ArgumentNullException("{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} is a required property for {{classname}} and cannot be null");
+                throw new ArgumentNullException("{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} is a required property for {{classname}} and cannot be null.");
             {{/isNullable}}
             {{/required}}
             {{/isInherited}}
@@ -161,14 +161,14 @@
         {{/isInherited}}
         {{/allVars}}
         {{#isAdditionalPropertiesTrue}}
-        {{^parent}}
+        {{^parentModel}}
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
         public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
 
-        {{/parent}}
+        {{/parentModel}}
         {{/isAdditionalPropertiesTrue}}
         /// <summary>
         /// Returns the string presentation of the object
@@ -185,7 +185,9 @@
             sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
             {{/vars}}
             {{#isAdditionalPropertiesTrue}}
+            {{^parentModel}}
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            {{/parentModel}}
             {{/isAdditionalPropertiesTrue}}
             sb.Append("}\n");
             return sb.ToString();
@@ -239,7 +241,9 @@
                     {{/vendorExtensions.x-is-value-type}}this.{{name}}.SequenceEqual(input.{{name}})
                 ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
                 {{#isAdditionalPropertiesTrue}}
+                {{^parentModel}}
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
+                {{/parentModel}}
                 {{/isAdditionalPropertiesTrue}}
             {{/useCompareNetObjects}}
         }
@@ -270,18 +274,20 @@
                 {{/vendorExtensions.x-is-value-type}}
                 {{/vars}}
                 {{#isAdditionalPropertiesTrue}}
+                {{^parentModel}}
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
+                {{/parentModel}}
                 {{/isAdditionalPropertiesTrue}}
                 return hashCode;
             }
         }
 
 {{#validatable}}
-{{^parent}}
+{{^parentModel}}
 {{>validatable}}
-{{/parent}}
+{{/parentModel}}
 {{/validatable}}
     }

@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         public EnumTest(EnumStringRequiredEnum enumStringRequired, EnumStringEnum enumString = default, EnumIntegerEnum enumInteger = default, EnumIntegerOnlyEnum enumIntegerOnly = default, EnumNumberEnum enumNumber = default, OuterEnum outerEnum = default, OuterEnumInteger outerEnumInteger = default, OuterEnumDefaultValue outerEnumDefaultValue = default, OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = default)
         {
             if (enumStringRequired == null)
-                throw new ArgumentNullException("enumStringRequired is a required property for EnumTest and cannot be null");
+                throw new ArgumentNullException("enumStringRequired is a required property for EnumTest and cannot be null.");
             EnumStringRequired = enumStringRequired;
             EnumString = enumString;
             EnumInteger = enumInteger;
