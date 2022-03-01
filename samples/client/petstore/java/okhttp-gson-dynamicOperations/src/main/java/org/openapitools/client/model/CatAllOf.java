@@ -138,7 +138,7 @@ public class CatAllOf {
       if (jsonObj == null) {
         if (CatAllOf.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in CatAllOf is not found in the empty JSON string", CatAllOf.openapiRequiredFields.toString()));
         }
       }

@@ -102,7 +102,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.1</version>
+      <version>4.13.2</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -124,7 +124,7 @@
     <version.httpclient>4.5.13</version.httpclient>
     <version.logback>1.2.0</version.logback>
     <java.version>1.8</java.version>
-    <version.junit>4.13.1</version.junit>
+    <version.junit>4.13.2</version.junit>
     <version.swagger>1.5.10</version.swagger>
     <version.commons.io>2.5</version.commons.io>
     <version.antlr4>4.5.3</version.antlr4>
@@ -143,4 +143,3 @@
     <version.commons.codec>1.10</version.commons.codec>
   </properties>
 </project>
-

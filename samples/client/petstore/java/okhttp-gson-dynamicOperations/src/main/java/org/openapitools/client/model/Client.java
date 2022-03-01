@@ -138,7 +138,7 @@ public class Client {
       if (jsonObj == null) {
         if (Client.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in Client is not found in the empty JSON string", Client.openapiRequiredFields.toString()));
         }
       }

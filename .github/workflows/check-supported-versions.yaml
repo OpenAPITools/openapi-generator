@@ -15,9 +15,9 @@ jobs:
         include:
           - java: 8
             os: windows-latest
-          - java: 13
+          - java: 17
             os: ubuntu-latest
-            # Need to update to Gradle version with v13 support in modules/openapi-generator-gradle-plugin/pom.xml
+            # Need to update to Gradle version with v17 support in modules/openapi-generator-gradle-plugin/pom.xml
             flags: -am -pl modules/openapi-generator-cli
     steps:
       - name: Check out code

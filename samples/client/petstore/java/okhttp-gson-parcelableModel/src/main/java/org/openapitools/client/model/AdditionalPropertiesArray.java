@@ -169,7 +169,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> implements 
       if (jsonObj == null) {
         if (AdditionalPropertiesArray.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesArray is not found in the empty JSON string", AdditionalPropertiesArray.openapiRequiredFields.toString()));
         }
       }

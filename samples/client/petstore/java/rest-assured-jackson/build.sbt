@@ -22,7 +22,7 @@ lazy val root = (project in file(".")).
       "jakarta.validation" % "jakarta.validation-api" % "2.0.2" % "compile",
       "org.hibernate" % "hibernate-validator" % "6.0.19.Final" % "compile",
     "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5" % "compile",
-      "junit" % "junit" % "4.13.1" % "test",
+      "junit" % "junit" % "4.13.2" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )
   )

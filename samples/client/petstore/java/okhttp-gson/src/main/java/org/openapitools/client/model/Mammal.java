@@ -113,12 +113,36 @@ public class Mammal extends AbstractOpenApiSchema {
                     Object deserialized = null;
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
+                    // use discriminator value for faster oneOf lookup
+                    Mammal newMammal = new Mammal();
+                    if (jsonObject.get("className") == null) {
+                        log.log(Level.WARNING, "Failed to lookup discriminator value for Mammal as `className` was not found in the payload or the payload is empty.");
+                    } else  {
+                        // look up the discriminator value in the field `className`
+                        switch (jsonObject.get("className").getAsString()) {
+                            case "Pig":
+                                deserialized = adapterPig.fromJsonTree(jsonObject);
+                                newMammal.setActualInstance(deserialized);
+                                return newMammal;
+                            case "whale":
+                                deserialized = adapterWhale.fromJsonTree(jsonObject);
+                                newMammal.setActualInstance(deserialized);
+                                return newMammal;
+                            case "zebra":
+                                deserialized = adapterZebra.fromJsonTree(jsonObject);
+                                newMammal.setActualInstance(deserialized);
+                                return newMammal;
+                            default:
+                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values: Pig whale zebra", jsonObject.get("className").getAsString()));
+                        }
+                    }
+
                     int match = 0;
                     TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize Pig
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Pig.validateJsonObject(jsonObject);
                         actualAdapter = adapterPig;
                         match++;
@@ -130,7 +154,7 @@ public class Mammal extends AbstractOpenApiSchema {
 
                     // deserialize Whale
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Whale.validateJsonObject(jsonObject);
                         actualAdapter = adapterWhale;
                         match++;
@@ -142,7 +166,7 @@ public class Mammal extends AbstractOpenApiSchema {
 
                     // deserialize Zebra
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Zebra.validateJsonObject(jsonObject);
                         actualAdapter = adapterZebra;
                         match++;

@@ -110,7 +110,7 @@ public class Fruit extends AbstractOpenApiSchema {
 
                     // deserialize Apple
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Apple.validateJsonObject(jsonObject);
                         actualAdapter = adapterApple;
                         match++;
@@ -122,7 +122,7 @@ public class Fruit extends AbstractOpenApiSchema {
 
                     // deserialize Banana
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         Banana.validateJsonObject(jsonObject);
                         actualAdapter = adapterBanana;
                         match++;
