@@ -119,7 +119,7 @@ ext {
     jackson_databind_nullable_version = "0.2.2"
     jakarta_annotation_version = "1.3.5"
     reactor_version = "3.4.3"
-    reactor_netty_version = "0.7.15.RELEASE"
+    reactor_netty_version = "1.0.4"
     jodatime_version = "2.9.9"
     junit_version = "4.13.2"
 }
@@ -129,7 +129,7 @@ dependencies {
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "io.projectreactor:reactor-core:$reactor_version"
     implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_web_version"
-    implementation "io.projectreactor.ipc:reactor-netty:$reactor_netty_version"
+    implementation "io.projectreactor.netty:reactor-netty-http:$reactor_netty_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
