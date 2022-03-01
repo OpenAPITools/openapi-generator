@@ -11,7 +11,7 @@ import java.util.Collection;
 public abstract class OAuth implements RequestInterceptor {
 
   //https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.4
-  static final int LEEWAY_SENCONDS = 10;
+  static final int LEEWAY_SECONDS = 10;
 
   static final int MILLIS_PER_SECOND = 1000;
 
@@ -90,7 +90,7 @@ public abstract class OAuth implements RequestInterceptor {
    */
   public synchronized void setAccessToken(String accessToken, Integer expiresIn) {
     this.accessToken = accessToken;
-    this.expirationTimeSeconds = expiresIn == null ? null : System.currentTimeMillis() / MILLIS_PER_SECOND + expiresIn - LEEWAY_SENCONDS;
+    this.expirationTimeSeconds = expiresIn == null ? null : System.currentTimeMillis() / MILLIS_PER_SECOND + expiresIn - LEEWAY_SECONDS;
   }
 
 }
