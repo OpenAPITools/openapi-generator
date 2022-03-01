@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   private @Valid UUID uuid;
   private @Valid Date dateTime;
-  private @Valid Map<String, Animal> map = new HashMap<String, Animal>();
+  private @Valid Map<String, Animal> map = new HashMap<>();
 
   /**
    **/
@@ -93,7 +93,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
     if (this.map == null) {
-      this.map = new HashMap<String, Animal>();
+      this.map = new HashMap<>();
     }
 
     this.map.put(key, mapItem);

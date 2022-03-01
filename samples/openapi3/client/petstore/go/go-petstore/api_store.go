@@ -19,10 +19,6 @@ import (
 	"strings"
 )
 
-// Linger please
-var (
-	_ context.Context
-)
 
 type StoreApi interface {
 
@@ -31,9 +27,9 @@ type StoreApi interface {
 
 	For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param orderId ID of the order that needs to be deleted
-	 @return ApiDeleteOrderRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orderId ID of the order that needs to be deleted
+	@return ApiDeleteOrderRequest
 	*/
 	DeleteOrder(ctx context.Context, orderId string) ApiDeleteOrderRequest
 
@@ -45,8 +41,8 @@ type StoreApi interface {
 
 	Returns a map of status codes to quantities
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiGetInventoryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetInventoryRequest
 	*/
 	GetInventory(ctx context.Context) ApiGetInventoryRequest
 
@@ -59,9 +55,9 @@ type StoreApi interface {
 
 	For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param orderId ID of pet that needs to be fetched
-	 @return ApiGetOrderByIdRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param orderId ID of pet that needs to be fetched
+	@return ApiGetOrderByIdRequest
 	*/
 	GetOrderById(ctx context.Context, orderId int64) ApiGetOrderByIdRequest
 
@@ -72,8 +68,10 @@ type StoreApi interface {
 	/*
 	PlaceOrder Place an order for a pet
 
-	 @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiPlaceOrderRequest
+	
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPlaceOrderRequest
 	*/
 	PlaceOrder(ctx context.Context) ApiPlaceOrderRequest
 
@@ -90,7 +88,6 @@ type ApiDeleteOrderRequest struct {
 	ApiService StoreApi
 	orderId string
 }
-
 
 func (r ApiDeleteOrderRequest) Execute() (*http.Response, error) {
 	return r.ApiService.DeleteOrderExecute(r)
@@ -182,7 +179,6 @@ type ApiGetInventoryRequest struct {
 	ctx context.Context
 	ApiService StoreApi
 }
-
 
 func (r ApiGetInventoryRequest) Execute() (map[string]int32, *http.Response, error) {
 	return r.ApiService.GetInventoryExecute(r)
@@ -297,7 +293,6 @@ type ApiGetOrderByIdRequest struct {
 	ApiService StoreApi
 	orderId int64
 }
-
 
 func (r ApiGetOrderByIdRequest) Execute() (*Order, *http.Response, error) {
 	return r.ApiService.GetOrderByIdExecute(r)
@@ -420,6 +415,8 @@ func (r ApiPlaceOrderRequest) Execute() (*Order, *http.Response, error) {
 
 /*
 PlaceOrder Place an order for a pet
+
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiPlaceOrderRequest

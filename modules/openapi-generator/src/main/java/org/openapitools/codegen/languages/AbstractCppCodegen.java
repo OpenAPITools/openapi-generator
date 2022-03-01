@@ -418,13 +418,10 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 if( !childPropertyType.equals(childModel.classname) || childPropertyType.equals(parentModel.classname) || !childModel.hasVars ){
                     continue;
                 }
-                for(CodegenProperty p : childModel.vars) {
-                    if(((p.isModel && p.dataType.equals(parentModel.classname)) || (p.isContainer && p.mostInnerItems.baseType.equals(parentModel.classname)))) {
-                        String forwardDecl = "class " + childModel.classname + ";";
-                        if(!forwardDeclarations.contains(forwardDecl)) {
-                            forwardDeclarations.add(forwardDecl);
-                        }
-                    }
+
+                String forwardDecl = "class " + childPropertyType + ";";
+                if(!forwardDeclarations.contains(forwardDecl)) {
+                    forwardDeclarations.add(forwardDecl);
                 }
             }
         }

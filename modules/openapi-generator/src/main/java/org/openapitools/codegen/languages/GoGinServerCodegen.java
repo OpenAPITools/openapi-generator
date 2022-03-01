@@ -150,19 +150,19 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
          * are available in models, apis, and supporting files
          */
         if (additionalProperties.containsKey("apiVersion")) {
-            this.apiVersion = (String)additionalProperties.get("apiVersion");
+            this.apiVersion = (String) additionalProperties.get("apiVersion");
         } else {
             additionalProperties.put("apiVersion", apiVersion);
         }
 
         if (additionalProperties.containsKey("serverPort")) {
-            this.serverPort = Integer.parseInt((String)additionalProperties.get("serverPort"));
+            this.serverPort = Integer.parseInt((String) additionalProperties.get("serverPort"));
         } else {
             additionalProperties.put("serverPort", serverPort);
         }
 
         if (additionalProperties.containsKey("apiPath")) {
-            this.apiPath = (String)additionalProperties.get("apiPath");
+            this.apiPath = (String) additionalProperties.get("apiPath");
         } else {
             additionalProperties.put("apiPath", apiPath);
         }

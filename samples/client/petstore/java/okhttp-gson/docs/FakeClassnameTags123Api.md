@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="testClassname"></a>
 # **testClassname**
-> Client testClassname(body)
+> Client testClassname(client)
 
 To test class name in snake case
 
@@ -37,9 +37,9 @@ public class Example {
     //api_key_query.setApiKeyPrefix("Token");
 
     FakeClassnameTags123Api apiInstance = new FakeClassnameTags123Api(defaultClient);
-    Client body = new Client(); // Client | client model
+    Client client = new Client(); // Client | client model
     try {
-      Client result = apiInstance.testClassname(body);
+      Client result = apiInstance.testClassname(client);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling FakeClassnameTags123Api#testClassname");
@@ -56,7 +56,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model |
+ **client** | [**Client**](Client.md)| client model |
 
 ### Return type
 

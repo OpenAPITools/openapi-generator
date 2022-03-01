@@ -30,7 +30,7 @@ public class CodegenOperation {
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false,
-            hasErrorResponseObject; // if 4xx, 5xx repsonses have at least one error object defined
+            hasErrorResponseObject; // if 4xx, 5xx responses have at least one error object defined
     public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
     public CodegenDiscriminator discriminator;
@@ -239,17 +239,9 @@ public class CodegenOperation {
     /**
      * Check if body param is allowed for the request method
      *
-     * @return true request method is DELETE, PUT, PATCH or POST; false otherwise
-     */
-    public boolean isBodyAllowed() {
-        return Arrays.asList("DELETE","PUT", "PATCH", "POST").contains(httpMethod.toUpperCase(Locale.ROOT));
-    }
-    /**
-     * Check if the request method is PUT or PATCH or POST
-     *
      * @return true request method is PUT, PATCH or POST; false otherwise
      */
-    public boolean isMethodPutOrPatchOrPost() {
+    public boolean isBodyAllowed() {
         return Arrays.asList("PUT", "PATCH", "POST").contains(httpMethod.toUpperCase(Locale.ROOT));
     }
 

@@ -86,6 +86,8 @@ No authorization required
 
 Creates list of users with given input array
 
+
+
 ### Example
 
 ```java
@@ -148,6 +150,8 @@ No authorization required
 > createUsersWithListInput(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 
@@ -278,6 +282,8 @@ No authorization required
 
 Get user by user name
 
+
+
 ### Example
 
 ```java
@@ -343,6 +349,8 @@ No authorization required
 > String loginUser(username, password)
 
 Logs user into the system
+
+
 
 ### Example
 
@@ -410,6 +418,8 @@ No authorization required
 > logoutUser()
 
 Logs out current logged in user session
+
+
 
 ### Example
 

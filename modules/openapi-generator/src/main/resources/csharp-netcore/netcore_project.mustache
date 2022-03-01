@@ -19,10 +19,8 @@
     <RepositoryUrl>https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>{{#releaseNote}}
     <PackageReleaseNotes>{{.}}</PackageReleaseNotes>{{/releaseNote}}{{#packageTags}}
-    <PackageTags>{{{.}}}</PackageTags>{{/packageTags}}
-    {{#nullableReferenceTypes}}
-    <Nullable>annotations</Nullable>
-    {{/nullableReferenceTypes}}
+    <PackageTags>{{{.}}}</PackageTags>{{/packageTags}}{{#nrt}}
+    <Nullable>{{#useGenericHost}}enable{{/useGenericHost}}{{^useGenericHost}}annotations{{/useGenericHost}}</Nullable>{{/nrt}}
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,7 +40,7 @@
       {{/supportsRetry}}
       {{/useGenericHost}}
       {{#supportsRetry}}
-    <PackageReference Include="Polly" Version="7.2.2" />
+    <PackageReference Include="Polly" Version="7.2.3" />
       {{/supportsRetry}}
     {{#validatable}}
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />

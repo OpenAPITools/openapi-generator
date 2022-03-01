@@ -35,7 +35,7 @@ namespace {{packageName}}.Client
         /// <returns></returns>
         public HostConfiguration Add{{apiName}}HttpClients<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}>
         (
-            Action<HttpClient>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} client = null, Action<IHttpClientBuilder>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} builder = null){{#apis}}
+            Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null){{#apis}}
             where T{{classname}} : class, {{interfacePrefix}}{{classname}}{{/apis}}
         {
             if (client == null)
@@ -61,7 +61,7 @@ namespace {{packageName}}.Client
         /// <param name="builder"></param>
         /// <returns></returns>
         public HostConfiguration Add{{apiName}}HttpClients(
-            Action<HttpClient>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} client = null, Action<IHttpClientBuilder>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} builder = null)
+            Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null)
         {
             Add{{apiName}}HttpClients<{{#apiInfo}}{{#apis}}{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(client, builder);
 

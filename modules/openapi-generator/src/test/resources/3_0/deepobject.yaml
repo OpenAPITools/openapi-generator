@@ -34,3 +34,7 @@ components:
           type: string
           nullable: true
           format: date-time
+        c:
+          type: array
+          items:
+            type: string

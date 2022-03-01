@@ -238,7 +238,6 @@ public class Order  implements Serializable {
     return Objects.hash(id, petId, quantity, shipDate, status, complete);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -3419,6 +3419,7 @@ class FakeApi(object):
     ):
         """test inline additionalProperties  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -3502,6 +3503,7 @@ class FakeApi(object):
     ):
         """test json serialization of form data  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -3764,6 +3766,7 @@ class FakeApi(object):
     ):
         """uploads a file and downloads a file using application/octet-stream  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -3846,6 +3849,7 @@ class FakeApi(object):
     ):
         """uploads a file using multipart/form-data  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -3928,6 +3932,7 @@ class FakeApi(object):
     ):
         """uploads files using multipart/form-data  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 

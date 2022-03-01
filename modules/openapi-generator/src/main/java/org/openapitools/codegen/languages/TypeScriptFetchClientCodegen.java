@@ -85,9 +85,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         this.addExtraReservedWords();
 
-        typeMapping.put("date", "Date");
-        typeMapping.put("DateTime", "Date");
-
         supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
@@ -231,6 +228,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         if (!withoutRuntimeChecks) {
             this.modelTemplateFiles.put("models.mustache", ".ts");
+            typeMapping.put("date", "Date");
+            typeMapping.put("DateTime", "Date");
         }
 
         if (additionalProperties.containsKey(SAGAS_AND_RECORDS)) {

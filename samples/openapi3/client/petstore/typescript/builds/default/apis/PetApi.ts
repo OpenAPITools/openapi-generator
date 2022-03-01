@@ -19,6 +19,7 @@ import { Pet } from '../models/Pet';
 export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
+     * 
      * Add a new pet to the store
      * @param pet Pet object that needs to be added to the store
      */
@@ -68,6 +69,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * 
      * Deletes a pet
      * @param petId Pet id to delete
      * @param apiKey 
@@ -232,6 +234,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * 
      * Update an existing pet
      * @param pet Pet object that needs to be added to the store
      */
@@ -281,6 +284,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * 
      * Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
@@ -351,6 +355,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * 
      * uploads an image
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server

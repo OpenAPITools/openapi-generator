@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 {{/caseInsensitiveResponseHeaders}}
 
+import javax.ws.rs.core.GenericType;
+
 /**
  * <p>ApiException class.</p>
  */
@@ -18,6 +20,8 @@ public class ApiException extends{{#useRuntimeException}} RuntimeException {{/us
     private int code = 0;
     private Map<String, List<String>> responseHeaders = null;
     private String responseBody = null;
+    private {{{errorObjectType}}}{{^errorObjectType}}Object{{/errorObjectType}} errorObject = null;
+    private GenericType errorObjectType = null;
  
     /**
      * <p>Constructor for ApiException.</p>
@@ -155,5 +159,41 @@ public class ApiException extends{{#useRuntimeException}} RuntimeException {{/us
      */
     public String getResponseBody() {
         return responseBody;
+    }
+
+    /**
+     * Get the error object type.
+     *
+     * @return Error object type
+     */
+    public GenericType getErrorObjectType() {
+        return errorObjectType;
+    }
+
+    /**
+     * Set the error object type.
+     *
+     * @param errorObjectType object type
+     */
+    public void setErrorObjectType(GenericType errorObjectType) {
+        this.errorObjectType = errorObjectType;
+    }
+
+    /**
+     * Get the error object.
+     *
+     * @return Error object
+     */
+    public {{{errorObjectType}}}{{^errorObjectType}}Object{{/errorObjectType}} getErrorObject() {
+        return errorObject;
+    }
+
+    /**
+     * Get the error object.
+     *
+     * @param errorObject Error object
+     */
+    public void setErrorObject({{{errorObjectType}}}{{^errorObjectType}}Object{{/errorObjectType}} errorObject) {
+        this.errorObject = errorObject;
     }
 }

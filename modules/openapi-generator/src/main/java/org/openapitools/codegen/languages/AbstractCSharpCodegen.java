@@ -214,6 +214,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         valueTypes = new HashSet<>(
                 Arrays.asList("decimal", "bool", "int", "float", "long", "double")
         );
+
+        this.setSortParamsByRequiredFlag(true);
+
+        // do it only on newer libraries to avoid breaking changes
+        // this.setSortModelPropertiesByRequiredFlag(true);
     }
 
     public void setReturnICollection(boolean returnICollection) {
@@ -281,6 +286,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // {{sourceFolder}}
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
+            
+            // TODO: Move to its own option when a parameter for 'testFolder' is added.
+            setTestFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         } else {
             additionalProperties.put(CodegenConstants.SOURCE_FOLDER, this.sourceFolder);
         }
@@ -366,8 +374,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES)) {
             setNullableReferenceTypes(convertPropertyToBooleanAndWriteBack(CodegenConstants.NULLABLE_REFERENCE_TYPES));
-        } else {
-            additionalProperties.put(CodegenConstants.NULLABLE_REFERENCE_TYPES, nullReferenceTypesFlag);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
@@ -395,7 +401,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true));
+                .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
+                .put("required", new RequiredParameterLambda().generator(this))
+                .put("optional", new OptionalParameterLambda().generator(this));
     }
 
     @Override
@@ -1151,6 +1159,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
     }
+    
+    public void setTestFolder(String testFolder) {
+        this.testFolder = testFolder;
+    }
 
     public String getInterfacePrefix() {
         return interfacePrefix;
@@ -1158,9 +1170,20 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public void setNullableReferenceTypes(final Boolean nullReferenceTypesFlag){
         this.nullReferenceTypesFlag = nullReferenceTypesFlag;
-        if (nullReferenceTypesFlag == true){
-            this.nullableType.add("string");
+        additionalProperties.put("nullableReferenceTypes", nullReferenceTypesFlag);
+        additionalProperties.put("nrt", nullReferenceTypesFlag);
+
+        if (nullReferenceTypesFlag){
+            additionalProperties.put("nrt?", "?");
+            additionalProperties.put("nrt!", "!");
+        } else {
+            additionalProperties.remove("nrt?");
+            additionalProperties.remove("nrt!");
         }
+    }
+
+    public boolean getNullableReferencesTypes(){
+        return this.nullReferenceTypesFlag;
     }
 
     public void setInterfacePrefix(final String interfacePrefix) {

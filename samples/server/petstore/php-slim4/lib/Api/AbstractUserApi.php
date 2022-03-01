@@ -60,6 +60,7 @@ abstract class AbstractUserApi
     /**
      * POST createUsersWithArrayInput
      * Summary: Creates list of users with given input array
+     * Notes: 
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
@@ -79,6 +80,7 @@ abstract class AbstractUserApi
     /**
      * POST createUsersWithListInput
      * Summary: Creates list of users with given input array
+     * Notes: 
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
@@ -119,6 +121,7 @@ abstract class AbstractUserApi
     /**
      * GET getUserByName
      * Summary: Get user by user name
+     * Notes: 
      * Output-Formats: [application/xml, application/json]
      *
      * @param ServerRequestInterface $request  Request
@@ -140,6 +143,7 @@ abstract class AbstractUserApi
     /**
      * GET loginUser
      * Summary: Logs user into the system
+     * Notes: 
      * Output-Formats: [application/xml, application/json]
      *
      * @param ServerRequestInterface $request  Request
@@ -162,6 +166,7 @@ abstract class AbstractUserApi
     /**
      * GET logoutUser
      * Summary: Logs out current logged in user session
+     * Notes: 
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response

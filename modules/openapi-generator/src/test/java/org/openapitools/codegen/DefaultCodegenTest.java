@@ -236,6 +236,20 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testDateTimeFormParameterHasDefaultValue() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/thingy/{date}").getPost().getRequestBody());
+        CodegenParameter codegenParameter = codegen.fromFormProperty("visitDate", (Schema) requestBodySchema.getProperties().get("visitDate"),
+            new HashSet<>());
+
+        Assert.assertEquals(codegenParameter.defaultValue, "1971-12-19T03:39:57-08:00");
+        Assert.assertEquals(codegenParameter.getSchema(), null);
+    }
+
+    @Test
     public void testOriginalOpenApiDocumentVersion() {
         // Test with OAS 2.0 document.
         String location = "src/test/resources/2_0/python-client-experimental/petstore-with-fake-endpoints-models-for-testing.yaml";

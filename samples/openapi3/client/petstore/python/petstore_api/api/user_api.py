@@ -517,6 +517,7 @@ class UserApi(object):
     ):
         """Creates list of users with given input array  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -599,6 +600,7 @@ class UserApi(object):
     ):
         """Creates list of users with given input array  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -764,6 +766,7 @@ class UserApi(object):
     ):
         """Get user by user name  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -847,6 +850,7 @@ class UserApi(object):
     ):
         """Logs user into the system  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -931,6 +935,7 @@ class UserApi(object):
     ):
         """Logs out current logged in user session  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 

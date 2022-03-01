@@ -181,8 +181,11 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         sqlTypeMapping.put("kotlin.ByteArray", SqlType.Blob);
         sqlTypeMapping.put("kotlin.Array", SqlType.Blob);
         sqlTypeMapping.put("kotlin.collections.List", SqlType.Blob);
+        sqlTypeMapping.put("kotlin.collections.MutableList", SqlType.Blob);
         sqlTypeMapping.put("kotlin.collections.Set", SqlType.Blob);
+        sqlTypeMapping.put("kotlin.collections.MutableSet", SqlType.Blob);
         sqlTypeMapping.put("kotlin.collections.Map", SqlType.Blob);
+        sqlTypeMapping.put("kotlin.collections.MutableMap", SqlType.Blob);
         sqlTypeMapping.put("kotlin.Any", SqlType.Blob);
         sqlTypeMapping.put("java.io.File", SqlType.Blob);
         sqlTypeMapping.put("java.math.BigDecimal", SqlType.Decimal);
@@ -1225,5 +1228,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.KTORM; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.KTORM;
+    }
 }

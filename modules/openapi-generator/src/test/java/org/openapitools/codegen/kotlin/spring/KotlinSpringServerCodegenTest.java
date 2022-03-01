@@ -1,11 +1,17 @@
 package org.openapitools.codegen.kotlin.spring;
 
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
+
 import com.google.common.collect.testing.Helpers;
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
+
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
@@ -17,15 +23,11 @@ import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.List;
-
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.parser.core.models.ParseOptions;
 
 public class KotlinSpringServerCodegenTest {
 
@@ -236,7 +238,10 @@ public class KotlinSpringServerCodegenTest {
                 new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
                 new File(output, "src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
                 new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiController.kt"),
-                new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt")
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV3Api.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV3ApiController.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV3ApiDelegate.kt")
         );
 
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
@@ -253,9 +258,18 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
                 "exchange");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
-                "import kotlinx.coroutines.flow.Flow");
+                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
                 "suspend fun", "ApiUtil");
+
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3Api.kt"),
+                "import kotlinx.coroutines.flow.Flow", "requestBody: Flow<kotlin.Long>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3Api.kt"),
+                "exchange");
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3ApiDelegate.kt"),
+                "import kotlinx.coroutines.flow.Flow", "suspend fun", "requestBody: Flow<kotlin.Long>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3ApiDelegate.kt"),
+                "ApiUtil");
     }
 
     @Test
