@@ -21,7 +21,7 @@ jobs:
             flags: -am -pl modules/openapi-generator-cli
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v2
@@ -79,7 +79,7 @@ jobs:
 #             flags: --skip-docs
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Download build artifact
         uses: actions/download-artifact@v2.1.0
         with:
