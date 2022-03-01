@@ -99,7 +99,7 @@
             '{{name}}': ({{{dataType}}},),  # noqa: E501
 {{/requiredVars}}
 {{#optionalVars}}
-            '{{name}}': ({{{dataType}}},),  # noqa: E501 TODO: check if we have to add none_type
+            '{{name}}': ({{{dataType}}}, none_type),  # noqa: E501
 {{/optionalVars}}
         }
 

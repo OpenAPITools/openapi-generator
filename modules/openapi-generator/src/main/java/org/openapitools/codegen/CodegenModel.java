@@ -280,6 +280,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         if(this.dataType.startsWith("[") && this.dataType.endsWith("]")) {
             return "List" + this.dataType;
         }
+        if (this.dataType.contains(",")) {
+            return "Union[" + this.dataType + "]";
+        }
         return this.dataType;
     }
 
