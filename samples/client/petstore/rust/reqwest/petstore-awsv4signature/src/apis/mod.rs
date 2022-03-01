@@ -1,8 +1,6 @@
 use std::error;
 use std::fmt;
-{{#withAWSV4Signature}}
 use aws_sigv4;
-{{/withAWSV4Signature}}
 
 #[derive(Debug, Clone)]
 pub struct ResponseContent<T> {
@@ -17,9 +15,7 @@ pub enum Error<T> {
     Serde(serde_json::Error),
     Io(std::io::Error),
     ResponseError(ResponseContent<T>),
-    {{#withAWSV4Signature}}
     AWSV4SignatureError(aws_sigv4::http_request::Error),
-    {{/withAWSV4Signature}}
 }
 
 impl <T> fmt::Display for Error<T> {
@@ -29,9 +25,7 @@ impl <T> fmt::Display for Error<T> {
             Error::Serde(e) => ("serde", e.to_string()),
             Error::Io(e) => ("IO", e.to_string()),
             Error::ResponseError(e) => ("response", format!("status code {}", e.status)),
-	    {{#withAWSV4Signature}}
             Error::AWSV4SignatureError(e) => ("aws v4 signature", e.to_string()),
-	    {{/withAWSV4Signature}}
         };
         write!(f, "error in {}: {}", module, e)
     }
@@ -44,9 +38,7 @@ impl <T: fmt::Debug> error::Error for Error<T> {
             Error::Serde(e) => e,
             Error::Io(e) => e,
             Error::ResponseError(_) => return None,
-	    {{#withAWSV4Signature}}
 	    Error::AWSV4SignatureError(_) => return None,
-	    {{/withAWSV4Signature}}
         })
     }
 }
@@ -73,10 +65,8 @@ pub fn urlencode<T: AsRef<str>>(s: T) -> String {
     ::url::form_urlencoded::byte_serialize(s.as_ref().as_bytes()).collect()
 }
 
-{{#apiInfo}}
-{{#apis}}
-pub mod {{{classFilename}}};
-{{/apis}}
-{{/apiInfo}}
+pub mod pet_api;
+pub mod store_api;
+pub mod user_api;
 
 pub mod configuration;
