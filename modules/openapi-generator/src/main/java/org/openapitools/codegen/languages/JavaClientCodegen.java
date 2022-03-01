@@ -517,7 +517,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             } else {
                 pattern = "new ArrayList<%s>()";
             }
-            return String.format(pattern, getTypeDeclaration(as.getItems()));
+            return String.format(Locale.getDefault(), pattern, getTypeDeclaration(as.getItems()));
         } else if (ModelUtils.isMapSchema(s)) {
             MapSchema ms = (MapSchema) s;
             final String pattern;
@@ -526,7 +526,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             } else {
                 pattern = "new HashMap<String, %s>()";
             }
-            return String.format(pattern, getTypeDeclaration((Schema) ms.getAdditionalProperties()));
+            return String.format(Locale.getDefault(), pattern, getTypeDeclaration((Schema) ms.getAdditionalProperties()));
         } else if (ModelUtils.isIntegerSchema(s)) {
             IntegerSchema ds = (IntegerSchema) s;
             if (ds.getDefault() != null) {
@@ -898,7 +898,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // string
-        String var = value.replaceAll("\\W+", "_").replaceAll("_+", "_").toUpperCase();
+        String var = value.replaceAll("\\W+", "_").replaceAll("_+", "_").toUpperCase(Locale.getDefault());
         if (var.matches("\\d.*")) {
             return "_" + var;
         } else {

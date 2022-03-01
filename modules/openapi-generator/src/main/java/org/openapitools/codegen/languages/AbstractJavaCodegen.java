@@ -813,7 +813,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             String typeDeclaration = getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items));
 
-            return String.format(pattern, typeDeclaration);
+            return String.format(Locale.getDefault(), pattern, typeDeclaration);
         } else if (ModelUtils.isMapSchema(schema) && !(schema instanceof ComposedSchema)) {
             final String pattern;
             if (fullJavaUtil) {
@@ -822,7 +822,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 pattern = "new HashMap<String, %s>()";
             }
 
-            return String.format(pattern, getTypeDeclaration(getAdditionalProperties(schema)));
+            return String.format(Locale.getDefault(), pattern, getTypeDeclaration(getAdditionalProperties(schema)));
         } else if (ModelUtils.isIntegerSchema(schema)) {
             if (schema.getDefault() != null) {
                 return schema.getDefault().toString();
