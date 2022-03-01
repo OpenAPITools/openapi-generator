@@ -1,0 +1,182 @@
+package {{invokerPackage}};
+
+import java.util.EventListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.WatchService;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.ClosedWatchServiceException;
+import java.util.EventObject;
+import java.util.List;
+import java.util.Collections;
+import java.util.Arrays;
+import static java.nio.file.StandardWatchEventKinds.*;
+
+
+public class FileWatcher implements Runnable {
+    protected List<FileListener> listeners = new ArrayList<>();
+    protected static final List<WatchService> watchServices = new ArrayList<>();
+    protected final File parentFolder;
+    protected Path fileName;
+
+    public FileWatcher(File parentFolder, Path fileName) {
+        this.parentFolder = parentFolder;
+        this.fileName = fileName;
+    }
+
+    public void watch() {
+        if (parentFolder.exists()) {
+            Thread thread = new Thread(this);
+            thread.setDaemon(true);
+            thread.start();
+        }
+    }
+
+    @Override
+    public void run() {
+        try (WatchService watchService = FileSystems.getDefault().newWatchService()) {
+            Path path = Paths.get(parentFolder.getAbsolutePath());
+            path.register(watchService, ENTRY_CREATE, ENTRY_MODIFY);
+            watchServices.add(watchService);
+            boolean poll = true;
+            while (poll) {
+                poll = pollEvents(watchService);
+            }
+        } catch (IOException | InterruptedException | ClosedWatchServiceException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    protected boolean pollEvents(WatchService watchService) throws InterruptedException {
+        WatchKey key = watchService.take();
+        Path path = (Path) key.watchable();
+        for (WatchEvent<?> event : key.pollEvents()) {
+            final Path changed = (Path) event.context();
+            if (changed.endsWith(fileName) || fullPathEndsWith(changed, watchService)) {
+                notifyListeners(event.kind(), path.resolve(changed).toFile());
+            }
+        }
+        return key.reset();
+    }
+
+    // method for checking the changed path's ending when the config file's parent directory did not exist at init
+    protected boolean fullPathEndsWith(Path changed, WatchService watchService) {
+        boolean nullOrEmpty = changed == null
+                || changed.toString().isEmpty()
+                || fileName == null
+                || fileName.toString().isEmpty();
+        if (nullOrEmpty)
+            return false;
+        File parentDirectory = new File(parentFolder.getAbsolutePath());
+        StringBuilder filePath = new StringBuilder();
+        if (fileName.toString().indexOf('\\') != -1) {
+            filePath = new StringBuilder(fileName.toString().replace('\\', '/'));
+        } else {
+            filePath = new StringBuilder(fileName.toString());
+        }
+        if (filePath.charAt(0) == '/')
+            filePath = new StringBuilder(filePath.substring(1, filePath.length()));
+        String[] pathPoints = filePath.toString().split("/");
+        return searchFiles(parentDirectory, parentDirectory.listFiles(), pathPoints, watchService);
+    }
+
+    // recursively searches for the config file in subdirectories of the config file path
+    protected boolean searchFiles(File parent, File[] files, String[] pathPoints, WatchService watchService) {
+        if (files != null && files.length > 0) {
+            for (File file : files) {
+                if (file.getName().equals(pathPoints[0])) {
+                    if (file.isFile()
+                            && file.exists()
+                            && file.getAbsolutePath().endsWith(fileName.toString())) {
+                        return true;
+                    }
+                    Path path = Paths.get(file.getAbsolutePath());
+                    try {
+                        path.register(watchService, ENTRY_CREATE, ENTRY_MODIFY);
+                    } catch (IOException e) {
+                        // no-op
+                    }
+                    return searchFiles(file, file.listFiles(), Arrays.copyOfRange(pathPoints, 1, pathPoints.length), watchService);
+                }
+            }
+        }
+        return false;
+    }
+
+    protected void notifyListeners(WatchEvent.Kind<?> kind, File file) {
+        FileEvent event = new FileEvent(file);
+        if (kind == ENTRY_CREATE) {
+            List<FileListener> removeList = new ArrayList<>();
+            for (FileListener listener : listeners) {
+                boolean shouldRemove = listener.onCreated(event);
+                if (shouldRemove) {
+                    removeList.add(listener);
+                }
+            }
+            removeList.forEach(listener -> removeListener(listener));
+        }
+        else if (kind == ENTRY_MODIFY) {
+            List<FileListener> removeList = new ArrayList<>();
+            for (FileListener listener : listeners) {
+                boolean shouldRemove = listener.onModified(event);
+                if (shouldRemove) {
+                    removeList.add(listener);
+                }
+            }
+            removeList.forEach(listener -> removeListener(listener));
+        }
+    }
+
+    public FileWatcher addListener(FileListener listener) {
+        listeners.add(listener);
+        return this;
+    }
+
+    public FileWatcher removeListener(FileListener listener) {
+        listeners.remove(listener);
+        return this;
+    }
+
+    public List<FileListener> getListeners() {
+        return listeners;
+    }
+
+    public FileWatcher setListeners(List<FileListener> listeners) {
+        this.listeners = listeners;
+        return this;
+    }
+
+    public static List<WatchService> getWatchServices() {
+        return Collections.unmodifiableList(watchServices);
+    }
+
+    public static class FileEvent extends EventObject{
+        public FileEvent(File file) {
+            super(file);
+        }
+        public File getFile() {
+            return (File) getSource();
+        }
+    }
+
+    public interface FileListener extends EventListener {
+        public boolean onCreated(FileEvent event);
+        public boolean onModified(FileEvent event);
+    }
+
+    public static abstract class FileAdapter implements FileListener {
+        @Override
+        public boolean onCreated(FileEvent event) {
+            return false;
+        }
+        @Override
+        public boolean onModified(FileEvent event) {
+            return false;
+        }
+    }
+}

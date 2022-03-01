@@ -27,7 +27,7 @@ public class CodegenSecurity {
     public String name;
     public String type;
     public String scheme;
-    public Boolean isBasic, isOAuth, isApiKey;
+    public Boolean isBasic, isOAuth, isApiKey, hasMore;
     // is Basic is true for all http authentication type.
     // Those are to differentiate basic and bearer authentication
     // isHttpSignature is to support HTTP signature authorization scheme.
@@ -115,7 +115,8 @@ public class CodegenSecurity {
                 Objects.equals(isCode, that.isCode) &&
                 Objects.equals(isPassword, that.isPassword) &&
                 Objects.equals(isApplication, that.isApplication) &&
-                Objects.equals(isImplicit, that.isImplicit);
+                Objects.equals(isImplicit, that.isImplicit) &&
+                Objects.equals(hasMore, that.hasMore);
     }
 
     @Override
@@ -124,7 +125,7 @@ public class CodegenSecurity {
         return Objects.hash(name, type, scheme, isBasic, isOAuth, isApiKey,
                 isBasicBasic, isHttpSignature, isBasicBearer, bearerFormat, vendorExtensions,
                 keyParamName, isKeyInQuery, isKeyInHeader, isKeyInCookie, flow,
-                authorizationUrl, tokenUrl, refreshUrl, scopes, isCode, isPassword, isApplication, isImplicit);
+                authorizationUrl, tokenUrl, refreshUrl, scopes, isCode, isPassword, isApplication, isImplicit, hasMore);
     }
 
     @Override

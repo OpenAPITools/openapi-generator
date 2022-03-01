@@ -35,10 +35,6 @@ public class CollectionFormats {
 
     }
 
-    public static class SPACEParams extends SSVParams {
-
-    }
-
     public static class SSVParams extends CSVParams {
 
         public SSVParams() {

@@ -55,7 +55,7 @@ import java.util.Optional;
 {{#async}}
 import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture{{/jdk8}};
 {{/async}}
-{{>generatedAnnotation}}
+
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}

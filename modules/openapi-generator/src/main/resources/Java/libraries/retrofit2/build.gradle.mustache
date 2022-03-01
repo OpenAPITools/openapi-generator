@@ -6,12 +6,11 @@ version = '{{artifactVersion}}'
 
 buildscript {
     repositories {
-        maven { url "https://repo1.maven.org/maven2" }
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.+'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.android.tools.build:gradle:1.5.+'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
     }
 }
 
@@ -22,174 +21,101 @@ repositories {
 
 if(hasProperty('target') && target == 'android') {
 
-    apply plugin: 'com.android.library'
-    apply plugin: 'com.github.dcendents.android-maven'
+	apply plugin: 'com.android.library'
+	apply plugin: 'com.github.dcendents.android-maven'
 
-    android {
-        compileSdkVersion 25
-        buildToolsVersion '25.0.2'
-        defaultConfig {
-            minSdkVersion 14
-            targetSdkVersion 25
-        }
-        compileOptions {
-            {{#java8}}
-            sourceCompatibility JavaVersion.VERSION_1_8
-            targetCompatibility JavaVersion.VERSION_1_8
-            {{/java8}}
-            {{^java8}}
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
-            {{/java8}}
-        }
+	android {
+	    compileSdkVersion 23
+	    buildToolsVersion '23.0.2'
+	    defaultConfig {
+	        minSdkVersion 14
+	        targetSdkVersion 23
+	    }
+	    compileOptions {
+	        sourceCompatibility JavaVersion.VERSION_1_7
+	        targetCompatibility JavaVersion.VERSION_1_7
+	    }
 
-        // Rename the aar correctly
-        libraryVariants.all { variant ->
-            variant.outputs.each { output ->
-                def outputFile = output.outputFile
-                if (outputFile != null && outputFile.name.endsWith('.aar')) {
-                    def fileName = "${project.name}-${variant.baseName}-${version}.aar"
-                    output.outputFile = new File(outputFile.parent, fileName)
-                }
-            }
-        }
+	    // Rename the aar correctly
+	    libraryVariants.all { variant ->
+	        variant.outputs.each { output ->
+	            def outputFile = output.outputFile
+	            if (outputFile != null && outputFile.name.endsWith('.aar')) {
+	                def fileName = "${project.name}-${variant.baseName}-${version}.aar"
+	                output.outputFile = new File(outputFile.parent, fileName)
+	            }
+	        }
+	    }
 
-        dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
-        }
-    }
+      dependencies {
+          provided 'javax.annotation:jsr250-api:1.0'
+      }
+	}
 
-    afterEvaluate {
-        android.libraryVariants.all { variant ->
-            def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
-            task.description = "Create jar artifact for ${variant.name}"
-            task.dependsOn variant.javaCompile
-            task.from variant.javaCompile.destinationDir
-            task.destinationDir = project.file("${project.buildDir}/outputs/jar")
-            task.archiveName = "${project.name}-${variant.baseName}-${version}.jar"
-            artifacts.add('archives', task);
-        }
-    }
+	afterEvaluate {
+	    android.libraryVariants.all { variant ->
+	        def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
+	        task.description = "Create jar artifact for ${variant.name}"
+	        task.dependsOn variant.javaCompile
+	        task.from variant.javaCompile.destinationDir
+	        task.destinationDir = project.file("${project.buildDir}/outputs/jar")
+	        task.archiveName = "${project.name}-${variant.baseName}-${version}.jar"
+	        artifacts.add('archives', task);
+	    }
+	}
 
-    task sourcesJar(type: Jar) {
-        from android.sourceSets.main.java.srcDirs
-        classifier = 'sources'
-    }
+	task sourcesJar(type: Jar) {
+	    from android.sourceSets.main.java.srcDirs
+	    classifier = 'sources'
+	}
 
-    artifacts {
-        archives sourcesJar
-    }
+	artifacts {
+	    archives sourcesJar
+	}
 
 } else {
 
-    apply plugin: 'java'
-    apply plugin: 'maven'
+	apply plugin: 'java'
+	apply plugin: 'maven'
 
-    {{#java8}}
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-    {{/java8}}
-    {{^java8}}
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7
-    {{/java8}}
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = '{{artifactId}}'
-        }
-    }
+	install {
+	    repositories.mavenInstaller {
+	        pom.artifactId = '{{artifactId}}'
+	    }
+	}
 
-    task execute(type:JavaExec) {
-       main = System.getProperty('mainClass')
-       classpath = sourceSets.main.runtimeClasspath
-    }
+	task execute(type:JavaExec) {
+	   main = System.getProperty('mainClass')
+	   classpath = sourceSets.main.runtimeClasspath
+	}
 }
 
 ext {
     oltu_version = "1.0.1"
-    retrofit_version = "2.3.0"
-    {{#usePlayWS}}
-    jackson_version = "2.10.5"
-    jackson_databind_version = "2.10.5.1"
-    {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.1"
-    {{/openApiNullable}}
-    {{#play24}}
-    play_version = "2.4.11"
-    {{/play24}}
-    {{#play25}}
-    play_version = "2.5.14"
-    {{/play25}}
-    {{#play26}}
-    play_version = "2.6.7"
-    {{/play26}}
-    {{/usePlayWS}}
-    swagger_annotations_version = "1.5.22"
-    junit_version = "4.13.1"
-    {{#useRxJava}}
-    rx_java_version = "1.3.0"
-    {{/useRxJava}}
-    {{#useRxJava2}}
-    rx_java_version = "2.1.1"
-    {{/useRxJava2}}
-    {{#useRxJava3}}
-    rx_java_version = "3.0.4"
-    {{/useRxJava3}}
-    {{#joda}}
-    jodatime_version = "2.9.9"
-    {{/joda}}
-    {{#threetenbp}}
-    threetenbp_version = "1.4.0"
-    {{/threetenbp}}
-    json_fire_version = "1.8.0"
+    retrofit_version = "2.0.2"
+    swagger_annotations_version = "1.5.8"
+    junit_version = "4.12"
+{{#useRxJava}}
+    rx_java_version = "1.1.3"
+{{/useRxJava}}
+{{^useRxJava}}{{/useRxJava}}
 }
 
 dependencies {
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    {{#useRxJava}}
-    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
-    implementation "io.reactivex:rxjava:$rx_java_version"
-    {{/useRxJava}}
-    {{#useRxJava2}}
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
-    {{/useRxJava2}}
-    {{#useRxJava3}}
-    implementation 'com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0'
-    implementation "io.reactivex.rxjava3:rxjava:$rx_java_version"
-    {{/useRxJava3}}
-    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
-    implementation "com.google.code.findbugs:jsr305:3.0.2"
-    implementation ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"){
-        exclude group:'org.apache.oltu.oauth2' , module: 'org.apache.oltu.oauth2.common'
-    }
-    implementation "io.gsonfire:gson-fire:$json_fire_version"
-    {{#joda}}
-    implementation "joda-time:joda-time:$jodatime_version"
-    {{/joda}}
-    {{#threetenbp}}
-    implementation "org.threeten:threetenbp:$threetenbp_version"
-    {{/threetenbp}}
-    {{#usePlayWS}}
-    {{#play26}}
-    implementation "com.typesafe.play:play-ahc-ws_2.12:$play_version"
-    implementation "javax.validation:validation-api:1.1.0.Final"
-    {{/play26}}
-    {{^play26}}
-    implementation "com.typesafe.play:play-java-ws_2.11:$play_version"
-    {{/play26}}
-    implementation "com.squareup.retrofit2:converter-jackson:$retrofit_version"
-    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
-    {{#openApiNullable}}
-    implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
-    {{/openApiNullable}}
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}:$jackson_version"
-    {{/usePlayWS}}
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
-    testImplementation "junit:junit:$junit_version"
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+    compile "com.squareup.retrofit2:converter-scalars:$retrofit_version"
+    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+{{#useRxJava}}
+    compile "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
+    compile "io.reactivex:rxjava:$rx_java_version"
+{{/useRxJava}}
+{{^useRxJava}}{{/useRxJava}}
+
+    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
+
+    testCompile "junit:junit:$junit_version"
 }

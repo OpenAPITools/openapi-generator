@@ -18,6 +18,8 @@
 package org.openapitools.codegen;
 
 import com.google.common.collect.ImmutableList;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -66,6 +68,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.removeStart;
+import static org.openapitools.codegen.TemplateManager.getCPResourcePath;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 @SuppressWarnings("rawtypes")
@@ -377,6 +380,34 @@ public class DefaultGenerator implements Generator {
     }
 
     private void generateModel(List<File> files, Map<String, Object> models, String modelName) throws IOException {
+
+        for (String k : models.keySet()) {
+            Object o = models.get(k);
+            if (k.equals("models")) {
+                ArrayList<HashMap> l = (ArrayList<HashMap>) o;
+                HashMap hm = l.get(0);
+                CodegenModel cm = (CodegenModel) hm.get("model");
+                // Iterate through properties
+                if (cm.classname.equals("DependencyObject")) {
+                    for (CodegenProperty cp : cm.allVars) {
+                        // Enums with values only
+                        if (cp.isEnum && cp.allowableValues != null) {
+                            Object valuesObject = cp.allowableValues.get("values");
+                            if (valuesObject != null) {
+                                ArrayList valuesArray = (ArrayList) valuesObject;
+                                if (!(valuesArray.get(0) instanceof Integer)) {
+                                    // String enum type
+                                    Object enumVarsObject = cp.allowableValues.get("enumVars");
+                                    ArrayList enumVarsArray = (ArrayList) enumVarsObject;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         for (String templateName : config.modelTemplateFiles().keySet()) {
             String filename = config.modelFilename(templateName, modelName);
             File written = processTemplateToFile(models, templateName, filename, generateModels, CodegenConstants.MODELS);
@@ -468,10 +499,6 @@ public class DefaultGenerator implements Generator {
                     Schema refSchema = new Schema();
                     refSchema.set$ref("#/components/schemas/"+name);
                     Schema unaliasedSchema = config.unaliasSchema(refSchema, config.importMapping());
-                    if (unaliasedSchema.get$ref() == null) {
-                        LOGGER.info("Model {} not generated since it's a free-form object", name);
-                        continue;
-                    }
                 } else if (ModelUtils.isMapSchema(schema)) { // check to see if it's a "map" model
                     // A composed schema (allOf, oneOf, anyOf) is considered a Map schema if the additionalproperties attribute is set
                     // for that composed schema. However, in the case of a composed schema, the properties are defined or referenced
@@ -682,6 +709,66 @@ public class DefaultGenerator implements Generator {
 
     }
 
+    private void generateOperations(List<File> files, List<Object> allModels) {
+        Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
+        for (String tag : paths.keySet()) {
+            Map<String, Object> operation = processOperations(config, tag, paths.get(tag), allModels);
+            for (String templateName : config.operationTemplateFiles().keySet()) {
+                Map<String, Object> api = ((Map<String, Object>)operation.get("operations"));
+
+                for (CodegenOperation apiOperation : (List<CodegenOperation>)api.get("operation")) {
+                    // Initialize data object for template
+                    Map<String, Object> operationData = new HashMap<>();
+                    operationData.put("package", operation.get("package") + ".request");
+                    operationData.put("imports", operation.get("imports"));
+                    operationData.put("invokerPackage", operation.get("invokerPackage"));
+                    operationData.put("modelPackage", operation.get("modelPackage"));
+                    for (CodegenParameter param : apiOperation.allParams) {
+                        if (param.isBoolean && param.isEnum) {
+                            param.isEnum = false;
+                            param.allowableValuesForEnum = null;
+                            param.allowableValues = null;
+                        }
+                    }
+                    for (CodegenParameter param : apiOperation.optionalParams) {
+                        if (param.isBoolean && param.isEnum) {
+                            param.isEnum = false;
+                            param.allowableValuesForEnum = null;
+                            param.allowableValues = null;
+                        }
+                    }
+                    for (CodegenParameter param : apiOperation.queryParams) {
+                        if (param.isBoolean && param.isEnum) {
+                            param.isEnum = false;
+                            param.allowableValuesForEnum = null;
+                            param.allowableValues = null;
+                        }
+                    }
+                    operationData.put("operation", apiOperation);
+                    operationData.put("classname", config.toModelName(apiOperation.operationId + "Request"));
+                    operationData.putAll(config.additionalProperties());
+
+                    // Determine filename
+                    String filename = config.operationFilename(templateName, operationData.get("classname").toString());
+                    if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
+                        LOGGER.info("Skipped overwriting " + filename);
+                        continue;
+                    }
+
+                    // Write file
+                    try {
+                        File written = processTemplateToFile(operationData, templateName, filename, true, CodegenConstants.APIS);
+                        if(written != null) {
+                            files.add(written);
+                        }
+                    } catch (Exception e) {
+                        throw new RuntimeException("Could not generate operation file for '" + tag + "'", e);
+                    }
+                }
+            }
+        }
+    }
+
     private void generateSupportingFiles(List<File> files, Map<String, Object> bundle) {
         if (!generateSupportingFiles) {
             // TODO: process these anyway and report via dryRun?
@@ -872,14 +959,31 @@ public class DefaultGenerator implements Generator {
         // models
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<Object> allModels = new ArrayList<>();
-        generateModels(files, allModels, filteredSchemas);
+        Thread generateModelsThread = new Thread(() -> generateModels(files, allModels, filteredSchemas));
+        generateModelsThread.start();
+
         // apis
         List<Object> allOperations = new ArrayList<>();
-        generateApis(files, allOperations, allModels);
+        Thread generateApisThread = new Thread(() -> generateApis(files, allOperations, allModels));
+        generateApisThread.start();
+
+        // operations
+        Thread generateOperationsThread = new Thread(() -> generateOperations(files, allModels));
+        generateOperationsThread.start();
 
         // supporting files
         Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels);
-        generateSupportingFiles(files, bundle);
+        Thread generateSupportingFilesThread = new Thread(() -> generateSupportingFiles(files, bundle));
+        generateSupportingFilesThread.start();
+
+        try {
+            generateModelsThread.join();
+            generateApisThread.join();
+            generateOperationsThread.join();
+            generateSupportingFilesThread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Interrupted while joining generate threads");
+        }
 
         if(dryRun) {
             boolean verbose = Boolean.parseBoolean(GlobalSettings.getProperty("verbose"));

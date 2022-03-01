@@ -1,10 +1,6 @@
 package {{package}};
 
 import {{invokerPackage}}.ApiClient;
-import {{invokerPackage}}.EncodingUtils;
-{{#legacyDates}}
-import {{invokerPackage}}.ParamExpander;
-{{/legacyDates}}
 
 {{#imports}}import {{import}};
 {{/imports}}
@@ -17,89 +13,24 @@ import java.util.Map;
 {{/fullJavaUtil}}
 import feign.*;
 
-{{>generatedAnnotation}}
+
 public interface {{classname}} extends ApiClient.Api {
 
 {{#operations}}{{#operation}}
   /**
    * {{summary}}
    * {{notes}}
-{{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
-{{/allParams}}
-{{#returnType}}
-   * @return {{returnType}}
-{{/returnType}}
-{{#externalDocs}}
-  * {{description}}
-  * @see <a href="{{url}}">{{summary}} Documentation</a>
-{{/externalDocs}}
+{{#allParams}}   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+{{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
-  @RequestLine("{{httpMethod}} {{{path}}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
+  @RequestLine("{{httpMethod}} {{{path}}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{#hasMore}}&{{/hasMore}}{{/queryParams}}")
   @Headers({
-{{#vendorExtensions.x-contentType}}    "Content-Type: {{vendorExtensions.x-contentType}}",
-{{/vendorExtensions.x-contentType}}    "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
-    "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
-    {{/-last}}{{/headerParams}}
+    "Content-type: {{vendorExtensions.x-contentType}}",
+    "Accepts: {{vendorExtensions.x-accepts}}",{{#headerParams}}
+    "{{paramName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{#hasMore}},
+    {{/hasMore}}{{/headerParams}}
   })
-  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isBodyParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isBodyParam}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-    {{#hasQueryParams}}
-
-  /**
-   * {{summary}}
-   * {{notes}}
-   * Note, this is equivalent to the other <code>{{operationId}}</code> method,
-   * but with the query parameters collected into a single Map parameter. This
-   * is convenient for services with optional query parameters, especially when
-   * used with the {@link {{operationIdCamelCase}}QueryParams} class that allows for
-   * building up this map in a fluent style.
-      {{#allParams}}
-        {{^isQueryParam}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
-        {{/isQueryParam}}
-      {{/allParams}}
-   * @param queryParams Map of query parameters as name-value pairs
-   *   <p>The following elements may be specified in the query map:</p>
-   *   <ul>
-      {{#queryParams}}
-   *   <li>{{paramName}} - {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}</li>
-      {{/queryParams}}
-   *   </ul>
-      {{#returnType}}
-   * @return {{returnType}}
-      {{/returnType}}
-      {{#externalDocs}}
-   * {{description}}
-   * @see <a href="{{url}}">{{summary}} Documentation</a>
-      {{/externalDocs}}
-   */
-  @RequestLine("{{httpMethod}} {{{path}}}?{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
-  @Headers({
-{{#vendorExtensions.x-contentType}}  "Content-Type: {{vendorExtensions.x-contentType}}",
-{{/vendorExtensions.x-contentType}}  "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
-      "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
-      {{/-last}}{{/headerParams}}
-  })
-  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) Map<String, Object> queryParams);
-
-  /**
-   * A convenience class for generating query parameters for the
-   * <code>{{operationId}}</code> method in a fluent style.
-   */
-  public static class {{operationIdCamelCase}}QueryParams extends HashMap<String, Object> {
-      {{#queryParams}}
-    public {{operationIdCamelCase}}QueryParams {{paramName}}(final {{{dataType}}} value) {
-        {{#collectionFormat}}
-      put("{{baseName}}", EncodingUtils.encodeCollection(value, "{{collectionFormat}}"));
-        {{/collectionFormat}}
-        {{^collectionFormat}}
-      put("{{baseName}}", EncodingUtils.encode(value));
-        {{/collectionFormat}}
-      return this;
-    }
-      {{/queryParams}}
-  }
-    {{/hasQueryParams}}
+  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isBodyParam}}@Param("{{paramName}}") {{/isBodyParam}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
   {{/operation}}
 {{/operations}}
 }

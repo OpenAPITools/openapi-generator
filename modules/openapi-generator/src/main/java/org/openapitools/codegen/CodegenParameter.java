@@ -41,8 +41,10 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public boolean isEnum;
     private boolean additionalPropertiesIsAnyType;
     private boolean hasVars;
+    public boolean hasMore, secondaryParam;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
+    public Map<String, List<Tuple<String, String>>> allowableValuesForEnum;
     public CodegenProperty items;
     public CodegenProperty additionalProperties;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
@@ -108,6 +110,8 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     public CodegenParameter copy() {
         CodegenParameter output = new CodegenParameter();
+        output.hasMore = this.hasMore;
+        output.secondaryParam = this.secondaryParam;
         output.isFile = this.isFile;
         output.isContainer = this.isContainer;
         output.baseName = this.baseName;
@@ -211,7 +215,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, isContainer, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, isDeepObject, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isArray, isMap, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf, isNull, additionalPropertiesIsAnyType, hasVars, hasRequired, isShort, isUnboundedInteger);
+        return Objects.hash(secondaryParam, hasMore, isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, isContainer, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, isDeepObject, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isArray, isMap, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf, isNull, additionalPropertiesIsAnyType, hasVars, hasRequired, isShort, isUnboundedInteger);
     }
 
     @Override
@@ -258,6 +262,8 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isNullable == that.isNullable &&
                 required == that.required &&
                 isNull == that.isNull &&
+                hasMore == that.hasMore &&
+                secondaryParam == that.secondaryParam &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getHasVars() == that.getHasVars() &&
                 getHasRequired() == that.getHasRequired() &&
@@ -654,6 +660,15 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     @Override
     public void setHasRequired(boolean hasRequired) {
         this.hasRequired = hasRequired;
+    }
+
+    public static class Tuple<X, Y> {
+        public final X Item1;
+        public final Y Item2;
+        public Tuple(X item1, Y item2) {
+            this.Item1 = item1;
+            this.Item2 = item2;
+        }
     }
 }
 

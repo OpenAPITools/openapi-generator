@@ -18,7 +18,7 @@ import javax.ws.rs.core.SecurityContext;
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
-{{>generatedAnnotation}}
+
 {{#operations}}
 public abstract class {{classname}}Service {
     {{#operation}}

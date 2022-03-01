@@ -1,9 +1,7 @@
-{{>licenseInfo}}
-
 package {{invokerPackage}};
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.RequestBody;
 
 import java.io.IOException;
 
@@ -15,13 +13,19 @@ import okio.Sink;
 
 public class ProgressRequestBody extends RequestBody {
 
+    public interface ProgressRequestListener {
+        void onRequestProgress(long bytesWritten, long contentLength, boolean done);
+    }
+
     private final RequestBody requestBody;
+ 
+    private final ProgressRequestListener progressListener;
+  
+    private BufferedSink bufferedSink;
 
-    private final ApiCallback callback;
-
-    public ProgressRequestBody(RequestBody requestBody, ApiCallback callback) {
+    public ProgressRequestBody(RequestBody requestBody, ProgressRequestListener progressListener) {
         this.requestBody = requestBody;
-        this.callback = callback;
+        this.progressListener = progressListener;
     }
 
     @Override
@@ -36,14 +40,18 @@ public class ProgressRequestBody extends RequestBody {
 
     @Override
     public void writeTo(BufferedSink sink) throws IOException {
-        BufferedSink bufferedSink = Okio.buffer(sink(sink));
+        if (bufferedSink == null) {
+            bufferedSink = Okio.buffer(sink(sink));
+        }
+  
         requestBody.writeTo(bufferedSink);
         bufferedSink.flush();
+
     }
 
     private Sink sink(Sink sink) {
         return new ForwardingSink(sink) {
-
+       
             long bytesWritten = 0L;
             long contentLength = 0L;
 
@@ -55,7 +63,7 @@ public class ProgressRequestBody extends RequestBody {
                 }
 
                 bytesWritten += byteCount;
-                callback.onUploadProgress(bytesWritten, contentLength, bytesWritten == contentLength);
+                progressListener.onRequestProgress(bytesWritten, contentLength, bytesWritten == contentLength);
             }
         };
     }

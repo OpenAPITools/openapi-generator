@@ -293,27 +293,6 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.3</version>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <encoding>UTF-8</encoding>
-                    <maxmemory>1g</maxmemory>
-                    <failOnWarnings>true</failOnWarnings>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -1509,9 +1488,6 @@
                 <module>modules/openapi-generator-core</module>
                 <module>modules/openapi-generator</module>
                 <module>modules/openapi-generator-cli</module>
-                <module>modules/openapi-generator-maven-plugin</module>
-                <module>modules/openapi-generator-gradle-plugin</module>
-                <module>modules/openapi-generator-online</module>
             </modules>
         </profile>
     </profiles>

@@ -1,0 +1,45 @@
+package {{package}};
+
+import {{invokerPackage}}.ApiException;
+import {{invokerPackage}}.ApiClient;
+import {{invokerPackage}}.ApiResponse;
+import {{invokerPackage}}.Configuration;
+import {{modelPackage}}.*;
+import {{invokerPackage}}.Pair;
+
+{{#operation}}
+public class {{classname}} {
+	{{#allParams}}
+	private {{{dataType}}} {{paramName}};
+	public {{{dataType}}} get{{paramName}}() {
+		return this.{{paramName}};
+	}
+	public void set{{paramName}}({{{dataType}}} {{paramName}}) {
+		this.{{paramName}} = {{paramName}};
+	}
+	{{/allParams}}
+
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	public static class Builder {
+		private final {{classname}} request;
+
+		private Builder() {
+			request = new {{classname}} ();
+		}
+
+		{{#allParams}}
+		public Builder with{{paramName}}({{{dataType}}} {{paramName}}) {
+			request.set{{paramName}}({{paramName}});
+			 return this;
+		}
+		{{/allParams}}
+
+		public {{classname}} build() {
+			return request;
+		}
+	}
+}
+{{/operation}}

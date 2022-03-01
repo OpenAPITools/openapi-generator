@@ -43,8 +43,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -140,6 +138,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         supportsInheritance = true;
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
+        operationTemplateFiles.put("requestBuilder.mustache", ".java");
         apiTestTemplateFiles.put("api_test.mustache", ".java");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -524,11 +523,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
         importMapping.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
         importMapping.put("JsonInclude", "com.fasterxml.jackson.annotation.JsonInclude");
-        importMapping.put("SerializedName", "com.google.gson.annotations.SerializedName");
-        importMapping.put("TypeAdapter", "com.google.gson.TypeAdapter");
-        importMapping.put("JsonAdapter", "com.google.gson.annotations.JsonAdapter");
-        importMapping.put("JsonReader", "com.google.gson.stream.JsonReader");
-        importMapping.put("JsonWriter", "com.google.gson.stream.JsonWriter");
         importMapping.put("IOException", "java.io.IOException");
         importMapping.put("Arrays", "java.util.Arrays");
         importMapping.put("Objects", "java.util.Objects");
@@ -554,17 +548,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
-            setDateLibrary(additionalProperties.get("dateLibrary").toString());
+            setDateLibrary("java8");
         }
 
-        if ("threetenbp".equals(dateLibrary)) {
-            additionalProperties.put("threetenbp", "true");
-            additionalProperties.put("jsr310", "true");
-            typeMapping.put("date", "LocalDate");
-            typeMapping.put("DateTime", "OffsetDateTime");
-            importMapping.put("LocalDate", "org.threeten.bp.LocalDate");
-            importMapping.put("OffsetDateTime", "org.threeten.bp.OffsetDateTime");
-        } else if ("joda".equals(dateLibrary)) {
+       if ("joda".equals(dateLibrary)) {
             additionalProperties.put("joda", "true");
             typeMapping.put("date", "LocalDate");
             typeMapping.put("DateTime", "DateTime");
@@ -585,28 +572,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else if (dateLibrary.equals("legacy")) {
             additionalProperties.put("legacyDates", "true");
         }
-    }
-
-    @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        objs = super.postProcessAllModels(objs);
-        objs = super.updateAllModels(objs);
-
-        if (!additionalModelTypeAnnotations.isEmpty()) {
-            for (String modelName : objs.keySet()) {
-                Map<String, Object> models = (Map<String, Object>) objs.get(modelName);
-                models.put(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, additionalModelTypeAnnotations);
-            }
-        }
-
-        if (!additionalEnumTypeAnnotations.isEmpty()) {
-            for (String modelName : objs.keySet()) {
-                Map<String, Object> models = (Map<String, Object>) objs.get(modelName);
-                models.put(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, additionalEnumTypeAnnotations);
-            }
-        }
-
-        return objs;
     }
 
     private void sanitizeConfig() {
@@ -786,14 +751,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
             final String modelName = "Model" + camelizedName;
-            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         // model name starts with number
         if (camelizedName.matches("^\\d.*")) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
@@ -840,61 +803,31 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isArraySchema(schema)) {
             final String pattern;
-            if (ModelUtils.isSet(schema)) {
-                String mapInstantiationType = instantiationTypes().getOrDefault("set", "LinkedHashSet");
-                pattern = "new " + mapInstantiationType + "<%s>()";
+            if (fullJavaUtil) {
+                pattern = "new java.util.ArrayList<%s>()";
             } else {
-                String arrInstantiationType = instantiationTypes().getOrDefault("array", "ArrayList");
-                pattern = "new " + arrInstantiationType + "<%s>()";
+                pattern = "new ArrayList<%s>()";
             }
 
             Schema<?> items = getSchemaItems((ArraySchema) schema);
 
             String typeDeclaration = getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items));
-            Object java8obj = additionalProperties.get("java8");
-            if (java8obj != null) {
-                Boolean java8 = Boolean.valueOf(java8obj.toString());
-                if (java8 != null && java8) {
-                    typeDeclaration = "";
-                }
-            }
 
-            return String.format(Locale.ROOT, pattern, typeDeclaration);
+            return String.format(Locale.getDefault(), pattern, typeDeclaration);
         } else if (ModelUtils.isMapSchema(schema) && !(schema instanceof ComposedSchema)) {
-            if (schema.getProperties() != null && schema.getProperties().size() > 0) {
-                // object is complex object with free-form additional properties
-                if (schema.getDefault() != null) {
-                    return super.toDefaultValue(schema);
-                }
-                return null;
+            final String pattern;
+            if (fullJavaUtil) {
+                pattern = "new java.util.HashMap<String, %s>()";
+            } else {
+                pattern = "new HashMap<String, %s>()";
             }
 
-            String mapInstantiationType = instantiationTypes().getOrDefault("map", "HashMap");
-            final String pattern = "new " + mapInstantiationType + "<%s>()";
-
-            if (getAdditionalProperties(schema) == null) {
-                return null;
-            }
-
-            String typeDeclaration = String.format(Locale.ROOT, "String, %s", getTypeDeclaration(getAdditionalProperties(schema)));
-            Object java8obj = additionalProperties.get("java8");
-            if (java8obj != null) {
-                Boolean java8 = Boolean.valueOf(java8obj.toString());
-                if (java8 != null && java8) {
-                    typeDeclaration = "";
-                }
-            }
-
-            return String.format(Locale.ROOT, pattern, typeDeclaration);
+            return String.format(Locale.getDefault(), pattern, getTypeDeclaration(getAdditionalProperties(schema)));
         } else if (ModelUtils.isIntegerSchema(schema)) {
             if (schema.getDefault() != null) {
-                if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
-                    return schema.getDefault().toString() + "l";
-                } else {
-                    return schema.getDefault().toString();
-                }
+                return schema.getDefault().toString();
             }
-            return null;
+            return "null";
         } else if (ModelUtils.isNumberSchema(schema)) {
             if (schema.getDefault() != null) {
                 if (SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) {
@@ -902,33 +835,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 } else if (SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat())) {
                     return schema.getDefault().toString() + "d";
                 } else {
-                    return "new BigDecimal(\"" + schema.getDefault().toString() + "\")";
+                    return schema.getDefault().toString() + "l";
                 }
             }
-            return null;
+            return "null";
         } else if (ModelUtils.isBooleanSchema(schema)) {
             if (schema.getDefault() != null) {
                 return schema.getDefault().toString();
             }
-            return null;
-        } else if (ModelUtils.isURISchema(schema)) {
-            if (schema.getDefault() != null) {
-                return "URI.create(\"" + escapeText((String) schema.getDefault()) + "\")";
-            }
-            return null;
+            return "null";
         } else if (ModelUtils.isStringSchema(schema)) {
             if (schema.getDefault() != null) {
-                String _default;
-                if (schema.getDefault() instanceof Date) {
-                    Date date = (Date) schema.getDefault();
-                    LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    return String.format(Locale.ROOT, localDate.toString(), "");
-                } else if (schema.getDefault() instanceof java.time.OffsetDateTime) {
-                    return "OffsetDateTime.parse(\"" +  String.format(Locale.ROOT, ((java.time.OffsetDateTime) schema.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))";
-                } else {
-                    _default = (String) schema.getDefault();
-                }
-
+                String _default = schema.getDefault().toString();
                 if (schema.getEnum() == null) {
                     return "\"" + escapeText(_default) + "\"";
                 } else {
@@ -936,17 +854,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     return _default;
                 }
             }
-            return null;
-        } else if (ModelUtils.isObjectSchema(schema)) {
-            if (schema.getDefault() != null) {
-                return super.toDefaultValue(schema);
-            }
-            return null;
-        } else if (ModelUtils.isComposedSchema(schema)) {
-            if (schema.getDefault() != null) {
-                return super.toDefaultValue(schema);
-            }
-            return null;
+            return "null";
         }
 
         return super.toDefaultValue(schema);

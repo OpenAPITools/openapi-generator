@@ -25,8 +25,7 @@ public class {{classname}}Test {
         api = new ApiClient().createService({{classname}}.class);
     }
 
-    {{#operations}}
-    {{#operation}}
+    {{#operations}}{{#operation}}
     /**
      * {{summary}}
      *
@@ -37,10 +36,9 @@ public class {{classname}}Test {
         {{#allParams}}
         {{{dataType}}} {{paramName}} = null;
         {{/allParams}}
-        // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 
         // TODO: test validations
     }
-    {{/operation}}
-    {{/operations}}
+    {{/operation}}{{/operations}}
 }
