@@ -4005,7 +4005,7 @@ public class DefaultCodegen implements CodegenConfig {
                     List<CodegenParameter> responseHeaders = new ArrayList<>();
                     for (Entry<String, Header> entry : headers.entrySet()) {
                         String headerName = entry.getKey();
-                        Header header = entry.getValue();
+                        Header header = ModelUtils.getReferencedHeader(this.openAPI, entry.getValue());
                         CodegenParameter responseHeader = headerToCodegenParameter(header, headerName, imports, String.format(Locale.ROOT, "%sResponseParameter", r.code));
                         responseHeaders.add(responseHeader);
                     }
