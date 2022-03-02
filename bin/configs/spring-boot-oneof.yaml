@@ -1,6 +1,6 @@
 generatorName: spring
 outputDir: samples/openapi3/server/petstore/spring-boot-oneof
-inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_5381_cs.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
   groupId: org.openapitools.openapi3

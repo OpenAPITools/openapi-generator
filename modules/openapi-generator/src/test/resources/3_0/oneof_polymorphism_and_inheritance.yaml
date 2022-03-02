@@ -8,6 +8,7 @@ servers:
   - url: "http://localhost:8080"
 tags:
   - name: Foo
+  - name: Bar
 paths:
   /foo:
     get:
@@ -28,6 +29,25 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/201Foo'
+  /bar:
+    post:
+      tags:
+        - Bar
+      summary: Create a Bar
+      operationId: createBar
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Bar'
+      responses:
+        200:
+          description: Bar created
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Bar'
 
 components:
   schemas:
@@ -110,17 +130,10 @@ components:
           type: string
         fooPropB:
           type: string
+        foo:
+          $ref: '#/components/schemas/FooRefOrValue'
       allOf:
         - $ref: '#/components/schemas/Entity'
-    BarRef:
-      type: object
-      discriminator:
-        propertyName: '@type'
-      properties:
-        barRefPropA:
-          type: string
-      allOf:
-        - $ref: '#/components/schemas/EntityRef'
 
   requestBodies:
     Foo:
