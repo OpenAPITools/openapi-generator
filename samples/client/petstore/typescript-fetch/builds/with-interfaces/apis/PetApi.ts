@@ -119,6 +119,7 @@ export interface PetApiInterface {
      * @summary Finds Pets by tags
      * @param {Array<string>} tags Tags to filter by
      * @param {*} [options] Override http request option.
+     * @deprecated
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */

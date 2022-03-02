@@ -25,31 +25,31 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   private @Valid BigDecimal attributeNumber;
   private @Valid Integer attributeInteger;
   private @Valid Boolean attributeBoolean;
-  private @Valid List<Integer> wrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> wrappedArray = new ArrayList<>();
   private @Valid String nameString;
   private @Valid BigDecimal nameNumber;
   private @Valid Integer nameInteger;
   private @Valid Boolean nameBoolean;
-  private @Valid List<Integer> nameArray = new ArrayList<Integer>();
-  private @Valid List<Integer> nameWrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> nameArray = new ArrayList<>();
+  private @Valid List<Integer> nameWrappedArray = new ArrayList<>();
   private @Valid String prefixString;
   private @Valid BigDecimal prefixNumber;
   private @Valid Integer prefixInteger;
   private @Valid Boolean prefixBoolean;
-  private @Valid List<Integer> prefixArray = new ArrayList<Integer>();
-  private @Valid List<Integer> prefixWrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> prefixArray = new ArrayList<>();
+  private @Valid List<Integer> prefixWrappedArray = new ArrayList<>();
   private @Valid String namespaceString;
   private @Valid BigDecimal namespaceNumber;
   private @Valid Integer namespaceInteger;
   private @Valid Boolean namespaceBoolean;
-  private @Valid List<Integer> namespaceArray = new ArrayList<Integer>();
-  private @Valid List<Integer> namespaceWrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> namespaceArray = new ArrayList<>();
+  private @Valid List<Integer> namespaceWrappedArray = new ArrayList<>();
   private @Valid String prefixNsString;
   private @Valid BigDecimal prefixNsNumber;
   private @Valid Integer prefixNsInteger;
   private @Valid Boolean prefixNsBoolean;
-  private @Valid List<Integer> prefixNsArray = new ArrayList<Integer>();
-  private @Valid List<Integer> prefixNsWrappedArray = new ArrayList<Integer>();
+  private @Valid List<Integer> prefixNsArray = new ArrayList<>();
+  private @Valid List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   /**
    **/
@@ -158,7 +158,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addWrappedArrayItem(Integer wrappedArrayItem) {
     if (this.wrappedArray == null) {
-      this.wrappedArray = new ArrayList<Integer>();
+      this.wrappedArray = new ArrayList<>();
     }
 
     this.wrappedArray.add(wrappedArrayItem);
@@ -279,7 +279,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addNameArrayItem(Integer nameArrayItem) {
     if (this.nameArray == null) {
-      this.nameArray = new ArrayList<Integer>();
+      this.nameArray = new ArrayList<>();
     }
 
     this.nameArray.add(nameArrayItem);
@@ -316,7 +316,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addNameWrappedArrayItem(Integer nameWrappedArrayItem) {
     if (this.nameWrappedArray == null) {
-      this.nameWrappedArray = new ArrayList<Integer>();
+      this.nameWrappedArray = new ArrayList<>();
     }
 
     this.nameWrappedArray.add(nameWrappedArrayItem);
@@ -437,7 +437,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addPrefixArrayItem(Integer prefixArrayItem) {
     if (this.prefixArray == null) {
-      this.prefixArray = new ArrayList<Integer>();
+      this.prefixArray = new ArrayList<>();
     }
 
     this.prefixArray.add(prefixArrayItem);
@@ -474,7 +474,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addPrefixWrappedArrayItem(Integer prefixWrappedArrayItem) {
     if (this.prefixWrappedArray == null) {
-      this.prefixWrappedArray = new ArrayList<Integer>();
+      this.prefixWrappedArray = new ArrayList<>();
     }
 
     this.prefixWrappedArray.add(prefixWrappedArrayItem);
@@ -595,7 +595,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addNamespaceArrayItem(Integer namespaceArrayItem) {
     if (this.namespaceArray == null) {
-      this.namespaceArray = new ArrayList<Integer>();
+      this.namespaceArray = new ArrayList<>();
     }
 
     this.namespaceArray.add(namespaceArrayItem);
@@ -632,7 +632,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addNamespaceWrappedArrayItem(Integer namespaceWrappedArrayItem) {
     if (this.namespaceWrappedArray == null) {
-      this.namespaceWrappedArray = new ArrayList<Integer>();
+      this.namespaceWrappedArray = new ArrayList<>();
     }
 
     this.namespaceWrappedArray.add(namespaceWrappedArrayItem);
@@ -753,7 +753,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addPrefixNsArrayItem(Integer prefixNsArrayItem) {
     if (this.prefixNsArray == null) {
-      this.prefixNsArray = new ArrayList<Integer>();
+      this.prefixNsArray = new ArrayList<>();
     }
 
     this.prefixNsArray.add(prefixNsArrayItem);
@@ -790,7 +790,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public XmlItem addPrefixNsWrappedArrayItem(Integer prefixNsWrappedArrayItem) {
     if (this.prefixNsWrappedArray == null) {
-      this.prefixNsWrappedArray = new ArrayList<Integer>();
+      this.prefixNsWrappedArray = new ArrayList<>();
     }
 
     this.prefixNsWrappedArray.add(prefixNsWrappedArrayItem);

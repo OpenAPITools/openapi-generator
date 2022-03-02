@@ -408,7 +408,15 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         } else if (ModelUtils.isNumberSchema(p)) {
             if (ModelUtils.isFloatSchema(p)) { // float
                 if (p.getDefault() != null) {
-                    return p.getDefault().toString() + "f";
+                    // We have to ensure that our default value has a decimal point,
+                    // because in C++ the 'f' suffix is not valid on integer literals
+                    // i.e. 374.0f is a valid float but 374 isn't.
+                    String defaultStr = p.getDefault().toString();
+                    if (defaultStr.indexOf('.') < 0) {
+                        return defaultStr + ".0f";
+                    } else {
+                        return defaultStr + "f";
+                    }
                 } else {
                     return "0.0f";
                 }

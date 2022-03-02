@@ -107,7 +107,6 @@ public class Animal  implements Serializable {
     return Objects.hash(className, color);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

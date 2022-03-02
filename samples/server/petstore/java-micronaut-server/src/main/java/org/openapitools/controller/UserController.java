@@ -59,12 +59,14 @@ public class UserController {
 
     /**
      * Creates list of users with given input array
+     * 
      *
      * @param user List of user object (required)
      */
     @ApiOperation(
         value = "Creates list of users with given input array",
         nickname = "createUsersWithArrayInput",
+        notes = "",
         authorizations = {
             @Authorization(value = "api_key")
         },
@@ -84,12 +86,14 @@ public class UserController {
 
     /**
      * Creates list of users with given input array
+     * 
      *
      * @param user List of user object (required)
      */
     @ApiOperation(
         value = "Creates list of users with given input array",
         nickname = "createUsersWithListInput",
+        notes = "",
         authorizations = {
             @Authorization(value = "api_key")
         },
@@ -136,6 +140,7 @@ public class UserController {
 
     /**
      * Get user by user name
+     * 
      *
      * @param username The name that needs to be fetched. Use user1 for testing. (required)
      * @return User
@@ -143,6 +148,7 @@ public class UserController {
     @ApiOperation(
         value = "Get user by user name",
         nickname = "getUserByName",
+        notes = "",
         response = User.class,
         authorizations = {},
         tags={})
@@ -162,6 +168,7 @@ public class UserController {
 
     /**
      * Logs user into the system
+     * 
      *
      * @param username The user name for login (required)
      * @param password The password for login in clear text (required)
@@ -170,6 +177,7 @@ public class UserController {
     @ApiOperation(
         value = "Logs user into the system",
         nickname = "loginUser",
+        notes = "",
         response = String.class,
         authorizations = {},
         tags={})
@@ -189,11 +197,13 @@ public class UserController {
 
     /**
      * Logs out current logged in user session
+     * 
      *
      */
     @ApiOperation(
         value = "Logs out current logged in user session",
         nickname = "logoutUser",
+        notes = "",
         authorizations = {
             @Authorization(value = "api_key")
         },

@@ -24,6 +24,7 @@ from petstore_api.api.fake_api_endpoints.enum_parameters import EnumParameters
 from petstore_api.api.fake_api_endpoints.fake_health_get import FakeHealthGet
 from petstore_api.api.fake_api_endpoints.group_parameters import GroupParameters
 from petstore_api.api.fake_api_endpoints.inline_additional_properties import InlineAdditionalProperties
+from petstore_api.api.fake_api_endpoints.inline_composition import InlineComposition
 from petstore_api.api.fake_api_endpoints.json_form_data import JsonFormData
 from petstore_api.api.fake_api_endpoints.mammal import Mammal
 from petstore_api.api.fake_api_endpoints.number_with_validations import NumberWithValidations
@@ -52,6 +53,7 @@ class FakeApi(
     FakeHealthGet,
     GroupParameters,
     InlineAdditionalProperties,
+    InlineComposition,
     JsonFormData,
     Mammal,
     NumberWithValidations,

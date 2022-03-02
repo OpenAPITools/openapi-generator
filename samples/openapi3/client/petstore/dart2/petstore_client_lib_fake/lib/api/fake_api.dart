@@ -998,6 +998,8 @@ class FakeApi {
 
   /// test inline additionalProperties
   ///
+  /// 
+  ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
@@ -1033,6 +1035,8 @@ class FakeApi {
 
   /// test inline additionalProperties
   ///
+  /// 
+  ///
   /// Parameters:
   ///
   /// * [Map<String, String>] requestBody (required):
@@ -1045,6 +1049,8 @@ class FakeApi {
   }
 
   /// test json serialization of form data
+  ///
+  /// 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -1089,6 +1095,8 @@ class FakeApi {
   }
 
   /// test json serialization of form data
+  ///
+  /// 
   ///
   /// Parameters:
   ///

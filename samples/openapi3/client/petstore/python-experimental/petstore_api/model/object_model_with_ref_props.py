@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,6 +47,10 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
     DateBase,
     DateTimeBase,
@@ -84,7 +88,7 @@ class ObjectModelWithRefProps(
         myNumber: typing.Union['NumberWithValidations', Unset] = unset,
         myString: typing.Union[myString, Unset] = unset,
         myBoolean: typing.Union[myBoolean, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'ObjectModelWithRefProps':
         return super().__new__(
@@ -93,7 +97,7 @@ class ObjectModelWithRefProps(
             myNumber=myNumber,
             myString=myString,
             myBoolean=myBoolean,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )
 

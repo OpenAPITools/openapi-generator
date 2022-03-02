@@ -50,7 +50,9 @@ public interface FakeClassnameTestApi {
         summary = "To test class name in snake case",
         tags = { "fake_classname_tags 123#$%^" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Client.class)))
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Client.class))
+            })
         },
         security = {
             @SecurityRequirement(name = "api_key_query")
@@ -63,7 +65,7 @@ public interface FakeClassnameTestApi {
         consumes = { "application/json" }
     )
     default Mono<ResponseEntity<Client>> testClassname(
-        @Parameter(name = "body", description = "client model", required = true, schema = @Schema(description = "")) @Valid @RequestBody Mono<Client> body,
+        @Parameter(name = "body", description = "client model", required = true) @Valid @RequestBody Mono<Client> body,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().testClassname(body, exchange);

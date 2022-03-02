@@ -1093,6 +1093,7 @@ module Petstore
     end
 
     # test inline additionalProperties
+    # 
     # @param request_body [Hash<String, String>] request body
     # @param [Hash] opts the optional parameters
     # @return [nil]
@@ -1102,6 +1103,7 @@ module Petstore
     end
 
     # test inline additionalProperties
+    # 
     # @param request_body [Hash<String, String>] request body
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
@@ -1157,6 +1159,7 @@ module Petstore
     end
 
     # test json serialization of form data
+    # 
     # @param param [String] field1
     # @param param2 [String] field2
     # @param [Hash] opts the optional parameters
@@ -1167,6 +1170,7 @@ module Petstore
     end
 
     # test json serialization of form data
+    # 
     # @param param [String] field1
     # @param param2 [String] field2
     # @param [Hash] opts the optional parameters

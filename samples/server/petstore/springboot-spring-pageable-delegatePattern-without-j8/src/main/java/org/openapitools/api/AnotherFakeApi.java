@@ -23,6 +23,10 @@ import javax.annotation.Generated;
 @Api(value = "another-fake", description = "the another-fake API")
 public interface AnotherFakeApi {
 
+    default AnotherFakeApiDelegate getDelegate() {
+        return new AnotherFakeApiDelegate() {};
+    }
+
     /**
      * PATCH /another-fake/dummy : To test special tags
      * To test special tags and operation ID starting with number
@@ -46,8 +50,10 @@ public interface AnotherFakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    ResponseEntity<Client> call123testSpecialTags(
+    default ResponseEntity<Client> call123testSpecialTags(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody Client body
-    );
+    ) {
+        return getDelegate().call123testSpecialTags(body);
+    }
 
 }

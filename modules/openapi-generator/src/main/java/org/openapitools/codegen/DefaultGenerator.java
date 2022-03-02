@@ -115,7 +115,7 @@ public class DefaultGenerator implements Generator {
             this.userDefinedTemplates = Collections.unmodifiableList(userFiles);
         }
 
-        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(this.config.isEnableMinimalUpdate(),this.config.isSkipOverwrite());
+        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(this.config.isEnableMinimalUpdate(), this.config.isSkipOverwrite());
 
         if (this.dryRun) {
             this.templateProcessor = new DryRunTemplateManager(templateManagerOptions);
@@ -459,7 +459,7 @@ public class DefaultGenerator implements Generator {
                     //      this use case arises when using interface schemas
                     // generators may choose to make models for use case 2 + 3
                     Schema refSchema = new Schema();
-                    refSchema.set$ref("#/components/schemas/"+name);
+                    refSchema.set$ref("#/components/schemas/" + name);
                     Schema unaliasedSchema = config.unaliasSchema(refSchema, config.importMapping());
                     if (unaliasedSchema.get$ref() == null) {
                         LOGGER.info("Model {} not generated since it's a free-form object", name);
@@ -510,7 +510,7 @@ public class DefaultGenerator implements Generator {
                     Map<String, Object> modelTemplate = (Map<String, Object>) modelList.get(0);
                     if (modelTemplate != null && modelTemplate.containsKey("model")) {
                         CodegenModel m = (CodegenModel) modelTemplate.get("model");
-                        if (m.isAlias && !((config instanceof PythonClientCodegen) || (config instanceof PythonExperimentalClientCodegen)))  {
+                        if (m.isAlias && !((config instanceof PythonClientCodegen) || (config instanceof PythonExperimentalClientCodegen))) {
                             // alias to number, string, enum, etc, which should not be generated as model
                             // for PythonClientCodegen, all aliases are generated as models
                             continue;  // Don't create user-defined classes for aliases
@@ -692,7 +692,7 @@ public class DefaultGenerator implements Generator {
                 }
                 File of = new File(outputFolder);
                 if (!of.isDirectory()) {
-                    if(!dryRun && !of.mkdirs()) {
+                    if (!dryRun && !of.mkdirs()) {
                         once(LOGGER).debug("Output directory {} not created. It {}.", outputFolder, of.exists() ? "already exists." : "may not have appropriate permissions.");
                     }
                 }
@@ -806,14 +806,14 @@ public class DefaultGenerator implements Generator {
      * This adds a boolean and a collection for each authentication type to the map.
      * <p>
      * Examples:
-     * <p> 
+     * <p>
      *   boolean hasOAuthMethods
      * <p>
      *   List&lt;CodegenSecurity&gt; oauthMethods
      *
      * @param bundle the map which the booleans and collections will be added
      */
-    void addAuthenticationSwitches(Map<String, Object> bundle){
+    void addAuthenticationSwitches(Map<String, Object> bundle) {
         Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
         List<CodegenSecurity> authMethods = config.fromSecurity(securitySchemeMap);
         if (authMethods != null && !authMethods.isEmpty()) {
@@ -894,7 +894,7 @@ public class DefaultGenerator implements Generator {
         Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels);
         generateSupportingFiles(files, bundle);
 
-        if(dryRun) {
+        if (dryRun) {
             boolean verbose = Boolean.parseBoolean(GlobalSettings.getProperty("verbose"));
             StringBuilder sb = new StringBuilder();
 
@@ -911,9 +911,9 @@ public class DefaultGenerator implements Generator {
                     sb.append(System.lineSeparator());
                     if (verbose) {
                         sb.append("  ")
-                            .append(StringUtils.rightPad(status.getState().getDescription(), 20, "."))
-                            .append(" ").append(status.getReason())
-                            .append(System.lineSeparator());
+                                .append(StringUtils.rightPad(status.getState().getDescription(), 20, "."))
+                                .append(" ").append(status.getReason())
+                                .append(System.lineSeparator());
                     }
                 } catch (IOException e) {
                     LOGGER.debug("Unable to document dry run status for {}.", entry.getKey());
@@ -1031,7 +1031,7 @@ public class DefaultGenerator implements Generator {
                 if (!absoluteTarget.startsWith(outDir)) {
                     throw new RuntimeException(String.format(Locale.ROOT, "Target files must be generated within the output directory; absoluteTarget=%s outDir=%s", absoluteTarget, outDir));
                 }
-                return this.templateProcessor.write(templateData,templateName, target);
+                return this.templateProcessor.write(templateData, templateName, target);
             } else {
                 this.templateProcessor.skip(target.toPath(), String.format(Locale.ROOT, "Skipped by %s options supplied by user.", skippedByOption));
                 return null;
@@ -1045,7 +1045,7 @@ public class DefaultGenerator implements Generator {
     public Map<String, List<CodegenOperation>> processPaths(Paths paths) {
         Map<String, List<CodegenOperation>> ops = new TreeMap<>();
         // when input file is not valid and doesn't contain any paths
-        if(paths == null) {
+        if (paths == null) {
             return ops;
         }
         for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
@@ -1198,7 +1198,7 @@ public class DefaultGenerator implements Generator {
             allImports.addAll(op.imports);
         }
 
-        Map<String,String> mappings = getAllImportsMappings(allImports);
+        Map<String, String> mappings = getAllImportsMappings(allImports);
         Set<Map<String, String>> imports = toImportsObjects(mappings);
 
         //Some codegen implementations rely on a list interface for the imports
@@ -1215,16 +1215,17 @@ public class DefaultGenerator implements Generator {
 
     /**
      * Transforms a set of imports to a map with key config.toModelImport(import) and value the import string.
+     *
      * @param allImports - Set of imports
      * @return Map of fully qualified import path and initial import.
      */
-    private Map<String,String> getAllImportsMappings(Set<String> allImports){
-        Map<String,String> result = new HashMap<>();
-        allImports.forEach(nextImport->{
+    private Map<String, String> getAllImportsMappings(Set<String> allImports) {
+        Map<String, String> result = new HashMap<>();
+        allImports.forEach(nextImport -> {
             String mapping = config.importMapping().get(nextImport);
-            if(mapping!= null){
-                result.put(mapping,nextImport);
-            }else{
+            if (mapping != null) {
+                result.put(mapping, nextImport);
+            } else {
                 result.putAll(config.toModelImportMap(nextImport));
             }
         });
@@ -1238,23 +1239,23 @@ public class DefaultGenerator implements Generator {
      * @param mappedImports Map of fully qualified import and import
      * @return The set of unique imports
      */
-    private Set<Map<String,String>> toImportsObjects(Map<String,String> mappedImports){
-        Set<Map<String, String>> result = new TreeSet<Map<String,String>>(
-            (Comparator<Map<String, String>>) (o1, o2) -> {
-                String s1 = o1.get("classname");
-                String s2 = o2.get("classname");
-                return s1.compareTo(s2);
-            }
+    private Set<Map<String, String>> toImportsObjects(Map<String, String> mappedImports) {
+        Set<Map<String, String>> result = new TreeSet<Map<String, String>>(
+                (Comparator<Map<String, String>>) (o1, o2) -> {
+                    String s1 = o1.get("classname");
+                    String s2 = o2.get("classname");
+                    return s1.compareTo(s2);
+                }
         );
 
-        mappedImports.entrySet().forEach(mapping->{
+        mappedImports.entrySet().forEach(mapping -> {
             Map<String, String> im = new LinkedHashMap<>();
             im.put("import", mapping.getKey());
             im.put("classname", mapping.getValue());
             result.add(im);
         });
         return result;
-     }
+    }
 
     private Map<String, Object> processModels(CodegenConfig config, Map<String, Schema> definitions) {
         Map<String, Object> objs = new HashMap<>();

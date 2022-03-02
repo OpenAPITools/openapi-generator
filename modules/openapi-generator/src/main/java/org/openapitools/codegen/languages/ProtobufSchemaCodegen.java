@@ -209,26 +209,62 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return camelize(sanitizeName(operationId));
     }
 
-    public void addUnknownToAllowableValues(Map<String, Object> allowableValues, String name) {
+    /**
+     * Adds prefix to the enum allowable values
+     * NOTE: Enum values use C++ scoping rules, meaning that enum values are siblings of their type, not children of it. Therefore, enum value must be unique
+     *
+     * @param allowableValues allowable values
+     * @param prefix added prefix
+     */
+    public void addEnumValuesPrefix(Map<String, Object> allowableValues, String prefix){
+        if(allowableValues.containsKey("enumVars")) {
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
+
+            for(Map<String, Object> value : enumVars) {
+                String name = (String)value.get("name");
+                value.put("name", prefix + "_" + name);
+                value.put("value", "\"" + prefix + "_" + name + "\"");
+            }
+        }
+
+        if(allowableValues.containsKey("values")) {
+            List<String> values = (List<String>)allowableValues.get("values");
+            for(String value : values) {
+                value = prefix + "_" + value;
+            }
+        }
+    }
+
+    /**
+     * Adds unknown value to the enum allowable values
+     *
+     * @param allowableValues allowable values
+     */
+    public void addUnknownToAllowableValues(Map<String, Object> allowableValues) {
         if(startEnumsWithUnknown) {
             if(allowableValues.containsKey("enumVars")) {
                 List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
-                
+
                 HashMap<String, Object> unknown = new HashMap<String, Object>();
-                unknown.put("name", name + "_UNKNOWN");
+                unknown.put("name", "UNKNOWN");
                 unknown.put("isString", "false");
-                unknown.put("value", "\"" + name + "_UNKNOWN\"");
+                unknown.put("value", "\"UNKNOWN\"");
 
                 enumVars.add(0, unknown);
             }
 
             if(allowableValues.containsKey("values")) {
                 List<String> values = (List<String>)allowableValues.get("values");           
-                values.add(0, name + "_UNKNOWN");
+                values.add(0, "UNKNOWN");
             }
         }
     }
 
+    /**
+     * Iterates enum vars and puts index to them
+     *
+     * @param enumVars list of enum vars
+     */
     public void addEnumIndexes(List<Map<String, Object>> enumVars) {
         int enumIndex = 0;
         for (Map<String, Object> enumVar : enumVars) {
@@ -248,8 +284,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
             if(cm.isEnum) {
                 Map<String, Object> allowableValues = cm.getAllowableValues();
-                addUnknownToAllowableValues(allowableValues, cm.getClassname());
-
+                addUnknownToAllowableValues(allowableValues);
+                addEnumValuesPrefix(allowableValues, cm.getClassname());
                 if (allowableValues.containsKey("enumVars")) {
                     List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
                     addEnumIndexes(enumVars);
@@ -277,7 +313,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
 
                 if (var.isEnum) {
-                    addUnknownToAllowableValues(var.allowableValues, var.getEnumName());
+                    addUnknownToAllowableValues(var.allowableValues);
+                    addEnumValuesPrefix(var.allowableValues, var.getEnumName());
                 
                     if(var.allowableValues.containsKey("enumVars")) {
                         List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");

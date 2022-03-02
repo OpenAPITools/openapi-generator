@@ -76,7 +76,6 @@ public class Dog extends Animal implements Serializable {
     return Objects.hash(breed, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -22,7 +22,7 @@ public interface PetApiService {
       public Response addPet(Pet body, SecurityContext securityContext);
       public Response deletePet(Long petId, String apiKey, SecurityContext securityContext);
       public Response findPetsByStatus(List<String> status, SecurityContext securityContext);
-      public Response findPetsByTags(List<String> tags, SecurityContext securityContext);
+      @Deprecated public Response findPetsByTags(List<String> tags, SecurityContext securityContext);
       public Response getPetById(Long petId, SecurityContext securityContext);
       public Response updatePet(Pet body, SecurityContext securityContext);
       public Response updatePetWithForm(Long petId, String name, String status, SecurityContext securityContext);

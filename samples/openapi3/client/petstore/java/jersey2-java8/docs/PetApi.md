@@ -22,6 +22,8 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
+
+
 ### Example
 
 ```java
@@ -89,6 +91,8 @@ null (empty response body)
 > deletePet(petId, apiKey)
 
 Deletes a pet
+
+
 
 ### Example
 
@@ -377,6 +381,8 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
+
+
 ### Example
 
 ```java
@@ -446,6 +452,8 @@ null (empty response body)
 > updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 
@@ -517,6 +525,8 @@ null (empty response body)
 > ModelApiResponse uploadFile(petId, additionalMetadata, _file)
 
 uploads an image
+
+
 
 ### Example
 
@@ -590,6 +600,8 @@ Name | Type | Description  | Notes
 > ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
+
+
 
 ### Example
 

@@ -16,6 +16,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Foo;
@@ -72,7 +73,6 @@ public class InlineResponseDefault   {
   public int hashCode() {
     return Objects.hash(string);
   }
-
 
   @Override
   public String toString() {

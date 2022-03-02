@@ -715,6 +715,8 @@ null (empty response body)
 
 test inline additionalProperties
 
+
+
 ### Example
 ```java
 // Import classes:
@@ -769,6 +771,8 @@ No authorization required
 > testJsonFormData(param, param2)
 
 test json serialization of form data
+
+
 
 ### Example
 ```java

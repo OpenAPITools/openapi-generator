@@ -121,6 +121,10 @@ module Petstore
     # Client private key file (for client certificate)
     attr_accessor :ssl_client_key
 
+    ### Proxy setting
+    # HTTP Proxy settings
+    attr_accessor :proxy
+
     # Set this to customize parameters encoding of array parameter with multi collectionFormat.
     # Default to nil.
     #

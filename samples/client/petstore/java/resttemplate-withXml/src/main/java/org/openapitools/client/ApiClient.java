@@ -31,11 +31,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-import org.threeten.bp.*;
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 
 
@@ -61,7 +56,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
-
+import java.time.OffsetDateTime;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
@@ -335,12 +330,6 @@ public class ApiClient extends JavaTimeFormatter {
      */
     public ApiClient setDateFormat(DateFormat dateFormat) {
         this.dateFormat = dateFormat;
-        for (HttpMessageConverter converter : restTemplate.getMessageConverters()) {
-            if (converter instanceof AbstractJackson2HttpMessageConverter) {
-                ObjectMapper mapper = ((AbstractJackson2HttpMessageConverter) converter).getObjectMapper();
-                mapper.setDateFormat(dateFormat);
-            }
-        }
         return this;
     }
 
@@ -579,12 +568,6 @@ public class ApiClient extends JavaTimeFormatter {
      * @return path with placeholders replaced by variables
      */
     public String expandPath(String pathTemplate, Map<String, Object> variables) {
-        // disable default URL encoding 
-        DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
-        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
-        final RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setUriTemplateHandler(uriBuilderFactory);
-
         return restTemplate.getUriTemplateHandler().expand(pathTemplate, variables).toString();
     }
 
@@ -649,7 +632,7 @@ public class ApiClient extends JavaTimeFormatter {
     public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
-   	    Map<String,Object> uriParams = new HashMap<>();
+        Map<String,Object> uriParams = new HashMap<>();
         uriParams.putAll(pathParams);
 
         String finalUri = path;
@@ -755,19 +738,13 @@ public class ApiClient extends JavaTimeFormatter {
 
         RestTemplate restTemplate = new RestTemplate(messageConverters);
         
-        for (HttpMessageConverter converter : restTemplate.getMessageConverters()) {
-            if (converter instanceof AbstractJackson2HttpMessageConverter){
-                ObjectMapper mapper = ((AbstractJackson2HttpMessageConverter) converter).getObjectMapper();
-                ThreeTenModule module = new ThreeTenModule();
-                module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-                module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-                module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-                mapper.registerModule(module);
-                mapper.registerModule(new JsonNullableModule());
-            }
-        }
         // This allows us to read the response more than once - Necessary for debugging.
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(restTemplate.getRequestFactory()));
+
+        // disable default URL encoding
+        DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
+        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+        restTemplate.setUriTemplateHandler(uriBuilderFactory);
         return restTemplate;
     }
 
