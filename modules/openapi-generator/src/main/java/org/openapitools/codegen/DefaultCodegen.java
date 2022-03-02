@@ -4001,7 +4001,7 @@ public class DefaultCodegen implements CodegenConfig {
                     List<CodegenParameter> responseHeaders = new ArrayList<>();
                     for (Entry<String, Header> entry : headers.entrySet()) {
                         String headerName = entry.getKey();
-                        Header header = entry.getValue();
+                        Header header = ModelUtils.getReferencedHeader(this.openAPI, entry.getValue());
                         CodegenParameter responseHeader = headerToCodegenParameter(header, headerName, imports, String.format(Locale.ROOT, "%sResponseParameter", r.code));
                         responseHeaders.add(responseHeader);
                     }
@@ -6696,7 +6696,6 @@ public class DefaultCodegen implements CodegenConfig {
         if (header == null) {
             return null;
         }
-        header = ModelUtils.getReferencedHeader(this.openAPI, header);
         Parameter headerParam = new Parameter();
         headerParam.setName(headerName);
         headerParam.setIn("header");
@@ -6736,7 +6735,7 @@ public class DefaultCodegen implements CodegenConfig {
                         Map<String, Header> encHeaders = enc.getHeaders();
                         for (Entry<String, Header> headerEntry : encHeaders.entrySet()) {
                             String headerName = headerEntry.getKey();
-                            Header header = headerEntry.getValue();
+                            Header header = ModelUtils.getReferencedHeader(this.openAPI, headerEntry.getValue());
                             CodegenParameter param = headerToCodegenParameter(header, headerName, imports, mediaTypeSchemaSuffix);
                             headers.add(param);
                         }
