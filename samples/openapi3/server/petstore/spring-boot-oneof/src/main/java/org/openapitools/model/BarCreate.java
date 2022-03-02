@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.model.Entity;
 import org.openapitools.model.FooRefOrValue;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -19,15 +20,13 @@ import java.util.*;
 import javax.annotation.Generated;
 
 /**
- * Bar
+ * BarCreate
  */
 
 
+@JsonTypeName("Bar_Create")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Bar extends Entity {
-
-  @JsonProperty("id")
-  private String id;
+public class BarCreate extends Entity {
 
   @JsonProperty("barPropA")
   private String barPropA;
@@ -38,26 +37,7 @@ public class Bar extends Entity {
   @JsonProperty("foo")
   private FooRefOrValue foo;
 
-  public Bar id(String id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * Get id
-   * @return id
-  */
-  @NotNull 
-  @Schema(name = "id", required = true)
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public Bar barPropA(String barPropA) {
+  public BarCreate barPropA(String barPropA) {
     this.barPropA = barPropA;
     return this;
   }
@@ -76,7 +56,7 @@ public class Bar extends Entity {
     this.barPropA = barPropA;
   }
 
-  public Bar fooPropB(String fooPropB) {
+  public BarCreate fooPropB(String fooPropB) {
     this.fooPropB = fooPropB;
     return this;
   }
@@ -95,7 +75,7 @@ public class Bar extends Entity {
     this.fooPropB = fooPropB;
   }
 
-  public Bar foo(FooRefOrValue foo) {
+  public BarCreate foo(FooRefOrValue foo) {
     this.foo = foo;
     return this;
   }
@@ -122,25 +102,23 @@ public class Bar extends Entity {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Bar bar = (Bar) o;
-    return Objects.equals(this.id, bar.id) &&
-        Objects.equals(this.barPropA, bar.barPropA) &&
-        Objects.equals(this.fooPropB, bar.fooPropB) &&
-        Objects.equals(this.foo, bar.foo) &&
+    BarCreate barCreate = (BarCreate) o;
+    return Objects.equals(this.barPropA, barCreate.barPropA) &&
+        Objects.equals(this.fooPropB, barCreate.fooPropB) &&
+        Objects.equals(this.foo, barCreate.foo) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, barPropA, fooPropB, foo, super.hashCode());
+    return Objects.hash(barPropA, fooPropB, foo, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Bar {\n");
+    sb.append("class BarCreate {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    barPropA: ").append(toIndentedString(barPropA)).append("\n");
     sb.append("    fooPropB: ").append(toIndentedString(fooPropB)).append("\n");
     sb.append("    foo: ").append(toIndentedString(foo)).append("\n");

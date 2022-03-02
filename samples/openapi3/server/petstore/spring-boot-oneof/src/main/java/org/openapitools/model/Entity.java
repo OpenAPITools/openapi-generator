@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.model.Addressable;
 import org.openapitools.model.Bar;
+import org.openapitools.model.BarCreate;
 import org.openapitools.model.Extensible;
 import org.openapitools.model.Foo;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -28,6 +28,7 @@ import javax.annotation.Generated;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "@type", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Bar.class, name = "Bar"),
+  @JsonSubTypes.Type(value = BarCreate.class, name = "Bar_Create"),
   @JsonSubTypes.Type(value = Foo.class, name = "Foo")
 })
 

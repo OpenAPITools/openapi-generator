@@ -53,7 +53,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Bar'
+              $ref: '#/components/schemas/Bar_Create'
         required: true
       responses:
         "200":
@@ -172,13 +172,9 @@ components:
         foorefPropA:
           type: string
       type: object
-    Bar:
+    Bar_Create:
       allOf:
       - $ref: '#/components/schemas/Entity'
-      example:
-        foo: null
-        fooPropB: fooPropB
-        barPropA: barPropA
       properties:
         barPropA:
           type: string
@@ -186,4 +182,24 @@ components:
           type: string
         foo:
           $ref: '#/components/schemas/FooRefOrValue'
+      type: object
+    Bar:
+      allOf:
+      - $ref: '#/components/schemas/Entity'
+      example:
+        foo: null
+        id: id
+        fooPropB: fooPropB
+        barPropA: barPropA
+      properties:
+        id:
+          type: string
+        barPropA:
+          type: string
+        fooPropB:
+          type: string
+        foo:
+          $ref: '#/components/schemas/FooRefOrValue'
+      required:
+      - id
       type: object

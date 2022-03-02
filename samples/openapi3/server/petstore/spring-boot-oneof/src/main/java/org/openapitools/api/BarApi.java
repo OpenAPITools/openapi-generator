@@ -6,6 +6,7 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Bar;
+import org.openapitools.model.BarCreate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -41,7 +42,7 @@ public interface BarApi {
     /**
      * POST /bar : Create a Bar
      *
-     * @param bar  (required)
+     * @param barCreate  (required)
      * @return Bar created (status code 200)
      */
     @Operation(
@@ -61,12 +62,12 @@ public interface BarApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Bar> createBar(
-        @Parameter(name = "Bar", description = "", required = true) @Valid @RequestBody Bar bar
+        @Parameter(name = "BarCreate", description = "", required = true) @Valid @RequestBody BarCreate barCreate
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"fooPropB\" : \"fooPropB\", \"barPropA\" : \"barPropA\" }";
+                    String exampleString = "{ \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"barPropA\" : \"barPropA\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

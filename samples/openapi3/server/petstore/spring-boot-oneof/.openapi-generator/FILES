@@ -10,6 +10,7 @@ src/main/java/org/openapitools/api/FooApiController.java
 src/main/java/org/openapitools/configuration/HomeController.java
 src/main/java/org/openapitools/model/Addressable.java
 src/main/java/org/openapitools/model/Bar.java
+src/main/java/org/openapitools/model/BarCreate.java
 src/main/java/org/openapitools/model/Entity.java
 src/main/java/org/openapitools/model/EntityRef.java
 src/main/java/org/openapitools/model/Extensible.java

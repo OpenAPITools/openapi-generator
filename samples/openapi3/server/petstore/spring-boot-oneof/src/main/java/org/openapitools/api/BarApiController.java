@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Bar;
+import org.openapitools.model.BarCreate;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
