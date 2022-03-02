@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.model.Addressable;
-import org.openapitools.model.BarRef;
 import org.openapitools.model.Extensible;
 import org.openapitools.model.FooRef;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -28,7 +27,6 @@ import javax.annotation.Generated;
 @Schema(name = "EntityRef", description = "Entity reference schema to be use for all entityRef class.")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "@type", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = BarRef.class, name = "BarRef"),
   @JsonSubTypes.Type(value = FooRef.class, name = "FooRef")
 })
 

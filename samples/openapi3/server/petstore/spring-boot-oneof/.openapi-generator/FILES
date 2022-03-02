@@ -3,12 +3,13 @@ pom.xml
 src/main/java/org/openapitools/OpenApiGeneratorApplication.java
 src/main/java/org/openapitools/RFC3339DateFormat.java
 src/main/java/org/openapitools/api/ApiUtil.java
+src/main/java/org/openapitools/api/BarApi.java
+src/main/java/org/openapitools/api/BarApiController.java
 src/main/java/org/openapitools/api/FooApi.java
 src/main/java/org/openapitools/api/FooApiController.java
 src/main/java/org/openapitools/configuration/HomeController.java
 src/main/java/org/openapitools/model/Addressable.java
 src/main/java/org/openapitools/model/Bar.java
-src/main/java/org/openapitools/model/BarRef.java
 src/main/java/org/openapitools/model/Entity.java
 src/main/java/org/openapitools/model/EntityRef.java
 src/main/java/org/openapitools/model/Extensible.java

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.model.Entity;
+import org.openapitools.model.FooRefOrValue;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -31,6 +32,9 @@ public class Bar extends Entity {
 
   @JsonProperty("fooPropB")
   private String fooPropB;
+
+  @JsonProperty("foo")
+  private FooRefOrValue foo;
 
   public Bar barPropA(String barPropA) {
     this.barPropA = barPropA;
@@ -70,6 +74,25 @@ public class Bar extends Entity {
     this.fooPropB = fooPropB;
   }
 
+  public Bar foo(FooRefOrValue foo) {
+    this.foo = foo;
+    return this;
+  }
+
+  /**
+   * Get foo
+   * @return foo
+  */
+  @Valid 
+  @Schema(name = "foo", required = false)
+  public FooRefOrValue getFoo() {
+    return foo;
+  }
+
+  public void setFoo(FooRefOrValue foo) {
+    this.foo = foo;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -81,12 +104,13 @@ public class Bar extends Entity {
     Bar bar = (Bar) o;
     return Objects.equals(this.barPropA, bar.barPropA) &&
         Objects.equals(this.fooPropB, bar.fooPropB) &&
+        Objects.equals(this.foo, bar.foo) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(barPropA, fooPropB, super.hashCode());
+    return Objects.hash(barPropA, fooPropB, foo, super.hashCode());
   }
 
   @Override
@@ -96,6 +120,7 @@ public class Bar extends Entity {
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    barPropA: ").append(toIndentedString(barPropA)).append("\n");
     sb.append("    fooPropB: ").append(toIndentedString(fooPropB)).append("\n");
+    sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
     sb.append("}");
     return sb.toString();
   }
