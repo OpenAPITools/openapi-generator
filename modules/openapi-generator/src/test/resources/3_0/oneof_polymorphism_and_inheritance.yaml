@@ -40,7 +40,7 @@ paths:
         content:
           'application/json':
             schema:
-              $ref: '#/components/schemas/Bar'
+              $ref: '#/components/schemas/Bar_Create'
       responses:
         200:
           description: Bar created
@@ -123,9 +123,24 @@ components:
           type: string
       allOf:
         - $ref: '#/components/schemas/EntityRef'
-    Bar:
+    Bar_Create:
       type: object
       properties:
+        barPropA:
+          type: string
+        fooPropB:
+          type: string
+        foo:
+          $ref: '#/components/schemas/FooRefOrValue'
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+    Bar:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
         barPropA:
           type: string
         fooPropB:
