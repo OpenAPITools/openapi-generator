@@ -1297,6 +1297,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // recursively add import for mapping one type to multiple imports
@@ -1313,6 +1314,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 Map<String, String> newImportMap = new HashMap<>();
                 newImportMap.put("import", importMapping.get(_import));
                 listIterator.add(newImportMap);
+            }
+        }
+
+        List<Object> models = (List<Object>) objs.get("models");
+
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+            if (this.serializableModel) {
+                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
             }
         }
 
