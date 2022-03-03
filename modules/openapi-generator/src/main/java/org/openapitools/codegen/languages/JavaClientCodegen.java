@@ -274,8 +274,13 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
 
-        supportingFiles.add(new SupportingFile("pom.xml", "", "pom.xml").doNotOverwrite());
-        supportingFiles.add(new SupportingFile("props.properties.mustache", "", "props.properties").doNotOverwrite());
+        if (additionalProperties.get(CodegenConstants.ARTIFACT_ID).equals("platform-client-v2")) {
+            supportingFiles.add(new SupportingFile("pom.xml", "", "pom.xml"));
+            supportingFiles.add(new SupportingFile("props.properties.mustache", "", "props.properties"));
+        } else {
+            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        }
+
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
         supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle").doNotOverwrite());
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle").doNotOverwrite());
