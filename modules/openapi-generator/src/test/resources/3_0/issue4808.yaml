@@ -1,0 +1,45 @@
+openapi: 3.0.3
+info:
+  title: Issue 11242 - exploded query params
+  description: "Exploded query params"
+  version: "1.0.0"
+servers:
+  - url: localhost:8080
+paths:
+  /api:
+    get:
+      operationId: GetSomeValue
+      parameters:
+      - in: query
+        name: QueryObject
+        explode: true
+        style: form
+        schema:
+          type: object
+          properties:
+            since:
+              type: string
+            sinceBuild:
+              type: string
+            maxBuilds:
+              type: integer
+            maxWaitSecs:
+              type: integer
+      responses:
+        '200':
+          description: Some return value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SomeReturnValue'
+              example:
+                someValue: value
+components:
+  schemas:
+    SomeReturnValue:
+      type: object
+      required:
+        - someValue
+      properties:
+        someValue:
+          type: string

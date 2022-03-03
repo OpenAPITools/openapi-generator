@@ -4,8 +4,8 @@
     <AssemblyName>{{testPackageName}}</AssemblyName>
     <RootNamespace>{{testPackageName}}</RootNamespace>
     <TargetFramework{{#multiTarget}}s{{/multiTarget}}>{{testTargetFramework}}</TargetFramework{{#multiTarget}}s{{/multiTarget}}>
-    <IsPackable>false</IsPackable>{{#nullableReferenceTypes}}
-    <Nullable>annotations</Nullable>{{/nullableReferenceTypes}}
+    <IsPackable>false</IsPackable>{{#nrt}}
+    <Nullable>{{#useGenericHost}}enable{{/useGenericHost}}{{^useGenericHost}}annotations{{/useGenericHost}}</Nullable>{{/nrt}}
   </PropertyGroup>
 
   <ItemGroup>

@@ -23,7 +23,6 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.GoDeprecatedClientCodegen;
 import org.openapitools.codegen.languages.GoClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -32,7 +31,7 @@ public class GoClientCodegenTest {
 
     @Test
     public void testInitialConfigValues() throws Exception {
-        final GoDeprecatedClientCodegen codegen = new GoDeprecatedClientCodegen();
+        final GoClientCodegen codegen = new GoClientCodegen();
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
@@ -41,7 +40,7 @@ public class GoClientCodegenTest {
 
     @Test
     public void testSettersForConfigValues() throws Exception {
-        final GoDeprecatedClientCodegen codegen = new GoDeprecatedClientCodegen();
+        final GoClientCodegen codegen = new GoClientCodegen();
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
@@ -51,7 +50,7 @@ public class GoClientCodegenTest {
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
-        final GoDeprecatedClientCodegen codegen = new GoDeprecatedClientCodegen();
+        final GoClientCodegen codegen = new GoClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
@@ -62,7 +61,7 @@ public class GoClientCodegenTest {
     @Test(description = "test example value for body parameter")
     public void bodyParameterTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
-        final GoDeprecatedClientCodegen codegen = new GoDeprecatedClientCodegen();
+        final GoClientCodegen codegen = new GoClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/fake";
         final Operation p = openAPI.getPaths().get(path).getGet();
@@ -95,7 +94,7 @@ public class GoClientCodegenTest {
 
     @Test
     public void testFilenames() throws Exception {
-        final GoDeprecatedClientCodegen codegen = new GoDeprecatedClientCodegen();
+        final GoClientCodegen codegen = new GoClientCodegen();
 
         // Model names are generated from schema / definition names
         Assert.assertEquals(codegen.toModelFilename("Animal"), "model_animal");

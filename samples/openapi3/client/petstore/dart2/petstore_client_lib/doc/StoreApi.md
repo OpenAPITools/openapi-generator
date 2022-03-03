@@ -148,6 +148,8 @@ No authorization required
 
 Place an order for a pet
 
+
+
 ### Example
 ```dart
 import 'package:openapi/api.dart';

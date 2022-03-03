@@ -13,6 +13,11 @@
 {{#discriminator}}
 {{>typeInfoAnnotation}}
 {{/discriminator}}
+{{#jackson}}
+{{#isClassnameSanitized}}
+@JsonTypeName("{{name}}")
+{{/isClassnameSanitized}}
+{{/jackson}}
 {{#withXml}}
 {{>xmlAnnotation}}
 {{/withXml}}

@@ -22,7 +22,6 @@ org.openapitools.codegen.languages.CppUE4ClientCodegen
 org.openapitools.codegen.languages.CSharpClientCodegen
 org.openapitools.codegen.languages.CSharpNetCoreClientCodegen
 org.openapitools.codegen.languages.CSharpDotNet2ClientCodegen
-org.openapitools.codegen.languages.CSharpNancyFXServerCodegen
 org.openapitools.codegen.languages.CsharpNetcoreFunctionsServerCodegen
 org.openapitools.codegen.languages.DartClientCodegen
 org.openapitools.codegen.languages.DartDioClientCodegen
@@ -36,7 +35,6 @@ org.openapitools.codegen.languages.ErlangServerCodegen
 org.openapitools.codegen.languages.FsharpFunctionsServerCodegen
 org.openapitools.codegen.languages.FsharpGiraffeServerCodegen
 org.openapitools.codegen.languages.GoClientCodegen
-org.openapitools.codegen.languages.GoDeprecatedClientCodegen
 org.openapitools.codegen.languages.GoEchoServerCodegen
 org.openapitools.codegen.languages.GoServerCodegen
 org.openapitools.codegen.languages.GoGinServerCodegen

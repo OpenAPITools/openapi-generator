@@ -89,12 +89,12 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
- - [ApiResponse](ApiResponse.md)
- - [Category](Category.md)
- - [Order](Order.md)
- - [Pet](Pet.md)
- - [Tag](Tag.md)
- - [User](User.md)
+ - [ApiResponse](docs/ApiResponse.md)
+ - [Category](docs/Category.md)
+ - [Order](docs/Order.md)
+ - [Pet](docs/Pet.md)
+ - [Tag](docs/Tag.md)
+ - [User](docs/User.md)
 
 
 ## Documentation for Authorization

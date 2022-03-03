@@ -14,21 +14,29 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "fake_classname_test", description = "the fake_classname_test API")
 public interface FakeClassnameTestApi {
+
+    default Optional<NativeWebRequest> getRequest() {
+        return Optional.empty();
+    }
 
     /**
      * PATCH /fake_classname_test : To test class name in snake case
@@ -42,7 +50,9 @@ public interface FakeClassnameTestApi {
         summary = "To test class name in snake case",
         tags = { "fake_classname_tags 123#$%^" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Client.class)))
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Client.class))
+            })
         },
         security = {
             @SecurityRequirement(name = "api_key_query")
@@ -54,8 +64,20 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    ResponseEntity<Client> testClassname(
-        @Parameter(name = "body", description = "client model", required = true, schema = @Schema(description = "")) @Valid @RequestBody Client body
-    );
+    default ResponseEntity<Client> testClassname(
+        @Parameter(name = "body", description = "client model", required = true) @Valid @RequestBody Client body
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"client\" : \"client\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
 }

@@ -28,7 +28,7 @@ public class Pet  {
   private String name;
 
   @ApiModelProperty(required = true, value = "")
-  private Set<String> photoUrls = new LinkedHashSet<String>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   @ApiModelProperty(value = "")
   @Valid

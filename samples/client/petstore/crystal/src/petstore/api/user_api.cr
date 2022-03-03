@@ -77,6 +77,7 @@ module Petstore
     end
 
     # Creates list of users with given input array
+    # 
     # @param user [Array(User)] List of user object
     # @return [nil]
     def create_users_with_array_input(user : Array(User))
@@ -85,6 +86,7 @@ module Petstore
     end
 
     # Creates list of users with given input array
+    # 
     # @param user [Array(User)] List of user object
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def create_users_with_array_input_with_http_info(user : Array(User))
@@ -134,6 +136,7 @@ module Petstore
     end
 
     # Creates list of users with given input array
+    # 
     # @param user [Array(User)] List of user object
     # @return [nil]
     def create_users_with_list_input(user : Array(User))
@@ -142,6 +145,7 @@ module Petstore
     end
 
     # Creates list of users with given input array
+    # 
     # @param user [Array(User)] List of user object
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def create_users_with_list_input_with_http_info(user : Array(User))
@@ -248,6 +252,7 @@ module Petstore
     end
 
     # Get user by user name
+    # 
     # @param username [String] The name that needs to be fetched. Use user1 for testing.
     # @return [User]
     def get_user_by_name(username : String)
@@ -256,6 +261,7 @@ module Petstore
     end
 
     # Get user by user name
+    # 
     # @param username [String] The name that needs to be fetched. Use user1 for testing.
     # @return [Array<(User, Integer, Hash)>] User data, response status code and response headers
     def get_user_by_name_with_http_info(username : String)
@@ -305,6 +311,7 @@ module Petstore
     end
 
     # Logs user into the system
+    # 
     # @param username [String] The user name for login
     # @param password [String] The password for login in clear text
     # @return [String]
@@ -314,6 +321,7 @@ module Petstore
     end
 
     # Logs user into the system
+    # 
     # @param username [String] The user name for login
     # @param password [String] The password for login in clear text
     # @return [Array<(String, Integer, Hash)>] String data, response status code and response headers
@@ -375,6 +383,7 @@ module Petstore
     end
 
     # Logs out current logged in user session
+    # 
     # @return [nil]
     def logout_user()
       logout_user_with_http_info()
@@ -382,6 +391,7 @@ module Petstore
     end
 
     # Logs out current logged in user session
+    # 
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def logout_user_with_http_info()
       if @api_client.config.debugging

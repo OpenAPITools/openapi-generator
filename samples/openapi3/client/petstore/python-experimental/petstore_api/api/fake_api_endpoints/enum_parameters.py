@@ -37,7 +37,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -46,6 +46,10 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
     DateBase,
     DateTimeBase,
@@ -347,7 +351,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
         *args: typing.Union[dict, frozendict, ],
         enum_form_string_array: typing.Union[enum_form_string_array, Unset] = unset,
         enum_form_string: typing.Union[enum_form_string, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'SchemaForRequestBodyApplicationXWwwFormUrlencoded':
         return super().__new__(
@@ -355,7 +359,7 @@ class SchemaForRequestBodyApplicationXWwwFormUrlencoded(
             *args,
             enum_form_string_array=enum_form_string_array,
             enum_form_string=enum_form_string,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )
 

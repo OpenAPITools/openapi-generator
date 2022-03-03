@@ -18,10 +18,6 @@ import (
 	"net/url"
 )
 
-// Linger please
-var (
-	_ context.Context
-)
 
 // UsageApiService UsageApi service
 type UsageApiService service
@@ -30,7 +26,6 @@ type ApiAnyKeyRequest struct {
 	ctx context.Context
 	ApiService *UsageApiService
 }
-
 
 func (r ApiAnyKeyRequest) Execute() (map[string]interface{}, *http.Response, error) {
 	return r.ApiService.AnyKeyExecute(r)
@@ -159,7 +154,6 @@ type ApiBothKeysRequest struct {
 	ApiService *UsageApiService
 }
 
-
 func (r ApiBothKeysRequest) Execute() (map[string]interface{}, *http.Response, error) {
 	return r.ApiService.BothKeysExecute(r)
 }
@@ -287,7 +281,6 @@ type ApiKeyInHeaderRequest struct {
 	ApiService *UsageApiService
 }
 
-
 func (r ApiKeyInHeaderRequest) Execute() (map[string]interface{}, *http.Response, error) {
 	return r.ApiService.KeyInHeaderExecute(r)
 }
@@ -400,7 +393,6 @@ type ApiKeyInQueryRequest struct {
 	ctx context.Context
 	ApiService *UsageApiService
 }
-
 
 func (r ApiKeyInQueryRequest) Execute() (map[string]interface{}, *http.Response, error) {
 	return r.ApiService.KeyInQueryExecute(r)

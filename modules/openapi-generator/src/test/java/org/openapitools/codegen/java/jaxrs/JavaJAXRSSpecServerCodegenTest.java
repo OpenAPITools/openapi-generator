@@ -6,11 +6,10 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
-import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
@@ -25,15 +24,18 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
-import static org.openapitools.codegen.languages.AbstractJavaCodegen.JAVA8_MODE;
 import static org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen.USE_TAGS;
 import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.INTERFACE_ONLY;
-import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.SUPPORT_ASYNC;
 import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.RETURN_RESPONSE;
+import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.SUPPORT_ASYNC;
 import static org.testng.Assert.assertTrue;
+
+import com.google.common.collect.ImmutableMap;
 
 /**
  * Unit-Test for {@link org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen}.
@@ -101,7 +103,6 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.additionalProperties().put("serverPort", "8088");
         codegen.additionalProperties().put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "openapi.yml");
         codegen.additionalProperties().put(SUPPORT_ASYNC, true);
-        codegen.additionalProperties().put(JAVA8_MODE, false);
         codegen.processOpts();
 
         OpenAPI openAPI = new OpenAPI();
@@ -120,7 +121,6 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         Assert.assertEquals(codegen.getOpenApiSpecFileLocation(), "openapi.yml");
         Assert.assertEquals(codegen.additionalProperties().get(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION), "openapi.yml");
         Assert.assertEquals(codegen.additionalProperties().get(SUPPORT_ASYNC), "true");
-        Assert.assertEquals(codegen.additionalProperties().get(JAVA8_MODE), true); //overridden by supportAsync=true
     }
 
     /**
@@ -231,7 +231,6 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     @Test
     public void testGeneratePingDefaultLocation() throws Exception {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
 
         File output = Files.createTempDirectory("test").toFile();
 
@@ -255,7 +254,6 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     @Test
     public void testGeneratePingNoSpecFile() throws Exception {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "");
 
         File output = Files.createTempDirectory("test").toFile();
@@ -279,7 +277,6 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     @Test
     public void testGeneratePingAlternativeLocation1() throws Exception {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "src/main/resources/META-INF/openapi.yaml");
 
         File output = Files.createTempDirectory("test").toFile();
@@ -304,7 +301,6 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     @Test
     public void testGeneratePingAlternativeLocation2() throws Exception {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "openapi.yml");
 
         File output = Files.createTempDirectory("test").toFile();
@@ -328,7 +324,6 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     @Test
     public void testGenerateApiWithPrecedingPathParameter_issue1347() throws Exception {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "openapi.yml");
 
         File output = Files.createTempDirectory("test").toFile();
@@ -593,5 +588,103 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 "CompletionStage<Boolean> pingGetBoolean", //Support primitive types response
                 "CompletionStage<Integer> pingGetInteger" //Support primitive types response
         );
+    }
+
+    @Test
+    public void generateDeepObjectArrayWithPattern() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/deepobject-array-with-pattern.yaml", null, new ParseOptions()).getOpenAPI();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(input).generate();
+
+        //Then the java files are compilable
+        validateJavaSourceFiles(files);
+
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/Options.java");
+        TestUtils.assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/Options.java"), "List< @Pattern(regexp=\"^[A-Z].*\")String> getA()");
+    }
+
+    @Test
+    public void testHandleDefaultValue_issue8535() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/3_0/issue_8535.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("TestHeadersApi.java"))
+            .assertMethod("headersTest")
+                .hasParameter("headerNumber").withType("BigDecimal")
+                    .assertParameterAnnotations()
+                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"11.2\""))
+                .toParameter().toMethod()
+                .hasParameter("headerString").withType("String")
+                    .assertParameterAnnotations()
+                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
+                .toParameter().toMethod()
+                .hasParameter("headerStringWrapped").withType("String")
+                    .assertParameterAnnotations()
+                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
+                .toParameter().toMethod()
+                .hasParameter("headerStringQuotes").withType("String")
+                    .assertParameterAnnotations()
+                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
+                .toParameter().toMethod()
+                .hasParameter("headerStringQuotesWrapped").withType("String")
+                    .assertParameterAnnotations()
+                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
+                .toParameter().toMethod()
+                .hasParameter("headerBoolean").withType("Boolean")
+                    .assertParameterAnnotations()
+                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"true\""));
+
+        JavaFileAssert.assertThat(files.get("TestQueryParamsApi.java"))
+            .assertMethod("queryParamsTest")
+                .hasParameter("queryNumber").withType("BigDecimal")
+                    .assertParameterAnnotations()
+                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"11.2\""))
+                .toParameter().toMethod()
+                .hasParameter("queryString").withType("String")
+                    .assertParameterAnnotations()
+                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
+                .toParameter().toMethod()
+                .hasParameter("queryStringWrapped").withType("String")
+                    .assertParameterAnnotations()
+                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
+                .toParameter().toMethod()
+                .hasParameter("queryStringQuotes").withType("String")
+                    .assertParameterAnnotations()
+                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
+                .toParameter().toMethod()
+                .hasParameter("queryStringQuotesWrapped").withType("String")
+                    .assertParameterAnnotations()
+                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
+                .toParameter().toMethod()
+                .hasParameter("queryBoolean").withType("Boolean")
+                    .assertParameterAnnotations()
+                    .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"true\""));
     }
 }

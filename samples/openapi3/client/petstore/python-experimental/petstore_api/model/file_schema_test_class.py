@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,6 +47,10 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
     DateBase,
     DateTimeBase,
@@ -89,7 +93,7 @@ class FileSchemaTestClass(
         *args: typing.Union[dict, frozendict, ],
         file: typing.Union['File', Unset] = unset,
         files: typing.Union[files, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'FileSchemaTestClass':
         return super().__new__(
@@ -97,7 +101,7 @@ class FileSchemaTestClass(
             *args,
             file=file,
             files=files,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )
 

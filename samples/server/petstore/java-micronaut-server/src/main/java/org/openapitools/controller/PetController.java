@@ -33,6 +33,7 @@ import io.swagger.annotations.*;
 public class PetController {
     /**
      * Add a new pet to the store
+     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return Pet
@@ -40,6 +41,7 @@ public class PetController {
     @ApiOperation(
         value = "Add a new pet to the store",
         nickname = "addPet",
+        notes = "",
         response = Pet.class,
         authorizations = {
             @Authorization(value = "petstore_auth", scopes = {
@@ -64,6 +66,7 @@ public class PetController {
 
     /**
      * Deletes a pet
+     * 
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
@@ -71,6 +74,7 @@ public class PetController {
     @ApiOperation(
         value = "Deletes a pet",
         nickname = "deletePet",
+        notes = "",
         authorizations = {
             @Authorization(value = "petstore_auth", scopes = {
                 @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -187,6 +191,7 @@ public class PetController {
 
     /**
      * Update an existing pet
+     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return Pet
@@ -194,6 +199,7 @@ public class PetController {
     @ApiOperation(
         value = "Update an existing pet",
         nickname = "updatePet",
+        notes = "",
         response = Pet.class,
         authorizations = {
             @Authorization(value = "petstore_auth", scopes = {
@@ -220,6 +226,7 @@ public class PetController {
 
     /**
      * Updates a pet in the store with form data
+     * 
      *
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
@@ -228,6 +235,7 @@ public class PetController {
     @ApiOperation(
         value = "Updates a pet in the store with form data",
         nickname = "updatePetWithForm",
+        notes = "",
         authorizations = {
             @Authorization(value = "petstore_auth", scopes = {
                 @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -252,6 +260,7 @@ public class PetController {
 
     /**
      * uploads an image
+     * 
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
@@ -261,6 +270,7 @@ public class PetController {
     @ApiOperation(
         value = "uploads an image",
         nickname = "uploadFile",
+        notes = "",
         response = ModelApiResponse.class,
         authorizations = {
             @Authorization(value = "petstore_auth", scopes = {

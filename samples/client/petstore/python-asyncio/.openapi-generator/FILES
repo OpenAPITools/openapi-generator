@@ -61,7 +61,7 @@ petstore_api/__init__.py
 petstore_api/api/__init__.py
 petstore_api/api/another_fake_api.py
 petstore_api/api/fake_api.py
-petstore_api/api/fake_classname_tags_123_api.py
+petstore_api/api/fake_classname_tags123_api.py
 petstore_api/api/pet_api.py
 petstore_api/api/store_api.py
 petstore_api/api/user_api.py

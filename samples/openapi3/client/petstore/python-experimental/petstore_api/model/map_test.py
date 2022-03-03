@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,6 +47,10 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
     DateBase,
     DateTimeBase,
@@ -83,13 +87,13 @@ class MapTest(
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+                _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
             ) -> '_additional_properties':
                 return super().__new__(
                     cls,
                     *args,
-                    _instantiation_metadata=_instantiation_metadata,
+                    _configuration=_configuration,
                     **kwargs,
                 )
     
@@ -97,13 +101,13 @@ class MapTest(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
             **kwargs: typing.Type[Schema],
         ) -> 'map_map_of_string':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
                 **kwargs,
             )
     
@@ -137,13 +141,13 @@ class MapTest(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
             **kwargs: typing.Type[Schema],
         ) -> 'map_of_enum_string':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
                 **kwargs,
             )
     
@@ -157,13 +161,13 @@ class MapTest(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
             **kwargs: typing.Type[Schema],
         ) -> 'direct_map':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
                 **kwargs,
             )
 
@@ -180,7 +184,7 @@ class MapTest(
         map_of_enum_string: typing.Union[map_of_enum_string, Unset] = unset,
         direct_map: typing.Union[direct_map, Unset] = unset,
         indirect_map: typing.Union['StringBooleanMap', Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'MapTest':
         return super().__new__(
@@ -190,7 +194,7 @@ class MapTest(
             map_of_enum_string=map_of_enum_string,
             direct_map=direct_map,
             indirect_map=indirect_map,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )
 

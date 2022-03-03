@@ -6,7 +6,7 @@
     <name>{{artifactId}}</name>
     <version>{{artifactVersion}}</version>
     <properties>
-        <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
+        <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         {{#springFoxDocumentationProvider}}
@@ -119,27 +119,16 @@
           <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
         {{/withXml}}
-        {{#java8}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
-        {{/java8}}
         {{#joda}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
         {{/joda}}
-        {{#threetenbp}}
-        <dependency>
-            <groupId>com.github.joschi.jackson</groupId>
-            <artifactId>jackson-datatype-threetenbp</artifactId>
-        {{^parentOverridden}}
-            <version>2.9.10</version>
-        {{/parentOverridden}}
-        </dependency>
-        {{/threetenbp}}
         {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>

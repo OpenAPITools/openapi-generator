@@ -64,7 +64,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 42);
+            Assert.assertEquals(files.size(), 44);
 
             // Check expected generated files
             // api sanity check
@@ -743,5 +743,25 @@ public class DefaultGeneratorTest {
             output.delete();
             templates.toFile().delete();
         }
+    }
+
+    @Test
+    public void testRecursionBug4650() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/recursion-bug-4650.yaml");
+        ClientOptInput opts = new ClientOptInput();
+        opts.openAPI(openAPI);
+        DefaultCodegen config = new DefaultCodegen();
+        config.setStrictSpecBehavior(false);
+        opts.config(config);
+        final DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(opts);
+        generator.configureGeneratorProperties();
+
+        List<File> files = new ArrayList<>();
+        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<Object> allModels = new ArrayList<>();
+        // The bug causes a StackOverflowError when calling generateModels
+        generator.generateModels(files, allModels, filteredSchemas);
+        // all fine, we have passed
     }
 }
