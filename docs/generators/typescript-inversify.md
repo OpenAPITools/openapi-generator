@@ -10,6 +10,7 @@ title: Documentation for the typescript-inversify Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Typescript | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates Typescript services using Inversify IOC | |
 
 ## CONFIG OPTIONS

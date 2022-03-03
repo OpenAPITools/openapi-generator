@@ -29,8 +29,28 @@ describe "PetApi" do
   # @param [Hash] opts the optional parameters
   # @return [Pet]
   describe "add_pet test" do
-    it "should work" do
+    it "should work with only required attributes" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
+
+      config = Petstore::Configuration.new
+      config.access_token = "yyy"
+      config.api_key[:api_key] = "xxx"
+      config.api_key_prefix[:api_key] = "Token"
+
+      api_client = Petstore::ApiClient.new(config)
+
+      api_instance = Petstore::PetApi.new(api_client)
+
+      pet_name = "new pet"
+      new_pet = Petstore::Pet.new(id: nil, category: nil, name: pet_name, photo_urls: Array(String).new, tags: nil, status: nil)
+
+      pet = api_instance.add_pet(new_pet)
+      pet.id.should_not be_nil
+      pet.category.should be_nil
+      pet.name.should eq pet_name
+      pet.photo_urls.should eq Array(String).new
+      pet.status.should be_nil
+      pet.tags.should eq Array(Petstore::Tag).new
     end
   end
 
@@ -89,20 +109,17 @@ describe "PetApi" do
 
       api_instance = Petstore::PetApi.new(api_client)
 
-      # create a pet to start with
-      pet_id = Int64.new(91829)
-      pet = Petstore::Pet.new(id: pet_id, category: Petstore::Category.new(id: pet_id + 10, name: "crystal category"), name: "crystal", photo_urls: ["https://crystal-lang.org"], tags: [Petstore::Tag.new(id: pet_id + 100, name: "crystal tag")], status: "available")
+      new_pet = Petstore::Pet.new(id: nil, category: nil, name: "crystal", photo_urls: Array(String).new, tags: nil, status: nil)
 
-      api_instance.add_pet(pet)
-
+      pet = api_instance.add_pet(new_pet)
+      pet_id = pet.id.not_nil!
       result = api_instance.get_pet_by_id(pet_id: pet_id)
       result.id.should eq pet_id
-      result.category.id.should eq pet_id + 10
-      result.category.name.should eq "crystal category"
+      result.category.should be_nil
       result.name.should eq "crystal"
-      result.photo_urls.should eq ["https://crystal-lang.org"]
-      result.status.should eq "available" 
-      result.tags[0].id.should eq pet_id + 100
+      result.photo_urls.should eq Array(String).new
+      result.status.should be_nil
+      result.tags.should eq Array(Petstore::Tag).new
     end
   end
 

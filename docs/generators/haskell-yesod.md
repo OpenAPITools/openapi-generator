@@ -10,6 +10,7 @@ title: Documentation for the haskell-yesod Generator
 | generator stability | BETA | |
 | generator type | SERVER | |
 | generator language | Haskell | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a haskell-yesod server. | |
 
 ## CONFIG OPTIONS

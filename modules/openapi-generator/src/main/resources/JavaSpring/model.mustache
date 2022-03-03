@@ -10,9 +10,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
-{{#jdk8}}
 import java.time.OffsetDateTime;
-{{/jdk8}}
 {{#useBeanValidation}}
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -26,9 +24,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 {{/withXml}}
 {{/jackson}}
-{{#oas3}}
+{{#swagger2AnnotationLibrary}}
 import io.swagger.v3.oas.annotations.media.Schema;
-{{/oas3}}
+{{/swagger2AnnotationLibrary}}
 
 {{#withXml}}
 import javax.xml.bind.annotation.*;

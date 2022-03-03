@@ -19,7 +19,7 @@ type InlineObject4 struct {
 	// field1
 	Param string `json:"param"`
 	// field2
-	Param2 string `json:"param2"`
+	Param2               string `json:"param2"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -29,7 +29,7 @@ type _InlineObject4 InlineObject4
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInlineObject4(param string, param2 string, ) *InlineObject4 {
+func NewInlineObject4(param string, param2 string) *InlineObject4 {
 	this := InlineObject4{}
 	this.Param = param
 	this.Param2 = param2
@@ -46,7 +46,7 @@ func NewInlineObject4WithDefaults() *InlineObject4 {
 
 // GetParam returns the Param field value
 func (o *InlineObject4) GetParam() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -57,7 +57,7 @@ func (o *InlineObject4) GetParam() string {
 // GetParamOk returns a tuple with the Param field value
 // and a boolean to check if the value has been set.
 func (o *InlineObject4) GetParamOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Param, true
@@ -70,7 +70,7 @@ func (o *InlineObject4) SetParam(v string) {
 
 // GetParam2 returns the Param2 field value
 func (o *InlineObject4) GetParam2() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -81,7 +81,7 @@ func (o *InlineObject4) GetParam2() string {
 // GetParam2Ok returns a tuple with the Param2 field value
 // and a boolean to check if the value has been set.
 func (o *InlineObject4) GetParam2Ok() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Param2, true
@@ -161,5 +161,3 @@ func (v *NullableInlineObject4) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

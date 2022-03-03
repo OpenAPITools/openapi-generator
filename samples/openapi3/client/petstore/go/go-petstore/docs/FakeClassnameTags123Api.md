@@ -32,8 +32,8 @@ func main() {
     client := *openapiclient.NewClient() // Client | client model
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.FakeClassnameTags123Api.TestClassname(context.Background()).Client(client).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.FakeClassnameTags123Api.TestClassname(context.Background()).Client(client).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeClassnameTags123Api.TestClassname``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

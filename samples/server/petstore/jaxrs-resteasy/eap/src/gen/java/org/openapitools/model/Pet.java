@@ -24,9 +24,9 @@ public class Pet   {
 
   private String name;
 
-  private List<String> photoUrls = new ArrayList<String>();
+  private List<String> photoUrls = new ArrayList<>();
 
-  private List<Tag> tags = new ArrayList<Tag>();
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store

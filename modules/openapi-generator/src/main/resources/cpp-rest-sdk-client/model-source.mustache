@@ -1,12 +1,11 @@
 {{>licenseInfo}}
 {{#models}}{{#model}}
 
-#include "{{classFilename}}.h"
+#include "{{packageName}}/model/{{classFilename}}.h"
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
-
 
 {{#isEnum}}
 

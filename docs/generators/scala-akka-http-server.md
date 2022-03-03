@@ -10,6 +10,7 @@ title: Documentation for the scala-akka-http-server Generator
 | generator stability | BETA | |
 | generator type | SERVER | |
 | generator language | Scala | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a scala-akka-http server (beta). | |
 
 ## CONFIG OPTIONS

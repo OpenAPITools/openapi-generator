@@ -49,6 +49,7 @@ from petstore_api.model.composed_number import ComposedNumber
 from petstore_api.model.composed_object import ComposedObject
 from petstore_api.model.composed_one_of_different_types import ComposedOneOfDifferentTypes
 from petstore_api.model.composed_string import ComposedString
+from petstore_api.model.composition_in_property import CompositionInProperty
 from petstore_api.model.currency import Currency
 from petstore_api.model.danish_pig import DanishPig
 from petstore_api.model.date_time_test import DateTimeTest
@@ -100,6 +101,7 @@ from petstore_api.model.object_interface import ObjectInterface
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 from petstore_api.model.object_with_decimal_properties import ObjectWithDecimalProperties
 from petstore_api.model.object_with_difficultly_named_props import ObjectWithDifficultlyNamedProps
+from petstore_api.model.object_with_inline_composition_property import ObjectWithInlineCompositionProperty
 from petstore_api.model.object_with_validations import ObjectWithValidations
 from petstore_api.model.order import Order
 from petstore_api.model.parent_pet import ParentPet

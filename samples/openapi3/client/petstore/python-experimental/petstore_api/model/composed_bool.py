@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,6 +47,10 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
     DateBase,
     DateTimeBase,
@@ -93,10 +97,10 @@ class ComposedBool(
     def __new__(
         cls,
         *args: typing.Union[bool, ],
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
     ) -> 'ComposedBool':
         return super().__new__(
             cls,
             *args,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
         )

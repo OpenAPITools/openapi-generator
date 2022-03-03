@@ -39,7 +39,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new StoreApi(httpClient, config, httpClientHandler);
-            var orderId = orderId_example;  // string | ID of the order that needs to be deleted
+            var orderId = "orderId_example";  // string | ID of the order that needs to be deleted
 
             try
             {
@@ -190,7 +190,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new StoreApi(httpClient, config, httpClientHandler);
-            var orderId = 789;  // long | ID of pet that needs to be fetched
+            var orderId = 789L;  // long | ID of pet that needs to be fetched
 
             try
             {

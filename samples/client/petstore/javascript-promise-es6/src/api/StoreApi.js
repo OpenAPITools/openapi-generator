@@ -174,6 +174,7 @@ export default class StoreApi {
 
     /**
      * Place an order for a pet
+     * 
      * @param {module:model/Order} order order placed for purchasing the pet
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Order} and HTTP response
      */
@@ -206,6 +207,7 @@ export default class StoreApi {
 
     /**
      * Place an order for a pet
+     * 
      * @param {module:model/Order} order order placed for purchasing the pet
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Order}
      */

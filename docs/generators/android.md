@@ -10,6 +10,7 @@ title: Documentation for the android Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates an Android client library. | |
 
 ## CONFIG OPTIONS

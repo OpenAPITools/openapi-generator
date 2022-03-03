@@ -10,6 +10,7 @@ title: Documentation for the objc Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Objective-C | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates an Objective-C client library. | |
 
 ## CONFIG OPTIONS

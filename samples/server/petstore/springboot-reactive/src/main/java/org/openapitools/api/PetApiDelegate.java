@@ -1,8 +1,8 @@
 package org.openapitools.api;
 
+import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
-import org.springframework.core.io.Resource;
 import java.util.Set;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

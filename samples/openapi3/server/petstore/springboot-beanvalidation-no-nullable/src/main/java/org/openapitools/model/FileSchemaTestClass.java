@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -55,7 +56,7 @@ public class FileSchemaTestClass   {
 
   public FileSchemaTestClass addFilesItem(File filesItem) {
     if (this.files == null) {
-      this.files = new ArrayList<File>();
+      this.files = new ArrayList<>();
     }
     this.files.add(filesItem);
     return this;

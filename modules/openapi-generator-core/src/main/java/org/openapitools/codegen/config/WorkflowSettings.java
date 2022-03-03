@@ -46,7 +46,7 @@ public class WorkflowSettings {
     public static final boolean DEFAULT_ENABLE_MINIMAL_UPDATE = false;
     public static final boolean DEFAULT_STRICT_SPEC_BEHAVIOR = true;
     public static final boolean DEFAULT_GENERATE_ALIAS_AS_MODEL = false;
-    public static final String DEFAULT_TEMPLATING_ENGINE_NAME = "mustache";
+    public static final String DEFAULT_TEMPLATING_ENGINE_NAME = null; // this is set by the generator
     public static final Map<String, String> DEFAULT_GLOBAL_PROPERTIES = Collections.unmodifiableMap(new HashMap<>());
 
     private String inputSpec;

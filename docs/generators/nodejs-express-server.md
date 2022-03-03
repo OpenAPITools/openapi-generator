@@ -10,6 +10,7 @@ title: Documentation for the nodejs-express-server Generator
 | generator stability | BETA | |
 | generator type | SERVER | |
 | generator language | Javascript | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a NodeJS Express server (alpha). IMPORTANT: this generator may subject to breaking changes without further notice). | |
 
 ## CONFIG OPTIONS

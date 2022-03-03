@@ -45,7 +45,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
   @JsonProperty("{{baseName}}")
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>beanValidatedType}} {{getter}}() {
     return {{name}};
   }
 
@@ -55,7 +55,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.{{name}} = {{name}};
   }
 
-  {{#isListContainer}}
+  {{#isArray}}
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
@@ -72,8 +72,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-  {{/isListContainer}}
-  {{#isMapContainer}}
+  {{/isArray}}
+  {{#isMap}}
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
@@ -90,7 +90,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-  {{/isMapContainer}}
+  {{/isMap}}
   {{/vars}}
 
   @Override

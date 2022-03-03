@@ -174,6 +174,7 @@ Class | Method | HTTP request | Description
  - [File](docs/File.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
+ - [FooObject](docs/FooObject.md)
  - [FormatTest](docs/FormatTest.md)
  - [Fruit](docs/Fruit.md)
  - [FruitReq](docs/FruitReq.md)

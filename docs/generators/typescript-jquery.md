@@ -10,6 +10,7 @@ title: Documentation for the typescript-jquery Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Typescript | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a TypeScript jquery client library. | |
 
 ## CONFIG OPTIONS

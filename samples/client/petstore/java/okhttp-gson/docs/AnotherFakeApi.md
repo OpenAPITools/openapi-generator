@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="call123testSpecialTags"></a>
 # **call123testSpecialTags**
-> Client call123testSpecialTags(body)
+> Client call123testSpecialTags(client)
 
 To test special tags
 
@@ -30,9 +30,9 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
-    Client body = new Client(); // Client | client model
+    Client client = new Client(); // Client | client model
     try {
-      Client result = apiInstance.call123testSpecialTags(body);
+      Client result = apiInstance.call123testSpecialTags(client);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");
@@ -49,7 +49,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model |
+ **client** | [**Client**](Client.md)| client model |
 
 ### Return type
 

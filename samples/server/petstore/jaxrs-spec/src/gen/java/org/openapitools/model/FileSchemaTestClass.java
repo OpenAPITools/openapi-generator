@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class FileSchemaTestClass  implements Serializable {
   
   private @Valid ModelFile _file;
-  private @Valid List<ModelFile> files = new ArrayList<ModelFile>();
+  private @Valid List<ModelFile> files = new ArrayList<>();
 
   /**
    **/
@@ -66,6 +66,22 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.files = files;
   }
 
+  public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
+    if (this.files == null) {
+      this.files = new ArrayList<>();
+    }
+
+    this.files.add(filesItem);
+    return this;
+  }
+
+  public FileSchemaTestClass removeFilesItem(ModelFile filesItem) {
+    if (filesItem != null && this.files != null) {
+      this.files.remove(filesItem);
+    }
+
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

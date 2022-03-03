@@ -50,21 +50,21 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public filePost(param: DefaultApiFilePostRequest, options?: Configuration): Promise<void> {
+    public filePost(param: DefaultApiFilePostRequest = {}, options?: Configuration): Promise<void> {
         return this.api.filePost(param.inlineObject,  options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public petsFilteredPatch(param: DefaultApiPetsFilteredPatchRequest, options?: Configuration): Promise<void> {
+    public petsFilteredPatch(param: DefaultApiPetsFilteredPatchRequest = {}, options?: Configuration): Promise<void> {
         return this.api.petsFilteredPatch(param.petByAgePetByType,  options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public petsPatch(param: DefaultApiPetsPatchRequest, options?: Configuration): Promise<void> {
+    public petsPatch(param: DefaultApiPetsPatchRequest = {}, options?: Configuration): Promise<void> {
         return this.api.petsPatch(param.catDog,  options).toPromise();
     }
 

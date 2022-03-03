@@ -10,6 +10,7 @@ title: Documentation for the cpp-qt-qhttpengine-server Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | C++ | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Qt C++ Server using the QHTTPEngine HTTP Library. | |
 
 ## CONFIG OPTIONS

@@ -10,6 +10,7 @@ title: Documentation for the dart Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Dart | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Dart 2.x client library. | |
 
 ## CONFIG OPTIONS

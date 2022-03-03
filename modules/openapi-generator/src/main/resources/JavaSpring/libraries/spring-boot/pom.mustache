@@ -6,15 +6,28 @@
     <name>{{artifactId}}</name>
     <version>{{artifactVersion}}</version>
     <properties>
-        <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
+        <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        {{#useSpringfox}}
+        {{#springFoxDocumentationProvider}}
         <springfox.version>2.9.2</springfox.version>
-        {{/useSpringfox}}
-        {{^useSpringfox}}
-        <swagger-core-version>{{#oas3}}2.1.11{{/oas3}}{{^oas3}}1.6.3{{/oas3}}</swagger-core-version>
-        {{/useSpringfox}}
+        {{/springFoxDocumentationProvider}}
+        {{#springDocDocumentationProvider}}
+        <springdoc.version>1.6.4</springdoc.version>
+        {{/springDocDocumentationProvider}}
+        {{^springFoxDocumentationProvider}}
+        {{^springDocDocumentationProvider}}
+        {{#swagger1AnnotationLibrary}}
+        <swagger-annotations.version>1.6.4</swagger-annotations.version>
+        {{/swagger1AnnotationLibrary}}
+        {{#swagger2AnnotationLibrary}}
+        <swagger-annotations.version>}2.1.12</swagger-annotations.version>
+        {{/swagger2AnnotationLibrary}}
+        {{/springDocDocumentationProvider}}
+        {{/springFoxDocumentationProvider}}
+        {{#useSwaggerUI}}
+        <swagger-ui.version>4.4.1-1</swagger-ui.version>
+        {{/useSwaggerUI}}
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -27,7 +40,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.8</version>
+        <version>{{#springFoxDocumentationProvider}}2.5.8{{/springFoxDocumentationProvider}}{{^springFoxDocumentationProvider}}2.6.3{{/springFoxDocumentationProvider}}</version>
     </parent>
 {{/parentOverridden}}
     <build>
@@ -82,30 +95,62 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
         </dependency>
-        {{#useSpringfox}}
+        {{#springDocDocumentationProvider}}
+          <!--SpringDoc dependencies -->
+        {{#useSwaggerUI}}
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-{{#reactive}}webflux-{{/reactive}}ui</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+        {{/useSwaggerUI}}
+        {{^useSwaggerUI}}
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-core</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+        {{/useSwaggerUI}}
+        {{/springDocDocumentationProvider}}
+        {{#springFoxDocumentationProvider}}
         <!--SpringFox dependencies -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>${springfox.version}</version>
         </dependency>
-        {{/useSpringfox}}
-        {{^useSpringfox}}
-        {{#oas3}}
+        {{/springFoxDocumentationProvider}}
+        {{#useSwaggerUI}}
+        {{^springDocDocumentationProvider}}
         <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-core-version}</version>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>${swagger-ui.version}</version>
         </dependency>
-        {{/oas3}}
-        {{^oas3}}
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
+        </dependency>
+        {{/springDocDocumentationProvider}}
+        {{/useSwaggerUI}}
+        {{^springFoxDocumentationProvider}}
+        {{^springDocDocumentationProvider}}
+        {{#swagger1AnnotationLibrary}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-core-version}</version>
+            <version>${swagger-annotations.version}</version>
         </dependency>
-        {{/oas3}}
-        {{/useSpringfox}}
+        {{/swagger1AnnotationLibrary}}
+        {{#swagger2AnnotationLibrary}}
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations.version}</version>
+        </dependency>
+        {{/swagger2AnnotationLibrary}}
+        {{/springDocDocumentationProvider}}
+        {{/springFoxDocumentationProvider}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -127,25 +172,16 @@
           <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
         {{/withXml}}
-        {{#java8}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
-        {{/java8}}
         {{#joda}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
         {{/joda}}
-        {{#threetenbp}}
-        <dependency>
-            <groupId>com.github.joschi.jackson</groupId>
-            <artifactId>jackson-datatype-threetenbp</artifactId>
-            <version>2.9.10</version>
-        </dependency>
-        {{/threetenbp}}
         {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -185,6 +221,11 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

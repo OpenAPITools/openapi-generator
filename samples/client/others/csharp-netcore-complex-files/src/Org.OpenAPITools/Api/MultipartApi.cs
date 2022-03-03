@@ -54,10 +54,11 @@ namespace Org.OpenAPITools.Api
         /// Mixed MultipartFile test
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
         /// <returns></returns>
-        void MultipartMixed(System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker));
+        void MultipartMixed(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker));
 
         /// <summary>
         /// 
@@ -66,10 +67,11 @@ namespace Org.OpenAPITools.Api
         /// Mixed MultipartFile test
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> MultipartMixedWithHttpInfo(System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker));
+        ApiResponse<Object> MultipartMixedWithHttpInfo(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker));
         /// <summary>
         /// 
         /// </summary>
@@ -130,11 +132,12 @@ namespace Org.OpenAPITools.Api
         /// Mixed MultipartFile test
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task MultipartMixedAsync(System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task MultipartMixedAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -143,11 +146,12 @@ namespace Org.OpenAPITools.Api
         /// Mixed MultipartFile test
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -427,22 +431,24 @@ namespace Org.OpenAPITools.Api
         ///  Mixed MultipartFile test
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
         /// <returns></returns>
-        public void MultipartMixed(System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker))
+        public void MultipartMixed(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker))
         {
-            MultipartMixedWithHttpInfo(file, marker);
+            MultipartMixedWithHttpInfo(status, file, marker);
         }
 
         /// <summary>
         ///  Mixed MultipartFile test
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> MultipartMixedWithHttpInfo(System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker))
+        public Org.OpenAPITools.Client.ApiResponse<Object> MultipartMixedWithHttpInfo(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker))
         {
             // verify the required parameter 'file' is set
             if (file == null)
@@ -472,6 +478,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
+            localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
             if (marker != null)
             {
                 localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.ParameterToString(marker)); // form parameter
@@ -497,24 +504,26 @@ namespace Org.OpenAPITools.Api
         ///  Mixed MultipartFile test
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task MultipartMixedAsync(System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task MultipartMixedAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await MultipartMixedWithHttpInfoAsync(file, marker, cancellationToken).ConfigureAwait(false);
+            await MultipartMixedWithHttpInfoAsync(status, file, marker, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         ///  Mixed MultipartFile test
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedMarker marker = default(MultipartMixedMarker), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'file' is set
             if (file == null)
@@ -545,6 +554,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
+            localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
             if (marker != null)
             {
                 localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.ParameterToString(marker)); // form parameter

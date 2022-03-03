@@ -1,0 +1,56 @@
+name: Samples Java Client JDK11
+
+on:
+  push:
+    paths:
+      - 'samples/client/petstore/java*/**'
+  pull_request:
+    paths:
+      - 'samples/client/petstore/java*/**'
+jobs:
+  build:
+    name: Build Java Client JDK11
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # clients
+          - samples/client/petstore/jaxrs-cxf-client
+          - samples/client/petstore/java/native
+          - samples/client/petstore/java/native-async
+          - samples/client/petstore/java/retrofit2
+          - samples/client/petstore/java/retrofit2rx2
+          - samples/client/petstore/java/retrofit2rx3
+          - samples/client/petstore/java/retrofit2-play26
+          - samples/client/petstore/java/resttemplate
+          - samples/client/petstore/java/resttemplate-withXml
+          - samples/client/petstore/java/webclient
+          - samples/client/petstore/java/webclient-nulable-arrays
+          - samples/client/petstore/java/vertx
+          - samples/client/petstore/java/jersey2-java8-localdatetime
+          - samples/client/petstore/java/resteasy
+          - samples/client/petstore/java/google-api-client
+          - samples/client/petstore/java/rest-assured
+          - samples/client/petstore/java/rest-assured-jackson
+          - samples/client/petstore/java/microprofile-rest-client
+          - samples/client/petstore/java/apache-httpclient
+          - samples/client/petstore/java/feign
+          - samples/client/petstore/java/jersey1
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: 11
+      - name: Cache maven dependencies
+        uses: actions/cache@v2.1.7
+        env:
+          cache-name: maven-repository
+        with:
+          path: |
+            ~/.m2
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: mvn clean package

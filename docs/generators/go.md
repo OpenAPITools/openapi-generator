@@ -10,6 +10,7 @@ title: Documentation for the go Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Go | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Go client library. | |
 
 ## CONFIG OPTIONS

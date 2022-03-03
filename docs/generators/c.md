@@ -10,6 +10,7 @@ title: Documentation for the c Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | C | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a C (libcurl) client library (beta). | |
 
 ## CONFIG OPTIONS

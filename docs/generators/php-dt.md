@@ -10,6 +10,7 @@ title: Documentation for the php-dt Generator
 | generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | PHP | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a PHP client relying on Data Transfer ( https://github.com/Articus/DataTransfer ) and compliant with PSR-7, PSR-11, PSR-17 and PSR-18. | |
 
 ## CONFIG OPTIONS

@@ -127,7 +127,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             if (!supportAsync) {
                 additionalProperties.remove(SUPPORT_ASYNC);
             } else {
-                setJava8ModeAndAdditionalProperties(true);
+                // java8 tag has been deprecated
+                //setJava8ModeAndAdditionalProperties(true);
             }
         }
         if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || OPEN_LIBERTY_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
@@ -213,11 +214,12 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             supportingFiles.add(new SupportingFile("ibm-web-ext.xml.mustache", "src/main/webapp/WEB-INF", "ibm-web-ext.xml")
                     .doNotOverwrite());
         } else if(HELIDON_LIBRARY.equals(library)) {
+            additionalProperties.computeIfAbsent("helidonVersion", key -> "2.4.1");
             supportingFiles.add(new SupportingFile("logging.properties.mustache", "src/main/resources", "logging.properties")
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("microprofile-config.properties.mustache", "src/main/resources/META-INF", "microprofile-config.properties")
                     .doNotOverwrite());
-            supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml")
+            supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/resources/META-INF", "beans.xml")
                     .doNotOverwrite());
         } else if(KUMULUZEE_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("config.yaml.mustache", "src/main/resources", "config.yaml"));

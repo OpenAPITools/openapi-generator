@@ -10,6 +10,7 @@ title: Documentation for the asciidoc Generator
 | generator stability | STABLE | |
 | generator type | DOCUMENTATION | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates asciidoc markup based documentation. | |
 
 ## CONFIG OPTIONS

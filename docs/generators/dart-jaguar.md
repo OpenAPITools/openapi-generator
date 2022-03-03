@@ -10,6 +10,7 @@ title: Documentation for the dart-jaguar Generator
 | generator stability | DEPRECATED | |
 | generator type | CLIENT | |
 | generator language | Dart | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Dart Jaguar client library. | |
 
 ## CONFIG OPTIONS

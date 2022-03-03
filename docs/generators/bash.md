@@ -10,6 +10,7 @@ title: Documentation for the bash Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Bash | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Bash client script based on cURL. | |
 
 ## CONFIG OPTIONS

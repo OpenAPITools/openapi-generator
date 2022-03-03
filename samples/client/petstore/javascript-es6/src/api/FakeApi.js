@@ -694,6 +694,7 @@ export default class FakeApi {
 
     /**
      * test inline additionalProperties
+     * 
      * @param {Object.<String, {String: String}>} requestBody request body
      * @param {module:api/FakeApi~testInlineAdditionalPropertiesCallback} callback The callback function, accepting three arguments: error, data, response
      */
@@ -734,6 +735,7 @@ export default class FakeApi {
 
     /**
      * test json serialization of form data
+     * 
      * @param {String} param field1
      * @param {String} param2 field2
      * @param {module:api/FakeApi~testJsonFormDataCallback} callback The callback function, accepting three arguments: error, data, response
