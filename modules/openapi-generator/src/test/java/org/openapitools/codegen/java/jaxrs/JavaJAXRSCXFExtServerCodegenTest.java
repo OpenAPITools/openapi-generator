@@ -4,7 +4,10 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+
+import org.assertj.core.api.Assertions;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
 import org.openapitools.codegen.languages.JavaCXFExtServerCodegen;
@@ -13,14 +16,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import static org.testng.Assert.*;
 
@@ -182,33 +180,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
     @BeforeMethod
     public void beforeMethod() {
         codegen = new JavaCXFExtServerCodegenTester();
-    }
-
-    private void checkFile(Path path, boolean fileShouldExist, String... regexes) {
-        if (!fileShouldExist) {
-            assertFalse(path.toFile().exists());
-            return;
-        }
-
-        assertTrue(path.toFile().exists());
-
-        String contents = null;
-        try {
-            contents = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            fail("Unable to evaluate file contents");
-        }
-
-        for (String regex : regexes)
-            assertTrue(Pattern.compile(regex).matcher(contents).find());
-    }
-
-    @SuppressWarnings("unchecked")
-    private List<CodegenOperation> getOperationsList(Map<String, Object> templateData) {
-        assertTrue(templateData.get("operations") instanceof Map);
-        Map<String, Object> operations = (Map<String, Object>) templateData.get("operations");
-        assertTrue(operations.get("operation") instanceof List);
-        return (List<CodegenOperation>) operations.get("operation");
     }
 
     @Test
@@ -379,29 +350,25 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        String reGetPetById = "(?s)(?m)public Pet getPetById\\(Long petId\\) \\{" // split
-                + ".*" // split
-                + "Pet response = new Pet\\(\\);" // split
-                + ".*" // split
-                + "return response;\\s+" // split
-                + "\\}"; // split
-        checkFile(Paths.get(outputPath + "/src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java"), true,
-                reGetPetById);
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java"))
+            .assertMethod("getPetById")
+            .bodyContainsLines(
+                "Pet response = new Pet();",
+                "return response;"
+            );
 
-        String reFindPetsByStatusTest = "(?s)(?m)public void findPetsByStatusTest\\(\\) throws Exception \\{\\s+"
-                + ".*" // split
-                + "List<String> status = new ArrayList<>\\(\\);" // split
-                + ".*" // split
-                + "List<Pet> response = api\\.findPetsByStatus\\(status\\);" // split
-                + ".*" // split
-                + "validate\\(response\\);\\s+" // split
-                + "\\}";
-        checkFile(Paths.get(outputPath + "/src/test/java/org/openapitools/api/PetApiTest.java"), true,
-                reFindPetsByStatusTest);
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/test/java/org/openapitools/api/PetApiTest.java"))
+            .assertMethod("findPetsByStatusTest")
+            .bodyContainsLines(
+                "List<String> status = new ArrayList<>();",
+                "// List<Pet> response = api.findPetsByStatus(status);",
+                "// validate(response);"
+            );
 
-        checkFile(Paths.get(outputPath + "/src/main/resources/test-data.json"), false);
-
-        checkFile(Paths.get(outputPath + "/test-data-control.json"), false);
+        Assertions.assertThat(Paths.get(outputPath + "/src/main/resources/test-data.json"))
+            .doesNotExist();
+        Assertions.assertThat(Paths.get(outputPath + "/test-data-control.json"))
+            .doesNotExist();
     }
 
     @Test
@@ -424,28 +391,34 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        String reInitCache = "(?s)(?m)\\{\\s+" + "try \\{\\s+"
-                + "File cacheFile = new File\\(System\\.getProperty\\(\"jaxrs\\.test\\.server\\.json\",\\s+\"(.+)\"\\)\\);\\s+"
-                + "cache = JsonCache\\.Factory\\.instance\\.get\\(\"test-data\"\\)\\.load\\(cacheFile\\)\\.child\\(\"/org\\.openapitools\\.api/PetApi\"\\);";
-        String reGetPetById = "(?s)(?m)public Pet getPetById\\(Long petId\\) \\{.*" // split
-                + "try \\{\\s*" // split
-                + "Pet response = cache\\.getObject\\(\"/getPetById/response\", Pet\\.class\\);";
-        checkFile(Paths.get(outputPath + "/src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java"), true,
-                reInitCache, reGetPetById);
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java"))
+            .fileContains(
+                "File cacheFile = new File(System.getProperty(\"jaxrs.test.server.json\"",
+                "cache = JsonCache.Factory.instance.get(\"test-data\").load(cacheFile).child(\"/org.openapitools.api/PetApi\");"
+            )
+            .assertMethod("getPetById")
+            .bodyContainsLines(
+                "Pet response = cache.getObject(\"/getPetById/response\", Pet.class);"
+            );
 
-        reInitCache = "(?s)(?m)public static void beforeClass\\(\\) throws Exception \\{\\s+"
-                + "File cacheFile = new File\\(System\\.getProperty\\(\"jaxrs\\.test\\.client\\.json\",\\s+"
-                + "\".*src(?:\\\\\\\\|/)main(?:\\\\\\\\|/)resources(?:\\\\\\\\|/)test-data\\.json\"\\)\\);\\s+"
-                + "cache = JsonCache\\.Factory\\.instance.get\\(\"test-data\"\\)\\.load\\(cacheFile\\)"
-                + "\\.child\\(\"/org\\.openapitools\\.api/PetApi\"\\);";
-        String reAddPetTest = "public void addPetTest\\(\\) throws Exception \\{\\s+"
-                + "Pet pet = cache\\.getObject\\(\"/addPet/pet\", Pet\\.class\\);";
-        checkFile(Paths.get(outputPath + "/src/test/java/org/openapitools/api/PetApiTest.java"), true, reInitCache,
-                reAddPetTest);
 
-        checkFile(Paths.get(outputPath + "/src/main/resources/test-data.json"), true);
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/test/java/org/openapitools/api/PetApiTest.java"))
+            .assertMethod("beforeClass")
+                .bodyContainsLines(
+                    "File cacheFile = new File(System.getProperty(\"jaxrs.test.client.json\",",
+                    "cache = JsonCache.Factory.instance.get(\"test-data\").load(cacheFile).child(\"/org.openapitools.api/PetApi\");",
+                    "validator = Validation.buildDefaultValidatorFactory().getValidator();"
+                )
+            .toFileAssert()
+            .assertMethod("addPetTest")
+                .bodyContainsLines(
+                    "Pet pet = cache.getObject(\"/addPet/pet\", Pet.class);"
+                );
 
-        checkFile(Paths.get(outputPath + "/test-data-control.json"), true);
+        Assertions.assertThat(Paths.get(outputPath + "/src/main/resources/test-data.json"))
+            .exists();
+        Assertions.assertThat(Paths.get(outputPath + "/test-data-control.json"))
+            .exists();
     }
 
     @Test
