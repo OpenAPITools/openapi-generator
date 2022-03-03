@@ -22,10 +22,10 @@ import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import org.openapitools.model.ModelClient;
+import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
-import java.time.ZonedDateTime;
 import javax.annotation.Generated;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -169,7 +169,7 @@ public interface FakeApi {
         @Nullable @Pattern(regexp="/[a-z]/i") String string, 
         @Nullable File binary, 
         @Nullable @Format("yyyy-MM-dd") LocalDate date, 
-        @Nullable @Format("yyyy-MM-dd'T'HH:mm:ss.SSSXXXX") ZonedDateTime dateTime, 
+        @Nullable @Format("yyyy-MM-dd'T'HH:mm:ss.SSSXXXX") OffsetDateTime dateTime, 
         @Nullable @Size(min=10, max=64) String password, 
         @Nullable String paramCallback
   );

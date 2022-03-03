@@ -225,20 +225,19 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         supportingFiles.add(new SupportingFile("common/configuration/git/gitignore.mustache", "", ".gitignore").doNotOverwrite());
 
         // Use the default java time
-        typeMapping.put("date", "LocalDate");
-        importMapping.put("LocalDate", "java.time.LocalDate");
         additionalProperties.putIfAbsent(OPT_DATE_FORMAT, DATE_FORMAT);
         if (dateLibrary.equals(OPT_DATE_LIBRARY_JAVA8)) {
-            typeMapping.put("DateTime", "ZonedDateTime");
-            importMapping.put("ZonedDateTime", "java.time.ZonedDateTime");
+            typeMapping.put("DateTime", "OffsetDateTime");
+            typeMapping.put("date", "LocalDate");
             additionalProperties.putIfAbsent(OPT_DATETIME_FORMAT, OFFSET_DATETIME_FORMAT);
         } else if (dateLibrary.equals(OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME)) {
             typeMapping.put("DateTime", "LocalDateTime");
-            importMapping.put("LocalDateTime", "java.time.LocalDateTime");
+            typeMapping.put("date", "LocalDate");
             additionalProperties.putIfAbsent(OPT_DATETIME_FORMAT, DATETIME_FORMAT);
-        } else {
-            throw new RuntimeException("Date library \"" + dateLibrary + "\" is not supported or misspelled.");
         }
+        importMapping.putIfAbsent("LocalDateTime", "java.time.LocalDateTime");
+        importMapping.putIfAbsent("OffsetDateTime", "java.time.OffsetDateTime");
+        importMapping.putIfAbsent("LocalDate", "java.time.LocalDate");
 
         // Add documentation files
         modelDocTemplateFiles.clear();
@@ -456,8 +455,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             example = example != null ? example : "false";
         } else if ("File".equals(dataType)) {
             example = null;
-        } else if ("ZonedDateTime".equals(dataType)) {
-            example = "ZonedDateTime.of(2001, 2, 3, 12, 0, 0, 0, java.time.ZoneId.of(\"+0200\"))";
+        } else if ("OffsetDateTime".equals(dataType)) {
+            example = "OffsetDateTime.of(2001, 2, 3, 12, 0, 0, 0, java.time.ZoneOffset.of(\"+02:00\"))";
         } else if ("LocalDate".equals(dataType)) {
             example = "LocalDate.of(2001, 2, 3)";
         } else if ("LocalDateTime".equals(dataType)) {
