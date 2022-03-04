@@ -37,7 +37,6 @@ public interface StoreApi {
      * @param orderId ID of the order that needs to be deleted (required)
      */
     @Delete(uri="/store/order/{order_id}")
-    @Consumes(value={"application/json"})
     Mono<Object> deleteOrder(
         @PathVariable(name="order_id") @NotNull String orderId
   );
@@ -48,7 +47,7 @@ public interface StoreApi {
      * @return Map&lt;String, Integer&gt;
      */
     @Get(uri="/store/inventory")
-    @Consumes(value={"application/json"})
+    @Consumes({"application/json"})
     Mono<Map<String, Integer>> getInventory();
     /**
      * Find purchase order by ID
@@ -58,7 +57,7 @@ public interface StoreApi {
      * @return Order
      */
     @Get(uri="/store/order/{order_id}")
-    @Consumes(value={"application/json"})
+    @Consumes({"application/xml", "application/json"})
     Mono<Order> getOrderById(
         @PathVariable(name="order_id") @NotNull @Min(1L) @Max(5L) Long orderId
   );
@@ -69,8 +68,7 @@ public interface StoreApi {
      * @return Order
      */
     @Post(uri="/store/order")
-    @Produces(value={"application/json"})
-    @Consumes(value={"application/json"})
+    @Consumes({"application/xml", "application/json"})
     Mono<Order> placeOrder(
         @Body @NotNull @Valid Order _body
   );
