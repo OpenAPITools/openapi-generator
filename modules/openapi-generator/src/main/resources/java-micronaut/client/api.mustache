@@ -52,10 +52,12 @@ public interface {{classname}} {
 {{/externalDocs}}
      */
     @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
-        {{#vendorExtensions.x-contentType}}
-    @Produces(value={"{{vendorExtensions.x-contentType}}"})
-        {{/vendorExtensions.x-contentType}}
-    @Consumes(value={"{{vendorExtensions.x-accepts}}"})
+    {{#hasProduces}}
+    {{#produces}}{{#-first}}@Consumes({{openbrace}}{{/-first}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{#-last}}{{closebrace}}){{/-last}}{{/produces}}
+    {{/hasProduces}}
+    {{#hasConsumes}}
+    {{#consumes}}{{#-first}}@Produces({{openbrace}}{{/-first}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{#-last}}{{closebrace}}){{/-last}}{{/consumes}}
+    {{/hasConsumes}}
     {{!auth methods}}
         {{#configureAuth}}
             {{#authMethods}}
