@@ -1062,4 +1062,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
     }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_WEBCLIENT_BLOCKING);
+        return extensions;
+    }
 }
