@@ -498,7 +498,6 @@ public class DefaultGenerator implements Generator {
                     // generators may choose to make models for use case 2 + 3
                     Schema refSchema = new Schema();
                     refSchema.set$ref("#/components/schemas/"+name);
-                    Schema unaliasedSchema = config.unaliasSchema(refSchema, config.importMapping());
                 } else if (ModelUtils.isMapSchema(schema)) { // check to see if it's a "map" model
                     // A composed schema (allOf, oneOf, anyOf) is considered a Map schema if the additionalproperties attribute is set
                     // for that composed schema. However, in the case of a composed schema, the properties are defined or referenced

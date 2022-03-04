@@ -1,22 +1,15 @@
-{{>partial_header}}
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-{{#netStandard}}
-using RestSharp.Portable;
-{{/netStandard}}
-{{^netStandard}}
 using RestSharp;
-{{/netStandard}}
 
 namespace {{packageName}}.Client
 {
     /// <summary>
     /// Represents configuration aspects required to interact with the API endpoints.
     /// </summary>
-    {{>visibility}} interface IApiAccessor
+    public interface IApiAccessor
     {
         /// <summary>
         /// Gets or sets the configuration object
@@ -29,10 +22,5 @@ namespace {{packageName}}.Client
         /// </summary>
         /// <value>The base path</value>
         String GetBasePath();
-
-        /// <summary>
-        /// Provides a factory method hook for the creation of exceptions.
-        /// </summary>
-        ExceptionFactory ExceptionFactory { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 package org.openapitools.codegen.languages;
 
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.SupportingFile;
@@ -45,8 +46,13 @@ public class WebMessagingJavaClientCodegen extends PureCloudJavaClientCodegen {
         apiTemplateFiles.put("api.mustache", ".java");
         operationTemplateFiles.put("requestBuilder.mustache", ".java");
 
-        supportingFiles.add(new SupportingFile("pom.xml", "", "pom.xml"));
-        supportingFiles.add(new SupportingFile("props.properties.mustache", "", "props.properties"));
+        if (additionalProperties.get(CodegenConstants.ARTIFACT_ID).equals("web-messaging-sdk")) {
+            supportingFiles.add(new SupportingFile("pom.xml", "", "pom.xml"));
+            supportingFiles.add(new SupportingFile("props.properties.mustache", "", "props.properties"));
+        } else {
+            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        }
+
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 

@@ -43,6 +43,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean optionalEmitDefaultValuesFlag = false;
     protected boolean optionalProjectFileFlag = true;
     protected boolean optionalMethodArgumentFlag = true;
+    protected boolean optionalEmitDefaultValue = false;
     protected boolean useDateTimeOffsetFlag = false;
     protected boolean useCollection = false;
     protected boolean returnICollection = false;
