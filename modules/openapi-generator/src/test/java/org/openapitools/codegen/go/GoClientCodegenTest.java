@@ -141,4 +141,21 @@ public class GoClientCodegenTest {
         TestUtils.assertFileNotContains(modelFile, "int32 *int32");
         TestUtils.assertFileNotContains(modelFile, "dst.int32");
     }
+
+    @Test
+    public void testNullableComposition() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/allOf_nullable.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/model_example.go"), "Child NullableChild");
+    }
 }
