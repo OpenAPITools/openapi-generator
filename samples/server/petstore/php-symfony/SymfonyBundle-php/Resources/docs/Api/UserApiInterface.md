@@ -58,7 +58,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUser
      */
-    public function createUser(User $user)
+    public function createUser(User $user): array|void
     {
         // Implement the operation ...
     }
@@ -118,7 +118,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUsersWithArrayInput
      */
-    public function createUsersWithArrayInput(array $user)
+    public function createUsersWithArrayInput(array $user): array|void
     {
         // Implement the operation ...
     }
@@ -178,7 +178,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUsersWithListInput
      */
-    public function createUsersWithListInput(array $user)
+    public function createUsersWithListInput(array $user): array|void
     {
         // Implement the operation ...
     }
@@ -240,7 +240,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#deleteUser
      */
-    public function deleteUser($username)
+    public function deleteUser($username): array|void
     {
         // Implement the operation ...
     }
@@ -292,7 +292,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#getUserByName
      */
-    public function getUserByName($username)
+    public function getUserByName($username): array|\OpenAPI\Server\Model\User
     {
         // Implement the operation ...
     }
@@ -344,7 +344,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#loginUser
      */
-    public function loginUser($username, $password)
+    public function loginUser($username, $password): array|\string
     {
         // Implement the operation ...
     }
@@ -405,7 +405,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#logoutUser
      */
-    public function logoutUser()
+    public function logoutUser(): array|void
     {
         // Implement the operation ...
     }
@@ -464,7 +464,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#updateUser
      */
-    public function updateUser($username, User $user)
+    public function updateUser($username, User $user): array|void
     {
         // Implement the operation ...
     }

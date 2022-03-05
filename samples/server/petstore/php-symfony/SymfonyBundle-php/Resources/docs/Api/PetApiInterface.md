@@ -56,7 +56,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#addPet
      */
-    public function addPet(Pet $pet)
+    public function addPet(Pet $pet): array|\OpenAPI\Server\Model\Pet
     {
         // Implement the operation ...
     }
@@ -116,7 +116,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#deletePet
      */
-    public function deletePet($petId, $apiKey = null)
+    public function deletePet($petId, $apiKey = null): array|void
     {
         // Implement the operation ...
     }
@@ -179,7 +179,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#findPetsByStatus
      */
-    public function findPetsByStatus(array $status)
+    public function findPetsByStatus(array $status): iterable
     {
         // Implement the operation ...
     }
@@ -241,7 +241,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#findPetsByTags
      */
-    public function findPetsByTags(array $tags)
+    public function findPetsByTags(array $tags): iterable
     {
         // Implement the operation ...
     }
@@ -303,7 +303,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#getPetById
      */
-    public function getPetById($petId)
+    public function getPetById($petId): array|\OpenAPI\Server\Model\Pet
     {
         // Implement the operation ...
     }
@@ -363,7 +363,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#updatePet
      */
-    public function updatePet(Pet $pet)
+    public function updatePet(Pet $pet): array|\OpenAPI\Server\Model\Pet
     {
         // Implement the operation ...
     }
@@ -423,7 +423,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#updatePetWithForm
      */
-    public function updatePetWithForm($petId, $name = null, $status = null)
+    public function updatePetWithForm($petId, $name = null, $status = null): array|void
     {
         // Implement the operation ...
     }
@@ -485,7 +485,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#uploadFile
      */
-    public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null)
+    public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null): array|\OpenAPI\Server\Model\ApiResponse
     {
         // Implement the operation ...
     }

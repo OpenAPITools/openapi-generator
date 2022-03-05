@@ -46,7 +46,7 @@ class StoreApi implements StoreApiInterface
     /**
      * Implementation of StoreApiInterface#deleteOrder
      */
-    public function deleteOrder($orderId)
+    public function deleteOrder($orderId): array|void
     {
         // Implement the operation ...
     }
@@ -108,7 +108,7 @@ class StoreApi implements StoreApiInterface
     /**
      * Implementation of StoreApiInterface#getInventory
      */
-    public function getInventory()
+    public function getInventory(): array|\int
     {
         // Implement the operation ...
     }
@@ -159,7 +159,7 @@ class StoreApi implements StoreApiInterface
     /**
      * Implementation of StoreApiInterface#getOrderById
      */
-    public function getOrderById($orderId)
+    public function getOrderById($orderId): array|\OpenAPI\Server\Model\Order
     {
         // Implement the operation ...
     }
@@ -211,7 +211,7 @@ class StoreApi implements StoreApiInterface
     /**
      * Implementation of StoreApiInterface#placeOrder
      */
-    public function placeOrder(Order $order)
+    public function placeOrder(Order $order): array|\OpenAPI\Server\Model\Order
     {
         // Implement the operation ...
     }
