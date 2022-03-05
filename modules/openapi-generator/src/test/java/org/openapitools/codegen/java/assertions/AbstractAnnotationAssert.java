@@ -1,5 +1,6 @@
 package org.openapitools.codegen.java.assertions;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -8,8 +9,11 @@ import java.util.stream.Collectors;
 import org.assertj.core.api.ListAssert;
 
 import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.expr.MemberValuePair;
+import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
+import com.github.javaparser.ast.expr.NormalAnnotationExpr;
+import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithSimpleName;
+import com.google.common.collect.ImmutableMap;
 
 public abstract class AbstractAnnotationAssert<ACTUAL extends AbstractAnnotationAssert<ACTUAL>> extends ListAssert<AnnotationExpr> {
 
@@ -37,10 +41,19 @@ public abstract class AbstractAnnotationAssert<ACTUAL extends AbstractAnnotation
     }
 
     private static boolean hasAttributes(final AnnotationExpr annotation, final Map<String, String> expectedAttributesToContains) {
-        final Map<String, String> actualAttributes = annotation.getChildNodes().stream()
-            .filter(MemberValuePair.class::isInstance)
-            .map(MemberValuePair.class::cast)
-            .collect(Collectors.toMap(NodeWithSimpleName::getNameAsString, pair -> pair.getValue().toString()));
+        final Map<String, String> actualAttributes;
+        if (annotation instanceof SingleMemberAnnotationExpr) {
+            actualAttributes = ImmutableMap.of(
+                "value", ((SingleMemberAnnotationExpr) annotation).getMemberValue().toString()
+            );
+        } else if (annotation instanceof NormalAnnotationExpr) {
+            actualAttributes = ((NormalAnnotationExpr) annotation).getPairs().stream()
+                .collect(Collectors.toMap(NodeWithSimpleName::getNameAsString, pair -> pair.getValue().toString()));
+        } else if (annotation instanceof MarkerAnnotationExpr) {
+            actualAttributes = new HashMap<>();
+        } else {
+            throw new IllegalArgumentException("Unexpected annotation expression type for: " + annotation);
+        }
 
         return expectedAttributesToContains.entrySet().stream()
             .allMatch(expected -> Objects.equals(actualAttributes.get(expected.getKey()), expected.getValue()));
