@@ -614,6 +614,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         if (codegenParameter.isArray) { // array
             return "[" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "]";
         } else if (codegenParameter.isMap) {
+            if (codegenParameter.items == null) {
+                return "{ ... }";
+            }
             return "{ key: " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isEnum) {
