@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapWithUndeclaredPropertiesAnytype3">mapWithUndeclaredPropertiesAnytype3</param>
         /// <param name="emptyMap">an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.</param>
         /// <param name="mapWithUndeclaredPropertiesString">mapWithUndeclaredPropertiesString</param>
-        public AdditionalPropertiesClass(Dictionary<string, string>? mapProperty = default, Dictionary<string, Dictionary<string, string>>? mapOfMapProperty = default, Object? anytype1 = default, Object? mapWithUndeclaredPropertiesAnytype1 = default, Object? mapWithUndeclaredPropertiesAnytype2 = default, Dictionary<string, Object>? mapWithUndeclaredPropertiesAnytype3 = default, Object? emptyMap = default, Dictionary<string, string>? mapWithUndeclaredPropertiesString = default)
+        public AdditionalPropertiesClass(Dictionary<string, string>? mapProperty = default, Dictionary<string, Dictionary<string, string>>? mapOfMapProperty = default, Object anytype1 = default, Object? mapWithUndeclaredPropertiesAnytype1 = default, Object? mapWithUndeclaredPropertiesAnytype2 = default, Dictionary<string, Object>? mapWithUndeclaredPropertiesAnytype3 = default, Object? emptyMap = default, Dictionary<string, string>? mapWithUndeclaredPropertiesString = default)
         {
             MapProperty = mapProperty;
             MapOfMapProperty = mapOfMapProperty;
@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Anytype1
         /// </summary>
         [JsonPropertyName("anytype_1")]
-        public Object? Anytype1 { get; set; }
+        public Object Anytype1 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype1
