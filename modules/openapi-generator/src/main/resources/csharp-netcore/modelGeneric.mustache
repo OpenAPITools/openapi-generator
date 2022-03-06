@@ -178,6 +178,7 @@
             {{/conditionalSerialization}}
             {{#conditionalSerialization}}
             this._{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            if (this.{{name}} != null) this._flag{{name}} = true;
             {{/conditionalSerialization}}
             {{/defaultValue}}
             {{/required}}
