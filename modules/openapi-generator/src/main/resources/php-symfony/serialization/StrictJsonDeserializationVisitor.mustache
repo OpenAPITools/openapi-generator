@@ -20,7 +20,10 @@ declare(strict_types=1);
 namespace {{servicePackage}};
 
 use JMS\Serializer\JsonDeserializationVisitor;
-use JMS\Serializer\Vistor\DeserializationVisitorInterface;
+use JMS\Serializer\GraphNavigatorInterface;
+use JMS\Serializer\Metadata\ClassMetadata;
+use JMS\Serializer\Metadata\PropertyMetadata;
+use JMS\Serializer\Visitor\DeserializationVisitorInterface;
 
 class StrictJsonDeserializationVisitor implements DeserializationVisitorInterface
 {
@@ -110,7 +113,7 @@ class StrictJsonDeserializationVisitor implements DeserializationVisitorInterfac
      */
     public function startVisitingObject(ClassMetadata $metadata, object $object, array $type): void
     {
-        return $this->jsonDeserializationVisitor->startVisitingObject($metadata, $object, $type);
+        $this->jsonDeserializationVisitor->startVisitingObject($metadata, $object, $type);
     }
 
     /**
@@ -126,7 +129,7 @@ class StrictJsonDeserializationVisitor implements DeserializationVisitorInterfac
      */
     public function endVisitingObject(ClassMetadata $metadata, $data, array $type): object
     {
-        return $this->jsonDeserializationVisitor->endVisitingObject($metadata, $object, $type);
+        return $this->jsonDeserializationVisitor->endVisitingObject($metadata, $data, $type);
     }
 
     /**
@@ -136,4 +139,21 @@ class StrictJsonDeserializationVisitor implements DeserializationVisitorInterfac
     {
         return $this->jsonDeserializationVisitor->getResult($data);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepare($data)
+    {
+        return $this->jsonDeserializationVisitor->prepare($data);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function setNavigator(GraphNavigatorInterface $navigator): void
+    {
+        $this->jsonDeserializationVisitor->setNavigator($navigator);
+    }
+
 }
