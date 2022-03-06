@@ -25,6 +25,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.testng.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -130,11 +132,28 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         final DefaultGenerator generator = new DefaultGenerator();
         final List<File> files = generator.opts(input).generate();
 
-        Assert.assertTrue(files.size() > 0);
+        assertTrue(files.size() > 0);
+        for (File file : files) {
+            Assert.assertTrue(file.exists());
+            Assert.assertTrue(file.isFile());
+        }
+
         TestUtils.validateJavaSourceFiles(files);
         TestUtils.validatePomXmlFiles(files);
 
         return files.stream().collect(Collectors.toMap(e -> e.getName().replace(outputPath, ""), i -> i));
+    }
+
+    @Test
+    public void testJersey3() throws Exception {
+        codegen.setLibrary("jersey3");
+        codegen.setDateLibrary("java8");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
+        files.values().forEach(file -> {
+            System.out.println(file.getName());
+            assertFileNotContains(file.toPath(), "javax.ws");
+        });
     }
 
     @DataProvider(name = "codegenParameterMatrix")

@@ -229,6 +229,7 @@ public class TestUtils {
             fail("Unable to evaluate file " + path);
         }
         String file = linearize(generatedFile);
+        System.out.println(file);
         assertNotNull(file);
         for (String line : lines)
             assertFalse(file.contains(linearize(line)));
