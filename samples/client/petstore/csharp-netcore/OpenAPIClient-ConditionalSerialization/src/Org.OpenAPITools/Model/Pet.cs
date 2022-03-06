@@ -116,9 +116,13 @@ namespace Org.OpenAPITools.Model
             }
             this._PhotoUrls = photoUrls;
             this._Id = id;
+            if (this.Id != null) this._flagId = true;
             this._Category = category;
+            if (this.Category != null) this._flagCategory = true;
             this._Tags = tags;
+            if (this.Tags != null) this._flagTags = true;
             this._Status = status;
+            if (this.Status != null) this._flagStatus = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

@@ -53,6 +53,7 @@ namespace Org.OpenAPITools.Model
             }
             this._Name = name;
             this._Id = id;
+            if (this.Id != null) this._flagId = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

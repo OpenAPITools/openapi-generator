@@ -105,6 +105,7 @@ namespace Org.OpenAPITools.Model
             }
             this._ClassName = className;
             this._Type = type;
+            if (this.Type != null) this._flagType = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

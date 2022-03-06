@@ -54,7 +54,9 @@ namespace Org.OpenAPITools.Model
             }
             this._ClassName = className;
             this._HasBaleen = hasBaleen;
+            if (this.HasBaleen != null) this._flagHasBaleen = true;
             this._HasTeeth = hasTeeth;
+            if (this.HasTeeth != null) this._flagHasTeeth = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

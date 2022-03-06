@@ -50,6 +50,7 @@ namespace Org.OpenAPITools.Model
             }
             this._Cultivar = cultivar;
             this._Mealy = mealy;
+            if (this.Mealy != null) this._flagMealy = true;
         }
 
         /// <summary>

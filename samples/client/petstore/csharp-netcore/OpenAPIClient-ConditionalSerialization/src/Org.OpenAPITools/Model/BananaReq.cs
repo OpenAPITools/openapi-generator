@@ -46,6 +46,7 @@ namespace Org.OpenAPITools.Model
         {
             this._LengthCm = lengthCm;
             this._Sweet = sweet;
+            if (this.Sweet != null) this._flagSweet = true;
         }
 
         /// <summary>
