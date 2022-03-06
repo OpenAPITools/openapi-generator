@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name (required) (default to &quot;default-name&quot;)</param>
         /// <param name="id">id</param>
-        public Category(string name = "default-name", long id)
+        public Category(string name, long id)
         {
             if (name == null)
                 throw new ArgumentNullException("name is a required property for Category and cannot be null.");

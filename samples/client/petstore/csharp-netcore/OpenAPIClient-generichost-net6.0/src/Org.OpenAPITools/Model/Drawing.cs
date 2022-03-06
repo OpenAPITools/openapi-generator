@@ -38,12 +38,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeOrNull">shapeOrNull</param>
         /// <param name="nullableShape">nullableShape</param>
         /// <param name="shapes">shapes</param>
-        public Drawing(Shape mainShape, ShapeOrNull shapeOrNull, NullableShape nullableShape = default, List<Shape> shapes)
+        public Drawing(Shape mainShape, ShapeOrNull shapeOrNull, List<Shape> shapes, NullableShape nullableShape = default)
         {
             MainShape = mainShape;
             ShapeOrNull = shapeOrNull;
-            NullableShape = nullableShape;
             Shapes = shapes;
+            NullableShape = nullableShape;
         }
 
         /// <summary>

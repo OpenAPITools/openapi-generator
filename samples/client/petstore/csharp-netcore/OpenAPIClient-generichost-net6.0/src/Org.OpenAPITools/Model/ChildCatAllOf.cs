@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param>
-        public ChildCatAllOf(string name, PetTypeEnum petType = PetTypeEnum.ChildCat)
+        public ChildCatAllOf(string name, PetTypeEnum petType)
         {
             Name = name;
             PetType = petType;

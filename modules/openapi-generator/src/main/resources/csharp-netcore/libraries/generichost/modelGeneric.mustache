@@ -17,7 +17,7 @@
         {{#allVars}}
         /// <param name="{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}">{{description}}{{^description}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
         {{/allVars}}
-        public {{classname}}({{#lambda.joinWithComma}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{#anyOf}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allVars}}{{^compulsory}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/compulsory}}{{#compulsory}}{{{datatypeWithEnum}}}{{/compulsory}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#defaultValue}} = {{^isDateTime}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^compulsory}}{{^defaultValue}} = default{{/defaultValue}}{{/compulsory}}  {{/allVars}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#isInherited}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/isInherited}}{{#anyOf}}{{#isInherited}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/anyOf}}{{#allVars}}{{#isInherited}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/allVars}}{{/lambda.joinWithComma}}){{/parent}}
+        public {{classname}}({{#lambda.joinWithComma}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{#anyOf}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allVars}}{{#compulsory}}{{{datatypeWithEnum}}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/compulsory}}{{/allVars}}{{#allVars}}{{^compulsory}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#defaultValue}} = {{^isDateTime}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^defaultValue}} = default{{/defaultValue}}  {{/compulsory}}{{/allVars}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#isInherited}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/isInherited}}{{#anyOf}}{{#isInherited}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/anyOf}}{{#allVars}}{{#isInherited}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/allVars}}{{/lambda.joinWithComma}}){{/parent}}
         {
             {{#allVars}}
             {{^isInherited}}
@@ -38,7 +38,17 @@
             {{/allOf}}
             {{#allVars}}
             {{^isInherited}}
+            {{! compulsory, just to keep the order here the same as the signature}}
+            {{#compulsory}}
             {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/compulsory}}
+            {{/isInherited}}
+            {{/allVars}}
+            {{#allVars}}
+            {{^isInherited}}
+            {{^compulsory}}
+            {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/compulsory}}
             {{/isInherited}}
             {{/allVars}}
         }
@@ -57,7 +67,7 @@
         {{#allVars}}
         /// <param name="{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}">{{description}}{{^description}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
         {{/allVars}}
-        public {{classname}}({{#lambda.joinWithComma}}{{#anyOf}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allOf}}{{.}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/allOf}}{{#allVars}}{{^compulsory}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/compulsory}}{{#compulsory}}{{{datatypeWithEnum}}}{{/compulsory}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#defaultValue}} = {{^isDateTime}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^compulsory}}{{^defaultValue}} = default{{/defaultValue}}{{/compulsory}}  {{/allVars}}{{/lambda.joinWithComma}}){{#parentModel}} : base({{#lambda.joinWithComma}}{{#anyOf}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/allVars}}{{/lambda.joinWithComma}}){{/parentModel}}
+        public {{classname}}({{#lambda.joinWithComma}}{{#anyOf}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allOf}}{{.}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/allOf}}{{#allVars}}{{#compulsory}}{{{datatypeWithEnum}}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/compulsory}}{{/allVars}}{{#allVars}}{{^compulsory}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#defaultValue}} = {{^isDateTime}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^defaultValue}} = default{{/defaultValue}}  {{/compulsory}}{{/allVars}}{{/lambda.joinWithComma}}){{#parentModel}} : base({{#lambda.joinWithComma}}{{#anyOf}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/allVars}}{{/lambda.joinWithComma}}){{/parentModel}}
         {
             {{#allVars}}
             {{^isInherited}}
@@ -77,7 +87,17 @@
             {{/allOf}}
             {{#allVars}}
             {{^isInherited}}
+            {{! compulsory, just to keep the order here the same as the signature}}
+            {{#compulsory}}
             {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/compulsory}}
+            {{/isInherited}}
+            {{/allVars}}
+            {{#allVars}}
+            {{^isInherited}}
+            {{^compulsory}}
+            {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/compulsory}}
             {{/isInherited}}
             {{/allVars}}
         }

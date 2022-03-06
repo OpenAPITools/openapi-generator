@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate</param>
         /// <param name="status">Order Status</param>
         /// <param name="complete">complete (default to false)</param>
-        public Order(long id, long petId, int quantity, DateTime shipDate, StatusEnum status, bool complete = false)
+        public Order(long id, long petId, int quantity, DateTime shipDate, StatusEnum status, bool complete)
         {
             Id = id;
             PetId = petId;
