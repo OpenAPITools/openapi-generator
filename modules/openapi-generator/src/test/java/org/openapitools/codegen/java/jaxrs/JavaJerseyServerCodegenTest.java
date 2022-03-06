@@ -3,6 +3,7 @@ package org.openapitools.codegen.java.jaxrs;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import com.google.common.collect.ImmutableSet;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
@@ -31,6 +32,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -47,6 +49,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         Assert.assertEquals(codegen.getName(), "jaxrs-jersey");
         Assert.assertEquals(codegen.getTemplatingEngine().getClass(), MustacheEngineAdapter.class);
         Assert.assertEquals(codegen.getDateLibrary(), "legacy");
+        Assert.assertEquals(codegen.supportedLibraries().keySet(), ImmutableSet.of("jersey1", "jersey2", "jersey3"));
         Assert.assertNull(codegen.getInputSpec());
 
         codegen.processOpts();
@@ -136,8 +139,9 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
 
     @DataProvider(name = "codegenParameterMatrix")
     public Object[][] codegenParameterMatrix() {
+        final Set<String> libraries = new JavaJerseyServerCodegen().supportedLibraries().keySet();
         final List<Object[]> rows = new ArrayList<Object[]>();
-        for (final String jerseyLibrary: ImmutableList.of("jersey1", "jersey2")) {
+        for (final String jerseyLibrary: libraries) {
             for (final String dateLibrary: ImmutableList.of("joda", "java8")) {
                 rows.add(new Object[] { jerseyLibrary, dateLibrary });
             }

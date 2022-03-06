@@ -30,6 +30,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     protected static final String LIBRARY_JERSEY1 = "jersey1";
     protected static final String LIBRARY_JERSEY2 = "jersey2";
+    protected static final String LIBRARY_JERSEY3 = "jersey3";
 
     /**
      * Default library template to use. (Default: jersey2)
@@ -59,6 +60,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(DEFAULT_JERSEY_LIBRARY);
         supportedLibraries.put(LIBRARY_JERSEY1, "Jersey core 1.x");
         supportedLibraries.put(LIBRARY_JERSEY2, "Jersey core 2.x");
+        supportedLibraries.put(LIBRARY_JERSEY3, "Jersey core 3.x");
         library.setEnum(supportedLibraries);
 
         cliOptions.add(library);
