@@ -44,7 +44,8 @@ public class {{classname}}  {
     {{#subresourceOperation}}@Path("{{{path}}}"){{/subresourceOperation}}
     {{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}
     {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
-    @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnBaseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
+    {{#isDeprecated}}@SuppressWarnings("deprecation")
+    {{/isDeprecated}}@ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnBaseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
         {{#authMethods}}{{#isOAuth}}@Authorization(value = "{{name}}", scopes = {
             {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},
             {{/-last}}{{/scopes}} }){{^-last}},{{/-last}}{{/isOAuth}}

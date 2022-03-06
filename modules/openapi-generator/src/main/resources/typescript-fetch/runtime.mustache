@@ -55,6 +55,8 @@ export class BaseAPI {
         : JSON.stringify(context.body);
 
         const headers = Object.assign({}, this.configuration.headers, context.headers);
+        Object.keys(headers).forEach(key => headers[key] === undefined ? delete headers[key] : {});
+
         const init = {
             method: context.method,
             headers: headers,
