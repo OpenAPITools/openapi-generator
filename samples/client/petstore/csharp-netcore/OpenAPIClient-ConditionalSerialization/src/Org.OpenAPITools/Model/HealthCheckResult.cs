@@ -39,7 +39,10 @@ namespace Org.OpenAPITools.Model
         public HealthCheckResult(string nullableMessage = default(string))
         {
             this._NullableMessage = nullableMessage;
-            if (this.NullableMessage != null) this._flagNullableMessage = true;
+            if (this.NullableMessage != null)
+            {
+                this._flagNullableMessage = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
