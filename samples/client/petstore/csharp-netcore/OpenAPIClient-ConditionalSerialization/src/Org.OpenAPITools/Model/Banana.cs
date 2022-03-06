@@ -39,7 +39,10 @@ namespace Org.OpenAPITools.Model
         public Banana(decimal lengthCm = default(decimal))
         {
             this._LengthCm = lengthCm;
-            if (this.LengthCm != null) this._flagLengthCm = true;
+            if (this.LengthCm != null)
+            {
+                this._flagLengthCm = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

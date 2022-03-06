@@ -39,7 +39,10 @@ namespace Org.OpenAPITools.Model
         public ReadOnlyFirst(string baz = default(string))
         {
             this._Baz = baz;
-            if (this.Baz != null) this._flagBaz = true;
+            if (this.Baz != null)
+            {
+                this._flagBaz = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
