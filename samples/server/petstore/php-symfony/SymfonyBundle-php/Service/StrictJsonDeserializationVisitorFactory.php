@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenAPI\Server\Service;
 
 use JMS\Serializer\Visitor\DeserializationVisitorInterface;
+use JMS\Serializer\Visitor\Factory\DeserializationVisitorFactory;
 
 final class StrictJsonDeserializationVisitorFactory implements DeserializationVisitorFactory
 {
