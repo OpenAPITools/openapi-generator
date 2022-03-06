@@ -7407,5 +7407,8 @@ public class DefaultCodegen implements CodegenConfig {
         return null;
     }
 
-    ;
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        return new ArrayList<>();
+    }
 }

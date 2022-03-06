@@ -2011,4 +2011,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
     }
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
+        extensions.add(VendorExtension.X_IMPLEMENTS);
+        extensions.add(VendorExtension.X_SETTER_EXTRA_ANNOTATION);
+        return extensions;
+    }
 }
