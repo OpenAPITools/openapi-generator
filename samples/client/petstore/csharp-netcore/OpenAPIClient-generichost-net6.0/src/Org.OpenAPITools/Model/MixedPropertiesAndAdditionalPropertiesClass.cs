@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid</param>
         /// <param name="dateTime">dateTime</param>
         /// <param name="map">map</param>
-        public MixedPropertiesAndAdditionalPropertiesClass(Guid uuid = default, DateTime dateTime = default, Dictionary<string, Animal> map = default)
+        public MixedPropertiesAndAdditionalPropertiesClass(Guid uuid, DateTime dateTime, Dictionary<string, Animal> map)
         {
             Uuid = uuid;
             DateTime = dateTime;

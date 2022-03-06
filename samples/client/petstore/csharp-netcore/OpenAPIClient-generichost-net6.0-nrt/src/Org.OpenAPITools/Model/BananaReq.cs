@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="lengthCm">lengthCm (required)</param>
         /// <param name="sweet">sweet</param>
-        public BananaReq(decimal lengthCm, bool? sweet = default)
+        public BananaReq(decimal lengthCm, bool sweet)
         {
             if (lengthCm == null)
                 throw new ArgumentNullException("lengthCm is a required property for BananaReq and cannot be null.");
@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Sweet
         /// </summary>
         [JsonPropertyName("sweet")]
-        public bool? Sweet { get; set; }
+        public bool Sweet { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

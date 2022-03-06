@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeOrNull">shapeOrNull</param>
         /// <param name="nullableShape">nullableShape</param>
         /// <param name="shapes">shapes</param>
-        public Drawing(Shape? mainShape = default, ShapeOrNull? shapeOrNull = default, NullableShape nullableShape = default, List<Shape>? shapes = default)
+        public Drawing(Shape mainShape, ShapeOrNull shapeOrNull, NullableShape? nullableShape = default, List<Shape> shapes)
         {
             MainShape = mainShape;
             ShapeOrNull = shapeOrNull;
@@ -50,25 +50,25 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MainShape
         /// </summary>
         [JsonPropertyName("mainShape")]
-        public Shape? MainShape { get; set; }
+        public Shape MainShape { get; set; }
 
         /// <summary>
         /// Gets or Sets ShapeOrNull
         /// </summary>
         [JsonPropertyName("shapeOrNull")]
-        public ShapeOrNull? ShapeOrNull { get; set; }
+        public ShapeOrNull ShapeOrNull { get; set; }
 
         /// <summary>
         /// Gets or Sets NullableShape
         /// </summary>
         [JsonPropertyName("nullableShape")]
-        public NullableShape NullableShape { get; set; }
+        public NullableShape? NullableShape { get; set; }
 
         /// <summary>
         /// Gets or Sets Shapes
         /// </summary>
         [JsonPropertyName("shapes")]
-        public List<Shape>? Shapes { get; set; }
+        public List<Shape> Shapes { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

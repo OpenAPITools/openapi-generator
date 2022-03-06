@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate</param>
         /// <param name="status">Order Status</param>
         /// <param name="complete">complete (default to false)</param>
-        public Order(long? id = default, long? petId = default, int? quantity = default, DateTime? shipDate = default, StatusEnum? status = default, bool? complete = false)
+        public Order(long id, long petId, int quantity, DateTime shipDate, StatusEnum status, bool complete = false)
         {
             Id = id;
             PetId = petId;
@@ -87,31 +87,31 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
         [JsonPropertyName("petId")]
-        public long? PetId { get; set; }
+        public long PetId { get; set; }
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
         [JsonPropertyName("quantity")]
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
         [JsonPropertyName("shipDate")]
-        public DateTime? ShipDate { get; set; }
+        public DateTime ShipDate { get; set; }
 
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
         [JsonPropertyName("complete")]
-        public bool? Complete { get; set; }
+        public bool Complete { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

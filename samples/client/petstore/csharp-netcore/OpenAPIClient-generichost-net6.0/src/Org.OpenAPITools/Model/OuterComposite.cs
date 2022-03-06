@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="myNumber">myNumber</param>
         /// <param name="myString">myString</param>
         /// <param name="myBoolean">myBoolean</param>
-        public OuterComposite(decimal myNumber = default, string myString = default, bool myBoolean = default)
+        public OuterComposite(decimal myNumber, string myString, bool myBoolean)
         {
             MyNumber = myNumber;
             MyString = myString;

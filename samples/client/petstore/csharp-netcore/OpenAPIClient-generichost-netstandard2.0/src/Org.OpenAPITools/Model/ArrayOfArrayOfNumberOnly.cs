@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ArrayOfArrayOfNumberOnly" /> class.
         /// </summary>
         /// <param name="arrayArrayNumber">arrayArrayNumber</param>
-        public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber = default)
+        public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber)
         {
             ArrayArrayNumber = arrayArrayNumber;
         }

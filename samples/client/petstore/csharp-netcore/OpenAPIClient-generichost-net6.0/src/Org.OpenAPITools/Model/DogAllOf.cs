@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DogAllOf" /> class.
         /// </summary>
         /// <param name="breed">breed</param>
-        public DogAllOf(string breed = default)
+        public DogAllOf(string breed)
         {
             Breed = breed;
         }

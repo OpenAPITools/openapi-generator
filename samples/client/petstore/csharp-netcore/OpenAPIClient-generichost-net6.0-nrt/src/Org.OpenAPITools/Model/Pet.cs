@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="category">category</param>
         /// <param name="tags">tags</param>
         /// <param name="status">pet status in the store</param>
-        public Pet(string name, List<string> photoUrls, long? id = default, Category? category = default, List<Tag>? tags = default, StatusEnum? status = default)
+        public Pet(string name, List<string> photoUrls, long id, Category category, List<Tag> tags, StatusEnum status)
         {
             if (name == null)
                 throw new ArgumentNullException("name is a required property for Pet and cannot be null.");
@@ -103,19 +103,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
         [JsonPropertyName("category")]
-        public Category? Category { get; set; }
+        public Category Category { get; set; }
 
         /// <summary>
         /// Gets or Sets Tags
         /// </summary>
         [JsonPropertyName("tags")]
-        public List<Tag>? Tags { get; set; }
+        public List<Tag> Tags { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

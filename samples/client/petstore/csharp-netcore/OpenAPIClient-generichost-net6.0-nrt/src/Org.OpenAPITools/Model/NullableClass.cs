@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectNullableProp">objectNullableProp</param>
         /// <param name="objectAndItemsNullableProp">objectAndItemsNullableProp</param>
         /// <param name="objectItemsNullable">objectItemsNullable</param>
-        public NullableClass(int? integerProp = default, decimal? numberProp = default, bool? booleanProp = default, string stringProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, List<Object> arrayNullableProp = default, List<Object> arrayAndItemsNullableProp = default, List<Object>? arrayItemsNullable = default, Dictionary<string, Object> objectNullableProp = default, Dictionary<string, Object> objectAndItemsNullableProp = default, Dictionary<string, Object>? objectItemsNullable = default)
+        public NullableClass(int? integerProp = default, decimal? numberProp = default, bool? booleanProp = default, string? stringProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, List<Object>? arrayNullableProp = default, List<Object>? arrayAndItemsNullableProp = default, List<Object> arrayItemsNullable, Dictionary<string, Object>? objectNullableProp = default, Dictionary<string, Object>? objectAndItemsNullableProp = default, Dictionary<string, Object> objectItemsNullable)
         {
             IntegerProp = integerProp;
             NumberProp = numberProp;
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets StringProp
         /// </summary>
         [JsonPropertyName("string_prop")]
-        public string StringProp { get; set; }
+        public string? StringProp { get; set; }
 
         /// <summary>
         /// Gets or Sets DateProp
@@ -102,37 +102,37 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayNullableProp
         /// </summary>
         [JsonPropertyName("array_nullable_prop")]
-        public List<Object> ArrayNullableProp { get; set; }
+        public List<Object>? ArrayNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayAndItemsNullableProp
         /// </summary>
         [JsonPropertyName("array_and_items_nullable_prop")]
-        public List<Object> ArrayAndItemsNullableProp { get; set; }
+        public List<Object>? ArrayAndItemsNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayItemsNullable
         /// </summary>
         [JsonPropertyName("array_items_nullable")]
-        public List<Object>? ArrayItemsNullable { get; set; }
+        public List<Object> ArrayItemsNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectNullableProp
         /// </summary>
         [JsonPropertyName("object_nullable_prop")]
-        public Dictionary<string, Object> ObjectNullableProp { get; set; }
+        public Dictionary<string, Object>? ObjectNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectAndItemsNullableProp
         /// </summary>
         [JsonPropertyName("object_and_items_nullable_prop")]
-        public Dictionary<string, Object> ObjectAndItemsNullableProp { get; set; }
+        public Dictionary<string, Object>? ObjectAndItemsNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectItemsNullable
         /// </summary>
         [JsonPropertyName("object_items_nullable")]
-        public Dictionary<string, Object>? ObjectItemsNullable { get; set; }
+        public Dictionary<string, Object> ObjectItemsNullable { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

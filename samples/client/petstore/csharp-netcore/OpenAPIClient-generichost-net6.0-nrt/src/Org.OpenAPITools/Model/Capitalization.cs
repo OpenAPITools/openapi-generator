@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="capitalSnake">capitalSnake</param>
         /// <param name="sCAETHFlowPoints">sCAETHFlowPoints</param>
         /// <param name="aTTNAME">Name of the pet </param>
-        public Capitalization(string? smallCamel = default, string? capitalCamel = default, string? smallSnake = default, string? capitalSnake = default, string? sCAETHFlowPoints = default, string? aTTNAME = default)
+        public Capitalization(string smallCamel, string capitalCamel, string smallSnake, string capitalSnake, string sCAETHFlowPoints, string aTTNAME)
         {
             SmallCamel = smallCamel;
             CapitalCamel = capitalCamel;
@@ -54,38 +54,38 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SmallCamel
         /// </summary>
         [JsonPropertyName("smallCamel")]
-        public string? SmallCamel { get; set; }
+        public string SmallCamel { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalCamel
         /// </summary>
         [JsonPropertyName("CapitalCamel")]
-        public string? CapitalCamel { get; set; }
+        public string CapitalCamel { get; set; }
 
         /// <summary>
         /// Gets or Sets SmallSnake
         /// </summary>
         [JsonPropertyName("small_Snake")]
-        public string? SmallSnake { get; set; }
+        public string SmallSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalSnake
         /// </summary>
         [JsonPropertyName("Capital_Snake")]
-        public string? CapitalSnake { get; set; }
+        public string CapitalSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets SCAETHFlowPoints
         /// </summary>
         [JsonPropertyName("SCA_ETH_Flow_Points")]
-        public string? SCAETHFlowPoints { get; set; }
+        public string SCAETHFlowPoints { get; set; }
 
         /// <summary>
         /// Name of the pet 
         /// </summary>
         /// <value>Name of the pet </value>
         [JsonPropertyName("ATT_NAME")]
-        public string? ATT_NAME { get; set; }
+        public string ATT_NAME { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

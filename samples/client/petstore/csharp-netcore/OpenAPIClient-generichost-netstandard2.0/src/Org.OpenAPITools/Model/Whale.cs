@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className (required)</param>
         /// <param name="hasBaleen">hasBaleen</param>
         /// <param name="hasTeeth">hasTeeth</param>
-        public Whale(string className, bool hasBaleen = default, bool hasTeeth = default)
+        public Whale(string className, bool hasBaleen, bool hasTeeth)
         {
             if (className == null)
                 throw new ArgumentNullException("className is a required property for Whale and cannot be null.");

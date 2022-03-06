@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
         /// <param name="_123list">_123list</param>
-        public List(string? _123list = default)
+        public List(string _123list)
         {
             _123List = _123list;
         }
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _123List
         /// </summary>
         [JsonPropertyName("123-list")]
-        public string? _123List { get; set; }
+        public string _123List { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

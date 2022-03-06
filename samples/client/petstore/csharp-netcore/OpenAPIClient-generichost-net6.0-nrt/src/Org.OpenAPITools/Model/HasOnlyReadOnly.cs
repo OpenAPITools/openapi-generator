@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="bar">bar</param>
         /// <param name="foo">foo</param>
-        public HasOnlyReadOnly(string? bar = default, string? foo = default)
+        public HasOnlyReadOnly(string bar, string foo)
         {
             Bar = bar;
             Foo = foo;
@@ -46,13 +46,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string? Bar { get; private set; }
+        public string Bar { get; private set; }
 
         /// <summary>
         /// Gets or Sets Foo
         /// </summary>
         [JsonPropertyName("foo")]
-        public string? Foo { get; private set; }
+        public string Foo { get; private set; }
 
         /// <summary>
         /// Gets or Sets additional properties

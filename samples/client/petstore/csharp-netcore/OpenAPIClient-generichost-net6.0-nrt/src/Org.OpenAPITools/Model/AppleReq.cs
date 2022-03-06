@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="cultivar">cultivar (required)</param>
         /// <param name="mealy">mealy</param>
-        public AppleReq(string cultivar, bool? mealy = default)
+        public AppleReq(string cultivar, bool mealy)
         {
             if (cultivar == null)
                 throw new ArgumentNullException("cultivar is a required property for AppleReq and cannot be null.");
@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Mealy
         /// </summary>
         [JsonPropertyName("mealy")]
-        public bool? Mealy { get; set; }
+        public bool Mealy { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

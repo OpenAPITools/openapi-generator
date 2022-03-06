@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="cultivar">cultivar</param>
         /// <param name="origin">origin</param>
-        public Apple(string cultivar = default, string origin = default)
+        public Apple(string cultivar, string origin)
         {
             Cultivar = cultivar;
             Origin = origin;

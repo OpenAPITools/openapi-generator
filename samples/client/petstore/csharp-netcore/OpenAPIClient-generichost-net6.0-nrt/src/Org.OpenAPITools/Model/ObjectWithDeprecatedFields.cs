@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id</param>
         /// <param name="deprecatedRef">deprecatedRef</param>
         /// <param name="bars">bars</param>
-        public ObjectWithDeprecatedFields(string? uuid = default, decimal? id = default, DeprecatedObject? deprecatedRef = default, List<string>? bars = default)
+        public ObjectWithDeprecatedFields(string uuid, decimal id, DeprecatedObject deprecatedRef, List<string> bars)
         {
             Uuid = uuid;
             Id = id;
@@ -50,28 +50,28 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Uuid
         /// </summary>
         [JsonPropertyName("uuid")]
-        public string? Uuid { get; set; }
+        public string Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
         [Obsolete]
-        public decimal? Id { get; set; }
+        public decimal Id { get; set; }
 
         /// <summary>
         /// Gets or Sets DeprecatedRef
         /// </summary>
         [JsonPropertyName("deprecatedRef")]
         [Obsolete]
-        public DeprecatedObject? DeprecatedRef { get; set; }
+        public DeprecatedObject DeprecatedRef { get; set; }
 
         /// <summary>
         /// Gets or Sets Bars
         /// </summary>
         [JsonPropertyName("bars")]
         [Obsolete]
-        public List<string>? Bars { get; set; }
+        public List<string> Bars { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

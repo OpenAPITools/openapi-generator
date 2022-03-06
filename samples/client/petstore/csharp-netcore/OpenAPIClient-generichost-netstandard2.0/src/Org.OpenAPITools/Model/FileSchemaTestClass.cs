@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="file">file</param>
         /// <param name="files">files</param>
-        public FileSchemaTestClass(File file = default, List<File> files = default)
+        public FileSchemaTestClass(File file, List<File> files)
         {
             File = file;
             Files = files;

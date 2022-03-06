@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="File" /> class.
         /// </summary>
         /// <param name="sourceURI">Test capitalization</param>
-        public File(string? sourceURI = default)
+        public File(string sourceURI)
         {
             SourceURI = sourceURI;
         }
@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Test capitalization</value>
         [JsonPropertyName("sourceURI")]
-        public string? SourceURI { get; set; }
+        public string SourceURI { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

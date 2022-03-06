@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="cultivar">cultivar</param>
         /// <param name="origin">origin</param>
-        public Apple(string? cultivar = default, string? origin = default)
+        public Apple(string cultivar, string origin)
         {
             Cultivar = cultivar;
             Origin = origin;
@@ -46,13 +46,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Cultivar
         /// </summary>
         [JsonPropertyName("cultivar")]
-        public string? Cultivar { get; set; }
+        public string Cultivar { get; set; }
 
         /// <summary>
         /// Gets or Sets Origin
         /// </summary>
         [JsonPropertyName("origin")]
-        public string? Origin { get; set; }
+        public string Origin { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
