@@ -9,6 +9,7 @@ import org.openapitools.model.FileSchemaTestClass;
 import java.util.List;
 import org.joda.time.LocalDate;
 import java.util.Map;
+import org.openapitools.model.ModelFile;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
@@ -43,7 +44,7 @@ public class FakeApiServiceImpl implements FakeApi {
     {
         try {
             File cacheFile = new File(System.getProperty("jaxrs.test.server.json",
-                    "/Users/williamcheng/Code/openapi-generator/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
+                    "/Users/williamcheng/Code/openapi-generator2/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
             cache = JsonCache.Factory.instance.get("test-data").load(cacheFile).child("/org.openapitools.api/FakeApi");
         } catch (CacheException e) {
             e.printStackTrace();

@@ -1478,7 +1478,7 @@ impl NullableTest {
     pub fn new(nullable: swagger::Nullable<String>, ) -> NullableTest {
         NullableTest {
             nullable: nullable,
-            nullable_with_null_default: Some(swagger::Nullable::Null),
+            nullable_with_null_default: None,
             nullable_with_present_default: Some(swagger::Nullable::Present("default".to_string())),
             nullable_with_no_default: None,
             nullable_array: None,

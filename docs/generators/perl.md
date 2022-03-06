@@ -10,6 +10,7 @@ title: Documentation for the perl Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Perl | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Perl client library. | |
 
 ## CONFIG OPTIONS

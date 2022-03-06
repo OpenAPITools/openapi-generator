@@ -10,6 +10,7 @@ title: Documentation for the fsharp-giraffe-server Generator
 | generator stability | BETA | |
 | generator type | SERVER | |
 | generator language | F# | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a F# Giraffe server (beta). | |
 
 ## CONFIG OPTIONS

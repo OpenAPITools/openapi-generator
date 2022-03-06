@@ -732,6 +732,8 @@ null (empty response body)
 
 test inline additionalProperties
 
+
+
 ### Example
 
 ```javascript
@@ -774,6 +776,8 @@ No authorization required
 > testJsonFormData(param, param2)
 
 test json serialization of form data
+
+
 
 ### Example
 

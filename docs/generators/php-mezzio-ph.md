@@ -10,6 +10,7 @@ title: Documentation for the php-mezzio-ph Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | PHP | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates PHP server stub using Mezzio ( https://docs.mezzio.dev/mezzio/ ) and Path Handler ( https://github.com/Articus/PathHandler ). | |
 
 ## CONFIG OPTIONS

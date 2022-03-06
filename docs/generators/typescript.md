@@ -10,6 +10,7 @@ title: Documentation for the typescript Generator
 | generator stability | EXPERIMENTAL | |
 | generator type | CLIENT | |
 | generator language | Typescript | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a TypeScript client library using Fetch API (beta). | |
 
 ## CONFIG OPTIONS
@@ -65,6 +66,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Long</li>
 <li>Map</li>
 <li>Object</li>
+<li>Set</li>
 <li>String</li>
 <li>any</li>
 <li>boolean</li>

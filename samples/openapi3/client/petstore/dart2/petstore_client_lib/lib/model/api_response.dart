@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -18,11 +18,29 @@ class ApiResponse {
     this.message,
   });
 
-  int code;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? code;
 
-  String type;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? type;
 
-  String message;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? message;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ApiResponse &&
@@ -32,10 +50,10 @@ class ApiResponse {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (code == null ? 0 : code.hashCode) +
-    (type == null ? 0 : type.hashCode) +
-    (message == null ? 0 : message.hashCode);
+    // ignore: unnecessary_parenthesis
+    (code == null ? 0 : code!.hashCode) +
+    (type == null ? 0 : type!.hashCode) +
+    (message == null ? 0 : message!.hashCode);
 
   @override
   String toString() => 'ApiResponse[code=$code, type=$type, message=$message]';
@@ -57,9 +75,21 @@ class ApiResponse {
   /// Returns a new [ApiResponse] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ApiResponse fromJson(dynamic value) {
+  static ApiResponse? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
+
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(() {
+        requiredKeys.forEach((key) {
+          assert(json.containsKey(key), 'Required key "ApiResponse[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "ApiResponse[$key]" has a null value in JSON.');
+        });
+        return true;
+      }());
+
       return ApiResponse(
         code: mapValueOfType<int>(json, r'code'),
         type: mapValueOfType<String>(json, r'type'),
@@ -69,36 +99,50 @@ class ApiResponse {
     return null;
   }
 
-  static List<ApiResponse> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(ApiResponse.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <ApiResponse>[];
+  static List<ApiResponse>? listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ApiResponse>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = ApiResponse.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 
   static Map<String, ApiResponse> mapFromJson(dynamic json) {
     final map = <String, ApiResponse>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) => map[key] = ApiResponse.fromJson(value));
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = ApiResponse.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of ApiResponse-objects as value to a dart map
-  static Map<String, List<ApiResponse>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<ApiResponse>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ApiResponse>>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) {
-          map[key] = ApiResponse.listFromJson(
-            value,
-            emptyIsNull: emptyIsNull,
-            growable: growable,
-          );
-        });
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = ApiResponse.listFromJson(entry.value, growable: growable,);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+  };
 }
 

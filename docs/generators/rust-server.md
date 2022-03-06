@@ -10,6 +10,7 @@ title: Documentation for the rust-server Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Rust | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Rust client/server library (beta) using the openapi-generator project. | |
 
 ## CONFIG OPTIONS

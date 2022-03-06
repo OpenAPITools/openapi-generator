@@ -10,6 +10,7 @@ title: Documentation for the scala-httpclient-deprecated Generator
 | generator stability | DEPRECATED | |
 | generator type | CLIENT | |
 | generator language | Scala | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Scala client library (beta). IMPORTANT: This generator is no longer actively maintained and will be deprecated. PLease use 'scala-akka' generator instead. | |
 
 ## CONFIG OPTIONS

@@ -107,8 +107,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(
-                CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
-                CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC)
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
@@ -489,6 +489,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
             if (modelMaps.containsKey(dataType)) {
                 prefix = "map[string][]" + goImportAlias + "." + dataType;
             }
+            if (codegenParameter.items == null) {
+                return prefix + "{ ... }";
+            }
             return prefix + "{\"key\": " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isString) {
@@ -585,7 +588,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                     example = "123";
                 }
 
-                return codegenProperty.dataType +  "(" + example + ")";
+                return codegenProperty.dataType + "(" + example + ")";
             }
         } else {
             // look up the model

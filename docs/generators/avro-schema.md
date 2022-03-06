@@ -10,6 +10,7 @@ title: Documentation for the avro-schema Generator
 | generator stability | BETA | |
 | generator type | SCHEMA | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Avro model (beta). | |
 
 ## CONFIG OPTIONS

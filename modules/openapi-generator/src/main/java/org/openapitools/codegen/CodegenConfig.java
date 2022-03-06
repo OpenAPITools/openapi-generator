@@ -305,6 +305,8 @@ public interface CodegenConfig {
 
     Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings);
 
+    public String defaultTemplatingEngine();
+
     public GeneratorLanguage generatorLanguage();
 
     /*

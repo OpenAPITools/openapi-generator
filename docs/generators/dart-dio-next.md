@@ -10,6 +10,7 @@ title: Documentation for the dart-dio-next Generator
 | generator stability | EXPERIMENTAL | |
 | generator type | CLIENT | |
 | generator language | Dart | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Dart Dio client library with null-safety. | |
 
 ## CONFIG OPTIONS

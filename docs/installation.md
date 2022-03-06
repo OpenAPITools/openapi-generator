@@ -108,7 +108,7 @@ export PATH=${JAVA_HOME}/bin:$PATH
 
 > **Platform(s)**: Linux, macOS, Windows (variable)
 
-One downside to manual JAR downloads is that you don't keep up-to-date with the latest released version. We have a Bash launcher script at [bin/utils/openapi-generator.cli.sh](https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/bin/utils/openapi-generator-cli.sh) which solves this problem.
+One downside to manual JAR downloads is that you don't keep up-to-date with the latest released version. We have a Bash launcher script at [bin/utils/openapi-generator-cli.sh](https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/bin/utils/openapi-generator-cli.sh) which solves this problem.
 
 To install the launcher script, copy the contents of the script to a location on your path and make the script executable.
 

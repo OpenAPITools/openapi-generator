@@ -9,6 +9,7 @@ title: Documentation for the dynamic-html Generator
 | generator name | dynamic-html | pass this to the generate command after -g |
 | generator stability | STABLE | |
 | generator type | DOCUMENTATION | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a dynamic HTML site. | |
 
 ## CONFIG OPTIONS

@@ -11,6 +11,7 @@ title: Documentation for the python-fastapi Generator
 | generator type | SERVER | |
 | generator language | Python | |
 | generator language version | 3.7 | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Python FastAPI server (beta). Models are defined with the pydantic library | |
 
 ## CONFIG OPTIONS

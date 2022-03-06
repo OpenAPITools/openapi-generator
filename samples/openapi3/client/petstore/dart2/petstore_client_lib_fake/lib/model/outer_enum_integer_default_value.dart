@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -19,7 +19,7 @@ class OuterEnumIntegerDefaultValue {
   final int value;
 
   @override
-  String toString() => value == null ? '' : value.toString();
+  String toString() => value.toString();
 
   int toJson() => value;
 
@@ -34,13 +34,20 @@ class OuterEnumIntegerDefaultValue {
     number2,
   ];
 
-  static OuterEnumIntegerDefaultValue fromJson(dynamic value) =>
-    OuterEnumIntegerDefaultValueTypeTransformer().decode(value);
+  static OuterEnumIntegerDefaultValue? fromJson(dynamic value) => OuterEnumIntegerDefaultValueTypeTransformer().decode(value);
 
-  static List<OuterEnumIntegerDefaultValue> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(OuterEnumIntegerDefaultValue.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <OuterEnumIntegerDefaultValue>[];
+  static List<OuterEnumIntegerDefaultValue>? listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <OuterEnumIntegerDefaultValue>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = OuterEnumIntegerDefaultValue.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnumIntegerDefaultValue] to int,
@@ -60,14 +67,14 @@ class OuterEnumIntegerDefaultValueTypeTransformer {
   ///
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
-  OuterEnumIntegerDefaultValue decode(dynamic data, {bool allowNull}) {
+  OuterEnumIntegerDefaultValue? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data.toString()) {
         case 0: return OuterEnumIntegerDefaultValue.number0;
         case 1: return OuterEnumIntegerDefaultValue.number1;
         case 2: return OuterEnumIntegerDefaultValue.number2;
         default:
-          if (allowNull == false) {
+          if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
           }
       }
@@ -76,6 +83,6 @@ class OuterEnumIntegerDefaultValueTypeTransformer {
   }
 
   /// Singleton [OuterEnumIntegerDefaultValueTypeTransformer] instance.
-  static OuterEnumIntegerDefaultValueTypeTransformer _instance;
+  static OuterEnumIntegerDefaultValueTypeTransformer? _instance;
 }
 

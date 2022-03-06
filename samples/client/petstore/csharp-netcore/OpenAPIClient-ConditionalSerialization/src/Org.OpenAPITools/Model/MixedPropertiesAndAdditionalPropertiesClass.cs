@@ -41,8 +41,20 @@ namespace Org.OpenAPITools.Model
         public MixedPropertiesAndAdditionalPropertiesClass(Guid uuid = default(Guid), DateTime dateTime = default(DateTime), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
         {
             this._Uuid = uuid;
+            if (this.Uuid != null)
+            {
+                this._flagUuid = true;
+            }
             this._DateTime = dateTime;
+            if (this.DateTime != null)
+            {
+                this._flagDateTime = true;
+            }
             this._Map = map;
+            if (this.Map != null)
+            {
+                this._flagMap = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

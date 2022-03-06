@@ -749,15 +749,6 @@ namespace Org.OpenAPITools.Client
             {
                 keyType = PrivateKeyType.ECDSA;
             }
-            else if (key[0].Contains(ecPrivateKeyHeader) &&
-                key[key.Length - 1].ToString().Contains(ecPrivateKeyFooter))
-            {
-
-                // this type of key can hold many type different types of private key, but here due lack of pem header
-                // Considering this as EC key
-                //TODO :- update the key based on oid
-                keyType = PrivateKeyType.ECDSA;
-            }
             else
             {
                 throw new Exception("Either the key is invalid or key is not supported");

@@ -28,8 +28,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   private @Valid Long id;
   private @Valid Category category;
   private @Valid String name;
-  private @Valid Set<String> photoUrls = new LinkedHashSet<String>();
-  private @Valid List<Tag> tags = new ArrayList<Tag>();
+  private @Valid Set<String> photoUrls = new LinkedHashSet<>();
+  private @Valid List<Tag> tags = new ArrayList<>();
 
 public enum StatusEnum {
 
@@ -52,6 +52,21 @@ public enum StatusEnum {
         return String.valueOf(value);
     }
 
+    /**
+     * Convert a String into String, as specified in the
+     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+     */
+	public static StatusEnum fromString(String s) {
+        for (StatusEnum b : StatusEnum.values()) {
+            // using Objects.toString() to be safe if value type non-object type
+            // because types like 'int' etc. will be auto-boxed
+            if (java.util.Objects.toString(b.value).equals(s)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+	}
+	
     @JsonCreator
     public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
@@ -152,6 +167,22 @@ public enum StatusEnum {
     this.photoUrls = photoUrls;
   }
 
+  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
+
+    this.photoUrls.add(photoUrlsItem);
+    return this;
+  }
+
+  public Pet removePhotoUrlsItem(String photoUrlsItem) {
+    if (photoUrlsItem != null && this.photoUrls != null) {
+      this.photoUrls.remove(photoUrlsItem);
+    }
+
+    return this;
+  }
 /**
    **/
   public Pet tags(List<Tag> tags) {
@@ -173,6 +204,22 @@ public enum StatusEnum {
     this.tags = tags;
   }
 
+  public Pet addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<>();
+    }
+
+    this.tags.add(tagsItem);
+    return this;
+  }
+
+  public Pet removeTagsItem(Tag tagsItem) {
+    if (tagsItem != null && this.tags != null) {
+      this.tags.remove(tagsItem);
+    }
+
+    return this;
+  }
 /**
    * pet status in the store
    **/

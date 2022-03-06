@@ -10,6 +10,7 @@ title: Documentation for the scalaz Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Scala | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Scalaz client library (beta) that uses http4s | |
 
 ## CONFIG OPTIONS

@@ -10,6 +10,7 @@ title: Documentation for the ruby Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Ruby | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Ruby client library. | |
 
 ## CONFIG OPTIONS

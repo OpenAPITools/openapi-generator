@@ -66,6 +66,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String USE_TAGS = "useTags";
+    public static final String BEAN_QUALIFIERS = "beanQualifiers";
 
     private String basePackage;
     private String invokerPackage;
@@ -82,6 +83,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean interfaceOnly = false;
     private boolean delegatePattern = false;
     protected boolean useTags = false;
+    private boolean beanQualifiers = false;
 
     public KotlinSpringServerCodegen() {
         super();
@@ -146,6 +148,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
         addSwitch(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern);
         addSwitch(USE_TAGS, "Whether to use tags for creating interface and controller class names", useTags);
+        addSwitch(BEAN_QUALIFIERS, "Whether to add fully-qualifier class names as bean qualifiers in @Component and " +
+                "@RestController annotations. May be used to prevent bean names clash if multiple generated libraries" +
+                " (contexts) added to single project.", beanQualifiers);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
 
@@ -256,6 +261,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         this.reactive = reactive;
     }
 
+    public boolean isBeanQualifiers() {
+        return beanQualifiers;
+    }
+
+    public void setBeanQualifiers(boolean beanQualifiers) {
+        this.beanQualifiers = beanQualifiers;
+    }
+
     @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -274,6 +287,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (isModelMutable()) {
+            typeMapping.put("array", "kotlin.collections.MutableList");
+            typeMapping.put("list", "kotlin.collections.MutableList");
+            typeMapping.put("set", "kotlin.collections.MutableSet");
+            typeMapping.put("map", "kotlin.collections.MutableMap");
+        }
 
         // optional jackson mappings for BigDecimal support
         importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
@@ -356,6 +376,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         writePropertyBack(REACTIVE, reactive);
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
 
+        if (additionalProperties.containsKey(BEAN_QUALIFIERS) && library.equals(SPRING_BOOT)) {
+            this.setBeanQualifiers(convertPropertyToBoolean(BEAN_QUALIFIERS));
+        }
+        writePropertyBack(BEAN_QUALIFIERS, beanQualifiers);
+
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
             this.setInterfaceOnly(Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString()));
         }
@@ -422,7 +447,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             if (!this.interfaceOnly) {
                 supportingFiles.add(new SupportingFile("application.mustache", resourceFolder, "application.yaml"));
                 supportingFiles.add(new SupportingFile("springBootApplication.mustache",
-                    sanitizeDirectory(sourceFolder + File.separator + basePackage), "Application.kt"));
+                        sanitizeDirectory(sourceFolder + File.separator + basePackage), "Application.kt"));
             }
         }
 
@@ -566,6 +591,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                             resp.code = "200";
                         }
 
+                        // This is necessary in case 'modelMutable' is enabled,
+                        // to prevent Spring Request handlers from being generated with
+                        // the ApiResponse annotation configured with the Mutable container type.
+                        // See https://github.com/OpenAPITools/openapi-generator/pull/11154#discussion_r793108068
+                        resp.baseType = getNonMutableContainerTypeIfNeeded(resp.baseType);
+
                         doDataTypeAssignment(resp.dataType, new DataTypeAssigner() {
                             @Override
                             public void setReturnType(final String returnType) {
@@ -579,6 +610,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         });
                     });
                 }
+
+                final List<CodegenParameter> allParams = operation.allParams;
+                if (allParams != null) {
+                    allParams.forEach(param ->
+                            // This is necessary in case 'modelMutable' is enabled,
+                            // to prevent Spring Request handlers from being generated with
+                            // parameters using their Mutable container types.
+                            // See https://github.com/OpenAPITools/openapi-generator/pull/11154#discussion_r793094727
+                            param.dataType = getNonMutableContainerTypeIfNeeded(param.dataType));
+                }
+
                 doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {
 
                     @Override
@@ -600,6 +642,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return objs;
     }
 
+    private String getNonMutableContainerTypeIfNeeded(String type) {
+        if (type != null && type.contains("kotlin.collections.Mutable")) {
+            return type.replaceAll("kotlin\\.collections\\.Mutable", "kotlin.collections.");
+        }
+        return type;
+    }
+
     private interface DataTypeAssigner {
         void setReturnType(String returnType);
 
@@ -619,10 +668,22 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.List<".length(), end).trim());
                 dataTypeAssigner.setReturnContainer("List");
             }
+        } else if (returnType.startsWith("kotlin.collections.MutableList")) {
+            int end = returnType.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableList<".length(), end).trim());
+                dataTypeAssigner.setReturnContainer("List");
+            }
         } else if (returnType.startsWith("kotlin.collections.Map")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {
                 dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.Map<".length(), end).split(",")[1].trim());
+                dataTypeAssigner.setReturnContainer("Map");
+            }
+        } else if (returnType.startsWith("kotlin.collections.MutableMap")) {
+            int end = returnType.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableMap<".length(), end).split(",")[1].trim());
                 dataTypeAssigner.setReturnContainer("Map");
             }
         }

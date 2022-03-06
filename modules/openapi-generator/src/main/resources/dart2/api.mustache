@@ -3,7 +3,7 @@
 {{#operations}}
 
 class {{{classname}}} {
-  {{{classname}}}([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+  {{{classname}}}([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
   {{#operation}}
@@ -49,24 +49,13 @@ class {{{classname}}} {
   ///
     {{/-last}}
   {{/allParams}}
-  Future<Response> {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
-  {{#hasParams}}
-    // Verify required params are set.
-    {{#allParams}}
-      {{#required}}
-    if ({{{paramName}}} == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: {{{paramName}}}');
-    }
-      {{/required}}
-    {{/allParams}}
-
-  {{/hasParams}}
+  Future<Response> {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}}? {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     // ignore: prefer_const_declarations
     final path = r'{{{path}}}'{{#pathParams}}
       .replaceAll({{=<% %>=}}'{<% baseName %>}'<%={{ }}=%>, {{{paramName}}}{{^isString}}.toString(){{/isString}}){{/pathParams}};
 
     // ignore: prefer_final_locals
-    Object postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
+    Object? postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -77,7 +66,7 @@ class {{{classname}}} {
         {{^required}}
     if ({{{paramName}}} != null) {
           {{/required}}
-      queryParams.addAll(_convertParametersForCollectionFormat('{{{collectionFormat}}}', '{{{baseName}}}', {{{paramName}}}));
+      queryParams.addAll(_queryParams('{{{collectionFormat}}}', '{{{baseName}}}', {{{paramName}}}));
           {{^required}}
     }
         {{/required}}
@@ -139,7 +128,7 @@ class {{{classname}}} {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -174,7 +163,7 @@ class {{{classname}}} {
   ///
     {{/-last}}
   {{/allParams}}
-  Future<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  Future<{{#returnType}}{{{.}}}?{{/returnType}}{{^returnType}}void{{/returnType}}> {{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}}? {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -183,13 +172,13 @@ class {{{classname}}} {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
     {{#native_serialization}}
     {{#isArray}}
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, '{{{returnType}}}') as List)
         .cast<{{{returnBaseType}}}>()
-        .{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(growable: false){{/uniqueItems}};
+        .{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(){{/uniqueItems}};
     {{/isArray}}
     {{^isArray}}
     {{#isMap}}
@@ -199,7 +188,7 @@ class {{{classname}}} {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), '{{{returnType}}}',) as {{{returnType}}};
     {{/isMap}}{{/isArray}}{{/native_serialization}}
     }
-    return Future<{{{returnType}}}>.value();
+    return null;
     {{/returnType}}
   }
   {{/operation}}

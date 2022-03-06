@@ -11,6 +11,7 @@ title: Documentation for the python-aiohttp Generator
 | generator type | SERVER | |
 | generator language | Python | |
 | generator language version | 3.5.2+ | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Python server library using the Connexion project. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | |
 
 ## CONFIG OPTIONS

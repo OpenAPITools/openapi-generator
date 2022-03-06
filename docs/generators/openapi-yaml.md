@@ -9,6 +9,7 @@ title: Documentation for the openapi-yaml Generator
 | generator name | openapi-yaml | pass this to the generate command after -g |
 | generator stability | STABLE | |
 | generator type | DOCUMENTATION | |
+| generator default templating engine | mustache | |
 | helpTxt | Creates a static openapi.yaml file (OpenAPI spec v3). | |
 
 ## CONFIG OPTIONS

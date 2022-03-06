@@ -31,7 +31,7 @@ import java.util.*;
 public class GoServerCodegen extends AbstractGoCodegen {
 
     /**
-     *  Name of additional property for switching routers
+     * Name of additional property for switching routers
      */
     private static final String ROUTER_SWITCH = "router";
 
@@ -43,7 +43,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
     /**
      * List of available routers
      */
-    private static final String[] ROUTERS = { "mux", "chi" };
+    private static final String[] ROUTERS = {"mux", "chi"};
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
 
@@ -85,7 +85,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
                 .defaultValue(sourceFolder));
 
         CliOption frameworkOption = new CliOption(ROUTER_SWITCH, ROUTER_SWITCH_DESC);
-        for (String option: ROUTERS) {
+        for (String option : ROUTERS) {
             frameworkOption.addEnum(option, option);
         }
         frameworkOption.defaultValue(ROUTERS[0]);
@@ -225,7 +225,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         final Object propRouter = additionalProperties.get(ROUTER_SWITCH);
         final Map<String, Boolean> routers = new HashMap<>();
-        for (String router: ROUTERS) {
+        for (String router : ROUTERS) {
             routers.put(router, router.equals(propRouter));
         }
         additionalProperties.put("routers", routers);
@@ -244,7 +244,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
         supportingFiles.add(new SupportingFile("routers.mustache", sourceFolder, "routers.go"));
         supportingFiles.add(new SupportingFile("logger.mustache", sourceFolder, "logger.go"));
-        supportingFiles.add(new SupportingFile("impl.mustache",sourceFolder, "impl.go"));
+        supportingFiles.add(new SupportingFile("impl.mustache", sourceFolder, "impl.go"));
         supportingFiles.add(new SupportingFile("helpers.mustache", sourceFolder, "helpers.go"));
         supportingFiles.add(new SupportingFile("api.mustache", sourceFolder, "api.go"));
         supportingFiles.add(new SupportingFile("error.mustache", sourceFolder, "error.go"));

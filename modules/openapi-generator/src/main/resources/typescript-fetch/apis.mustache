@@ -46,6 +46,9 @@ export interface {{classname}}Interface {
      * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
      {{/allParams}}
      * @param {*} [options] Override http request option.
+    {{#isDeprecated}}
+     * @deprecated
+    {{/isDeprecated}}
      * @throws {RequiredError}
      * @memberof {{classname}}Interface
      */

@@ -1182,7 +1182,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 example.append(constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly));
             }
         } else if (codegenParameter.isMap) {
-            if (codegenParameter.items.isModel) {
+            if (codegenParameter.items == null) {
+                example.append("@{ key_example = ... }");
+            } else if (codegenParameter.items.isModel) {
                 String modelExample = constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly);
                 if (!StringUtils.isEmpty(modelExample)) {
                     example.append(modelExample).append("\n");

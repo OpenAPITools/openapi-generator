@@ -10,6 +10,7 @@ title: Documentation for the apache2 Generator
 | generator stability | STABLE | |
 | generator type | CONFIG | |
 | generator language | Java | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates an Apache2 Config file with the permissions | |
 
 ## CONFIG OPTIONS

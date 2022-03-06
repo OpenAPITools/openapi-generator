@@ -10,6 +10,7 @@ title: Documentation for the go-server Generator
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | Go | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates a Go server library using OpenAPI-Generator. By default, it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable. | |
 
 ## CONFIG OPTIONS

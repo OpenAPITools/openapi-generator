@@ -10,6 +10,7 @@ title: Documentation for the wsdl-schema Generator
 | generator stability | BETA | |
 | generator type | SCHEMA | |
 | generator language | Web Services Description Language (WSDL) | |
+| generator default templating engine | mustache | |
 | helpTxt | Generates WSDL files. | |
 
 ## CONFIG OPTIONS

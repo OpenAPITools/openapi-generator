@@ -43,95 +43,97 @@ import javax.annotation.Generated;
 
 @Introspected
 public class Animal {
-  public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  protected String className;
+    public static final String JSON_PROPERTY_CLASS_NAME = "className";
+    protected String className;
 
-  public static final String JSON_PROPERTY_COLOR = "color";
-  private String color = "red";
+    public static final String JSON_PROPERTY_COLOR = "color";
+    private String color = "red";
 
-  public Animal className(String className) {
-    this.className = className;
-    return this;
-  }
-
-  /**
-   * Get className
-   * @return className
-   **/
-  @NotNull
-  @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public String getClassName() {
-    return className;
-  }
-
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(String className) {
-    this.className = className;
-  }
-
-  public Animal color(String color) {
-    this.color = color;
-    return this;
-  }
-
-  /**
-   * Get color
-   * @return color
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_COLOR)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public String getColor() {
-    return color;
-  }
-
-  @JsonProperty(JSON_PROPERTY_COLOR)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setColor(String color) {
-    this.color = color;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public Animal() {
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+    public Animal className(String className) {
+        this.className = className;
+        return this;
     }
-    Animal animal = (Animal) o;
-    return Objects.equals(this.className, animal.className) &&
-        Objects.equals(this.color, animal.color);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(className, color);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Animal {\n");
-    sb.append("    className: ").append(toIndentedString(className)).append("\n");
-    sb.append("    color: ").append(toIndentedString(color)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    /**
+     * Get className
+     * @return className
+     **/
+    @NotNull
+    @ApiModelProperty(required = true, value = "")
+    @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+       public String getClassName() {
+        return className;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+       public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public Animal color(String color) {
+        this.color = color;
+        return this;
+    }
+
+    /**
+     * Get color
+     * @return color
+     **/
+    @Nullable
+    @ApiModelProperty(value = "")
+    @JsonProperty(JSON_PROPERTY_COLOR)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public String getColor() {
+        return color;
+    }
+
+    @JsonProperty(JSON_PROPERTY_COLOR)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public void setColor(String color) {
+        this.color = color;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Animal animal = (Animal) o;
+        return Objects.equals(this.className, animal.className) &&
+            Objects.equals(this.color, animal.color);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(className, color);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class Animal {\n");
+        sb.append("    className: ").append(toIndentedString(className)).append("\n");
+        sb.append("    color: ").append(toIndentedString(color)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
 
 }

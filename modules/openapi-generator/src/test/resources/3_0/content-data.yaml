@@ -38,6 +38,8 @@ paths:
               description: "The number of allowed requests in the current period"
               schema:
                 type: integer
+            X-Rate-Limit-Ref:
+              $ref: '#/components/headers/X-Rate-Limit'
           content:
             application/json:
               schema:
@@ -97,6 +99,11 @@ paths:
         200:
           description: OK
 components:
+  headers:
+    X-Rate-Limit:
+      description: "The number of allowed requests in the current period"
+      schema:
+        type: integer
   schemas:
     stringWithMinLength:
       type: string

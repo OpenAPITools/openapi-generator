@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,6 +47,10 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
     DateBase,
     DateTimeBase,
@@ -88,13 +92,13 @@ class User(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, None, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
             **kwargs: typing.Type[Schema],
         ) -> 'objectWithNoDeclaredPropsNullable':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
                 **kwargs,
             )
     anyTypeProp = AnyTypeSchema
@@ -116,7 +120,7 @@ class User(
         objectWithNoDeclaredPropsNullable: typing.Union[objectWithNoDeclaredPropsNullable, Unset] = unset,
         anyTypeProp: typing.Union[anyTypeProp, Unset] = unset,
         anyTypePropNullable: typing.Union[anyTypePropNullable, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'User':
         return super().__new__(
@@ -134,6 +138,6 @@ class User(
             objectWithNoDeclaredPropsNullable=objectWithNoDeclaredPropsNullable,
             anyTypeProp=anyTypeProp,
             anyTypePropNullable=anyTypePropNullable,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )

@@ -23,9 +23,6 @@ using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 using RestSharp;
 using RestSharp.Deserializers;
 using RestSharpMethod = RestSharp.Method;
-{{#useWebRequest}}
-using System.Net.Http;
-{{/useWebRequest}}
 {{#supportsRetry}}
 using Polly;
 {{/supportsRetry}}
