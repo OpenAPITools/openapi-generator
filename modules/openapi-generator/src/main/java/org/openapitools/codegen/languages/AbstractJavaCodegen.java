@@ -575,6 +575,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("JsonCreator", "com.fasterxml.jackson.annotation.JsonCreator");
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
         importMapping.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
+        importMapping.put("JsonIgnoreProperties", "com.fasterxml.jackson.annotation.JsonIgnoreProperties");
         importMapping.put("JsonInclude", "com.fasterxml.jackson.annotation.JsonInclude");
         importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
         importMapping.put("SerializedName", "com.google.gson.annotations.SerializedName");
@@ -1235,6 +1236,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (codegenModel.discriminator != null && additionalProperties.containsKey(JACKSON)) {
             codegenModel.imports.add("JsonSubTypes");
             codegenModel.imports.add("JsonTypeInfo");
+            codegenModel.imports.add("JsonIgnoreProperties");
         }
         if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
@@ -1297,6 +1299,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // recursively add import for mapping one type to multiple imports
@@ -1313,6 +1316,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 Map<String, String> newImportMap = new HashMap<>();
                 newImportMap.put("import", importMapping.get(_import));
                 listIterator.add(newImportMap);
+            }
+        }
+
+        List<Object> models = (List<Object>) objs.get("models");
+
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+            if (this.serializableModel) {
+                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
             }
         }
 
@@ -1989,4 +2004,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
+        extensions.add(VendorExtension.X_IMPLEMENTS);
+        extensions.add(VendorExtension.X_SETTER_EXTRA_ANNOTATION);
+        return extensions;
+    }
 }

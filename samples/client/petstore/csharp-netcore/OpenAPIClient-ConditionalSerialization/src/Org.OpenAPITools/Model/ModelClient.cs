@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public ModelClient(string _client = default(string))
         {
             this.__Client = _client;
+            if (this._Client != null)
+            {
+                this._flag_Client = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

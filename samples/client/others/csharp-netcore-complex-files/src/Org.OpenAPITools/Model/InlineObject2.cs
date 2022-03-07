@@ -53,7 +53,8 @@ namespace Org.OpenAPITools.Model
         {
             this.Status = status;
             // to ensure "file" is required (not null)
-            if (file == null) {
+            if (file == null)
+            {
                 throw new ArgumentNullException("file is a required property for InlineObject2 and cannot be null");
             }
             this.File = file;
