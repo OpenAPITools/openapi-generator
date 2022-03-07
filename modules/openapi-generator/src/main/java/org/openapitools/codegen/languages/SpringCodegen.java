@@ -86,7 +86,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_TAGS = "useTags";
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
-    public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String API_FIRST = "apiFirst";
     public static final String SPRING_CONTROLLER = "useSpringController";
     public static final String HATEOAS = "hateoas";
@@ -110,7 +109,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean useTags = false;
     protected boolean useBeanValidation = true;
     protected boolean performBeanValidation = false;
-    protected boolean implicitHeaders = false;
     protected boolean apiFirst = false;
     protected boolean useOptional = false;
     protected boolean virtualService = false;
@@ -180,9 +178,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION,
                 "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
-        cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS,
-                "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.",
-                implicitHeaders));
         cliOptions.add(CliOption.newBoolean(API_FIRST,
                 "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
         cliOptions
@@ -367,10 +362,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(USE_OPTIONAL)) {
             this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
-        }
-
-        if (additionalProperties.containsKey(IMPLICIT_HEADERS)) {
-            this.setImplicitHeaders(Boolean.parseBoolean(additionalProperties.get(IMPLICIT_HEADERS).toString()));
         }
 
         if (additionalProperties.containsKey(API_FIRST)) {
@@ -665,9 +656,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     }
                 });
 
-                if (implicitHeaders) {
-                    removeHeadersFromAllParams(operation.allParams);
-                }
+                handleImplicitHeaders(operation);
             }
         }
 
@@ -706,25 +695,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (end > 0) {
                 dataTypeAssigner.setReturnType(rt.substring("Set<".length(), end).trim());
                 dataTypeAssigner.setReturnContainer("Set");
-            }
-        }
-    }
-
-    /**
-     * This method removes header parameters from the list of parameters
-     *
-     * @param allParams list of all parameters
-     */
-    private void removeHeadersFromAllParams(List<CodegenParameter> allParams) {
-        if (allParams.isEmpty()) {
-            return;
-        }
-        final ArrayList<CodegenParameter> copy = new ArrayList<>(allParams);
-        allParams.clear();
-
-        for (final CodegenParameter p : copy) {
-            if (!p.isHeaderParam) {
-                allParams.add(p);
             }
         }
     }
@@ -837,10 +807,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setUseTags(boolean useTags) {
         this.useTags = useTags;
-    }
-
-    public void setImplicitHeaders(boolean implicitHeaders) {
-        this.implicitHeaders = implicitHeaders;
     }
 
     public void setApiFirst(boolean apiFirst) {
