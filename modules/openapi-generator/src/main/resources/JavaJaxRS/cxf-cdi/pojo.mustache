@@ -6,12 +6,18 @@ import javax.xml.bind.annotation.*;
 {{/withXml}}
 
 {{#description}}@ApiModel(description = "{{{.}}}"){{/description}}{{>additionalModelTypeAnnotations}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
 public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
+  {{#vendorExtensions.x-field-extra-annotation}}
+  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{/vendorExtensions.x-field-extra-annotation}}
 {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
 {{/isContainer}}
