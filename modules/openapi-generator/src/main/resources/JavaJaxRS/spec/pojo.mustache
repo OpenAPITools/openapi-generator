@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
-{{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
