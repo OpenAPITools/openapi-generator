@@ -18,7 +18,7 @@ jobs:
           - java: 17
             os: ubuntu-latest
             # Need to update to Gradle version with v17 support in modules/openapi-generator-gradle-plugin/pom.xml
-            flags: -am -pl modules/openapi-generator-cli -Dmaven.javadoc.skip=true
+            flags: -am -pl modules/openapi-generator-cli -Dmaven.javadoc.skip=true -Dmaven.test.skip=true
     steps:
       - name: Check out code
         uses: actions/checkout@v3
