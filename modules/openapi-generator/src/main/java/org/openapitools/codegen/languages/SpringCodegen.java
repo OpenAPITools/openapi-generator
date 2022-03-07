@@ -48,6 +48,7 @@ import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.VendorExtension;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
@@ -982,5 +983,12 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void setUseSwaggerUI(boolean useSwaggerUI) {
         this.useSwaggerUI = useSwaggerUI;
+    }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_SPRING_PAGINATED);
+        return extensions;
     }
 }
