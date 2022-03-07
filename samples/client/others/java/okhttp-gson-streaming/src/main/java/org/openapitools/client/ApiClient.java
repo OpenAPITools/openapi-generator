@@ -296,7 +296,7 @@ public class ApiClient {
     /**
      * <p>Set OffsetDateTimeFormat.</p>
      *
-     * @param dateFormat a {@link org.threeten.bp.format.DateTimeFormatter} object
+     * @param dateFormat a {@link java.time.format.DateTimeFormatter} object
      * @return a {@link org.openapitools.client.ApiClient} object
      */
     public ApiClient setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
@@ -307,7 +307,7 @@ public class ApiClient {
     /**
      * <p>Set LocalDateFormat.</p>
      *
-     * @param dateFormat a {@link org.threeten.bp.format.DateTimeFormatter} object
+     * @param dateFormat a {@link java.time.format.DateTimeFormatter} object
      * @return a {@link org.openapitools.client.ApiClient} object
      */
     public ApiClient setLocalDateFormat(DateTimeFormatter dateFormat) {
