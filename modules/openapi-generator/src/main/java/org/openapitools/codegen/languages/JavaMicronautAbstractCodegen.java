@@ -517,10 +517,10 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     @Override
     protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-            .put("replaceDots", new ReplaceDotsLambda());
+            .put("replaceDotsWithUnderscore", new ReplaceDotsWithUnderscoreLambda());
     }
 
-    private static class ReplaceDotsLambda implements Mustache.Lambda {
+    private static class ReplaceDotsWithUnderscoreLambda implements Mustache.Lambda {
         @Override
         public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
             writer.write(fragment.execute().replace('.', '_'));
