@@ -51,7 +51,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
     protected int serverPort = 8080;
     protected String projectName = "openapi-server";
     protected String sourceFolder = "go";
-	protected String supportFolder = "support";
+    protected String supportFolder = "support";
     protected Boolean corsFeatureEnabled = false;
     protected Boolean addResponseHeaders = false;
 
@@ -230,7 +230,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
             routers.put(router, router.equals(propRouter));
         }
         additionalProperties.put("routers", routers);
-        
+
         if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
             modelPackage = packageName;
         }
