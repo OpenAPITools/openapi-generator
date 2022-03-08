@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("ReadOnlyFirst")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ReadOnlyFirst  implements Serializable {
+public class ReadOnlyFirst  implements Serializable {
   
   private @Valid String bar;
   private @Valid String baz;
