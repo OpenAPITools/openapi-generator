@@ -19,29 +19,23 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.GeneratorMetadata;
-import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.initialCaps;
 
 public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
-    private final Logger LOGGER = LoggerFactory.getLogger(Swift4Codegen.class);
-
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
     public static final String UNWRAP_REQUIRED = "unwrapRequired";
@@ -49,7 +43,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public static final String POD_SOURCE = "podSource";
     public static final String POD_AUTHORS = "podAuthors";
     public static final String POD_SOCIAL_MEDIA_URL = "podSocialMediaURL";
-    public static final String POD_DOCSET_URL = "podDocsetURL";
     public static final String POD_LICENSE = "podLicense";
     public static final String POD_HOMEPAGE = "podHomepage";
     public static final String POD_SUMMARY = "podSummary";
@@ -57,63 +50,52 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public static final String POD_SCREENSHOTS = "podScreenshots";
     public static final String POD_DOCUMENTATION_URL = "podDocumentationURL";
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
-    public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
+    public static final String DEFAULT_POD_AUTHORS = "Swagger Codegen";
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
     protected static final String LIBRARY_PROMISE_KIT = "PromiseKit";
     protected static final String LIBRARY_RX_SWIFT = "RxSwift";
-    protected static final String LIBRARY_RESULT = "Result";
-    protected static final String[] RESPONSE_LIBRARIES = {LIBRARY_PROMISE_KIT, LIBRARY_RX_SWIFT, LIBRARY_RESULT};
-    protected String projectName = "OpenAPIClient";
-    protected boolean nonPublicApi = false;
+    protected static final String[] RESPONSE_LIBRARIES = {LIBRARY_PROMISE_KIT, LIBRARY_RX_SWIFT};
+    protected String projectName = "SwaggerClient";
     protected boolean unwrapRequired;
     protected boolean objcCompatible = false;
     protected boolean lenientTypeCast = false;
     protected boolean swiftUseApiNamespace;
     protected String[] responseAs = new String[0];
-    protected String sourceFolder = "Classes" + File.separator + "OpenAPIs";
-    protected HashSet objcReservedWords;
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
+    protected String sourceFolder = "src";
+
+    @Override
+    public CodegenType getTag() {
+        return CodegenType.CLIENT;
+    }
+
+    @Override
+    public String getName() {
+        return "swift4";
+    }
+
+    @Override
+    public String getHelp() {
+        return "Generates a swift client library.";
+    }
+
+    @Override
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
+                                                       Schema schema) {
+        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
+        addImport(codegenModel, codegenModel.additionalPropertiesType);
+    }
 
     /**
      * Constructor for the swift4 language codegen module.
      */
     public Swift4Codegen() {
         super();
-
-        modifyFeatureSet(features -> features
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
-
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.DEPRECATED)
-                .build();
-
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");
         apiTemplateFiles.put("api.mustache", ".swift");
         embeddedTemplateDir = templateDir = "swift4";
         apiPackage = File.separator + "APIs";
         modelPackage = File.separator + "Models";
-        modelDocTemplateFiles.put("model_doc.mustache", ".md");
-        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
@@ -125,15 +107,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         "Bool",
                         "Void",
                         "String",
-                        "URL",
-                        "Data",
-                        "Date",
                         "Character",
-                        "UUID",
-                        "URL",
                         "AnyObject",
-                        "Any",
-                        "Decimal")
+                        "Any")
         );
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
@@ -147,25 +123,18 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         "Any",
                         "Empty",
                         "AnyObject",
-                        "Any",
-                        "Decimal")
+                        "Any")
         );
-
-        objcReservedWords = new HashSet<>(
-                Arrays.asList(
-                        // Added for Objective-C compatibility
-                        "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
-                        "NSError", "NSDictionary",
-                        // Cannot override with a stored property 'className'
-                        "className"
-                        )
-                );
-
         reservedWords = new HashSet<>(
                 Arrays.asList(
                         // name used by swift client
                         "ErrorResponse", "Response",
 
+                        // Added for Objective-C compatibility
+                        "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
+                        "NSError", "NSDictionary",
+
+                        //
                         // Swift keywords. This list is taken from here:
                         // https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/LexicalStructure.html#//apple_ref/doc/uid/TP40014097-CH30-ID410
                         //
@@ -227,14 +196,11 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("float", "Float");
         typeMapping.put("number", "Double");
         typeMapping.put("double", "Double");
+        typeMapping.put("object", "Any");
         typeMapping.put("file", "URL");
-        typeMapping.put("binary", "URL");
+        typeMapping.put("binary", "Data");
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
-        typeMapping.put("URI", "String");
-        typeMapping.put("decimal", "Decimal");
-        typeMapping.put("object", "Any");
-        typeMapping.put("AnyType", "Any");
 
         importMapping = new HashMap<>();
 
@@ -243,9 +209,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 "Optionally use libraries to manage response.  Currently "
                         + StringUtils.join(RESPONSE_LIBRARIES, ", ")
                         + " are available."));
-        cliOptions.add(new CliOption(CodegenConstants.NON_PUBLIC_API,
-                CodegenConstants.NON_PUBLIC_API_DESC
-                        + "(default: false)"));
         cliOptions.add(new CliOption(UNWRAP_REQUIRED,
                 "Treat 'required' properties in response as non-optional "
                         + "(which would crash the app if api returns null as opposed "
@@ -257,7 +220,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.POD_VERSION, "Version used for Podspec"));
         cliOptions.add(new CliOption(POD_AUTHORS, "Authors used for Podspec"));
         cliOptions.add(new CliOption(POD_SOCIAL_MEDIA_URL, "Social Media URL used for Podspec"));
-        cliOptions.add(new CliOption(POD_DOCSET_URL, "Docset URL used for Podspec"));
         cliOptions.add(new CliOption(POD_LICENSE, "License used for Podspec"));
         cliOptions.add(new CliOption(POD_HOMEPAGE, "Homepage used for Podspec"));
         cliOptions.add(new CliOption(POD_SUMMARY, "Summary used for Podspec"));
@@ -268,89 +230,15 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(SWIFT_USE_API_NAMESPACE,
                 "Flag to make all the API classes inner-class "
                         + "of {{projectName}}API"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
-                .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(LENIENT_TYPE_CAST,
                 "Accept and cast values for simple types (string->bool, "
                         + "string->int, int->string)")
                 .defaultValue(Boolean.FALSE.toString()));
     }
 
-    private static CodegenModel reconcileProperties(CodegenModel codegenModel,
-                                                    CodegenModel parentCodegenModel) {
-        // To support inheritance in this generator, we will analyze
-        // the parent and child models, look for properties that match, and remove
-        // them from the child models and leave them in the parent.
-        // Because the child models extend the parents, the properties
-        // will be available via the parent.
-
-        // Get the properties for the parent and child models
-        final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
-        List<CodegenProperty> codegenProperties = codegenModel.vars;
-        codegenModel.allVars = new ArrayList<CodegenProperty>(codegenProperties);
-        codegenModel.parentVars = parentCodegenModel.allVars;
-
-        // Iterate over all of the parent model properties
-        boolean removedChildProperty = false;
-
-        for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
-            // Now that we have found a prop in the parent class,
-            // and search the child class for the same prop.
-            Iterator<CodegenProperty> iterator = codegenProperties.iterator();
-            while (iterator.hasNext()) {
-                CodegenProperty codegenProperty = iterator.next();
-                if (codegenProperty.baseName.equals(parentModelCodegenProperty.baseName)) {
-                    // We found a property in the child class that is
-                    // a duplicate of the one in the parent, so remove it.
-                    iterator.remove();
-                    removedChildProperty = true;
-                }
-            }
-        }
-
-        if (removedChildProperty) {
-            codegenModel.vars = codegenProperties;
-        }
-
-
-        return codegenModel;
-    }
-
-    @Override
-    public CodegenType getTag() {
-        return CodegenType.CLIENT;
-    }
-
-    @Override
-    public String getName() {
-        return "swift4-deprecated";
-    }
-
-    @Override
-    public String getHelp() {
-        return "Generates a Swift 4.x client library (Deprecated and will be removed in 5.x releases. Please use `swift5` instead.)";
-    }
-
-    @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
-                                                       Schema schema) {
-
-        final Schema additionalProperties = getAdditionalProperties(schema);
-
-        if (additionalProperties != null) {
-            codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
-        }
-    }
-
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (StringUtils.isEmpty(System.getenv("SWIFT_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable SWIFT_POST_PROCESS_FILE not defined so the Swift code may not be properly formatted. To define it, try 'export SWIFT_POST_PROCESS_FILE=/usr/local/bin/swiftformat' (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
-        }
 
         // Setup project name
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -358,34 +246,15 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         } else {
             additionalProperties.put(PROJECT_NAME, projectName);
         }
-        sourceFolder = projectName + File.separator + sourceFolder;
-
-        // Setup nonPublicApi option, which generates code with reduced access
-        // modifiers; allows embedding elsewhere without exposing non-public API calls
-        // to consumers
-        if (additionalProperties.containsKey(CodegenConstants.NON_PUBLIC_API)) {
-            setNonPublicApi(convertPropertyToBooleanAndWriteBack(CodegenConstants.NON_PUBLIC_API));
-        }
-        additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
+        // Quit changing the path where it can't be overridden!
 
         // Setup unwrapRequired option, which makes all the
         // properties with "required" non-optional
-        if (additionalProperties.containsKey(UNWRAP_REQUIRED)) {
-            setUnwrapRequired(convertPropertyToBooleanAndWriteBack(UNWRAP_REQUIRED));
-        }
         additionalProperties.put(UNWRAP_REQUIRED, unwrapRequired);
 
         // Setup objcCompatible option, which adds additional properties
         // and methods for Objective-C compatibility
-        if (additionalProperties.containsKey(OBJC_COMPATIBLE)) {
-            setObjcCompatible(convertPropertyToBooleanAndWriteBack(OBJC_COMPATIBLE));
-        }
         additionalProperties.put(OBJC_COMPATIBLE, objcCompatible);
-
-        // add objc reserved words
-        if (Boolean.TRUE.equals(objcCompatible)) {
-            reservedWords.addAll(objcReservedWords);
-        }
 
         // Setup unwrapRequired option, which makes all the properties with "required" non-optional
         if (additionalProperties.containsKey(RESPONSE_AS)) {
@@ -403,25 +272,13 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         if (ArrayUtils.contains(responseAs, LIBRARY_RX_SWIFT)) {
             additionalProperties.put("useRxSwift", true);
         }
-        if (ArrayUtils.contains(responseAs, LIBRARY_RESULT)) {
-            additionalProperties.put("useResult", true);
-        }
 
         // Setup swiftUseApiNamespace option, which makes all the API
         // classes inner-class of {{projectName}}API
-        if (additionalProperties.containsKey(SWIFT_USE_API_NAMESPACE)) {
-            setSwiftUseApiNamespace(convertPropertyToBooleanAndWriteBack(SWIFT_USE_API_NAMESPACE));
-        }
 
         if (!additionalProperties.containsKey(POD_AUTHORS)) {
             additionalProperties.put(POD_AUTHORS, DEFAULT_POD_AUTHORS);
         }
-
-        setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
-
-        // make api and model doc path available in mustache template
-        additionalProperties.put("apiDocPath", apiDocPath);
-        additionalProperties.put("modelDocPath", modelDocPath);
 
         supportingFiles.add(new SupportingFile("Podspec.mustache",
                 "",
@@ -429,18 +286,12 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Cartfile.mustache",
                 "",
                 "Cartfile"));
-        supportingFiles.add(new SupportingFile("Package.swift.mustache",
-                "",
-                "Package.swift"));
         supportingFiles.add(new SupportingFile("APIHelper.mustache",
                 sourceFolder,
                 "APIHelper.swift"));
-        supportingFiles.add(new SupportingFile("AlamofireImplementations.mustache",
+        supportingFiles.add(new SupportingFile("SdkConfiguration.mustache",
                 sourceFolder,
-                "AlamofireImplementations.swift"));
-        supportingFiles.add(new SupportingFile("Configuration.mustache",
-                sourceFolder,
-                "Configuration.swift"));
+                "SdkConfiguration.swift"));
         supportingFiles.add(new SupportingFile("Extensions.mustache",
                 sourceFolder,
                 "Extensions.swift"));
@@ -453,29 +304,15 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("CodableHelper.mustache",
                 sourceFolder,
                 "CodableHelper.swift"));
-        supportingFiles.add(new SupportingFile("JSONEncodableEncoding.mustache",
-                sourceFolder,
-                "JSONEncodableEncoding.swift"));
         supportingFiles.add(new SupportingFile("JSONEncodingHelper.mustache",
                 sourceFolder,
                 "JSONEncodingHelper.swift"));
-        if (ArrayUtils.contains(responseAs, LIBRARY_RESULT)) {
-            supportingFiles.add(new SupportingFile("Result.mustache",
-                    sourceFolder,
-                    "Result.swift"));
-        }
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache",
-                "",
-                "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache",
                 "",
                 ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache",
                 "",
                 "README.md"));
-        supportingFiles.add(new SupportingFile("XcodeGen.mustache",
-                "",
-                "project.yml"));
 
     }
 
@@ -486,9 +323,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
         return "_" + name;  // add an underscore to the name
     }
 
@@ -507,8 +341,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            ArraySchema arraySchema = (ArraySchema) p;
+            String inner = getSchemaType(getSchemaItems(arraySchema));
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
@@ -518,28 +352,26 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getSchemaType(Schema p) {
-        String openAPIType = super.getSchemaType(p);
+    protected String getPrimitiveType(Schema schema) {
+        String swaggerType = super.getPrimitiveType(schema);
         String type;
-        if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
+        if (typeMapping.containsKey(swaggerType)) {
+            type = typeMapping.get(swaggerType);
             if (languageSpecificPrimitives.contains(type) || defaultIncludes.contains(type)) {
                 return type;
             }
         } else {
-            type = openAPIType;
+            type = swaggerType;
         }
         return toModelName(type);
     }
 
-    @Override
     public boolean isDataTypeFile(String dataType) {
-        return "URL".equals(dataType);
+        return dataType != null && dataType.equals("URL");
     }
 
-    @Override
     public boolean isDataTypeBinary(final String dataType) {
-        return "Data".equals(dataType);
+        return dataType != null && dataType.equals("Data");
     }
 
     /**
@@ -568,8 +400,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = "Model" + name;
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to "
-                    + modelName);
             return modelName;
         }
 
@@ -577,9 +407,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         if (name.matches("^\\d.*")) {
             // e.g. 200Response => Model200Response (after camelize)
             String modelName = "Model" + name;
-            LOGGER.warn(name
-                    + " (model name starts with number) cannot be used as model name."
-                    + " Renamed to " + modelName);
             return modelName;
         }
 
@@ -599,35 +426,17 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
-        if (p.getEnum() != null && !p.getEnum().isEmpty()) {
-            if (p.getDefault() != null) {
-                if (ModelUtils.isStringSchema(p)) {
-                    return "." + toEnumVarName(escapeText((String) p.getDefault()), p.getType());
-                } else {
-                    return "." + toEnumVarName(escapeText(p.getDefault().toString()), p.getType());
-                }
-            }
-        }
-        if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            }
-        } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                return "\"" + escapeText((String) p.getDefault()) + "\"";
-            }
-        }
+    public String toDefaultValue(Schema prop) {
         return null;
     }
 
     @Override
-    public String toInstantiationType(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
-            return getSchemaType(getAdditionalProperties(p));
-        } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+    public String toInstantiationType(Schema prop) {
+        if (ModelUtils.isMapSchema(prop)) {
+            Schema inner = getAdditionalProperties(prop);
+            return inner.toString();
+        } else if (ModelUtils.isArraySchema(prop)) {
+            Schema inner = getAdditionalProperties(prop);
             return "[" + inner + "]";
         }
         return null;
@@ -638,27 +447,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         if (name.length() == 0) {
             return "DefaultAPI";
         }
-        return camelize(name) + "API";
-    }
-
-    @Override
-    public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath).replace("/", File.separator);
-    }
-
-    @Override
-    public String modelDocFileFolder() {
-        return (outputFolder + "/" + modelDocPath).replace("/", File.separator);
-    }
-
-    @Override
-    public String toModelDocFilename(String name) {
-        return toModelName(name);
-    }
-
-    @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
+        return initialCaps(name) + "API";
     }
 
     @Override
@@ -674,19 +463,27 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize(("call_" + operationId), true);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name."
-                    + " Renamed to " + newOperationId);
             return newOperationId;
         }
 
-        // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
-            operationId = camelize(sanitizeName("call_" + operationId), true);
-        }
-
-
         return operationId;
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        super.postProcessOperationsWithModels(objs, allModels);
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if (operations != null) {
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation op : ops) {
+                if (op.returnType != null) {
+                    if (op.returnBaseType.equals("StringJSON") || op.returnBaseType.equals("Response")) {
+                        op.returnType = toModelName(op.returnType);
+                    }
+                }
+            }
+        }
+        return objs;
     }
 
     @Override
@@ -765,10 +562,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         this.projectName = projectName;
     }
 
-    public void setNonPublicApi(boolean nonPublicApi) {
-        this.nonPublicApi = nonPublicApi;
-    }
-
     public void setUnwrapRequired(boolean unwrapRequired) {
         this.unwrapRequired = unwrapRequired;
     }
@@ -791,12 +584,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        // for string, array of string
-        if ("String".equals(datatype) || "[String]".equals(datatype) || "[String:String]".equals(datatype)) {
-            return "\"" + String.valueOf(value) + "\"";
-        } else {
-            return String.valueOf(value);
-        }
+        return String.valueOf(value);
     }
 
     @Override
@@ -821,7 +609,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
+            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.getDefault())), true);
         }
 
         // Camelize only when we have a structure defined below
@@ -944,154 +732,50 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
         return input.replace("\"", "");
     }
 
-    @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
-    @Override
-    public void postProcessFile(File file, String fileType) {
-        if (file == null) {
-            return;
-        }
-        String swiftPostProcessFile = System.getenv("SWIFT_POST_PROCESS_FILE");
-        if (StringUtils.isEmpty(swiftPostProcessFile)) {
-            return; // skip if SWIFT_POST_PROCESS_FILE env variable is not defined
-        }
-        // only process files with swift extension
-        if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = swiftPostProcessFile + " " + file.toString();
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: " + command);
+    private static CodegenModel reconcileProperties(CodegenModel codegenModel,
+                                                    CodegenModel parentCodegenModel) {
+        // To support inheritance in this generator, we will analyze
+        // the parent and child models, look for properties that match, and remove
+        // them from the child models and leave them in the parent.
+        // Because the child models extend the parents, the properties
+        // will be available via the parent.
+
+        // Get the properties for the parent and child models
+        final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
+        List<CodegenProperty> codegenProperties = codegenModel.vars;
+        codegenModel.allVars = new ArrayList<CodegenProperty>(codegenProperties);
+
+        // Iterate over all of the parent model properties
+        boolean removedChildProperty = false;
+
+        for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
+            // Now that we have found a prop in the parent class,
+            // and search the child class for the same prop.
+            Iterator<CodegenProperty> iterator = codegenProperties.iterator();
+            while (iterator.hasNext()) {
+                CodegenProperty codegenProperty = iterator.next();
+                if (codegenProperty.baseName.equals(parentModelCodegenProperty.baseName)) {
+                    // We found a property in the child class that is
+                    // a duplicate of the one in the parent, so remove it.
+                    iterator.remove();
+                    removedChildProperty = true;
                 }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
             }
         }
-    }
 
-    @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
-            modelMaps.put(m.classname, m);
+        if (removedChildProperty) {
+            codegenModel.vars = codegenProperties;
         }
 
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
-        for (CodegenOperation operation : operations) {
-            for (CodegenParameter cp : operation.allParams) {
-                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps));
-            }
-        }
-        return objs;
-    }
-
-    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
-        if (codegenParameter.isArray) { // array
-            return "[" + constructExampleCode(codegenParameter.items, modelMaps) + "]";
-        } else if (codegenParameter.isMap) { // TODO: map, file type
-            return "\"TODO\"";
-        } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
-            if ("String".equals(codegenParameter.dataType) || "Character".equals(codegenParameter.dataType)) {
-                if (StringUtils.isEmpty(codegenParameter.example)) {
-                    return "\"" + codegenParameter.example + "\"";
-                } else {
-                    return "\"" + codegenParameter.paramName + "_example\"";
-                }
-            } else if ("Bool".equals(codegenParameter.dataType)) { // boolean
-                if (Boolean.parseBoolean(codegenParameter.example)) {
-                    return "true";
-                } else {
-                    return "false";
-                }
-            } else if ("URL".equals(codegenParameter.dataType)) { // URL
-                return "URL(string: \"https://example.com\")!";
-            } else if ("Date".equals(codegenParameter.dataType)) { // date
-                return "Date()";
-            } else { // numeric
-                if (StringUtils.isEmpty(codegenParameter.example)) {
-                    return codegenParameter.example;
-                } else {
-                    return "987";
-                }
-            }
-        } else { // model
-            // look up the model
-            if (modelMaps.containsKey(codegenParameter.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps);
-            } else {
-                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
-                return "TODO";
-            }
-        }
-    }
-
-    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps) {
-        if (codegenProperty.isArray) { // array
-            return "[" + constructExampleCode(codegenProperty.items, modelMaps) + "]";
-        } else if (codegenProperty.isMap) { // TODO: map, file type
-            return "\"TODO\"";
-        } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
-            if ("String".equals(codegenProperty.dataType) || "Character".equals(codegenProperty.dataType)) {
-                if (StringUtils.isEmpty(codegenProperty.example)) {
-                    return "\"" + codegenProperty.example + "\"";
-                } else {
-                    return "\"" + codegenProperty.name + "_example\"";
-                }
-            } else if ("Bool".equals(codegenProperty.dataType)) { // boolean
-                if (Boolean.parseBoolean(codegenProperty.example)) {
-                    return "true";
-                } else {
-                    return "false";
-                }
-            } else if ("URL".equals(codegenProperty.dataType)) { // URL
-                return "URL(string: \"https://example.com\")!";
-            } else if ("Date".equals(codegenProperty.dataType)) { // date
-                return "Date()";
-            } else { // numeric
-                if (StringUtils.isEmpty(codegenProperty.example)) {
-                    return codegenProperty.example;
-                } else {
-                    return "123";
-                }
-            }
-        } else {
-            // look up the model
-            if (modelMaps.containsKey(codegenProperty.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps);
-            } else {
-                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
-                return "\"TODO\"";
-            }
-        }
-    }
-
-    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps) {
-        String example;
-        example = codegenModel.name + "(";
-        List<String> propertyExamples = new ArrayList<>();
-        for (CodegenProperty codegenProperty : codegenModel.vars) {
-            propertyExamples.add(codegenProperty.name + ": " + constructExampleCode(codegenProperty, modelMaps));
-        }
-        example += StringUtils.join(propertyExamples, ", ");
-        example += ")";
-        return example;
+        return codegenModel;
     }
 }
