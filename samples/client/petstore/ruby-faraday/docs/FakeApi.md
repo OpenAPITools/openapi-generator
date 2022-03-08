@@ -911,7 +911,7 @@ No authorization required
 
 ## test_group_parameters
 
-> test_group_parameters(required_string_group, required_boolean_group, required_int64_group, opts)
+> test_group_parameters(opts)
 
 Fake endpoint to test group parameters (optional)
 
@@ -929,18 +929,18 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::FakeApi.new
-required_string_group = 56 # Integer | Required String in group parameters
-required_boolean_group = true # Boolean | Required Boolean in group parameters
-required_int64_group = 789 # Integer | Required Integer in group parameters
 opts = {
-  string_group: 56, # Integer | String in group parameters
-  boolean_group: true, # Boolean | Boolean in group parameters
-  int64_group: 789 # Integer | Integer in group parameters
+    required_string_group: 56, # Integer | Required String in group parameters (required)
+    required_boolean_group: true, # Boolean | Required Boolean in group parameters (required)
+    required_int64_group: 789, # Integer | Required Integer in group parameters (required)
+    string_group: 56, # Integer | String in group parameters
+    boolean_group: true, # Boolean | Boolean in group parameters
+    int64_group: 789, # Integer | Integer in group parameters
 }
 
 begin
   # Fake endpoint to test group parameters (optional)
-  api_instance.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, opts)
+  api_instance.test_group_parameters(opts)
 rescue Petstore::ApiError => e
   puts "Error when calling FakeApi->test_group_parameters: #{e}"
 end
@@ -950,12 +950,12 @@ end
 
 This returns an Array which contains the response data (`nil` in this case), status code and headers.
 
-> <Array(nil, Integer, Hash)> test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, opts)
+> <Array(nil, Integer, Hash)> test_group_parameters_with_http_info(opts)
 
 ```ruby
 begin
   # Fake endpoint to test group parameters (optional)
-  data, status_code, headers = api_instance.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, opts)
+  data, status_code, headers = api_instance.test_group_parameters_with_http_info(opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => nil
