@@ -3205,6 +3205,8 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.setPropertyType(typeMapping.get("string"));
         discriminator.setMapping(sourceDiscriminator.getMapping());
         List<MappedModel> uniqueDescendants = new ArrayList<>();
+
+        // Add descendants explicitly specified in mapping.
         if (sourceDiscriminator.getMapping() != null && !sourceDiscriminator.getMapping().isEmpty()) {
             for (Entry<String, String> e : sourceDiscriminator.getMapping().entrySet()) {
                 String name;
@@ -3220,8 +3222,27 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
+        // if there are composed oneOf/anyOf schemas, add them to this discriminator
+        boolean isOneOfAnyOf = false;
+        if (ModelUtils.isComposedSchema(schema)) {
+            ComposedSchema cs = (ComposedSchema) schema;
+            isOneOfAnyOf = cs.getOneOf() != null || cs.getAnyOf() != null;
+
+            if (!this.getLegacyDiscriminatorBehavior()) {
+                List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discPropName, cs, openAPI);
+                for (MappedModel otherDescendant : otherDescendants) {
+                    if (!uniqueDescendants.contains(otherDescendant)) {
+                        uniqueDescendants.add(otherDescendant);
+                    }
+                }
+            }
+        }
+
+        // Open case: if this doesn't have a closed mapping provided by
+        // oneOf/anyOf, then we find any allOf schemas that happen to reference
+        // this schema.
         boolean legacyUseCase = (this.getLegacyDiscriminatorBehavior() && uniqueDescendants.isEmpty());
-        if (!this.getLegacyDiscriminatorBehavior() || legacyUseCase) {
+        if ((!this.getLegacyDiscriminatorBehavior() && !isOneOfAnyOf) || legacyUseCase) {
             // for schemas that allOf inherit from this schema, add those descendants to this discriminator map
             List<MappedModel> otherDescendants = getAllOfDescendants(schemaName, openAPI);
             for (MappedModel otherDescendant : otherDescendants) {
@@ -3239,15 +3260,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         }
-        // if there are composed oneOf/anyOf schemas, add them to this discriminator
-        if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
-            List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discPropName, (ComposedSchema) schema, openAPI);
-            for (MappedModel otherDescendant : otherDescendants) {
-                if (!uniqueDescendants.contains(otherDescendant)) {
-                    uniqueDescendants.add(otherDescendant);
-                }
-            }
-        }
+
         if (!this.getLegacyDiscriminatorBehavior()) {
             Collections.sort(uniqueDescendants);
         }

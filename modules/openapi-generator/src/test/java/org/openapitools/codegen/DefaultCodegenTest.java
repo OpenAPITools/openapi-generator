@@ -1521,6 +1521,36 @@ public class DefaultCodegenTest {
         assertEquals(discriminator, test);
     }
 
+    @Test
+    public void testAllOfCompositionWithClosedOneOf() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_oneOf_closed.yaml");
+        verifyAllOfCompositionWithOneOf(openAPI);
+    }
+
+    @Test
+    public void testAllOfCompositionWithOpenOneOf() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_oneOf_open.yaml");
+        verifyAllOfCompositionWithOneOf(openAPI);
+    }
+
+    private void verifyAllOfCompositionWithOneOf(OpenAPI openAPI) {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setLegacyDiscriminatorBehavior(false);
+        codegen.setOpenAPI(openAPI);
+
+        Schema s = openAPI.getComponents().getSchemas().get("AdoptableAnimal");
+        CodegenModel m = codegen.fromModel("AdoptableAnimal", s);
+
+        CodegenDiscriminator expected = new CodegenDiscriminator();
+        expected.setPropertyName("petType");
+        expected.setPropertyBaseName("petType");
+        expected.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>(){{
+            add(new CodegenDiscriminator.MappedModel("Cat", "Cat"));
+            add(new CodegenDiscriminator.MappedModel("Dog", "Dog"));
+        }});
+        assertEquals(m.discriminator, expected);
+    }
+
     public CodegenModel getModel(List<ModelMap> allModels, String modelName) {
         for (ModelMap obj : allModels) {
             CodegenModel cm = obj.getModel();

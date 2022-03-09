@@ -151,6 +151,15 @@ public class CodegenDiscriminator {
         public int hashCode() {
             return Objects.hash(mappingName, modelName);
         }
+
+        @Override
+        public String toString() {
+            final StringBuffer sb = new StringBuffer("CodegenDiscriminator.MappedModel{");
+            sb.append("mappingName='").append(mappingName).append('\'');
+            sb.append(", modelName='").append(modelName).append('\'');
+            sb.append('}');
+            return sb.toString();
+        }
     }
 
     @Override
