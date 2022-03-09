@@ -483,7 +483,7 @@ class PetApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
-            _request_auth (dict): set to override the auth_settings for an a single
+            _request_auths (list): set to override the auth_settings for an a single
                 request; this effectively ignores the authentication
                 in the spec for a single request.
                 Default is None
@@ -518,7 +518,7 @@ class PetApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
-        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
+        kwargs['_request_auths'] = kwargs.get('_request_auths', None)
         kwargs['pet'] = \
             pet
         return self.add_pet_endpoint.call_with_http_info(**kwargs)
@@ -567,7 +567,7 @@ class PetApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
-            _request_auth (dict): set to override the auth_settings for an a single
+            _request_auths (list): set to override the auth_settings for an a single
                 request; this effectively ignores the authentication
                 in the spec for a single request.
                 Default is None
@@ -602,7 +602,7 @@ class PetApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
-        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
+        kwargs['_request_auths'] = kwargs.get('_request_auths', None)
         kwargs['pet_id'] = \
             pet_id
         return self.delete_pet_endpoint.call_with_http_info(**kwargs)
@@ -650,7 +650,7 @@ class PetApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
-            _request_auth (dict): set to override the auth_settings for an a single
+            _request_auths (list): set to override the auth_settings for an a single
                 request; this effectively ignores the authentication
                 in the spec for a single request.
                 Default is None
@@ -685,7 +685,7 @@ class PetApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
-        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
+        kwargs['_request_auths'] = kwargs.get('_request_auths', None)
         kwargs['status'] = \
             status
         return self.find_pets_by_status_endpoint.call_with_http_info(**kwargs)
@@ -733,7 +733,7 @@ class PetApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
-            _request_auth (dict): set to override the auth_settings for an a single
+            _request_auths (list): set to override the auth_settings for an a single
                 request; this effectively ignores the authentication
                 in the spec for a single request.
                 Default is None
@@ -768,7 +768,7 @@ class PetApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
-        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
+        kwargs['_request_auths'] = kwargs.get('_request_auths', None)
         kwargs['tags'] = \
             tags
         return self.find_pets_by_tags_endpoint.call_with_http_info(**kwargs)
@@ -816,7 +816,7 @@ class PetApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
-            _request_auth (dict): set to override the auth_settings for an a single
+            _request_auths (list): set to override the auth_settings for an a single
                 request; this effectively ignores the authentication
                 in the spec for a single request.
                 Default is None
@@ -851,7 +851,7 @@ class PetApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
-        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
+        kwargs['_request_auths'] = kwargs.get('_request_auths', None)
         kwargs['pet_id'] = \
             pet_id
         return self.get_pet_by_id_endpoint.call_with_http_info(**kwargs)
@@ -899,7 +899,7 @@ class PetApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
-            _request_auth (dict): set to override the auth_settings for an a single
+            _request_auths (list): set to override the auth_settings for an a single
                 request; this effectively ignores the authentication
                 in the spec for a single request.
                 Default is None
@@ -934,7 +934,7 @@ class PetApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
-        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
+        kwargs['_request_auths'] = kwargs.get('_request_auths', None)
         kwargs['pet'] = \
             pet
         return self.update_pet_endpoint.call_with_http_info(**kwargs)
@@ -984,7 +984,7 @@ class PetApi(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
-            _request_auth (dict): set to override the auth_settings for an a single
+            _request_auths (list): set to override the auth_settings for an a single
                 request; this effectively ignores the authentication
                 in the spec for a single request.
                 Default is None
@@ -1019,7 +1019,7 @@ class PetApi(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
-        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
+        kwargs['_request_auths'] = kwargs.get('_request_auths', None)
         kwargs['pet_id'] = \
             pet_id
         return self.update_pet_with_form_endpoint.call_with_http_info(**kwargs)

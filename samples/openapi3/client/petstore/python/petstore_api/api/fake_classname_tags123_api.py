@@ -131,7 +131,7 @@ class FakeClassnameTags123Api(object):
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
-            _request_auth (dict): set to override the auth_settings for an a single
+            _request_auths (list): set to override the auth_settings for an a single
                 request; this effectively ignores the authentication
                 in the spec for a single request.
                 Default is None
@@ -166,7 +166,7 @@ class FakeClassnameTags123Api(object):
         kwargs['_content_type'] = kwargs.get(
             '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
-        kwargs['_request_auth'] = kwargs.get('_request_auth', None)
+        kwargs['_request_auths'] = kwargs.get('_request_auths', None)
         kwargs['client'] = \
             client
         return self.test_classname_endpoint.call_with_http_info(**kwargs)
