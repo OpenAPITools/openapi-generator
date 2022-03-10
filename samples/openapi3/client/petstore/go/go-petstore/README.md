@@ -158,6 +158,8 @@ Class | Method | HTTP request | Description
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
  - [Name](docs/Name.md)
+ - [NullableAllOf](docs/NullableAllOf.md)
+ - [NullableAllOfChild](docs/NullableAllOfChild.md)
  - [NullableClass](docs/NullableClass.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [Order](docs/Order.md)

@@ -52,6 +52,8 @@ docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/Name.md
+docs/NullableAllOf.md
+docs/NullableAllOfChild.md
 docs/NullableClass.md
 docs/NumberOnly.md
 docs/Order.md
@@ -113,6 +115,8 @@ model_mammal.go
 model_map_test_.go
 model_mixed_properties_and_additional_properties_class.go
 model_name.go
+model_nullable_all_of.go
+model_nullable_all_of_child.go
 model_nullable_class.go
 model_number_only.go
 model_order.go
