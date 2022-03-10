@@ -204,14 +204,14 @@ public class PetApi {
      * @return List&lt;Pet&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Flux<Pet> findPetsByStatus(List<String> status) throws WebClientResponseException {
+    public List<Pet> findPetsByStatus(List<String> status) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
-        return findPetsByStatusRequestCreation(status).bodyToFlux(localVarReturnType);
+        return findPetsByStatusRequestCreation(status).bodyToFlux(localVarReturnType).collectList().block();
     }
 
-    public Mono<ResponseEntity<List<Pet>>> findPetsByStatusWithHttpInfo(List<String> status) throws WebClientResponseException {
+    public ResponseEntity<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
-        return findPetsByStatusRequestCreation(status).toEntityList(localVarReturnType);
+        return findPetsByStatusRequestCreation(status).toEntityList(localVarReturnType).block();
     }
     /**
      * Finds Pets by tags
@@ -262,14 +262,14 @@ public class PetApi {
      * @return Set&lt;Pet&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Flux<Pet> findPetsByTags(Set<String> tags) throws WebClientResponseException {
+    public Set<Pet> findPetsByTags(Set<String> tags) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
-        return findPetsByTagsRequestCreation(tags).bodyToFlux(localVarReturnType);
+        return findPetsByTagsRequestCreation(tags).bodyToFlux(localVarReturnType).collect(Collectors.toSet()).block();
     }
 
-    public Mono<ResponseEntity<List<Pet>>> findPetsByTagsWithHttpInfo(Set<String> tags) throws WebClientResponseException {
+    public ResponseEntity<List<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
-        return findPetsByTagsRequestCreation(tags).toEntityList(localVarReturnType);
+        return findPetsByTagsRequestCreation(tags).toEntityList(localVarReturnType).block();
     }
     /**
      * Find pet by ID
@@ -320,14 +320,14 @@ public class PetApi {
      * @return Pet
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Pet> getPetById(Long petId) throws WebClientResponseException {
+    public Pet getPetById(Long petId) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
-        return getPetByIdRequestCreation(petId).bodyToMono(localVarReturnType);
+        return getPetByIdRequestCreation(petId).bodyToMono(localVarReturnType).block();
     }
 
-    public Mono<ResponseEntity<Pet>> getPetByIdWithHttpInfo(Long petId) throws WebClientResponseException {
+    public ResponseEntity<Pet> getPetByIdWithHttpInfo(Long petId) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
-        return getPetByIdRequestCreation(petId).toEntity(localVarReturnType);
+        return getPetByIdRequestCreation(petId).toEntity(localVarReturnType).block();
     }
     /**
      * Update an existing pet
@@ -376,14 +376,14 @@ public class PetApi {
      * @param pet Pet object that needs to be added to the store
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> updatePet(Pet pet) throws WebClientResponseException {
+    public void updatePet(Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return updatePetRequestCreation(pet).bodyToMono(localVarReturnType);
+        updatePetRequestCreation(pet).bodyToMono(localVarReturnType).block();
     }
 
-    public Mono<ResponseEntity<Void>> updatePetWithHttpInfo(Pet pet) throws WebClientResponseException {
+    public ResponseEntity<Void> updatePetWithHttpInfo(Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return updatePetRequestCreation(pet).toEntity(localVarReturnType);
+        return updatePetRequestCreation(pet).toEntity(localVarReturnType).block();
     }
     /**
      * Updates a pet in the store with form data

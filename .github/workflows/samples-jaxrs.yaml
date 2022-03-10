@@ -34,11 +34,9 @@ jobs:
           - samples/server/petstore/jaxrs-resteasy/eap-joda
           - samples/server/petstore/jaxrs-resteasy/eap-java8
           - samples/server/petstore/jaxrs-resteasy/joda
-          - samples/server/petstore/jaxrs-resteasy/default-value
           - samples/server/petstore/jaxrs-cxf
           - samples/server/petstore/jaxrs-cxf-annotated-base-path
           - samples/server/petstore/jaxrs-cxf-cdi
-          - samples/server/petstore/jaxrs-cxf-cdi-default-value
           - samples/server/petstore/jaxrs-cxf-non-spring-app
     steps:
       - uses: actions/checkout@v3

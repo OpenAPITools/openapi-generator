@@ -48,8 +48,6 @@ public interface AnotherFakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.PATCH,
         value = "/another-fake/dummy",
