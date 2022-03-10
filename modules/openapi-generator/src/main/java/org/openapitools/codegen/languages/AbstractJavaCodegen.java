@@ -70,6 +70,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String OPENAPI_NULLABLE = "openApiNullable";
     public static final String JACKSON = "jackson";
     public static final String TEST_OUTPUT = "testOutput";
+    public static final String IMPLICIT_HEADERS = "implicitHeaders";
+    public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
 
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
 
@@ -117,6 +119,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String outputTestFolder = "";
     protected DocumentationProvider documentationProvider;
     protected AnnotationLibrary annotationLibrary;
+    protected boolean implicitHeaders = false;
+    protected String implicitHeadersRegex = null;
 
     public AbstractJavaCodegen() {
         super();
@@ -246,6 +250,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newString(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, "Additional annotations for enum type(class level annotations)"));
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library", this.openApiNullable));
+        cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
+        cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true"));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -523,6 +529,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (additionalProperties.containsKey(CodegenConstants.PARENT_VERSION)) {
             this.setParentVersion((String) additionalProperties.get(CodegenConstants.PARENT_VERSION));
+        }
+
+        if (additionalProperties.containsKey(IMPLICIT_HEADERS)) {
+            this.setImplicitHeaders(Boolean.parseBoolean(additionalProperties.get(IMPLICIT_HEADERS).toString()));
+        }
+
+        if (additionalProperties.containsKey(IMPLICIT_HEADERS_REGEX)) {
+            this.setImplicitHeadersRegex(additionalProperties.get(IMPLICIT_HEADERS_REGEX).toString());
         }
 
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
@@ -1357,6 +1371,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
             op.vendorExtensions.put("x-java-import", operationImports);
+
+            handleImplicitHeaders(op);
         }
         return objs;
     }
@@ -1384,7 +1400,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     }
                     String accepts = getAccept(openAPI, operation);
                     operation.addExtension("x-accepts", accepts);
-
                 }
             }
         }
@@ -1823,6 +1838,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.annotationLibrary = annotationLibrary;
     }
 
+    public void setImplicitHeaders(boolean implicitHeaders) {
+        this.implicitHeaders = implicitHeaders;
+    }
+
+    public void setImplicitHeadersRegex(String implicitHeadersRegex) {
+        this.implicitHeadersRegex = implicitHeadersRegex;
+    }
+
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
@@ -2002,6 +2025,33 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             codegenModel.additionalPropertiesType = getSchemaType(s);
             addImport(codegenModel, codegenModel.additionalPropertiesType);
         }
+    }
+
+    /**
+     * This method removes all implicit header parameters from the list of parameters
+     *
+     * @param operation - operation to be processed
+     */
+    protected void handleImplicitHeaders(CodegenOperation operation) {
+        if (operation.allParams.isEmpty()) {
+            return;
+        }
+        final ArrayList<CodegenParameter> copy = new ArrayList<>(operation.allParams);
+        operation.allParams.clear();
+
+        for (CodegenParameter p : copy) {
+            if (p.isHeaderParam && (implicitHeaders || shouldBeImplicitHeader(p))) {
+                operation.implicitHeadersParams.add(p);
+                operation.headerParams.removeIf(header -> header.baseName.equals(p.baseName));
+                LOGGER.info("Update operation [{}]. Remove header [{}] because it's marked to be implicit", operation.operationId, p.baseName);
+            } else {
+                operation.allParams.add(p);
+            }
+        }
+    }
+
+    private boolean shouldBeImplicitHeader(CodegenParameter parameter) {
+        return StringUtils.isNotBlank(implicitHeadersRegex) && parameter.baseName.matches(implicitHeadersRegex);
     }
 
     @Override

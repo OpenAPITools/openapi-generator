@@ -16,6 +16,7 @@ import os
 import pprint
 import re
 import tempfile
+import uuid
 
 from dateutil.parser import parse
 
@@ -1399,7 +1400,13 @@ def deserialize_file(response_data, configuration, content_disposition=None):
 
     if content_disposition:
         filename = re.search(r'filename=[\'"]?([^\'"\s]+)[\'"]?',
-                             content_disposition).group(1)
+                             content_disposition,
+                             flags=re.I)
+        if filename is not None:
+            filename = filename.group(1)
+        else:
+            filename = "default_" + str(uuid.uuid4())
+
         path = os.path.join(os.path.dirname(path), filename)
 
     with open(path, "wb") as f:
@@ -1564,7 +1571,9 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
     input_class_simple = get_simple_class(input_value)
     valid_type = is_valid_type(input_class_simple, valid_classes)
     if not valid_type:
-        if configuration:
+        if (configuration 
+                or (input_class_simple == dict 
+                    and not dict in valid_classes)):
             # if input_value is not valid_type try to convert it
             converted_instance = attempt_convert_item(
                 input_value,

@@ -356,7 +356,8 @@ namespace Org.OpenAPITools.Api
                     if ((user as object) is System.IO.Stream stream)
                         request.Content = new StreamContent(stream);
                     else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(user, ClientUtils.JsonSerializerSettings));
+                        // request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(user, ClientUtils.JsonSerializerSettings));
+                        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
                     
@@ -369,7 +370,7 @@ namespace Org.OpenAPITools.Api
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
                         
-                    request.Method = new HttpMethod("POST"); 
+                    request.Method = new HttpMethod("POST");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -392,7 +393,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -473,7 +474,8 @@ namespace Org.OpenAPITools.Api
                     if ((user as object) is System.IO.Stream stream)
                         request.Content = new StreamContent(stream);
                     else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(user, ClientUtils.JsonSerializerSettings));
+                        // request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(user, ClientUtils.JsonSerializerSettings));
+                        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
                     
@@ -486,7 +488,7 @@ namespace Org.OpenAPITools.Api
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
                         
-                    request.Method = new HttpMethod("POST"); 
+                    request.Method = new HttpMethod("POST");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -509,7 +511,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -590,7 +592,8 @@ namespace Org.OpenAPITools.Api
                     if ((user as object) is System.IO.Stream stream)
                         request.Content = new StreamContent(stream);
                     else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(user, ClientUtils.JsonSerializerSettings));
+                        // request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(user, ClientUtils.JsonSerializerSettings));
+                        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
                     
@@ -603,7 +606,7 @@ namespace Org.OpenAPITools.Api
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
                         
-                    request.Method = new HttpMethod("POST"); 
+                    request.Method = new HttpMethod("POST");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -626,7 +629,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -707,7 +710,7 @@ namespace Org.OpenAPITools.Api
 
                     request.RequestUri = uriBuilder.Uri;
                         
-                    request.Method = new HttpMethod("DELETE"); 
+                    request.Method = new HttpMethod("DELETE");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -730,7 +733,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -821,7 +824,7 @@ namespace Org.OpenAPITools.Api
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = new HttpMethod("GET"); 
+                    request.Method = new HttpMethod("GET");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -844,7 +847,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<User> apiResponse = new ApiResponse<User>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<User>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -925,7 +928,7 @@ namespace Org.OpenAPITools.Api
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = new HttpMethod("GET"); 
+                    request.Method = new HttpMethod("GET");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -948,7 +951,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<string> apiResponse = new ApiResponse<string>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<string>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -1018,7 +1021,7 @@ namespace Org.OpenAPITools.Api
 
                     request.RequestUri = uriBuilder.Uri;
                         
-                    request.Method = new HttpMethod("GET"); 
+                    request.Method = new HttpMethod("GET");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -1041,7 +1044,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -1129,7 +1132,8 @@ namespace Org.OpenAPITools.Api
                     if ((user as object) is System.IO.Stream stream)
                         request.Content = new StreamContent(stream);
                     else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(user, ClientUtils.JsonSerializerSettings));
+                        // request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(user, ClientUtils.JsonSerializerSettings));
+                        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
                     
@@ -1142,7 +1146,7 @@ namespace Org.OpenAPITools.Api
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
                         
-                    request.Method = new HttpMethod("PUT"); 
+                    request.Method = new HttpMethod("PUT");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -1165,7 +1169,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }

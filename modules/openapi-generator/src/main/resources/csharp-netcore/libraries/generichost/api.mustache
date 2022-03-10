@@ -279,7 +279,8 @@ namespace {{packageName}}.{{apiPackage}}
                     if (({{paramName}} as object) is System.IO.Stream stream)
                         request.Content = new StreamContent(stream);
                     else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{paramName}}, ClientUtils.JsonSerializerSettings));{{/bodyParam}}{{#authMethods}}{{#-first}}
+                        // request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{paramName}}, ClientUtils.JsonSerializerSettings));
+                        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize({{paramName}}, ClientUtils.JsonSerializerOptions));{{/bodyParam}}{{#authMethods}}{{#-first}}
 
                     List<TokenBase> tokens = new List<TokenBase>();{{/-first}}{{#isApiKey}}
                     
@@ -347,7 +348,7 @@ namespace {{packageName}}.{{apiPackage}}
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     {{/-first}}{{/produces}}{{^netStandard}}
                     request.Method = HttpMethod.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}};{{/netStandard}}{{#netStandard}}
-                    request.Method = new HttpMethod("{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}");{{/netStandard}} {{! early standard versions do not have HttpMethod.Patch }}
+                    request.Method = new HttpMethod("{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}");{{/netStandard}}{{! early standard versions do not have HttpMethod.Patch }}
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -370,7 +371,7 @@ namespace {{packageName}}.{{apiPackage}}
                         ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponse = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);{{#authMethods}}
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);{{#authMethods}}
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();{{/authMethods}}
