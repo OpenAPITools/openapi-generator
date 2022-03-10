@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Child** | Pointer to [**NullableAllOfChild**](NullableAllOfChild.md) |  | [optional] 
+**Child** | Pointer to [**NullableNullableAllOfChild**](NullableAllOfChild.md) |  | [optional] 
 
 ## Methods
 
