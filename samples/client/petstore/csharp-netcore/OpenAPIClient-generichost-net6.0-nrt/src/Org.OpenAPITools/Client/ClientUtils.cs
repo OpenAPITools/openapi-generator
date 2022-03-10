@@ -52,21 +52,53 @@ namespace Org.OpenAPITools.Client
         public delegate void EventHandler<T>(object sender, T e) where T : EventArgs;
 
         /// <summary>
-        ///  Custom JSON serializer
+        /// Returns true when deserialization succeeds.
         /// </summary>
-        public static Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get; set; } = new Newtonsoft.Json.JsonSerializerSettings
+        /// <typeparam name="T"></typeparam>
+        /// <param name="json"></param>
+        /// <param name="options"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool TryDeserialize<T>(string json, System.Text.Json.JsonSerializerOptions options, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
         {
-            // OpenAPI generated types generally hide default constructors.
-            ConstructorHandling = Newtonsoft.Json.ConstructorHandling.AllowNonPublicDefaultConstructor,
-            MissingMemberHandling = Newtonsoft.Json.MissingMemberHandling.Ignore,
-            ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver
+            try
             {
-                NamingStrategy = new Newtonsoft.Json.Serialization.CamelCaseNamingStrategy
-                {
-                    OverrideSpecifiedNames = false
-                }
+                result = System.Text.Json.JsonSerializer.Deserialize<T>(json, options);
+                return result != null;
             }
-        };
+            catch (Exception)
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns true when deserialization succeeds.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="reader"></param>
+        /// <param name="options"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool TryDeserialize<T>(ref System.Text.Json.Utf8JsonReader reader, System.Text.Json.JsonSerializerOptions options, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
+        {
+            try
+            {
+                result = System.Text.Json.JsonSerializer.Deserialize<T>(ref reader, options);
+                return result != null;
+            }
+            catch (Exception)
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Json serializer options
+        /// </summary>
+        public static System.Text.Json.JsonSerializerOptions JsonSerializerOptions { get; set; } = new System.Text.Json.JsonSerializerOptions();
 
         /// <summary>
         /// Sanitize filename by removing the path
@@ -175,7 +207,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="contentTypes">The Content-Type array to select from.</param>
         /// <returns>The Content-Type header to use.</returns>
-        public static string SelectHeaderContentType(string[] contentTypes)
+        public static string? SelectHeaderContentType(string[] contentTypes)
         {
             if (contentTypes.Length == 0)
                 return null;
@@ -196,7 +228,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="accepts">The accepts array to select from.</param>
         /// <returns>The Accept header to use.</returns>
-        public static string SelectHeaderAccept(string[] accepts)
+        public static string? SelectHeaderAccept(string[] accepts)
         {
             if (accepts.Length == 0)
                 return null;

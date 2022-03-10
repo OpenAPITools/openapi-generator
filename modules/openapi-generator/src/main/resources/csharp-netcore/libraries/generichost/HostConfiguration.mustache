@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using {{packageName}}.Api;
+using {{packageName}}.Model;
 
 namespace {{packageName}}.Client
 {
@@ -63,6 +64,31 @@ namespace {{packageName}}.Client
         public HostConfiguration Add{{apiName}}HttpClients(
             Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null)
         {
+            ClientUtils.JsonSerializerOptions.Converters.Add(new OpenAPIDateJsonConverter());
+{{#models}}
+{{#model}}
+{{^isEnum}}
+{{#useGenericHost}}
+{{#allOf}}
+{{#-first}}
+            ClientUtils.JsonSerializerOptions.Converters.Add(new {{classname}}JsonConverter());
+{{/-first}}
+{{/allOf}}
+{{#anyOf}}
+{{#-first}}
+            ClientUtils.JsonSerializerOptions.Converters.Add(new {{classname}}JsonConverter());
+{{/-first}}
+{{/anyOf}}
+{{#oneOf}}
+{{#-first}}
+            ClientUtils.JsonSerializerOptions.Converters.Add(new {{classname}}JsonConverter());
+{{/-first}}
+{{/oneOf}}
+{{/useGenericHost}}
+{{/isEnum}}
+{{/model}}
+{{/models}}
+
             Add{{apiName}}HttpClients<{{#apiInfo}}{{#apis}}{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(client, builder);
 
             return this;
@@ -73,9 +99,9 @@ namespace {{packageName}}.Client
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public HostConfiguration ConfigureJsonOptions(Action<Newtonsoft.Json.JsonSerializerSettings> options)
+        public HostConfiguration ConfigureJsonOptions(Action<System.Text.Json.JsonSerializerOptions> options)
         {
-            options(Client.ClientUtils.JsonSerializerSettings);
+            options(Client.ClientUtils.JsonSerializerOptions);
 
             return this;
         }
