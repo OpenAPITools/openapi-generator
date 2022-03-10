@@ -2099,6 +2099,16 @@ components:
           - $ref: '#/components/schemas/NullableAllOfChild'
           nullable: true
       type: object
+    OneOfPrimitiveType:
+      oneOf:
+      - $ref: '#/components/schemas/OneOfPrimitiveTypeChild'
+      - format: int32
+        type: integer
+    OneOfPrimitiveTypeChild:
+      properties:
+        name:
+          type: string
+      type: object
     inline_response_default:
       example:
         string:

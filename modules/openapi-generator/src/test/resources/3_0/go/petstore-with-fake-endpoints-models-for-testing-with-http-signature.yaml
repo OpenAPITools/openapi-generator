@@ -1971,3 +1971,18 @@ components:
           nullable: true
           allOf:
           - $ref: '#/components/schemas/NullableAllOfChild'
+    OneOfPrimitiveType:
+      oneOf:
+      - $ref: '#/components/schemas/OneOfPrimitiveTypeChild'
+      - type: integer
+        format: int32
+      #- $ref: '#/components/schemas/OneOfArrayOfString'
+    OneOfPrimitiveTypeChild:
+      type: object
+      properties:
+        name:
+          type: string
+    #OneOfArrayOfString: 
+    #  type: array
+    #  items:
+    #    type: string

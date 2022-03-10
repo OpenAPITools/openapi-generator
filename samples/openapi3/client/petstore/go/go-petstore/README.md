@@ -162,6 +162,8 @@ Class | Method | HTTP request | Description
  - [NullableAllOfChild](docs/NullableAllOfChild.md)
  - [NullableClass](docs/NullableClass.md)
  - [NumberOnly](docs/NumberOnly.md)
+ - [OneOfPrimitiveType](docs/OneOfPrimitiveType.md)
+ - [OneOfPrimitiveTypeChild](docs/OneOfPrimitiveTypeChild.md)
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)
