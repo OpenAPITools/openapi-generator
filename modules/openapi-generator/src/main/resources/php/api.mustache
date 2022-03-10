@@ -502,15 +502,15 @@ use {{invokerPackage}}\ObjectSerializer;
         {{#style}}
             if('form' === '{{style}}' && is_array(${{paramName}})) {
                 foreach(${{paramName}} as $key => $value) {
-                    $queryParams[$key] = $value;
+                    $queryParams[$key] = ObjectSerializer::toQueryValue($value);
                 }
             }
             else {
-                $queryParams['{{baseName}}'] = ${{paramName}};
+                $queryParams['{{baseName}}'] = ObjectSerializer::toQueryValue(${{paramName}});
             }
         {{/style}}
         {{^style}}
-            $queryParams['{{baseName}}'] = ${{paramName}};
+            $queryParams['{{baseName}}'] = ObjectSerializer::toQueryValue(${{paramName}});
         {{/style}}
         }
         {{/isExplode}}
@@ -519,7 +519,7 @@ use {{invokerPackage}}\ObjectSerializer;
             ${{paramName}} = ObjectSerializer::serializeCollection(${{paramName}}, '{{style}}{{^style}}{{collectionFormat}}{{/style}}', true);
         }
         if (${{paramName}} !== null) {
-            $queryParams['{{baseName}}'] = ${{paramName}};
+            $queryParams['{{baseName}}'] = ObjectSerializer::toQueryValue(${{paramName}});
         }
         {{/isExplode}}
         {{/queryParams}}
