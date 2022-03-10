@@ -1742,4 +1742,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             updatePropertyForMap(property, p);
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUST; }
 }

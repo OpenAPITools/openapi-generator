@@ -683,6 +683,8 @@ void (empty response body)
 
 test inline additionalProperties
 
+
+
 ### Example
 ```dart
 import 'package:openapi/api.dart';
@@ -722,6 +724,8 @@ No authorization required
 > testJsonFormData(param, param2)
 
 test json serialization of form data
+
+
 
 ### Example
 ```dart

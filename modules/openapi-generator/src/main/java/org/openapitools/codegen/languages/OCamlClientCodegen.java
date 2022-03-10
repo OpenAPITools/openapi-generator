@@ -828,4 +828,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.OCAML; }
 }

@@ -33,7 +33,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
-class UserApi(
+open class UserApi(
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
@@ -46,7 +46,7 @@ class UserApi(
      * @param body Created user object 
      * @return void
      */
-    suspend fun createUser(body: User): HttpResponse<Unit> {
+    open suspend fun createUser(body: User): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -78,7 +78,7 @@ class UserApi(
      * @param body List of user object 
      * @return void
      */
-    suspend fun createUsersWithArrayInput(body: kotlin.collections.List<User>): HttpResponse<Unit> {
+    open suspend fun createUsersWithArrayInput(body: kotlin.collections.List<User>): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -119,7 +119,7 @@ class UserApi(
      * @param body List of user object 
      * @return void
      */
-    suspend fun createUsersWithListInput(body: kotlin.collections.List<User>): HttpResponse<Unit> {
+    open suspend fun createUsersWithListInput(body: kotlin.collections.List<User>): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -160,7 +160,7 @@ class UserApi(
      * @param username The name that needs to be deleted 
      * @return void
      */
-    suspend fun deleteUser(username: kotlin.String): HttpResponse<Unit> {
+    open suspend fun deleteUser(username: kotlin.String): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -193,7 +193,7 @@ class UserApi(
      * @return User
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun getUserByName(username: kotlin.String): HttpResponse<User> {
+    open suspend fun getUserByName(username: kotlin.String): HttpResponse<User> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -227,7 +227,7 @@ class UserApi(
      * @return kotlin.String
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun loginUser(username: kotlin.String, password: kotlin.String): HttpResponse<kotlin.String> {
+    open suspend fun loginUser(username: kotlin.String, password: kotlin.String): HttpResponse<kotlin.String> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -260,7 +260,7 @@ class UserApi(
      * 
      * @return void
      */
-    suspend fun logoutUser(): HttpResponse<Unit> {
+    open suspend fun logoutUser(): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -293,7 +293,7 @@ class UserApi(
      * @param body Updated user object 
      * @return void
      */
-    suspend fun updateUser(username: kotlin.String, body: User): HttpResponse<Unit> {
+    open suspend fun updateUser(username: kotlin.String, body: User): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 

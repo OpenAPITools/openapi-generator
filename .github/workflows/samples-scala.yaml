@@ -1,0 +1,44 @@
+name: Samples Scala
+
+on:
+  push:
+    paths:
+      - 'samples/client/petstore/scala**'
+      - 'samples/server/petstore/scala**'
+  pull_request:
+    paths:
+      - 'samples/client/petstore/scala**'
+      - 'samples/server/petstore/scala**'
+jobs:
+  build:
+    name: Build Scala client, servers
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # clients
+          - samples/client/petstore/scalaz
+          # servers
+          - samples/server/petstore/scala-lagom-server
+          - samples/server/petstore/scala-play-server
+          - samples/server/petstore/scala-akka-http-server
+          - samples/server/petstore/scalatra
+          - samples/server/petstore/scala-finch # cannot be tested with jdk11
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: 8
+      - name: Cache maven dependencies
+        uses: actions/cache@v2.1.7
+        env:
+          cache-name: maven-repository
+        with:
+          path: |
+            ~/.ivy2
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/build.sbt') }}
+      - name: Build and test
+        working-directory: ${{ matrix.sample }}
+        run: sbt -v +test

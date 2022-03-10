@@ -62,14 +62,14 @@ void pet_free(pet_t *pet) {
         list_ForEach(listEntry, pet->photo_urls) {
             free(listEntry->data);
         }
-        list_free(pet->photo_urls);
+        list_freeList(pet->photo_urls);
         pet->photo_urls = NULL;
     }
     if (pet->tags) {
         list_ForEach(listEntry, pet->tags) {
             tag_free(listEntry->data);
         }
-        list_free(pet->tags);
+        list_freeList(pet->tags);
         pet->tags = NULL;
     }
     free(pet);
@@ -210,7 +210,7 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
     if(!cJSON_IsArray(photo_urls)) {
         goto end;//primitive container
     }
-    photo_urlsList = list_create();
+    photo_urlsList = list_createList();
 
     cJSON_ArrayForEach(photo_urls_local, photo_urls)
     {
@@ -230,7 +230,7 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
         goto end; //nonprimitive container
     }
 
-    tagsList = list_create();
+    tagsList = list_createList();
 
     cJSON_ArrayForEach(tags_local_nonprimitive,tags )
     {

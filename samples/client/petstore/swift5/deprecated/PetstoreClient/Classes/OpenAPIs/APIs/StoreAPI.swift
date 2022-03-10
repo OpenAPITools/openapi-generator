@@ -173,6 +173,7 @@ open class StoreAPI {
     /**
      Place an order for a pet
      - POST /store/order
+     - 
      - parameter order: (body) order placed for purchasing the pet 
      - returns: RequestBuilder<Order> 
      */

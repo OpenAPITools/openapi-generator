@@ -1,0 +1,48 @@
+{{>common/licenseInfo}}
+package {{package}};
+
+{{#useReflectionEqualsHashCode}}
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+{{/useReflectionEqualsHashCode}}
+import java.util.Objects;
+import java.util.Arrays;
+{{#imports}}
+import {{import}};
+{{/imports}}
+{{#serializableModel}}
+import java.io.Serializable;
+{{/serializableModel}}
+import com.fasterxml.jackson.annotation.*;
+{{#withXml}}
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import com.fasterxml.jackson.annotation.*;
+{{/withXml}}
+{{#withXml}}
+import javax.xml.bind.annotation.*;
+{{/withXml}}
+{{#parcelableModel}}
+import android.os.Parcelable;
+import android.os.Parcel;
+{{/parcelableModel}}{{#useBeanValidation}}
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+{{/useBeanValidation}}
+import io.micronaut.core.annotation.*;
+import javax.annotation.Generated;
+
+{{#models}}
+    {{#model}}
+        {{#isEnum}}
+{{>common/model/modelEnum}}
+        {{/isEnum}}
+        {{^isEnum}}
+            {{#vendorExtensions.x-is-one-of-interface}}
+{{>common/model/oneof_interface}}
+            {{/vendorExtensions.x-is-one-of-interface}}
+            {{^vendorExtensions.x-is-one-of-interface}}
+{{>common/model/pojo}}
+            {{/vendorExtensions.x-is-one-of-interface}}
+        {{/isEnum}}
+    {{/model}}
+{{/models}}

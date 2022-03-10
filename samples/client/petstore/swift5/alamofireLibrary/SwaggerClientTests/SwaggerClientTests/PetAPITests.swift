@@ -28,7 +28,7 @@ class PetAPITests: XCTestCase {
         let expectation = self.expectation(description: "testCreatePet")
         let category = Category(id: 1234, name: "eyeColor")
         let tags = [Tag(id: 1234, name: "New York"), Tag(id: 124321, name: "Jose")]
-        let newPet = Pet(id: 1000, category: category, name: "Fluffy", photoUrls: ["https://petstore.com/sample/photo1.jpg", "https://petstore.com/sample/photo2.jpg"], tags: tags, status: .available)
+        let newPet = Pet(id: 1000, category: category, name: "Fluffy", photoUrls: ["https://petstore.com/sample/photo1.jpg", "https://petstore.com/sample/photo2.jpg"], tags: tags, status: .encodeValue(.available))
 
         PetAPI.addPet(body: newPet) { (_, error) in
             guard error == nil else {

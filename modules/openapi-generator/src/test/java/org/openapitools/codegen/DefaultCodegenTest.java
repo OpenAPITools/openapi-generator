@@ -57,6 +57,16 @@ import static org.testng.Assert.*;
 public class DefaultCodegenTest {
 
     @Test
+    public void testDeeplyNestedAdditionalPropertiesImports() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/additional-properties-deeply-nested.yaml");
+        codegen.setOpenAPI(openApi);
+        PathItem path = openApi.getPaths().get("/ping");
+        CodegenOperation operation = codegen.fromOperation("/ping", "post", path.getPost(), path.getServers());
+        Assert.assertEquals(Sets.intersection(operation.imports, Sets.newHashSet("Person")).size(), 1);
+    }
+
+    @Test
     public void testHasBodyParameter() {
         final Schema refSchema = new Schema<>().$ref("#/components/schemas/Pet");
         Operation pingOperation = new Operation()
@@ -222,6 +232,20 @@ public class DefaultCodegenTest {
         CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
 
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
+        Assert.assertEquals(codegenParameter.getSchema(), null);
+    }
+
+    @Test
+    public void testDateTimeFormParameterHasDefaultValue() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/thingy/{date}").getPost().getRequestBody());
+        CodegenParameter codegenParameter = codegen.fromFormProperty("visitDate", (Schema) requestBodySchema.getProperties().get("visitDate"),
+            new HashSet<>());
+
+        Assert.assertEquals(codegenParameter.defaultValue, "1971-12-19T03:39:57-08:00");
         Assert.assertEquals(codegenParameter.getSchema(), null);
     }
 
@@ -4029,11 +4053,16 @@ public class DefaultCodegenTest {
 
         CodegenResponse cr = co.responses.get(0);
         List<CodegenParameter> responseHeaders = cr.getResponseHeaders();
-        assertEquals(1, responseHeaders.size());
-        CodegenParameter header = responseHeaders.get(0);
-        assertEquals("X-Rate-Limit", header.baseName);
-        assertTrue(header.isUnboundedInteger);
-        assertEquals(header.getSchema().baseName, "X-Rate-Limit");
+        assertEquals(2, responseHeaders.size());
+        CodegenParameter header1 = responseHeaders.get(0);
+        assertEquals("X-Rate-Limit", header1.baseName);
+        assertTrue(header1.isUnboundedInteger);
+        assertEquals(header1.getSchema().baseName, "X-Rate-Limit");
+
+        CodegenParameter header2 = responseHeaders.get(1);
+        assertEquals("X-Rate-Limit-Ref", header2.baseName);
+        assertTrue(header2.isUnboundedInteger);
+        assertEquals(header2.getSchema().baseName, "X-Rate-Limit-Ref");
 
         content = cr.getContent();
         assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json", "text/plain")));

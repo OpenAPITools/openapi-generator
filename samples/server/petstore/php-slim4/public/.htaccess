@@ -1,3 +1,7 @@
+<IfModule mod_env.c>
+    SetEnv APP_ENV 'production'
+</IfModule>
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-f

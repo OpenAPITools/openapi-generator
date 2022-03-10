@@ -1,0 +1,57 @@
+name: Samples JAX-RS
+
+on:
+  push:
+    paths:
+      - 'samples/server/petstore/jaxrs*/**'
+  pull_request:
+    paths:
+      - 'samples/server/petstore/jaxrs*/**'
+jobs:
+  build:
+    name: Build JAX-RS
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # servers
+          - samples/server/petstore/jaxrs/jersey2
+          - samples/server/petstore/jaxrs/jersey2-useTags
+          - samples/server/petstore/jaxrs-jersey
+          - samples/server/petstore/jaxrs-spec
+          - samples/server/petstore/jaxrs-spec-interface
+          - samples/server/petstore/jaxrs-spec-interface-response
+          - samples/server/petstore/jaxrs-jersey
+          - samples/server/petstore/jaxrs-spec
+          - samples/server/petstore/jaxrs-spec-interface
+          - samples/server/petstore/jaxrs-spec-interface-response
+          - samples/server/petstore/jaxrs/jersey1
+          - samples/server/petstore/jaxrs/jersey1-useTags
+          - samples/server/petstore/jaxrs-datelib-j8
+          - samples/server/petstore/jaxrs-resteasy/default
+          - samples/server/petstore/jaxrs-resteasy/eap
+          - samples/server/petstore/jaxrs-resteasy/eap-joda
+          - samples/server/petstore/jaxrs-resteasy/eap-java8
+          - samples/server/petstore/jaxrs-resteasy/joda
+          - samples/server/petstore/jaxrs-cxf
+          - samples/server/petstore/jaxrs-cxf-annotated-base-path
+          - samples/server/petstore/jaxrs-cxf-cdi
+          - samples/server/petstore/jaxrs-cxf-non-spring-app
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: 8
+      - name: Cache maven dependencies
+        uses: actions/cache@v2.1.7
+        env:
+          cache-name: maven-repository
+        with:
+          path: |
+            ~/.m2
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: mvn clean package

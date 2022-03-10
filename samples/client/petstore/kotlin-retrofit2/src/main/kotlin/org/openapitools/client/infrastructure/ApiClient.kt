@@ -2,10 +2,10 @@ package org.openapitools.client.infrastructure
 
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder
-import org.openapitools.client.auth.ApiKeyAuth
 import org.openapitools.client.auth.OAuth
 import org.openapitools.client.auth.OAuth.AccessTokenListener
 import org.openapitools.client.auth.OAuthFlow
+import org.openapitools.client.auth.ApiKeyAuth
 
 import okhttp3.Call
 import okhttp3.Interceptor

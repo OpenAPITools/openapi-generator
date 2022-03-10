@@ -1,0 +1,17 @@
+    {{^generateControllerFromExamples}}
+        {{!The body needs to be implemented by user}}
+        // TODO implement {{nickname}}() body;
+        {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} result = Mono.empty();
+        return result;
+    {{/generateControllerFromExamples}}
+    {{#generateControllerFromExamples}}
+        {{!The body is generated to verify that example values are passed correctly}}
+        {{#allParams}}
+            {{^isFile}}
+        {{{dataType}}} {{paramName}}Expected = {{{example}}};
+        assert {{paramName}}.equals({{paramName}}Expected) : "The parameter {{paramName}} was expected to match its example value";
+            {{/isFile}}
+        {{/allParams}}
+
+        return Mono.fromCallable(() -> {{^returnType}}""{{/returnType}}{{#returnType}}{{#vendorExtensions.example}}{{{vendorExtensions.example}}}{{/vendorExtensions.example}}{{^vendorExtensions.example}}null{{/vendorExtensions.example}}{{/returnType}});
+    {{/generateControllerFromExamples}}

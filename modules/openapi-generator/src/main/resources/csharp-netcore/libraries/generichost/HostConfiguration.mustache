@@ -1,0 +1,150 @@
+{{>partial_header}}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using Microsoft.Extensions.DependencyInjection;
+using {{packageName}}.Api;
+using {{packageName}}.Model;
+
+namespace {{packageName}}.Client
+{
+    /// <summary>
+    /// Provides hosting configuration for {{packageName}}
+    /// </summary>
+    public class HostConfiguration
+    {
+        private readonly IServiceCollection _services;
+        internal bool HttpClientsAdded { get; private set; }
+
+        /// <summary>
+        /// Instantiates the class 
+        /// </summary>
+        /// <param name="services"></param>
+        public HostConfiguration(IServiceCollection services)
+        {
+            _services = services;{{#apiInfo}}{{#apis}}
+            services.AddSingleton<{{interfacePrefix}}{{classname}}, {{classname}}>();{{/apis}}{{/apiInfo}}
+        }
+
+        /// <summary>
+        /// Configures the HttpClients.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public HostConfiguration Add{{apiName}}HttpClients<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}>
+        (
+            Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null){{#apis}}
+            where T{{classname}} : class, {{interfacePrefix}}{{classname}}{{/apis}}
+        {
+            if (client == null)
+                client = c => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
+
+            List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
+            
+            {{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{classname}}, T{{classname}}>(client));
+            {{/apis}}{{/apiInfo}}
+            if (builder != null)
+                foreach (IHttpClientBuilder instance in builders)
+                    builder(instance);
+
+            HttpClientsAdded = true;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Configures the HttpClients.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public HostConfiguration Add{{apiName}}HttpClients(
+            Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null)
+        {
+            ClientUtils.JsonSerializerOptions.Converters.Add(new OpenAPIDateJsonConverter());
+{{#models}}
+{{#model}}
+{{^isEnum}}
+{{#useGenericHost}}
+{{#allOf}}
+{{#-first}}
+            ClientUtils.JsonSerializerOptions.Converters.Add(new {{classname}}JsonConverter());
+{{/-first}}
+{{/allOf}}
+{{#anyOf}}
+{{#-first}}
+            ClientUtils.JsonSerializerOptions.Converters.Add(new {{classname}}JsonConverter());
+{{/-first}}
+{{/anyOf}}
+{{#oneOf}}
+{{#-first}}
+            ClientUtils.JsonSerializerOptions.Converters.Add(new {{classname}}JsonConverter());
+{{/-first}}
+{{/oneOf}}
+{{/useGenericHost}}
+{{/isEnum}}
+{{/model}}
+{{/models}}
+
+            Add{{apiName}}HttpClients<{{#apiInfo}}{{#apis}}{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(client, builder);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Configures the JsonSerializerSettings
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public HostConfiguration ConfigureJsonOptions(Action<System.Text.Json.JsonSerializerOptions> options)
+        {
+            options(Client.ClientUtils.JsonSerializerOptions);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds tokens to your IServiceCollection
+        /// </summary>
+        /// <typeparam name="TTokenBase"></typeparam>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public HostConfiguration AddTokens<TTokenBase>(TTokenBase token) where TTokenBase : TokenBase
+        {
+            return AddTokens(new TTokenBase[]{ token });
+        }
+
+        /// <summary>
+        /// Adds tokens to your IServiceCollection
+        /// </summary>
+        /// <typeparam name="TTokenBase"></typeparam>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
+        public HostConfiguration AddTokens<TTokenBase>(IEnumerable<TTokenBase> tokens) where TTokenBase : TokenBase
+        {
+            TokenContainer<TTokenBase> container = new TokenContainer<TTokenBase>(tokens);
+            _services.AddSingleton(services => container);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a token provider to your IServiceCollection
+        /// </summary>
+        /// <typeparam name="TTokenProvider"></typeparam>
+        /// <typeparam name="TTokenBase"></typeparam>
+        /// <returns></returns>
+        public HostConfiguration UseProvider<TTokenProvider, TTokenBase>() 
+            where TTokenProvider : TokenProvider<TTokenBase>
+            where TTokenBase : TokenBase
+        {
+            _services.AddSingleton<TTokenProvider>();
+            _services.AddSingleton<TokenProvider<TTokenBase>>(services => services.GetRequiredService<TTokenProvider>());
+
+            return this;
+        }
+    }
+}

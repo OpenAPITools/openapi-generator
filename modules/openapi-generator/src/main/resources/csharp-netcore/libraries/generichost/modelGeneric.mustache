@@ -1,0 +1,293 @@
+    /// <summary>
+    /// {{description}}{{^description}}{{classname}}{{/description}}
+    /// </summary>
+    {{>visibility}} partial class {{classname}} : {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}{{^parentModel}}, IValidatableObject{{/parentModel}}{{/validatable}}
+    {
+        {{#oneOf}}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// </summary>
+        /// <param name="{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}">{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}</param>
+        {{#anyOf}}
+        /// <param name="{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}">{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}</param>
+        {{/anyOf}}
+        {{#allOf}}
+        /// <param name="{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}">{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}</param>
+        {{/allOf}}
+        {{#allVars}}
+        /// <param name="{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}">{{description}}{{^description}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
+        {{/allVars}}
+        public {{classname}}({{#lambda.joinWithComma}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{#anyOf}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allVars}}{{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#defaultValue}} = {{^isDateTime}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^required}}{{^defaultValue}} = default{{/defaultValue}}{{/required}}  {{/allVars}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#isInherited}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/isInherited}}{{#anyOf}}{{#isInherited}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/anyOf}}{{#allVars}}{{#isInherited}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/allVars}}{{/lambda.joinWithComma}}){{/parent}}
+        {
+            {{#allVars}}
+            {{^isInherited}}
+            {{#required}}
+            {{^isNullable}}
+            if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} == null)
+                throw new ArgumentNullException("{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} is a required property for {{classname}} and cannot be null.");
+            {{/isNullable}}
+            {{/required}}
+            {{/isInherited}}
+            {{/allVars}}
+            {{.}} = {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}};
+            {{#anyOf}}
+            {{.}} = {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}};
+            {{/anyOf}}
+            {{#allOf}}
+            {{.}} = {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}};
+            {{/allOf}}
+            {{#allVars}}
+            {{^isInherited}}
+            {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/isInherited}}
+            {{/allVars}}
+        }
+
+        {{/oneOf}}
+        {{^oneOf}}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// </summary>
+        {{#anyOf}}
+        /// <param name="{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}">{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}</param>
+        {{/anyOf}}
+        {{#allOf}}
+        /// <param name="{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}">{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}</param>
+        {{/allOf}}
+        {{#allVars}}
+        /// <param name="{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}">{{description}}{{^description}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
+        {{/allVars}}
+        public {{classname}}({{#lambda.joinWithComma}}{{#anyOf}}{{.}}{{nrt?}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allOf}}{{.}} {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/allOf}}{{#allVars}}{{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#defaultValue}} = {{^isDateTime}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^required}}{{^defaultValue}} = default{{/defaultValue}}{{/required}}  {{/allVars}}{{/lambda.joinWithComma}}){{#parentModel}} : base({{#lambda.joinWithComma}}{{#anyOf}}{{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}}  {{/anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/allVars}}{{/lambda.joinWithComma}}){{/parentModel}}
+        {
+            {{#allVars}}
+            {{^isInherited}}
+            {{#required}}
+            {{^isNullable}}
+            if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} == null)
+                throw new ArgumentNullException("{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} is a required property for {{classname}} and cannot be null.");
+            {{/isNullable}}
+            {{/required}}
+            {{/isInherited}}
+            {{/allVars}}
+            {{#anyOf}}
+            {{.}} = {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}};
+            {{/anyOf}}
+            {{#allOf}}
+            {{.}} = {{#lambda.camelcase_param}}{{.}}{{/lambda.camelcase_param}};
+            {{/allOf}}
+            {{#allVars}}
+            {{^isInherited}}
+            {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/isInherited}}
+            {{/allVars}}
+        }
+
+        {{/oneOf}}
+        {{#vars}}
+        {{#items.isEnum}}
+        {{#items}}
+        {{^complexType}}
+{{>modelInnerEnum}}
+        {{/complexType}}
+        {{/items}}
+        {{/items.isEnum}}
+        {{#isEnum}}
+        {{^complexType}}
+{{>modelInnerEnum}}
+        {{/complexType}}
+        {{/isEnum}}
+        {{#isEnum}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+        /// </summary>
+        {{#description}}
+        /// <value>{{.}}</value>
+        {{/description}}
+        [JsonPropertyName("{{baseName}}")]
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public {{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+        
+        {{/isEnum}}
+        {{/vars}}
+        {{#anyOf}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public {{.}}{{nrt?}} {{.}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+
+        {{/anyOf}}
+        {{#oneOf}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public {{.}}{{nrt?}} {{.}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+
+        {{/oneOf}}
+        {{#allOf}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public {{.}}{{nrt?}} {{.}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+
+        {{/allOf}}
+        {{#allVars}}
+        {{^isInherited}}
+        {{^isEnum}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}
+        [JsonPropertyName("{{baseName}}")]
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public {{#isNullable}}{{#required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}}{{^isNullable}}{{#required}}{{{datatypeWithEnum}}}{{/required}}{{/isNullable}}{{#isNullable}}{{^required}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/required}}{{/isNullable}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+
+        {{/isEnum}}
+        {{/isInherited}}
+        {{/allVars}}
+        {{#isAdditionalPropertiesTrue}}
+        {{^parentModel}}
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+
+        {{/parentModel}}
+        {{/isAdditionalPropertiesTrue}}
+        /// <summary>
+        /// Returns the string presentation of the object
+        /// </summary>
+        /// <returns>String presentation of the object</returns>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("class {{classname}} {\n");
+            {{#parent}}
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            {{/parent}}
+            {{#vars}}
+            sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
+            {{/vars}}
+            {{#isAdditionalPropertiesTrue}}
+            {{^parentModel}}
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            {{/parentModel}}
+            {{/isAdditionalPropertiesTrue}}
+            sb.Append("}\n");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object{{nrt?}} input)
+        {
+            {{#useCompareNetObjects}}
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as {{classname}}).AreEqual;
+            {{/useCompareNetObjects}}
+            {{^useCompareNetObjects}}
+            return this.Equals(input as {{classname}});
+            {{/useCompareNetObjects}}
+        }
+
+        /// <summary>
+        /// Returns true if {{classname}} instances are equal
+        /// </summary>
+        /// <param name="input">Instance of {{classname}} to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals({{classname}}{{nrt?}} input)
+        {
+            {{#useCompareNetObjects}}
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+            {{/useCompareNetObjects}}
+            {{^useCompareNetObjects}}
+            if (input == null)
+            {
+                return false;
+            }
+            return {{#vars}}{{#parent}}base.Equals(input) && {{/parent}}{{^isContainer}}
+                (
+                    this.{{name}} == input.{{name}} ||
+                    {{^vendorExtensions.x-is-value-type}}
+                    (this.{{name}} != null &&
+                    this.{{name}}.Equals(input.{{name}}))
+                    {{/vendorExtensions.x-is-value-type}}
+                    {{#vendorExtensions.x-is-value-type}}
+                    this.{{name}}.Equals(input.{{name}})
+                    {{/vendorExtensions.x-is-value-type}}
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{#isContainer}}
+                (
+                    this.{{name}} == input.{{name}} ||
+                    {{^vendorExtensions.x-is-value-type}}this.{{name}} != null &&
+                    input.{{name}} != null &&
+                    {{/vendorExtensions.x-is-value-type}}this.{{name}}.SequenceEqual(input.{{name}})
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
+                {{#isAdditionalPropertiesTrue}}
+                {{^parentModel}}
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
+                {{/parentModel}}
+                {{/isAdditionalPropertiesTrue}}
+            {{/useCompareNetObjects}}
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                {{#parent}}
+                int hashCode = base.GetHashCode();
+                {{/parent}}
+                {{^parent}}
+                int hashCode = 41;
+                {{/parent}}
+                {{#vars}}
+                {{^vendorExtensions.x-is-value-type}}
+                if (this.{{name}} != null)
+                {
+                    hashCode = (hashCode * 59) + this.{{name}}.GetHashCode();
+                }
+                {{/vendorExtensions.x-is-value-type}}
+                {{#vendorExtensions.x-is-value-type}}
+                hashCode = (hashCode * 59) + this.{{name}}.GetHashCode();
+                {{/vendorExtensions.x-is-value-type}}
+                {{/vars}}
+                {{#isAdditionalPropertiesTrue}}
+                {{^parentModel}}
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
+                {{/parentModel}}
+                {{/isAdditionalPropertiesTrue}}
+                return hashCode;
+            }
+        }
+
+{{#validatable}}
+{{^parentModel}}
+{{>validatable}}
+{{/parentModel}}
+{{/validatable}}
+    }

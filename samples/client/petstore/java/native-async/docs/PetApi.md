@@ -1108,7 +1108,7 @@ CompletableFuture<ApiResponse<Void>>
 
 ## uploadFile
 
-> CompletableFuture<ModelApiResponse> uploadFile(petId, additionalMetadata, file)
+> CompletableFuture<ModelApiResponse> uploadFile(petId, additionalMetadata, _file)
 
 uploads an image
 
@@ -1136,9 +1136,9 @@ public class Example {
         PetApi apiInstance = new PetApi(defaultClient);
         Long petId = 56L; // Long | ID of pet to update
         String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
-        File file = new File("/path/to/file"); // File | file to upload
+        File _file = new File("/path/to/file"); // File | file to upload
         try {
-            CompletableFuture<ModelApiResponse> result = apiInstance.uploadFile(petId, additionalMetadata, file);
+            CompletableFuture<ModelApiResponse> result = apiInstance.uploadFile(petId, additionalMetadata, _file);
             System.out.println(result.get());
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#uploadFile");
@@ -1158,7 +1158,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
  **additionalMetadata** | **String**| Additional data to pass to server | [optional]
- **file** | **File**| file to upload | [optional]
+ **_file** | **File**| file to upload | [optional]
 
 ### Return type
 
@@ -1181,7 +1181,7 @@ CompletableFuture<[**ModelApiResponse**](ModelApiResponse.md)>
 
 ## uploadFileWithHttpInfo
 
-> CompletableFuture<ApiResponse<ModelApiResponse>> uploadFile uploadFileWithHttpInfo(petId, additionalMetadata, file)
+> CompletableFuture<ApiResponse<ModelApiResponse>> uploadFile uploadFileWithHttpInfo(petId, additionalMetadata, _file)
 
 uploads an image
 
@@ -1210,9 +1210,9 @@ public class Example {
         PetApi apiInstance = new PetApi(defaultClient);
         Long petId = 56L; // Long | ID of pet to update
         String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
-        File file = new File("/path/to/file"); // File | file to upload
+        File _file = new File("/path/to/file"); // File | file to upload
         try {
-            CompletableFuture<ApiResponse<ModelApiResponse>> response = apiInstance.uploadFileWithHttpInfo(petId, additionalMetadata, file);
+            CompletableFuture<ApiResponse<ModelApiResponse>> response = apiInstance.uploadFileWithHttpInfo(petId, additionalMetadata, _file);
             System.out.println("Status code: " + response.get().getStatusCode());
             System.out.println("Response headers: " + response.get().getHeaders());
             System.out.println("Response body: " + response.get().getData());
@@ -1241,7 +1241,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
  **additionalMetadata** | **String**| Additional data to pass to server | [optional]
- **file** | **File**| file to upload | [optional]
+ **_file** | **File**| file to upload | [optional]
 
 ### Return type
 

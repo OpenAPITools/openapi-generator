@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public ClassModel(string _class = default(string))
         {
             this._Class = _class;
+            if (this.Class != null)
+            {
+                this._flagClass = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

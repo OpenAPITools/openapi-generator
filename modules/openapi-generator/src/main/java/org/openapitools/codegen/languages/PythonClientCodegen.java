@@ -123,7 +123,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.EXPERIMENTAL)
+                .stability(Stability.STABLE)
                 .build();
     }
 
@@ -629,14 +629,14 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
         for (Schema sc : oneOfanyOfSchemas) {
             Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, sc);
-            addProperties(otherProperties, otherRequired, refSchema);
+            addProperties(otherProperties, otherRequired, refSchema, new HashSet<>());
         }
         Set<String> otherRequiredSet = new HashSet<>(otherRequired);
 
         List<Schema> allOf = cs.getAllOf();
         if ((schema.getProperties() != null && !schema.getProperties().isEmpty()) || allOf != null) {
             // NOTE: this function also adds the allOf properties inside schema
-            addProperties(selfProperties, selfRequired, schema);
+            addProperties(selfProperties, selfRequired, schema, new HashSet<>());
         }
         if (result.discriminator != null) {
             selfRequired.add(result.discriminator.getPropertyBaseName());
@@ -1501,4 +1501,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
         return modelNameToSchemaCache;
     }
+
+    @Override
+    public String generatorLanguageVersion() { return ">=3.6"; };
 }

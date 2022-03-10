@@ -16,6 +16,8 @@ package org.openapitools.client;
 import java.util.Map;
 import java.util.List;
 
+import javax.ws.rs.core.GenericType;
+
 /**
  * <p>ApiException class.</p>
  */
@@ -25,6 +27,8 @@ public class ApiException extends Exception {
     private int code = 0;
     private Map<String, List<String>> responseHeaders = null;
     private String responseBody = null;
+    private Object errorObject = null;
+    private GenericType errorObjectType = null;
  
     /**
      * <p>Constructor for ApiException.</p>
@@ -150,5 +154,41 @@ public class ApiException extends Exception {
      */
     public String getResponseBody() {
         return responseBody;
+    }
+
+    /**
+     * Get the error object type.
+     *
+     * @return Error object type
+     */
+    public GenericType getErrorObjectType() {
+        return errorObjectType;
+    }
+
+    /**
+     * Set the error object type.
+     *
+     * @param errorObjectType object type
+     */
+    public void setErrorObjectType(GenericType errorObjectType) {
+        this.errorObjectType = errorObjectType;
+    }
+
+    /**
+     * Get the error object.
+     *
+     * @return Error object
+     */
+    public Object getErrorObject() {
+        return errorObject;
+    }
+
+    /**
+     * Get the error object.
+     *
+     * @param errorObject Error object
+     */
+    public void setErrorObject(Object errorObject) {
+        this.errorObject = errorObject;
     }
 }

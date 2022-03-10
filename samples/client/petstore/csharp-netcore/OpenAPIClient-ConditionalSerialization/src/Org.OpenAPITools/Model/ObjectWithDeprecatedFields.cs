@@ -42,9 +42,25 @@ namespace Org.OpenAPITools.Model
         public ObjectWithDeprecatedFields(string uuid = default(string), decimal id = default(decimal), DeprecatedObject deprecatedRef = default(DeprecatedObject), List<string> bars = default(List<string>))
         {
             this._Uuid = uuid;
+            if (this.Uuid != null)
+            {
+                this._flagUuid = true;
+            }
             this._Id = id;
+            if (this.Id != null)
+            {
+                this._flagId = true;
+            }
             this._DeprecatedRef = deprecatedRef;
+            if (this.DeprecatedRef != null)
+            {
+                this._flagDeprecatedRef = true;
+            }
             this._Bars = bars;
+            if (this.Bars != null)
+            {
+                this._flagBars = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

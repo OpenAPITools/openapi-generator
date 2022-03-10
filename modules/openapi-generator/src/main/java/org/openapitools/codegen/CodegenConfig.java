@@ -304,4 +304,16 @@ public interface CodegenConfig {
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
 
     Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings);
+
+    String defaultTemplatingEngine();
+
+    GeneratorLanguage generatorLanguage();
+
+    /*
+    the version of the language that the generator implements
+    For python 3.9.0, generatorLanguageVersion would be "3.9.0"
+    */
+    String generatorLanguageVersion();
+
+    List<VendorExtension> getSupportedVendorExtensions();
 }

@@ -956,4 +956,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return schemaType;
         }).distinct().collect(Collectors.toList());
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.TYPESCRIPT; }
 }

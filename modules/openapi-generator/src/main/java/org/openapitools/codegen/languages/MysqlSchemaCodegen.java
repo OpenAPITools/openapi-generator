@@ -1254,4 +1254,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         // Trim trailing file separators from the overall path
         return StringUtils.removeEnd(packagePath, File.separator);
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.MYSQL; }
 }

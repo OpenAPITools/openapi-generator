@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public InlineResponseDefault(Foo _string = default(Foo))
         {
             this._String = _string;
+            if (this.String != null)
+            {
+                this._flagString = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

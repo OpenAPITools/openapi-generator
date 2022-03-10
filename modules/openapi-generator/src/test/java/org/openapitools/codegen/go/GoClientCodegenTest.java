@@ -19,11 +19,20 @@ package org.openapitools.codegen.go;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.GoDeprecatedClientCodegen;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.GoClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -32,7 +41,7 @@ public class GoClientCodegenTest {
 
     @Test
     public void testInitialConfigValues() throws Exception {
-        final GoDeprecatedClientCodegen codegen = new GoDeprecatedClientCodegen();
+        final GoClientCodegen codegen = new GoClientCodegen();
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
@@ -41,7 +50,7 @@ public class GoClientCodegenTest {
 
     @Test
     public void testSettersForConfigValues() throws Exception {
-        final GoDeprecatedClientCodegen codegen = new GoDeprecatedClientCodegen();
+        final GoClientCodegen codegen = new GoClientCodegen();
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
@@ -51,7 +60,7 @@ public class GoClientCodegenTest {
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
-        final GoDeprecatedClientCodegen codegen = new GoDeprecatedClientCodegen();
+        final GoClientCodegen codegen = new GoClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
@@ -62,7 +71,7 @@ public class GoClientCodegenTest {
     @Test(description = "test example value for body parameter")
     public void bodyParameterTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
-        final GoDeprecatedClientCodegen codegen = new GoDeprecatedClientCodegen();
+        final GoClientCodegen codegen = new GoClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/fake";
         final Operation p = openAPI.getPaths().get(path).getGet();
@@ -95,7 +104,7 @@ public class GoClientCodegenTest {
 
     @Test
     public void testFilenames() throws Exception {
-        final GoDeprecatedClientCodegen codegen = new GoDeprecatedClientCodegen();
+        final GoClientCodegen codegen = new GoClientCodegen();
 
         // Model names are generated from schema / definition names
         Assert.assertEquals(codegen.toModelFilename("Animal"), "model_animal");
@@ -110,4 +119,43 @@ public class GoClientCodegenTest {
         Assert.assertEquals(codegen.toApiFilename("Animal Farm Test"), "api_animal_farm_test_");
     }
 
+    @Test
+    public void testPrimitiveTypeInOneOf() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/oneOf_primitive.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        System.out.println(files);
+        files.forEach(File::deleteOnExit);
+
+        Path modelFile = Paths.get(output + "/model_example.go");
+        TestUtils.assertFileContains(modelFile, "Child *Child");
+        TestUtils.assertFileContains(modelFile, "Int32 *int32");
+        TestUtils.assertFileContains(modelFile, "dst.Int32");
+        TestUtils.assertFileNotContains(modelFile, "int32 *int32");
+        TestUtils.assertFileNotContains(modelFile, "dst.int32");
+    }
+
+    @Test
+    public void testNullableComposition() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/allOf_nullable.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/model_example.go"), "Child NullableChild");
+    }
 }

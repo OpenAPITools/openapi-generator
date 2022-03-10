@@ -216,6 +216,7 @@
             }
         }
 
+        {{#validatable}}
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -225,6 +226,7 @@
         {
             yield break;
         }
+        {{/validatable}}
     }
 
     /// <summary>

@@ -156,7 +156,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.3.1</version>
+                <version>3.3.2</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -336,13 +336,6 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-version}</version>
         </dependency>
-        {{#threetenbp}}
-        <dependency>
-            <groupId>com.github.joschi.jackson</groupId>
-            <artifactId>jackson-datatype-threetenbp</artifactId>
-            <version>${threetenbp-version}</version>
-        </dependency>
-        {{/threetenbp}}
         {{#hasHttpSignatureMethods}}
         <dependency>
             <groupId>org.tomitribe</groupId>
@@ -391,10 +384,7 @@
         <jersey-version>2.35</jersey-version>
         <jackson-version>2.13.0</jackson-version>
         <jackson-databind-version>2.13.0</jackson-databind-version>
-        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
-        {{#threetenbp}}
-        <threetenbp-version>2.9.10</threetenbp-version>
-        {{/threetenbp}}
+        <jackson-databind-nullable-version>0.2.2</jackson-databind-nullable-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         {{#useBeanValidation}}
         <beanvalidation-version>2.0.2</beanvalidation-version>

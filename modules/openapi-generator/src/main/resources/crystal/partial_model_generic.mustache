@@ -4,14 +4,28 @@
   class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
     include JSON::Serializable
 
-    {{#vars}}
+    {{#hasRequired}}
+    # Required properties
+    {{/hasRequired}}
+    {{#requiredVars}}
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, nillable: true, emit_null: true{{/isNullable}})]
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, nillable: false, emit_null: false)]
     property {{{name}}} : {{{dataType}}}
 
-  {{/vars}}
+    {{/requiredVars}}
+    {{#hasOptional}}
+    # Optional properties
+    {{/hasOptional}}
+    {{#optionalVars}}
+    {{#description}}
+    # {{{.}}}
+    {{/description}}
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, nillable: true, emit_null: false)]
+    property {{{name}}} : {{{dataType}}}?
+
+    {{/optionalVars}}
 {{#hasEnums}}
     class EnumAttributeValidator
       getter datatype : String
@@ -74,7 +88,7 @@
     {{/discriminator}}
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize({{#vars}}@{{{name}}} : {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/vars}})
+    def initialize({{#requiredVars}}@{{{name}}} : {{{dataType}}}{{^-last}}, {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}}, {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}@{{{name}}} : {{{dataType}}}?{{^-last}}, {{/-last}}{{/optionalVars}})
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -82,14 +96,6 @@
     def list_invalid_properties
       invalid_properties = {{^parent}}Array(String).new{{/parent}}{{#parent}}super{{/parent}}
       {{#vars}}
-      {{^isNullable}}
-      {{#required}}
-      if @{{{name}}}.nil?
-        invalid_properties.push("invalid value for \"{{{name}}}\", {{{name}}} cannot be nil.")
-      end
-
-      {{/required}}
-      {{/isNullable}}
       {{#hasValidation}}
       {{#maxLength}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size > {{{maxLength}}}
@@ -143,11 +149,6 @@
     # @return true if the model is valid
     def valid?
       {{#vars}}
-      {{^isNullable}}
-      {{#required}}
-      return false if @{{{name}}}.nil?
-      {{/required}}
-      {{/isNullable}}
       {{#isEnum}}
       {{^isContainer}}
       {{{name}}}_validator = EnumAttributeValidator.new("{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
@@ -217,14 +218,6 @@
     # Custom attribute writer method with validation
     # @param [Object] {{{name}}} Value to be assigned
     def {{{name}}}=({{{name}}})
-      {{^isNullable}}
-      {{#required}}
-      if {{{name}}}.nil?
-        raise ArgumentError.new("{{{name}}} cannot be nil")
-      end
-
-      {{/required}}
-      {{/isNullable}}
       {{#maxLength}}
       if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.size > {{{maxLength}}}
         raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be smaller than or equal to {{{maxLength}}}.")
@@ -277,7 +270,7 @@
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
-      return true if self.equal?(o)
+      return true if self.same?(o)
       self.class == o.class{{#vars}} &&
           {{name}} == o.{{name}}{{/vars}}{{#parent}} && super(o){{/parent}}
     end

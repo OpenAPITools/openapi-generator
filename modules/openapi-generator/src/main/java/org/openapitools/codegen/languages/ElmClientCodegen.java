@@ -465,4 +465,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             writer.write(fragment.execute().replaceAll("\\s+", ""));
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ELM; }
 }

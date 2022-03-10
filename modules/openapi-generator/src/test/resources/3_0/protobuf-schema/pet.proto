@@ -10,7 +10,7 @@
 
 syntax = "proto3";
 
-package ;
+package openapitools;
 
 import public "models/lizard_all_of.proto";
 import public "models/snake_all_of.proto";

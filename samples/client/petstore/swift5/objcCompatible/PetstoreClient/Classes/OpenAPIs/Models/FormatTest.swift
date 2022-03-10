@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc public class FormatTest: NSObject, Codable {
+@objc public class FormatTest: NSObject, Codable, JSONEncodable {
 
     public var integer: Int?
     public var integerNum: NSNumber? {

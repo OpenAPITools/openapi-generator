@@ -2,7 +2,7 @@
 import 'dart:async';
 
 {{#useBuiltValue}}import 'package:built_value/serializer.dart';{{/useBuiltValue}}
-import '{{dioImport}}';
+import 'package:dio/dio.dart';
 
 {{#operations}}
 {{#imports}}import '{{.}}';

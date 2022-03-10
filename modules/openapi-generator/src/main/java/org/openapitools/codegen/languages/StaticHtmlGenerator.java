@@ -229,4 +229,6 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
                 property.unescapedDescription);
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return null; }
 }

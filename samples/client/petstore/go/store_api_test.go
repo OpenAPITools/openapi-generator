@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	sw "./go-petstore"
+	sw "github.com/OpenAPITools/openapi-generator/samples/client/petstore/go/go-petstore"
 )
 
 func TestPlaceOrder(t *testing.T) {

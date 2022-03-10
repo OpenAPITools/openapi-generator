@@ -809,4 +809,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public boolean isDataTypeString(String dataType) {
         return "string".equals(dataType);
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PHP; }
 }

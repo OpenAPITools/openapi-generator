@@ -21,6 +21,8 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
+
+
 ### Example
 ```java
 // Import classes:
@@ -81,6 +83,8 @@ null (empty response body)
 > deletePet(petId, apiKey)
 
 Deletes a pet
+
+
 
 ### Example
 ```java
@@ -341,6 +345,8 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
+
+
 ### Example
 ```java
 // Import classes:
@@ -404,6 +410,8 @@ null (empty response body)
 
 Updates a pet in the store with form data
 
+
+
 ### Example
 ```java
 // Import classes:
@@ -464,9 +472,11 @@ null (empty response body)
 
 <a name="uploadFile"></a>
 # **uploadFile**
-> ModelApiResponse uploadFile(petId, additionalMetadata, file)
+> ModelApiResponse uploadFile(petId, additionalMetadata, _file)
 
 uploads an image
+
+
 
 ### Example
 ```java
@@ -490,9 +500,9 @@ public class Example {
     PetApi apiInstance = new PetApi(defaultClient);
     Long petId = 56L; // Long | ID of pet to update
     String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
-    File file = new File("/path/to/file"); // File | file to upload
+    File _file = new File("/path/to/file"); // File | file to upload
     try {
-      ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
+      ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, _file);
       System.out.println(result);
     } catch (ApiException e) {
 
@@ -507,7 +517,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
  **additionalMetadata** | **String**| Additional data to pass to server | [optional]
- **file** | **File**| file to upload | [optional]
+ **_file** | **File**| file to upload | [optional]
 
 ### Return type
 
@@ -532,6 +542,8 @@ Name | Type | Description  | Notes
 > ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
+
+
 
 ### Example
 ```java

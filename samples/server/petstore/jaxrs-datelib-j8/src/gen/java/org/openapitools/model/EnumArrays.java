@@ -172,7 +172,6 @@ public class EnumArrays  implements Serializable {
     return Objects.hash(justSymbol, arrayEnum);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

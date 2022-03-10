@@ -281,4 +281,6 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         return objs;
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PHP; }
 }

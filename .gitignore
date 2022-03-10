@@ -201,15 +201,11 @@ samples/server/petstore/aspnetcore/.vs/
 effective.pom
 
 # kotlin
-samples/client/petstore/kotlin/src/main/kotlin/test/
-samples/client/petstore/kotlin-threetenbp/build
-samples/client/petstore/kotlin-string/build
 samples/openapi3/client/petstore/kotlin/build
 samples/server/petstore/kotlin-server/ktor/build
 samples/server/petstore/kotlin-springboot/build
-samples/client/petstore/kotlin-multiplatform/build/
-samples/client/petstore/kotlin-okhttp3/build/
-\?
+samples/client/petstore/kotlin*/src/main/kotlin/test/
+samples/client/petstore/kotlin*/build/
 
 # haskell
 .stack-work
@@ -249,9 +245,6 @@ samples/server/petstore/erlang-server/rebar.lock
 **/dart*/**/pubspec.lock
 # Dart dio
 **/dart*/**/*.g.dart
-# Dart jaguar
-**/dart*/**/*.jser.dart
-**/dart*/**/*.jretro.dart
 
 # JS
 samples/client/petstore/javascript-es6/package-lock.json

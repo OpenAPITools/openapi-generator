@@ -1,7 +1,7 @@
 with {{package}}.Clients;
 with {{package}}.Models;
-with Swagger;
-with Util.Http.Clients.Curl;
+with {{openApiPackageName}};
+with Util.Http.Clients.{{httpClientPackageName}};
 with Ada.Text_IO;
 with Ada.Command_Line;
 with Ada.Calendar.Formatting;
@@ -12,7 +12,7 @@ procedure {{package}}.Client is
 
    procedure Usage;
 
-   Server    : constant Swagger.UString := Swagger.To_UString ("http://localhost:8080/v2");
+   Server    : constant {{openApiPackageName}}.UString := {{openApiPackageName}}.To_UString ("http://localhost:8080/v2");
    Arg_Count : constant Natural := Ada.Command_Line.Argument_Count;
    Arg       : Positive := 1;
 
@@ -26,7 +26,7 @@ begin
       Usage;
       return;
    end if;
-   Util.Http.Clients.Curl.Register;
+   Util.Http.Clients.{{httpClientPackageName}}.Register;
    declare
       Command : constant String := Ada.Command_Line.Argument (Arg);
       Item    : constant String := Ada.Command_Line.Argument (Arg + 1);

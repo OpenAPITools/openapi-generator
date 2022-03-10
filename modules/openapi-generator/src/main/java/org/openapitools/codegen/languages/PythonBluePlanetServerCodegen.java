@@ -265,4 +265,6 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
+    public String generatorLanguageVersion() { return "2.7+ and 3.5.2+"; };
 }
