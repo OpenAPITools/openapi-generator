@@ -133,7 +133,15 @@ namespace Org.OpenAPITools.Model
         public EnumArrays(JustSymbolEnum? justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
         {
             this._JustSymbol = justSymbol;
+            if (this.JustSymbol != null)
+            {
+                this._flagJustSymbol = true;
+            }
             this._ArrayEnum = arrayEnum;
+            if (this.ArrayEnum != null)
+            {
+                this._flagArrayEnum = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

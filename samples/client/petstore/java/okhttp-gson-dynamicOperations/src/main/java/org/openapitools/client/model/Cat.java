@@ -147,7 +147,7 @@ public class Cat extends Animal {
       if (jsonObj == null) {
         if (Cat.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in Cat is not found in the empty JSON string", Cat.openapiRequiredFields.toString()));
         }
       }

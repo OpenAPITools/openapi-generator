@@ -113,6 +113,7 @@ Class | Method | HTTP request | Description
  - [Model.InlineObject1](docs/InlineObject1.md)
  - [Model.InlineObject2](docs/InlineObject2.md)
  - [Model.MultipartMixedMarker](docs/MultipartMixedMarker.md)
+ - [Model.MultipartMixedStatus](docs/MultipartMixedStatus.md)
 
 
 <a name="documentation-for-authorization"></a>

@@ -4053,11 +4053,16 @@ public class DefaultCodegenTest {
 
         CodegenResponse cr = co.responses.get(0);
         List<CodegenParameter> responseHeaders = cr.getResponseHeaders();
-        assertEquals(1, responseHeaders.size());
-        CodegenParameter header = responseHeaders.get(0);
-        assertEquals("X-Rate-Limit", header.baseName);
-        assertTrue(header.isUnboundedInteger);
-        assertEquals(header.getSchema().baseName, "X-Rate-Limit");
+        assertEquals(2, responseHeaders.size());
+        CodegenParameter header1 = responseHeaders.get(0);
+        assertEquals("X-Rate-Limit", header1.baseName);
+        assertTrue(header1.isUnboundedInteger);
+        assertEquals(header1.getSchema().baseName, "X-Rate-Limit");
+
+        CodegenParameter header2 = responseHeaders.get(1);
+        assertEquals("X-Rate-Limit-Ref", header2.baseName);
+        assertTrue(header2.isUnboundedInteger);
+        assertEquals(header2.getSchema().baseName, "X-Rate-Limit-Ref");
 
         content = cr.getContent();
         assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json", "text/plain")));

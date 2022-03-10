@@ -169,7 +169,7 @@ public class AppleReq {
       if (jsonObj == null) {
         if (AppleReq.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in AppleReq is not found in the empty JSON string", AppleReq.openapiRequiredFields.toString()));
         }
       }

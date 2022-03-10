@@ -51,8 +51,6 @@ public interface FakeClassnameTestApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.PATCH,
         value = "/fake_classname_test",

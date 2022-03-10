@@ -175,6 +175,11 @@
         <version>${beanvalidation-version}</version>
         <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>1.3.2</version>
+    </dependency>
 
   </dependencies>
   <repositories>
@@ -195,7 +200,7 @@
     <jetty-version>9.2.9.v20150224</jetty-version>
     <jersey2-version>2.35</jersey2-version>
     <jackson-version>2.9.9</jackson-version>
-    <junit-version>4.13.1</junit-version>
+    <junit-version>4.13.2</junit-version>
     <logback-version>1.2.10</logback-version>
     <servlet-api-version>4.0.4</servlet-api-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

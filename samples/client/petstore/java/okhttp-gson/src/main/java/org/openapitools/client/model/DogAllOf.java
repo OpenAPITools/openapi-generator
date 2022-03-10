@@ -138,7 +138,7 @@ public class DogAllOf {
       if (jsonObj == null) {
         if (DogAllOf.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in DogAllOf is not found in the empty JSON string", DogAllOf.openapiRequiredFields.toString()));
         }
       }

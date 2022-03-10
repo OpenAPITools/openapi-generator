@@ -1,7 +1,7 @@
 .gitignore
 .mvn/wrapper/MavenWrapperDownloader.java
-.mvn/wrapper/maren-wrapper.properties
 .mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
 README.md
 build.gradle
 docs/apis/AnotherFakeApi.md

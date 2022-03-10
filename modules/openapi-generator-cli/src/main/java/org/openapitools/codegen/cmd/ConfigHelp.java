@@ -24,6 +24,7 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.GeneratorNotFoundException;
+import org.openapitools.codegen.VendorExtension;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +90,10 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             "--markdown-header"}, title = "markdown header", description = "When format=markdown, include this option to write out markdown headers (e.g. for docusaurus).")
     private Boolean markdownHeader;
 
+    @Option(name = {
+        "--supported-vendor-extensions"}, title = "supported vendor extensions", description = "List supported vendor extensions")
+    private Boolean supportedVendorExtensions;
+
     @Option(name = {"--full-details"}, title = "full generator details", description = "displays CLI options as well as other configs/mappings (implies --instantiation-types, --reserved-words, --language-specific-primitives, --import-mappings, --feature-set)")
     private Boolean fullDetails;
 
@@ -108,6 +113,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             importMappings = Boolean.TRUE;
             featureSets = Boolean.TRUE;
             metadata = Boolean.TRUE;
+            supportedVendorExtensions = Boolean.TRUE;
         }
 
         try {
@@ -196,6 +202,27 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             // default
             sb.append(escapeHtml4(langCliOption.getDefault())).append("|").append(newline);
         });
+    }
+
+    private void generateMdSupportedVendorExtensions(StringBuilder sb, CodegenConfig config) {
+        List<VendorExtension> supportedVendorExtensions = config.getSupportedVendorExtensions();
+        if (supportedVendorExtensions.isEmpty()) {
+            return;
+        }
+
+        sb
+            .append(newline).append("## SUPPORTED VENDOR EXTENSIONS").append(newline).append(newline)
+            .append("| Extension name | Description | Applicable for | Default value |").append(newline)
+            .append("| -------------- | ----------- | -------------- | ------------- |").append(newline);
+
+        supportedVendorExtensions.forEach(
+            extension -> sb.append("|").append(extension.getName())
+                .append("|").append(extension.getDescription())
+                .append("|").append(extension.getLevels().stream().map(Objects::toString).collect(Collectors.joining(", ")))
+                .append("|").append(extension.getDefaultValue())
+                .append(newline)
+        );
+        sb.append(newline);
     }
 
     private void generateMdImportMappings(StringBuilder sb, CodegenConfig config) {
@@ -331,6 +358,10 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
 
         generateMdConfigOptionsHeader(sb, config);
         generateMdConfigOptions(sb, config);
+
+        if (Boolean.TRUE.equals(supportedVendorExtensions)) {
+            generateMdSupportedVendorExtensions(sb, config);
+        }
 
         if (Boolean.TRUE.equals(importMappings)) {
             generateMdImportMappings(sb, config);

@@ -1132,7 +1132,7 @@ public class XmlItem implements Parcelable {
       if (jsonObj == null) {
         if (XmlItem.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in XmlItem is not found in the empty JSON string", XmlItem.openapiRequiredFields.toString()));
         }
       }

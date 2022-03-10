@@ -305,13 +305,15 @@ public interface CodegenConfig {
 
     Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings);
 
-    public String defaultTemplatingEngine();
+    String defaultTemplatingEngine();
 
-    public GeneratorLanguage generatorLanguage();
+    GeneratorLanguage generatorLanguage();
 
     /*
     the version of the language that the generator implements
     For python 3.9.0, generatorLanguageVersion would be "3.9.0"
     */
-    public String generatorLanguageVersion();
+    String generatorLanguageVersion();
+
+    List<VendorExtension> getSupportedVendorExtensions();
 }
