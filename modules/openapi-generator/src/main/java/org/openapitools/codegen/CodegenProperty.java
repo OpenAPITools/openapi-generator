@@ -917,6 +917,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isArray=").append(isArray);
         sb.append(", isMap=").append(isMap);
         sb.append(", isEnum=").append(isEnum);
+        sb.append(", isAnyType=").append(isAnyType);
         sb.append(", isReadOnly=").append(isReadOnly);
         sb.append(", isWriteOnly=").append(isWriteOnly);
         sb.append(", isNullable=").append(isNullable);
@@ -995,6 +996,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isArray == that.isArray &&
                 isMap == that.isMap &&
                 isEnum == that.isEnum &&
+                isAnyType == that.isAnyType &&
                 isReadOnly == that.isReadOnly &&
                 isWriteOnly == that.isWriteOnly &&
                 isNullable == that.isNullable &&
@@ -1068,9 +1070,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
-                isArray, isMap, isEnum, isReadOnly, isWriteOnly, isNullable, isShort, isUnboundedInteger,
-                isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues,
-                items, mostInnerItems, additionalProperties, vars, requiredVars,
+                isArray, isMap, isEnum, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
+                isUnboundedInteger, isSelfReference, isCircularReference, isDiscriminator, _enum,
+                allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped, isNull, additionalPropertiesIsAnyType, hasVars, hasRequired,

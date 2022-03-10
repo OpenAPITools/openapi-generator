@@ -601,7 +601,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // For primitive types and custom types (e.g. interface{}, map[string]interface{}...),
         // the generated code has a wrapper type and a Get() function to access the underlying type.
         // For containers (e.g. Array, Map), the generated code returns the type directly.
-        if (property.isContainer || property.isFreeFormObject || property.isAnyType) {
+        if (property.isContainer || property.isFreeFormObject
+                || (property.isAnyType && !property.isModel)) {
             property.vendorExtensions.put("x-golang-is-container", true);
         }
     }
