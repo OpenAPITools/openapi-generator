@@ -100,6 +100,10 @@ namespace Org.OpenAPITools.Client
             {
                 return await response.Content.ReadAsByteArrayAsync();
             }
+            else if (type == typeof(FileParameter))
+            {
+                return new FileParameter(await response.Content.ReadAsStreamAsync());
+            }
 
             // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
             if (type == typeof(Stream))
