@@ -48,12 +48,14 @@ namespace Org.OpenAPITools.Model
         public ScaleneTriangle(string shapeType = default(string), string triangleType = default(string))
         {
             // to ensure "shapeType" is required (not null)
-            if (shapeType == null) {
+            if (shapeType == null)
+            {
                 throw new ArgumentNullException("shapeType is a required property for ScaleneTriangle and cannot be null");
             }
             this._ShapeType = shapeType;
             // to ensure "triangleType" is required (not null)
-            if (triangleType == null) {
+            if (triangleType == null)
+            {
                 throw new ArgumentNullException("triangleType is a required property for ScaleneTriangle and cannot be null");
             }
             this._TriangleType = triangleType;

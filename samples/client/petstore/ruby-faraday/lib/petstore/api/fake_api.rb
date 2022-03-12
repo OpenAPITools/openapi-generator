@@ -912,13 +912,13 @@ module Petstore
     # To test enum parameters
     # @param [Hash] opts the optional parameters
     # @option opts [Array<String>] :enum_header_string_array Header parameter enum test (string array)
-    # @option opts [String] :enum_header_string Header parameter enum test (string)
+    # @option opts [String] :enum_header_string Header parameter enum test (string) (default to '-efg')
     # @option opts [Array<String>] :enum_query_string_array Query parameter enum test (string array)
-    # @option opts [String] :enum_query_string Query parameter enum test (string)
+    # @option opts [String] :enum_query_string Query parameter enum test (string) (default to '-efg')
     # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
-    # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array)
-    # @option opts [String] :enum_form_string Form parameter enum test (string)
+    # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array) (default to '$')
+    # @option opts [String] :enum_form_string Form parameter enum test (string) (default to '-efg')
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def test_enum_parameters_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -1009,33 +1009,37 @@ module Petstore
 
     # Fake endpoint to test group parameters (optional)
     # Fake endpoint to test group parameters (optional)
-    # @param required_string_group [Integer] Required String in group parameters
-    # @param required_boolean_group [Boolean] Required Boolean in group parameters
-    # @param required_int64_group [Integer] Required Integer in group parameters
-    # @param [Hash] opts the optional parameters
+    # @param [Hash] opts the parameters
+    # @option opts [Integer] :required_string_group Required String in group parameters (required)
+    # @option opts [Boolean] :required_boolean_group Required Boolean in group parameters (required)
+    # @option opts [Integer] :required_int64_group Required Integer in group parameters (required)
     # @option opts [Integer] :string_group String in group parameters
     # @option opts [Boolean] :boolean_group Boolean in group parameters
     # @option opts [Integer] :int64_group Integer in group parameters
     # @return [nil]
-    def test_group_parameters(required_string_group, required_boolean_group, required_int64_group, opts = {})
-      test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, opts)
+    def test_group_parameters(opts = {})
+      test_group_parameters_with_http_info(opts)
       nil
     end
 
     # Fake endpoint to test group parameters (optional)
     # Fake endpoint to test group parameters (optional)
-    # @param required_string_group [Integer] Required String in group parameters
-    # @param required_boolean_group [Boolean] Required Boolean in group parameters
-    # @param required_int64_group [Integer] Required Integer in group parameters
-    # @param [Hash] opts the optional parameters
+    # @param [Hash] opts the parameters
+    # @option opts [Integer] :required_string_group Required String in group parameters (required)
+    # @option opts [Boolean] :required_boolean_group Required Boolean in group parameters (required)
+    # @option opts [Integer] :required_int64_group Required Integer in group parameters (required)
     # @option opts [Integer] :string_group String in group parameters
     # @option opts [Boolean] :boolean_group Boolean in group parameters
     # @option opts [Integer] :int64_group Integer in group parameters
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, opts = {})
+    def test_group_parameters_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_group_parameters ...'
       end
+      # unbox the parameters from the hash
+      required_string_group = opts[:'required_string_group']
+      required_boolean_group = opts[:'required_boolean_group']
+      required_int64_group = opts[:'required_int64_group']
       # verify the required parameter 'required_string_group' is set
       if @api_client.config.client_side_validation && required_string_group.nil?
         fail ArgumentError, "Missing the required parameter 'required_string_group' when calling FakeApi.test_group_parameters"

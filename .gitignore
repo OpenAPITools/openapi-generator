@@ -263,3 +263,6 @@ samples/openapi3/client/petstore/ruby-faraday/Gemfile.lock
 
 # Crystal
 samples/client/petstore/crystal/lib
+
+# Go
+samples/openapi3/client/petstore/go/privatekey.pem
