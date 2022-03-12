@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name</param>
         /// <param name="_class">_class</param>
-        public Model200Response(int name, string _class)
+        public Model200Response(int? name = default, string? _class = default)
         {
             Name = name;
             Class = _class;
@@ -46,13 +46,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public int Name { get; set; }
+        public int? Name { get; set; }
 
         /// <summary>
         /// Gets or Sets Class
         /// </summary>
         [JsonPropertyName("class")]
-        public string Class { get; set; }
+        public string? Class { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

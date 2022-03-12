@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="apple">apple</param>
         /// <param name="banana">banana</param>
         /// <param name="color">color</param>
-        public GmFruit(Apple apple, Banana banana, string color)
+        public GmFruit(Apple apple, Banana banana, string color = default)
         {
             Apple = apple;
             Banana = banana;

@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="bar">bar</param>
         /// <param name="foo">foo</param>
-        public HasOnlyReadOnly(string bar, string foo)
+        public HasOnlyReadOnly(string bar = default, string foo = default)
         {
             Bar = bar;
             Foo = foo;

@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapOfEnumString">mapOfEnumString</param>
         /// <param name="directMap">directMap</param>
         /// <param name="indirectMap">indirectMap</param>
-        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString, Dictionary<string, InnerEnum> mapOfEnumString, Dictionary<string, bool> directMap, Dictionary<string, bool> indirectMap)
+        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default, Dictionary<string, InnerEnum> mapOfEnumString = default, Dictionary<string, bool> directMap = default, Dictionary<string, bool> indirectMap = default)
         {
             MapMapOfString = mapMapOfString;
             MapOfEnumString = mapOfEnumString;

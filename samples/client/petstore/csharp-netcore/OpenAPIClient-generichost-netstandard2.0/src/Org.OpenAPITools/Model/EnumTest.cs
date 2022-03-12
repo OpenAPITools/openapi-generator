@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerEnumInteger">outerEnumInteger</param>
         /// <param name="outerEnumDefaultValue">outerEnumDefaultValue</param>
         /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue</param>
-        public EnumTest(EnumStringRequiredEnum enumStringRequired, EnumStringEnum enumString, EnumIntegerEnum enumInteger, EnumIntegerOnlyEnum enumIntegerOnly, EnumNumberEnum enumNumber, OuterEnumInteger outerEnumInteger, OuterEnumDefaultValue outerEnumDefaultValue, OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue, OuterEnum outerEnum = default)
+        public EnumTest(EnumStringRequiredEnum enumStringRequired, EnumStringEnum enumString = default, EnumIntegerEnum enumInteger = default, EnumIntegerOnlyEnum enumIntegerOnly = default, EnumNumberEnum enumNumber = default, OuterEnum outerEnum = default, OuterEnumInteger outerEnumInteger = default, OuterEnumDefaultValue outerEnumDefaultValue = default, OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = default)
         {
             if (enumStringRequired == null)
                 throw new ArgumentNullException("enumStringRequired is a required property for EnumTest and cannot be null.");
@@ -52,10 +52,10 @@ namespace Org.OpenAPITools.Model
             EnumInteger = enumInteger;
             EnumIntegerOnly = enumIntegerOnly;
             EnumNumber = enumNumber;
+            OuterEnum = outerEnum;
             OuterEnumInteger = outerEnumInteger;
             OuterEnumDefaultValue = outerEnumDefaultValue;
             OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
-            OuterEnum = outerEnum;
         }
 
         /// <summary>

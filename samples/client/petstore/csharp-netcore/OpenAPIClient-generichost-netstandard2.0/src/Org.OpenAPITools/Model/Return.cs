@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
         /// <param name="returnProperty">returnProperty</param>
-        public Return(int returnProperty)
+        public Return(int returnProperty = default)
         {
             ReturnProperty = returnProperty;
         }

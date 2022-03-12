@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="specialPropertyName">specialPropertyName</param>
         /// <param name="specialModelNameProperty">specialModelNameProperty</param>
-        public SpecialModelName(long specialPropertyName, string specialModelNameProperty)
+        public SpecialModelName(long? specialPropertyName = default, string? specialModelNameProperty = default)
         {
             SpecialPropertyName = specialPropertyName;
             SpecialModelNameProperty = specialModelNameProperty;
@@ -46,13 +46,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SpecialPropertyName
         /// </summary>
         [JsonPropertyName("$special[property.name]")]
-        public long SpecialPropertyName { get; set; }
+        public long? SpecialPropertyName { get; set; }
 
         /// <summary>
         /// Gets or Sets SpecialModelNameProperty
         /// </summary>
         [JsonPropertyName("_special_model.name_")]
-        public string SpecialModelNameProperty { get; set; }
+        public string? SpecialModelNameProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

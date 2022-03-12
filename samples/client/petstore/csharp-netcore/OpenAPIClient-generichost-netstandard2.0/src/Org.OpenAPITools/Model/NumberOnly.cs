@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="NumberOnly" /> class.
         /// </summary>
         /// <param name="justNumber">justNumber</param>
-        public NumberOnly(decimal justNumber)
+        public NumberOnly(decimal justNumber = default)
         {
             JustNumber = justNumber;
         }

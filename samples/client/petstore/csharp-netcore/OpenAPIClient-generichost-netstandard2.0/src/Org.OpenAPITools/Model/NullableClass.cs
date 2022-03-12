@@ -46,10 +46,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectNullableProp">objectNullableProp</param>
         /// <param name="objectAndItemsNullableProp">objectAndItemsNullableProp</param>
         /// <param name="objectItemsNullable">objectItemsNullable</param>
-        public NullableClass(List<Object> arrayItemsNullable, Dictionary<string, Object> objectItemsNullable, int? integerProp = default, decimal? numberProp = default, bool? booleanProp = default, string stringProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, List<Object> arrayNullableProp = default, List<Object> arrayAndItemsNullableProp = default, Dictionary<string, Object> objectNullableProp = default, Dictionary<string, Object> objectAndItemsNullableProp = default)
+        public NullableClass(int? integerProp = default, decimal? numberProp = default, bool? booleanProp = default, string stringProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, List<Object> arrayNullableProp = default, List<Object> arrayAndItemsNullableProp = default, List<Object> arrayItemsNullable = default, Dictionary<string, Object> objectNullableProp = default, Dictionary<string, Object> objectAndItemsNullableProp = default, Dictionary<string, Object> objectItemsNullable = default)
         {
-            ArrayItemsNullable = arrayItemsNullable;
-            ObjectItemsNullable = objectItemsNullable;
             IntegerProp = integerProp;
             NumberProp = numberProp;
             BooleanProp = booleanProp;
@@ -58,8 +56,10 @@ namespace Org.OpenAPITools.Model
             DatetimeProp = datetimeProp;
             ArrayNullableProp = arrayNullableProp;
             ArrayAndItemsNullableProp = arrayAndItemsNullableProp;
+            ArrayItemsNullable = arrayItemsNullable;
             ObjectNullableProp = objectNullableProp;
             ObjectAndItemsNullableProp = objectAndItemsNullableProp;
+            ObjectItemsNullable = objectItemsNullable;
         }
 
         /// <summary>

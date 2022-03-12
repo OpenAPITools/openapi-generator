@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className (required)</param>
         /// <param name="hasBaleen">hasBaleen</param>
         /// <param name="hasTeeth">hasTeeth</param>
-        public Whale(string className, bool hasBaleen, bool hasTeeth)
+        public Whale(string className, bool? hasBaleen = default, bool? hasTeeth = default)
         {
             if (className == null)
                 throw new ArgumentNullException("className is a required property for Whale and cannot be null.");
@@ -56,13 +56,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets HasBaleen
         /// </summary>
         [JsonPropertyName("hasBaleen")]
-        public bool HasBaleen { get; set; }
+        public bool? HasBaleen { get; set; }
 
         /// <summary>
         /// Gets or Sets HasTeeth
         /// </summary>
         [JsonPropertyName("hasTeeth")]
-        public bool HasTeeth { get; set; }
+        public bool? HasTeeth { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

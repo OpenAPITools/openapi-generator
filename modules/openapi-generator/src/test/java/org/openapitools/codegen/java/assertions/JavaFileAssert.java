@@ -1,10 +1,12 @@
 package org.openapitools.codegen.java.assertions;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
@@ -30,6 +32,14 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
             return new JavaFileAssert(StaticJavaParser.parse(path));
         } catch (IOException e) {
             throw new RuntimeException("Exception while reading file: " + path, e);
+        }
+    }
+
+    public static JavaFileAssert assertThat(final File file) {
+        try {
+            return new JavaFileAssert(StaticJavaParser.parse(file));
+        } catch (IOException e) {
+            throw new RuntimeException("Exception while reading file: " + file, e);
         }
     }
 
@@ -68,6 +78,20 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
 
     public JavaFileAssert printFileContent() {
         System.out.println(actual);
+        return this;
+    }
+
+    public JavaFileAssert fileContains(final String... lines) {
+        final String actualBody = actual.getTokenRange()
+            .orElseThrow(() -> new IllegalStateException("Empty file"))
+            .toString();
+        Assertions.assertThat(actualBody)
+            .withFailMessage(
+                "File should contains lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
+                Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
+            )
+            .contains(lines);
+
         return this;
     }
 

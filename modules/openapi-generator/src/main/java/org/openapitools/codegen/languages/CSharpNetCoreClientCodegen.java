@@ -1337,6 +1337,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             }
 
             for (CodegenProperty cp : cm.readWriteVars) {
+                // ISSUE: https://github.com/OpenAPITools/openapi-generator/issues/11844
                 // allVars may not have all properties
                 // see modules\openapi-generator\src\test\resources\3_0\allOf.yaml
                 // property boosterSeat will be in readWriteVars but not allVars
@@ -1348,6 +1349,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             }
 
             for (CodegenProperty cp : cm.allVars) {
+                // ISSUE: https://github.com/OpenAPITools/openapi-generator/issues/11845
                 // some properties do not have isInherited set correctly
                 // see modules\openapi-generator\src\test\resources\3_0\allOf.yaml
                 // Child properties Type, LastName, FirstName will have isInherited set to false when it should be true
@@ -1355,7 +1357,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                     continue;
                 }
                 if (Boolean.TRUE.equals(cm.parentVars.stream().anyMatch(v -> v.baseName.equals(cp.baseName) && v.dataType.equals(cp.dataType)))) {
-                    LOGGER.warn("Property " + cp.baseName + " was found in the parentVars but not marked as inherited.");
+                    LOGGER.debug("Property " + cp.baseName + " was found in the parentVars but not marked as inherited.");
                     cp.isInherited = true;
                 }
             }
@@ -1365,6 +1367,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     }
 
     /**
+    * ISSUE: https://github.com/OpenAPITools/openapi-generator/issues/11846
     * Ensures that a model has all inherited properties
     * Check modules\openapi-generator\src\test\resources\3_0\java\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
     * Without this method, property petType in GrandparentAnimal will not make it through ParentPet and into ChildCat

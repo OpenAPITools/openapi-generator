@@ -57,8 +57,6 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation")
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/create_xml_item",
@@ -89,8 +87,6 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class)
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/boolean",
@@ -120,8 +116,6 @@ public interface FakeApi {
     )
     @ApiResponses({
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class)
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.POST,
@@ -162,8 +156,6 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class)
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/number",
@@ -194,8 +186,6 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "Output string", response = String.class)
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/string",
@@ -225,8 +215,6 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success")
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/fake/body-with-file-schema",
@@ -255,8 +243,6 @@ public interface FakeApi {
     )
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.PUT,
@@ -288,8 +274,6 @@ public interface FakeApi {
     )
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = Client.class)
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.PATCH,
@@ -348,8 +332,6 @@ public interface FakeApi {
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found")
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake",
@@ -400,8 +382,8 @@ public interface FakeApi {
         @ApiResponse(code = 404, message = "Not found")
     })
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "enumHeaderStringArray", value = "Header parameter enum test (string array)",  dataType = "List<String>", paramType = "header"),
-        @ApiImplicitParam(name = "enumHeaderString", value = "Header parameter enum test (string)",  dataType = "String", paramType = "header")
+        @ApiImplicitParam(name = "enum_header_string_array", value = "Header parameter enum test (string array)",  dataType = "List<String>", paramType = "header"),
+        @ApiImplicitParam(name = "enum_header_string", value = "Header parameter enum test (string)",  dataType = "String", paramType = "header")
     })
     @RequestMapping(
         method = RequestMethod.GET,
@@ -441,8 +423,8 @@ public interface FakeApi {
         @ApiResponse(code = 400, message = "Someting wrong")
     })
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "requiredBooleanGroup", value = "Required Boolean in group parameters", required = true, dataType = "Boolean", paramType = "header"),
-        @ApiImplicitParam(name = "booleanGroup", value = "Boolean in group parameters",  dataType = "Boolean", paramType = "header")
+        @ApiImplicitParam(name = "required_boolean_group", value = "Required Boolean in group parameters", required = true, dataType = "Boolean", paramType = "header"),
+        @ApiImplicitParam(name = "boolean_group", value = "Boolean in group parameters",  dataType = "Boolean", paramType = "header")
     })
     @RequestMapping(
         method = RequestMethod.DELETE,
@@ -474,8 +456,6 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation")
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/inline-additionalProperties",
@@ -504,8 +484,6 @@ public interface FakeApi {
     )
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.GET,
@@ -540,8 +518,6 @@ public interface FakeApi {
     )
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.PUT,
@@ -582,8 +558,6 @@ public interface FakeApi {
     )
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.POST,

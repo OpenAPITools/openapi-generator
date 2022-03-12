@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</param>
         /// <param name="anyTypeProp">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</param>
         /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</param>
-        public User(long id, string username, string firstName, string lastName, string email, string password, string phone, int userStatus, Object objectWithNoDeclaredProps, Object? objectWithNoDeclaredPropsNullable = default, Object? anyTypeProp = default, Object? anyTypePropNullable = default)
+        public User(long? id = default, string? username = default, string? firstName = default, string? lastName = default, string? email = default, string? password = default, string? phone = default, int? userStatus = default, Object? objectWithNoDeclaredProps = default, Object? objectWithNoDeclaredPropsNullable = default, Object? anyTypeProp = default, Object? anyTypePropNullable = default)
         {
             Id = id;
             Username = username;
@@ -66,57 +66,57 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Username
         /// </summary>
         [JsonPropertyName("username")]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         /// <summary>
         /// Gets or Sets FirstName
         /// </summary>
         [JsonPropertyName("firstName")]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         /// <summary>
         /// Gets or Sets LastName
         /// </summary>
         [JsonPropertyName("lastName")]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         /// <summary>
         /// Gets or Sets Email
         /// </summary>
         [JsonPropertyName("email")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [JsonPropertyName("password")]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         /// <summary>
         /// Gets or Sets Phone
         /// </summary>
         [JsonPropertyName("phone")]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         /// <summary>
         /// User Status
         /// </summary>
         /// <value>User Status</value>
         [JsonPropertyName("userStatus")]
-        public int UserStatus { get; set; }
+        public int? UserStatus { get; set; }
 
         /// <summary>
         /// test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.
         /// </summary>
         /// <value>test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.</value>
         [JsonPropertyName("objectWithNoDeclaredProps")]
-        public Object ObjectWithNoDeclaredProps { get; set; }
+        public Object? ObjectWithNoDeclaredProps { get; set; }
 
         /// <summary>
         /// test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.

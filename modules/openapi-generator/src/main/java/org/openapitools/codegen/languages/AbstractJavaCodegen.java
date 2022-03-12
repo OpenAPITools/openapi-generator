@@ -70,6 +70,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String OPENAPI_NULLABLE = "openApiNullable";
     public static final String JACKSON = "jackson";
     public static final String TEST_OUTPUT = "testOutput";
+    public static final String IMPLICIT_HEADERS = "implicitHeaders";
+    public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
 
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
 
@@ -117,6 +119,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String outputTestFolder = "";
     protected DocumentationProvider documentationProvider;
     protected AnnotationLibrary annotationLibrary;
+    protected boolean implicitHeaders = false;
+    protected String implicitHeadersRegex = null;
 
     public AbstractJavaCodegen() {
         super();
@@ -246,6 +250,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newString(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, "Additional annotations for enum type(class level annotations)"));
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library", this.openApiNullable));
+        cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
+        cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true"));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -525,6 +531,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setParentVersion((String) additionalProperties.get(CodegenConstants.PARENT_VERSION));
         }
 
+        if (additionalProperties.containsKey(IMPLICIT_HEADERS)) {
+            this.setImplicitHeaders(Boolean.parseBoolean(additionalProperties.get(IMPLICIT_HEADERS).toString()));
+        }
+
+        if (additionalProperties.containsKey(IMPLICIT_HEADERS_REGEX)) {
+            this.setImplicitHeadersRegex(additionalProperties.get(IMPLICIT_HEADERS_REGEX).toString());
+        }
+
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
         }
@@ -575,6 +589,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("JsonCreator", "com.fasterxml.jackson.annotation.JsonCreator");
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
         importMapping.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
+        importMapping.put("JsonIgnoreProperties", "com.fasterxml.jackson.annotation.JsonIgnoreProperties");
         importMapping.put("JsonInclude", "com.fasterxml.jackson.annotation.JsonInclude");
         importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
         importMapping.put("SerializedName", "com.google.gson.annotations.SerializedName");
@@ -1235,6 +1250,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (codegenModel.discriminator != null && additionalProperties.containsKey(JACKSON)) {
             codegenModel.imports.add("JsonSubTypes");
             codegenModel.imports.add("JsonTypeInfo");
+            codegenModel.imports.add("JsonIgnoreProperties");
         }
         if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
@@ -1297,6 +1313,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // recursively add import for mapping one type to multiple imports
@@ -1313,6 +1330,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 Map<String, String> newImportMap = new HashMap<>();
                 newImportMap.put("import", importMapping.get(_import));
                 listIterator.add(newImportMap);
+            }
+        }
+
+        List<Object> models = (List<Object>) objs.get("models");
+
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+            if (this.serializableModel) {
+                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
             }
         }
 
@@ -1342,6 +1371,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
             op.vendorExtensions.put("x-java-import", operationImports);
+
+            handleImplicitHeaders(op);
         }
         return objs;
     }
@@ -1369,7 +1400,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     }
                     String accepts = getAccept(openAPI, operation);
                     operation.addExtension("x-accepts", accepts);
-
                 }
             }
         }
@@ -1808,6 +1838,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.annotationLibrary = annotationLibrary;
     }
 
+    public void setImplicitHeaders(boolean implicitHeaders) {
+        this.implicitHeaders = implicitHeaders;
+    }
+
+    public void setImplicitHeadersRegex(String implicitHeadersRegex) {
+        this.implicitHeadersRegex = implicitHeadersRegex;
+    }
+
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
@@ -1989,4 +2027,39 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    /**
+     * This method removes all implicit header parameters from the list of parameters
+     *
+     * @param operation - operation to be processed
+     */
+    protected void handleImplicitHeaders(CodegenOperation operation) {
+        if (operation.allParams.isEmpty()) {
+            return;
+        }
+        final ArrayList<CodegenParameter> copy = new ArrayList<>(operation.allParams);
+        operation.allParams.clear();
+
+        for (CodegenParameter p : copy) {
+            if (p.isHeaderParam && (implicitHeaders || shouldBeImplicitHeader(p))) {
+                operation.implicitHeadersParams.add(p);
+                operation.headerParams.removeIf(header -> header.baseName.equals(p.baseName));
+                LOGGER.info("Update operation [{}]. Remove header [{}] because it's marked to be implicit", operation.operationId, p.baseName);
+            } else {
+                operation.allParams.add(p);
+            }
+        }
+    }
+
+    private boolean shouldBeImplicitHeader(CodegenParameter parameter) {
+        return StringUtils.isNotBlank(implicitHeadersRegex) && parameter.baseName.matches(implicitHeadersRegex);
+    }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
+        extensions.add(VendorExtension.X_IMPLEMENTS);
+        extensions.add(VendorExtension.X_SETTER_EXTRA_ANNOTATION);
+        return extensions;
+    }
 }

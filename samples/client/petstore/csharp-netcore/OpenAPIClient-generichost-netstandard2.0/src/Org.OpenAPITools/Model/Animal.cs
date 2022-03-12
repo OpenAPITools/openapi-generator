@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="className">className (required)</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
-        public Animal(string className, string color)
+        public Animal(string className, string color = "red")
         {
             if (className == null)
                 throw new ArgumentNullException("className is a required property for Animal and cannot be null.");

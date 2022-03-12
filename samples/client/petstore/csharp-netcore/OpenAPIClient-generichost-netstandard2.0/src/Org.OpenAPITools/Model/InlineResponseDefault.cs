@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="InlineResponseDefault" /> class.
         /// </summary>
         /// <param name="_string">_string</param>
-        public InlineResponseDefault(Foo _string)
+        public InlineResponseDefault(Foo _string = default)
         {
             String = _string;
         }

@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param>
-        public ChildCatAllOf(string name, PetTypeEnum petType)
+        public ChildCatAllOf(string? name = default, PetTypeEnum? petType = PetTypeEnum.ChildCat)
         {
             Name = name;
             PetType = petType;
@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

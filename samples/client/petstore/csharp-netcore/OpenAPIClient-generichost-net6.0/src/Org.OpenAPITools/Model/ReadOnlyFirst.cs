@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="bar">bar</param>
         /// <param name="baz">baz</param>
-        public ReadOnlyFirst(string bar, string baz)
+        public ReadOnlyFirst(string bar = default, string baz = default)
         {
             Bar = bar;
             Baz = baz;

@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="snakeCase">snakeCase</param>
         /// <param name="property">property</param>
         /// <param name="_123number">_123number</param>
-        public Name(int nameProperty, int snakeCase, string property, int _123number)
+        public Name(int nameProperty, int? snakeCase = default, string? property = default, int? _123number = default)
         {
             if (nameProperty == null)
                 throw new ArgumentNullException("nameProperty is a required property for Name and cannot be null.");
@@ -58,19 +58,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SnakeCase
         /// </summary>
         [JsonPropertyName("snake_case")]
-        public int SnakeCase { get; private set; }
+        public int? SnakeCase { get; private set; }
 
         /// <summary>
         /// Gets or Sets Property
         /// </summary>
         [JsonPropertyName("property")]
-        public string Property { get; set; }
+        public string? Property { get; set; }
 
         /// <summary>
         /// Gets or Sets _123Number
         /// </summary>
         [JsonPropertyName("123Number")]
-        public int _123Number { get; private set; }
+        public int? _123Number { get; private set; }
 
         /// <summary>
         /// Gets or Sets additional properties

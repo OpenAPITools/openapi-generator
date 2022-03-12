@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
         /// <param name="_client">_client</param>
-        public ModelClient(string _client)
+        public ModelClient(string _client = default)
         {
             _Client = _client;
         }

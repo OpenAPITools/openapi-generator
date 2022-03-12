@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros.</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</param>
-        public FormatTest(decimal number, byte[] _byte, DateTime date, string password, int integer, int int32, long int64, float _float, double _double, decimal _decimal, string _string, System.IO.Stream binary, DateTime dateTime, Guid uuid, string patternWithDigits, string patternWithDigitsAndDelimiter)
+        public FormatTest(decimal number, byte[] _byte, DateTime date, string password, int integer = default, int int32 = default, long int64 = default, float _float = default, double _double = default, decimal _decimal = default, string _string = default, System.IO.Stream binary = default, DateTime dateTime = default, Guid uuid = default, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default)
         {
             if (number == null)
                 throw new ArgumentNullException("number is a required property for FormatTest and cannot be null.");

@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="capitalSnake">capitalSnake</param>
         /// <param name="sCAETHFlowPoints">sCAETHFlowPoints</param>
         /// <param name="aTTNAME">Name of the pet </param>
-        public Capitalization(string smallCamel, string capitalCamel, string smallSnake, string capitalSnake, string sCAETHFlowPoints, string aTTNAME)
+        public Capitalization(string smallCamel = default, string capitalCamel = default, string smallSnake = default, string capitalSnake = default, string sCAETHFlowPoints = default, string aTTNAME = default)
         {
             SmallCamel = smallCamel;
             CapitalCamel = capitalCamel;

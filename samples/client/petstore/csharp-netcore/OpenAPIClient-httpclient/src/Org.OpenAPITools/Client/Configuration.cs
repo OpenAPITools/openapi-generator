@@ -578,7 +578,8 @@ namespace Org.OpenAPITools.Client
                 AccessToken = second.AccessToken ?? first.AccessToken,
                 HttpSigningConfiguration = second.HttpSigningConfiguration ?? first.HttpSigningConfiguration,
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
-                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat
+                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
+                ClientCertificates = second.ClientCertificates ?? first.ClientCertificates,
             };
             return config;
         }

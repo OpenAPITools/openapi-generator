@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros.</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</param>
-        public FormatTest(decimal number, byte[] _byte, DateTime date, string password, int integer, int int32, long int64, float _float, double _double, decimal _decimal, string _string, System.IO.Stream binary, DateTime dateTime, Guid uuid, string patternWithDigits, string patternWithDigitsAndDelimiter)
+        public FormatTest(decimal number, byte[] _byte, DateTime date, string password, int? integer = default, int? int32 = default, long? int64 = default, float? _float = default, double? _double = default, decimal? _decimal = default, string? _string = default, System.IO.Stream? binary = default, DateTime? dateTime = default, Guid? uuid = default, string? patternWithDigits = default, string? patternWithDigitsAndDelimiter = default)
         {
             if (number == null)
                 throw new ArgumentNullException("number is a required property for FormatTest and cannot be null.");
@@ -106,75 +106,75 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Integer
         /// </summary>
         [JsonPropertyName("integer")]
-        public int Integer { get; set; }
+        public int? Integer { get; set; }
 
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
         [JsonPropertyName("int32")]
-        public int Int32 { get; set; }
+        public int? Int32 { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [JsonPropertyName("int64")]
-        public long Int64 { get; set; }
+        public long? Int64 { get; set; }
 
         /// <summary>
         /// Gets or Sets Float
         /// </summary>
         [JsonPropertyName("float")]
-        public float Float { get; set; }
+        public float? Float { get; set; }
 
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
         [JsonPropertyName("double")]
-        public double Double { get; set; }
+        public double? Double { get; set; }
 
         /// <summary>
         /// Gets or Sets Decimal
         /// </summary>
         [JsonPropertyName("decimal")]
-        public decimal Decimal { get; set; }
+        public decimal? Decimal { get; set; }
 
         /// <summary>
         /// Gets or Sets String
         /// </summary>
         [JsonPropertyName("string")]
-        public string String { get; set; }
+        public string? String { get; set; }
 
         /// <summary>
         /// Gets or Sets Binary
         /// </summary>
         [JsonPropertyName("binary")]
-        public System.IO.Stream Binary { get; set; }
+        public System.IO.Stream? Binary { get; set; }
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
         [JsonPropertyName("dateTime")]
-        public DateTime DateTime { get; set; }
+        public DateTime? DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         [JsonPropertyName("uuid")]
-        public Guid Uuid { get; set; }
+        public Guid? Uuid { get; set; }
 
         /// <summary>
         /// A string that is a 10 digit number. Can have leading zeros.
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
         [JsonPropertyName("pattern_with_digits")]
-        public string PatternWithDigits { get; set; }
+        public string? PatternWithDigits { get; set; }
 
         /// <summary>
         /// A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
         /// </summary>
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [JsonPropertyName("pattern_with_digits_and_delimiter")]
-        public string PatternWithDigitsAndDelimiter { get; set; }
+        public string? PatternWithDigitsAndDelimiter { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
