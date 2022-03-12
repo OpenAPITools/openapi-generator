@@ -398,7 +398,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             Comparator<CodegenProperty> comparatorByRequiredAndDefault = propertyComparatorByRequired.thenComparing(propertyComparatorByDefaultValue);
             Collections.sort(codegenModel.vars, comparatorByRequiredAndDefault);
             Collections.sort(codegenModel.allVars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.requiredVars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.optionalVars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.readOnlyVars, comparatorByRequiredAndDefault);
             Collections.sort(codegenModel.readWriteVars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.parentVars, comparatorByRequiredAndDefault);
         }
 
         return codegenModel;
@@ -806,6 +810,15 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         Comparator<CodegenParameter> comparatorByRequiredAndDefault = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
         Collections.sort(op.allParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.bodyParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.pathParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.queryParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.headerParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.implicitHeadersParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.formParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.cookieParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.requiredParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.optionalParams, comparatorByRequiredAndDefault);
 
         return op;
     }
