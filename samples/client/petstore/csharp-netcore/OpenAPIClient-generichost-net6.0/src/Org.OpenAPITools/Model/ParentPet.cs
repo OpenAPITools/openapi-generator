@@ -35,7 +35,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ParentPet" /> class.
         /// </summary>
         /// <param name="petType">petType (required)</param>
-        public ParentPet(string petType) : base(petType)
+        public ParentPet(string petType) 
+: base(petType)
         {
         }
 

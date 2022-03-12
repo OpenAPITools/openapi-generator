@@ -36,10 +36,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="className">className (required)</param>
         /// <param name="type">type</param>
-        public Zebra(string className, TypeEnum? type = default) : base()
+        public Zebra(string className, 
+TypeEnum? type = default) 
+: base()
         {
             if (className == null)
                 throw new ArgumentNullException("className is a required property for Zebra and cannot be null.");
+
             ClassName = className;
             Type = type;
         }

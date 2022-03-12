@@ -37,12 +37,16 @@ namespace Org.OpenAPITools.Model
         /// <param name="equilateralTriangle">equilateralTriangle</param>
         /// <param name="shapeType">shapeType (required)</param>
         /// <param name="triangleType">triangleType (required)</param>
-        public Triangle(EquilateralTriangle equilateralTriangle, string shapeType, string triangleType)
+        public Triangle(EquilateralTriangle equilateralTriangle, 
+
+string shapeType, string triangleType)
         {
             if (shapeType == null)
                 throw new ArgumentNullException("shapeType is a required property for Triangle and cannot be null.");
+
             if (triangleType == null)
                 throw new ArgumentNullException("triangleType is a required property for Triangle and cannot be null.");
+
             EquilateralTriangle = equilateralTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;
@@ -54,12 +58,16 @@ namespace Org.OpenAPITools.Model
         /// <param name="isoscelesTriangle">isoscelesTriangle</param>
         /// <param name="shapeType">shapeType (required)</param>
         /// <param name="triangleType">triangleType (required)</param>
-        public Triangle(IsoscelesTriangle isoscelesTriangle, string shapeType, string triangleType)
+        public Triangle(IsoscelesTriangle isoscelesTriangle, 
+
+string shapeType, string triangleType)
         {
             if (shapeType == null)
                 throw new ArgumentNullException("shapeType is a required property for Triangle and cannot be null.");
+
             if (triangleType == null)
                 throw new ArgumentNullException("triangleType is a required property for Triangle and cannot be null.");
+
             IsoscelesTriangle = isoscelesTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;
@@ -71,12 +79,16 @@ namespace Org.OpenAPITools.Model
         /// <param name="scaleneTriangle">scaleneTriangle</param>
         /// <param name="shapeType">shapeType (required)</param>
         /// <param name="triangleType">triangleType (required)</param>
-        public Triangle(ScaleneTriangle scaleneTriangle, string shapeType, string triangleType)
+        public Triangle(ScaleneTriangle scaleneTriangle, 
+
+string shapeType, string triangleType)
         {
             if (shapeType == null)
                 throw new ArgumentNullException("shapeType is a required property for Triangle and cannot be null.");
+
             if (triangleType == null)
                 throw new ArgumentNullException("triangleType is a required property for Triangle and cannot be null.");
+
             ScaleneTriangle = scaleneTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;
