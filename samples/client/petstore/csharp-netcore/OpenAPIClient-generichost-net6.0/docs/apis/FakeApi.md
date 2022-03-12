@@ -642,7 +642,7 @@ No authorization required
 
 <a name="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+> void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -680,14 +680,14 @@ namespace Example
             var _string = "_string_example";  // string | None (optional) 
             var binary = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | None (optional) 
             var date = DateTime.Parse("2013-10-20");  // DateTime? | None (optional) 
-            var dateTime = DateTime.Parse(""2010-02-01T10:20:10.111110+01:00"");  // DateTime? | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
             var password = "password_example";  // string | None (optional) 
             var callback = "callback_example";  // string | None (optional) 
+            var dateTime = DateTime.Parse(""2010-02-01T10:20:10.111110+01:00"");  // DateTime? | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
 
             try
             {
                 // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-                apiInstance.TestEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
+                apiInstance.TestEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, password, callback, dateTime);
             }
             catch (ApiException  e)
             {
@@ -715,9 +715,9 @@ Name | Type | Description  | Notes
  **_string** | **string**| None | [optional] 
  **binary** | **System.IO.Stream****System.IO.Stream**| None | [optional] 
  **date** | **DateTime?**| None | [optional] 
- **dateTime** | **DateTime?**| None | [optional] [default to &quot;2010-02-01T10:20:10.111110+01:00&quot;]
  **password** | **string**| None | [optional] 
  **callback** | **string**| None | [optional] 
+ **dateTime** | **DateTime?**| None | [optional] [default to &quot;2010-02-01T10:20:10.111110+01:00&quot;]
 
 ### Return type
 
@@ -743,7 +743,7 @@ void (empty response body)
 
 <a name="testenumparameters"></a>
 # **TestEnumParameters**
-> void TestEnumParameters (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
+> void TestEnumParameters (List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, int? enumQueryInteger = null, double? enumQueryDouble = null, string enumHeaderString = null, string enumQueryString = null, List<string> enumFormStringArray = null, string enumFormString = null)
 
 To test enum parameters
 
@@ -767,18 +767,18 @@ namespace Example
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
             var enumHeaderStringArray = new List<string>(); // List<string> | Header parameter enum test (string array) (optional) 
-            var enumHeaderString = "_abc";  // string | Header parameter enum test (string) (optional)  (default to -efg)
             var enumQueryStringArray = new List<string>(); // List<string> | Query parameter enum test (string array) (optional) 
-            var enumQueryString = "_abc";  // string | Query parameter enum test (string) (optional)  (default to -efg)
             var enumQueryInteger = 1;  // int? | Query parameter enum test (double) (optional) 
             var enumQueryDouble = 1.1D;  // double? | Query parameter enum test (double) (optional) 
+            var enumHeaderString = "_abc";  // string | Header parameter enum test (string) (optional)  (default to -efg)
+            var enumQueryString = "_abc";  // string | Query parameter enum test (string) (optional)  (default to -efg)
             var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
             var enumFormString = "_abc";  // string | Form parameter enum test (string) (optional)  (default to -efg)
 
             try
             {
                 // To test enum parameters
-                apiInstance.TestEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+                apiInstance.TestEnumParameters(enumHeaderStringArray, enumQueryStringArray, enumQueryInteger, enumQueryDouble, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString);
             }
             catch (ApiException  e)
             {
@@ -796,11 +796,11 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enumHeaderStringArray** | [**List&lt;string&gt;**](string.md)| Header parameter enum test (string array) | [optional] 
- **enumHeaderString** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
  **enumQueryStringArray** | [**List&lt;string&gt;**](string.md)| Query parameter enum test (string array) | [optional] 
- **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
+ **enumHeaderString** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
+ **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enumFormStringArray** | [**List&lt;string&gt;**](string.md)| Form parameter enum test (string array) | [optional] [default to $]
  **enumFormString** | **string**| Form parameter enum test (string) | [optional] [default to -efg]
 

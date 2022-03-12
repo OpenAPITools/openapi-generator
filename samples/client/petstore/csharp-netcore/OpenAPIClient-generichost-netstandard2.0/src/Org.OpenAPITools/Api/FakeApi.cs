@@ -259,12 +259,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null);
         
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -284,12 +284,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<object> TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null);
 
                 /// <summary>
         /// To test enum parameters
@@ -299,16 +299,16 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
-        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
-        /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestEnumParametersWithHttpInfoAsync(List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> TestEnumParametersWithHttpInfoAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, int? enumQueryInteger = null, double? enumQueryDouble = null, string enumHeaderString = null, string enumQueryString = null, List<string> enumFormStringArray = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null);
         
         /// <summary>
         /// To test enum parameters
@@ -318,16 +318,16 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
-        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
-        /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> TestEnumParametersAsync(List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<object> TestEnumParametersAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, int? enumQueryInteger = null, double? enumQueryDouble = null, string enumHeaderString = null, string enumQueryString = null, List<string> enumFormStringArray = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null);
 
                 /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -1523,14 +1523,14 @@ namespace Org.OpenAPITools.Api
         /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<object> TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<object> result = await TestEndpointParametersWithHttpInfoAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback, cancellationToken).ConfigureAwait(false);
+            ApiResponse<object> result = await TestEndpointParametersWithHttpInfoAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, password, callback, dateTime, cancellationToken).ConfigureAwait(false);
             
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
@@ -1552,17 +1552,17 @@ namespace Org.OpenAPITools.Api
         /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestEndpointParametersOrDefaultAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<object> TestEndpointParametersOrDefaultAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object> result = null;
             try 
             {
-                result = await TestEndpointParametersWithHttpInfoAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback, cancellationToken).ConfigureAwait(false);
+                result = await TestEndpointParametersWithHttpInfoAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, password, callback, dateTime, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -1589,12 +1589,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             try
             {
@@ -1724,18 +1724,18 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
-        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
-        /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestEnumParametersAsync(List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<object> TestEnumParametersAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, int? enumQueryInteger = null, double? enumQueryDouble = null, string enumHeaderString = null, string enumQueryString = null, List<string> enumFormStringArray = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<object> result = await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, cancellationToken).ConfigureAwait(false);
+            ApiResponse<object> result = await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumQueryStringArray, enumQueryInteger, enumQueryDouble, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString, cancellationToken).ConfigureAwait(false);
             
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
@@ -1747,21 +1747,21 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
-        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
-        /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestEnumParametersOrDefaultAsync(List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<object> TestEnumParametersOrDefaultAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, int? enumQueryInteger = null, double? enumQueryDouble = null, string enumHeaderString = null, string enumQueryString = null, List<string> enumFormStringArray = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object> result = null;
             try 
             {
-                result = await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, cancellationToken).ConfigureAwait(false);
+                result = await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumQueryStringArray, enumQueryInteger, enumQueryDouble, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -1778,16 +1778,16 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
-        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
-        /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestEnumParametersWithHttpInfoAsync(List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> TestEnumParametersWithHttpInfoAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, int? enumQueryInteger = null, double? enumQueryDouble = null, string enumHeaderString = null, string enumQueryString = null, List<string> enumFormStringArray = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             try
             {
