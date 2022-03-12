@@ -38,8 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="snakeCase">snakeCase</param>
         /// <param name="property">property</param>
         /// <param name="_123number">_123number</param>
-        public Name(int nameProperty, 
-int? snakeCase = default, string? property = default, int? _123number = default)
+        public Name(int nameProperty, int? snakeCase = default, string? property = default, int? _123number = default)
         {
             if (nameProperty == null)
                 throw new ArgumentNullException("nameProperty is a required property for Name and cannot be null.");

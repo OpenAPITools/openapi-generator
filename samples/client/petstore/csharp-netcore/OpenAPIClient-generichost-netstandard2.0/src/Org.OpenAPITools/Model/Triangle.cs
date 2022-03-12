@@ -37,9 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="equilateralTriangle">equilateralTriangle</param>
         /// <param name="shapeType">shapeType (required)</param>
         /// <param name="triangleType">triangleType (required)</param>
-        public Triangle(EquilateralTriangle equilateralTriangle, 
-
-string shapeType, string triangleType)
+        public Triangle(EquilateralTriangle equilateralTriangle, string shapeType, string triangleType)
         {
             if (shapeType == null)
                 throw new ArgumentNullException("shapeType is a required property for Triangle and cannot be null.");
@@ -58,9 +56,7 @@ string shapeType, string triangleType)
         /// <param name="isoscelesTriangle">isoscelesTriangle</param>
         /// <param name="shapeType">shapeType (required)</param>
         /// <param name="triangleType">triangleType (required)</param>
-        public Triangle(IsoscelesTriangle isoscelesTriangle, 
-
-string shapeType, string triangleType)
+        public Triangle(IsoscelesTriangle isoscelesTriangle, string shapeType, string triangleType)
         {
             if (shapeType == null)
                 throw new ArgumentNullException("shapeType is a required property for Triangle and cannot be null.");
@@ -79,9 +75,7 @@ string shapeType, string triangleType)
         /// <param name="scaleneTriangle">scaleneTriangle</param>
         /// <param name="shapeType">shapeType (required)</param>
         /// <param name="triangleType">triangleType (required)</param>
-        public Triangle(ScaleneTriangle scaleneTriangle, 
-
-string shapeType, string triangleType)
+        public Triangle(ScaleneTriangle scaleneTriangle, string shapeType, string triangleType)
         {
             if (shapeType == null)
                 throw new ArgumentNullException("shapeType is a required property for Triangle and cannot be null.");

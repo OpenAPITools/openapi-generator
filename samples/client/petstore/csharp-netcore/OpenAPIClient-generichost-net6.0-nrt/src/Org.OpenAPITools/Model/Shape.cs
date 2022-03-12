@@ -36,9 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="quadrilateral">quadrilateral</param>
         /// <param name="quadrilateralType">quadrilateralType (required)</param>
-        public Shape(Quadrilateral? quadrilateral, 
-
-string quadrilateralType)
+        public Shape(Quadrilateral? quadrilateral, string quadrilateralType)
         {
             if (quadrilateralType == null)
                 throw new ArgumentNullException("quadrilateralType is a required property for Shape and cannot be null.");
@@ -52,9 +50,7 @@ string quadrilateralType)
         /// </summary>
         /// <param name="triangle">triangle</param>
         /// <param name="quadrilateralType">quadrilateralType (required)</param>
-        public Shape(Triangle? triangle, 
-
-string quadrilateralType)
+        public Shape(Triangle? triangle, string quadrilateralType)
         {
             if (quadrilateralType == null)
                 throw new ArgumentNullException("quadrilateralType is a required property for Shape and cannot be null.");
