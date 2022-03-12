@@ -34,10 +34,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
-        /// <param name="nameProperty">nameProperty (required)</param> allVars
-        /// <param name="snakeCase">snakeCase</param> allVars
-        /// <param name="property">property</param> allVars
-        /// <param name="_123number">_123number</param> allVars
+        /// <param name="nameProperty">nameProperty (required)</param>
+        /// <param name="snakeCase">snakeCase</param>
+        /// <param name="property">property</param>
+        /// <param name="_123number">_123number</param>
         public Name(int nameProperty, int snakeCase = default, string property = default, int _123number = default)
         {
             if (nameProperty == null)
@@ -53,36 +53,24 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("name")]
         public int NameProperty { get; set; }
-// required: true
-// isNullable: false
-// compulsory: true
 
         /// <summary>
         /// Gets or Sets SnakeCase
         /// </summary>
         [JsonPropertyName("snake_case")]
         public int SnakeCase { get; private set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets Property
         /// </summary>
         [JsonPropertyName("property")]
         public string Property { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets _123Number
         /// </summary>
         [JsonPropertyName("123Number")]
         public int _123Number { get; private set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

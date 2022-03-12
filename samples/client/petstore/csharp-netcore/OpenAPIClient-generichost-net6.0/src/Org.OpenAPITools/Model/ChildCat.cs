@@ -34,10 +34,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
-        /// <param name="childCatAllOf">childCatAllOf</param> allOf
-        /// <param name="petType">petType (required)</param> allVars
-        public ChildCat(ChildCatAllOf childCatAllOf, string petType) 
-: base(petType)
+        /// <param name="childCatAllOf">childCatAllOf</param>
+        /// <param name="petType">petType (required)</param>
+        public ChildCat(ChildCatAllOf childCatAllOf, string petType) : base(petType)
         {
             ChildCatAllOf = childCatAllOf;
         }

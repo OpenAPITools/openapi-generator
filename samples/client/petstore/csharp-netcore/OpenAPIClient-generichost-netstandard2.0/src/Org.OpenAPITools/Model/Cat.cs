@@ -34,11 +34,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
-        /// <param name="catAllOf">catAllOf</param> allOf
-        /// <param name="className">className (required)</param> allVars
-        /// <param name="color">color (default to &quot;red&quot;)</param> allVars
-        public Cat(CatAllOf catAllOf, string className, string color = "red") 
-: base(className, color)
+        /// <param name="catAllOf">catAllOf</param>
+        /// <param name="className">className (required)</param>
+        /// <param name="color">color (default to &quot;red&quot;)</param>
+        public Cat(CatAllOf catAllOf, string className, string color = "red") : base(className, color)
         {
             CatAllOf = catAllOf;
         }

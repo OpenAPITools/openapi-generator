@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
         /// </summary>
-        /// <param name="petType">petType (required)</param> allVars
+        /// <param name="petType">petType (required)</param>
         public GrandparentAnimal(string petType)
         {
             if (petType == null)
@@ -47,9 +47,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("pet_type")]
         public string PetType { get; set; }
-// required: true
-// isNullable: false
-// compulsory: true
 
         /// <summary>
         /// Gets or Sets additional properties

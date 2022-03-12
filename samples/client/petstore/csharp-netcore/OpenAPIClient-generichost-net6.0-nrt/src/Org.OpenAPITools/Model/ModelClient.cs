@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
-        /// <param name="_client">_client</param> allVars
+        /// <param name="_client">_client</param>
         public ModelClient(string? _client = default)
         {
             _Client = _client;
@@ -45,9 +45,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("client")]
         public string? _Client { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

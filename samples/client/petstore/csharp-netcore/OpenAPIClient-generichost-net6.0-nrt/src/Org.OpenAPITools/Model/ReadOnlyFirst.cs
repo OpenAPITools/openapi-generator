@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyFirst" /> class.
         /// </summary>
-        /// <param name="bar">bar</param> allVars
-        /// <param name="baz">baz</param> allVars
+        /// <param name="bar">bar</param>
+        /// <param name="baz">baz</param>
         public ReadOnlyFirst(string? bar = default, string? baz = default)
         {
             Bar = bar;
@@ -47,18 +47,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("bar")]
         public string? Bar { get; private set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets Baz
         /// </summary>
         [JsonPropertyName("baz")]
         public string? Baz { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
-        /// <param name="appleReq">appleReq</param> oneOf
+        /// <param name="appleReq">appleReq</param>
         public FruitReq(AppleReq? appleReq)
         {
             AppleReq = appleReq;
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
-        /// <param name="bananaReq">bananaReq</param> oneOf
+        /// <param name="bananaReq">bananaReq</param>
         public FruitReq(BananaReq? bananaReq)
         {
             BananaReq = bananaReq;

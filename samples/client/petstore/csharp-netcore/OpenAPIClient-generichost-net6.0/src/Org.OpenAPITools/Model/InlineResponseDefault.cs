@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineResponseDefault" /> class.
         /// </summary>
-        /// <param name="_string">_string</param> allVars
+        /// <param name="_string">_string</param>
         public InlineResponseDefault(Foo _string = default)
         {
             String = _string;
@@ -45,9 +45,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("string")]
         public Foo String { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

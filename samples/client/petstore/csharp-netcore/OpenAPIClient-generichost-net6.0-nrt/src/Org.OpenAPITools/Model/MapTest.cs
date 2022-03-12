@@ -34,10 +34,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>
-        /// <param name="mapMapOfString">mapMapOfString</param> allVars
-        /// <param name="mapOfEnumString">mapOfEnumString</param> allVars
-        /// <param name="directMap">directMap</param> allVars
-        /// <param name="indirectMap">indirectMap</param> allVars
+        /// <param name="mapMapOfString">mapMapOfString</param>
+        /// <param name="mapOfEnumString">mapOfEnumString</param>
+        /// <param name="directMap">directMap</param>
+        /// <param name="indirectMap">indirectMap</param>
         public MapTest(Dictionary<string, Dictionary<string, string>>? mapMapOfString = default, Dictionary<string, InnerEnum>? mapOfEnumString = default, Dictionary<string, bool>? directMap = default, Dictionary<string, bool>? indirectMap = default)
         {
             MapMapOfString = mapMapOfString;
@@ -77,27 +77,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("map_map_of_string")]
         public Dictionary<string, Dictionary<string, string>>? MapMapOfString { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets DirectMap
         /// </summary>
         [JsonPropertyName("direct_map")]
         public Dictionary<string, bool>? DirectMap { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets IndirectMap
         /// </summary>
         [JsonPropertyName("indirect_map")]
         public Dictionary<string, bool>? IndirectMap { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

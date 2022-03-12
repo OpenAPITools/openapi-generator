@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
-        /// <param name="apple">apple</param> oneOf
-        /// <param name="color">color</param> allVars
+        /// <param name="apple">apple</param>
+        /// <param name="color">color</param>
         public Fruit(Apple apple, string color = default)
         {
             Apple = apple;
@@ -45,8 +45,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
-        /// <param name="banana">banana</param> oneOf
-        /// <param name="color">color</param> allVars
+        /// <param name="banana">banana</param>
+        /// <param name="color">color</param>
         public Fruit(Banana banana, string color = default)
         {
             Banana = banana;
@@ -68,9 +68,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("color")]
         public string Color { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Returns the string presentation of the object

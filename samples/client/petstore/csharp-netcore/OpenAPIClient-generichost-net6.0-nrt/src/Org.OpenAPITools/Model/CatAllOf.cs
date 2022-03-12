@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="CatAllOf" /> class.
         /// </summary>
-        /// <param name="declawed">declawed</param> allVars
+        /// <param name="declawed">declawed</param>
         public CatAllOf(bool? declawed = default)
         {
             Declawed = declawed;
@@ -45,9 +45,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("declawed")]
         public bool? Declawed { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="DanishPig" /> class.
         /// </summary>
-        /// <param name="className">className (required)</param> allVars
+        /// <param name="className">className (required)</param>
         public DanishPig(string className)
         {
             if (className == null)
@@ -47,9 +47,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("className")]
         public string ClassName { get; set; }
-// required: true
-// isNullable: false
-// compulsory: true
 
         /// <summary>
         /// Gets or Sets additional properties

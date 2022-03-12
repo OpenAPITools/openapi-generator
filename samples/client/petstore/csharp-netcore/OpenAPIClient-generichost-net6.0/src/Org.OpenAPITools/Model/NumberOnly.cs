@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="NumberOnly" /> class.
         /// </summary>
-        /// <param name="justNumber">justNumber</param> allVars
+        /// <param name="justNumber">justNumber</param>
         public NumberOnly(decimal justNumber = default)
         {
             JustNumber = justNumber;
@@ -45,9 +45,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("JustNumber")]
         public decimal JustNumber { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -34,20 +34,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableClass" /> class.
         /// </summary>
-        /// <param name="integerProp">integerProp</param> allVars
-        /// <param name="numberProp">numberProp</param> allVars
-        /// <param name="booleanProp">booleanProp</param> allVars
-        /// <param name="stringProp">stringProp</param> allVars
-        /// <param name="dateProp">dateProp</param> allVars
-        /// <param name="datetimeProp">datetimeProp</param> allVars
-        /// <param name="arrayNullableProp">arrayNullableProp</param> allVars
-        /// <param name="arrayAndItemsNullableProp">arrayAndItemsNullableProp</param> allVars
-        /// <param name="arrayItemsNullable">arrayItemsNullable</param> allVars
-        /// <param name="objectNullableProp">objectNullableProp</param> allVars
-        /// <param name="objectAndItemsNullableProp">objectAndItemsNullableProp</param> allVars
-        /// <param name="objectItemsNullable">objectItemsNullable</param> allVars
-        public NullableClass(int? integerProp = default, decimal? numberProp = default, bool? booleanProp = default, string stringProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, List<Object> arrayNullableProp = default, List<Object> arrayAndItemsNullableProp = default, List<Object> arrayItemsNullable = default, Dictionary<string, Object> objectNullableProp = default, Dictionary<string, Object> objectAndItemsNullableProp = default, Dictionary<string, Object> objectItemsNullable = default) 
-: base()
+        /// <param name="integerProp">integerProp</param>
+        /// <param name="numberProp">numberProp</param>
+        /// <param name="booleanProp">booleanProp</param>
+        /// <param name="stringProp">stringProp</param>
+        /// <param name="dateProp">dateProp</param>
+        /// <param name="datetimeProp">datetimeProp</param>
+        /// <param name="arrayNullableProp">arrayNullableProp</param>
+        /// <param name="arrayAndItemsNullableProp">arrayAndItemsNullableProp</param>
+        /// <param name="arrayItemsNullable">arrayItemsNullable</param>
+        /// <param name="objectNullableProp">objectNullableProp</param>
+        /// <param name="objectAndItemsNullableProp">objectAndItemsNullableProp</param>
+        /// <param name="objectItemsNullable">objectItemsNullable</param>
+        public NullableClass(int? integerProp = default, decimal? numberProp = default, bool? booleanProp = default, string stringProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, List<Object> arrayNullableProp = default, List<Object> arrayAndItemsNullableProp = default, List<Object> arrayItemsNullable = default, Dictionary<string, Object> objectNullableProp = default, Dictionary<string, Object> objectAndItemsNullableProp = default, Dictionary<string, Object> objectItemsNullable = default) : base()
         {
             IntegerProp = integerProp;
             NumberProp = numberProp;
@@ -68,108 +67,72 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("integer_prop")]
         public int? IntegerProp { get; set; }
-// required: false
-// isNullable: true
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets NumberProp
         /// </summary>
         [JsonPropertyName("number_prop")]
         public decimal? NumberProp { get; set; }
-// required: false
-// isNullable: true
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets BooleanProp
         /// </summary>
         [JsonPropertyName("boolean_prop")]
         public bool? BooleanProp { get; set; }
-// required: false
-// isNullable: true
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets StringProp
         /// </summary>
         [JsonPropertyName("string_prop")]
         public string StringProp { get; set; }
-// required: false
-// isNullable: true
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets DateProp
         /// </summary>
         [JsonPropertyName("date_prop")]
         public DateTime? DateProp { get; set; }
-// required: false
-// isNullable: true
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets DatetimeProp
         /// </summary>
         [JsonPropertyName("datetime_prop")]
         public DateTime? DatetimeProp { get; set; }
-// required: false
-// isNullable: true
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets ArrayNullableProp
         /// </summary>
         [JsonPropertyName("array_nullable_prop")]
         public List<Object> ArrayNullableProp { get; set; }
-// required: false
-// isNullable: true
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets ArrayAndItemsNullableProp
         /// </summary>
         [JsonPropertyName("array_and_items_nullable_prop")]
         public List<Object> ArrayAndItemsNullableProp { get; set; }
-// required: false
-// isNullable: true
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets ArrayItemsNullable
         /// </summary>
         [JsonPropertyName("array_items_nullable")]
         public List<Object> ArrayItemsNullable { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets ObjectNullableProp
         /// </summary>
         [JsonPropertyName("object_nullable_prop")]
         public Dictionary<string, Object> ObjectNullableProp { get; set; }
-// required: false
-// isNullable: true
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets ObjectAndItemsNullableProp
         /// </summary>
         [JsonPropertyName("object_and_items_nullable_prop")]
         public Dictionary<string, Object> ObjectAndItemsNullableProp { get; set; }
-// required: false
-// isNullable: true
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets ObjectItemsNullable
         /// </summary>
         [JsonPropertyName("object_items_nullable")]
         public Dictionary<string, Object> ObjectItemsNullable { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Returns the string presentation of the object

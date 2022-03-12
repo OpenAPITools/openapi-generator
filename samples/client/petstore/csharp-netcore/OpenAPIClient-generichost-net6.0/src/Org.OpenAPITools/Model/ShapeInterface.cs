@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeInterface" /> class.
         /// </summary>
-        /// <param name="shapeType">shapeType (required)</param> allVars
+        /// <param name="shapeType">shapeType (required)</param>
         public ShapeInterface(string shapeType)
         {
             if (shapeType == null)
@@ -47,9 +47,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("shapeType")]
         public string ShapeType { get; set; }
-// required: true
-// isNullable: false
-// compulsory: true
 
         /// <summary>
         /// Gets or Sets additional properties

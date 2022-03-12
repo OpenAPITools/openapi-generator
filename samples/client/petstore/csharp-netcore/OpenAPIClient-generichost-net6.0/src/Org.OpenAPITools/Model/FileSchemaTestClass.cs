@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FileSchemaTestClass" /> class.
         /// </summary>
-        /// <param name="file">file</param> allVars
-        /// <param name="files">files</param> allVars
+        /// <param name="file">file</param>
+        /// <param name="files">files</param>
         public FileSchemaTestClass(File file = default, List<File> files = default)
         {
             File = file;
@@ -47,18 +47,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("file")]
         public File File { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets Files
         /// </summary>
         [JsonPropertyName("files")]
         public List<File> Files { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

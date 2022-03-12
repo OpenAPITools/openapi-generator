@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="BananaReq" /> class.
         /// </summary>
-        /// <param name="lengthCm">lengthCm (required)</param> allVars
-        /// <param name="sweet">sweet</param> allVars
+        /// <param name="lengthCm">lengthCm (required)</param>
+        /// <param name="sweet">sweet</param>
         public BananaReq(decimal lengthCm, bool? sweet = default)
         {
             if (lengthCm == null)
@@ -49,18 +49,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("lengthCm")]
         public decimal LengthCm { get; set; }
-// required: true
-// isNullable: false
-// compulsory: true
 
         /// <summary>
         /// Gets or Sets Sweet
         /// </summary>
         [JsonPropertyName("sweet")]
         public bool? Sweet { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -34,9 +34,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="GmFruit" /> class.
         /// </summary>
-        /// <param name="apple">apple</param> anyOf
-        /// <param name="banana">banana</param> anyOf
-        /// <param name="color">color</param> allVars
+        /// <param name="apple">apple</param>
+        /// <param name="banana">banana</param>
+        /// <param name="color">color</param>
         public GmFruit(Apple? apple, Banana? banana, string? color = default)
         {
             Apple = apple;
@@ -59,9 +59,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("color")]
         public string? Color { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
-        /// <param name="justSymbol">justSymbol</param> allVars
-        /// <param name="arrayEnum">arrayEnum</param> allVars
+        /// <param name="justSymbol">justSymbol</param>
+        /// <param name="arrayEnum">arrayEnum</param>
         public EnumArrays(JustSymbolEnum? justSymbol = default, List<ArrayEnumEnum>? arrayEnum = default)
         {
             JustSymbol = justSymbol;

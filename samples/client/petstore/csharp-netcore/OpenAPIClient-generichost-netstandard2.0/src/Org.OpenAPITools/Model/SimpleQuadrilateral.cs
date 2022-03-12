@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleQuadrilateral" /> class.
         /// </summary>
-        /// <param name="quadrilateralInterface">quadrilateralInterface</param> allOf
-        /// <param name="shapeInterface">shapeInterface</param> allOf
+        /// <param name="quadrilateralInterface">quadrilateralInterface</param>
+        /// <param name="shapeInterface">shapeInterface</param>
         public SimpleQuadrilateral(QuadrilateralInterface quadrilateralInterface, ShapeInterface shapeInterface)
         {
             QuadrilateralInterface = quadrilateralInterface;

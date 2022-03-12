@@ -34,9 +34,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Whale" /> class.
         /// </summary>
-        /// <param name="className">className (required)</param> allVars
-        /// <param name="hasBaleen">hasBaleen</param> allVars
-        /// <param name="hasTeeth">hasTeeth</param> allVars
+        /// <param name="className">className (required)</param>
+        /// <param name="hasBaleen">hasBaleen</param>
+        /// <param name="hasTeeth">hasTeeth</param>
         public Whale(string className, bool hasBaleen = default, bool hasTeeth = default)
         {
             if (className == null)
@@ -51,27 +51,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("className")]
         public string ClassName { get; set; }
-// required: true
-// isNullable: false
-// compulsory: true
 
         /// <summary>
         /// Gets or Sets HasBaleen
         /// </summary>
         [JsonPropertyName("hasBaleen")]
         public bool HasBaleen { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets HasTeeth
         /// </summary>
         [JsonPropertyName("hasTeeth")]
         public bool HasTeeth { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="QuadrilateralInterface" /> class.
         /// </summary>
-        /// <param name="quadrilateralType">quadrilateralType (required)</param> allVars
+        /// <param name="quadrilateralType">quadrilateralType (required)</param>
         public QuadrilateralInterface(string quadrilateralType)
         {
             if (quadrilateralType == null)
@@ -47,9 +47,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("quadrilateralType")]
         public string QuadrilateralType { get; set; }
-// required: true
-// isNullable: false
-// compulsory: true
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -34,15 +34,15 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
-        /// <param name="enumStringRequired">enumStringRequired (required)</param> allVars
-        /// <param name="enumString">enumString</param> allVars
-        /// <param name="enumInteger">enumInteger</param> allVars
-        /// <param name="enumIntegerOnly">enumIntegerOnly</param> allVars
-        /// <param name="enumNumber">enumNumber</param> allVars
-        /// <param name="outerEnum">outerEnum</param> allVars
-        /// <param name="outerEnumInteger">outerEnumInteger</param> allVars
-        /// <param name="outerEnumDefaultValue">outerEnumDefaultValue</param> allVars
-        /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue</param> allVars
+        /// <param name="enumStringRequired">enumStringRequired (required)</param>
+        /// <param name="enumString">enumString</param>
+        /// <param name="enumInteger">enumInteger</param>
+        /// <param name="enumIntegerOnly">enumIntegerOnly</param>
+        /// <param name="enumNumber">enumNumber</param>
+        /// <param name="outerEnum">outerEnum</param>
+        /// <param name="outerEnumInteger">outerEnumInteger</param>
+        /// <param name="outerEnumDefaultValue">outerEnumDefaultValue</param>
+        /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue</param>
         public EnumTest(EnumStringRequiredEnum enumStringRequired, EnumStringEnum? enumString = default, EnumIntegerEnum? enumInteger = default, EnumIntegerOnlyEnum? enumIntegerOnly = default, EnumNumberEnum? enumNumber = default, OuterEnum? outerEnum = default, OuterEnumInteger? outerEnumInteger = default, OuterEnumDefaultValue? outerEnumDefaultValue = default, OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default)
         {
             if (enumStringRequired == null)

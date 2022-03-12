@@ -34,9 +34,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedPropertiesAndAdditionalPropertiesClass" /> class.
         /// </summary>
-        /// <param name="uuid">uuid</param> allVars
-        /// <param name="dateTime">dateTime</param> allVars
-        /// <param name="map">map</param> allVars
+        /// <param name="uuid">uuid</param>
+        /// <param name="dateTime">dateTime</param>
+        /// <param name="map">map</param>
         public MixedPropertiesAndAdditionalPropertiesClass(Guid uuid = default, DateTime dateTime = default, Dictionary<string, Animal> map = default)
         {
             Uuid = uuid;
@@ -49,27 +49,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("uuid")]
         public Guid Uuid { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
         [JsonPropertyName("dateTime")]
         public DateTime DateTime { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets Map
         /// </summary>
         [JsonPropertyName("map")]
         public Dictionary<string, Animal> Map { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

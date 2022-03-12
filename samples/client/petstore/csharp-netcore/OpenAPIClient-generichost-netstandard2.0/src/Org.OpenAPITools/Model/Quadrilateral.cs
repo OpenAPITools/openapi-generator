@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
         /// </summary>
-        /// <param name="complexQuadrilateral">complexQuadrilateral</param> oneOf
+        /// <param name="complexQuadrilateral">complexQuadrilateral</param>
         public Quadrilateral(ComplexQuadrilateral complexQuadrilateral)
         {
             ComplexQuadrilateral = complexQuadrilateral;
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
         /// </summary>
-        /// <param name="simpleQuadrilateral">simpleQuadrilateral</param> oneOf
+        /// <param name="simpleQuadrilateral">simpleQuadrilateral</param>
         public Quadrilateral(SimpleQuadrilateral simpleQuadrilateral)
         {
             SimpleQuadrilateral = simpleQuadrilateral;

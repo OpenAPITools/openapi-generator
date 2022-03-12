@@ -34,9 +34,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
-        /// <param name="equilateralTriangle">equilateralTriangle</param> oneOf
-        /// <param name="shapeType">shapeType (required)</param> allVars
-        /// <param name="triangleType">triangleType (required)</param> allVars
+        /// <param name="equilateralTriangle">equilateralTriangle</param>
+        /// <param name="shapeType">shapeType (required)</param>
+        /// <param name="triangleType">triangleType (required)</param>
         public Triangle(EquilateralTriangle? equilateralTriangle, string shapeType, string triangleType)
         {
             if (shapeType == null)
@@ -51,9 +51,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
-        /// <param name="isoscelesTriangle">isoscelesTriangle</param> oneOf
-        /// <param name="shapeType">shapeType (required)</param> allVars
-        /// <param name="triangleType">triangleType (required)</param> allVars
+        /// <param name="isoscelesTriangle">isoscelesTriangle</param>
+        /// <param name="shapeType">shapeType (required)</param>
+        /// <param name="triangleType">triangleType (required)</param>
         public Triangle(IsoscelesTriangle? isoscelesTriangle, string shapeType, string triangleType)
         {
             if (shapeType == null)
@@ -68,9 +68,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
-        /// <param name="scaleneTriangle">scaleneTriangle</param> oneOf
-        /// <param name="shapeType">shapeType (required)</param> allVars
-        /// <param name="triangleType">triangleType (required)</param> allVars
+        /// <param name="scaleneTriangle">scaleneTriangle</param>
+        /// <param name="shapeType">shapeType (required)</param>
+        /// <param name="triangleType">triangleType (required)</param>
         public Triangle(ScaleneTriangle? scaleneTriangle, string shapeType, string triangleType)
         {
             if (shapeType == null)
@@ -102,18 +102,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("shapeType")]
         public string ShapeType { get; set; }
-// required: true
-// isNullable: false
-// compulsory: true
 
         /// <summary>
         /// Gets or Sets TriangleType
         /// </summary>
         [JsonPropertyName("triangleType")]
         public string TriangleType { get; set; }
-// required: true
-// isNullable: false
-// compulsory: true
 
         /// <summary>
         /// Gets or Sets additional properties

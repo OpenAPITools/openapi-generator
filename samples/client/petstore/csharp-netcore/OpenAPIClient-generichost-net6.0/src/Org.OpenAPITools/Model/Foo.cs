@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Foo" /> class.
         /// </summary>
-        /// <param name="bar">bar (default to &quot;bar&quot;)</param> allVars
+        /// <param name="bar">bar (default to &quot;bar&quot;)</param>
         public Foo(string bar = "bar")
         {
             Bar = bar;
@@ -45,9 +45,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("bar")]
         public string Bar { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

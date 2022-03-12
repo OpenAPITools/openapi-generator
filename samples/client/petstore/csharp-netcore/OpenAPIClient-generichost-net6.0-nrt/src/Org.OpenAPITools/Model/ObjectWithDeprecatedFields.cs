@@ -34,10 +34,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectWithDeprecatedFields" /> class.
         /// </summary>
-        /// <param name="uuid">uuid</param> allVars
-        /// <param name="id">id</param> allVars
-        /// <param name="deprecatedRef">deprecatedRef</param> allVars
-        /// <param name="bars">bars</param> allVars
+        /// <param name="uuid">uuid</param>
+        /// <param name="id">id</param>
+        /// <param name="deprecatedRef">deprecatedRef</param>
+        /// <param name="bars">bars</param>
         public ObjectWithDeprecatedFields(string? uuid = default, decimal? id = default, DeprecatedObject? deprecatedRef = default, List<string>? bars = default)
         {
             Uuid = uuid;
@@ -51,9 +51,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("uuid")]
         public string? Uuid { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets Id
@@ -61,9 +58,6 @@ namespace Org.OpenAPITools.Model
         [JsonPropertyName("id")]
         [Obsolete]
         public decimal? Id { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets DeprecatedRef
@@ -71,9 +65,6 @@ namespace Org.OpenAPITools.Model
         [JsonPropertyName("deprecatedRef")]
         [Obsolete]
         public DeprecatedObject? DeprecatedRef { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets Bars
@@ -81,9 +72,6 @@ namespace Org.OpenAPITools.Model
         [JsonPropertyName("bars")]
         [Obsolete]
         public List<string>? Bars { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

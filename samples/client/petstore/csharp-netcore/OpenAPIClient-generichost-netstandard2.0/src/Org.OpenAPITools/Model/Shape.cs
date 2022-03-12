@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
-        /// <param name="quadrilateral">quadrilateral</param> oneOf
-        /// <param name="quadrilateralType">quadrilateralType (required)</param> allVars
+        /// <param name="quadrilateral">quadrilateral</param>
+        /// <param name="quadrilateralType">quadrilateralType (required)</param>
         public Shape(Quadrilateral quadrilateral, string quadrilateralType)
         {
             if (quadrilateralType == null)
@@ -47,8 +47,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
-        /// <param name="triangle">triangle</param> oneOf
-        /// <param name="quadrilateralType">quadrilateralType (required)</param> allVars
+        /// <param name="triangle">triangle</param>
+        /// <param name="quadrilateralType">quadrilateralType (required)</param>
         public Shape(Triangle triangle, string quadrilateralType)
         {
             if (quadrilateralType == null)
@@ -72,9 +72,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("quadrilateralType")]
         public string QuadrilateralType { get; set; }
-// required: true
-// isNullable: false
-// compulsory: true
 
         /// <summary>
         /// Gets or Sets additional properties

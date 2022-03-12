@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
-        /// <param name="returnProperty">returnProperty</param> allVars
+        /// <param name="returnProperty">returnProperty</param>
         public Return(int returnProperty = default)
         {
             ReturnProperty = returnProperty;
@@ -45,9 +45,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("return")]
         public int ReturnProperty { get; set; }
-// required: false
-// isNullable: false
-// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties
