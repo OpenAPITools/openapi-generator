@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="DeprecatedObject" /> class.
         /// </summary>
-        /// <param name="name">name</param>
+        /// <param name="name">name</param> allVars
         public DeprecatedObject(string? name = default)
         {
             Name = name;
@@ -45,6 +45,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("name")]
         public string? Name { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

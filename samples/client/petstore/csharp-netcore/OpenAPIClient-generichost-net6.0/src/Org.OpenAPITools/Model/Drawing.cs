@@ -34,11 +34,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Drawing" /> class.
         /// </summary>
-        /// <param name="mainShape">mainShape</param>
-        /// <param name="shapeOrNull">shapeOrNull</param>
-        /// <param name="nullableShape">nullableShape</param>
-        /// <param name="shapes">shapes</param>
-        public Drawing(Shape mainShape = default, ShapeOrNull shapeOrNull = default, NullableShape nullableShape = default, List<Shape> shapes = default)
+        /// <param name="mainShape">mainShape</param> allVars
+        /// <param name="shapeOrNull">shapeOrNull</param> allVars
+        /// <param name="nullableShape">nullableShape</param> allVars
+        /// <param name="shapes">shapes</param> allVars
+        public Drawing(Shape mainShape = default, ShapeOrNull shapeOrNull = default, NullableShape nullableShape = default, List<Shape> shapes = default) 
+: base()
         {
             MainShape = mainShape;
             ShapeOrNull = shapeOrNull;
@@ -51,24 +52,36 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("mainShape")]
         public Shape MainShape { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets ShapeOrNull
         /// </summary>
         [JsonPropertyName("shapeOrNull")]
         public ShapeOrNull ShapeOrNull { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets NullableShape
         /// </summary>
         [JsonPropertyName("nullableShape")]
         public NullableShape NullableShape { get; set; }
+// required: false
+// isNullable: true
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Shapes
         /// </summary>
         [JsonPropertyName("shapes")]
         public List<Shape> Shapes { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Returns the string presentation of the object

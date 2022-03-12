@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableShape" /> class.
         /// </summary>
-        /// <param name="quadrilateral">quadrilateral</param>
+        /// <param name="quadrilateral">quadrilateral</param> oneOf
         public NullableShape(Quadrilateral quadrilateral)
         {
             Quadrilateral = quadrilateral;
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableShape" /> class.
         /// </summary>
-        /// <param name="triangle">triangle</param>
+        /// <param name="triangle">triangle</param> oneOf
         public NullableShape(Triangle triangle)
         {
             Triangle = triangle;

@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="AppleReq" /> class.
         /// </summary>
-        /// <param name="cultivar">cultivar (required)</param>
-        /// <param name="mealy">mealy</param>
+        /// <param name="cultivar">cultivar (required)</param> allVars
+        /// <param name="mealy">mealy</param> allVars
         public AppleReq(string cultivar, bool mealy = default)
         {
             if (cultivar == null)
@@ -49,12 +49,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("cultivar")]
         public string Cultivar { get; set; }
+// required: true
+// isNullable: false
+// compulsory: true
 
         /// <summary>
         /// Gets or Sets Mealy
         /// </summary>
         [JsonPropertyName("mealy")]
         public bool Mealy { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Returns the string presentation of the object

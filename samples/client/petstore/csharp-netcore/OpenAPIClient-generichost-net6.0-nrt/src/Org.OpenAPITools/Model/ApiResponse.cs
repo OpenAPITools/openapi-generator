@@ -34,9 +34,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiResponse" /> class.
         /// </summary>
-        /// <param name="code">code</param>
-        /// <param name="type">type</param>
-        /// <param name="message">message</param>
+        /// <param name="code">code</param> allVars
+        /// <param name="type">type</param> allVars
+        /// <param name="message">message</param> allVars
         public ApiResponse(int? code = default, string? type = default, string? message = default)
         {
             Code = code;
@@ -49,18 +49,27 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("code")]
         public int? Code { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
         public string? Message { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

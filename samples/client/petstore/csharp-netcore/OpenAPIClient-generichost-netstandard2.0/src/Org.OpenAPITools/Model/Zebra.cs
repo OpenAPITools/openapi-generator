@@ -34,9 +34,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
         /// </summary>
-        /// <param name="className">className (required)</param>
-        /// <param name="type">type</param>
-        public Zebra(string className, TypeEnum type = default)
+        /// <param name="className">className (required)</param> allVars
+        /// <param name="type">type</param> allVars
+        public Zebra(string className, TypeEnum type = default) 
+: base()
         {
             if (className == null)
                 throw new ArgumentNullException("className is a required property for Zebra and cannot be null.");
@@ -74,12 +75,15 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("type")]
         public TypeEnum Type { get; set; }
-        
+
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
         public string ClassName { get; set; }
+// required: true
+// isNullable: false
+// compulsory: true
 
         /// <summary>
         /// Gets or Sets additional properties

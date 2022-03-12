@@ -34,22 +34,22 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatTest" /> class.
         /// </summary>
-        /// <param name="number">number (required)</param>
-        /// <param name="_byte">_byte (required)</param>
-        /// <param name="date">date (required)</param>
-        /// <param name="password">password (required)</param>
-        /// <param name="integer">integer</param>
-        /// <param name="int32">int32</param>
-        /// <param name="int64">int64</param>
-        /// <param name="_float">_float</param>
-        /// <param name="_double">_double</param>
-        /// <param name="_decimal">_decimal</param>
-        /// <param name="_string">_string</param>
-        /// <param name="binary">binary</param>
-        /// <param name="dateTime">dateTime</param>
-        /// <param name="uuid">uuid</param>
-        /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros.</param>
-        /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</param>
+        /// <param name="number">number (required)</param> allVars
+        /// <param name="_byte">_byte (required)</param> allVars
+        /// <param name="date">date (required)</param> allVars
+        /// <param name="password">password (required)</param> allVars
+        /// <param name="integer">integer</param> allVars
+        /// <param name="int32">int32</param> allVars
+        /// <param name="int64">int64</param> allVars
+        /// <param name="_float">_float</param> allVars
+        /// <param name="_double">_double</param> allVars
+        /// <param name="_decimal">_decimal</param> allVars
+        /// <param name="_string">_string</param> allVars
+        /// <param name="binary">binary</param> allVars
+        /// <param name="dateTime">dateTime</param> allVars
+        /// <param name="uuid">uuid</param> allVars
+        /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros.</param> allVars
+        /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</param> allVars
         public FormatTest(decimal number, byte[] _byte, DateTime date, string password, int integer = default, int int32 = default, long int64 = default, float _float = default, double _double = default, decimal _decimal = default, string _string = default, System.IO.Stream binary = default, DateTime dateTime = default, Guid uuid = default, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default)
         {
             if (number == null)
@@ -83,84 +83,126 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("number")]
         public decimal Number { get; set; }
+// required: true
+// isNullable: false
+// compulsory: true
 
         /// <summary>
         /// Gets or Sets Byte
         /// </summary>
         [JsonPropertyName("byte")]
         public byte[] Byte { get; set; }
+// required: true
+// isNullable: false
+// compulsory: true
 
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
+// required: true
+// isNullable: false
+// compulsory: true
 
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [JsonPropertyName("password")]
         public string Password { get; set; }
+// required: true
+// isNullable: false
+// compulsory: true
 
         /// <summary>
         /// Gets or Sets Integer
         /// </summary>
         [JsonPropertyName("integer")]
         public int Integer { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
         [JsonPropertyName("int32")]
         public int Int32 { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [JsonPropertyName("int64")]
         public long Int64 { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Float
         /// </summary>
         [JsonPropertyName("float")]
         public float Float { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
         [JsonPropertyName("double")]
         public double Double { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Decimal
         /// </summary>
         [JsonPropertyName("decimal")]
         public decimal Decimal { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets String
         /// </summary>
         [JsonPropertyName("string")]
         public string String { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Binary
         /// </summary>
         [JsonPropertyName("binary")]
         public System.IO.Stream Binary { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
         [JsonPropertyName("dateTime")]
         public DateTime DateTime { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         [JsonPropertyName("uuid")]
         public Guid Uuid { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// A string that is a 10 digit number. Can have leading zeros.
@@ -168,6 +210,9 @@ namespace Org.OpenAPITools.Model
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
         [JsonPropertyName("pattern_with_digits")]
         public string PatternWithDigits { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
@@ -175,6 +220,9 @@ namespace Org.OpenAPITools.Model
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [JsonPropertyName("pattern_with_digits_and_delimiter")]
         public string PatternWithDigitsAndDelimiter { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

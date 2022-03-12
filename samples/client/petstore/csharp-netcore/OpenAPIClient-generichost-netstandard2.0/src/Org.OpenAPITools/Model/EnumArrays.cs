@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
-        /// <param name="justSymbol">justSymbol</param>
-        /// <param name="arrayEnum">arrayEnum</param>
+        /// <param name="justSymbol">justSymbol</param> allVars
+        /// <param name="arrayEnum">arrayEnum</param> allVars
         public EnumArrays(JustSymbolEnum justSymbol = default, List<ArrayEnumEnum> arrayEnum = default)
         {
             JustSymbol = justSymbol;
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("just_symbol")]
         public JustSymbolEnum JustSymbol { get; set; }
-        
+
         /// <summary>
         /// Defines ArrayEnum
         /// </summary>
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("array_enum")]
         public List<ArrayEnumEnum> ArrayEnum { get; set; }
-        
+
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>

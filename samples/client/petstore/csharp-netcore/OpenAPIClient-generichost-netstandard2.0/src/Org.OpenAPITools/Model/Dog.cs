@@ -34,10 +34,11 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
-        /// <param name="dogAllOf">dogAllOf</param>
-        /// <param name="className">className (required)</param>
-        /// <param name="color">color (default to &quot;red&quot;)</param>
-        public Dog(DogAllOf dogAllOf, string className, string color = "red") : base(className, color)
+        /// <param name="dogAllOf">dogAllOf</param> allOf
+        /// <param name="className">className (required)</param> allVars
+        /// <param name="color">color (default to &quot;red&quot;)</param> allVars
+        public Dog(DogAllOf dogAllOf, string className, string color = "red") 
+: base(className, color)
         {
             DogAllOf = dogAllOf;
         }

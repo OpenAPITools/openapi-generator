@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>
-        /// <param name="_class">_class</param>
+        /// <param name="_class">_class</param> allVars
         public ClassModel(string _class = default)
         {
             Class = _class;
@@ -45,6 +45,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("_class")]
         public string Class { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

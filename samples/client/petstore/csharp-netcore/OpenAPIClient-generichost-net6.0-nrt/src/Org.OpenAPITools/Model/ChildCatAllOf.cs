@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCatAllOf" /> class.
         /// </summary>
-        /// <param name="name">name</param>
-        /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param>
+        /// <param name="name">name</param> allVars
+        /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param> allVars
         public ChildCatAllOf(string? name = default, PetTypeEnum? petType = PetTypeEnum.ChildCat)
         {
             Name = name;
@@ -60,12 +60,15 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("pet_type")]
         public PetTypeEnum? PetType { get; set; }
-        
+
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
         public string? Name { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

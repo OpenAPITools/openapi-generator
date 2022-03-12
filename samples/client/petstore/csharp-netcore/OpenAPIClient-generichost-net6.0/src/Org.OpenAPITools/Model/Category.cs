@@ -34,9 +34,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" /> class.
         /// </summary>
-        /// <param name="name">name (required) (default to &quot;default-name&quot;)</param>
-        /// <param name="id">id</param>
-        public Category(string name = "default-name", long id = default)
+        /// <param name="name">name (required) (default to &quot;default-name&quot;)</param> allVars
+        /// <param name="id">id</param> allVars
+        public Category(string name, long id = default)
         {
             if (name == null)
                 throw new ArgumentNullException("name is a required property for Category and cannot be null.");
@@ -49,12 +49,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("name")]
         public string Name { get; set; }
+// required: true
+// isNullable: false
+// compulsory: true
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
         public long Id { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -34,18 +34,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.
         /// </summary>
-        /// <param name="id">id</param>
-        /// <param name="username">username</param>
-        /// <param name="firstName">firstName</param>
-        /// <param name="lastName">lastName</param>
-        /// <param name="email">email</param>
-        /// <param name="password">password</param>
-        /// <param name="phone">phone</param>
-        /// <param name="userStatus">User Status</param>
-        /// <param name="objectWithNoDeclaredProps">test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.</param>
-        /// <param name="objectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</param>
-        /// <param name="anyTypeProp">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</param>
-        /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</param>
+        /// <param name="id">id</param> allVars
+        /// <param name="username">username</param> allVars
+        /// <param name="firstName">firstName</param> allVars
+        /// <param name="lastName">lastName</param> allVars
+        /// <param name="email">email</param> allVars
+        /// <param name="password">password</param> allVars
+        /// <param name="phone">phone</param> allVars
+        /// <param name="userStatus">User Status</param> allVars
+        /// <param name="objectWithNoDeclaredProps">test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.</param> allVars
+        /// <param name="objectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</param> allVars
+        /// <param name="anyTypeProp">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</param> allVars
+        /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</param> allVars
         public User(long? id = default, string? username = default, string? firstName = default, string? lastName = default, string? email = default, string? password = default, string? phone = default, int? userStatus = default, Object? objectWithNoDeclaredProps = default, Object? objectWithNoDeclaredPropsNullable = default, Object? anyTypeProp = default, Object? anyTypePropNullable = default)
         {
             Id = id;
@@ -67,42 +67,63 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("id")]
         public long? Id { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Username
         /// </summary>
         [JsonPropertyName("username")]
         public string? Username { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets FirstName
         /// </summary>
         [JsonPropertyName("firstName")]
         public string? FirstName { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets LastName
         /// </summary>
         [JsonPropertyName("lastName")]
         public string? LastName { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Email
         /// </summary>
         [JsonPropertyName("email")]
         public string? Email { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [JsonPropertyName("password")]
         public string? Password { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Phone
         /// </summary>
         [JsonPropertyName("phone")]
         public string? Phone { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// User Status
@@ -110,6 +131,9 @@ namespace Org.OpenAPITools.Model
         /// <value>User Status</value>
         [JsonPropertyName("userStatus")]
         public int? UserStatus { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.
@@ -117,6 +141,9 @@ namespace Org.OpenAPITools.Model
         /// <value>test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.</value>
         [JsonPropertyName("objectWithNoDeclaredProps")]
         public Object? ObjectWithNoDeclaredProps { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.
@@ -124,6 +151,9 @@ namespace Org.OpenAPITools.Model
         /// <value>test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</value>
         [JsonPropertyName("objectWithNoDeclaredPropsNullable")]
         public Object? ObjectWithNoDeclaredPropsNullable { get; set; }
+// required: false
+// isNullable: true
+// compulsory: false
 
         /// <summary>
         /// test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
@@ -131,6 +161,9 @@ namespace Org.OpenAPITools.Model
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</value>
         [JsonPropertyName("anyTypeProp")]
         public Object? AnyTypeProp { get; set; }
+// required: false
+// isNullable: true
+// compulsory: false
 
         /// <summary>
         /// test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.
@@ -138,6 +171,9 @@ namespace Org.OpenAPITools.Model
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</value>
         [JsonPropertyName("anyTypePropNullable")]
         public Object? AnyTypePropNullable { get; set; }
+// required: false
+// isNullable: true
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

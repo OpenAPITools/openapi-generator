@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
         /// </summary>
-        /// <param name="specialPropertyName">specialPropertyName</param>
-        /// <param name="specialModelNameProperty">specialModelNameProperty</param>
+        /// <param name="specialPropertyName">specialPropertyName</param> allVars
+        /// <param name="specialModelNameProperty">specialModelNameProperty</param> allVars
         public SpecialModelName(long specialPropertyName = default, string specialModelNameProperty = default)
         {
             SpecialPropertyName = specialPropertyName;
@@ -47,12 +47,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("$special[property.name]")]
         public long SpecialPropertyName { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets SpecialModelNameProperty
         /// </summary>
         [JsonPropertyName("_special_model.name_")]
         public string SpecialModelNameProperty { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

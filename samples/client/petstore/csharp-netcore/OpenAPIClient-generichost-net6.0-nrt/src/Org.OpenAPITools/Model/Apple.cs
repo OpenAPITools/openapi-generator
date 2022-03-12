@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Apple" /> class.
         /// </summary>
-        /// <param name="cultivar">cultivar</param>
-        /// <param name="origin">origin</param>
+        /// <param name="cultivar">cultivar</param> allVars
+        /// <param name="origin">origin</param> allVars
         public Apple(string? cultivar = default, string? origin = default)
         {
             Cultivar = cultivar;
@@ -47,12 +47,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("cultivar")]
         public string? Cultivar { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Origin
         /// </summary>
         [JsonPropertyName("origin")]
         public string? Origin { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

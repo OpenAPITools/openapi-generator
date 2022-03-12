@@ -34,12 +34,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// </summary>
-        /// <param name="id">id</param>
-        /// <param name="petId">petId</param>
-        /// <param name="quantity">quantity</param>
-        /// <param name="shipDate">shipDate</param>
-        /// <param name="status">Order Status</param>
-        /// <param name="complete">complete (default to false)</param>
+        /// <param name="id">id</param> allVars
+        /// <param name="petId">petId</param> allVars
+        /// <param name="quantity">quantity</param> allVars
+        /// <param name="shipDate">shipDate</param> allVars
+        /// <param name="status">Order Status</param> allVars
+        /// <param name="complete">complete (default to false)</param> allVars
         public Order(long? id = default, long? petId = default, int? quantity = default, DateTime? shipDate = default, StatusEnum? status = default, bool? complete = false)
         {
             Id = id;
@@ -82,36 +82,51 @@ namespace Org.OpenAPITools.Model
         /// <value>Order Status</value>
         [JsonPropertyName("status")]
         public StatusEnum? Status { get; set; }
-        
+
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
         public long? Id { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
         [JsonPropertyName("petId")]
         public long? PetId { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
         [JsonPropertyName("quantity")]
         public int? Quantity { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
         [JsonPropertyName("shipDate")]
         public DateTime? ShipDate { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
         [JsonPropertyName("complete")]
         public bool? Complete { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

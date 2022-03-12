@@ -34,9 +34,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="IsoscelesTriangle" /> class.
         /// </summary>
-        /// <param name="shapeInterface">shapeInterface</param>
-        /// <param name="triangleInterface">triangleInterface</param>
-        public IsoscelesTriangle(ShapeInterface shapeInterface, TriangleInterface triangleInterface)
+        /// <param name="shapeInterface">shapeInterface</param> allOf
+        /// <param name="triangleInterface">triangleInterface</param> allOf
+        public IsoscelesTriangle(ShapeInterface? shapeInterface, TriangleInterface? triangleInterface)
         {
             ShapeInterface = shapeInterface;
             TriangleInterface = triangleInterface;

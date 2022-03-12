@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Animal" /> class.
         /// </summary>
-        /// <param name="className">className (required)</param>
-        /// <param name="color">color (default to &quot;red&quot;)</param>
+        /// <param name="className">className (required)</param> allVars
+        /// <param name="color">color (default to &quot;red&quot;)</param> allVars
         public Animal(string className, string color = "red")
         {
             if (className == null)
@@ -49,12 +49,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("className")]
         public string ClassName { get; set; }
+// required: true
+// isNullable: false
+// compulsory: true
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
         public string Color { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

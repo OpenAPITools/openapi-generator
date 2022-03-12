@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
-        /// <param name="basquePig">basquePig</param>
+        /// <param name="basquePig">basquePig</param> oneOf
         public Pig(BasquePig? basquePig)
         {
             BasquePig = basquePig;
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
-        /// <param name="danishPig">danishPig</param>
+        /// <param name="danishPig">danishPig</param> oneOf
         public Pig(DanishPig? danishPig)
         {
             DanishPig = danishPig;

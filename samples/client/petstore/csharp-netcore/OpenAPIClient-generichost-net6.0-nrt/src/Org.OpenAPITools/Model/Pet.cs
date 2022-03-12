@@ -34,12 +34,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
-        /// <param name="name">name (required)</param>
-        /// <param name="photoUrls">photoUrls (required)</param>
-        /// <param name="id">id</param>
-        /// <param name="category">category</param>
-        /// <param name="tags">tags</param>
-        /// <param name="status">pet status in the store</param>
+        /// <param name="name">name (required)</param> allVars
+        /// <param name="photoUrls">photoUrls (required)</param> allVars
+        /// <param name="id">id</param> allVars
+        /// <param name="category">category</param> allVars
+        /// <param name="tags">tags</param> allVars
+        /// <param name="status">pet status in the store</param> allVars
         public Pet(string name, List<string> photoUrls, long? id = default, Category? category = default, List<Tag>? tags = default, StatusEnum? status = default)
         {
             if (name == null)
@@ -86,36 +86,51 @@ namespace Org.OpenAPITools.Model
         /// <value>pet status in the store</value>
         [JsonPropertyName("status")]
         public StatusEnum? Status { get; set; }
-        
+
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
         public string Name { get; set; }
+// required: true
+// isNullable: false
+// compulsory: true
 
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
         [JsonPropertyName("photoUrls")]
         public List<string> PhotoUrls { get; set; }
+// required: true
+// isNullable: false
+// compulsory: true
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
         public long? Id { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
         [JsonPropertyName("category")]
         public Category? Category { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Tags
         /// </summary>
         [JsonPropertyName("tags")]
         public List<Tag>? Tags { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

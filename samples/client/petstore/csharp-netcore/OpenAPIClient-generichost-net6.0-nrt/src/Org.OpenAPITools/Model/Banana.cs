@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Banana" /> class.
         /// </summary>
-        /// <param name="lengthCm">lengthCm</param>
+        /// <param name="lengthCm">lengthCm</param> allVars
         public Banana(decimal? lengthCm = default)
         {
             LengthCm = lengthCm;
@@ -45,6 +45,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("lengthCm")]
         public decimal? LengthCm { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

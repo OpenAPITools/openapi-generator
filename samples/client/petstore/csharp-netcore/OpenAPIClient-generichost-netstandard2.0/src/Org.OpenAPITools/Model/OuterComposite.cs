@@ -34,9 +34,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="OuterComposite" /> class.
         /// </summary>
-        /// <param name="myNumber">myNumber</param>
-        /// <param name="myString">myString</param>
-        /// <param name="myBoolean">myBoolean</param>
+        /// <param name="myNumber">myNumber</param> allVars
+        /// <param name="myString">myString</param> allVars
+        /// <param name="myBoolean">myBoolean</param> allVars
         public OuterComposite(decimal myNumber = default, string myString = default, bool myBoolean = default)
         {
             MyNumber = myNumber;
@@ -49,18 +49,27 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("my_number")]
         public decimal MyNumber { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets MyString
         /// </summary>
         [JsonPropertyName("my_string")]
         public string MyString { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets MyBoolean
         /// </summary>
         [JsonPropertyName("my_boolean")]
         public bool MyBoolean { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

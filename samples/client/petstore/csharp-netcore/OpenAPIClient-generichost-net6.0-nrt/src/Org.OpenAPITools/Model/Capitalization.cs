@@ -34,12 +34,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Capitalization" /> class.
         /// </summary>
-        /// <param name="smallCamel">smallCamel</param>
-        /// <param name="capitalCamel">capitalCamel</param>
-        /// <param name="smallSnake">smallSnake</param>
-        /// <param name="capitalSnake">capitalSnake</param>
-        /// <param name="sCAETHFlowPoints">sCAETHFlowPoints</param>
-        /// <param name="aTTNAME">Name of the pet </param>
+        /// <param name="smallCamel">smallCamel</param> allVars
+        /// <param name="capitalCamel">capitalCamel</param> allVars
+        /// <param name="smallSnake">smallSnake</param> allVars
+        /// <param name="capitalSnake">capitalSnake</param> allVars
+        /// <param name="sCAETHFlowPoints">sCAETHFlowPoints</param> allVars
+        /// <param name="aTTNAME">Name of the pet </param> allVars
         public Capitalization(string? smallCamel = default, string? capitalCamel = default, string? smallSnake = default, string? capitalSnake = default, string? sCAETHFlowPoints = default, string? aTTNAME = default)
         {
             SmallCamel = smallCamel;
@@ -55,30 +55,45 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("smallCamel")]
         public string? SmallCamel { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets CapitalCamel
         /// </summary>
         [JsonPropertyName("CapitalCamel")]
         public string? CapitalCamel { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets SmallSnake
         /// </summary>
         [JsonPropertyName("small_Snake")]
         public string? SmallSnake { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets CapitalSnake
         /// </summary>
         [JsonPropertyName("Capital_Snake")]
         public string? CapitalSnake { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets SCAETHFlowPoints
         /// </summary>
         [JsonPropertyName("SCA_ETH_Flow_Points")]
         public string? SCAETHFlowPoints { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Name of the pet 
@@ -86,6 +101,9 @@ namespace Org.OpenAPITools.Model
         /// <value>Name of the pet </value>
         [JsonPropertyName("ATT_NAME")]
         public string? ATT_NAME { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Tag" /> class.
         /// </summary>
-        /// <param name="id">id</param>
-        /// <param name="name">name</param>
+        /// <param name="id">id</param> allVars
+        /// <param name="name">name</param> allVars
         public Tag(long id = default, string name = default)
         {
             Id = id;
@@ -47,12 +47,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("id")]
         public long Id { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
         public string Name { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

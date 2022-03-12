@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="HealthCheckResult" /> class.
         /// </summary>
-        /// <param name="nullableMessage">nullableMessage</param>
+        /// <param name="nullableMessage">nullableMessage</param> allVars
         public HealthCheckResult(string? nullableMessage = default)
         {
             NullableMessage = nullableMessage;
@@ -45,6 +45,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("NullableMessage")]
         public string? NullableMessage { get; set; }
+// required: false
+// isNullable: true
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

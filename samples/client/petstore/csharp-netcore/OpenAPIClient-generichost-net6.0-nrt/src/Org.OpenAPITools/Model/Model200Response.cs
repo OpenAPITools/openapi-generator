@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
         /// </summary>
-        /// <param name="name">name</param>
-        /// <param name="_class">_class</param>
+        /// <param name="name">name</param> allVars
+        /// <param name="_class">_class</param> allVars
         public Model200Response(int? name = default, string? _class = default)
         {
             Name = name;
@@ -47,12 +47,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("name")]
         public int? Name { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets Class
         /// </summary>
         [JsonPropertyName("class")]
         public string? Class { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

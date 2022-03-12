@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayOfArrayOfNumberOnly" /> class.
         /// </summary>
-        /// <param name="arrayArrayNumber">arrayArrayNumber</param>
+        /// <param name="arrayArrayNumber">arrayArrayNumber</param> allVars
         public ArrayOfArrayOfNumberOnly(List<List<decimal>>? arrayArrayNumber = default)
         {
             ArrayArrayNumber = arrayArrayNumber;
@@ -45,6 +45,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("ArrayArrayNumber")]
         public List<List<decimal>>? ArrayArrayNumber { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

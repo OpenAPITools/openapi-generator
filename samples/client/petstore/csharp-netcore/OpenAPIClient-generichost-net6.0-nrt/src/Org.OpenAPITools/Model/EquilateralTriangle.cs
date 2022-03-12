@@ -34,9 +34,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EquilateralTriangle" /> class.
         /// </summary>
-        /// <param name="shapeInterface">shapeInterface</param>
-        /// <param name="triangleInterface">triangleInterface</param>
-        public EquilateralTriangle(ShapeInterface shapeInterface, TriangleInterface triangleInterface)
+        /// <param name="shapeInterface">shapeInterface</param> allOf
+        /// <param name="triangleInterface">triangleInterface</param> allOf
+        public EquilateralTriangle(ShapeInterface? shapeInterface, TriangleInterface? triangleInterface)
         {
             ShapeInterface = shapeInterface;
             TriangleInterface = triangleInterface;

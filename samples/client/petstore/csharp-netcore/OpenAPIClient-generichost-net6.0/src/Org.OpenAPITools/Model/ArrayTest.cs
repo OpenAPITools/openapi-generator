@@ -34,9 +34,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayTest" /> class.
         /// </summary>
-        /// <param name="arrayOfString">arrayOfString</param>
-        /// <param name="arrayArrayOfInteger">arrayArrayOfInteger</param>
-        /// <param name="arrayArrayOfModel">arrayArrayOfModel</param>
+        /// <param name="arrayOfString">arrayOfString</param> allVars
+        /// <param name="arrayArrayOfInteger">arrayArrayOfInteger</param> allVars
+        /// <param name="arrayArrayOfModel">arrayArrayOfModel</param> allVars
         public ArrayTest(List<string> arrayOfString = default, List<List<long>> arrayArrayOfInteger = default, List<List<ReadOnlyFirst>> arrayArrayOfModel = default)
         {
             ArrayOfString = arrayOfString;
@@ -49,18 +49,27 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("array_of_string")]
         public List<string> ArrayOfString { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
         [JsonPropertyName("array_array_of_integer")]
         public List<List<long>> ArrayArrayOfInteger { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfModel
         /// </summary>
         [JsonPropertyName("array_array_of_model")]
         public List<List<ReadOnlyFirst>> ArrayArrayOfModel { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

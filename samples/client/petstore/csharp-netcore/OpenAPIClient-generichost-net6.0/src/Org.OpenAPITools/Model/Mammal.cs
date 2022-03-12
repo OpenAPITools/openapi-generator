@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
-        /// <param name="pig">pig</param>
+        /// <param name="pig">pig</param> oneOf
         public Mammal(Pig pig)
         {
             Pig = pig;
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
-        /// <param name="whale">whale</param>
+        /// <param name="whale">whale</param> oneOf
         public Mammal(Whale whale)
         {
             Whale = whale;
@@ -52,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
-        /// <param name="zebra">zebra</param>
+        /// <param name="zebra">zebra</param> oneOf
         public Mammal(Zebra zebra)
         {
             Zebra = zebra;

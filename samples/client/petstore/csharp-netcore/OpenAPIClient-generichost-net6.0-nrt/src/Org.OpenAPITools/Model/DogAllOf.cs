@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="DogAllOf" /> class.
         /// </summary>
-        /// <param name="breed">breed</param>
+        /// <param name="breed">breed</param> allVars
         public DogAllOf(string? breed = default)
         {
             Breed = breed;
@@ -45,6 +45,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("breed")]
         public string? Breed { get; set; }
+// required: false
+// isNullable: false
+// compulsory: false
 
         /// <summary>
         /// Gets or Sets additional properties

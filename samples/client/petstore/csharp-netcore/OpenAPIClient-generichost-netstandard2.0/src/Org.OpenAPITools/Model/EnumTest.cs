@@ -34,15 +34,15 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
-        /// <param name="enumStringRequired">enumStringRequired (required)</param>
-        /// <param name="enumString">enumString</param>
-        /// <param name="enumInteger">enumInteger</param>
-        /// <param name="enumIntegerOnly">enumIntegerOnly</param>
-        /// <param name="enumNumber">enumNumber</param>
-        /// <param name="outerEnum">outerEnum</param>
-        /// <param name="outerEnumInteger">outerEnumInteger</param>
-        /// <param name="outerEnumDefaultValue">outerEnumDefaultValue</param>
-        /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue</param>
+        /// <param name="enumStringRequired">enumStringRequired (required)</param> allVars
+        /// <param name="enumString">enumString</param> allVars
+        /// <param name="enumInteger">enumInteger</param> allVars
+        /// <param name="enumIntegerOnly">enumIntegerOnly</param> allVars
+        /// <param name="enumNumber">enumNumber</param> allVars
+        /// <param name="outerEnum">outerEnum</param> allVars
+        /// <param name="outerEnumInteger">outerEnumInteger</param> allVars
+        /// <param name="outerEnumDefaultValue">outerEnumDefaultValue</param> allVars
+        /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue</param> allVars
         public EnumTest(EnumStringRequiredEnum enumStringRequired, EnumStringEnum enumString = default, EnumIntegerEnum enumInteger = default, EnumIntegerOnlyEnum enumIntegerOnly = default, EnumNumberEnum enumNumber = default, OuterEnum outerEnum = default, OuterEnumInteger outerEnumInteger = default, OuterEnumDefaultValue outerEnumDefaultValue = default, OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = default)
         {
             if (enumStringRequired == null)
@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("enum_string_required")]
         public EnumStringRequiredEnum EnumStringRequired { get; set; }
-        
+
         /// <summary>
         /// Defines EnumString
         /// </summary>
@@ -119,7 +119,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("enum_string")]
         public EnumStringEnum EnumString { get; set; }
-        
+
         /// <summary>
         /// Defines EnumInteger
         /// </summary>
@@ -142,7 +142,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("enum_integer")]
         public EnumIntegerEnum EnumInteger { get; set; }
-        
+
         /// <summary>
         /// Defines EnumIntegerOnly
         /// </summary>
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("enum_integer_only")]
         public EnumIntegerOnlyEnum EnumIntegerOnly { get; set; }
-        
+
         /// <summary>
         /// Defines EnumNumber
         /// </summary>
@@ -190,31 +190,31 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("enum_number")]
         public EnumNumberEnum EnumNumber { get; set; }
-        
+
         /// <summary>
         /// Gets or Sets OuterEnum
         /// </summary>
         [JsonPropertyName("outerEnum")]
         public OuterEnum OuterEnum { get; set; }
-        
+
         /// <summary>
         /// Gets or Sets OuterEnumInteger
         /// </summary>
         [JsonPropertyName("outerEnumInteger")]
         public OuterEnumInteger OuterEnumInteger { get; set; }
-        
+
         /// <summary>
         /// Gets or Sets OuterEnumDefaultValue
         /// </summary>
         [JsonPropertyName("outerEnumDefaultValue")]
         public OuterEnumDefaultValue OuterEnumDefaultValue { get; set; }
-        
+
         /// <summary>
         /// Gets or Sets OuterEnumIntegerDefaultValue
         /// </summary>
         [JsonPropertyName("outerEnumIntegerDefaultValue")]
         public OuterEnumIntegerDefaultValue OuterEnumIntegerDefaultValue { get; set; }
-        
+
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>

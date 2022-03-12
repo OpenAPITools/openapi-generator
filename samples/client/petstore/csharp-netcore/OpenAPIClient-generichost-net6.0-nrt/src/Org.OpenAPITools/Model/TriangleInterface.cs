@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="TriangleInterface" /> class.
         /// </summary>
-        /// <param name="triangleType">triangleType (required)</param>
+        /// <param name="triangleType">triangleType (required)</param> allVars
         public TriangleInterface(string triangleType)
         {
             if (triangleType == null)
@@ -47,6 +47,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("triangleType")]
         public string TriangleType { get; set; }
+// required: true
+// isNullable: false
+// compulsory: true
 
         /// <summary>
         /// Gets or Sets additional properties
