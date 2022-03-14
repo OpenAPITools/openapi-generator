@@ -18,7 +18,7 @@ import (
 // OneOfPrimitiveType - struct for OneOfPrimitiveType
 type OneOfPrimitiveType struct {
 	OneOfPrimitiveTypeChild *OneOfPrimitiveTypeChild
-	[]string *[]string
+	ArrayOfString *[]string
 	Int32 *int32
 }
 
@@ -30,9 +30,9 @@ func OneOfPrimitiveTypeChildAsOneOfPrimitiveType(v *OneOfPrimitiveTypeChild) One
 }
 
 // []stringAsOneOfPrimitiveType is a convenience function that returns []string wrapped in OneOfPrimitiveType
-func []stringAsOneOfPrimitiveType(v *[]string) OneOfPrimitiveType {
+func ArrayOfStringAsOneOfPrimitiveType(v *[]string) OneOfPrimitiveType {
 	return OneOfPrimitiveType{
-		[]string: v,
+		ArrayOfString: v,
 	}
 }
 
@@ -61,17 +61,17 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 		dst.OneOfPrimitiveTypeChild = nil
 	}
 
-	// try to unmarshal data into []string
-	err = newStrictDecoder(data).Decode(&dst.[]string)
+	// try to unmarshal data into ArrayOfString
+	err = newStrictDecoder(data).Decode(&dst.ArrayOfString)
 	if err == nil {
-		json[]string, _ := json.Marshal(dst.[]string)
-		if string(json[]string) == "{}" { // empty struct
-			dst.[]string = nil
+		jsonArrayOfString, _ := json.Marshal(dst.ArrayOfString)
+		if string(jsonArrayOfString) == "{}" { // empty struct
+			dst.ArrayOfString = nil
 		} else {
 			match++
 		}
 	} else {
-		dst.[]string = nil
+		dst.ArrayOfString = nil
 	}
 
 	// try to unmarshal data into Int32
@@ -90,7 +90,7 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 	if match > 1 { // more than 1 match
 		// reset to nil
 		dst.OneOfPrimitiveTypeChild = nil
-		dst.[]string = nil
+		dst.ArrayOfString = nil
 		dst.Int32 = nil
 
 		return fmt.Errorf("Data matches more than one schema in oneOf(OneOfPrimitiveType)")
@@ -107,8 +107,8 @@ func (src OneOfPrimitiveType) MarshalJSON() ([]byte, error) {
 		return json.Marshal(&src.OneOfPrimitiveTypeChild)
 	}
 
-	if src.[]string != nil {
-		return json.Marshal(&src.[]string)
+	if src.ArrayOfString != nil {
+		return json.Marshal(&src.ArrayOfString)
 	}
 
 	if src.Int32 != nil {
@@ -127,8 +127,8 @@ func (obj *OneOfPrimitiveType) GetActualInstance() (interface{}) {
 		return obj.OneOfPrimitiveTypeChild
 	}
 
-	if obj.[]string != nil {
-		return obj.[]string
+	if obj.ArrayOfString != nil {
+		return obj.ArrayOfString
 	}
 
 	if obj.Int32 != nil {

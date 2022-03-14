@@ -250,15 +250,15 @@ public class GoClientCodegen extends AbstractGoCodegen {
         }
 
         // add lambda for mustache templates to handle oneOf/anyOf naming
-        // e.g. 
+        // e.g. []string => ArrayOfString
         additionalProperties.put("lambda.type-to-name", new Mustache.Lambda() {
             @Override
             public void execute(Template.Fragment fragment, Writer writer) throws IOException {
                 String content = fragment.execute();
-                content = content.trim().replaceAll("[]", "array_of");
-                content = content.trim().replaceAll("map[", "map_of");
-                content = content.trim().replaceAll("]", "");
-                writer.write(content);
+                content = content.trim().replace("[]", "array_of_");
+                content = content.trim().replace("[", "map_of_");
+                content = content.trim().replace("]", "");
+                writer.write(camelize(content));
             }
         });
 
