@@ -18,6 +18,7 @@ import (
 // OneOfPrimitiveType - struct for OneOfPrimitiveType
 type OneOfPrimitiveType struct {
 	OneOfPrimitiveTypeChild *OneOfPrimitiveTypeChild
+	[]string *[]string
 	Int32 *int32
 }
 
@@ -25,6 +26,13 @@ type OneOfPrimitiveType struct {
 func OneOfPrimitiveTypeChildAsOneOfPrimitiveType(v *OneOfPrimitiveTypeChild) OneOfPrimitiveType {
 	return OneOfPrimitiveType{
 		OneOfPrimitiveTypeChild: v,
+	}
+}
+
+// []stringAsOneOfPrimitiveType is a convenience function that returns []string wrapped in OneOfPrimitiveType
+func []stringAsOneOfPrimitiveType(v *[]string) OneOfPrimitiveType {
+	return OneOfPrimitiveType{
+		[]string: v,
 	}
 }
 
@@ -53,6 +61,19 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 		dst.OneOfPrimitiveTypeChild = nil
 	}
 
+	// try to unmarshal data into []string
+	err = newStrictDecoder(data).Decode(&dst.[]string)
+	if err == nil {
+		json[]string, _ := json.Marshal(dst.[]string)
+		if string(json[]string) == "{}" { // empty struct
+			dst.[]string = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.[]string = nil
+	}
+
 	// try to unmarshal data into Int32
 	err = newStrictDecoder(data).Decode(&dst.Int32)
 	if err == nil {
@@ -69,6 +90,7 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 	if match > 1 { // more than 1 match
 		// reset to nil
 		dst.OneOfPrimitiveTypeChild = nil
+		dst.[]string = nil
 		dst.Int32 = nil
 
 		return fmt.Errorf("Data matches more than one schema in oneOf(OneOfPrimitiveType)")
@@ -85,6 +107,10 @@ func (src OneOfPrimitiveType) MarshalJSON() ([]byte, error) {
 		return json.Marshal(&src.OneOfPrimitiveTypeChild)
 	}
 
+	if src.[]string != nil {
+		return json.Marshal(&src.[]string)
+	}
+
 	if src.Int32 != nil {
 		return json.Marshal(&src.Int32)
 	}
@@ -99,6 +125,10 @@ func (obj *OneOfPrimitiveType) GetActualInstance() (interface{}) {
 	}
 	if obj.OneOfPrimitiveTypeChild != nil {
 		return obj.OneOfPrimitiveTypeChild
+	}
+
+	if obj.[]string != nil {
+		return obj.[]string
 	}
 
 	if obj.Int32 != nil {
