@@ -331,7 +331,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      *
      * @return boolean
      */
-    public function offsetExists($offset): boolean
+    public function offsetExists($offset): bool
     {
         return isset($this->container[$offset]);
     }

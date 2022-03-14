@@ -238,7 +238,7 @@ class OuterObjectWithEnumProperty implements ModelInterface, ArrayAccess, \JsonS
      *
      * @return boolean
      */
-    public function offsetExists($offset): boolean
+    public function offsetExists($offset): bool
     {
         return isset($this->container[$offset]);
     }

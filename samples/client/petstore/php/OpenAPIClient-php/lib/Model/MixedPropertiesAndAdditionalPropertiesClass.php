@@ -295,7 +295,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      *
      * @return boolean
      */
-    public function offsetExists($offset): boolean
+    public function offsetExists($offset): bool
     {
         return isset($this->container[$offset]);
     }

@@ -310,7 +310,7 @@ class ArrayTest implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @return boolean
      */
-    public function offsetExists($offset): boolean
+    public function offsetExists($offset): bool
     {
         return isset($this->container[$offset]);
     }
