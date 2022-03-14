@@ -3380,14 +3380,14 @@ public class DefaultCodegenTest {
                 "ComposedHasAllofOptPropHasPropertiesNoRequired",
                 "ComposedHasAllofOptPropNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
                 "ObjectHasPropertiesHasRequired", // False because this is extracted into another component and is a ref
-                "ComposedNoAllofPropsHasPropertiesHasRequired", // False because this is extracted into another component and is a ref
-                "ComposedHasAllofOptPropHasPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
                 "ComposedHasAllofReqPropNoPropertiesNoRequired",
                 "ComposedHasAllofReqPropHasPropertiesNoRequired",
-                "ComposedHasAllofReqPropNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
-                "ComposedHasAllofReqPropHasPropertiesHasRequired"  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofReqPropNoPropertiesHasRequired"  // TODO: hasRequired should be true, fix this
         ));
         HashSet<String> modelNamesWithRequired = new HashSet(Arrays.asList(
+                "ComposedNoAllofPropsHasPropertiesHasRequired",
+                "ComposedHasAllofOptPropHasPropertiesHasRequired",
+                "ComposedHasAllofReqPropHasPropertiesHasRequired"
         ));
         for (CodegenProperty var : cm.getVars()) {
             boolean hasRequired = var.getHasRequired();
@@ -3702,7 +3702,7 @@ public class DefaultCodegenTest {
         modelName = "ObjectWithComposedProperties";
         CodegenModel m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
         /* TODO inline allOf schema are created as separate models and the following assumptions that
-           the properties are non-model are no longer valid and need to be revised 
+           the properties are non-model are no longer valid and need to be revised
         assertTrue(m.vars.get(0).getIsMap());
         assertTrue(m.vars.get(1).getIsNumber());
         assertTrue(m.vars.get(2).getIsUnboundedInteger());

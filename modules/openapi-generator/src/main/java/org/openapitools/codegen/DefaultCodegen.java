@@ -6876,23 +6876,21 @@ public class DefaultCodegen implements CodegenConfig {
         if (!"object".equals(schema.getType())) {
             return;
         }
-        if (schema instanceof ObjectSchema) {
-            ObjectSchema objSchema = (ObjectSchema) schema;
-            HashSet<String> requiredVars = new HashSet<>();
-            if (objSchema.getRequired() != null) {
-                requiredVars.addAll(objSchema.getRequired());
-            }
-            if (objSchema.getProperties() != null && objSchema.getProperties().size() > 0) {
-                property.setHasVars(true);
-            }
-            addVars(property, property.getVars(), objSchema.getProperties(), requiredVars);
-            List<CodegenProperty> requireCpVars = property.getVars()
-                    .stream()
-                    .filter(p -> Boolean.TRUE.equals(p.required)).collect(Collectors.toList());
-            property.setRequiredVars(requireCpVars);
-            if (property.getRequiredVars() != null && property.getRequiredVars().size() > 0) {
-                property.setHasRequired(true);
-            }
+
+        HashSet<String> requiredVars = new HashSet<>();
+        if (schema.getRequired() != null) {
+            requiredVars.addAll(schema.getRequired());
+        }
+        if (schema.getProperties() != null && schema.getProperties().size() > 0) {
+            property.setHasVars(true);
+        }
+        addVars(property, property.getVars(), schema.getProperties(), requiredVars);
+        List<CodegenProperty> requireCpVars = property.getVars()
+                .stream()
+                .filter(p -> Boolean.TRUE.equals(p.required)).collect(Collectors.toList());
+        property.setRequiredVars(requireCpVars);
+        if (property.getRequiredVars() != null && property.getRequiredVars().size() > 0) {
+            property.setHasRequired(true);
         }
     }
 

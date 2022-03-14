@@ -44,6 +44,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -550,7 +551,7 @@ public class JavaClientCodegenTest {
         clientOptInput.config(new JavaClientCodegen());
 
         defaultGenerator.opts(clientOptInput);
-        final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
+        final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths(), Lists.newArrayList()).get("Pet");
 
         // Verify GET only has 'read' scope
         final CodegenOperation getCodegenOperation = codegenOperations.stream().filter(it -> it.httpMethod.equals("GET")).collect(Collectors.toList()).get(0);
@@ -608,7 +609,7 @@ public class JavaClientCodegenTest {
         clientOptInput.config(new JavaClientCodegen());
 
         defaultGenerator.opts(clientOptInput);
-        final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
+        final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths(), Lists.newArrayList()).get("Pet");
 
         final CodegenOperation getCodegenOperation = codegenOperations.stream().filter(it -> it.httpMethod.equals("GET")).collect(Collectors.toList()).get(0);
         assertTrue(getCodegenOperation.hasAuthMethods);
@@ -951,7 +952,7 @@ public class JavaClientCodegenTest {
      *
      * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
      * We will contact the contributor of the following test to see if the fix will break their use cases and
-     * how we can fix it accordingly. 
+     * how we can fix it accordingly.
      */
     @Test
     @Ignore
@@ -1086,7 +1087,7 @@ public class JavaClientCodegenTest {
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
         defaultGenerator.opts(clientOptInput);
 
-        final Map<String, List<CodegenOperation>> paths = defaultGenerator.processPaths(openAPI.getPaths());
+        final Map<String, List<CodegenOperation>> paths = defaultGenerator.processPaths(openAPI.getPaths(), Lists.newArrayList());
         final List<CodegenOperation> codegenOperations = paths.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
 
         final CodegenOperation getWithBasicAuthAndOauth = getByOperationId(codegenOperations, "getWithBasicAuthAndOauth");
@@ -1227,7 +1228,7 @@ public class JavaClientCodegenTest {
         final Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
         TestUtils.assertFileContains(defaultApi, "value instanceof Map");
     }
-    
+
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/8352
      */
@@ -1568,5 +1569,40 @@ public class JavaClientCodegenTest {
                     .hasParameter("xNonNullHeaderParameter")
                     .assertParameterAnnotations()
                     .containsWithName("NotNull");
+    }
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/907
+     */
+    @Test
+    public void testExpandedQueryParamWithRef() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue907.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 38);
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
+                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"integerProp\", buildQuery.getIntegerProp()));",
+                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"stringProp\", buildQuery.getStringProp()));",
+                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"booleanProp\", buildQuery.getBooleanProp()));",
+                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"arrayProp\", buildQuery.getArrayProp()));",
+                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"objectProp\", buildQuery.getObjectProp()));",
+                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"numberProp\", buildQuery.getNumberProp()));"
+        );
     }
 }

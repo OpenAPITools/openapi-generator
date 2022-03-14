@@ -1,0 +1,59 @@
+openapi: 3.0.3
+info:
+  title: Issue 907 - ref query params
+  description: "Ref query params"
+  version: "1.0.0"
+servers:
+  - url: localhost:8080
+paths:
+  /api:
+    get:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: BuildQuery
+          explode: true
+          schema:
+            $ref: '#/components/schemas/BuildQuery'
+      operationId: GetBuild
+      responses:
+        '200':
+          description: Some description.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SomeReturnValue'
+components:
+  schemas:
+    SomeReturnValue:
+      type: object
+      required:
+        - someValue
+      properties:
+        someValue:
+          type: string
+    BuildQuery:
+      type: object
+      properties:
+        integerProp:
+          type: integer
+          minimum: 0
+        stringProp:
+          type: string
+          minLength: 1
+        booleanProp:
+          type: boolean
+        arrayProp:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        objectProp:
+          type: object
+        numberProp:
+          type: number
+          minimum: 0

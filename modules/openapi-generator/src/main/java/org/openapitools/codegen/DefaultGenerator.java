@@ -25,20 +25,33 @@ import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.BooleanSchema;
+import io.swagger.v3.oas.models.media.DateSchema;
+import io.swagger.v3.oas.models.media.DateTimeSchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.security.*;
+import io.swagger.v3.oas.models.parameters.QueryParameter;
+import io.swagger.v3.oas.models.security.OAuthFlow;
+import io.swagger.v3.oas.models.security.OAuthFlows;
+import io.swagger.v3.oas.models.security.Scopes;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.comparator.PathFileComparator;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.api.TemplateDefinition;
+import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.api.TemplateProcessor;
-import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
-import org.openapitools.codegen.api.TemplateFileType;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.languages.PythonExperimentalClientCodegen;
@@ -61,12 +74,28 @@ import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -550,7 +579,7 @@ public class DefaultGenerator implements Generator {
             LOGGER.info("Skipping generation of APIs.");
             return;
         }
-        Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
+        Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths(), allModels);
         Set<String> apisToGenerate = null;
         String apiNames = GlobalSettings.getProperty("apis");
         if (apiNames != null && !apiNames.isEmpty()) {
@@ -808,9 +837,9 @@ public class DefaultGenerator implements Generator {
      * <p>
      * Examples:
      * <p>
-     *   boolean hasOAuthMethods
+     * boolean hasOAuthMethods
      * <p>
-     *   List&lt;CodegenSecurity&gt; oauthMethods
+     * List&lt;CodegenSecurity&gt; oauthMethods
      *
      * @param bundle the map which the booleans and collections will be added
      */
@@ -1046,7 +1075,7 @@ public class DefaultGenerator implements Generator {
         }
     }
 
-    public Map<String, List<CodegenOperation>> processPaths(Paths paths) {
+    public Map<String, List<CodegenOperation>> processPaths(Paths paths, List<ModelMap> allModels) {
         Map<String, List<CodegenOperation>> ops = new TreeMap<>();
         // when input file is not valid and doesn't contain any paths
         if (paths == null) {
@@ -1055,19 +1084,19 @@ public class DefaultGenerator implements Generator {
         for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
             String resourcePath = pathsEntry.getKey();
             PathItem path = pathsEntry.getValue();
-            processOperation(resourcePath, "get", path.getGet(), ops, path);
-            processOperation(resourcePath, "head", path.getHead(), ops, path);
-            processOperation(resourcePath, "put", path.getPut(), ops, path);
-            processOperation(resourcePath, "post", path.getPost(), ops, path);
-            processOperation(resourcePath, "delete", path.getDelete(), ops, path);
-            processOperation(resourcePath, "patch", path.getPatch(), ops, path);
-            processOperation(resourcePath, "options", path.getOptions(), ops, path);
-            processOperation(resourcePath, "trace", path.getTrace(), ops, path);
+            processOperation(resourcePath, "get", path.getGet(), ops, path, allModels);
+            processOperation(resourcePath, "head", path.getHead(), ops, path, allModels);
+            processOperation(resourcePath, "put", path.getPut(), ops, path, allModels);
+            processOperation(resourcePath, "post", path.getPost(), ops, path, allModels);
+            processOperation(resourcePath, "delete", path.getDelete(), ops, path, allModels);
+            processOperation(resourcePath, "patch", path.getPatch(), ops, path, allModels);
+            processOperation(resourcePath, "options", path.getOptions(), ops, path, allModels);
+            processOperation(resourcePath, "trace", path.getTrace(), ops, path, allModels);
         }
         return ops;
     }
 
-    private void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
+    private void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path, List<ModelMap> allModels) {
         if (operation == null) {
             return;
         }
@@ -1115,6 +1144,31 @@ public class DefaultGenerator implements Generator {
         if (operation.getParameters() != null) {
             for (Parameter parameter : operation.getParameters()) {
                 operationParameters.add(generateParameterId(parameter));
+
+                if ((parameter instanceof QueryParameter || "query".equalsIgnoreCase(parameter.getIn()))
+                        && parameter.getSchema() != null && parameter.getSchema().get$ref() != null
+                        && Parameter.StyleEnum.DEEPOBJECT != parameter.getStyle()) {
+
+                    Optional<CodegenModel> matchedModel = allModels.stream()
+                        .map(ModelMap::getModel)
+                        .filter(codegenModel -> codegenModel != null
+                            && codegenModel.getName() != null
+                            && codegenModel.getName().equalsIgnoreCase(parameter.getName())).findFirst();
+
+                    if (matchedModel.isPresent()) {
+                        CodegenModel model = matchedModel.get();
+
+                        Schema schema = parameter.getSchema();
+                        parameter.set$ref(schema.get$ref());
+                        schema.set$ref(null);
+                        schema.setType(model.getDataType().toLowerCase(Locale.ROOT));
+
+                        Map<String, Schema> properties = mapProperties(model);
+                        if(!properties.isEmpty()) {
+                            schema.setProperties(properties);
+                        }
+                    }
+                }
             }
         }
 
@@ -1168,6 +1222,63 @@ public class DefaultGenerator implements Generator {
             }
         }
 
+    }
+
+    private Map<String, Schema> mapProperties(CodegenModel model) {
+        Map<String, Schema> properties = new LinkedHashMap<>();
+
+        for (CodegenProperty property : model.getVars()) {
+            Schema mappedSchema = mapToSchema(property);
+
+            if (mappedSchema != null) {
+                mappedSchema.setDescription(model.getDescription());
+                properties.put(property.name, mappedSchema);
+            }
+        }
+        return properties;
+    }
+
+    private Schema mapToSchema(CodegenProperty property) {
+        switch (property.openApiType) {
+            case "string":
+                StringSchema stringSchema = new StringSchema();
+                stringSchema.setMinLength(property.getMinLength());
+                stringSchema.setMaxLength(property.getMaxLength());
+                stringSchema.setPattern(property.getPattern());
+
+                return stringSchema;
+            case "integer":
+                IntegerSchema integerSchema = new IntegerSchema();
+                integerSchema.setMinimum(toBigDecimal(property.getMinimum()));
+                integerSchema.setMaximum(toBigDecimal(property.getMaximum()));
+
+                return integerSchema;
+            case "number":
+                NumberSchema floatSchema = new NumberSchema();
+                floatSchema.setMinimum(toBigDecimal(property.getMinimum()));
+                floatSchema.setMaximum(toBigDecimal(property.getMaximum()));
+                return floatSchema;
+            case "boolean":
+                return new BooleanSchema();
+            case "object":
+                return new ObjectSchema();
+            case "array":
+                ArraySchema arraySchema = new ArraySchema();
+                arraySchema.setMinItems(property.getMinItems());
+                arraySchema.setMaxItems(property.getMaxItems());
+
+                if (property.getItems() != null) {
+                    arraySchema.setItems(mapToSchema(property.getItems()));
+                }
+
+                return arraySchema;
+        }
+
+        return null;
+    }
+
+    private BigDecimal toBigDecimal(String value) {
+        return value == null ? null : new BigDecimal(value);
     }
 
     private static String generateParameterId(Parameter parameter) {

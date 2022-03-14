@@ -1,5 +1,6 @@
 package org.openapitools.codegen;
 
+import com.google.common.collect.Lists;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -354,7 +355,7 @@ public class DefaultGeneratorTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(opts);
-        Map<String, List<CodegenOperation>> result = generator.processPaths(openAPI.getPaths());
+        Map<String, List<CodegenOperation>> result = generator.processPaths(openAPI.getPaths(), Lists.newArrayList());
         Assert.assertEquals(result.size(), 1);
         List<CodegenOperation> defaultList = result.get("Default");
         Assert.assertEquals(defaultList.size(), 2);
@@ -379,7 +380,7 @@ public class DefaultGeneratorTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(opts);
-        Map<String, List<CodegenOperation>> result = generator.processPaths(openAPI.getPaths());
+        Map<String, List<CodegenOperation>> result = generator.processPaths(openAPI.getPaths(), Lists.newArrayList());
         Assert.assertEquals(result.size(), 1);
         List<CodegenOperation> defaultList = result.get("Default");
         Assert.assertEquals(defaultList.size(), 4);
