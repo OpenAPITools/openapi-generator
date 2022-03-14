@@ -225,6 +225,7 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("register_dependencies.mustache", toSrcPath(appPackage, srcBasePath), "RegisterDependencies.php"));
         supportingFiles.add(new SupportingFile("register_middlewares.mustache", toSrcPath(appPackage, srcBasePath), "RegisterMiddlewares.php"));
         supportingFiles.add(new SupportingFile("register_routes.mustache", toSrcPath(appPackage, srcBasePath), "RegisterRoutes.php"));
+        supportingFiles.add(new SupportingFile("response_emitter.mustache", toSrcPath(appPackage, srcBasePath), "ResponseEmitter.php"));
 
         // don't generate phpunit config when tests generation disabled
         if (Boolean.TRUE.equals(generateApiTests) || Boolean.TRUE.equals(generateModelTests)) {
