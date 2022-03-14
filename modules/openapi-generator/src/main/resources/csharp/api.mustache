@@ -32,7 +32,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// </remarks>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
-        {{/allParams}}/// <returns>{{returnType}}</returns>
+        {{/allParams}}/// <returns>{{{returnType}}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
@@ -46,7 +46,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// </remarks>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
-        {{/allParams}}/// <returns>ApiResponse of {{returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
+        {{/allParams}}/// <returns>ApiResponse of {{{returnType}}}{{^returnType}}Object(void){{/returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
@@ -65,7 +65,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}/// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of {{returnType}}{{^returnType}}void{{/returnType}}</returns>
+        /// <returns>Task of {{{returnType}}}{{^returnType}}void{{/returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
@@ -204,7 +204,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
-        {{/allParams}}/// <returns>{{returnType}}</returns>
+        {{/allParams}}/// <returns>{{{returnType}}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
@@ -219,7 +219,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
-        {{/allParams}}/// <returns>ApiResponse of {{returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
+        {{/allParams}}/// <returns>ApiResponse of {{{returnType}}}{{^returnType}}Object(void){{/returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
@@ -355,7 +355,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}/// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of {{returnType}}{{^returnType}}void{{/returnType}}</returns>
+        /// <returns>Task of {{{returnType}}}{{^returnType}}void{{/returnType}}</returns>
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
