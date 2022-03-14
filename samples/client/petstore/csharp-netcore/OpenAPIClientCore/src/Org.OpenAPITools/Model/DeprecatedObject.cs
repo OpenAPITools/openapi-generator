@@ -32,6 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "DeprecatedObject")]
     public partial class DeprecatedObject : IEquatable<DeprecatedObject>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeprecatedObject" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public DeprecatedObject()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DeprecatedObject" /> class.
         /// </summary>

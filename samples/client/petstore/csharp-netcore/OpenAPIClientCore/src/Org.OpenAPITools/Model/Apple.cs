@@ -32,6 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "apple")]
     public partial class Apple : IEquatable<Apple>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Apple" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public Apple()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Apple" /> class.
         /// </summary>

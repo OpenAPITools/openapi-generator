@@ -32,6 +32,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "ClassModel")]
     public partial class ClassModel : IEquatable<ClassModel>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClassModel" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public ClassModel()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>

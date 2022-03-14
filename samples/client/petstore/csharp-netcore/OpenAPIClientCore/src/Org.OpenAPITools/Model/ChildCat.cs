@@ -54,11 +54,15 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
         public PetTypeEnum PetType { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected ChildCat() { }
+        public ChildCat()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>

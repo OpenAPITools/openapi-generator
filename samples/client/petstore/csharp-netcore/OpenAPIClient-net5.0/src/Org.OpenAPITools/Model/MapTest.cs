@@ -59,6 +59,16 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "map_of_enum_string", EmitDefaultValue = false)]
         public Dictionary<string, InnerEnum> MapOfEnumString { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MapTest" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public MapTest()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>

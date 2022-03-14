@@ -32,6 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "AdditionalPropertiesClass")]
     public partial class AdditionalPropertiesClass : IEquatable<AdditionalPropertiesClass>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdditionalPropertiesClass" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public AdditionalPropertiesClass()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AdditionalPropertiesClass" /> class.
         /// </summary>

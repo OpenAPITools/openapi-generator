@@ -32,6 +32,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "MixedPropertiesAndAdditionalPropertiesClass")]
     public partial class MixedPropertiesAndAdditionalPropertiesClass : IEquatable<MixedPropertiesAndAdditionalPropertiesClass>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MixedPropertiesAndAdditionalPropertiesClass" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public MixedPropertiesAndAdditionalPropertiesClass()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedPropertiesAndAdditionalPropertiesClass" /> class.
         /// </summary>

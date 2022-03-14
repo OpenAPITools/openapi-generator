@@ -33,6 +33,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "ApiResponse")]
     public partial class ApiResponse : IEquatable<ApiResponse>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiResponse" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public ApiResponse()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiResponse" /> class.
         /// </summary>

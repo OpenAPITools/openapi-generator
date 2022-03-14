@@ -33,11 +33,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "IsoscelesTriangle")]
     public partial class IsoscelesTriangle : IEquatable<IsoscelesTriangle>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="IsoscelesTriangle" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected IsoscelesTriangle() { }
+        public IsoscelesTriangle()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="IsoscelesTriangle" /> class.
         /// </summary>

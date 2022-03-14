@@ -32,6 +32,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "ArrayTest")]
     public partial class ArrayTest : IEquatable<ArrayTest>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArrayTest" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public ArrayTest()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayTest" /> class.
         /// </summary>

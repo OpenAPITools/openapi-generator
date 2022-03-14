@@ -32,6 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "File")]
     public partial class File : IEquatable<File>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="File" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public File()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="File" /> class.
         /// </summary>

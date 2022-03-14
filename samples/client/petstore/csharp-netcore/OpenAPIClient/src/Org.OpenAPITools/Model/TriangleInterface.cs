@@ -32,14 +32,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "TriangleInterface")]
     public partial class TriangleInterface : IEquatable<TriangleInterface>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TriangleInterface" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected TriangleInterface()
+        public TriangleInterface()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TriangleInterface" /> class.
         /// </summary>

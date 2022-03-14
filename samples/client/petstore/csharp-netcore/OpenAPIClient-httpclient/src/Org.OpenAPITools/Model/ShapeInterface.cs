@@ -33,14 +33,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "ShapeInterface")]
     public partial class ShapeInterface : IEquatable<ShapeInterface>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeInterface" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected ShapeInterface()
+        public ShapeInterface()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeInterface" /> class.
         /// </summary>

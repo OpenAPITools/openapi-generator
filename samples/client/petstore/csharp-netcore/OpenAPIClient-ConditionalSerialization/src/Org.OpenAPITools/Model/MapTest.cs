@@ -79,6 +79,16 @@ namespace Org.OpenAPITools.Model
         {
             return _flagMapOfEnumString;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MapTest" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public MapTest()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>

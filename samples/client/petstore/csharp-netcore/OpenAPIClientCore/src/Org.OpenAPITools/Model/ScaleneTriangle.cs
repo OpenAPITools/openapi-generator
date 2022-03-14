@@ -32,11 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "ScaleneTriangle")]
     public partial class ScaleneTriangle : IEquatable<ScaleneTriangle>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ScaleneTriangle" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected ScaleneTriangle() { }
+        public ScaleneTriangle()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ScaleneTriangle" /> class.
         /// </summary>

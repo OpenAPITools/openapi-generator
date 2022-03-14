@@ -33,6 +33,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "HealthCheckResult")]
     public partial class HealthCheckResult : IEquatable<HealthCheckResult>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HealthCheckResult" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public HealthCheckResult()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HealthCheckResult" /> class.
         /// </summary>

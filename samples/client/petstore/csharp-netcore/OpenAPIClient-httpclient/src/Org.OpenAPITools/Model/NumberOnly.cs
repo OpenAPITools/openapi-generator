@@ -33,6 +33,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "NumberOnly")]
     public partial class NumberOnly : IEquatable<NumberOnly>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NumberOnly" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public NumberOnly()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NumberOnly" /> class.
         /// </summary>

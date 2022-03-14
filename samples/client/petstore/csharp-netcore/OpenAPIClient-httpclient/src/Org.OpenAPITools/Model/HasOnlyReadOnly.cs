@@ -33,6 +33,8 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "hasOnlyReadOnly")]
     public partial class HasOnlyReadOnly : IEquatable<HasOnlyReadOnly>, IValidatableObject
     {
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HasOnlyReadOnly" /> class.
         /// </summary>

@@ -86,6 +86,16 @@ namespace Org.OpenAPITools.Model
         {
             return _flagStatus;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Order" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public Order()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// </summary>

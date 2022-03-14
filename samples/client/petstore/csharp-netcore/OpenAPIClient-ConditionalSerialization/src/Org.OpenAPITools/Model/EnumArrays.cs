@@ -125,6 +125,16 @@ namespace Org.OpenAPITools.Model
         {
             return _flagArrayEnum;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumArrays" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public EnumArrays()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>

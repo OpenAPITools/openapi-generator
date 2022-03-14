@@ -32,14 +32,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "whale")]
     public partial class Whale : IEquatable<Whale>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Whale" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Whale()
+        public Whale()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Whale" /> class.
         /// </summary>

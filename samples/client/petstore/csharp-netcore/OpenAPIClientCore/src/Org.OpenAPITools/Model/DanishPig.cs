@@ -32,11 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "DanishPig")]
     public partial class DanishPig : IEquatable<DanishPig>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DanishPig" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected DanishPig() { }
+        public DanishPig()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DanishPig" /> class.
         /// </summary>

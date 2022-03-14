@@ -32,6 +32,15 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "_special_model.name_")]
     public partial class SpecialModelName : IEquatable<SpecialModelName>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public SpecialModelName()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
         /// </summary>

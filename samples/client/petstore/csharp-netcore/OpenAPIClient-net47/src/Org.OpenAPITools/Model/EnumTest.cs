@@ -192,14 +192,16 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "outerEnumIntegerDefaultValue", EmitDefaultValue = false)]
         public OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected EnumTest()
+        public EnumTest()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>

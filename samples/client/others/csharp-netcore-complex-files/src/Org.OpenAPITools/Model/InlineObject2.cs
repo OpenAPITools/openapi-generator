@@ -38,11 +38,15 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = false)]
         public MultipartMixedStatus Status { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineObject2" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected InlineObject2() { }
+        public InlineObject2()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineObject2" /> class.
         /// </summary>

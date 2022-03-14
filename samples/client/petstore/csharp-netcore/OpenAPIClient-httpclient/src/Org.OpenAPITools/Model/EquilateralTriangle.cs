@@ -33,14 +33,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "EquilateralTriangle")]
     public partial class EquilateralTriangle : IEquatable<EquilateralTriangle>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EquilateralTriangle" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected EquilateralTriangle()
+        public EquilateralTriangle()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EquilateralTriangle" /> class.
         /// </summary>

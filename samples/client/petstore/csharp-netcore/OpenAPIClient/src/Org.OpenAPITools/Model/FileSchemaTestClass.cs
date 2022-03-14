@@ -32,6 +32,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "FileSchemaTestClass")]
     public partial class FileSchemaTestClass : IEquatable<FileSchemaTestClass>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileSchemaTestClass" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public FileSchemaTestClass()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FileSchemaTestClass" /> class.
         /// </summary>

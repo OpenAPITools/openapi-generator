@@ -32,14 +32,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "Name")]
     public partial class Name : IEquatable<Name>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Name()
+        public Name()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>

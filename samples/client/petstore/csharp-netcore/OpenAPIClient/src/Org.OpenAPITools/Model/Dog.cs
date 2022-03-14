@@ -34,14 +34,16 @@ namespace Org.OpenAPITools.Model
     [JsonConverter(typeof(JsonSubtypes), "ClassName")]
     public partial class Dog : Animal, IEquatable<Dog>, IValidatableObject
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Dog()
+        public Dog()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>

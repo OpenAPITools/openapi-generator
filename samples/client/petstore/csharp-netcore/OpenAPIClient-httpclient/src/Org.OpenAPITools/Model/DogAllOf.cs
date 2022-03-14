@@ -33,6 +33,16 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "Dog_allOf")]
     public partial class DogAllOf : IEquatable<DogAllOf>, IValidatableObject
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DogAllOf" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        public DogAllOf()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DogAllOf" /> class.
         /// </summary>

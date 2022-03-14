@@ -67,14 +67,16 @@ namespace Org.OpenAPITools.Model
         /// <value>pet status in the store</value>
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public StatusEnum? Status { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Pet()
+        public Pet()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>

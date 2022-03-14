@@ -86,14 +86,16 @@ namespace Org.OpenAPITools.Model
         {
             return _flagStatus;
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Pet()
+        public Pet()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
