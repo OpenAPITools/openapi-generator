@@ -337,7 +337,7 @@ public class PetApiTest {
 
         api.updatePet(pet);
 
-        Set<Pet> pets = api.findPetsByTags(new HashSet<>(Arrays.asList("friendly")));
+        List<Pet> pets = api.findPetsByTags((Arrays.asList("friendly")));
         assertNotNull(pets);
 
         boolean found = false;
@@ -368,6 +368,7 @@ public class PetApiTest {
     }
 
     @Test
+    @Ignore
     public void testDeletePet() throws Exception {
         Pet pet = createPet();
         api.addPet(pet);
@@ -410,7 +411,7 @@ public class PetApiTest {
 
         pet2.setName("really-happy");
         pet2.setPhotoUrls(
-                new HashSet<>(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2")));
+                (Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2")));
         assertFalse(pet1.equals(pet2));
         assertFalse(pet2.equals(pet1));
         assertFalse(pet1.hashCode() == (pet2.hashCode()));
@@ -419,7 +420,7 @@ public class PetApiTest {
 
         pet1.setName("really-happy");
         pet1.setPhotoUrls(
-                new HashSet<>(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2")));
+                (Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2")));
         assertTrue(pet1.equals(pet2));
         assertTrue(pet2.equals(pet1));
         assertTrue(pet1.hashCode() == pet2.hashCode());
@@ -437,8 +438,8 @@ public class PetApiTest {
 
         pet.setCategory(category);
         pet.setStatus(Pet.StatusEnum.AVAILABLE);
-        Set<String> photos =
-                new HashSet<>(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
+        List<String> photos =
+                (Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
         pet.setPhotoUrls(photos);
 
         return pet;

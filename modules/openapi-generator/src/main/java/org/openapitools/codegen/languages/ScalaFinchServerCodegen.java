@@ -484,4 +484,6 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         System.out.println("################################################################################");
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SCALA; }
 }

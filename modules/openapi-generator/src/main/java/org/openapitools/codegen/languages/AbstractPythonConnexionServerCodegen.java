@@ -297,10 +297,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         return camelize(name, false) + "Controller";
     }
 
-    @Override
-    public String toApiFilename(String name) {
-        return underscore(toApiName(name));
-    }
+
 
     @Override
     public String toApiTestFilename(String name) {

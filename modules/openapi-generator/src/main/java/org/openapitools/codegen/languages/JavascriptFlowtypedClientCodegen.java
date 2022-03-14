@@ -223,4 +223,6 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         this.npmRepository = npmRepository;
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }

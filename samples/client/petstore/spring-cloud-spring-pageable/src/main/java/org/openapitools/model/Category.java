@@ -13,13 +13,16 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * A category for a pet
  */
+
 @ApiModel(description = "A category for a pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Category   {
+
   @JsonProperty("id")
   private Long id;
 
@@ -35,9 +38,8 @@ public class Category   {
    * Get id
    * @return id
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Long getId() {
     return id;
   }
@@ -55,9 +57,8 @@ public class Category   {
    * Get name
    * @return name
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getName() {
     return name;
   }
@@ -65,7 +66,6 @@ public class Category   {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -89,7 +89,6 @@ public class Category   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Category {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");

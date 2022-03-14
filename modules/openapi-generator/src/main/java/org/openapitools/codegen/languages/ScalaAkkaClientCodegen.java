@@ -43,6 +43,8 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
     protected String resourcesFolder = "src/main/resources";
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
     protected String configKey = "apiRequest";
     protected int defaultTimeoutInMs = 5000;
     protected String configKeyPath = mainPackage;
@@ -85,6 +87,8 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         outputFolder = "generated-code/scala-akka";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "scala-akka-client";
         apiPackage = mainPackage + ".api";
         modelPackage = mainPackage + ".model";
@@ -164,6 +168,9 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
             }
         }
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
@@ -359,5 +366,15 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
 
     public void setMainPackage(String mainPackage) {
         this.configKeyPath = this.mainPackage = mainPackage;
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + File.separator + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + File.separator + modelDocPath).replace('/', File.separatorChar);
     }
 }

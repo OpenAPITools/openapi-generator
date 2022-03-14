@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "target": "{{#supportsES6}}es6{{/supportsES6}}{{^supportsES6}}es5{{/supportsES6}}",
-    "module": "commonjs",
+    "target": "{{#supportsES6}}ES6{{/supportsES6}}{{^supportsES6}}ES5{{/supportsES6}}",
+    "module": "{{#supportsES6}}ES6{{/supportsES6}}{{^supportsES6}}CommonJS{{/supportsES6}}",
     "noImplicitAny": true,
     "outDir": "dist",
     "rootDir": ".",

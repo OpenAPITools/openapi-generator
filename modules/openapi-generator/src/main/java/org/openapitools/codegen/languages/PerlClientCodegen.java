@@ -643,4 +643,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         System.out.println("# - OpenAPI Generator for Perl Developers            https://bit.ly/2OId6p3    #");
         System.out.println("################################################################################");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PERL; }
 }

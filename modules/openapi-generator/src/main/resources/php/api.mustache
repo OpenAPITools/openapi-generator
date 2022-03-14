@@ -636,14 +636,14 @@ use {{invokerPackage}}\ObjectSerializer;
         {{/isBasicBasic}}
         {{#isBasicBearer}}
         // this endpoint requires Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} authentication (access token)
-        if ($this->config->getAccessToken() !== null) {
+        if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
         {{/isBasicBearer}}
         {{/isBasic}}
         {{#isOAuth}}
         // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
+        if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
         {{/isOAuth}}

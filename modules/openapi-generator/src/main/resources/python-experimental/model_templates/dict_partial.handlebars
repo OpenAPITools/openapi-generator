@@ -1,0 +1,54 @@
+{{#if getHasRequired}}
+    _required_property_names = set((
+    {{#each requiredVars}}
+        '{{baseName}}',
+    {{/each}}
+    ))
+{{/if}}
+{{#each vars}}
+{{#if complexType}}
+
+    @classmethod
+    @property
+    def {{baseName}}(cls) -> typing.Type['{{complexType}}']:
+        return {{complexType}}
+{{else}}
+    {{> model_templates/schema }}
+{{/if}}
+{{/each}}
+{{#if getHasDiscriminatorWithNonEmptyMapping}}
+{{#with discriminator}}
+{{#each mappedModels}}
+{{#if @first}}
+
+    @classmethod
+    @property
+    def _discriminator(cls):
+        return {
+            '{{{propertyBaseName}}}': {
+{{/if}}
+                '{{mappingName}}': {{{modelName}}},
+{{#if @last}}
+            }
+        }
+{{/if}}
+{{/each}}
+{{/with}}
+{{/if}}
+{{#with additionalProperties}}
+{{#if complexType}}
+
+    @classmethod
+    @property
+    def _additional_properties(cls) -> typing.Type['{{complexType}}']:
+        return {{complexType}}
+{{/if}}
+{{#unless complexType}}
+{{#unless isAnyType}}
+    {{> model_templates/schema }}
+{{/unless}}
+{{/unless}}
+{{/with}}
+{{#unless additionalProperties}}
+    _additional_properties = None
+{{/unless}}

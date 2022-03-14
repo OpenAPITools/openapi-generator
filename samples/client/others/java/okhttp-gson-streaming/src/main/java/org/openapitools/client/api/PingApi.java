@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.io.InputStream;
+import javax.ws.rs.core.GenericType;
 
 public class PingApi {
     private ApiClient localVarApiClient;
@@ -87,7 +88,6 @@ public class PingApi {
      */
     public okhttp3.Call postPingCall(SomeObj someObj, final ApiCallback _callback) throws ApiException {
         String basePath = null;
-
         // Operation Servers
         String[] localBasePaths = new String[] {  };
 
@@ -123,7 +123,7 @@ public class PingApi {
             "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -171,8 +171,14 @@ public class PingApi {
      */
     public InputStream postPingWithHttpInfo(SomeObj someObj) throws ApiException {
         okhttp3.Call localVarCall = postPingValidateBeforeCall(someObj, null);
-        Type localVarReturnType = new TypeToken<SomeObj>(){}.getType();
-        return localVarApiClient.executeStream(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<SomeObj>(){}.getType();
+            return localVarApiClient.executeStream(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<SomeObj>(){}.getType()));
+            e.setErrorObjectType(new GenericType<SomeObj>(){});
+            throw e;
+        }
     }
     
     /**

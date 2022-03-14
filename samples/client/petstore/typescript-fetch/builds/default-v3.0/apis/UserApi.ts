@@ -90,6 +90,7 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * Creates list of users with given input array
      */
     async createUsersWithArrayInputRaw(requestParameters: CreateUsersWithArrayInputRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
@@ -115,6 +116,7 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * Creates list of users with given input array
      */
     async createUsersWithArrayInput(requestParameters: CreateUsersWithArrayInputRequest, initOverrides?: RequestInit): Promise<void> {
@@ -122,6 +124,7 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * Creates list of users with given input array
      */
     async createUsersWithListInputRaw(requestParameters: CreateUsersWithListInputRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
@@ -147,6 +150,7 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * Creates list of users with given input array
      */
     async createUsersWithListInput(requestParameters: CreateUsersWithListInputRequest, initOverrides?: RequestInit): Promise<void> {
@@ -185,6 +189,7 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * Get user by user name
      */
     async getUserByNameRaw(requestParameters: GetUserByNameRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<User>> {
@@ -207,6 +212,7 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * Get user by user name
      */
     async getUserByName(requestParameters: GetUserByNameRequest, initOverrides?: RequestInit): Promise<User> {
@@ -215,6 +221,7 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * Logs user into the system
      */
     async loginUserRaw(requestParameters: LoginUserRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<string>> {
@@ -249,6 +256,7 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * Logs user into the system
      */
     async loginUser(requestParameters: LoginUserRequest, initOverrides?: RequestInit): Promise<string> {
@@ -257,6 +265,7 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * Logs out current logged in user session
      */
     async logoutUserRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
@@ -275,6 +284,7 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * Logs out current logged in user session
      */
     async logoutUser(initOverrides?: RequestInit): Promise<void> {

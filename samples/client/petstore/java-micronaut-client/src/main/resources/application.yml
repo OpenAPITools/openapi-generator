@@ -1,5 +1,5 @@
-base-path: "http://petstore.swagger.io:80/v2"
-context-path: "/v2"
+base-path: "http://petstore.swagger.io:80/v2/"
+context-path: "/v2/"
 
 micronaut:
     application:

@@ -16,12 +16,15 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * ArrayOfNumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayOfNumberOnly   {
+
   @JsonProperty("ArrayNumber")
   @Valid
   private List<BigDecimal> arrayNumber = null;
@@ -43,10 +46,8 @@ public class ArrayOfNumberOnly   {
    * Get arrayNumber
    * @return arrayNumber
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
@@ -54,7 +55,6 @@ public class ArrayOfNumberOnly   {
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -77,7 +77,6 @@ public class ArrayOfNumberOnly   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ArrayOfNumberOnly {\n");
-    
     sb.append("    arrayNumber: ").append(toIndentedString(arrayNumber)).append("\n");
     sb.append("}");
     return sb.toString();

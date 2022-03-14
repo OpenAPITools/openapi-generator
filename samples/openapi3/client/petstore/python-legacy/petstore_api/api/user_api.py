@@ -114,7 +114,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -137,7 +138,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -146,10 +147,12 @@ class UserApi(object):
         if 'user' in local_var_params:
             body_params = local_var_params['user']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json'],
                 'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
@@ -176,6 +179,7 @@ class UserApi(object):
     def create_users_with_array_input(self, user, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -205,6 +209,7 @@ class UserApi(object):
     def create_users_with_array_input_with_http_info(self, user, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -249,7 +254,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -272,7 +278,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -281,10 +287,12 @@ class UserApi(object):
         if 'user' in local_var_params:
             body_params = local_var_params['user']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json'],
                 'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
@@ -311,6 +319,7 @@ class UserApi(object):
     def create_users_with_list_input(self, user, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -340,6 +349,7 @@ class UserApi(object):
     def create_users_with_list_input_with_http_info(self, user, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -384,7 +394,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -407,7 +418,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -416,10 +427,12 @@ class UserApi(object):
         if 'user' in local_var_params:
             body_params = local_var_params['user']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json'],
                 'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501
@@ -521,7 +534,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -546,7 +560,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -577,6 +591,7 @@ class UserApi(object):
     def get_user_by_name(self, username, **kwargs):  # noqa: E501
         """Get user by user name  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -606,6 +621,7 @@ class UserApi(object):
     def get_user_by_name_with_http_info(self, username, **kwargs):  # noqa: E501
         """Get user by user name  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -650,7 +666,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -675,7 +692,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -714,6 +731,7 @@ class UserApi(object):
     def login_user(self, username, password, **kwargs):  # noqa: E501
         """Logs user into the system  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -745,6 +763,7 @@ class UserApi(object):
     def login_user_with_http_info(self, username, password, **kwargs):  # noqa: E501
         """Logs user into the system  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -792,7 +811,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -823,7 +843,7 @@ class UserApi(object):
         if 'password' in local_var_params and local_var_params['password'] is not None:  # noqa: E501
             query_params.append(('password', local_var_params['password']))  # noqa: E501
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -861,6 +881,7 @@ class UserApi(object):
     def logout_user(self, **kwargs):  # noqa: E501
         """Logs out current logged in user session  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -888,6 +909,7 @@ class UserApi(object):
     def logout_user_with_http_info(self, **kwargs):  # noqa: E501
         """Logs out current logged in user session  # noqa: E501
 
+          # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -929,7 +951,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -948,7 +971,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1059,7 +1082,8 @@ class UserApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -1088,7 +1112,7 @@ class UserApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1097,10 +1121,12 @@ class UserApi(object):
         if 'user' in local_var_params:
             body_params = local_var_params['user']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json'],
                 'PUT', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = []  # noqa: E501

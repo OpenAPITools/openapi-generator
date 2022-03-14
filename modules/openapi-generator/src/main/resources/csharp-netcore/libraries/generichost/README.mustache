@@ -1,0 +1,214 @@
+# Created with Openapi Generator
+
+<a name="cli"></a>
+## Run the following powershell command to generate the library
+
+```ps1
+$properties = @(
+    'apiName={{apiName}}',
+    'targetFramework={{targetFramework}}',
+    'validatable={{validatable}}',
+    'nullableReferenceTypes={{nullableReferenceTypes}}',
+    'hideGenerationTimestamp={{hideGenerationTimestamp}}',
+    'packageVersion={{packageVersion}}',
+    'packageAuthors={{packageAuthors}}',
+    'packageCompany={{packageCompany}}',
+    'packageCopyright={{packageCopyright}}',
+    'packageDescription={{packageDescription}}',{{#licenseId}}
+    'licenseId={{.}}',{{/licenseId}}
+    'packageName={{packageName}}',
+    'packageTags={{packageTags}}',
+    'packageTitle={{packageTitle}}'
+) -join ","
+
+$global = @(
+    'apiDocs={{generateApiDocs}}',
+    'modelDocs={{generateModelDocs}}',
+    'apiTests={{generateApiTests}}',
+    'modelTests={{generateModelTests}}'
+) -join ","
+
+java -jar "<path>/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar" generate `
+    -g csharp-netcore `
+    -i <your-swagger-file>.yaml `
+    -o <your-output-folder> `
+    --library generichost `
+    --additional-properties $properties `
+    --global-property $global `
+    --git-host "{{gitHost}}" `
+    --git-repo-id "{{gitRepoId}}" `
+    --git-user-id "{{gitUserId}}" `
+    --release-note "{{releaseNote}}"
+    # -t templates
+```
+
+<a name="usage"></a>
+## Using the library in your project
+
+```cs
+using System;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using {{packageName}}.Api;
+using {{packageName}}.Client;
+using {{packageName}}.Model;
+
+namespace YourProject
+{
+    public class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            var host = CreateHostBuilder(args).Build();{{#apiInfo}}{{#apis}}{{#-first}}
+            var api = host.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();{{#operations}}{{#-first}}{{#operation}}{{#-first}}
+            ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> foo = await api.{{operationId}}WithHttpInfoAsync("todo");{{/-first}}{{/operation}}{{/-first}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
+          .Configure{{apiName}}((context, options) =>
+          {
+              {{#authMethods}}// the type of token here depends on the api security specifications
+              ApiKeyToken token = new("<your token>");
+              options.AddTokens(token);
+
+              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
+              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
+
+              {{/authMethods}}options.ConfigureJsonOptions((jsonOptions) =>
+              {
+                  // your custom converters if any
+              });
+
+              options.Add{{apiName}}HttpClients(builder: builder => builder
+                .AddRetryPolicy(2)
+                .AddTimeoutPolicy(TimeSpan.FromSeconds(5))
+                .AddCircuitBreakerPolicy(10, TimeSpan.FromSeconds(30))
+                // add whatever middleware you prefer
+              );
+          });
+    }
+}
+```
+<a name="questions"></a>
+## Questions
+
+- What about HttpRequest failures and retries?
+  If supportsRetry is enabled, you can configure Polly in the ConfigureClients method.
+- How are tokens used?
+  Tokens are provided by a TokenProvider class. The default is RateLimitProvider which will perform client side rate limiting.
+  Other providers can be used with the UseProvider method.
+- Does an HttpRequest throw an error when the server response is not Ok?
+  It depends how you made the request. If the return type is ApiResponse<T> no error will be thrown, though the Content property will be null. 
+  StatusCode and ReasonPhrase will contain information about the error.
+  If the return type is T, then it will throw. If the return type is TOrDefault, it will return null.
+
+<a name="dependencies"></a>
+## Dependencies
+
+- [Microsoft.Extensions.Hosting](https://www.nuget.org/packages/Microsoft.Extensions.Hosting/) - 5.0.0 or later
+- [Microsoft.Extensions.Http](https://www.nuget.org/packages/Microsoft.Extensions.Http/) - 5.0.0 or later{{#supportsRetry}}
+- [Microsoft.Extensions.Http.Polly](https://www.nuget.org/packages/Microsoft.Extensions.Http.Polly/) - 5.0.1 or later
+- [Polly](https://www.nuget.org/packages/Polly/) - 7.2.3 or later{{/supportsRetry}}
+- [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/) - 12.0.3 or later
+- [JsonSubTypes](https://www.nuget.org/packages/JsonSubTypes/) - 1.7.0 or later{{#useCompareNetObjects}}
+- [CompareNETObjects](https://www.nuget.org/packages/CompareNETObjects) - 4.61.0 or later{{/useCompareNetObjects}}{{#validatable}}
+- [System.ComponentModel.Annotations](https://www.nuget.org/packages/System.ComponentModel.Annotations) - 4.7.0 or later{{/validatable}}{{#apiDocs}}
+
+<a name="documentation-for-api-endpoints"></a>
+## Documentation for API Endpoints
+
+All URIs are relative to *{{{basePath}}}*
+
+Class | Method | HTTP request | Description
+------------ | ------------- | ------------- | -------------{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}{{/apiDocs}}{{#modelDocs}}
+
+<a name="documentation-for-models"></a>
+## Documentation for Models
+
+{{#modelPackage}}{{#models}}{{#model}} - [{{{modelPackage}}}.{{{classname}}}]({{modelDocPath}}{{{classname}}}.md){{/model}}{{/models}}{{/modelPackage}}
+{{^modelPackage}}No model defined in this package{{/modelPackage}}{{/modelDocs}}
+
+<a name="documentation-for-authorization"></a>
+## Documentation for Authorization
+
+{{^authMethods}}All endpoints do not require authorization.{{/authMethods}}{{#authMethods}}{{#-last}}Authentication schemes defined for the API:{{/-last}}{{/authMethods}}{{#authMethods}}
+
+<a name="{{name}}"></a>
+### {{name}}
+
+{{#isApiKey}}- **Type**: API key
+- **API key parameter name**: {{keyParamName}}
+- **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}{{/isApiKey}}{{#isBasicBasic}}
+- **Type**: HTTP basic authentication{{/isBasicBasic}}{{#isBasicBearer}}
+- **Type**: Bearer Authentication{{/isBasicBearer}}{{#isOAuth}}
+- **Type**: OAuth
+- **Flow**: {{flow}}
+- **Authorization URL**: {{authorizationUrl}}
+- **Scopes**: {{^scopes}}N/A{{/scopes}}{{#scopes}}  
+- {{scope}}: {{description}}{{/scopes}}{{/isOAuth}}{{/authMethods}}
+
+## Build
+- SDK version: {{packageVersion}}{{^hideGenerationTimestamp}}
+- Build date: {{generatedDate}}{{/hideGenerationTimestamp}}
+- Build package: {{generatorClass}}
+
+## Api Information
+- appName: {{appName}}
+- appVersion: {{appVersion}}
+- appDescription: {{appDescription}}
+
+## [OpenApi Global properties](https://openapi-generator.tech/docs/globals)
+- generateAliasAsModel: {{generateAliasAsModel}}
+- supportingFiles: {{supportingFiles}}
+- models: omitted for brevity
+- apis: omitted for brevity
+- apiDocs: {{generateApiDocs}}
+- modelDocs: {{generateModelDocs}}
+- apiTests: {{generateApiTests}}
+- modelTests: {{generateModelTests}}
+- withXml: {{withXml}}
+
+## [OpenApi Generator Parameteres](https://openapi-generator.tech/docs/generators/csharp-netcore)
+- allowUnicodeIdentifiers: {{allowUnicodeIdentifiers}}
+- apiName: {{apiName}}
+- caseInsensitiveResponseHeaders: {{caseInsensitiveResponseHeaders}}
+- conditionalSerialization: {{conditionalSerialization}}
+- disallowAdditionalPropertiesIfNotPresent: {{disallowAdditionalPropertiesIfNotPresent}}
+- gitHost: {{gitHost}}
+- gitRepoId: {{gitRepoId}}
+- gitUserId: {{gitUserId}}
+- hideGenerationTimestamp: {{hideGenerationTimestamp}}
+- interfacePrefix: {{interfacePrefix}}
+- library: {{library}}
+- licenseId: {{licenseId}}
+- modelPropertyNaming: {{modelPropertyNaming}}
+- netCoreProjectFile: {{netCoreProjectFile}}
+- nonPublicApi: {{nonPublicApi}}
+- nullableReferenceTypes: {{nullableReferenceTypes}}
+- optionalAssemblyInfo: {{optionalAssemblyInfo}}
+- optionalEmitDefaultValues: {{optionalEmitDefaultValues}}
+- optionalMethodArgument: {{optionalMethodArgument}}
+- optionalProjectFile: {{optionalProjectFile}}
+- packageAuthors: {{packageAuthors}}
+- packageCompany: {{packageCompany}}
+- packageCopyright: {{packageCopyright}}
+- packageDescription: {{packageDescription}}
+- packageGuid: {{packageGuid}}
+- packageName: {{packageName}}
+- packageTags: {{packageTags}}
+- packageTitle: {{packageTitle}}
+- packageVersion: {{packageVersion}}
+- releaseNote: {{releaseNote}}
+- returnICollection: {{returnICollection}}
+- sortParamsByRequiredFlag: {{sortParamsByRequiredFlag}}
+- sourceFolder: {{sourceFolder}}
+- targetFramework: {{targetFramework}}
+- useCollection: {{useCollection}}
+- useDateTimeOffset: {{useDateTimeOffset}}
+- useOneOfDiscriminatorLookup: {{useOneOfDiscriminatorLookup}}
+- validatable: {{validatable}}{{#infoUrl}}
+For more information, please visit [{{{.}}}]({{{.}}}){{/infoUrl}}
+
+This C# SDK is automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project.

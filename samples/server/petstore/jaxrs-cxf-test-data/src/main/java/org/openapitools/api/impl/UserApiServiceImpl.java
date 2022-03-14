@@ -1,6 +1,7 @@
 package org.openapitools.api.impl;
 
 import org.openapitools.api.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.openapitools.model.User;
@@ -35,7 +36,7 @@ public class UserApiServiceImpl implements UserApi {
     {
         try {
             File cacheFile = new File(System.getProperty("jaxrs.test.server.json",
-                    "/Users/williamcheng/Code/openapi-generator/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
+                    "/Users/williamcheng/Code/openapi-generator2/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
             cache = JsonCache.Factory.instance.get("test-data").load(cacheFile).child("/org.openapitools.api/UserApi");
         } catch (CacheException e) {
             e.printStackTrace();

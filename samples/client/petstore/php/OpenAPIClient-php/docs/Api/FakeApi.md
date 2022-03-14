@@ -869,6 +869,8 @@ testInlineAdditionalProperties($request_body)
 
 test inline additionalProperties
 
+
+
 ### Example
 
 ```php
@@ -921,6 +923,8 @@ testJsonFormData($param, $param2)
 ```
 
 test json serialization of form data
+
+
 
 ### Example
 

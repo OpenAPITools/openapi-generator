@@ -1143,4 +1143,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }

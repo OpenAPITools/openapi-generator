@@ -1182,7 +1182,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 example.append(constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly));
             }
         } else if (codegenParameter.isMap) {
-            if (codegenParameter.items.isModel) {
+            if (codegenParameter.items == null) {
+                example.append("@{ key_example = ... }");
+            } else if (codegenParameter.items.isModel) {
                 String modelExample = constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly);
                 if (!StringUtils.isEmpty(modelExample)) {
                     example.append(modelExample).append("\n");
@@ -1230,7 +1232,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             example.append(constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, requiredOnly));
         } else if (codegenProperty.isMap) {
             example.append("@{ key_example = ");
-            example.append(constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, requiredOnly));
+            if (codegenProperty.items != null) {
+                example.append(constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, requiredOnly));
+            } else {
+                example.append(" ... ");
+            }
             example.append(" }");
         } else if (codegenProperty.isEnum || (codegenProperty.allowableValues != null && !codegenProperty.allowableValues.isEmpty())) {
             example.append(constructEnumExample(codegenProperty.allowableValues));
@@ -1534,4 +1540,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         System.out.println("# - OpenAPI Generator for PowerShell Developers      https://bit.ly/3qBWfRJ    #");
         System.out.println("################################################################################");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.POWERSHELL; }
 }

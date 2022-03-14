@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Model for testing reserved words */
-public struct Return: Codable {
+public struct Return: Codable, JSONEncodable {
 
     public var _return: Int?
 

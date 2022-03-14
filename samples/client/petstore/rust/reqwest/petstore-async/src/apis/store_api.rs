@@ -210,6 +210,7 @@ pub async fn get_order_by_id(configuration: &configuration::Configuration, param
     }
 }
 
+/// 
 pub async fn place_order(configuration: &configuration::Configuration, params: PlaceOrderParams) -> Result<ResponseContent<PlaceOrderSuccess>, Error<PlaceOrderError>> {
     let local_var_configuration = configuration;
 

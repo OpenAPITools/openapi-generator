@@ -26,9 +26,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/coordinates'
+        - name: stringWithMinLength
+          in: query
+          schema:
+            $ref: '#/components/schemas/stringWithMinLength'
       responses:
-        '201':
+        '200':
           description: 'OK'
+          headers:
+            X-Rate-Limit:
+              description: "The number of allowed requests in the current period"
+              schema:
+                type: integer
+            X-Rate-Limit-Ref:
+              $ref: '#/components/headers/X-Rate-Limit'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coordinates'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/stringWithMinLength'
+        '201':
+          description: 'Created OK'
+          headers:
+            X-Rate-Limit-Limit:
+              description: "The number of allowed requests in the current period"
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coordinates'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/stringWithMinLength'
   /inlineRequestBodySchemasDifferingByContentType:
     post:
       requestBody:
@@ -67,6 +99,11 @@ paths:
         200:
           description: OK
 components:
+  headers:
+    X-Rate-Limit:
+      description: "The number of allowed requests in the current period"
+      schema:
+        type: integer
   schemas:
     stringWithMinLength:
       type: string

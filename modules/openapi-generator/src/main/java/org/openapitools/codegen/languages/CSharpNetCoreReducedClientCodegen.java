@@ -266,10 +266,10 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
                 CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
                 this.optionalEmitDefaultValuesFlag);
-            
+
         addSwitch(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION,
-        CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION_DESC,
-        this.conditionalSerialization);        
+                CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION_DESC,
+                this.conditionalSerialization);
 
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE,
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
@@ -588,7 +588,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put("multiTarget", true);
         } else {
             // just a single value
-            frameworks = new String [] {inputFramework};
+            frameworks = new String[]{inputFramework};
         }
 
         for (String framework : frameworks) {
@@ -600,14 +600,14 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
                 }
 
                 if (frameworkStrategy != FrameworkStrategy.NETSTANDARD_2_0 && "restsharp".equals(getLibrary())) {
-                   LOGGER.warn("If using built-in templates, RestSharp only supports netstandard 2.0 or later.");
+                    LOGGER.warn("If using built-in templates, RestSharp only supports netstandard 2.0 or later.");
                 }
             }
 
             if (!strategyMatched) {
                 // throws exception if the input targetFramework is invalid
                 throw new IllegalArgumentException("The input (" + inputFramework + ") contains Invalid .NET framework version: " +
-                framework + ". List of supported versions: " +
+                        framework + ". List of supported versions: " +
                         frameworkStrategies.stream()
                                 .map(p -> p.name)
                                 .collect(Collectors.joining(", ")));
@@ -634,7 +634,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         final AtomicReference<Boolean> excludeTests = new AtomicReference<>();
         syncBooleanProperty(additionalProperties, CodegenConstants.EXCLUDE_TESTS, excludeTests::set, false);
 
-        syncStringProperty(additionalProperties, "clientPackage", (s) -> { }, clientPackage);
+        syncStringProperty(additionalProperties, "clientPackage", (s) -> {}, clientPackage);
 
         syncStringProperty(additionalProperties, CodegenConstants.API_PACKAGE, this::setApiPackage, apiPackage);
         syncStringProperty(additionalProperties, CodegenConstants.MODEL_PACKAGE, this::setModelPackage, modelPackage);
@@ -669,7 +669,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         binRelativePath += "vendor";
         additionalProperties.put("binRelativePath", binRelativePath);
 
-        if(HTTPCLIENT.equals(getLibrary())) {
+        if (HTTPCLIENT.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
             typeMapping.put("file", "FileParameter");
         }
@@ -682,10 +682,10 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ExceptionFactory.mustache", clientPackageDir, "ExceptionFactory.cs"));
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
-        if(needsCustomHttpMethod) {
+        if (needsCustomHttpMethod) {
             supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
         }
-        if(needsUriBuilder) {
+        if (needsUriBuilder) {
             supportingFiles.add(new SupportingFile("WebRequestPathBuilder.mustache", clientPackageDir, "WebRequestPathBuilder.cs"));
         }
         if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
@@ -736,7 +736,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         this.optionalEmitDefaultValuesFlag = flag;
     }
 
-    public void setConditionalSerialization(boolean flag){
+    public void setConditionalSerialization(boolean flag) {
         this.conditionalSerialization = flag;
     }
 
@@ -771,8 +771,8 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
             throw new IllegalArgumentException("Invalid .NET framework version: " +
                     dotnetFramework + ". List of supported versions: " +
                     frameworkStrategies.stream()
-                    .map(p -> p.name)
-                    .collect(Collectors.joining(", ")));
+                            .map(p -> p.name)
+                            .collect(Collectors.joining(", ")));
         } else {
             this.targetFramework = dotnetFramework;
         }

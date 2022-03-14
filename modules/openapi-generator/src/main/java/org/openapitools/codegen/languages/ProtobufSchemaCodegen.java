@@ -91,7 +91,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         apiTemplateFiles.put("api.mustache", ".proto");
         embeddedTemplateDir = templateDir = "protobuf-schema";
         hideGenerationTimestamp = Boolean.TRUE;
-        modelPackage = "messages";
+        modelPackage = "models";
         apiPackage = "services";
 
         defaultIncludes = new HashSet<>(
@@ -167,11 +167,19 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         apiDocTemplateFiles.clear(); // TODO: add api doc template
         modelDocTemplateFiles.clear(); // TODO: add model doc template
 
-        modelPackage = "models";
-        apiPackage = "services";
-
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        }
+        else {
+            additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        }
+
+        if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+        }
+
+        if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
 
         if (additionalProperties.containsKey(this.NUMBERED_FIELD_NUMBER_LIST)) {
@@ -201,26 +209,62 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return camelize(sanitizeName(operationId));
     }
 
-    public void addUnknownToAllowableValues(Map<String, Object> allowableValues, String name) {
+    /**
+     * Adds prefix to the enum allowable values
+     * NOTE: Enum values use C++ scoping rules, meaning that enum values are siblings of their type, not children of it. Therefore, enum value must be unique
+     *
+     * @param allowableValues allowable values
+     * @param prefix added prefix
+     */
+    public void addEnumValuesPrefix(Map<String, Object> allowableValues, String prefix){
+        if(allowableValues.containsKey("enumVars")) {
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
+
+            for(Map<String, Object> value : enumVars) {
+                String name = (String)value.get("name");
+                value.put("name", prefix + "_" + name);
+                value.put("value", "\"" + prefix + "_" + name + "\"");
+            }
+        }
+
+        if(allowableValues.containsKey("values")) {
+            List<String> values = (List<String>)allowableValues.get("values");
+            for(String value : values) {
+                value = prefix + "_" + value;
+            }
+        }
+    }
+
+    /**
+     * Adds unknown value to the enum allowable values
+     *
+     * @param allowableValues allowable values
+     */
+    public void addUnknownToAllowableValues(Map<String, Object> allowableValues) {
         if(startEnumsWithUnknown) {
             if(allowableValues.containsKey("enumVars")) {
                 List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
-                
+
                 HashMap<String, Object> unknown = new HashMap<String, Object>();
-                unknown.put("name", name + "_UNKNOWN");
+                unknown.put("name", "UNKNOWN");
                 unknown.put("isString", "false");
-                unknown.put("value", "\"" + name + "_UNKNOWN\"");
+                unknown.put("value", "\"UNKNOWN\"");
 
                 enumVars.add(0, unknown);
             }
 
             if(allowableValues.containsKey("values")) {
                 List<String> values = (List<String>)allowableValues.get("values");           
-                values.add(0, name + "_UNKNOWN");
+                values.add(0, "UNKNOWN");
             }
         }
     }
 
+    /**
+     * Iterates enum vars and puts index to them
+     *
+     * @param enumVars list of enum vars
+     */
     public void addEnumIndexes(List<Map<String, Object>> enumVars) {
         int enumIndex = 0;
         for (Map<String, Object> enumVar : enumVars) {
@@ -240,8 +284,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
             if(cm.isEnum) {
                 Map<String, Object> allowableValues = cm.getAllowableValues();
-                addUnknownToAllowableValues(allowableValues, cm.getClassname());
-
+                addUnknownToAllowableValues(allowableValues);
+                addEnumValuesPrefix(allowableValues, cm.getClassname());
                 if (allowableValues.containsKey("enumVars")) {
                     List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
                     addEnumIndexes(enumVars);
@@ -253,6 +297,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 // add x-protobuf-type: repeated if it's an array
                 if (Boolean.TRUE.equals(var.isArray)) {
                     var.vendorExtensions.put("x-protobuf-type", "repeated");
+                }
+                else if (Boolean.TRUE.equals(var.isNullable &&  var.isPrimitiveType)) {
+                    var.vendorExtensions.put("x-protobuf-type", "optional");
                 }
 
                 // add x-protobuf-data-type
@@ -266,7 +313,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
 
                 if (var.isEnum) {
-                    addUnknownToAllowableValues(var.allowableValues, var.getEnumName());
+                    addUnknownToAllowableValues(var.allowableValues);
+                    addEnumValuesPrefix(var.allowableValues, var.getEnumName());
                 
                     if(var.allowableValues.containsKey("enumVars")) {
                         List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
@@ -500,9 +548,14 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             int index = 1;
             for (CodegenParameter p : op.allParams) {
                 // add x-protobuf-type: repeated if it's an array
+                
                 if (Boolean.TRUE.equals(p.isArray)) {
                     p.vendorExtensions.put("x-protobuf-type", "repeated");
-                } else if (Boolean.TRUE.equals(p.isMap)) {
+                }
+                else if (Boolean.TRUE.equals(p.isNullable &&  p.isPrimitiveType)) {
+                    p.vendorExtensions.put("x-protobuf-type", "optional");
+                }
+                else if (Boolean.TRUE.equals(p.isMap)) {
                     LOGGER.warn("Map parameter (name: {}, operation ID: {}) not yet supported", p.paramName, op.operationId);
                 }
 
@@ -587,4 +640,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
         return containsVar;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PROTOBUF; }
 }

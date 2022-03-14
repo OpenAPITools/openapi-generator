@@ -16,12 +16,15 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * AdditionalPropertiesNumber
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
+
   @JsonProperty("name")
   private String name;
 
@@ -34,9 +37,8 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
    * Get name
    * @return name
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getName() {
     return name;
   }
@@ -44,7 +46,6 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {

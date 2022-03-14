@@ -1,0 +1,129 @@
+{{>common/licenseInfo}}
+package {{apiPackage}};
+
+import io.micronaut.http.annotation.*;
+import io.micronaut.core.annotation.Nullable;
+import io.micronaut.core.convert.format.Format;
+{{#useAuth}}
+import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.rules.SecurityRule;
+{{/useAuth}}
+import reactor.core.publisher.Mono;
+{{#imports}}
+import {{import}};
+{{/imports}}
+import javax.annotation.Generated;
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{#generateControllerFromExamples}}
+import java.util.Arrays;
+{{/generateControllerFromExamples}}
+{{/fullJavaUtil}}
+{{#useBeanValidation}}
+import javax.validation.Valid;
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
+import io.swagger.annotations.*;
+
+{{>common/generatedAnnotation}}
+{{^generateControllerAsAbstract}}
+@Controller("${context-path}")
+{{/generateControllerAsAbstract}}
+public {{#generateControllerAsAbstract}}abstract {{/generateControllerAsAbstract}}class {{classname}} {
+{{#operations}}
+    {{#operation}}
+    /**
+        {{#summary}}
+     * {{summary}}
+        {{/summary}}
+        {{#notes}}
+     * {{notes}}
+        {{/notes}}
+        {{^summary}}
+            {{^notes}}
+     * {{nickname}}
+            {{/notes}}
+        {{/summary}}
+     *
+        {{#allParams}}
+     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+        {{/allParams}}
+        {{#returnType}}
+     * @return {{returnType}}
+        {{/returnType}}
+        {{#externalDocs}}
+     * {{description}}
+     * @see <a href="{{url}}">{{summary}} Documentation</a>
+        {{/externalDocs}}
+     */
+    {{!openapi annotations for info}}
+    @ApiOperation(
+        value = "{{{summary}}}",
+        nickname = "{{{operationId}}}"{{#notes}},
+        notes = "{{{notes}}}"{{/notes}}{{#returnBaseType}},
+        response = {{{returnBaseType}}}.class{{/returnBaseType}}{{#returnContainer}},
+        responseContainer = "{{{returnContainer}}}"{{/returnContainer}},
+        authorizations = {{openbrace}}{{#hasAuthMethods}}
+        {{#authMethods}}
+            {{#isOAuth}}
+            @Authorization(value = "{{name}}"{{#scopes}}{{#-first}}, scopes = {
+                {{#scopes}}
+                @AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},{{/-last}}
+                {{/scopes}}
+            }{{/-first}}{{/scopes}}){{^-last}},{{/-last}}
+            {{/isOAuth}}
+            {{^isOAuth}}
+            @Authorization(value = "{{name}}"){{^-last}},{{/-last}}
+            {{/isOAuth}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}{{closebrace}},
+        tags={{openbrace}}{{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}}{{closebrace}})
+    {{!openapi annotations for info about responses}}
+    @ApiResponses(value = {{openbrace}}{{#responses}}
+        @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{baseType}}}.class{{/baseType}}{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}}{{closebrace}})
+    {{!micronaut annotations}}
+    @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
+    @Produces(value = {{openbrace}}{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}{{closebrace}})
+    {{#consumes.0}}
+    @Consumes(value = {{openbrace}}{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}{{closebrace}})
+    {{/consumes.0}}
+    {{!security annotations}}
+    {{#useAuth}}
+        {{#hasAuthMethods}}
+    @Secured(SecurityRule.IS_AUTHENTICATED)
+        {{/hasAuthMethods}}
+        {{^hasAuthMethods}}
+    @Secured(SecurityRule.IS_ANONYMOUS)
+        {{/hasAuthMethods}}
+    {{/useAuth}}
+    {{!the method definition}}
+    public {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}{{#generateControllerAsAbstract}}Api{{/generateControllerAsAbstract}}({{#allParams}}
+        {{>server/params/queryParams}}{{>server/params/pathParams}}{{>server/params/headerParams}}{{>server/params/bodyParams}}{{>server/params/formParams}}{{>server/params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
+    {{/-last}}{{/allParams}}) {
+        {{^generateControllerAsAbstract}}
+{{>server/controllerOperationBody}}    }
+        {{/generateControllerAsAbstract}}
+        {{#generateControllerAsAbstract}}
+        return {{nickname}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    }
+        {{/generateControllerAsAbstract}}
+    {{#generateControllerAsAbstract}}
+
+    /**
+        {{#summary}}
+     * {{summary}}
+        {{/summary}}
+     *
+     * This method will be delegated to when the controller gets a request
+     */
+    public abstract {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    {{/generateControllerAsAbstract}}
+    {{^-last}}
+
+    {{/-last}}
+    {{/operation}}
+{{/operations}}
+}

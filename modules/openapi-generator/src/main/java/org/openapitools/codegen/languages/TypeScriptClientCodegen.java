@@ -143,7 +143,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 "any",
                 "File",
                 "Error",
-                "Map"
+                "Map",
+                "Set"
         ));
 
         languageGenericTypes = new HashSet<>(Arrays.asList(
@@ -169,6 +170,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("integer", "number");
         typeMapping.put("Map", "any");
         typeMapping.put("map", "any");
+        typeMapping.put("Set", "Set");
+        typeMapping.put("set", "Set");
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "Date");
         typeMapping.put("binary", "any");
@@ -1573,4 +1576,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.TYPESCRIPT; }
 }

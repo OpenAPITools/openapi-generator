@@ -519,9 +519,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         } else if (ModelUtils.isBooleanSchema(schema)) {
             example = "1";
         } else if (ModelUtils.isArraySchema(schema)) {
-            example = "list_create()";
+            example = "list_createList()";
         } else if (ModelUtils.isMapSchema(schema)) {
-            example = "list_create()";
+            example = "list_createList()";
         } else if (ModelUtils.isObjectSchema(schema)) {
             return null; // models are managed at moustache level
         } else {
@@ -920,4 +920,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("# > Niklas Werner - https://paypal.me/wernerdevelopment                        #");
         System.out.println("################################################################################");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.C; }
 }

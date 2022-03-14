@@ -286,4 +286,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         // just return the original string
         return input;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return null; }
 }

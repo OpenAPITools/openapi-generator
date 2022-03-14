@@ -58,6 +58,7 @@ public class BashClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setApiKeyAuthEnvironmentVariable(
                 BashClientOptionsProvider.APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME);
         verify(clientCodegen).setAllowUnicodeIdentifiers(Boolean.valueOf(BashClientOptionsProvider.ALLOW_UNICODE_IDENTIFIERS_VALUE));
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(BashClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }
 

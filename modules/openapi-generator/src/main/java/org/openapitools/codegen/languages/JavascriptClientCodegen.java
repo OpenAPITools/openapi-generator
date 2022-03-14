@@ -1240,4 +1240,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         return super.getCollectionFormat(codegenParameter);
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }

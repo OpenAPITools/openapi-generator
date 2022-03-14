@@ -112,7 +112,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -135,7 +136,7 @@ class PetApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -144,10 +145,12 @@ class PetApi(object):
         if 'body' in local_var_params:
             body_params = local_var_params['body']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json', 'application/xml'],
                 'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
@@ -252,7 +255,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -277,7 +281,7 @@ class PetApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
         if 'api_key' in local_var_params:
             header_params['api_key'] = local_var_params['api_key']  # noqa: E501
 
@@ -385,7 +389,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -411,7 +416,7 @@ class PetApi(object):
             query_params.append(('status', local_var_params['status']))  # noqa: E501
             collection_formats['status'] = 'csv'  # noqa: E501
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -524,7 +529,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -550,7 +556,7 @@ class PetApi(object):
             query_params.append(('tags', local_var_params['tags']))  # noqa: E501
             collection_formats['tags'] = 'csv'  # noqa: E501
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -663,7 +669,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -688,7 +695,7 @@ class PetApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -800,7 +807,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -823,7 +831,7 @@ class PetApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -832,10 +840,12 @@ class PetApi(object):
         if 'body' in local_var_params:
             body_params = local_var_params['body']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/json', 'application/xml'],
                 'PUT', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
@@ -945,7 +955,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -970,7 +981,7 @@ class PetApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -981,10 +992,12 @@ class PetApi(object):
 
         body_params = None
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['application/x-www-form-urlencoded'],
                 'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
@@ -1094,7 +1107,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -1119,7 +1133,7 @@ class PetApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1134,10 +1148,12 @@ class PetApi(object):
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['multipart/form-data'],
                 'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
@@ -1249,7 +1265,8 @@ class PetApi(object):
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
-                '_content_type'
+                '_content_type',
+                '_headers'
             ]
         )
 
@@ -1278,7 +1295,7 @@ class PetApi(object):
 
         query_params = []
 
-        header_params = {}
+        header_params = dict(local_var_params.get('_headers', {}))
 
         form_params = []
         local_var_files = {}
@@ -1293,10 +1310,12 @@ class PetApi(object):
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = local_var_params.get('_content_type',
+        content_types_list = local_var_params.get('_content_type',
             self.api_client.select_header_content_type(
                 ['multipart/form-data'],
                 'POST', body_params))  # noqa: E501
+        if content_types_list:
+                header_params['Content-Type'] = content_types_list
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501

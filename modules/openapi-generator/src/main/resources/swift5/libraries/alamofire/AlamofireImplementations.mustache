@@ -79,7 +79,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
     }
 
     @discardableResult
-    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> URLSessionTask? {
+    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let managerId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createAlamofireSession()
@@ -114,6 +114,8 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
                             mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
                         case let number as NSNumber:
                             mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
+                        case let data as Data:
+                            mpForm.append(data, withName: k)
                         default:
                             fatalError("Unprocessable value \(v) with key \(k)")
                         }
@@ -124,6 +126,8 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
                         onProgressReady(progress)
                     }
                 }
+
+                requestTask.set(request: upload)
 
                 self.processRequest(request: upload, managerId, apiResponseQueue, completion)
             } else if contentType == "application/x-www-form-urlencoded" {
@@ -142,10 +146,10 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
                 onProgressReady(request.uploadProgress)
             }
             processRequest(request: request, managerId, apiResponseQueue, completion)
-            return request.task
+            requestTask.set(request: request)
         }
 
-        return nil
+        return requestTask
     }
 
     fileprivate func processRequest(request: DataRequest, _ managerId: String, _ apiResponseQueue: DispatchQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
