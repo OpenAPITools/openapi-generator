@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="dogAllOf">dogAllOf</param>
         /// <param name="className">className (required)</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
-        public Dog(DogAllOf dogAllOf, string className, string? color = "red") : base(className, color)
+        public Dog(DogAllOf? dogAllOf, string className, string? color = "red") : base(className, color)
         {
             DogAllOf = dogAllOf;
         }

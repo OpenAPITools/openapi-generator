@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="childCatAllOf">childCatAllOf</param>
         /// <param name="petType">petType (required)</param>
-        public ChildCat(ChildCatAllOf childCatAllOf, string petType) : base(petType)
+        public ChildCat(ChildCatAllOf? childCatAllOf, string petType) : base(petType)
         {
             ChildCatAllOf = childCatAllOf;
         }

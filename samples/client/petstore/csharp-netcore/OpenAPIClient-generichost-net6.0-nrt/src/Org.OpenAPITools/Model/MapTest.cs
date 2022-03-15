@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("map_of_enum_string")]
         public Dictionary<string, InnerEnum>? MapOfEnumString { get; set; }
-        
+
         /// <summary>
         /// Gets or Sets MapMapOfString
         /// </summary>

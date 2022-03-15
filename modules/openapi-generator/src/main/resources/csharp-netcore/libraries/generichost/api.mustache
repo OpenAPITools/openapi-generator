@@ -36,7 +36,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}&gt;&gt;</returns>
         Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// {{summary}}
         /// </summary>
@@ -50,7 +50,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}&gt;</returns>
         Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> {{operationId}}Async({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null);{{#nrt}}
-        
+
         /// <summary>
         /// {{summary}}
         /// </summary>
@@ -92,22 +92,22 @@ namespace {{packageName}}.{{apiPackage}}
         /// A token provider of type <see cref="ApiKeyProvider"/>
         /// </summary>
         public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
-        
+
         /// <summary>
         /// A token provider of type <see cref="BearerToken"/>
         /// </summary>
         public TokenProvider<BearerToken> BearerTokenProvider { get; }{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
-        
+
         /// <summary>
         /// A token provider of type <see cref="BasicTokenProvider"/>
         /// </summary>
         public TokenProvider<BasicToken> BasicTokenProvider { get; }{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
-        
+
         /// <summary>
         /// A token provider of type <see cref="HttpSignatureTokenProvider"/>
         /// </summary>
         public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }{{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}
-        
+
         /// <summary>
         /// A token provider of type <see cref="OauthTokenProvider"/>
         /// </summary>
@@ -146,7 +146,7 @@ namespace {{packageName}}.{{apiPackage}}
         public async Task<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> {{operationId}}Async({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> result = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
-            
+
             {{^nrt}}{{#returnTypeIsPrimitive}}#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             {{/returnTypeIsPrimitive}}{{/nrt}}if (result.Content == null){{^nrt}}{{#returnTypeIsPrimitive}}
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'{{/returnTypeIsPrimitive}}{{/nrt}}
@@ -179,7 +179,7 @@ namespace {{packageName}}.{{apiPackage}}
                 ? result.Content
                 : null;
         }{{/nrt}}{{^nrt}}{{^returnTypeIsPrimitive}}
-{{! Note that this method is a copy paste of above due to NRT complexities }}
+        {{! Note that this method is a copy paste of above due to NRT complexities }}
         /// <summary>
         /// {{summary}} {{notes}}
         /// </summary>
@@ -223,12 +223,12 @@ namespace {{packageName}}.{{apiPackage}}
 
                 if ({{paramName}} == null)
                     throw new ArgumentNullException(nameof({{paramName}}));{{/nrt}}{{^nrt}}{{^vendorExtensions.x-csharp-value-type}}
-                    
+
                 if ({{paramName}} == null)
                     throw new ArgumentNullException(nameof({{paramName}}));{{/vendorExtensions.x-csharp-value-type}}{{/nrt}}{{/required}}{{/allParams}}{{#hasRequiredParams}}
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 {{/hasRequiredParams}}using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -242,83 +242,81 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/required}}{{/pathParams}}{{#queryParams}}{{#-first}}
 
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);{{/-first}}{{/queryParams}}{{^queryParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
-                    
+
                     System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/queryParams}}{{#queryParams}}{{#required}}{{#-first}}
 
-    {{! all the redundant tags here are to get the spacing just right }}
+                    {{! all the redundant tags here are to get the spacing just right }}
                     {{/-first}}{{/required}}{{/queryParams}}{{#queryParams}}{{#required}}parseQueryString["{{baseName}}"] = Uri.EscapeDataString({{paramName}}.ToString(){{nrt!}});
                     {{/required}}{{/queryParams}}{{#queryParams}}{{#-first}}
                     {{/-first}}{{/queryParams}}{{#queryParams}}{{^required}}if ({{paramName}} != null)
                         parseQueryString["{{baseName}}"] = Uri.EscapeDataString({{paramName}}.ToString(){{nrt!}});
 
                     {{/required}}{{#-last}}uriBuilder.Query = parseQueryString.ToString();{{/-last}}{{/queryParams}}{{#headerParams}}{{#required}}
-                    
+
                     request.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));{{/required}}{{^required}}
-                    
+
                     if ({{paramName}} != null)
                         request.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));{{/required}}{{/headerParams}}{{#formParams}}{{#-first}}
 
                     MultipartContent multipartContent = new MultipartContent();
 
                     request.Content = multipartContent;
-                    
+
                     List<KeyValuePair<string{{nrt?}}, string{{nrt?}}>> formParams = new List<KeyValuePair<string{{nrt?}}, string{{nrt?}}>>();
 
                     multipartContent.Add(new FormUrlEncodedContent(formParams));{{/-first}}{{^isFile}}{{#required}}
-                    
+
                     formParams.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));{{/required}}{{^required}}
 
                     if ({{paramName}} != null)
                         formParams.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));{{/required}}{{/isFile}}{{#isFile}}{{#required}}
-                    
+
                     multipartContent.Add(new StreamContent({{paramName}}));{{/required}}{{^required}}
-                    
+
                     if ({{paramName}} != null)
                         multipartContent.Add(new StreamContent({{paramName}}));{{/required}}{{/isFile}}{{/formParams}}{{#bodyParam}}
-                    
-                    if (({{paramName}} as object) is System.IO.Stream stream)
-                        request.Content = new StreamContent(stream);
-                    else
-                        // request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{paramName}}, ClientUtils.JsonSerializerSettings));
-                        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize({{paramName}}, ClientUtils.JsonSerializerOptions));{{/bodyParam}}{{#authMethods}}{{#-first}}
+
+                    request.Content = ({{paramName}} as object) is System.IO.Stream stream
+                        ? request.Content = new StreamContent(stream)
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize({{paramName}}, ClientUtils.JsonSerializerOptions));{{/bodyParam}}{{#authMethods}}{{#-first}}
 
                     List<TokenBase> tokens = new List<TokenBase>();{{/-first}}{{#isApiKey}}
-                    
+
                     ApiKeyToken apiKey = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-                    
+
                     tokens.Add(apiKey);{{#isKeyInHeader}}
-                    
+
                     apiKey.UseInHeader(request, "{{keyParamName}}");{{/isKeyInHeader}}{{#isKeyInQuery}}
-                    
+
                     apiKey.UseInQuery(request, uriBuilder, parseQueryString, "{{keyParamName}}");
-                    
+
                     uriBuilder.Query = parseQueryString.ToString();{{/isKeyInQuery}}{{#isKeyInCookie}}
-                    
+
                     apiKey.UseInCookie(request, parseQueryString, "{{keyParamName}}");
-                    
+
                     uriBuilder.Query = parseQueryString.ToString();{{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}
 
-    {{! below line must be after any UseInQuery calls, but before using the HttpSignatureToken}}
+                    {{! below line must be after any UseInQuery calls, but before using the HttpSignatureToken}}
                     request.RequestUri = uriBuilder.Uri;{{#authMethods}}{{#isBasicBasic}}
 
                     BasicToken basicToken = (BasicToken) await BasicTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(basicToken);
-                    
+
                     basicToken.UseInHeader(request, "{{keyParamName}}");{{/isBasicBasic}}{{#isBasicBearer}}
 
                     BearerToken bearerToken = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(bearerToken);
-                    
+
                     bearerToken.UseInHeader(request, "{{keyParamName}}");{{/isBasicBearer}}{{#isOAuth}}
 
                     OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(oauthToken);
-                    
+
                     oauthToken.UseInHeader(request, "{{keyParamName}}");{{/isOAuth}}{{#isHttpSignature}}
-                    
+
                     HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(signatureToken);
@@ -326,22 +324,22 @@ namespace {{packageName}}.{{apiPackage}}
                     string requestBody = await request.Content{{nrt!}}.ReadAsStringAsync({{^netStandard}}{{^netcoreapp3.1}}cancellationToken.GetValueOrDefault(){{/netcoreapp3.1}}{{/netStandard}}).ConfigureAwait(false);
 
                     signatureToken.UseInHeader(request, requestBody, cancellationToken);{{/isHttpSignature}}{{/authMethods}}{{#consumes}}{{#-first}}
-                    
+
                     string[] contentTypes = new string[] {
                         {{/-first}}"{{{mediaType}}}"{{^-last}},
                         {{/-last}}{{#-last}} 
                     };{{/-last}}{{/consumes}}{{#consumes}}{{#-first}}
-                    
+
                     string{{nrt?}} contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);{{/-first}}{{/consumes}}{{#produces}}{{#-first}}
-                    
+
                     string[] accepts = new string[] { {{/-first}}{{/produces}}
                         {{#produces}}"{{{mediaType}}}"{{^-last}}, 
                         {{/-last}}{{/produces}}{{#produces}}{{#-last}} 
                     };{{/-last}}{{/produces}}{{#produces}}{{#-first}}
-                    
+
                     string{{nrt?}} accept = ClientUtils.SelectHeaderAccept(accepts);
 
                     if (accept != null)

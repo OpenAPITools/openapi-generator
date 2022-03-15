@@ -54,12 +54,16 @@ namespace Org.OpenAPITools.Model
         {
             if (number == null)
                 throw new ArgumentNullException("number is a required property for FormatTest and cannot be null.");
+
             if (_byte == null)
                 throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null.");
+
             if (date == null)
                 throw new ArgumentNullException("date is a required property for FormatTest and cannot be null.");
+
             if (password == null)
                 throw new ArgumentNullException("password is a required property for FormatTest and cannot be null.");
+
             Number = number;
             Byte = _byte;
             Date = date;
