@@ -18,6 +18,8 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.Iterables;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +33,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -244,6 +248,19 @@ public class GoClientCodegen extends AbstractGoCodegen {
             this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
+
+        // add lambda for mustache templates to handle oneOf/anyOf naming
+        // e.g. []string => ArrayOfString
+        additionalProperties.put("lambda.type-to-name", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String content = fragment.execute();
+                content = content.trim().replace("[]", "array_of_");
+                content = content.trim().replace("[", "map_of_");
+                content = content.trim().replace("]", "");
+                writer.write(camelize(content));
+            }
+        });
 
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));

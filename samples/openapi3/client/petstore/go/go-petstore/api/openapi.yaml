@@ -2104,11 +2104,16 @@ components:
       - $ref: '#/components/schemas/OneOfPrimitiveTypeChild'
       - format: int32
         type: integer
+      - $ref: '#/components/schemas/OneOfArrayOfString'
     OneOfPrimitiveTypeChild:
       properties:
         name:
           type: string
       type: object
+    OneOfArrayOfString:
+      items:
+        type: string
+      type: array
     inline_response_default:
       example:
         string:

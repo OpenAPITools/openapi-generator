@@ -18,6 +18,7 @@ import (
 // OneOfPrimitiveType - struct for OneOfPrimitiveType
 type OneOfPrimitiveType struct {
 	OneOfPrimitiveTypeChild *OneOfPrimitiveTypeChild
+	ArrayOfString *[]string
 	Int32 *int32
 }
 
@@ -25,6 +26,13 @@ type OneOfPrimitiveType struct {
 func OneOfPrimitiveTypeChildAsOneOfPrimitiveType(v *OneOfPrimitiveTypeChild) OneOfPrimitiveType {
 	return OneOfPrimitiveType{
 		OneOfPrimitiveTypeChild: v,
+	}
+}
+
+// []stringAsOneOfPrimitiveType is a convenience function that returns []string wrapped in OneOfPrimitiveType
+func ArrayOfStringAsOneOfPrimitiveType(v *[]string) OneOfPrimitiveType {
+	return OneOfPrimitiveType{
+		ArrayOfString: v,
 	}
 }
 
@@ -53,6 +61,19 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 		dst.OneOfPrimitiveTypeChild = nil
 	}
 
+	// try to unmarshal data into ArrayOfString
+	err = newStrictDecoder(data).Decode(&dst.ArrayOfString)
+	if err == nil {
+		jsonArrayOfString, _ := json.Marshal(dst.ArrayOfString)
+		if string(jsonArrayOfString) == "{}" { // empty struct
+			dst.ArrayOfString = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.ArrayOfString = nil
+	}
+
 	// try to unmarshal data into Int32
 	err = newStrictDecoder(data).Decode(&dst.Int32)
 	if err == nil {
@@ -69,6 +90,7 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 	if match > 1 { // more than 1 match
 		// reset to nil
 		dst.OneOfPrimitiveTypeChild = nil
+		dst.ArrayOfString = nil
 		dst.Int32 = nil
 
 		return fmt.Errorf("Data matches more than one schema in oneOf(OneOfPrimitiveType)")
@@ -85,6 +107,10 @@ func (src OneOfPrimitiveType) MarshalJSON() ([]byte, error) {
 		return json.Marshal(&src.OneOfPrimitiveTypeChild)
 	}
 
+	if src.ArrayOfString != nil {
+		return json.Marshal(&src.ArrayOfString)
+	}
+
 	if src.Int32 != nil {
 		return json.Marshal(&src.Int32)
 	}
@@ -99,6 +125,10 @@ func (obj *OneOfPrimitiveType) GetActualInstance() (interface{}) {
 	}
 	if obj.OneOfPrimitiveTypeChild != nil {
 		return obj.OneOfPrimitiveTypeChild
+	}
+
+	if obj.ArrayOfString != nil {
+		return obj.ArrayOfString
 	}
 
 	if obj.Int32 != nil {
