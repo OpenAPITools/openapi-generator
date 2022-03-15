@@ -62,7 +62,7 @@ configuration = dynamic_servers.Configuration(
 with dynamic_servers.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = usage_api.UsageApi(api_client)
-    
+
     try:
         # Use custom server
         api_response = api_instance.custom_server()

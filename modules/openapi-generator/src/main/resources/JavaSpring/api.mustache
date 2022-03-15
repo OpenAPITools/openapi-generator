@@ -184,21 +184,21 @@ public interface {{classname}} {
         {{/responses}}
     })
     {{/swagger1AnnotationLibrary}}
-    {{#implicitHeaders}}
+    {{#implicitHeadersParams.0}}
     {{#swagger2AnnotationLibrary}}
     @Parameters({
-        {{#headerParams}}
+        {{#implicitHeadersParams}}
         {{>paramDoc}}{{^-last}},{{/-last}}
-        {{/headerParams}}
+        {{/implicitHeadersParams}}
     {{/swagger2AnnotationLibrary}}
     {{#swagger1AnnotationLibrary}}
     @ApiImplicitParams({
-        {{#headerParams}}
+        {{#implicitHeadersParams}}
         {{>implicitHeader}}{{^-last}},{{/-last}}
-        {{/headerParams}}
+        {{/implicitHeadersParams}}
     {{/swagger1AnnotationLibrary}}
     })
-    {{/implicitHeaders}}
+    {{/implicitHeadersParams.0}}
     @RequestMapping(
         method = RequestMethod.{{httpMethod}},
         value = "{{{path}}}"{{#singleContentTypes}}{{#hasProduces}},

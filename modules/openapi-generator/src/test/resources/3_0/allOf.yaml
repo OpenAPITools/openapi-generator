@@ -52,6 +52,9 @@ components:
               $ref: "#/components/schemas/Child"
     Child:
       description: A representation of a child
+      properties:
+        boosterSeat:
+          type: boolean
       allOf:
       - type: object
         properties:

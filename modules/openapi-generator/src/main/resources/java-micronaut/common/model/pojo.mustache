@@ -17,7 +17,10 @@
 {{/additionalModelTypeAnnotations}}
 {{>common/generatedAnnotation}}{{#discriminator}}{{>common/model/typeInfoAnnotation}}{{/discriminator}}{{>common/model/xmlAnnotation}}{{#useBeanValidation}}
 @Introspected
-{{/useBeanValidation}}{{!
+{{/useBeanValidation}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}{{!
 Declare the class with extends and implements
 }}public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
     {{#serializableModel}}
@@ -57,6 +60,9 @@ Declare the class with extends and implements
                 {{/isContainer}}
             {{/isXmlAttribute}}
         {{/withXml}}
+        {{#vendorExtensions.x-field-extra-annotation}}
+        {{{vendorExtensions.x-field-extra-annotation}}}
+        {{/vendorExtensions.x-field-extra-annotation}}
         {{#vendorExtensions.x-is-jackson-optional-nullable}}
             {{#isContainer}}
     private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();

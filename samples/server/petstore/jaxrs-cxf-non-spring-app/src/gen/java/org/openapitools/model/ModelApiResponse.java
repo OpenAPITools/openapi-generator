@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   * Describes the result of uploading an image resource
  **/
 @ApiModel(description="Describes the result of uploading an image resource")
+
 public class ModelApiResponse  {
   
   @ApiModelProperty(value = "")

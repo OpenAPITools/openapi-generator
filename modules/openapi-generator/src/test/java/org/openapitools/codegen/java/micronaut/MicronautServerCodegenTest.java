@@ -5,6 +5,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaMicronautServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -191,5 +192,15 @@ public class MicronautServerCodegenTest extends AbstractMicronautCodegenTest {
         assertFileNotContainsRegex(modelPath + "User.java", "public User\\([^)]+\\)");
         assertFileContains(modelPath + "Order.java", "public Order()");
         assertFileNotContainsRegex(modelPath + "Order.java", "public Order\\([^)]+\\)");
+    }
+
+    @Test
+    public void testExtraAnnotations() throws Exception {
+        
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+        String outputPath = generateFiles(codegen, "src/test/resources/3_0/issue_11772.yml", CodegenConstants.MODELS);
+
+        TestUtils.assertExtraAnnotationFiles(outputPath + "/src/main/java/org/openapitools/model");
+
     }
 }
