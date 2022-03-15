@@ -62,6 +62,7 @@ public class PhpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
+                .put(PhpClientCodegen.BOOLEAN_FORMAT_FOR_QUERY_STRING_SWITCH, PhpClientCodegen.getDefaultBooleanFormatForQueryString())
                 .build();
     }
 

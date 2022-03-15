@@ -162,8 +162,17 @@ class ObjectSerializer
     {
         if (is_array($object)) {
             return implode(',', $object);
+        } elseif (is_bool($value)) {
+            {{#booleanFormatsForQueryString}}
+            {{#int}}
+            return (int) $value;
+            {{/int}}
+            {{#string}}
+            return $value ? 'true' : 'false';
+            {{/string}}
+            {{/booleanFormatsForQueryString}}
         } else {
-            return self::toString($object);
+            return $value;
         }
     }
 

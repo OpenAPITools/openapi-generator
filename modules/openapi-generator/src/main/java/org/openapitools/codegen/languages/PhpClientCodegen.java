@@ -27,12 +27,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
 
 public class PhpClientCodegen extends AbstractPhpCodegen {
+    public static final String BOOLEAN_FORMAT_FOR_QUERY_STRING_SWITCH = "booleanFormatForQueryString";
+    public static final String BOOLEAN_FORMAT_FOR_QUERY_STRING_SWITCH_DESC = "Specifies the format for converting boolean to query string. The default is 'int'.(e.g. int param=1 or param=0 string param=true or param=false)";
+    public static final String[] BOOLEAN_FORMATS_FOR_QUERY_STRING = { "int", "string" };
+
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
 
@@ -78,6 +79,18 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.ALLOW_UNICODE_IDENTIFIERS_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
+
+        CliOption booleanFormatForQueryStringOption = new CliOption(PhpClientCodegen.BOOLEAN_FORMAT_FOR_QUERY_STRING_SWITCH, PhpClientCodegen.BOOLEAN_FORMAT_FOR_QUERY_STRING_SWITCH_DESC);
+        for (String option: PhpClientCodegen.BOOLEAN_FORMATS_FOR_QUERY_STRING) {
+            booleanFormatForQueryStringOption.addEnum(option, option);
+        }
+        booleanFormatForQueryStringOption.defaultValue(PhpClientCodegen.getDefaultBooleanFormatForQueryString());
+
+        cliOptions.add(booleanFormatForQueryStringOption);
+    }
+
+    public static String getDefaultBooleanFormatForQueryString() {
+        return PhpClientCodegen.BOOLEAN_FORMATS_FOR_QUERY_STRING[0];
     }
 
     @Override
@@ -110,5 +123,13 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile(".php_cs", "", ".php_cs"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+
+        Object propBooleanFormatForQueryString = additionalProperties.get(BOOLEAN_FORMAT_FOR_QUERY_STRING_SWITCH);
+
+        Map<String, Boolean> booleanFormatsForQueryString = new HashMap<>();
+        for (String platform: PhpClientCodegen.BOOLEAN_FORMATS_FOR_QUERY_STRING) {
+            booleanFormatsForQueryString.put(platform, platform.equals(propBooleanFormatForQueryString));
+        }
+        additionalProperties.put("booleanFormatsForQueryString", booleanFormatsForQueryString);
     }
 }
