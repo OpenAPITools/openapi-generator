@@ -40,6 +40,7 @@ namespace Org.OpenAPITools.Model
         {
             if (className == null)
                 throw new ArgumentNullException("className is a required property for Animal and cannot be null.");
+
             ClassName = className;
             Color = color;
         }
