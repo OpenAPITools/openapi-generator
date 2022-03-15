@@ -1501,22 +1501,22 @@ class UserApi
         if ($username !== null) {
             if('form' === 'form' && is_array($username)) {
                 foreach($username as $key => $value) {
-                    $queryParams[$key] = $value;
+                    $queryParams[$key] = ObjectSerializer::toQueryValue($value);
                 }
             }
             else {
-                $queryParams['username'] = $username;
+                $queryParams['username'] = ObjectSerializer::toQueryValue($username);
             }
         }
         // query params
         if ($password !== null) {
             if('form' === 'form' && is_array($password)) {
                 foreach($password as $key => $value) {
-                    $queryParams[$key] = $value;
+                    $queryParams[$key] = ObjectSerializer::toQueryValue($value);
                 }
             }
             else {
-                $queryParams['password'] = $password;
+                $queryParams['password'] = ObjectSerializer::toQueryValue($password);
             }
         }
 

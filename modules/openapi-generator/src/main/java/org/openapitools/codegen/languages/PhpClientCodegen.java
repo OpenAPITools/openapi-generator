@@ -126,6 +126,11 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
 
         Object propBooleanFormatForQueryString = additionalProperties.get(BOOLEAN_FORMAT_FOR_QUERY_STRING_SWITCH);
 
+        if (propBooleanFormatForQueryString == null) {
+            propBooleanFormatForQueryString = PhpClientCodegen.getDefaultBooleanFormatForQueryString();
+            additionalProperties.put(BOOLEAN_FORMAT_FOR_QUERY_STRING_SWITCH, propBooleanFormatForQueryString);
+        }
+
         Map<String, Boolean> booleanFormatsForQueryString = new HashMap<>();
         for (String platform: PhpClientCodegen.BOOLEAN_FORMATS_FOR_QUERY_STRING) {
             booleanFormatsForQueryString.put(platform, platform.equals(propBooleanFormatForQueryString));

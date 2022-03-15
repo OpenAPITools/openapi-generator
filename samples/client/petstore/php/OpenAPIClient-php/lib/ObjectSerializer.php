@@ -171,8 +171,10 @@ class ObjectSerializer
     {
         if (is_array($object)) {
             return implode(',', $object);
+        } elseif (is_bool($value)) {
+            return (int) $value;
         } else {
-            return self::toString($object);
+            return $value;
         }
     }
 
