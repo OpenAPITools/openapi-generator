@@ -403,4 +403,29 @@ class ObjectSerializer
             return $instance;
         }
     }
+    
+    /**
+	 * Verify the Data structure to make sure all the objects are validated
+	 * @param mided $data object to be validated
+	 * @throws \InvalidArgumentException
+	 */
+	public static function verifyDeserializedData ($data) {
+		if (is_object ($data) && $data instanceof {{invokerPackage}}\Model\ModelInterface) {
+			$a_invalidProperties = $data->listInvalidProperties();
+
+			if (count($a_invalidProperties) != 0) {
+				throw new \InvalidArgumentException(implode (' ', $a_invalidProperties));
+			}
+
+			foreach($data->getters() as $sProperty => &$sGetter) {
+				self::verifyDeserializedData($data->{$sGetter}());
+			}
+
+		}
+		else if (is_array ($data)) {
+			foreach ($data as &$item) {
+				self::verifyDeserializedData($item);
+			}
+		}
+	}
 }
