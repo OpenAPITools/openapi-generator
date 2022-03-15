@@ -18,6 +18,7 @@ import re
 import typing
 from urllib.parse import quote
 from urllib3.fields import RequestField
+from urllib3.connection import HTTPHeaderDict
 
 
 from petstore_api import rest
@@ -71,7 +72,7 @@ class ApiClient(object):
         self.pool_threads = pool_threads
 
         self.rest_client = rest.RESTClientObject(configuration)
-        self.default_headers = {}
+        self.default_headers = HTTPHeaderDict()
         if header_name is not None:
             self.default_headers[header_name] = header_value
         self.cookie = cookie
@@ -111,7 +112,23 @@ class ApiClient(object):
     def user_agent(self, value):
         self.default_headers['User-Agent'] = value
 
+    def add_default_header(self, header_name, header_value):
+        """Add default request header with specified value allowing for
+        multiple values.
+
+        :param header_name: Header name to set
+        :param header_value: Value for header
+        :return: None
+        """
+        self.default_headers.add(header_name, header_value)
+
     def set_default_header(self, header_name, header_value):
+        """Set default request header to specified value
+
+        :param header_name: Header name to set
+        :param header_value: Value for header
+        :return: None
+        """
         self.default_headers[header_name] = header_value
 
     def __call_api(
@@ -138,14 +155,15 @@ class ApiClient(object):
         config = self.configuration
 
         # header parameters
-        header_params = header_params or {}
-        header_params.update(self.default_headers)
+        headers = self.sanitize_for_serialization(self.default_headers)
         if self.cookie:
-            header_params['Cookie'] = self.cookie
+            headers['Cookie'] = self.cookie
         if header_params:
-            header_params = self.sanitize_for_serialization(header_params)
-            header_params = dict(self.parameters_to_tuples(header_params,
-                                                           collection_formats))
+            headers.update(
+                HTTPHeaderDict(self.parameters_to_tuples(
+                    self.sanitize_for_serialization(header_params), collection_formats
+                ))
+            )
 
         # path parameters
         if path_params:
@@ -172,7 +190,7 @@ class ApiClient(object):
             post_params = self.parameters_to_tuples(post_params,
                                                     collection_formats)
             post_params.extend(self.files_parameters(files))
-            if header_params['Content-Type'].startswith("multipart"):
+            if headers['Content-Type'].startswith("multipart"):
                 post_params = self.parameters_to_multipart(post_params,
                                                           (dict) )
 
@@ -181,7 +199,7 @@ class ApiClient(object):
             body = self.sanitize_for_serialization(body)
 
         # auth setting
-        self.update_params_for_auth(header_params, query_params,
+        self.update_params_for_auth(headers, query_params,
                                     auth_settings, resource_path, method, body)
 
         # request url
@@ -194,7 +212,7 @@ class ApiClient(object):
         try:
             # perform request and return response
             response_data = self.request(
-                method, url, query_params=query_params, headers=header_params,
+                method, url, query_params=query_params, headers=headers,
                 post_params=post_params, body=body,
                 _preload_content=_preload_content,
                 _request_timeout=_request_timeout)
@@ -264,6 +282,7 @@ class ApiClient(object):
             convert to string in iso8601 format.
         If obj is list, sanitize each element in the list.
         If obj is dict, return the dict.
+        If obj is HTTPHeaderDict, return the HTTPHeaderDict.
         If obj is OpenAPI model, return the properties dict.
         If obj is io.IOBase, return the bytes
         :param obj: The data to serialize.
@@ -283,7 +302,11 @@ class ApiClient(object):
             return cls.sanitize_for_serialization(obj.value)
         elif isinstance(obj, (list, tuple)):
             return [cls.sanitize_for_serialization(item) for item in obj]
-        if isinstance(obj, dict):
+        elif isinstance(obj, HTTPHeaderDict):
+            return HTTPHeaderDict([
+                (key, cls.sanitize_for_serialization(val)) for key, val in obj.items()
+            ])
+        elif isinstance(obj, dict):
             return {key: cls.sanitize_for_serialization(val) for key, val in obj.items()}
         raise ApiValueError('Unable to prepare type {} for serialization'.format(obj.__class__.__name__))
 
