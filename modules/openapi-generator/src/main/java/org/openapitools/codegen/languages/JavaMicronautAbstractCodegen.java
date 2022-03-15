@@ -23,6 +23,10 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR = "requiredPropertiesInConstructor";
     public static final String OPT_MICRONAUT_VERSION = "micronautVersion";
     public static final String OPT_USE_AUTH = "useAuth";
+    public static final String OPT_DATE_LIBRARY_JAVA8 = "java8";
+    public static final String OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME = "java8-localdatetime";
+    public static final String OPT_DATE_FORMAT = "dateFormat";
+    public static final String OPT_DATETIME_FORMAT = "datetimeFormat";
 
     protected String title;
     protected boolean useBeanValidation;
@@ -35,6 +39,9 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
     public static final String CONTENT_TYPE_MULTIPART_FORM_DATA = "multipart/form-data";
     public static final String CONTENT_TYPE_ANY = "*/*";
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DATETIME_FORMAT = DATE_FORMAT + "'T'HH:mm:ss.SSS";
+    public static final String OFFSET_DATETIME_FORMAT = DATETIME_FORMAT + "XXXX";
 
     public JavaMicronautAbstractCodegen() {
         super();
@@ -52,6 +59,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         embeddedTemplateDir = templateDir = "java-micronaut";
         apiDocPath = "docs/apis";
         modelDocPath = "docs/models";
+        dateLibrary = OPT_DATE_LIBRARY_JAVA8;
 
         // Set implemented features for user information
         modifyFeatureSet(features -> features
@@ -100,9 +108,16 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         testToolOption.setEnum(testToolOptionMap);
         cliOptions.add(testToolOption);
 
-        // Remove the date library option
-        cliOptions.stream().filter(o -> o.getOpt().equals("dateLibrary")).findFirst()
-                .ifPresent(v -> cliOptions.remove(v));
+        cliOptions.add(new CliOption(OPT_DATE_FORMAT, "Specify the format pattern of date as a string"));
+        cliOptions.add(new CliOption(OPT_DATETIME_FORMAT, "Specify the format pattern of date-time as a string"));
+
+        // Modify the DATE_LIBRARY option to only have supported values
+        cliOptions.stream().filter(o -> o.getOpt().equals(DATE_LIBRARY)).findFirst().ifPresent(opt -> {
+            Map<String, String> valuesEnum = new HashMap<>();
+            valuesEnum.put(OPT_DATE_LIBRARY_JAVA8, opt.getEnum().get(OPT_DATE_LIBRARY_JAVA8));
+            valuesEnum.put(OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME, opt.getEnum().get(OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME));
+            opt.setEnum(valuesEnum);
+        });
 
         // Add reserved words
         String[] reservedWordsArray = {
@@ -209,11 +224,20 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         // Git files
         supportingFiles.add(new SupportingFile("common/configuration/git/gitignore.mustache", "", ".gitignore").doNotOverwrite());
 
-        // Use the default java LocalDate
-        typeMapping.put("date", "LocalDate");
-        typeMapping.put("DateTime", "LocalDateTime");
-        importMapping.put("LocalDate", "java.time.LocalDate");
-        importMapping.put("LocalDateTime", "java.time.LocalDateTime");
+        // Use the default java time
+        additionalProperties.putIfAbsent(OPT_DATE_FORMAT, DATE_FORMAT);
+        if (dateLibrary.equals(OPT_DATE_LIBRARY_JAVA8)) {
+            typeMapping.put("DateTime", "OffsetDateTime");
+            typeMapping.put("date", "LocalDate");
+            additionalProperties.putIfAbsent(OPT_DATETIME_FORMAT, OFFSET_DATETIME_FORMAT);
+        } else if (dateLibrary.equals(OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME)) {
+            typeMapping.put("DateTime", "LocalDateTime");
+            typeMapping.put("date", "LocalDate");
+            additionalProperties.putIfAbsent(OPT_DATETIME_FORMAT, DATETIME_FORMAT);
+        }
+        importMapping.putIfAbsent("LocalDateTime", "java.time.LocalDateTime");
+        importMapping.putIfAbsent("OffsetDateTime", "java.time.OffsetDateTime");
+        importMapping.putIfAbsent("LocalDate", "java.time.LocalDate");
 
         // Add documentation files
         modelDocTemplateFiles.clear();
@@ -431,6 +455,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             example = example != null ? example : "false";
         } else if ("File".equals(dataType)) {
             example = null;
+        } else if ("OffsetDateTime".equals(dataType)) {
+            example = "OffsetDateTime.of(2001, 2, 3, 12, 0, 0, 0, java.time.ZoneOffset.of(\"+02:00\"))";
         } else if ("LocalDate".equals(dataType)) {
             example = "LocalDate.of(2001, 2, 3)";
         } else if ("LocalDateTime".equals(dataType)) {

@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.Arrays;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -49,7 +49,7 @@ public class Order {
     private Integer quantity;
 
     public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
-    private LocalDateTime shipDate;
+    private OffsetDateTime shipDate;
 
     /**
      * Order Status
@@ -162,7 +162,7 @@ public class Order {
         this.quantity = quantity;
     }
 
-    public Order shipDate(LocalDateTime shipDate) {
+    public Order shipDate(OffsetDateTime shipDate) {
         this.shipDate = shipDate;
         return this;
     }
@@ -176,14 +176,14 @@ public class Order {
     @JsonProperty(JSON_PROPERTY_SHIP_DATE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
-       public LocalDateTime getShipDate() {
+       public OffsetDateTime getShipDate() {
         return shipDate;
     }
 
     @JsonProperty(JSON_PROPERTY_SHIP_DATE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
-       public void setShipDate(LocalDateTime shipDate) {
+       public void setShipDate(OffsetDateTime shipDate) {
         this.shipDate = shipDate;
     }
 
