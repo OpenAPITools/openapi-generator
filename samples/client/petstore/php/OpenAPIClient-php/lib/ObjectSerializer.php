@@ -176,52 +176,39 @@ class ObjectSerializer
         bool $explode = true
     ): array {
         // return empty string
-        if (empty($value)) return ["$paramName" => ''];
+        if (empty($value)) return ["{$paramName}" => ''];
 
         $query = [];
         $value = (in_array($openApiType, ['object', 'array'], true)) ? (array)$value : $value;
 
-        if ($openApiType === 'object' && ($style === 'deepObject' || $explode)) {
-            // recursive function
-            // nested arrays doesn't work, but it might help in future
-            $toDeepObject = function ($val, $styleVal, $name) use (&$toDeepObject) {
-                $result = [];
-                foreach ($val as $key => $value) {
-                    $prop = ($styleVal === 'deepObject') ? "${name}[${key}]" : $key;
-                    $result[$prop] = (is_array($value)) ? $toDeepObject($value, $styleVal, $name) : $value;
-                }
-                return $result;
-            };
+        // since \GuzzleHttp\Psr7\Query::build fails with nested arrays
+        // need to flatten array first
+        $flattenArray = function ($arr, $name, &$result = []) use (&$flattenArray, $style, $explode) {
+            if (!is_array($arr)) return $arr;
 
-            return $toDeepObject($value, $style, $paramName);
-        }
+            foreach ($arr as $k => $v) {
+                $prop = ($style === 'deepObject') ? $prop = "{$name}[{$k}]" : $k;
 
-        if ($openApiType === 'object' && is_array($value)) {
-            // need recursive function again
-            // nested array might not work however
-            $flattenArray = function ($arr) use (&$flattenArray) {
-                $result = [];
-                foreach (array_keys($arr) as $key) {
-                    $val = $arr[$key];
-                    $result[] = $key;
-                    if (is_array($val)) {
-                        $result = array_merge($result, $flattenArray($val));
-                    } else {
-                        $result[] = $val;
+                if (is_array($v)) {
+                    $flattenArray($v, $prop, $result);
+                } else {
+                    if ($style !== 'deepObject' && !$explode) {
+                        // push key itself
+                        $result[] = $prop;
                     }
+                    $result[$prop] = $v;
                 }
-                return $result;
-            };
+            }
+            return $result;
+        };
 
-            $value = $flattenArray($value);
+        $value = $flattenArray($value, $paramName);
+
+        if ($openApiType === 'object' && ($style === 'deepObject' || $explode)) {
+            return $value;
         }
 
-        if (in_array($style, ['spaceDelimited', 'pipeDelimited'], true) && $openApiType === 'array') {
-            $query[$paramName] = ($explode) ? $value : self::serializeCollection($value, $style);
-            return $query;
-        }
-
-        // consider style is form
+        // handle style in serializeCollection
         $query[$paramName] = ($explode) ? $value : self::serializeCollection((array)$value, $style);
 
         return $query;
@@ -460,5 +447,25 @@ class ObjectSerializer
             }
             return $instance;
         }
+    }
+
+    /**
+     * Native `http_build_query` wrapper.
+     * @see https://www.php.net/manual/en/function.http-build-query
+     *
+     * @param array|object $data           May be an array or object containing properties.
+     * @param string       $numeric_prefix If numeric indices are used in the base array and this parameter is provided, it will be prepended to the numeric index for elements in the base array only.
+     * @param string|null  $arg_separator  arg_separator.output is used to separate arguments but may be overridden by specifying this parameter.
+     * @param int          $encoding_type  Encoding type. By default, PHP_QUERY_RFC1738.
+     *
+     * @return string
+     */
+    public static function buildQuery(
+        $data,
+        string $numeric_prefix = '',
+        ?string $arg_separator = null,
+        int $encoding_type = \PHP_QUERY_RFC3986
+    ): string {
+        return \GuzzleHttp\Psr7\Query::build($data, $encoding_type);
     }
 }

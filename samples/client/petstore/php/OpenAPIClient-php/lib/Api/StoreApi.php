@@ -316,7 +316,7 @@ class StoreApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -332,7 +332,7 @@ class StoreApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -568,7 +568,7 @@ class StoreApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -589,7 +589,7 @@ class StoreApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -851,7 +851,7 @@ class StoreApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -867,7 +867,7 @@ class StoreApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1120,7 +1120,7 @@ class StoreApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -1136,7 +1136,7 @@ class StoreApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
