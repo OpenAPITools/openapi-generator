@@ -41,7 +41,7 @@ internal enum NullEncodable<Wrapped: Hashable>: Hashable {
 }
 
 extension NullEncodable: Codable where Wrapped: Codable {
-    public init(from decoder: Decoder) throws {
+    internal init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(Wrapped.self) {
             self = .encodeValue(value)
@@ -52,7 +52,7 @@ extension NullEncodable: Codable where Wrapped: Codable {
         }
     }
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
         case .encodeNothing: return
