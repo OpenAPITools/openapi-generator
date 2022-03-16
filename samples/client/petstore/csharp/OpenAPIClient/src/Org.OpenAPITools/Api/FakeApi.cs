@@ -199,7 +199,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        /// For this test, the body for this request must reference a schema named `File`.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -210,7 +210,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        /// For this test, the body for this request must reference a schema named `File`.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -240,10 +240,10 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo (string query, User user);
         /// <summary>
-        /// To test \&quot;client\&quot; model
+        /// To test \"client\" model
         /// </summary>
         /// <remarks>
-        /// To test \&quot;client\&quot; model
+        /// To test \"client\" model
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -251,10 +251,10 @@ namespace Org.OpenAPITools.Api
         ModelClient TestClientModel (ModelClient modelClient);
 
         /// <summary>
-        /// To test \&quot;client\&quot; model
+        /// To test \"client\" model
         /// </summary>
         /// <remarks>
-        /// To test \&quot;client\&quot; model
+        /// To test \"client\" model
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -642,7 +642,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        /// For this test, the body for this request must reference a schema named `File`.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -654,7 +654,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        /// For this test, the body for this request must reference a schema named `File`.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -687,10 +687,10 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithQueryParamsWithHttpInfoAsync (string query, User user, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
-        /// To test \&quot;client\&quot; model
+        /// To test \"client\" model
         /// </summary>
         /// <remarks>
-        /// To test \&quot;client\&quot; model
+        /// To test \"client\" model
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -702,7 +702,7 @@ namespace Org.OpenAPITools.Api
         /// To test \&quot;client\&quot; model
         /// </summary>
         /// <remarks>
-        /// To test \&quot;client\&quot; model
+        /// To test \"client\" model
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -2187,7 +2187,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        ///  For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        ///  For this test, the body for this request must reference a schema named `File`.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -2198,7 +2198,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        ///  For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        ///  For this test, the body for this request must reference a schema named `File`.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -2259,7 +2259,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        ///  For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        ///  For this test, the body for this request must reference a schema named `File`.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -2272,7 +2272,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        ///  For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+        ///  For this test, the body for this request must reference a schema named `File`.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -2493,7 +2493,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
+        /// To test \"client\" model To test \"client\" model
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -2505,7 +2505,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
+        /// To test \"client\" model To test \"client\" model
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -2567,7 +2567,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
+        /// To test \"client\" model To test \"client\" model
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
@@ -2581,7 +2581,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
+        /// To test \"client\" model To test \"client\" model
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
