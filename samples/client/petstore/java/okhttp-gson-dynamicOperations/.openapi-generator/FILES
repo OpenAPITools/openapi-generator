@@ -145,9 +145,3 @@ src/main/java/org/openapitools/client/model/TypeHolderExample.java
 src/main/java/org/openapitools/client/model/User.java
 src/main/java/org/openapitools/client/model/XmlItem.java
 src/main/resources/openapi/openapi.yaml
-src/test/java/org/openapitools/client/api/AnotherFakeApiTest.java
-src/test/java/org/openapitools/client/api/FakeApiTest.java
-src/test/java/org/openapitools/client/api/FakeClassnameTags123ApiTest.java
-src/test/java/org/openapitools/client/api/PetApiTest.java
-src/test/java/org/openapitools/client/api/StoreApiTest.java
-src/test/java/org/openapitools/client/api/UserApiTest.java
