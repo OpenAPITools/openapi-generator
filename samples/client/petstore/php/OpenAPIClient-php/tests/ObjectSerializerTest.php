@@ -172,9 +172,17 @@ class ObjectSerializerTest extends TestCase
             'form array, explode on' => [
                 $array, 'color', 'array', 'form', true, 'color=blue&color=black&color=brown',
             ],
+            // color=blue&color=black&color=brown
+            'form nested array, explode on' => [
+                ['foobar' => $array], 'color', 'array', 'form', true, 'color=blue&color=black&color=brown',
+            ],
             // color=blue,black,brown
             'form array, explode off' => [
                 $array, 'color', 'array', 'form', false, 'color=blue%2Cblack%2Cbrown',
+            ],
+            // color=blue,black,brown
+            'form nested array, explode off' => [
+                ['foobar' => $array], 'color', 'array', 'form', false, 'color=blue%2Cblack%2Cbrown',
             ],
             // R=100&G=200&B=150
             'form object, explode on' => [
