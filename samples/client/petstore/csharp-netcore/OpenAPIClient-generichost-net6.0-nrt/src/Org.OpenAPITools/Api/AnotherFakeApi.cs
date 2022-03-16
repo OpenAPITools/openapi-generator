@@ -201,7 +201,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (modelClient as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(modelClient, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 

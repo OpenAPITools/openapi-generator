@@ -240,7 +240,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;ModelClient&gt;</returns>
         Task<ModelClient> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
 
-        /// <summary>
+                /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
         /// <remarks>
@@ -290,7 +290,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null);
 
-        /// <summary>
+                /// <summary>
         /// To test enum parameters
         /// </summary>
         /// <remarks>
@@ -655,7 +655,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (body as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(body, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -773,7 +773,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (outerComposite as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(outerComposite, _jsonSerializerOptions));
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(outerComposite, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -870,7 +870,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (body as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(body, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -967,7 +967,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (body as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(body, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1194,7 +1194,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (fileSchemaTestClass as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(fileSchemaTestClass, _jsonSerializerOptions));
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(fileSchemaTestClass, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1322,7 +1322,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (user as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1438,7 +1438,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (modelClient as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(modelClient, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -2079,7 +2079,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (requestBody as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestBody, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 

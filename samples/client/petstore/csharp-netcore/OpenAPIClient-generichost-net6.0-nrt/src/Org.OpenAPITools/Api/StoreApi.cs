@@ -637,7 +637,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (order as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(order, _jsonSerializerOptions));
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(order, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 

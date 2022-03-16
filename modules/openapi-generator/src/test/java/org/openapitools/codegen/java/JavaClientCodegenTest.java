@@ -55,6 +55,7 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -1308,5 +1309,104 @@ public class JavaClientCodegenTest {
                 "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"maxBuilds\", queryObject.getMaxBuilds()));",
                 "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"maxWaitSecs\", queryObject.getMaxWaitSecs()));"
         );
+    }
+
+    @Test
+    public void testExtraAnnotationsNative() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.NATIVE);
+    }
+
+    @Test
+    public void testExtraAnnotationsJersey1() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.JERSEY1);
+    }
+
+    @Test
+    public void testExtraAnnotationsJersey2() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.JERSEY2);
+    }
+
+    @Test
+    public void testExtraAnnotationsMicroprofile() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.MICROPROFILE);
+    }
+
+    @Test
+    public void testExtraAnnotationsOKHttpGSON() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.OKHTTP_GSON);
+    }
+
+    @Test
+    public void testExtraAnnotationsVertx() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.VERTX);
+    }
+
+    @Test
+    public void testExtraAnnotationsFeign() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.FEIGN);
+    }
+
+    @Test
+    public void testExtraAnnotationsRetrofit2() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.RETROFIT_2);
+    }
+
+    @Test
+    public void testExtraAnnotationsRestTemplate() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.RESTTEMPLATE);
+    }
+
+    @Test
+    public void testExtraAnnotationsWebClient() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.WEBCLIENT);
+    }
+
+    @Test
+    public void testExtraAnnotationsRestEasy() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.RESTEASY);
+    }
+
+    @Test
+    public void testExtraAnnotationsGoogleApiClient() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.GOOGLE_API_CLIENT);
+    }
+
+    @Test
+    public void testExtraAnnotationsRestAssured() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.REST_ASSURED);
+    }
+
+    @Test
+    public void testExtraAnnotationsApache() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.APACHE);
+    }
+
+    public void testExtraAnnotations(String library) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(library)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue_11772.yml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(clientOptInput).generate();
+
+        TestUtils.assertExtraAnnotationFiles(outputPath + "/src/main/java/org/openapitools/client/model");
+
     }
 }
