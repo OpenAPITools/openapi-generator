@@ -30,9 +30,9 @@ import org.openapitools.client.model.NullableShape;
 import org.openapitools.client.model.Shape;
 import org.openapitools.client.model.ShapeOrNull;
 import org.openapitools.jackson.nullable.JsonNullable;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 
 /**
