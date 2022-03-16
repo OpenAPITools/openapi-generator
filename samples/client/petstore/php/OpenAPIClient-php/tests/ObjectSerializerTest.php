@@ -263,6 +263,21 @@ class ObjectSerializerTest extends TestCase
             'deepObject object, explode on' => [
                 $object, 'color', 'object', 'deepObject', true, 'color%5BR%5D=100&color%5BG%5D=200&color%5BB%5D=150',
             ],
+            // filter[or][0][name]=John&filter[or][1][email]=john@doe.com
+            'example from @nadar' => [
+                [
+                    'or' =>
+                    [
+                        ['name' => 'John'],
+                        ['email' => 'john@doe.com'],
+                    ],
+                ],
+                'filter',
+                'object',
+                'deepObject',
+                true,
+                'filter%5Bor%5D%5B0%5D%5Bname%5D=John&filter%5Bor%5D%5B1%5D%5Bemail%5D=john%40doe.com'
+            ],
         ];
     }
 
