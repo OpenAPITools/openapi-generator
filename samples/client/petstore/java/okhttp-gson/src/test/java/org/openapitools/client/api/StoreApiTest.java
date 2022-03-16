@@ -14,13 +14,13 @@ package org.openapitools.client.api;
 
 
 import java.util.Map;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Order;
 
 /** API tests for StoreApi */
-@Ignore
+@Disabled
 public class StoreApiTest {
 
     private final StoreApi api = new StoreApi();
