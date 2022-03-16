@@ -93,6 +93,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-discriminator-value|Used with model inheritance to specify value for discriminator that identifies current model|MODEL|
 |x-implements|Ability to specify interfaces that model must implements|MODEL|empty array
 |x-setter-extra-annotation|Custom annotation that can be specified over java setter for specific field|FIELD|When field is array & uniqueItems, then this extension is used to add `@JsonDeserialize(as = LinkedHashSet.class)` over setter, otherwise no value
+|x-tags|Specify multiple swagger tags for operation|OPERATION|null
+|x-accepts|Specify custom value for 'Accept' header for operation|OPERATION|null
+|x-contentType|Specify custom value for 'Content-Type' header for operation|OPERATION|null
+|x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
+|x-field-extra-annotation|List of custom annotations to be added to property|FIELD|null
 |x-webclient-blocking|Specifies if method for specific operation should be blocking or non-blocking(ex: return `Mono<T>/Flux<T>` or `return T/List<T>/Set<T>` & execute `.block()` inside generated method)|OPERATION|false
 
 
