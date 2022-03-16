@@ -1313,7 +1313,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // recursively add import for mapping one type to multiple imports
@@ -1333,14 +1332,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        List<Object> models = (List<Object>) objs.get("models");
-
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
+        // add x-implements for serializable to all models
+        List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
+        for (Map<String, Object> mo : models) {
             CodegenModel cm = (CodegenModel) mo.get("model");
-
-            cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
             if (this.serializableModel) {
+                cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
                 ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
             }
         }
@@ -2054,6 +2051,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return StringUtils.isNotBlank(implicitHeadersRegex) && parameter.baseName.matches(implicitHeadersRegex);
     }
 
+    @Override
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        if (additionalProperties.containsKey(JACKSON)) {
+            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+                Map<String, String> oneImport = new HashMap<>();
+                oneImport.put("import", importMapping.get(i));
+                if (!imports.contains(oneImport)) {
+                    imports.add(oneImport);
+                }
+            }
+        }
+    }
     @Override
     public List<VendorExtension> getSupportedVendorExtensions() {
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
