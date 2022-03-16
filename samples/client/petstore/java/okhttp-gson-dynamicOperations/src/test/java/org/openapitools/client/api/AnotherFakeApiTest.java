@@ -31,20 +31,18 @@ public class AnotherFakeApiTest {
 
     private final AnotherFakeApi api = new AnotherFakeApi();
 
-    
     /**
      * To test special tags
      *
      * To test special tags and operation ID starting with number
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void call123testSpecialTagsTest() throws ApiException {
         Client body = null;
-                Client response = api.call123testSpecialTags(body);
+        Client response = api.call123testSpecialTags(body);
         // TODO: test validations
     }
-    
+
 }

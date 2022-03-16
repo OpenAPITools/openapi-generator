@@ -31,20 +31,18 @@ public class FakeClassnameTags123ApiTest {
 
     private final FakeClassnameTags123Api api = new FakeClassnameTags123Api();
 
-    
     /**
      * To test class name in snake case
      *
      * To test class name in snake case
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void testClassnameTest() throws ApiException {
         Client body = null;
-                Client response = api.testClassname(body);
+        Client response = api.testClassname(body);
         // TODO: test validations
     }
-    
+
 }
