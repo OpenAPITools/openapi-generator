@@ -2,7 +2,6 @@
 
 namespace OpenAPI\Client;
 
-use GuzzleHttp\Psr7\Query;
 use GuzzleHttp\Psr7\Utils;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
@@ -141,7 +140,7 @@ class ObjectSerializerTest extends TestCase
         $expected
     ): void {
         $value = ObjectSerializer::toQueryValue($data, $paramName, $openApiType, $style, $explode);
-        $query = Query::build($value);
+        $query = ObjectSerializer::buildQuery($value);
         $this->assertEquals($expected, $query);
     }
 
@@ -298,7 +297,7 @@ class ObjectSerializerTest extends TestCase
         $paramName,
         $expected
     ): void {
-        $value = Query::build(ObjectSerializer::toQueryValue($data, $paramName, 'object', 'deepObject', true));
+        $value = ObjectSerializer::buildQuery(ObjectSerializer::toQueryValue($data, $paramName, 'object', 'deepObject', true));
         parse_str($value, $result);
         $this->assertEquals($expected, $result);
     }

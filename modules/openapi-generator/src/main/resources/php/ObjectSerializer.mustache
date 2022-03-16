@@ -439,4 +439,24 @@ class ObjectSerializer
             return $instance;
         }
     }
+
+    /**
+     * Native `http_build_query` wrapper.
+     * @see https://www.php.net/manual/en/function.http-build-query
+     *
+     * @param array|object $data           May be an array or object containing properties.
+     * @param string       $numeric_prefix If numeric indices are used in the base array and this parameter is provided, it will be prepended to the numeric index for elements in the base array only.
+     * @param string|null  $arg_separator  arg_separator.output is used to separate arguments but may be overridden by specifying this parameter.
+     * @param int          $encoding_type  Encoding type. By default, PHP_QUERY_RFC1738.
+     *
+     * @return string
+     */
+    public static function buildQuery(
+        $data,
+        string $numeric_prefix = '',
+        ?string $arg_separator = null,
+        int $encoding_type = \PHP_QUERY_RFC3986
+    ): string {
+        return \GuzzleHttp\Psr7\Query::build($data, $encoding_type);
+    }
 }
