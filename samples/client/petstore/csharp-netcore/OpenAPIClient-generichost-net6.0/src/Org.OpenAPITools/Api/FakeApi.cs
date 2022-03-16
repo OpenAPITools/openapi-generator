@@ -47,7 +47,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;HealthCheckResult&gt;</returns>
         Task<HealthCheckResult> FakeHealthGetAsync(System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// 
         /// </summary>
@@ -71,7 +70,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;bool&gt;</returns>
         Task<bool> FakeOuterBooleanSerializeAsync(bool? body = null, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// 
         /// </summary>
@@ -95,7 +93,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;OuterComposite&gt;</returns>
         Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = null, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// 
         /// </summary>
@@ -119,7 +116,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;decimal&gt;</returns>
         Task<decimal> FakeOuterNumberSerializeAsync(decimal? body = null, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// 
         /// </summary>
@@ -143,7 +139,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;string&gt;</returns>
         Task<string> FakeOuterStringSerializeAsync(string body = null, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Array of Enums
         /// </summary>
@@ -165,7 +160,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;List&lt;OuterEnum&gt;&gt;</returns>
         Task<List<OuterEnum>> GetArrayOfEnumsAsync(System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// 
         /// </summary>
@@ -189,7 +183,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> TestBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// 
         /// </summary>
@@ -215,7 +208,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> TestBodyWithQueryParamsAsync(string query, User user, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// To test \&quot;client\&quot; model
         /// </summary>
@@ -239,8 +231,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ModelClient&gt;</returns>
         Task<ModelClient> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
-
-                /// <summary>
+        /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
         /// <remarks>
@@ -289,8 +280,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null);
-
-                /// <summary>
+        /// <summary>
         /// To test enum parameters
         /// </summary>
         /// <remarks>
@@ -327,7 +317,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> TestEnumParametersAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, int? enumQueryInteger = null, double? enumQueryDouble = null, string enumHeaderString = null, string enumQueryString = null, List<string> enumFormStringArray = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
         /// </summary>
@@ -361,7 +350,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> TestGroupParametersAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// test inline additionalProperties
         /// </summary>
@@ -385,7 +373,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> TestInlineAdditionalPropertiesAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// test json serialization of form data
         /// </summary>
@@ -411,7 +398,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> TestJsonFormDataAsync(string param, string param2, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// 
         /// </summary>
@@ -442,8 +428,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="context"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken? cancellationToken = null);
-    }
+        Task<object> TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken? cancellationToken = null);    }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -655,7 +640,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (body as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(body, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -773,7 +758,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (outerComposite as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(outerComposite, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(outerComposite, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -870,7 +855,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (body as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(body, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -967,7 +952,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (body as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(body, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1194,7 +1179,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (fileSchemaTestClass as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(fileSchemaTestClass, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(fileSchemaTestClass, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1322,7 +1307,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (user as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1438,7 +1423,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (modelClient as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(modelClient, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -2079,7 +2064,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (requestBody as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestBody, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 

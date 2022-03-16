@@ -49,7 +49,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> AddPetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Deletes a pet
         /// </summary>
@@ -75,7 +74,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> DeletePetAsync(long petId, string apiKey = null, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -99,7 +97,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;List&lt;Pet&gt;&gt;</returns>
         Task<List<Pet>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Finds Pets by tags
         /// </summary>
@@ -123,7 +120,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;List&lt;Pet&gt;&gt;</returns>
         Task<List<Pet>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Find pet by ID
         /// </summary>
@@ -147,7 +143,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Pet&gt;</returns>
         Task<Pet> GetPetByIdAsync(long petId, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -171,7 +166,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> UpdatePetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -199,7 +193,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> UpdatePetWithFormAsync(long petId, string name = null, string status = null, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -227,7 +220,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ApiResponse&gt;</returns>
         Task<ApiResponse> UploadFileAsync(long petId, string additionalMetadata = null, System.IO.Stream file = null, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -254,8 +246,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ApiResponse&gt;</returns>
-        Task<ApiResponse> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
-    }
+        Task<ApiResponse> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, string additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);    }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -393,7 +384,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (pet as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(pet, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(pet, _jsonSerializerOptions));
 
                     List<TokenBase> tokens = new List<TokenBase>();
 
@@ -1054,7 +1045,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (pet as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(pet, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(pet, _jsonSerializerOptions));
 
                     List<TokenBase> tokens = new List<TokenBase>();
 

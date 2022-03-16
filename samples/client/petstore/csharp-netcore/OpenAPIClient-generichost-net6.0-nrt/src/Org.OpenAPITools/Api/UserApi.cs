@@ -456,7 +456,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (user as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -572,7 +572,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (user as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -688,7 +688,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (user as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1248,7 +1248,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (user as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 

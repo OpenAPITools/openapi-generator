@@ -49,7 +49,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> CreateUserAsync(User user, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
@@ -73,7 +72,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> CreateUsersWithArrayInputAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
@@ -97,7 +95,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> CreateUsersWithListInputAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Delete user
         /// </summary>
@@ -121,7 +118,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> DeleteUserAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Get user by user name
         /// </summary>
@@ -145,7 +141,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;User&gt;</returns>
         Task<User> GetUserByNameAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Logs user into the system
         /// </summary>
@@ -171,7 +166,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;string&gt;</returns>
         Task<string> LoginUserAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Logs out current logged in user session
         /// </summary>
@@ -193,7 +187,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> LogoutUserAsync(System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Updated user
         /// </summary>
@@ -218,8 +211,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Updated user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> UpdateUserAsync(string username, User user, System.Threading.CancellationToken? cancellationToken = null);
-    }
+        Task<object> UpdateUserAsync(string username, User user, System.Threading.CancellationToken? cancellationToken = null);    }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -357,7 +349,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (user as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -473,7 +465,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (user as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -589,7 +581,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (user as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1127,7 +1119,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (user as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 

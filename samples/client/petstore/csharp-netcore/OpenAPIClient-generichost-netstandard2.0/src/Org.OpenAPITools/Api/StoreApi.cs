@@ -49,7 +49,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Returns pet inventories by status
         /// </summary>
@@ -71,7 +70,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Dictionary&lt;string, int&gt;&gt;</returns>
         Task<Dictionary<string, int>> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
@@ -95,7 +93,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Order&gt;</returns>
         Task<Order> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
-
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -118,8 +115,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Order&gt;</returns>
-        Task<Order> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
-    }
+        Task<Order> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);    }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -565,7 +561,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (order as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(order, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(order, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
