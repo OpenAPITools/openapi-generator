@@ -18,7 +18,6 @@ Method | HTTP request | Description
 > Pet addPet(pet)
 
 
-
 ### Example
 
 
@@ -88,7 +87,6 @@ Name | Type | Description  | Notes
 
 # **deletePet**
 > deletePet()
-
 
 
 ### Example
@@ -317,7 +315,6 @@ Name | Type | Description  | Notes
 > Pet updatePet(pet)
 
 
-
 ### Example
 
 
@@ -391,7 +388,6 @@ Name | Type | Description  | Notes
 > updatePetWithForm()
 
 
-
 ### Example
 
 
@@ -449,7 +445,6 @@ void (empty response body)
 
 # **uploadFile**
 > ApiResponse uploadFile()
-
 
 
 ### Example

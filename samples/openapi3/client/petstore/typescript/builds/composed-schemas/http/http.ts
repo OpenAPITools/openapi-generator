@@ -27,8 +27,12 @@ export type HttpFile = Blob & { readonly name: string };
 
 
 export class HttpException extends Error {
-    public constructor(msg: string) {
+    code: number
+    public constructor(msg: string, code?: number) {
         super(msg);
+        if(code){
+            this.code = code;
+        }
     }
 }
 

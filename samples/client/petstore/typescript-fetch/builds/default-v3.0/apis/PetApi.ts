@@ -72,7 +72,6 @@ export interface UploadFileWithRequiredFileRequest {
 export class PetApi extends runtime.BaseAPI {
 
     /**
-     * 
      * Add a new pet to the store
      */
     async addPetRaw(requestParameters: AddPetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
@@ -103,7 +102,6 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * 
      * Add a new pet to the store
      */
     async addPet(requestParameters: AddPetRequest, initOverrides?: RequestInit): Promise<void> {
@@ -111,7 +109,6 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * 
      * Deletes a pet
      */
     async deletePetRaw(requestParameters: DeletePetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
@@ -143,7 +140,6 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * 
      * Deletes a pet
      */
     async deletePet(requestParameters: DeletePetRequest, initOverrides?: RequestInit): Promise<void> {
@@ -269,7 +265,6 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * 
      * Update an existing pet
      */
     async updatePetRaw(requestParameters: UpdatePetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
@@ -300,7 +295,6 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * 
      * Update an existing pet
      */
     async updatePet(requestParameters: UpdatePetRequest, initOverrides?: RequestInit): Promise<void> {
@@ -308,7 +302,6 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * 
      * Updates a pet in the store with form data
      */
     async updatePetWithFormRaw(requestParameters: UpdatePetWithFormRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
@@ -359,7 +352,6 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * 
      * Updates a pet in the store with form data
      */
     async updatePetWithForm(requestParameters: UpdatePetWithFormRequest, initOverrides?: RequestInit): Promise<void> {
@@ -367,7 +359,6 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * 
      * uploads an image
      */
     async uploadFileRaw(requestParameters: UploadFileRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ModelApiResponse>> {
@@ -420,7 +411,6 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * 
      * uploads an image
      */
     async uploadFile(requestParameters: UploadFileRequest, initOverrides?: RequestInit): Promise<ModelApiResponse> {
@@ -429,7 +419,6 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * 
      * uploads an image (required)
      */
     async uploadFileWithRequiredFileRaw(requestParameters: UploadFileWithRequiredFileRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ModelApiResponse>> {
@@ -486,7 +475,6 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * 
      * uploads an image (required)
      */
     async uploadFileWithRequiredFile(requestParameters: UploadFileWithRequiredFileRequest, initOverrides?: RequestInit): Promise<ModelApiResponse> {
