@@ -2069,6 +2069,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
         extensions.add(VendorExtension.X_IMPLEMENTS);
         extensions.add(VendorExtension.X_SETTER_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_TAGS);
+        extensions.add(VendorExtension.X_ACCEPTS);
+        extensions.add(VendorExtension.X_CONTENT_TYPE);
+        extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         return extensions;
     }
 }
