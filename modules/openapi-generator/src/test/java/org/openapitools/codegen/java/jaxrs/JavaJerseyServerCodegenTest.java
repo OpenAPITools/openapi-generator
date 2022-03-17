@@ -146,16 +146,36 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     @Test
+    public void testJersey2() throws Exception {
+        codegen.setLibrary("jersey2");
+        codegen.setDateLibrary("java8");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+
+        files.values()
+                .stream()
+                .filter(file -> file.getName().endsWith(".java"))
+                .forEach(file -> {
+                    // Jersey2 uses "javax.ws.rs"
+                    // Let's confirm that "jakarta.ws" is not present
+                    assertFileNotContains(file.toPath(), "jakarta.ws");
+                });
+    }
+
+    @Test
     public void testJersey3() throws Exception {
         codegen.setLibrary("jersey3");
         codegen.setDateLibrary("java8");
 
-        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
 
-        files.values().forEach(file -> {
-            // Jersey3 uses "jakarta.ws.rs"
-            // Let's confirm that "javax.ws" is not present
-            assertFileNotContains(file.toPath(), "javax.ws");
+        files.values()
+            .stream()
+            .filter(file -> file.getName().endsWith(".java"))
+            .forEach(file -> {
+                // Jersey3 uses "jakarta.ws.rs"
+                // Let's confirm that "javax.ws" is not present
+                assertFileNotContains(file.toPath(), "javax.ws");
         });
     }
 
