@@ -132,7 +132,6 @@ export class StoreService {
         }
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
-            null,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

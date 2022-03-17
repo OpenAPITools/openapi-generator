@@ -128,7 +128,6 @@ export class StoreService {
         }
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
-            null,
             {
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,

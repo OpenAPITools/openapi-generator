@@ -132,7 +132,6 @@ export class PetService {
         const consumes: string[] = [
         ];
         return this.httpClient.delete<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
-            null,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers

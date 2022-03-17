@@ -222,7 +222,6 @@ export class PetService {
         }
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
-            null,
             {
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,

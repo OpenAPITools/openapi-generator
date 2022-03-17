@@ -207,7 +207,6 @@ export class UserService {
         const consumes: string[] = [
         ];
         return this.httpClient.delete<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
-            null,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers

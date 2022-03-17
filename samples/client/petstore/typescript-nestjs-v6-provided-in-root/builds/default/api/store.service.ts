@@ -67,7 +67,6 @@ export class StoreService {
         const consumes: string[] = [
         ];
         return this.httpClient.delete<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
-            null,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers
