@@ -15,8 +15,8 @@ import java.io.InputStream;
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
-import java.ws.rs.core.Response;
-import java.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class PetApiServiceImpl extends PetApiService {

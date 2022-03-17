@@ -4,10 +4,10 @@ import java.util.List;
 import org.openapitools.model.User;
 import org.openapitools.api.UserApiService;
 
-import java.ws.rs.*;
-import java.ws.rs.core.Context;
-import java.ws.rs.core.Response;
-import java.ws.rs.core.SecurityContext;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 

@@ -2,8 +2,8 @@ package org.openapitools.api;
 
 import org.openapitools.model.Client;
 
-import java.ws.rs.*;
-import java.ws.rs.core.Response;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 
 import io.swagger.annotations.*;
 

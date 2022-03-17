@@ -1,13 +1,13 @@
 package org.openapitools.api;
 
 import org.joda.time.LocalDate;
-import java.ws.rs.ext.ParamConverter;
-import java.ws.rs.ext.ParamConverterProvider;
-import java.ws.rs.ext.Provider;
+import javax.ws.rs.ext.ParamConverter;
+import javax.ws.rs.ext.ParamConverterProvider;
+import javax.ws.rs.ext.Provider;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.ws.rs.WebApplicationException;
-import java.ws.rs.core.Response;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
 
 @Provider

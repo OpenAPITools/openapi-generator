@@ -12,8 +12,8 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import java.ws.rs.core.Response;
-import java.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen")
 public interface StoreApiService {

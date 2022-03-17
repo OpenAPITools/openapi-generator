@@ -21,10 +21,10 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import javax.servlet.ServletConfig;
-import java.ws.rs.core.Context;
-import java.ws.rs.core.Response;
-import java.ws.rs.core.SecurityContext;
-import java.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -57,7 +57,7 @@ public class UserApi  {
       this.delegate = delegate;
    }
 
-    @java.ws.rs.POST
+    @javax.ws.rs.POST
     
     @Consumes({ "application/json" })
     
@@ -69,7 +69,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.createUser(user, securityContext);
     }
-    @java.ws.rs.POST
+    @javax.ws.rs.POST
     @Path("/createWithArray")
     @Consumes({ "application/json" })
     
@@ -81,7 +81,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.createUsersWithArrayInput(user, securityContext);
     }
-    @java.ws.rs.POST
+    @javax.ws.rs.POST
     @Path("/createWithList")
     @Consumes({ "application/json" })
     
@@ -93,7 +93,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.createUsersWithListInput(user, securityContext);
     }
-    @java.ws.rs.DELETE
+    @javax.ws.rs.DELETE
     @Path("/{username}")
     
     
@@ -106,7 +106,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.deleteUser(username, securityContext);
     }
-    @java.ws.rs.GET
+    @javax.ws.rs.GET
     @Path("/{username}")
     
     @Produces({ "application/xml", "application/json" })
@@ -120,7 +120,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.getUserByName(username, securityContext);
     }
-    @java.ws.rs.GET
+    @javax.ws.rs.GET
     @Path("/login")
     
     @Produces({ "application/xml", "application/json" })
@@ -133,7 +133,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.loginUser(username, password, securityContext);
     }
-    @java.ws.rs.GET
+    @javax.ws.rs.GET
     @Path("/logout")
     
     
@@ -145,7 +145,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.logoutUser(securityContext);
     }
-    @java.ws.rs.PUT
+    @javax.ws.rs.PUT
     @Path("/{username}")
     @Consumes({ "application/json" })
     

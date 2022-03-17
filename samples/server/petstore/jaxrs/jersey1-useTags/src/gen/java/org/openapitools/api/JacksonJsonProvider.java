@@ -8,9 +8,9 @@ import com.fasterxml.jackson.datatype.jsr310.*;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 
-import java.ws.rs.Produces;
-import java.ws.rs.core.MediaType;
-import java.ws.rs.ext.Provider;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.ext.Provider;
 
 @Provider
 @Produces({MediaType.APPLICATION_JSON})

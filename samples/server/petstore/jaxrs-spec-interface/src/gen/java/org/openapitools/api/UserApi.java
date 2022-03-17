@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.List;
 import org.openapitools.model.User;
 
-import java.ws.rs.*;
-import java.ws.rs.core.Response;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 
 import io.swagger.annotations.*;
 

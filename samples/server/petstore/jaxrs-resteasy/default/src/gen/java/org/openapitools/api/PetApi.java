@@ -16,10 +16,10 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import java.ws.rs.core.Context;
-import java.ws.rs.core.Response;
-import java.ws.rs.core.SecurityContext;
-import java.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.*;
 import javax.inject.Inject;
 
 import javax.validation.constraints.*;
