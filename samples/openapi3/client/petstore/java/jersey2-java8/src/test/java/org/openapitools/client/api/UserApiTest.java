@@ -15,10 +15,12 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.*;
 import org.openapitools.client.auth.*;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.Assert;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,8 +39,7 @@ public class UserApiTest {
      *
      * This can only be done by the logged in user.
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void createUserTest() throws ApiException {
@@ -52,8 +53,7 @@ public class UserApiTest {
      *
      * 
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void createUsersWithArrayInputTest() throws ApiException {
@@ -67,8 +67,7 @@ public class UserApiTest {
      *
      * 
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void createUsersWithListInputTest() throws ApiException {
@@ -82,8 +81,7 @@ public class UserApiTest {
      *
      * This can only be done by the logged in user.
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void deleteUserTest() throws ApiException {
@@ -97,8 +95,7 @@ public class UserApiTest {
      *
      * 
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void getUserByNameTest() throws ApiException {
@@ -112,8 +109,7 @@ public class UserApiTest {
      *
      * 
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void loginUserTest() throws ApiException {
@@ -128,8 +124,7 @@ public class UserApiTest {
      *
      * 
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void logoutUserTest() throws ApiException {
@@ -142,8 +137,7 @@ public class UserApiTest {
      *
      * This can only be done by the logged in user.
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void updateUserTest() throws ApiException {

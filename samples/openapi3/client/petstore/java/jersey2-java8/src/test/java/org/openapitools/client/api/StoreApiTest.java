@@ -16,9 +16,10 @@ package org.openapitools.client.api;
 import org.openapitools.client.*;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.model.Order;
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.Assert;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,8 +38,7 @@ public class StoreApiTest {
      *
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void deleteOrderTest() throws ApiException {
@@ -52,8 +52,7 @@ public class StoreApiTest {
      *
      * Returns a map of status codes to quantities
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void getInventoryTest() throws ApiException {
@@ -66,8 +65,7 @@ public class StoreApiTest {
      *
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void getOrderByIdTest() throws ApiException {
@@ -81,8 +79,7 @@ public class StoreApiTest {
      *
      * 
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void placeOrderTest() throws ApiException {
