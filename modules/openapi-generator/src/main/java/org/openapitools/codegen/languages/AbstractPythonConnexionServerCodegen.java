@@ -442,20 +442,20 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 String baseFunctionName = controllerPackage + ".security_controller_.";
                 switch (securityScheme.getType()) {
                     case APIKEY:
-                        addSecurityExtension(securityScheme, "x-apikeyInfoFunc", baseFunctionName + "info_from_" + securityName);
+                        addSecurityExtension(securityScheme, "x-apikey-info-func", baseFunctionName + "info_from_" + securityName);
                         break;
                     case HTTP:
                         if ("basic".equals(securityScheme.getScheme())) {
-                            addSecurityExtension(securityScheme, "x-basicInfoFunc", baseFunctionName + "info_from_" + securityName);
+                            addSecurityExtension(securityScheme, "x-basic-info-func", baseFunctionName + "info_from_" + securityName);
                         } else if ("bearer".equals(securityScheme.getScheme())) {
-                            addSecurityExtension(securityScheme, "x-bearerInfoFunc", baseFunctionName + "info_from_" + securityName);
+                            addSecurityExtension(securityScheme, "x-bearer-info-func", baseFunctionName + "info_from_" + securityName);
                         }
                         break;
                     case OPENIDCONNECT:
                         LOGGER.warn("Security type {} is not supported by connexion yet", securityScheme.getType().toString());
                     case OAUTH2:
-                        addSecurityExtension(securityScheme, "x-tokenInfoFunc", baseFunctionName + "info_from_" + securityName);
-                        addSecurityExtension(securityScheme, "x-scopeValidateFunc", baseFunctionName + "validate_scope_" + securityName);
+                        addSecurityExtension(securityScheme, "x-token-info-func", baseFunctionName + "info_from_" + securityName);
+                        addSecurityExtension(securityScheme, "x-scope-validate-func", baseFunctionName + "validate_scope_" + securityName);
                         break;
                     default:
                         LOGGER.warn("Unknown security type {}", securityScheme.getType().toString());
