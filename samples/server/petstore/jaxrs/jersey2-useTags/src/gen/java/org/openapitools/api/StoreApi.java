@@ -20,10 +20,10 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import javax.servlet.ServletConfig;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.*;
+import java.ws.rs.core.Context;
+import java.ws.rs.core.Response;
+import java.ws.rs.core.SecurityContext;
+import java.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -56,7 +56,7 @@ public class StoreApi  {
       this.delegate = delegate;
    }
 
-    @javax.ws.rs.DELETE
+    @java.ws.rs.DELETE
     @Path("/order/{order_id}")
     
     
@@ -69,7 +69,7 @@ public class StoreApi  {
     throws NotFoundException {
         return delegate.deleteOrder(orderId, securityContext);
     }
-    @javax.ws.rs.GET
+    @java.ws.rs.GET
     @Path("/inventory")
     
     @Produces({ "application/json" })
@@ -83,7 +83,7 @@ public class StoreApi  {
     throws NotFoundException {
         return delegate.getInventory(securityContext);
     }
-    @javax.ws.rs.GET
+    @java.ws.rs.GET
     @Path("/order/{order_id}")
     
     @Produces({ "application/xml", "application/json" })
@@ -97,7 +97,7 @@ public class StoreApi  {
     throws NotFoundException {
         return delegate.getOrderById(orderId, securityContext);
     }
-    @javax.ws.rs.POST
+    @java.ws.rs.POST
     @Path("/order")
     
     @Produces({ "application/xml", "application/json" })

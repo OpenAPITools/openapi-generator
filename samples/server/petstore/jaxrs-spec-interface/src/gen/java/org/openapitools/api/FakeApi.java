@@ -12,8 +12,8 @@ import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+import java.ws.rs.*;
+import java.ws.rs.core.Response;
 
 import io.swagger.annotations.*;
 

@@ -22,10 +22,10 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import javax.servlet.ServletConfig;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.*;
+import java.ws.rs.core.Context;
+import java.ws.rs.core.Response;
+import java.ws.rs.core.SecurityContext;
+import java.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -58,7 +58,7 @@ public class PetApi  {
       this.delegate = delegate;
    }
 
-    @javax.ws.rs.POST
+    @java.ws.rs.POST
     
     @Consumes({ "application/json", "application/xml" })
     
@@ -76,7 +76,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.addPet(body, securityContext);
     }
-    @javax.ws.rs.DELETE
+    @java.ws.rs.DELETE
     @Path("/{petId}")
     
     
@@ -94,7 +94,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.deletePet(petId, apiKey, securityContext);
     }
-    @javax.ws.rs.GET
+    @java.ws.rs.GET
     @Path("/findByStatus")
     
     @Produces({ "application/xml", "application/json" })
@@ -112,7 +112,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.findPetsByStatus(status, securityContext);
     }
-    @javax.ws.rs.GET
+    @java.ws.rs.GET
     @Path("/findByTags")
     
     @Produces({ "application/xml", "application/json" })
@@ -130,7 +130,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.findPetsByTags(tags, securityContext);
     }
-    @javax.ws.rs.GET
+    @java.ws.rs.GET
     @Path("/{petId}")
     
     @Produces({ "application/xml", "application/json" })
@@ -146,7 +146,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.getPetById(petId, securityContext);
     }
-    @javax.ws.rs.PUT
+    @java.ws.rs.PUT
     
     @Consumes({ "application/json", "application/xml" })
     
@@ -166,7 +166,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.updatePet(body, securityContext);
     }
-    @javax.ws.rs.POST
+    @java.ws.rs.POST
     @Path("/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
     
@@ -183,7 +183,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.updatePetWithForm(petId, name, status, securityContext);
     }
-    @javax.ws.rs.POST
+    @java.ws.rs.POST
     @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })

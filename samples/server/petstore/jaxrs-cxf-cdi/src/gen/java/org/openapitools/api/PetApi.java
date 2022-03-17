@@ -5,10 +5,10 @@ import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import org.openapitools.api.PetApiService;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
+import java.ws.rs.*;
+import java.ws.rs.core.Context;
+import java.ws.rs.core.Response;
+import java.ws.rs.core.SecurityContext;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 

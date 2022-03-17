@@ -15,8 +15,8 @@ import java.io.InputStream;
 import com.sun.jersey.multipart.FormDataParam;
 import com.sun.jersey.multipart.FormDataBodyPart;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
+import java.ws.rs.core.Response;
+import java.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class FakeClassnameTags123ApiServiceImpl extends FakeClassnameTags123ApiService {

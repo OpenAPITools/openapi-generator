@@ -18,10 +18,10 @@ import java.io.InputStream;
 import com.sun.jersey.multipart.FormDataParam;
 import com.sun.jersey.multipart.FormDataBodyPart;
 
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.*;
+import java.ws.rs.core.Context;
+import java.ws.rs.core.Response;
+import java.ws.rs.core.SecurityContext;
+import java.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 

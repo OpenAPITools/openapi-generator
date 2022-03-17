@@ -13,8 +13,8 @@ import java.util.List;
 import java.io.InputStream;
 
 import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
+import java.ws.rs.core.Response;
+import java.ws.rs.core.SecurityContext;
 
 @RequestScoped
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen")

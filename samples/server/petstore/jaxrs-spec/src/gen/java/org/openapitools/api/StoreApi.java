@@ -3,8 +3,8 @@ package org.openapitools.api;
 import java.util.Map;
 import org.openapitools.model.Order;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+import java.ws.rs.*;
+import java.ws.rs.core.Response;
 
 import io.swagger.annotations.*;
 
