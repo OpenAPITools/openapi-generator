@@ -42,7 +42,7 @@ paths:
       summary: Create a Foo
       tags:
       - Foo
-      x-contentType: application/json;charset=utf-8
+      x-content-type: application/json;charset=utf-8
       x-accepts: application/json
       x-tags:
       - tag: Foo
@@ -65,7 +65,7 @@ paths:
       summary: Create a Bar
       tags:
       - Bar
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: Bar
