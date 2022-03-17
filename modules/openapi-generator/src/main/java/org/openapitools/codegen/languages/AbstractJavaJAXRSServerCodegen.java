@@ -41,7 +41,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     public static final String USE_TAGS = "useTags";
 
     enum JaxRsType {
-        CLASSIC ("java.ws.rs"),
+        CLASSIC ("javax.ws.rs"),
         JAKARTA ("jakarta.ws.rs");
 
         private String basePackage;
