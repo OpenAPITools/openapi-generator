@@ -31,7 +31,7 @@ import {
 {{#allParams.0}}
 export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams {
 {{#allParams}}
-    {{#description}}/** {{.}} */
+    {{#description}}/** {{{.}}} */
     {{/description}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#isNullable}} | null{{/isNullable}};
 {{/allParams}}
 }
@@ -123,8 +123,7 @@ export class {{classname}} {
                 (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             } else if (value instanceof Date) {
                 if (key != null) {
-                    httpParams = httpParams.append(key,
-                        (value as Date).toISOString(){{^isDateTime}}.substr(0, 10)){{/isDateTime}};
+                    httpParams = httpParams.append(key, (value as Date).toISOString(){{^isDateTime}}.substr(0, 10){{/isDateTime}});
                 } else {
                    throw Error("key may not be null if value is Date");
                 }
@@ -144,10 +143,10 @@ export class {{classname}} {
 {{#operation}}
     /**
 {{#summary}}
-     * {{.}}
+     * {{{.}}}
 {{/summary}}
 {{#notes}}
-     * {{.}}
+     * {{{.}}}
 {{/notes}}
      {{^useSingleRequestParameter}}
      {{#allParams}}
