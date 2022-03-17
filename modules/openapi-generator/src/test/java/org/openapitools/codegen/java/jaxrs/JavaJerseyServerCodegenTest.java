@@ -31,6 +31,7 @@ import static org.testng.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -150,8 +151,10 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.setDateLibrary("java8");
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
+
         files.values().forEach(file -> {
-            System.out.println(file.getName());
+            // Jersey3 uses "jakarta.ws.rs"
+            // Let's confirm that "javax.ws" is not present
             assertFileNotContains(file.toPath(), "javax.ws");
         });
     }

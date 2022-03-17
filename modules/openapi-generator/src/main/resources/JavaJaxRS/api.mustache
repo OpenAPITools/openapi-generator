@@ -20,10 +20,10 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import javax.servlet.ServletConfig;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.*;
+import {{jaxrsBasePackage}}.core.Context;
+import {{jaxrsBasePackage}}.core.Response;
+import {{jaxrsBasePackage}}.core.SecurityContext;
+import {{jaxrsBasePackage}}.*;
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -60,7 +60,7 @@ public class {{classname}}  {
    }
 
 {{#operation}}
-    @javax.ws.rs.{{httpMethod}}
+    @{{jaxrsBasePackage}}.{{httpMethod}}
     {{#subresourceOperation}}@Path("{{{path}}}"){{/subresourceOperation}}
     {{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}
     {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}

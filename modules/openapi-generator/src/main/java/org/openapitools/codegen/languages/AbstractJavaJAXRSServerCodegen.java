@@ -37,7 +37,23 @@ import java.util.*;
 
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     public static final String SERVER_PORT = "serverPort";
+    public static final String JAXRS_BASE_PACKAGE = "jaxrsBasePackage";
     public static final String USE_TAGS = "useTags";
+
+    enum JaxRsType {
+        CLASSIC ("java.ws.rs"),
+        JAKARTA ("jakarta.ws.rs");
+
+        private String basePackage;
+
+        JaxRsType(String basePackage) {
+            this.basePackage = basePackage;
+        }
+
+        public String getBasePackage() {
+            return this.basePackage;
+        }
+    }
 
     /**
      * Name of the sub-directory in "src/main/resource" where to find the
@@ -48,6 +64,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     protected String testResourcesFolder = "src/test/resources";
     protected String title = "OpenAPI Server";
     protected String serverPort = "8080";
+
+    protected JaxRsType jaxrsType = JaxRsType.CLASSIC;
 
     protected boolean useBeanValidation = true;
     protected boolean useTags = false;
@@ -138,6 +156,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
             swagger.setBasePath("");
         }
         */
+
+        this.additionalProperties.put(JAXRS_BASE_PACKAGE, jaxrsType.getBasePackage());
 
         if (!this.additionalProperties.containsKey(SERVER_PORT)) {
             URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());

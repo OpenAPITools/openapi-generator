@@ -103,6 +103,10 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
             setLibrary(DEFAULT_JERSEY_LIBRARY);
         }
 
+        if (LIBRARY_JERSEY3.equals(library)) {
+            jaxrsType = JaxRsType.JAKARTA;
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
             implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
         }
