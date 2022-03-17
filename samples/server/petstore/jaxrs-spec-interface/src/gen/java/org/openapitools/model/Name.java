@@ -34,8 +34,6 @@ public class Name  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
   @NotNull
@@ -54,8 +52,6 @@ public class Name  implements Serializable {
     this.snakeCase = snakeCase;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -77,8 +73,6 @@ public class Name  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("property")
   public String getProperty() {
@@ -96,8 +90,6 @@ public class Name  implements Serializable {
     this._123number = _123number;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

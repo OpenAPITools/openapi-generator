@@ -29,14 +29,18 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   private @Valid Date dateTime;
   private @Valid Map<String, Animal> map = new HashMap<>();
 
+  protected MixedPropertiesAndAdditionalPropertiesClass(MixedPropertiesAndAdditionalPropertiesClassBuilder<?, ?> b) {
+  this.uuid = b.uuid;this.dateTime = b.dateTime;this.map = b.map;
+  }
+
+  public MixedPropertiesAndAdditionalPropertiesClass() { }
+
   /**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -58,8 +62,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
@@ -77,8 +79,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     this.map = map;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -152,5 +152,43 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
 
+  public static MixedPropertiesAndAdditionalPropertiesClassBuilder<?, ?> builder() {
+    return new MixedPropertiesAndAdditionalPropertiesClassBuilderImpl();
+  }
+
+  private static final class MixedPropertiesAndAdditionalPropertiesClassBuilderImpl extends MixedPropertiesAndAdditionalPropertiesClassBuilder<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilderImpl> {
+
+    @Override
+    protected MixedPropertiesAndAdditionalPropertiesClassBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public MixedPropertiesAndAdditionalPropertiesClass build() {
+      return new MixedPropertiesAndAdditionalPropertiesClass(this);
+    }
+  }
+
+  public static abstract class MixedPropertiesAndAdditionalPropertiesClassBuilder<C extends MixedPropertiesAndAdditionalPropertiesClass, B extends MixedPropertiesAndAdditionalPropertiesClassBuilder<C, B>>  {
+    private UUID uuid;
+    private Date dateTime;
+    private Map<String, Animal> map = new HashMap<>();
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B uuid(UUID uuid) {
+      this.uuid = uuid;
+      return self();
+    }
+    public B dateTime(Date dateTime) {
+      this.dateTime = dateTime;
+      return self();
+    }
+    public B map(Map<String, Animal> map) {
+      this.map = map;
+      return self();
+    }
+  }
 }
 

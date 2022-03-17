@@ -31,8 +31,6 @@ public class ClassModel  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("_class")
   public String getPropertyClass() {

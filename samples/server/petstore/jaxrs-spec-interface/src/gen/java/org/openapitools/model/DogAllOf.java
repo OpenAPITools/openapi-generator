@@ -30,8 +30,6 @@ public class DogAllOf  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("breed")
   public String getBreed() {
