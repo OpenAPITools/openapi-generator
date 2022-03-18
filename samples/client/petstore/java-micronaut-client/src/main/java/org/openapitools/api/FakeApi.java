@@ -57,7 +57,7 @@ public interface FakeApi {
      * @return Boolean
      */
     @Post(uri="/fake/outer/boolean")
-    @Produces(value={"application/json"})
+    @Produces(value={"*/*"})
     @Consumes(value={"*/*"})
     Mono<Boolean> fakeOuterBooleanSerialize(
         @Body @Nullable Boolean _body
@@ -69,7 +69,7 @@ public interface FakeApi {
      * @return OuterComposite
      */
     @Post(uri="/fake/outer/composite")
-    @Produces(value={"application/json"})
+    @Produces(value={"*/*"})
     @Consumes(value={"*/*"})
     Mono<OuterComposite> fakeOuterCompositeSerialize(
         @Body @Nullable @Valid OuterComposite _body
@@ -81,7 +81,7 @@ public interface FakeApi {
      * @return BigDecimal
      */
     @Post(uri="/fake/outer/number")
-    @Produces(value={"application/json"})
+    @Produces(value={"*/*"})
     @Consumes(value={"*/*"})
     Mono<BigDecimal> fakeOuterNumberSerialize(
         @Body @Nullable BigDecimal _body
@@ -93,7 +93,7 @@ public interface FakeApi {
      * @return String
      */
     @Post(uri="/fake/outer/string")
-    @Produces(value={"application/json"})
+    @Produces(value={"*/*"})
     @Consumes(value={"*/*"})
     Mono<String> fakeOuterStringSerialize(
         @Body @Nullable String _body

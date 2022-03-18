@@ -12,7 +12,7 @@ public enum VendorExtension {
     X_WEBCLIENT_BLOCKING("x-webclient-blocking", ExtensionLevel.OPERATION, "Specifies if method for specific operation should be blocking or non-blocking(ex: return `Mono<T>/Flux<T>` or `return T/List<T>/Set<T>` & execute `.block()` inside generated method)", "false"),
     X_TAGS("x-tags", ExtensionLevel.OPERATION, "Specify multiple swagger tags for operation", null),
     X_ACCEPTS("x-accepts", ExtensionLevel.OPERATION, "Specify custom value for 'Accept' header for operation", null),
-    X_CONTENT_TYPE("x-contentType", ExtensionLevel.OPERATION, "Specify custom value for 'Content-Type' header for operation", null),
+    X_CONTENT_TYPE("x-content-type", ExtensionLevel.OPERATION, "Specify custom value for 'Content-Type' header for operation", null),
     X_CLASS_EXTRA_ANNOTATION("x-class-extra-annotation", ExtensionLevel.MODEL, "List of custom annotations to be added to model", null),
     X_FIELD_EXTRA_ANNOTATION("x-field-extra-annotation", ExtensionLevel.FIELD, "List of custom annotations to be added to property", null),
     ;

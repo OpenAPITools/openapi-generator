@@ -54,7 +54,7 @@
         "summary" : "Add a new pet to the store",
         "tags" : [ "pet" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       },
       "put" : {
@@ -95,7 +95,7 @@
         "summary" : "Update an existing pet",
         "tags" : [ "pet" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },

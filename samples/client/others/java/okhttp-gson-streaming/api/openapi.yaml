@@ -23,7 +23,7 @@ paths:
       tags:
       - ping
       x-streaming: true
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
 components:
   schemas:

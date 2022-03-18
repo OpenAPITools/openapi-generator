@@ -38,7 +38,7 @@ public interface UserApi {
      * @param _body Created user object (required)
      */
     @Post(uri="/user")
-    @Produces(value={"application/json"})
+    @Produces(value={"*/*"})
     @Consumes(value={"application/json"})
     Mono<Object> createUser(
         @Body @NotNull @Valid User _body
@@ -49,7 +49,7 @@ public interface UserApi {
      * @param _body List of user object (required)
      */
     @Post(uri="/user/createWithArray")
-    @Produces(value={"application/json"})
+    @Produces(value={"*/*"})
     @Consumes(value={"application/json"})
     Mono<Object> createUsersWithArrayInput(
         @Body @NotNull List<User> _body
@@ -60,7 +60,7 @@ public interface UserApi {
      * @param _body List of user object (required)
      */
     @Post(uri="/user/createWithList")
-    @Produces(value={"application/json"})
+    @Produces(value={"*/*"})
     @Consumes(value={"application/json"})
     Mono<Object> createUsersWithListInput(
         @Body @NotNull List<User> _body
@@ -115,7 +115,7 @@ public interface UserApi {
      * @param _body Updated user object (required)
      */
     @Put(uri="/user/{username}")
-    @Produces(value={"application/json"})
+    @Produces(value={"*/*"})
     @Consumes(value={"application/json"})
     Mono<Object> updateUser(
         @PathVariable(name="username") @NotNull String username, 

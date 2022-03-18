@@ -69,7 +69,7 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
     put:
       description: ""
@@ -93,7 +93,7 @@ paths:
       tags:
       - pet
       x-webclient-blocking: true
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
     servers:
     - url: http://petstore.swagger.io/v2
@@ -295,7 +295,7 @@ paths:
       summary: Updates a pet in the store with form data
       tags:
       - pet
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
   /pet/{petId}/uploadImage:
     post:
@@ -339,7 +339,7 @@ paths:
       summary: uploads an image
       tags:
       - pet
-      x-contentType: multipart/form-data
+      x-content-type: multipart/form-data
       x-accepts: application/json
   /store/inventory:
     get:
@@ -387,7 +387,7 @@ paths:
       summary: Place an order for a pet
       tags:
       - store
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /store/order/{order_id}:
     delete:
@@ -463,7 +463,7 @@ paths:
       summary: Create user
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /user/createWithArray:
     post:
@@ -477,7 +477,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /user/createWithList:
     post:
@@ -491,7 +491,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /user/login:
     get:
@@ -635,7 +635,7 @@ paths:
       summary: Updated user
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /fake_classname_test:
     patch:
@@ -655,7 +655,7 @@ paths:
       summary: To test class name in snake case
       tags:
       - fake_classname_tags 123#$%^
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /fake:
     delete:
@@ -836,7 +836,7 @@ paths:
       summary: To test enum parameters
       tags:
       - fake
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
     patch:
       description: To test "client" model
@@ -853,7 +853,7 @@ paths:
       summary: To test "client" model
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
     post:
       description: |
@@ -952,7 +952,7 @@ paths:
         가짜 엔드 포인트
       tags:
       - fake
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
   /fake/outer/number:
     post:
@@ -973,7 +973,7 @@ paths:
           description: Output number
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: '*/*'
   /fake/property/enum-int:
     post:
@@ -995,7 +995,7 @@ paths:
           description: Output enum (int)
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: '*/*'
   /fake/outer/string:
     post:
@@ -1016,7 +1016,7 @@ paths:
           description: Output string
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: '*/*'
   /fake/outer/boolean:
     post:
@@ -1037,7 +1037,7 @@ paths:
           description: Output boolean
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: '*/*'
   /fake/outer/composite:
     post:
@@ -1058,7 +1058,7 @@ paths:
           description: Output composite
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: '*/*'
   /fake/jsonFormData:
     get:
@@ -1086,7 +1086,7 @@ paths:
       summary: test json serialization of form data
       tags:
       - fake
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
   /fake/inline-additionalProperties:
     post:
@@ -1107,7 +1107,7 @@ paths:
       summary: test inline additionalProperties
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /fake/body-with-query-params:
     put:
@@ -1131,7 +1131,7 @@ paths:
           description: Success
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /another-fake/dummy:
     patch:
@@ -1149,7 +1149,7 @@ paths:
       summary: To test special tags
       tags:
       - $another-fake?
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /fake/body-with-file-schema:
     put:
@@ -1167,7 +1167,7 @@ paths:
           description: Success
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
   /fake/body-with-binary:
     put:
@@ -1187,7 +1187,7 @@ paths:
           description: Success
       tags:
       - fake
-      x-contentType: image/png
+      x-content-type: image/png
       x-accepts: application/json
   /fake/test-query-parameters:
     put:
@@ -1307,7 +1307,7 @@ paths:
       summary: uploads an image (required)
       tags:
       - pet
-      x-contentType: multipart/form-data
+      x-content-type: multipart/form-data
       x-accepts: application/json
   /fake/health:
     get:
@@ -1352,7 +1352,7 @@ paths:
       summary: test http signature authentication
       tags:
       - fake
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
 components:
   requestBodies:

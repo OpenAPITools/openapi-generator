@@ -98,7 +98,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-setter-extra-annotation|Custom annotation that can be specified over java setter for specific field|FIELD|When field is array & uniqueItems, then this extension is used to add `@JsonDeserialize(as = LinkedHashSet.class)` over setter, otherwise no value
 |x-tags|Specify multiple swagger tags for operation|OPERATION|null
 |x-accepts|Specify custom value for 'Accept' header for operation|OPERATION|null
-|x-contentType|Specify custom value for 'Content-Type' header for operation|OPERATION|null
+|x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
 |x-field-extra-annotation|List of custom annotations to be added to property|FIELD|null
 |x-spring-paginated|Add org.springframework.data.domain.Pageable to controller method. Can be used to handle page & size query parameters|OPERATION|false
