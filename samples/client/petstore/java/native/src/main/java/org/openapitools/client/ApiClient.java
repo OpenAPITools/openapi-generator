@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
+import java.net.http.HttpConnectTimeoutException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
@@ -63,6 +64,7 @@ public class ApiClient {
   private Consumer<HttpResponse<InputStream>> responseInterceptor;
   private Consumer<HttpResponse<String>> asyncResponseInterceptor;
   private Duration readTimeout;
+  private Duration connectTimeout;
 
   private static String valueToString(Object value) {
     if (value == null) {
@@ -167,6 +169,7 @@ public class ApiClient {
     updateBaseUri(getDefaultBaseUri());
     interceptor = null;
     readTimeout = null;
+    connectTimeout = null;
     responseInterceptor = null;
     asyncResponseInterceptor = null;
   }
@@ -184,6 +187,7 @@ public class ApiClient {
     updateBaseUri(baseUri != null ? baseUri : getDefaultBaseUri());
     interceptor = null;
     readTimeout = null;
+    connectTimeout = null;
     responseInterceptor = null;
     asyncResponseInterceptor = null;
   }
@@ -417,5 +421,36 @@ public class ApiClient {
    */
   public Duration getReadTimeout() {
     return readTimeout;
+  }
+  /**
+   * Sets the connect timeout (in milliseconds) for the http client.
+   *
+   * <p> In the case where a new connection needs to be established, if
+   * the connection cannot be established within the given {@code
+   * duration}, then {@link HttpClient#send(HttpRequest,BodyHandler)
+   * HttpClient::send} throws an {@link HttpConnectTimeoutException}, or
+   * {@link HttpClient#sendAsync(HttpRequest,BodyHandler)
+   * HttpClient::sendAsync} completes exceptionally with an
+   * {@code HttpConnectTimeoutException}. If a new connection does not
+   * need to be established, for example if a connection can be reused
+   * from a previous request, then this timeout duration has no effect.
+   *
+   * @param connectTimeout connection timeout in milliseconds
+   *
+   * @return This object.
+   */
+  public ApiClient setConnectTimeout(Duration connectTimeout) {
+    this.connectTimeout = connectTimeout;
+    this.builder.connectTimeout(connectTimeout);
+    return this;
+  }
+
+  /**
+   * Get connection timeout (in milliseconds).
+   *
+   * @return Timeout in milliseconds
+   */
+  public Duration getConnectTimeout() {
+    return connectTimeout;
   }
 }
