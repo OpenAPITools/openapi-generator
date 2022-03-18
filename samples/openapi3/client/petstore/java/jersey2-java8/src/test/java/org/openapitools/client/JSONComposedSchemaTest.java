@@ -6,14 +6,13 @@ import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import org.junit.*;
-import static org.junit.Assert.*;
-
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class JSONComposedSchemaTest {
     JSON json = null;
 
-    @Before
+    @BeforeEach
     public void setup() {
         json = new JSON();
     }
@@ -69,24 +68,29 @@ public class JSONComposedSchemaTest {
     /**
      * Test to ensure the setter will throw IllegalArgumentException
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testEnumDiscriminator() throws Exception {
-        ChildCat cc = new ChildCat();
-        cc.setPetType("ChildCat");
-        assertEquals("ChildCat", cc.getPetType());
-
-        cc.setPetType("WrongValue");
+        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            ChildCat cc = new ChildCat();
+            cc.setPetType("ChildCat");
+            assertEquals("ChildCat", cc.getPetType());
+            cc.setPetType("WrongValue");
+        });
+        Assertions.assertEquals("WrongValue is invalid. Possible values for petType: ChildCat", thrown.getMessage());
     }
 
     /**
      * Test to ensure the getter will throw ClassCastException
      */
-    @Test(expected = ClassCastException.class)
+    @Test
     public void testCastException() throws Exception {
-        String str = "{ \"cultivar\": \"golden delicious\", \"mealy\": false }";
-        FruitReq o = json.getContext(null).readValue(str, FruitReq.class);
-        assertTrue(o.getActualInstance() instanceof AppleReq);
-        BananaReq inst2 = o.getBananaReq(); // should throw ClassCastException
+        ClassCastException thrown = Assertions.assertThrows(ClassCastException.class, () -> {
+            String str = "{ \"cultivar\": \"golden delicious\", \"mealy\": false }";
+            FruitReq o = json.getContext(null).readValue(str, FruitReq.class);
+            assertTrue(o.getActualInstance() instanceof AppleReq);
+            BananaReq inst2 = o.getBananaReq(); // should throw ClassCastException
+        });
+        Assertions.assertEquals("class org.openapitools.client.model.AppleReq cannot be cast to class org.openapitools.client.model.BananaReq (org.openapitools.client.model.AppleReq and org.openapitools.client.model.BananaReq are in unnamed module of loader 'app')", thrown.getMessage());
     }
 
     /**
@@ -384,13 +388,13 @@ public class JSONComposedSchemaTest {
     public void testNullValueDisallowed() throws Exception {
         {
             String str = "{ \"id\": 123, \"petId\": 345, \"quantity\": 100, \"status\": \"placed\" }";
-            Order o = json.getContext(null).readValue(str, Order.class);
+            org.openapitools.client.model.Order o = json.getContext(null).readValue(str, org.openapitools.client.model.Order.class);
             assertEquals(100L, (long)o.getQuantity());
-            assertEquals(Order.StatusEnum.PLACED, o.getStatus());
+            assertEquals(org.openapitools.client.model.Order.StatusEnum.PLACED, o.getStatus());
         }
         {
             String str = "{ \"id\": 123, \"petId\": 345, \"quantity\": null }";
-            Order o = json.getContext(null).readValue(str, Order.class);
+            org.openapitools.client.model.Order o = json.getContext(null).readValue(str, org.openapitools.client.model.Order.class);
             // TODO: the null value is not allowed per OAS document.
             // The deserialization should fail.
             assertNull(o.getQuantity());

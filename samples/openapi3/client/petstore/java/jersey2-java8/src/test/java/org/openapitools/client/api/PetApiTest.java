@@ -17,16 +17,17 @@ import org.openapitools.client.*;
 import org.openapitools.client.auth.*;
 import java.io.File;
 import org.openapitools.client.model.*;
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.Assert;
 
-import java.util.ArrayList;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for PetApi
@@ -41,8 +42,7 @@ public class PetApiTest {
      *
      * 
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void addPetTest() throws ApiException {
@@ -65,42 +65,41 @@ public class PetApiTest {
 
         //get pet by ID
         Pet result = api.getPetById(petId);
-        Assert.assertEquals(result.getId(), body.getId());
-        Assert.assertEquals(result.getCategory(), category);
-        Assert.assertEquals(result.getName(), body.getName());
-        Assert.assertEquals(result.getPhotoUrls(), body.getPhotoUrls());
-        Assert.assertEquals(result.getStatus(), body.getStatus());
-        Assert.assertEquals(result.getTags(), body.getTags());
+        Assertions.assertEquals(result.getId(), body.getId());
+        Assertions.assertEquals(result.getCategory(), category);
+        Assertions.assertEquals(result.getName(), body.getName());
+        Assertions.assertEquals(result.getPhotoUrls(), body.getPhotoUrls());
+        Assertions.assertEquals(result.getStatus(), body.getStatus());
+        Assertions.assertEquals(result.getTags(), body.getTags());
 
         // update pet
         api.updatePetWithForm(petId, "jersey2 java8 pet 2", "sold");
 
         //get pet by ID
         Pet result2 = api.getPetById(petId);
-        Assert.assertEquals(result2.getId(), body.getId());
-        Assert.assertEquals(result2.getCategory(), category);
-        Assert.assertEquals(result2.getName(), "jersey2 java8 pet 2");
-        Assert.assertEquals(result2.getPhotoUrls(), body.getPhotoUrls());
-        Assert.assertEquals(result2.getStatus(), Pet.StatusEnum.SOLD);
-        Assert.assertEquals(result2.getTags(), body.getTags());
+        Assertions.assertEquals(result2.getId(), body.getId());
+        Assertions.assertEquals(result2.getCategory(), category);
+        Assertions.assertEquals(result2.getName(), "jersey2 java8 pet 2");
+        Assertions.assertEquals(result2.getPhotoUrls(), body.getPhotoUrls());
+        Assertions.assertEquals(result2.getStatus(), Pet.StatusEnum.SOLD);
+        Assertions.assertEquals(result2.getTags(), body.getTags());
 
         // delete pet
         api.deletePet(petId, "empty api key");
 
         try {
             Pet result3 = api.getPetById(petId);
-            Assert.assertEquals(false, true);
+            Assertions.assertEquals(false, true);
         } catch (ApiException e) {
 //            System.err.println("Exception when calling PetApi#getPetById");
 //            System.err.println("Status code: " + e.getCode());
 //            System.err.println("Reason: " + e.getResponseBody());
 //            System.err.println("Response headers: " + e.getResponseHeaders());
 
-            Assert.assertEquals(e.getCode(), 404);
-            Assert.assertEquals(e.getResponseBody(), "{\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}");
+            Assertions.assertEquals(e.getCode(), 404);
+            Assertions.assertEquals(e.getResponseBody(), "{\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}");
 
         }
-
     }
 
     /**
@@ -108,8 +107,7 @@ public class PetApiTest {
      *
      * 
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void deletePetTest() throws ApiException {
@@ -124,8 +122,7 @@ public class PetApiTest {
      *
      * Multiple status values can be provided with comma separated strings
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void findPetsByStatusTest() throws ApiException {
@@ -139,8 +136,7 @@ public class PetApiTest {
      *
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void findPetsByTagsTest() throws ApiException {
@@ -154,8 +150,7 @@ public class PetApiTest {
      *
      * Returns a single pet
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void getPetByIdTest() throws ApiException {
@@ -169,8 +164,7 @@ public class PetApiTest {
      *
      * 
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void updatePetTest() throws ApiException {
@@ -184,8 +178,7 @@ public class PetApiTest {
      *
      * 
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void updatePetWithFormTest() throws ApiException {
@@ -201,15 +194,14 @@ public class PetApiTest {
      *
      * 
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void uploadFileTest() throws ApiException {
         //Long petId = null;
         //String additionalMetadata = null;
-        //File file = null;
-        //ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+        //File _file = null;
+        //ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
         // TODO: test validations
     }
 
@@ -218,8 +210,7 @@ public class PetApiTest {
      *
      * 
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void uploadFileWithRequiredFileTest() throws ApiException {
