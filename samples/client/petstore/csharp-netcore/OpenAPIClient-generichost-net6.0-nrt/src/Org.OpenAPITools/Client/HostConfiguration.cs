@@ -103,6 +103,7 @@ namespace Org.OpenAPITools.Client
             ClientUtils.JsonSerializerOptions.Converters.Add(new MammalJsonConverter());
             ClientUtils.JsonSerializerOptions.Converters.Add(new NullableShapeJsonConverter());
             ClientUtils.JsonSerializerOptions.Converters.Add(new PigJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new PolymorphicPropertyJsonConverter());
             ClientUtils.JsonSerializerOptions.Converters.Add(new QuadrilateralJsonConverter());
             ClientUtils.JsonSerializerOptions.Converters.Add(new ScaleneTriangleJsonConverter());
             ClientUtils.JsonSerializerOptions.Converters.Add(new ShapeJsonConverter());
