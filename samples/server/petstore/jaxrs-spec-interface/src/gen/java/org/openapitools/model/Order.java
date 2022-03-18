@@ -67,8 +67,6 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -86,8 +84,6 @@ public enum StatusEnum {
     this.petId = petId;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -109,8 +105,6 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("quantity")
   public Integer getQuantity() {
@@ -128,8 +122,6 @@ public enum StatusEnum {
     this.shipDate = shipDate;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -152,8 +144,6 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
   public StatusEnum getStatus() {
@@ -171,8 +161,6 @@ public enum StatusEnum {
     this.complete = complete;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

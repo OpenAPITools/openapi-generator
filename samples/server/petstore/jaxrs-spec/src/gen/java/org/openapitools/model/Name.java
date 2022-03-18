@@ -25,14 +25,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   private @Valid String property;
   private @Valid Integer _123number;
 
+  protected Name(NameBuilder<?, ?> b) {
+  this.name = b.name;this.snakeCase = b.snakeCase;this.property = b.property;this._123number = b._123number;
+  }
+
+  public Name() { }
+
   /**
    **/
   public Name name(Integer name) {
     this.name = name;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -55,8 +59,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("snake_case")
   public Integer getSnakeCase() {
@@ -76,8 +78,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("property")
   public String getProperty() {
@@ -95,8 +95,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this._123number = _123number;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -156,5 +154,48 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static NameBuilder<?, ?> builder() {
+    return new NameBuilderImpl();
+  }
+
+  private static final class NameBuilderImpl extends NameBuilder<Name, NameBuilderImpl> {
+
+    @Override
+    protected NameBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Name build() {
+      return new Name(this);
+    }
+  }
+
+  public static abstract class NameBuilder<C extends Name, B extends NameBuilder<C, B>>  {
+    private Integer name;
+    private Integer snakeCase;
+    private String property;
+    private Integer _123number;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B name(Integer name) {
+      this.name = name;
+      return self();
+    }
+    public B snakeCase(Integer snakeCase) {
+      this.snakeCase = snakeCase;
+      return self();
+    }
+    public B property(String property) {
+      this.property = property;
+      return self();
+    }
+    public B _123number(Integer _123number) {
+      this._123number = _123number;
+      return self();
+    }
+  }
 }
 

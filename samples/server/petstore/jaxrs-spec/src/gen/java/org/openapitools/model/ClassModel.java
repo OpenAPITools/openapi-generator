@@ -22,14 +22,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   private @Valid String propertyClass;
 
+  protected ClassModel(ClassModelBuilder<?, ?> b) {
+  this.propertyClass = b.propertyClass;
+  }
+
+  public ClassModel() { }
+
   /**
    **/
   public ClassModel propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -83,5 +87,33 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static ClassModelBuilder<?, ?> builder() {
+    return new ClassModelBuilderImpl();
+  }
+
+  private static final class ClassModelBuilderImpl extends ClassModelBuilder<ClassModel, ClassModelBuilderImpl> {
+
+    @Override
+    protected ClassModelBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public ClassModel build() {
+      return new ClassModel(this);
+    }
+  }
+
+  public static abstract class ClassModelBuilder<C extends ClassModel, B extends ClassModelBuilder<C, B>>  {
+    private String propertyClass;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B propertyClass(String propertyClass) {
+      this.propertyClass = propertyClass;
+      return self();
+    }
+  }
 }
 

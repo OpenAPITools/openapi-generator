@@ -29,8 +29,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("bar")
   public String getBar() {
@@ -48,8 +46,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.foo = foo;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

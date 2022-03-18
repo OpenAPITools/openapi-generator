@@ -48,8 +48,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("integer")
  @Min(10) @Max(100)  public Integer getInteger() {
@@ -71,8 +69,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("int32")
  @Min(20) @Max(200)  public Integer getInt32() {
@@ -90,8 +86,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.int64 = int64;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -113,8 +107,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.number = number;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -139,8 +131,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("float")
  @DecimalMin("54.3") @DecimalMax("987.6")  public Float getFloat() {
@@ -162,8 +152,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("double")
  @DecimalMin("67.8") @DecimalMax("123.4")  public Double getDouble() {
@@ -183,8 +171,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("string")
  @Pattern(regexp="/[a-z]/i")  public String getString() {
@@ -202,8 +188,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this._byte = _byte;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -226,8 +210,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("binary")
   public File getBinary() {
@@ -245,8 +227,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.date = date;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -269,8 +249,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
@@ -288,8 +266,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.uuid = uuid;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
@@ -311,8 +287,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("password")
   @NotNull
@@ -331,8 +305,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.bigDecimal = bigDecimal;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

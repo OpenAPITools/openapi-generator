@@ -25,14 +25,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
   private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
 
+  protected ArrayTest(ArrayTestBuilder<?, ?> b) {
+  this.arrayOfString = b.arrayOfString;this.arrayArrayOfInteger = b.arrayArrayOfInteger;this.arrayArrayOfModel = b.arrayArrayOfModel;
+  }
+
+  public ArrayTest() { }
+
   /**
    **/
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -54,8 +58,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -73,8 +75,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -132,5 +132,43 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static ArrayTestBuilder<?, ?> builder() {
+    return new ArrayTestBuilderImpl();
+  }
+
+  private static final class ArrayTestBuilderImpl extends ArrayTestBuilder<ArrayTest, ArrayTestBuilderImpl> {
+
+    @Override
+    protected ArrayTestBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public ArrayTest build() {
+      return new ArrayTest(this);
+    }
+  }
+
+  public static abstract class ArrayTestBuilder<C extends ArrayTest, B extends ArrayTestBuilder<C, B>>  {
+    private List<String> arrayOfString = new ArrayList<String>();
+    private List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
+    private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B arrayOfString(List<String> arrayOfString) {
+      this.arrayOfString = arrayOfString;
+      return self();
+    }
+    public B arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+      this.arrayArrayOfInteger = arrayArrayOfInteger;
+      return self();
+    }
+    public B arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+      this.arrayArrayOfModel = arrayArrayOfModel;
+      return self();
+    }
+  }
 }
 

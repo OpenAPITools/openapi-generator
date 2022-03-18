@@ -35,8 +35,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -54,8 +52,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.username = username;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -77,8 +73,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("firstName")
   public String getFirstName() {
@@ -96,8 +90,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.lastName = lastName;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -119,8 +111,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("email")
   public String getEmail() {
@@ -138,8 +128,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.password = password;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -161,8 +149,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("phone")
   public String getPhone() {
@@ -181,8 +167,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.userStatus = userStatus;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "User Status")

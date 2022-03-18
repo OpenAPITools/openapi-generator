@@ -33,8 +33,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
   @NotNull
@@ -53,8 +51,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.snakeCase = snakeCase;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -76,8 +72,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("property")
   public String getProperty() {
@@ -95,8 +89,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this._123number = _123number;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

@@ -157,14 +157,18 @@ public enum EnumNumberEnum {
   private @Valid EnumNumberEnum enumNumber;
   private @Valid OuterEnum outerEnum;
 
+  protected EnumTest(EnumTestBuilder<?, ?> b) {
+  this.enumString = b.enumString;this.enumStringRequired = b.enumStringRequired;this.enumInteger = b.enumInteger;this.enumNumber = b.enumNumber;this.outerEnum = b.outerEnum;
+  }
+
+  public EnumTest() { }
+
   /**
    **/
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -184,8 +188,6 @@ public enum EnumNumberEnum {
     this.enumStringRequired = enumStringRequired;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -208,8 +210,6 @@ public enum EnumNumberEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_integer")
   public EnumIntegerEnum getEnumInteger() {
@@ -229,8 +229,6 @@ public enum EnumNumberEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_number")
   public EnumNumberEnum getEnumNumber() {
@@ -248,8 +246,6 @@ public enum EnumNumberEnum {
     this.outerEnum = outerEnum;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -311,5 +307,53 @@ public enum EnumNumberEnum {
   }
 
 
+  public static EnumTestBuilder<?, ?> builder() {
+    return new EnumTestBuilderImpl();
+  }
+
+  private static final class EnumTestBuilderImpl extends EnumTestBuilder<EnumTest, EnumTestBuilderImpl> {
+
+    @Override
+    protected EnumTestBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public EnumTest build() {
+      return new EnumTest(this);
+    }
+  }
+
+  public static abstract class EnumTestBuilder<C extends EnumTest, B extends EnumTestBuilder<C, B>>  {
+    private EnumStringEnum enumString;
+    private EnumStringRequiredEnum enumStringRequired;
+    private EnumIntegerEnum enumInteger;
+    private EnumNumberEnum enumNumber;
+    private OuterEnum outerEnum;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B enumString(EnumStringEnum enumString) {
+      this.enumString = enumString;
+      return self();
+    }
+    public B enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+      this.enumStringRequired = enumStringRequired;
+      return self();
+    }
+    public B enumInteger(EnumIntegerEnum enumInteger) {
+      this.enumInteger = enumInteger;
+      return self();
+    }
+    public B enumNumber(EnumNumberEnum enumNumber) {
+      this.enumNumber = enumNumber;
+      return self();
+    }
+    public B outerEnum(OuterEnum outerEnum) {
+      this.outerEnum = outerEnum;
+      return self();
+    }
+  }
 }
 

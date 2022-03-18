@@ -31,8 +31,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("file")
   public java.io.File getFile() {
@@ -50,8 +48,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.files = files;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

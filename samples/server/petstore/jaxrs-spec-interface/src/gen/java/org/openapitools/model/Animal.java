@@ -37,8 +37,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("className")
   @NotNull
@@ -57,8 +55,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.color = color;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

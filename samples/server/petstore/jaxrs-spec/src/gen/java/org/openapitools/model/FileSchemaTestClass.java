@@ -23,14 +23,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   private @Valid java.io.File file;
   private @Valid List<java.io.File> files = new ArrayList<java.io.File>();
 
+  protected FileSchemaTestClass(FileSchemaTestClassBuilder<?, ?> b) {
+  this.file = b.file;this.files = b.files;
+  }
+
+  public FileSchemaTestClass() { }
+
   /**
    **/
   public FileSchemaTestClass file(java.io.File file) {
     this.file = file;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -50,8 +54,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.files = files;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -107,5 +109,38 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static FileSchemaTestClassBuilder<?, ?> builder() {
+    return new FileSchemaTestClassBuilderImpl();
+  }
+
+  private static final class FileSchemaTestClassBuilderImpl extends FileSchemaTestClassBuilder<FileSchemaTestClass, FileSchemaTestClassBuilderImpl> {
+
+    @Override
+    protected FileSchemaTestClassBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public FileSchemaTestClass build() {
+      return new FileSchemaTestClass(this);
+    }
+  }
+
+  public static abstract class FileSchemaTestClassBuilder<C extends FileSchemaTestClass, B extends FileSchemaTestClassBuilder<C, B>>  {
+    private java.io.File file;
+    private List<java.io.File> files = new ArrayList<java.io.File>();
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B file(java.io.File file) {
+      this.file = file;
+      return self();
+    }
+    public B files(List<java.io.File> files) {
+      this.files = files;
+      return self();
+    }
+  }
 }
 

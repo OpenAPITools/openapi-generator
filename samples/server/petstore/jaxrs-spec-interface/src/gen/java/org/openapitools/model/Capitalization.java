@@ -33,8 +33,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("smallCamel")
   public String getSmallCamel() {
@@ -52,8 +50,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.capitalCamel = capitalCamel;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -75,8 +71,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("small_Snake")
   public String getSmallSnake() {
@@ -94,8 +88,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.capitalSnake = capitalSnake;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -117,8 +109,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
@@ -137,8 +127,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.ATT_NAME = ATT_NAME;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "Name of the pet ")

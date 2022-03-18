@@ -29,14 +29,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   private @Valid String className;
   private @Valid String color = "red";
 
+  protected Animal(AnimalBuilder<?, ?> b) {
+  this.className = b.className;this.color = b.color;
+  }
+
+  public Animal() { }
+
   /**
    **/
   public Animal className(String className) {
     this.className = className;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -57,8 +61,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.color = color;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -114,5 +116,38 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static AnimalBuilder<?, ?> builder() {
+    return new AnimalBuilderImpl();
+  }
+
+  private static final class AnimalBuilderImpl extends AnimalBuilder<Animal, AnimalBuilderImpl> {
+
+    @Override
+    protected AnimalBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Animal build() {
+      return new Animal(this);
+    }
+  }
+
+  public static abstract class AnimalBuilder<C extends Animal, B extends AnimalBuilder<C, B>>  {
+    private String className;
+    private String color = "red";
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B className(String className) {
+      this.className = className;
+      return self();
+    }
+    public B color(String color) {
+      this.color = color;
+      return self();
+    }
+  }
 }
 

@@ -22,14 +22,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   private @Valid String breed;
 
+  protected Dog(DogBuilder<?, ?> b) {
+  super(b);
+  this.breed = b.breed;
+  }
+
+  public Dog() { }
+
   /**
    **/
   public Dog breed(String breed) {
     this.breed = breed;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -84,5 +89,30 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static DogBuilder<?, ?> builder() {
+    return new DogBuilderImpl();
+  }
+
+  private static final class DogBuilderImpl extends DogBuilder<Dog, DogBuilderImpl> {
+
+    @Override
+    protected DogBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Dog build() {
+      return new Dog(this);
+    }
+  }
+
+  public static abstract class DogBuilder<C extends Dog, B extends DogBuilder<C, B>> extends AnimalBuilder<C, B> {
+    private String breed;
+
+    public B breed(String breed) {
+      this.breed = breed;
+      return self();
+    }
+  }
 }
 

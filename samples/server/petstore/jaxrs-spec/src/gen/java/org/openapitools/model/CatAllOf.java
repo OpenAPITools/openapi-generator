@@ -20,14 +20,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   private @Valid Boolean declawed;
 
+  protected CatAllOf(CatAllOfBuilder<?, ?> b) {
+  this.declawed = b.declawed;
+  }
+
+  public CatAllOf() { }
+
   /**
    **/
   public CatAllOf declawed(Boolean declawed) {
     this.declawed = declawed;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -81,5 +85,33 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static CatAllOfBuilder<?, ?> builder() {
+    return new CatAllOfBuilderImpl();
+  }
+
+  private static final class CatAllOfBuilderImpl extends CatAllOfBuilder<CatAllOf, CatAllOfBuilderImpl> {
+
+    @Override
+    protected CatAllOfBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public CatAllOf build() {
+      return new CatAllOf(this);
+    }
+  }
+
+  public static abstract class CatAllOfBuilder<C extends CatAllOf, B extends CatAllOfBuilder<C, B>>  {
+    private Boolean declawed;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B declawed(Boolean declawed) {
+      this.declawed = declawed;
+      return self();
+    }
+  }
 }
 

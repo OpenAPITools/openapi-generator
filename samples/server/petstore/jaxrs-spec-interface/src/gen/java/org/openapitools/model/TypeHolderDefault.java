@@ -35,8 +35,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("string_item")
   @NotNull
@@ -55,8 +53,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.numberItem = numberItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -79,8 +75,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("integer_item")
   @NotNull
@@ -101,8 +95,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("bool_item")
   @NotNull
@@ -121,8 +113,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayItem = arrayItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")

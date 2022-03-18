@@ -20,14 +20,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   private @Valid String breed;
 
+  protected DogAllOf(DogAllOfBuilder<?, ?> b) {
+  this.breed = b.breed;
+  }
+
+  public DogAllOf() { }
+
   /**
    **/
   public DogAllOf breed(String breed) {
     this.breed = breed;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -81,5 +85,33 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static DogAllOfBuilder<?, ?> builder() {
+    return new DogAllOfBuilderImpl();
+  }
+
+  private static final class DogAllOfBuilderImpl extends DogAllOfBuilder<DogAllOf, DogAllOfBuilderImpl> {
+
+    @Override
+    protected DogAllOfBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public DogAllOf build() {
+      return new DogAllOf(this);
+    }
+  }
+
+  public static abstract class DogAllOfBuilder<C extends DogAllOf, B extends DogAllOfBuilder<C, B>>  {
+    private String breed;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B breed(String breed) {
+      this.breed = breed;
+      return self();
+    }
+  }
 }
 

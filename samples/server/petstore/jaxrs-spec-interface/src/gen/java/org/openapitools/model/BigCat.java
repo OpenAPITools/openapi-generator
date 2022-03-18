@@ -63,8 +63,6 @@ public enum KindEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("kind")
   public KindEnum getKind() {
