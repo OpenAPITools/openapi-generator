@@ -90,7 +90,10 @@ public class JSONComposedSchemaTest {
             assertTrue(o.getActualInstance() instanceof AppleReq);
             BananaReq inst2 = o.getBananaReq(); // should throw ClassCastException
         });
-        Assertions.assertEquals("class org.openapitools.client.model.AppleReq cannot be cast to class org.openapitools.client.model.BananaReq (org.openapitools.client.model.AppleReq and org.openapitools.client.model.BananaReq are in unnamed module of loader 'app')", thrown.getMessage());
+        // comment out below as the erorr message can be different due to JDK versions
+        // org.opentest4j.AssertionFailedError: expected: <class org.openapitools.client.model.AppleReq cannot be cast to class org.openapitools.client.model.BananaReq (org.openapitools.client.model.AppleReq and org.openapitools.client.model.BananaReq are in unnamed module of loader 'app')> but was: <org.openapitools.client.model.AppleReq cannot be cast to org.openapitools.client.model.BananaReq>
+        //Assertions.assertEquals("class org.openapitools.client.model.AppleReq cannot be cast to class org.openapitools.client.model.BananaReq (org.openapitools.client.model.AppleReq and org.openapitools.client.model.BananaReq are in unnamed module of loader 'app')", thrown.getMessage());
+       Assertions.assertNotNull(thrown);
     }
 
     /**
