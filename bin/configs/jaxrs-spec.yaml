@@ -7,3 +7,4 @@ additionalProperties:
   serializableModel: "true"
   hideGenerationTimestamp: "true"
   implicitHeadersRegex: (api_key|enum_header_string)
+  generateBuilders: "true"

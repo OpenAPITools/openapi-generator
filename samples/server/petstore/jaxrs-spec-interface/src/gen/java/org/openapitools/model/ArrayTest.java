@@ -34,8 +34,6 @@ public class ArrayTest  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("array_of_string")
   public List<String> getArrayOfString() {
@@ -71,8 +69,6 @@ public class ArrayTest  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -106,8 +102,6 @@ public class ArrayTest  implements Serializable {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

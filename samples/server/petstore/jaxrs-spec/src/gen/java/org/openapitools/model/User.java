@@ -28,14 +28,18 @@ public class User  implements Serializable {
   private @Valid String phone;
   private @Valid Integer userStatus;
 
+  protected User(UserBuilder<?, ?> b) {
+  this.id = b.id;this.username = b.username;this.firstName = b.firstName;this.lastName = b.lastName;this.email = b.email;this.password = b.password;this.phone = b.phone;this.userStatus = b.userStatus;
+  }
+
+  public User() { }
+
   /**
    **/
   public User id(Long id) {
     this.id = id;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -57,8 +61,6 @@ public class User  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("username")
   public String getUsername() {
@@ -76,8 +78,6 @@ public class User  implements Serializable {
     this.firstName = firstName;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -99,8 +99,6 @@ public class User  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("lastName")
   public String getLastName() {
@@ -118,8 +116,6 @@ public class User  implements Serializable {
     this.email = email;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -141,8 +137,6 @@ public class User  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("password")
   public String getPassword() {
@@ -160,8 +154,6 @@ public class User  implements Serializable {
     this.phone = phone;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -182,8 +174,6 @@ public class User  implements Serializable {
     this.userStatus = userStatus;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "User Status")
@@ -251,5 +241,68 @@ public class User  implements Serializable {
   }
 
 
+  public static UserBuilder<?, ?> builder() {
+    return new UserBuilderImpl();
+  }
+
+  private static final class UserBuilderImpl extends UserBuilder<User, UserBuilderImpl> {
+
+    @Override
+    protected UserBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public User build() {
+      return new User(this);
+    }
+  }
+
+  public static abstract class UserBuilder<C extends User, B extends UserBuilder<C, B>>  {
+    private Long id;
+    private String username;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
+    private String phone;
+    private Integer userStatus;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B id(Long id) {
+      this.id = id;
+      return self();
+    }
+    public B username(String username) {
+      this.username = username;
+      return self();
+    }
+    public B firstName(String firstName) {
+      this.firstName = firstName;
+      return self();
+    }
+    public B lastName(String lastName) {
+      this.lastName = lastName;
+      return self();
+    }
+    public B email(String email) {
+      this.email = email;
+      return self();
+    }
+    public B password(String password) {
+      this.password = password;
+      return self();
+    }
+    public B phone(String phone) {
+      this.phone = phone;
+      return self();
+    }
+    public B userStatus(Integer userStatus) {
+      this.userStatus = userStatus;
+      return self();
+    }
+  }
 }
 

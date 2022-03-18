@@ -32,8 +32,6 @@ public class OuterComposite  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
   public BigDecimal getMyNumber() {
@@ -53,8 +51,6 @@ public class OuterComposite  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("my_string")
   public String getMyString() {
@@ -72,8 +68,6 @@ public class OuterComposite  implements Serializable {
     this.myBoolean = myBoolean;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

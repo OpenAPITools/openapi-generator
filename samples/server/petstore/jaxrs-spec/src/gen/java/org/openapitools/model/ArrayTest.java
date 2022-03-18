@@ -26,14 +26,18 @@ public class ArrayTest  implements Serializable {
   private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
   private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
+  protected ArrayTest(ArrayTestBuilder<?, ?> b) {
+  this.arrayOfString = b.arrayOfString;this.arrayArrayOfInteger = b.arrayArrayOfInteger;this.arrayArrayOfModel = b.arrayArrayOfModel;
+  }
+
+  public ArrayTest() { }
+
   /**
    **/
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -71,8 +75,6 @@ public class ArrayTest  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -106,8 +108,6 @@ public class ArrayTest  implements Serializable {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -181,5 +181,43 @@ public class ArrayTest  implements Serializable {
   }
 
 
+  public static ArrayTestBuilder<?, ?> builder() {
+    return new ArrayTestBuilderImpl();
+  }
+
+  private static final class ArrayTestBuilderImpl extends ArrayTestBuilder<ArrayTest, ArrayTestBuilderImpl> {
+
+    @Override
+    protected ArrayTestBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public ArrayTest build() {
+      return new ArrayTest(this);
+    }
+  }
+
+  public static abstract class ArrayTestBuilder<C extends ArrayTest, B extends ArrayTestBuilder<C, B>>  {
+    private List<String> arrayOfString = new ArrayList<>();
+    private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+    private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B arrayOfString(List<String> arrayOfString) {
+      this.arrayOfString = arrayOfString;
+      return self();
+    }
+    public B arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+      this.arrayArrayOfInteger = arrayArrayOfInteger;
+      return self();
+    }
+    public B arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+      this.arrayArrayOfModel = arrayArrayOfModel;
+      return self();
+    }
+  }
 }
 

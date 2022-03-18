@@ -33,8 +33,6 @@ public class ModelFile  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "Test capitalization")
   @JsonProperty("sourceURI")
   public String getSourceURI() {

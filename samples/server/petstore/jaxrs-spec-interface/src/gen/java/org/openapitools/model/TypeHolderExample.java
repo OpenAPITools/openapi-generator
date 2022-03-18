@@ -37,8 +37,6 @@ public class TypeHolderExample  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "what", required = true, value = "")
   @JsonProperty("string_item")
   @NotNull
@@ -57,8 +55,6 @@ public class TypeHolderExample  implements Serializable {
     this.numberItem = numberItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", required = true, value = "")
@@ -81,8 +77,6 @@ public class TypeHolderExample  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty("float_item")
   @NotNull
@@ -101,8 +95,6 @@ public class TypeHolderExample  implements Serializable {
     this.integerItem = integerItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "-2", required = true, value = "")
@@ -125,8 +117,6 @@ public class TypeHolderExample  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "true", required = true, value = "")
   @JsonProperty("bool_item")
   @NotNull
@@ -145,8 +135,6 @@ public class TypeHolderExample  implements Serializable {
     this.arrayItem = arrayItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")

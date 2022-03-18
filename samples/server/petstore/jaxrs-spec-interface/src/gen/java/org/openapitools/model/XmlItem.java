@@ -60,8 +60,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("attribute_string")
   public String getAttributeString() {
@@ -79,8 +77,6 @@ public class XmlItem  implements Serializable {
     this.attributeNumber = attributeNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", value = "")
@@ -102,8 +98,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("attribute_integer")
   public Integer getAttributeInteger() {
@@ -123,8 +117,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("attribute_boolean")
   public Boolean getAttributeBoolean() {
@@ -142,8 +134,6 @@ public class XmlItem  implements Serializable {
     this.wrappedArray = wrappedArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -181,8 +171,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("name_string")
   public String getNameString() {
@@ -200,8 +188,6 @@ public class XmlItem  implements Serializable {
     this.nameNumber = nameNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", value = "")
@@ -223,8 +209,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("name_integer")
   public Integer getNameInteger() {
@@ -244,8 +228,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("name_boolean")
   public Boolean getNameBoolean() {
@@ -263,8 +245,6 @@ public class XmlItem  implements Serializable {
     this.nameArray = nameArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -302,8 +282,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name_wrapped_array")
   public List<Integer> getNameWrappedArray() {
@@ -339,8 +317,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("prefix_string")
   public String getPrefixString() {
@@ -358,8 +334,6 @@ public class XmlItem  implements Serializable {
     this.prefixNumber = prefixNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", value = "")
@@ -381,8 +355,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("prefix_integer")
   public Integer getPrefixInteger() {
@@ -402,8 +374,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("prefix_boolean")
   public Boolean getPrefixBoolean() {
@@ -421,8 +391,6 @@ public class XmlItem  implements Serializable {
     this.prefixArray = prefixArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -460,8 +428,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_wrapped_array")
   public List<Integer> getPrefixWrappedArray() {
@@ -497,8 +463,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("namespace_string")
   public String getNamespaceString() {
@@ -516,8 +480,6 @@ public class XmlItem  implements Serializable {
     this.namespaceNumber = namespaceNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", value = "")
@@ -539,8 +501,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("namespace_integer")
   public Integer getNamespaceInteger() {
@@ -560,8 +520,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("namespace_boolean")
   public Boolean getNamespaceBoolean() {
@@ -579,8 +537,6 @@ public class XmlItem  implements Serializable {
     this.namespaceArray = namespaceArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -618,8 +574,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("namespace_wrapped_array")
   public List<Integer> getNamespaceWrappedArray() {
@@ -655,8 +609,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("prefix_ns_string")
   public String getPrefixNsString() {
@@ -674,8 +626,6 @@ public class XmlItem  implements Serializable {
     this.prefixNsNumber = prefixNsNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", value = "")
@@ -697,8 +647,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("prefix_ns_integer")
   public Integer getPrefixNsInteger() {
@@ -718,8 +666,6 @@ public class XmlItem  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("prefix_ns_boolean")
   public Boolean getPrefixNsBoolean() {
@@ -737,8 +683,6 @@ public class XmlItem  implements Serializable {
     this.prefixNsArray = prefixNsArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -774,8 +718,6 @@ public class XmlItem  implements Serializable {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

@@ -22,14 +22,18 @@ public class ReadOnlyFirst  implements Serializable {
   private @Valid String bar;
   private @Valid String baz;
 
+  protected ReadOnlyFirst(ReadOnlyFirstBuilder<?, ?> b) {
+  this.bar = b.bar;this.baz = b.baz;
+  }
+
+  public ReadOnlyFirst() { }
+
   /**
    **/
   public ReadOnlyFirst bar(String bar) {
     this.bar = bar;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -49,8 +53,6 @@ public class ReadOnlyFirst  implements Serializable {
     this.baz = baz;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -106,5 +108,38 @@ public class ReadOnlyFirst  implements Serializable {
   }
 
 
+  public static ReadOnlyFirstBuilder<?, ?> builder() {
+    return new ReadOnlyFirstBuilderImpl();
+  }
+
+  private static final class ReadOnlyFirstBuilderImpl extends ReadOnlyFirstBuilder<ReadOnlyFirst, ReadOnlyFirstBuilderImpl> {
+
+    @Override
+    protected ReadOnlyFirstBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public ReadOnlyFirst build() {
+      return new ReadOnlyFirst(this);
+    }
+  }
+
+  public static abstract class ReadOnlyFirstBuilder<C extends ReadOnlyFirst, B extends ReadOnlyFirstBuilder<C, B>>  {
+    private String bar;
+    private String baz;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B bar(String bar) {
+      this.bar = bar;
+      return self();
+    }
+    public B baz(String baz) {
+      this.baz = baz;
+      return self();
+    }
+  }
 }
 

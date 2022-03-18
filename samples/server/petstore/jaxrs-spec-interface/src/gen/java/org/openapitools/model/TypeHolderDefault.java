@@ -36,8 +36,6 @@ public class TypeHolderDefault  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("string_item")
   @NotNull
@@ -56,8 +54,6 @@ public class TypeHolderDefault  implements Serializable {
     this.numberItem = numberItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -80,8 +76,6 @@ public class TypeHolderDefault  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("integer_item")
   @NotNull
@@ -102,8 +96,6 @@ public class TypeHolderDefault  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("bool_item")
   @NotNull
@@ -122,8 +114,6 @@ public class TypeHolderDefault  implements Serializable {
     this.arrayItem = arrayItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")

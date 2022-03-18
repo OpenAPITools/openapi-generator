@@ -32,8 +32,6 @@ public class ModelApiResponse  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("code")
   public Integer getCode() {
@@ -53,8 +51,6 @@ public class ModelApiResponse  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("type")
   public String getType() {
@@ -72,8 +68,6 @@ public class ModelApiResponse  implements Serializable {
     this.message = message;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
