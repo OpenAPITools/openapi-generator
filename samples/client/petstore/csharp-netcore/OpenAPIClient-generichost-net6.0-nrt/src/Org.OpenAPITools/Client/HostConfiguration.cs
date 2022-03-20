@@ -53,6 +53,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new NullableShapeJsonConverter());
             _jsonOptions.Converters.Add(new ParentPetJsonConverter());
             _jsonOptions.Converters.Add(new PigJsonConverter());
+            _jsonOptions.Converters.Add(new PolymorphicPropertyJsonConverter());
             _jsonOptions.Converters.Add(new QuadrilateralJsonConverter());
             _jsonOptions.Converters.Add(new ScaleneTriangleJsonConverter());
             _jsonOptions.Converters.Add(new ShapeJsonConverter());
