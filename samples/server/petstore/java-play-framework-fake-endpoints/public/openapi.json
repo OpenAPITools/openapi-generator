@@ -58,7 +58,7 @@
         "summary" : "Add a new pet to the store",
         "tags" : [ "pet" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       },
       "put" : {
@@ -103,7 +103,7 @@
         "summary" : "Update an existing pet",
         "tags" : [ "pet" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -341,7 +341,7 @@
         } ],
         "summary" : "Updates a pet in the store with form data",
         "tags" : [ "pet" ],
-        "x-contentType" : "application/x-www-form-urlencoded",
+        "x-content-type" : "application/x-www-form-urlencoded",
         "x-accepts" : "application/json"
       }
     },
@@ -394,7 +394,7 @@
         } ],
         "summary" : "uploads an image",
         "tags" : [ "pet" ],
-        "x-contentType" : "multipart/form-data",
+        "x-content-type" : "multipart/form-data",
         "x-accepts" : "application/json"
       }
     },
@@ -464,7 +464,7 @@
         "summary" : "Place an order for a pet",
         "tags" : [ "store" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "*/*",
+        "x-content-type" : "*/*",
         "x-accepts" : "application/json"
       }
     },
@@ -564,7 +564,7 @@
         "summary" : "Create user",
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "*/*",
+        "x-content-type" : "*/*",
         "x-accepts" : "application/json"
       }
     },
@@ -594,7 +594,7 @@
         "summary" : "Creates list of users with given input array",
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "*/*",
+        "x-content-type" : "*/*",
         "x-accepts" : "application/json"
       }
     },
@@ -624,7 +624,7 @@
         "summary" : "Creates list of users with given input array",
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "*/*",
+        "x-content-type" : "*/*",
         "x-accepts" : "application/json"
       }
     },
@@ -807,7 +807,7 @@
         "summary" : "Updated user",
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "*/*",
+        "x-content-type" : "*/*",
         "x-accepts" : "application/json"
       }
     },
@@ -844,7 +844,7 @@
         "summary" : "To test class name in snake case",
         "tags" : [ "fake_classname_tags 123#$%^" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -1016,7 +1016,7 @@
         },
         "summary" : "To test enum parameters",
         "tags" : [ "fake" ],
-        "x-contentType" : "application/x-www-form-urlencoded",
+        "x-content-type" : "application/x-www-form-urlencoded",
         "x-accepts" : "application/json"
       },
       "patch" : {
@@ -1048,7 +1048,7 @@
         "summary" : "To test \"client\" model",
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       },
       "post" : {
@@ -1160,7 +1160,7 @@
         } ],
         "summary" : "Fake endpoint for testing various parameters\n 假端點\n 偽のエンドポイント\n 가짜 엔드 포인트",
         "tags" : [ "fake" ],
-        "x-contentType" : "application/x-www-form-urlencoded",
+        "x-content-type" : "application/x-www-form-urlencoded",
         "x-accepts" : "application/json"
       }
     },
@@ -1193,7 +1193,7 @@
         },
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "*/*",
+        "x-content-type" : "*/*",
         "x-accepts" : "*/*"
       }
     },
@@ -1226,7 +1226,7 @@
         },
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "*/*",
+        "x-content-type" : "*/*",
         "x-accepts" : "*/*"
       }
     },
@@ -1259,7 +1259,7 @@
         },
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "*/*",
+        "x-content-type" : "*/*",
         "x-accepts" : "*/*"
       }
     },
@@ -1292,7 +1292,7 @@
         },
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "*/*",
+        "x-content-type" : "*/*",
         "x-accepts" : "*/*"
       }
     },
@@ -1327,7 +1327,7 @@
         },
         "summary" : "test json serialization of form data",
         "tags" : [ "fake" ],
-        "x-contentType" : "application/x-www-form-urlencoded",
+        "x-content-type" : "application/x-www-form-urlencoded",
         "x-accepts" : "application/json"
       }
     },
@@ -1357,7 +1357,7 @@
         "summary" : "test inline additionalProperties",
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "param",
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -1390,7 +1390,7 @@
         },
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -1443,7 +1443,7 @@
         "summary" : "creates an XmlItem",
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "XmlItem",
-        "x-contentType" : "application/xml",
+        "x-content-type" : "application/xml",
         "x-accepts" : "application/json"
       }
     },
@@ -1477,7 +1477,7 @@
         "summary" : "To test special tags",
         "tags" : [ "$another-fake?" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -1503,7 +1503,7 @@
         },
         "tags" : [ "fake" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -1630,7 +1630,7 @@
         } ],
         "summary" : "uploads an image (required)",
         "tags" : [ "pet" ],
-        "x-contentType" : "multipart/form-data",
+        "x-content-type" : "multipart/form-data",
         "x-accepts" : "application/json"
       }
     }

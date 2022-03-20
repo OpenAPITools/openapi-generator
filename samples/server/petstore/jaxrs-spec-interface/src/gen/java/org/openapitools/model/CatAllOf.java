@@ -30,8 +30,6 @@ public class CatAllOf  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
   public Boolean getDeclawed() {

@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class EnumArrays   {
+public class EnumArrays {
 
   /**
    * Gets or Sets justSymbol

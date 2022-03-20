@@ -30,8 +30,6 @@ public class ReadOnlyFirst  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("bar")
   public String getBar() {
@@ -49,8 +47,6 @@ public class ReadOnlyFirst  implements Serializable {
     this.baz = baz;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

@@ -22,14 +22,18 @@ public class SpecialModelName  implements Serializable {
   
   private @Valid Long $specialPropertyName;
 
+  protected SpecialModelName(SpecialModelNameBuilder<?, ?> b) {
+  this.$specialPropertyName = b.$specialPropertyName;
+  }
+
+  public SpecialModelName() { }
+
   /**
    **/
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -83,5 +87,33 @@ public class SpecialModelName  implements Serializable {
   }
 
 
+  public static SpecialModelNameBuilder<?, ?> builder() {
+    return new SpecialModelNameBuilderImpl();
+  }
+
+  private static final class SpecialModelNameBuilderImpl extends SpecialModelNameBuilder<SpecialModelName, SpecialModelNameBuilderImpl> {
+
+    @Override
+    protected SpecialModelNameBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public SpecialModelName build() {
+      return new SpecialModelName(this);
+    }
+  }
+
+  public static abstract class SpecialModelNameBuilder<C extends SpecialModelName, B extends SpecialModelNameBuilder<C, B>>  {
+    private Long $specialPropertyName;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B $specialPropertyName(Long $specialPropertyName) {
+      this.$specialPropertyName = $specialPropertyName;
+      return self();
+    }
+  }
 }
 

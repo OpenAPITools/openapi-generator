@@ -232,6 +232,7 @@ Class | Method | HTTP request | Description
  - [Model.ParentPet](docs/ParentPet.md)
  - [Model.Pet](docs/Pet.md)
  - [Model.Pig](docs/Pig.md)
+ - [Model.PolymorphicProperty](docs/PolymorphicProperty.md)
  - [Model.Quadrilateral](docs/Quadrilateral.md)
  - [Model.QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)

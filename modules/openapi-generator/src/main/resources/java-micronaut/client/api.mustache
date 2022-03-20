@@ -52,9 +52,9 @@ public interface {{classname}} {
 {{/externalDocs}}
      */
     @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
-        {{#vendorExtensions.x-contentType}}
-    @Produces(value={"{{vendorExtensions.x-contentType}}"})
-        {{/vendorExtensions.x-contentType}}
+        {{#vendorExtensions.x-content-type}}
+    @Produces(value={"{{vendorExtensions.x-content-type}}"})
+        {{/vendorExtensions.x-content-type}}
     @Consumes(value={"{{vendorExtensions.x-accepts}}"})
     {{!auth methods}}
         {{#configureAuth}}

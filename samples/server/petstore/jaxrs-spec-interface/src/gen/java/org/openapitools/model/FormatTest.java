@@ -50,8 +50,6 @@ public class FormatTest  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("integer")
  @Min(10) @Max(100)  public Integer getInteger() {
@@ -73,8 +71,6 @@ public class FormatTest  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("int32")
  @Min(20) @Max(200)  public Integer getInt32() {
@@ -92,8 +88,6 @@ public class FormatTest  implements Serializable {
     this.int64 = int64;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -115,8 +109,6 @@ public class FormatTest  implements Serializable {
     this.number = number;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -141,8 +133,6 @@ public class FormatTest  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("float")
  @DecimalMin("54.3") @DecimalMax("987.6")  public Float getFloat() {
@@ -164,8 +154,6 @@ public class FormatTest  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("double")
  @DecimalMin("67.8") @DecimalMax("123.4")  public Double getDouble() {
@@ -185,8 +173,6 @@ public class FormatTest  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("string")
  @Pattern(regexp="/[a-z]/i")  public String getString() {
@@ -204,8 +190,6 @@ public class FormatTest  implements Serializable {
     this._byte = _byte;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -228,8 +212,6 @@ public class FormatTest  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("binary")
   public File getBinary() {
@@ -247,8 +229,6 @@ public class FormatTest  implements Serializable {
     this.date = date;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -271,8 +251,6 @@ public class FormatTest  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
@@ -290,8 +268,6 @@ public class FormatTest  implements Serializable {
     this.uuid = uuid;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
@@ -313,8 +289,6 @@ public class FormatTest  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("password")
   @NotNull
@@ -333,8 +307,6 @@ public class FormatTest  implements Serializable {
     this.bigDecimal = bigDecimal;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

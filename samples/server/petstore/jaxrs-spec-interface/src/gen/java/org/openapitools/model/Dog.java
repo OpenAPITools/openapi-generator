@@ -31,8 +31,6 @@ public class Dog extends Animal implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("breed")
   public String getBreed() {

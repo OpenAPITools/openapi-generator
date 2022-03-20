@@ -24,14 +24,18 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
   
   private @Valid List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
+  protected ArrayOfArrayOfNumberOnly(ArrayOfArrayOfNumberOnlyBuilder<?, ?> b) {
+  this.arrayArrayNumber = b.arrayArrayNumber;
+  }
+
+  public ArrayOfArrayOfNumberOnly() { }
+
   /**
    **/
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -101,5 +105,33 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
   }
 
 
+  public static ArrayOfArrayOfNumberOnlyBuilder<?, ?> builder() {
+    return new ArrayOfArrayOfNumberOnlyBuilderImpl();
+  }
+
+  private static final class ArrayOfArrayOfNumberOnlyBuilderImpl extends ArrayOfArrayOfNumberOnlyBuilder<ArrayOfArrayOfNumberOnly, ArrayOfArrayOfNumberOnlyBuilderImpl> {
+
+    @Override
+    protected ArrayOfArrayOfNumberOnlyBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public ArrayOfArrayOfNumberOnly build() {
+      return new ArrayOfArrayOfNumberOnly(this);
+    }
+  }
+
+  public static abstract class ArrayOfArrayOfNumberOnlyBuilder<C extends ArrayOfArrayOfNumberOnly, B extends ArrayOfArrayOfNumberOnlyBuilder<C, B>>  {
+    private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+      this.arrayArrayNumber = arrayArrayNumber;
+      return self();
+    }
+  }
 }
 
