@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
-        /// <param name="apple">apple</param>
+        /// <param name="apple?"></param>
         /// <param name="color">color</param>
         public Fruit(Apple? apple, string? color = default)
         {
@@ -45,23 +45,23 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
-        /// <param name="banana">banana</param>
+        /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public Fruit(Banana? banana, string? color = default)
+        public Fruit(Banana banana, string? color = default)
         {
             Banana = banana;
             Color = color;
         }
 
         /// <summary>
-        /// Gets or Sets fruit
+        /// Gets or Sets Apple
         /// </summary>
         public Apple? Apple { get; set; }
 
         /// <summary>
-        /// Gets or Sets fruit
+        /// Gets or Sets Banana
         /// </summary>
-        public Banana? Banana { get; set; }
+        public Banana Banana { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
@@ -158,10 +158,10 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException();
 
             Utf8JsonReader appleReader = reader;
-            Client.ClientUtils.TryDeserialize<Apple>(ref appleReader, options, out Apple? apple);
+            bool appleDeserialized = Client.ClientUtils.TryDeserialize<Apple>(ref appleReader, options, out Apple? apple);
 
             Utf8JsonReader bananaReader = reader;
-            Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, options, out Banana? banana);
+            bool bananaDeserialized = Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, options, out Banana? banana);
 
             string? color = default;
 
@@ -184,10 +184,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (apple != null)
+            if (appleDeserialized)
                 return new Fruit(apple, color);
 
-            if (banana != null)
+            if (bananaDeserialized)
                 return new Fruit(banana, color);
 
             throw new JsonException();

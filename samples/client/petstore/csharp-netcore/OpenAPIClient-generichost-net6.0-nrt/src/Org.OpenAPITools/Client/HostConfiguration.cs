@@ -51,6 +51,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new IsoscelesTriangleJsonConverter());
             _jsonOptions.Converters.Add(new MammalJsonConverter());
             _jsonOptions.Converters.Add(new NullableShapeJsonConverter());
+            _jsonOptions.Converters.Add(new ParentPetJsonConverter());
             _jsonOptions.Converters.Add(new PigJsonConverter());
             _jsonOptions.Converters.Add(new QuadrilateralJsonConverter());
             _jsonOptions.Converters.Add(new ScaleneTriangleJsonConverter());
