@@ -28,6 +28,8 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 
@@ -306,13 +308,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        List<ModelMap> models = postProcessModelsEnum(objs).getModels();
 
         // process enum and custom properties in models
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            ExtendedCodegenModel cm = (ExtendedCodegenModel) mo.get("model");
+        for (ModelMap mo : models) {
+            ExtendedCodegenModel cm = (ExtendedCodegenModel) mo.getModel();
             cm.imports = new TreeSet<>(cm.imports);
             this.processCodeGenModel(cm);
         }
@@ -329,16 +330,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        List<ExtendedCodegenModel> allModels = new ArrayList<ExtendedCodegenModel>();
-        List<String> entityModelClassnames = new ArrayList<String>();
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        List<ExtendedCodegenModel> allModels = new ArrayList<>();
+        List<String> entityModelClassnames = new ArrayList<>();
 
-        Map<String, Object> result = super.postProcessAllModels(objs);
-        for (Map.Entry<String, Object> entry : result.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> model : models) {
-                ExtendedCodegenModel codegenModel = (ExtendedCodegenModel) model.get("model");
+        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+        for (ModelsMap entry : result.values()) {
+            for (ModelMap model : entry.getModels()) {
+                ExtendedCodegenModel codegenModel = (ExtendedCodegenModel) model.getModel();
                 model.put("hasImports", codegenModel.imports.size() > 0);
 
                 allModels.add(codegenModel);
@@ -558,7 +557,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<ModelMap> allModels) {
         // Add supporting file only if we plan to generate files in /apis
         if (operations.size() > 0 && !addedApiIndex) {
             addedApiIndex = true;

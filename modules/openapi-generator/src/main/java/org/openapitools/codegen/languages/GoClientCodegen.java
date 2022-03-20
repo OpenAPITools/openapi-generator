@@ -27,6 +27,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -400,74 +402,68 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // The superclass determines the list of required golang imports. The actual list of imports
         // depends on which types are used, some of which are changed in the code below (but then preserved
         // and used through x-go-base-type in templates). So super.postProcessModels
         // must be invoked at the beginning of this method.
         objs = super.postProcessModels(objs);
 
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        List<Map<String, String>> imports = objs.getImports();
 
-        List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
-        for (Map<String, Object> m : models) {
-            Object v = m.get("model");
-            if (v instanceof CodegenModel) {
-                CodegenModel model = (CodegenModel) v;
-                if (model.isEnum) {
+        for (ModelMap m : objs.getModels()) {
+            CodegenModel model = m.getModel();
+            if (model.isEnum) {
+                continue;
+            }
+
+            for (CodegenProperty param : Iterables.concat(model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
+                param.vendorExtensions.put("x-go-base-type", param.dataType);
+                if (!param.isNullable || param.isContainer || param.isFreeFormObject
+                    || (param.isAnyType && !param.isModel)) {
                     continue;
                 }
-
-                for (CodegenProperty param : Iterables.concat(model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
-                    param.vendorExtensions.put("x-go-base-type", param.dataType);
-                    if (!param.isNullable || param.isContainer || param.isFreeFormObject
-                            || (param.isAnyType && !param.isModel)) {
-                        continue;
-                    }
-                    if (param.isDateTime) {
-                        // Note this could have been done by adding the following line in processOpts(),
-                        // however, we only want to represent the DateTime object as NullableTime if
-                        // it's marked as nullable in the spec.
-                        //    typeMapping.put("DateTime", "NullableTime");
-                        param.dataType = "NullableTime";
-                    } else {
-                        param.dataType = "Nullable" + Character.toUpperCase(param.dataType.charAt(0))
-                                + param.dataType.substring(1);
-                    }
+                if (param.isDateTime) {
+                    // Note this could have been done by adding the following line in processOpts(),
+                    // however, we only want to represent the DateTime object as NullableTime if
+                    // it's marked as nullable in the spec.
+                    //    typeMapping.put("DateTime", "NullableTime");
+                    param.dataType = "NullableTime";
+                } else {
+                    param.dataType = "Nullable" + Character.toUpperCase(param.dataType.charAt(0))
+                        + param.dataType.substring(1);
                 }
+            }
 
-                // additional import for different cases
-                // oneOf
-                if (model.oneOf != null && !model.oneOf.isEmpty()) {
-                    imports.add(createMapping("import", "fmt"));
-                }
+            // additional import for different cases
+            // oneOf
+            if (model.oneOf != null && !model.oneOf.isEmpty()) {
+                imports.add(createMapping("import", "fmt"));
+            }
 
-                // anyOf
-                if (model.anyOf != null && !model.anyOf.isEmpty()) {
-                    imports.add(createMapping("import", "fmt"));
-                }
+            // anyOf
+            if (model.anyOf != null && !model.anyOf.isEmpty()) {
+                imports.add(createMapping("import", "fmt"));
+            }
 
-                // additionalProperties: true and parent
-                if (model.isAdditionalPropertiesTrue && model.parent != null && Boolean.FALSE.equals(model.isMap)) {
-                    imports.add(createMapping("import", "reflect"));
-                    imports.add(createMapping("import", "strings"));
-                }
-
+            // additionalProperties: true and parent
+            if (model.isAdditionalPropertiesTrue && model.parent != null && Boolean.FALSE.equals(model.isMap)) {
+                imports.add(createMapping("import", "reflect"));
+                imports.add(createMapping("import", "strings"));
             }
         }
         return objs;
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
         HashMap<String, Integer> processedModelMaps = new HashMap<String, Integer>();
 
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
+        for (ModelMap modelMap : allModels) {
+            CodegenModel m = modelMap.getModel();
             modelMaps.put(m.classname, m);
         }
 

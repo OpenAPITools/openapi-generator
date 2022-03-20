@@ -26,6 +26,8 @@ import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -274,13 +276,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         objs = postProcessModelsEnum(objs);
-        List<Object> models = (List<Object>) objs.get("models");
 
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
 
             if(cm.isEnum) {
                 Map<String, Object> allowableValues = cm.getAllowableValues();
@@ -344,7 +344,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      * {@inheritDoc}
      */
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         super.postProcessAllModels(objs);
 
         Map<String, CodegenModel> allModels = this.getAllModels(objs);
@@ -368,22 +368,22 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return objs;
     }
 
-    public void addImport(Map<String, Object> objs, CodegenModel cm, String importValue) {
+    public void addImport(Map<String, ModelsMap> objs, CodegenModel cm, String importValue) {
         String modelFileName = this.toModelFilename(importValue);
         boolean skipImport = isImportAlreadyPresentInModel(objs, cm, modelFileName);
         if (!skipImport) {
             this.addImport(cm, importValue);
-            Map<String, Object> importItem = new HashMap<>();
+            Map<String, String> importItem = new HashMap<>();
             importItem.put(IMPORT, modelFileName);
-            ((List<Map<String, Object>>) ((Map<String, Object>) objs.get(cm.getName())).get(IMPORTS)).add(importItem);
+            objs.get(cm.getName()).getImports().add(importItem);
         }
     }
 
-    private boolean isImportAlreadyPresentInModel(Map<String, Object> objs, CodegenModel cm, String importValue) {
+    private boolean isImportAlreadyPresentInModel(Map<String, ModelsMap> objs, CodegenModel cm, String importValue) {
         boolean skipImport = false;
-        List<Map<String, Object>> cmImports = ((List<Map<String, Object>>) ((Map<String, Object>) objs.get(cm.getName())).get(IMPORTS));
-        for (Map<String, Object> cmImportItem : cmImports) {
-            for (Entry<String, Object> cmImportItemEntry : cmImportItem.entrySet()) {
+        List<Map<String, String>> cmImports = objs.get(cm.getName()).getImports();
+        for (Map<String, String> cmImportItem : cmImports) {
+            for (Entry<String, String> cmImportItemEntry : cmImportItem.entrySet()) {
                 if (importValue.equals(cmImportItemEntry.getValue())) {
                     skipImport = true;
                     break;
@@ -541,7 +541,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {

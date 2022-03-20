@@ -33,6 +33,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -966,7 +968,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
@@ -977,7 +979,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
-    private void postProcessOperationWithModels(CodegenOperation op, List<Object> allModels) {
+    private void postProcessOperationWithModels(CodegenOperation op, List<ModelMap> allModels) {
         boolean consumesPlainText = false;
         boolean consumesXml = false;
 
@@ -1263,23 +1265,20 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        Map<String, Object> newObjs = super.postProcessAllModels(objs);
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> newObjs = super.postProcessAllModels(objs);
 
         //Index all CodegenModels by model name.
-        HashMap<String, CodegenModel> allModels = new HashMap<String, CodegenModel>();
-        for (Entry<String, Object> entry : objs.entrySet()) {
+        HashMap<String, CodegenModel> allModels = new HashMap<>();
+        for (Entry<String, ModelsMap> entry : objs.entrySet()) {
             String modelName = toModelName(entry.getKey());
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
-                allModels.put(modelName, cm);
+            List<ModelMap> models = entry.getValue().getModels();
+            for (ModelMap mo : models) {
+                allModels.put(modelName, mo.getModel());
             }
         }
 
         for (Entry<String, CodegenModel> entry : allModels.entrySet()) {
-            String modelName = entry.getKey();
             CodegenModel model = entry.getValue();
 
             if (uuidType.equals(model.dataType)) {
@@ -1558,12 +1557,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
 
             LOGGER.trace("Post processing model: {}", cm);
 

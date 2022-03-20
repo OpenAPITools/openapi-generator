@@ -27,6 +27,8 @@ import org.openapitools.codegen.languages.features.GzipFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.CaseFormatLambda;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -608,7 +610,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         if (RETROFIT_2.equals(getLibrary())) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
@@ -797,15 +799,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+    public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
         //Needed import for Gson based libraries
         if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_GSON)) {
-            List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-            List<Object> models = (List<Object>) objs.get("models");
-            for (Object _mo : models) {
-                Map<String, Object> mo = (Map<String, Object>) _mo;
-                CodegenModel cm = (CodegenModel) mo.get("model");
+            List<Map<String, String>> imports = objs.getImports();
+            for (ModelMap mo : objs.getModels()) {
+                CodegenModel cm = mo.getModel();
                 // for enum model
                 if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                     cm.imports.add(importMapping.get("SerializedName"));
@@ -820,15 +820,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
-        List<Object> models = (List<Object>) objs.get("models");
+        List<ModelMap> models = objs.getModels();
 
         if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON) && !JERSEY1.equals(getLibrary())) {
-            List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-            for (Object _mo : models) {
-                Map<String, Object> mo = (Map<String, Object>) _mo;
-                CodegenModel cm = (CodegenModel) mo.get("model");
+            List<Map<String, String>> imports = objs.getImports();
+            for (ModelMap mo : models) {
+                CodegenModel cm = mo.getModel();
                 boolean addImports = false;
 
                 for (CodegenProperty var : cm.vars) {
@@ -855,10 +854,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
                         // add import for Set, HashSet
                         cm.imports.add("Set");
-                        Map<String, String> importsSet = new HashMap<String, String>();
+                        Map<String, String> importsSet = new HashMap<>();
                         importsSet.put("import", "java.util.Set");
                         imports.add(importsSet);
-                        Map<String, String> importsHashSet = new HashMap<String, String>();
+                        Map<String, String> importsHashSet = new HashMap<>();
                         importsHashSet.put("import", "java.util.HashSet");
                         imports.add(importsHashSet);
                     }
@@ -872,7 +871,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     imports2Classnames.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
                     for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
                         cm.imports.add(entry.getKey());
-                        Map<String, String> importsItem = new HashMap<String, String>();
+                        Map<String, String> importsItem = new HashMap<>();
                         importsItem.put("import", entry.getValue());
                         imports.add(importsItem);
                     }
@@ -881,9 +880,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         // add implements for serializable/parcelable to all models
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelMap mo : models) {
+            CodegenModel cm = mo.getModel();
 
             cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
             if (JERSEY2.equals(getLibrary()) || NATIVE.equals(getLibrary()) || OKHTTP_GSON.equals(getLibrary())) {
