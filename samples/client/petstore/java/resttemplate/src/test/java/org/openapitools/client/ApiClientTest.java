@@ -1,12 +1,13 @@
 package org.openapitools.client;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.util.*;
-import org.junit.*;
-import org.springframework.util.MultiValueMap;
+import java.util.HashMap;
+import java.util.Map;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 public class ApiClientTest {
     ApiClient apiClient;
@@ -23,9 +24,15 @@ public class ApiClientTest {
     public void testUriEncoderWithComma() {
         Map<String,Object> uriParams = new HashMap<>();
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        queryParams.add("key", "val,comma");
-        apiClient.generateQueryUri(queryParams, uriParams);
+        queryParams.add("ke,&y", "val,?&comma");
+        String queryTemplate = apiClient.generateQueryUri(queryParams, uriParams);
+        assertEquals("ke%2C%26y=val%2C%3F%26comma", apiClient.expandPath(queryTemplate, uriParams));
+    }
 
-        assertEquals("/key=val%2Ccomma", apiClient.expandPath("/key={key0}", uriParams));
+    @Test
+    public void testPathParamEncoding() {
+        Map<String,Object> uriParams = new HashMap<>();
+        uriParams.put("username", "user_name,comma&amp space");
+        assertEquals("user/user_name%2Ccomma%26amp%20space", apiClient.expandPath("user/{username}", uriParams));
     }
 }

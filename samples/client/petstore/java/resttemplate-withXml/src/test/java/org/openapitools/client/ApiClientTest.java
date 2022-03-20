@@ -28,4 +28,12 @@ public class ApiClientTest {
 
         assertEquals("/key=val%2Ccomma", apiClient.expandPath("/key={key0}", uriParams));
     }
+
+    @Test
+    public void testPathParamEncoding() {
+        Map<String,Object> uriParams = new HashMap<>();
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        uriParams.put("username", "user_name,comma&amp space");
+        assertEquals("user/user_name%2Ccomma%26amp%20space", apiClient.expandPath("user/{username}", uriParams));
+    }
 }
