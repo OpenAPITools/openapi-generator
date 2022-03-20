@@ -35,40 +35,40 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
-        /// <param name="_return">_return.</param>
-        public Return(int _return = default(int))
+        /// <param name="propertyReturn">propertyReturn.</param>
+        public Return(int propertyReturn = default(int))
         {
-            this.__Return = _return;
-            if (this._Return != null)
+            this._Property_Return = propertyReturn;
+            if (this.Property_Return != null)
             {
-                this._flag_Return = true;
+                this._flagProperty_Return = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets _Return
+        /// Gets or Sets Property_Return
         /// </summary>
         [DataMember(Name = "return", EmitDefaultValue = false)]
-        public int _Return
+        public int Property_Return
         {
-            get{ return __Return;}
+            get{ return _Property_Return;}
             set
             {
-                __Return = value;
-                _flag_Return = true;
+                _Property_Return = value;
+                _flagProperty_Return = true;
             }
         }
-        private int __Return;
-        private bool _flag_Return;
+        private int _Property_Return;
+        private bool _flagProperty_Return;
 
         /// <summary>
-        /// Returns false as _Return should not be serialized given that it's read-only.
+        /// Returns false as Property_Return should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerialize_Return()
+        public bool ShouldSerializeProperty_Return()
         {
-            return _flag_Return;
+            return _flagProperty_Return;
         }
         /// <summary>
         /// Gets or Sets additional properties
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Return {\n");
-            sb.Append("  _Return: ").Append(_Return).Append("\n");
+            sb.Append("  Property_Return: ").Append(Property_Return).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this._Return.GetHashCode();
+                hashCode = (hashCode * 59) + this.Property_Return.GetHashCode();
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

@@ -33,17 +33,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineResponseDefault" /> class.
         /// </summary>
-        /// <param name="_string">_string.</param>
-        public InlineResponseDefault(Foo _string = default(Foo))
+        /// <param name="propertyString">propertyString.</param>
+        public InlineResponseDefault(Foo propertyString = default(Foo))
         {
-            this.String = _string;
+            this.PropertyString = propertyString;
         }
 
         /// <summary>
-        /// Gets or Sets String
+        /// Gets or Sets PropertyString
         /// </summary>
         [DataMember(Name="string", EmitDefaultValue=false)]
-        public Foo String { get; set; }
+        public Foo PropertyString { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class InlineResponseDefault {\n");
-            sb.Append("  String: ").Append(String).Append("\n");
+            sb.Append("  PropertyString: ").Append(PropertyString).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -89,9 +89,9 @@ namespace Org.OpenAPITools.Model
 
             return 
                 (
-                    this.String == input.String ||
-                    (this.String != null &&
-                    this.String.Equals(input.String))
+                    this.PropertyString == input.PropertyString ||
+                    (this.PropertyString != null &&
+                    this.PropertyString.Equals(input.PropertyString))
                 );
         }
 
@@ -104,8 +104,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.String != null)
-                    hashCode = hashCode * 59 + this.String.GetHashCode();
+                if (this.PropertyString != null)
+                    hashCode = hashCode * 59 + this.PropertyString.GetHashCode();
                 return hashCode;
             }
         }

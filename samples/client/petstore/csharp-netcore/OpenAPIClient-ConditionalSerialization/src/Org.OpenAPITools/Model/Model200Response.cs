@@ -36,18 +36,18 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        /// <param name="_class">_class.</param>
-        public Model200Response(int name = default(int), string _class = default(string))
+        /// <param name="propertyClass">propertyClass.</param>
+        public Model200Response(int name = default(int), string propertyClass = default(string))
         {
             this._Name = name;
             if (this.Name != null)
             {
                 this._flagName = true;
             }
-            this._Class = _class;
-            if (this.Class != null)
+            this._PropertyClass = propertyClass;
+            if (this.PropertyClass != null)
             {
-                this._flagClass = true;
+                this._flagPropertyClass = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -77,28 +77,28 @@ namespace Org.OpenAPITools.Model
             return _flagName;
         }
         /// <summary>
-        /// Gets or Sets Class
+        /// Gets or Sets PropertyClass
         /// </summary>
         [DataMember(Name = "class", EmitDefaultValue = false)]
-        public string Class
+        public string PropertyClass
         {
-            get{ return _Class;}
+            get{ return _PropertyClass;}
             set
             {
-                _Class = value;
-                _flagClass = true;
+                _PropertyClass = value;
+                _flagPropertyClass = true;
             }
         }
-        private string _Class;
-        private bool _flagClass;
+        private string _PropertyClass;
+        private bool _flagPropertyClass;
 
         /// <summary>
-        /// Returns false as Class should not be serialized given that it's read-only.
+        /// Returns false as PropertyClass should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeClass()
+        public bool ShouldSerializePropertyClass()
         {
-            return _flagClass;
+            return _flagPropertyClass;
         }
         /// <summary>
         /// Gets or Sets additional properties
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Model200Response {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  Class: ").Append(Class).Append("\n");
+            sb.Append("  PropertyClass: ").Append(PropertyClass).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -160,9 +160,9 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Name.GetHashCode();
-                if (this.Class != null)
+                if (this.PropertyClass != null)
                 {
-                    hashCode = (hashCode * 59) + this.Class.GetHashCode();
+                    hashCode = (hashCode * 59) + this.PropertyClass.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

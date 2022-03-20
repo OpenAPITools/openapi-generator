@@ -91,17 +91,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EquilateralTriangle
         /// </summary>
-        public EquilateralTriangle EquilateralTriangle { get; set; }
+        public EquilateralTriangle? EquilateralTriangle { get; set; }
 
         /// <summary>
         /// Gets or Sets IsoscelesTriangle
         /// </summary>
-        public IsoscelesTriangle IsoscelesTriangle { get; set; }
+        public IsoscelesTriangle? IsoscelesTriangle { get; set; }
 
         /// <summary>
         /// Gets or Sets ScaleneTriangle
         /// </summary>
-        public ScaleneTriangle ScaleneTriangle { get; set; }
+        public ScaleneTriangle? ScaleneTriangle { get; set; }
 
         /// <summary>
         /// Gets or Sets ShapeType

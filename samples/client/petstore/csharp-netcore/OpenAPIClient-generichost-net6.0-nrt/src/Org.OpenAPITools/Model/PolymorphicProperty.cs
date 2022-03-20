@@ -70,22 +70,22 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Bool
         /// </summary>
-        public bool Bool { get; set; }
+        public bool? Bool { get; set; }
 
         /// <summary>
         /// Gets or Sets String
         /// </summary>
-        public string String { get; set; }
+        public string? String { get; set; }
 
         /// <summary>
         /// Gets or Sets Object
         /// </summary>
-        public Object Object { get; set; }
+        public Object? Object { get; set; }
 
         /// <summary>
         /// Gets or Sets Liststring
         /// </summary>
-        public List<string> Liststring { get; set; }
+        public List<string>? Liststring { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -52,12 +52,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AppleReq
         /// </summary>
-        public AppleReq AppleReq { get; set; }
+        public AppleReq? AppleReq { get; set; }
 
         /// <summary>
         /// Gets or Sets BananaReq
         /// </summary>
-        public BananaReq BananaReq { get; set; }
+        public BananaReq? BananaReq { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

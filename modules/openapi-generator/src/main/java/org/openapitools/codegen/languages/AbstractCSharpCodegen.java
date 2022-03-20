@@ -443,7 +443,49 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         postProcessEnumRefs(processed);
         updateValueTypeProperty(processed);
         updateNullableTypeProperty(processed);
+        ensureAllModelsPropertyNamesAreNotReservedWords(processed);
         return processed;
+    }
+
+    /**
+    * Iterates the models and calls ensurePropertyNamesAreNotReservedWords 
+    * for each collection of CodegenProperties
+    * @param models processed models to be further processed for enum references
+    */
+    protected void ensureAllModelsPropertyNamesAreNotReservedWords(final Map<String, Object> models) {
+        for (Map.Entry<String, Object> entry : models.entrySet()) {
+            String openAPIName = entry.getKey();
+            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
+            if (model != null) {
+                ensurePropertyNamesAreNotReservedWords(model.vars);
+                ensurePropertyNamesAreNotReservedWords(model.allVars);
+                ensurePropertyNamesAreNotReservedWords(model.requiredVars);
+                ensurePropertyNamesAreNotReservedWords(model.optionalVars);
+                ensurePropertyNamesAreNotReservedWords(model.readOnlyVars);
+                ensurePropertyNamesAreNotReservedWords(model.readWriteVars);
+                ensurePropertyNamesAreNotReservedWords(model.parentVars);
+            }
+        }
+    }
+
+    /**
+    * Renames any CodegenProperty#name if it is a reserved word, 
+    * or if the camelized and sanitized output is a reserved word.
+    * This ensure CamelCaseLambda will not prefix the name with an underscore.
+    * Doing so will break the mapping of JSON property to C# class property.
+    * @param vars the collection of variables
+    */
+    protected void ensurePropertyNamesAreNotReservedWords(List<CodegenProperty> vars) {
+        for (CodegenProperty cp : vars) {
+            if (reservedWords().contains(cp.name)){
+                cp.name = "Property" + cp.name;
+            } else {
+                String camelCaseLambda = camelize(sanitizeName(cp.name), true);
+                if (reservedWords().contains(camelCaseLambda)) {
+                    cp.name = "Property" + cp.name;
+                }
+            }
+        }
     }
 
     @Override

@@ -61,17 +61,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Whale
         /// </summary>
-        public Whale Whale { get; set; }
+        public Whale? Whale { get; set; }
 
         /// <summary>
         /// Gets or Sets Zebra
         /// </summary>
-        public Zebra Zebra { get; set; }
+        public Zebra? Zebra { get; set; }
 
         /// <summary>
         /// Gets or Sets Pig
         /// </summary>
-        public Pig Pig { get; set; }
+        public Pig? Pig { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

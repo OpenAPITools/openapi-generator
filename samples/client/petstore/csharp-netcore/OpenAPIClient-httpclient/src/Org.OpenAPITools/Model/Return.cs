@@ -36,18 +36,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
-        /// <param name="_return">_return.</param>
-        public Return(int _return = default(int))
+        /// <param name="propertyReturn">propertyReturn.</param>
+        public Return(int propertyReturn = default(int))
         {
-            this._Return = _return;
+            this.Property_Return = propertyReturn;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets _Return
+        /// Gets or Sets Property_Return
         /// </summary>
         [DataMember(Name = "return", EmitDefaultValue = false)]
-        public int _Return { get; set; }
+        public int Property_Return { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Return {\n");
-            sb.Append("  _Return: ").Append(_Return).Append("\n");
+            sb.Append("  Property_Return: ").Append(Property_Return).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -107,7 +107,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this._Return.GetHashCode();
+                hashCode = (hashCode * 59) + this.Property_Return.GetHashCode();
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

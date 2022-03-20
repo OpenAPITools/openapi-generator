@@ -33,11 +33,11 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
         /// </summary>
         /// <param name="name">name</param>
-        /// <param name="_class">_class</param>
-        public Model200Response(int name = default, string _class = default)
+        /// <param name="propertyClass">propertyClass</param>
+        public Model200Response(int name = default, string propertyClass = default)
         {
             Name = name;
-            Class = _class;
+            PropertyClass = propertyClass;
         }
 
         /// <summary>
@@ -47,10 +47,10 @@ namespace Org.OpenAPITools.Model
         public int Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets Class
+        /// Gets or Sets PropertyClass
         /// </summary>
         [JsonPropertyName("class")]
-        public string Class { get; set; }
+        public string PropertyClass { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Model200Response {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  Class: ").Append(Class).Append("\n");
+            sb.Append("  PropertyClass: ").Append(PropertyClass).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -103,9 +103,9 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Name.GetHashCode();
-                if (this.Class != null)
+                if (this.PropertyClass != null)
                 {
-                    hashCode = (hashCode * 59) + this.Class.GetHashCode();
+                    hashCode = (hashCode * 59) + this.PropertyClass.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

@@ -5,16 +5,16 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Number** | **decimal** |  | 
-**Byte** | **byte[]** |  | 
+**PropertyByte** | **byte[]** |  | 
 **Date** | **DateTime** |  | 
 **Password** | **string** |  | 
 **Integer** | **int** |  | [optional] 
 **Int32** | **int** |  | [optional] 
 **Int64** | **long** |  | [optional] 
-**Float** | **float** |  | [optional] 
-**Double** | **double** |  | [optional] 
-**Decimal** | **decimal** |  | [optional] 
-**String** | **string** |  | [optional] 
+**PropertyFloat** | **float** |  | [optional] 
+**PropertyDouble** | **double** |  | [optional] 
+**PropertyDecimal** | **decimal** |  | [optional] 
+**PropertyString** | **string** |  | [optional] 
 **Binary** | **System.IO.Stream** |  | [optional] 
 **DateTime** | **DateTime** |  | [optional] 
 **Uuid** | **Guid** |  | [optional] 

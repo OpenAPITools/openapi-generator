@@ -32,17 +32,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineResponseDefault" /> class.
         /// </summary>
-        /// <param name="_string">_string</param>
-        public InlineResponseDefault(Foo _string = default)
+        /// <param name="propertyString">propertyString</param>
+        public InlineResponseDefault(Foo propertyString = default)
         {
-            String = _string;
+            PropertyString = propertyString;
         }
 
         /// <summary>
-        /// Gets or Sets String
+        /// Gets or Sets PropertyString
         /// </summary>
         [JsonPropertyName("string")]
-        public Foo String { get; set; }
+        public Foo PropertyString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class InlineResponseDefault {\n");
-            sb.Append("  String: ").Append(String).Append("\n");
+            sb.Append("  PropertyString: ").Append(PropertyString).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -93,9 +93,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.String != null)
+                if (this.PropertyString != null)
                 {
-                    hashCode = (hashCode * 59) + this.String.GetHashCode();
+                    hashCode = (hashCode * 59) + this.PropertyString.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {
