@@ -23,14 +23,19 @@ public class Cat extends Animal implements Serializable {
   
   private @Valid Boolean declawed;
 
+  protected Cat(CatBuilder<?, ?> b) {
+  super(b);
+  this.declawed = b.declawed;
+  }
+
+  public Cat() { }
+
   /**
    **/
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -85,5 +90,30 @@ public class Cat extends Animal implements Serializable {
   }
 
 
+  public static CatBuilder<?, ?> builder() {
+    return new CatBuilderImpl();
+  }
+
+  private static final class CatBuilderImpl extends CatBuilder<Cat, CatBuilderImpl> {
+
+    @Override
+    protected CatBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Cat build() {
+      return new Cat(this);
+    }
+  }
+
+  public static abstract class CatBuilder<C extends Cat, B extends CatBuilder<C, B>> extends AnimalBuilder<C, B> {
+    private Boolean declawed;
+
+    public B declawed(Boolean declawed) {
+      this.declawed = declawed;
+      return self();
+    }
+  }
 }
 

@@ -33,8 +33,6 @@ public class Model200Response  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public Integer getName() {
@@ -52,8 +50,6 @@ public class Model200Response  implements Serializable {
     this.propertyClass = propertyClass;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

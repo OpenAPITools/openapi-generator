@@ -30,8 +30,6 @@ public class Tag  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -49,8 +47,6 @@ public class Tag  implements Serializable {
     this.name = name;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

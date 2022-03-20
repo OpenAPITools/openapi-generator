@@ -31,8 +31,6 @@ public class HasOnlyReadOnly  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("bar")
   public String getBar() {
@@ -50,8 +48,6 @@ public class HasOnlyReadOnly  implements Serializable {
     this.foo = foo;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

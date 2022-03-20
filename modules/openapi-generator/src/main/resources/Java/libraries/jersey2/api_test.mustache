@@ -6,18 +6,18 @@ import {{invokerPackage}}.*;
 import {{invokerPackage}}.auth.*;
 {{#imports}}import {{import}};
 {{/imports}}
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 {{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
 
+{{/fullJavaUtil}}
 /**
  * API tests for {{classname}}
  */
@@ -28,12 +28,15 @@ public class {{classname}}Test {
     {{#operations}}
     {{#operation}}
     /**
+     {{#summary}}
      * {{summary}}
      *
+     {{/summary}}
+     {{#notes}}
      * {{notes}}
      *
-     * @throws ApiException
-     *          if the Api call fails
+     {{/notes}}
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void {{operationId}}Test() throws ApiException {

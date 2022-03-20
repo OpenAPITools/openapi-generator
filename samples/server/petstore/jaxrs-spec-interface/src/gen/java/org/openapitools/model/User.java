@@ -36,8 +36,6 @@ public class User  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -55,8 +53,6 @@ public class User  implements Serializable {
     this.username = username;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -78,8 +74,6 @@ public class User  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("firstName")
   public String getFirstName() {
@@ -97,8 +91,6 @@ public class User  implements Serializable {
     this.lastName = lastName;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -120,8 +112,6 @@ public class User  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("email")
   public String getEmail() {
@@ -139,8 +129,6 @@ public class User  implements Serializable {
     this.password = password;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -162,8 +150,6 @@ public class User  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("phone")
   public String getPhone() {
@@ -182,8 +168,6 @@ public class User  implements Serializable {
     this.userStatus = userStatus;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "User Status")

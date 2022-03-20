@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
+public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
 
   @JsonProperty("name")
   private String name;

@@ -33,8 +33,6 @@ public class FileSchemaTestClass  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("file")
   public ModelFile getFile() {
@@ -52,8 +50,6 @@ public class FileSchemaTestClass  implements Serializable {
     this.files = files;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

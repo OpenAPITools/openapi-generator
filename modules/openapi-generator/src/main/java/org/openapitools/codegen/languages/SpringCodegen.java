@@ -281,6 +281,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         super.processOpts();
+        useOneOfInterfaces = true;
+        legacyDiscriminatorBehavior = false;
 
         if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
             LOGGER.warn("The springfox documentation provider is deprecated for removal. Use the springdoc provider instead.");

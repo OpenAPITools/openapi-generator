@@ -1398,9 +1398,11 @@ public class ApiClient {
                 File file = (File) param.getValue();
                 addPartToMultiPartBuilder(mpBuilder, param.getKey(), file);
             } else if (param.getValue() instanceof List) {
-                List<File> files = (List<File>) param.getValue();
-                for (File file : files) {
-                    addPartToMultiPartBuilder(mpBuilder, param.getKey(), file);
+                List list = (List) param.getValue();
+                for (Object item: list) {
+                    if (item instanceof File) {
+                        addPartToMultiPartBuilder(mpBuilder, param.getKey(), (File) item);
+                    }
                 }
             } else {
                 Headers partHeaders = Headers.of("Content-Disposition", "form-data; name=\"" + param.getKey() + "\"");

@@ -227,8 +227,6 @@ public enum EnumNumberEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_string")
   public EnumStringEnum getEnumString() {
@@ -246,8 +244,6 @@ public enum EnumNumberEnum {
     this.enumStringRequired = enumStringRequired;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -270,8 +266,6 @@ public enum EnumNumberEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_integer")
   public EnumIntegerEnum getEnumInteger() {
@@ -291,8 +285,6 @@ public enum EnumNumberEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_number")
   public EnumNumberEnum getEnumNumber() {
@@ -310,8 +302,6 @@ public enum EnumNumberEnum {
     this.outerEnum = outerEnum;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

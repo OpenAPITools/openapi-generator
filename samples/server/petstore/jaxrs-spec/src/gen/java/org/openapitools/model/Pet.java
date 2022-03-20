@@ -81,14 +81,18 @@ public enum StatusEnum {
 
   private @Valid StatusEnum status;
 
+  protected Pet(PetBuilder<?, ?> b) {
+  this.id = b.id;this.category = b.category;this.name = b.name;this.photoUrls = b.photoUrls;this.tags = b.tags;this.status = b.status;
+  }
+
+  public Pet() { }
+
   /**
    **/
   public Pet id(Long id) {
     this.id = id;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -110,8 +114,6 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("category")
   public Category getCategory() {
@@ -129,8 +131,6 @@ public enum StatusEnum {
     this.name = name;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "doggie", required = true, value = "")
@@ -151,8 +151,6 @@ public enum StatusEnum {
     this.photoUrls = photoUrls;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -192,8 +190,6 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
@@ -228,8 +224,6 @@ public enum StatusEnum {
     this.status = status;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "pet status in the store")
@@ -293,5 +287,58 @@ public enum StatusEnum {
   }
 
 
+  public static PetBuilder<?, ?> builder() {
+    return new PetBuilderImpl();
+  }
+
+  private static final class PetBuilderImpl extends PetBuilder<Pet, PetBuilderImpl> {
+
+    @Override
+    protected PetBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Pet build() {
+      return new Pet(this);
+    }
+  }
+
+  public static abstract class PetBuilder<C extends Pet, B extends PetBuilder<C, B>>  {
+    private Long id;
+    private Category category;
+    private String name;
+    private Set<String> photoUrls = new LinkedHashSet<>();
+    private List<Tag> tags = new ArrayList<>();
+    private StatusEnum status;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B id(Long id) {
+      this.id = id;
+      return self();
+    }
+    public B category(Category category) {
+      this.category = category;
+      return self();
+    }
+    public B name(String name) {
+      this.name = name;
+      return self();
+    }
+    public B photoUrls(Set<String> photoUrls) {
+      this.photoUrls = photoUrls;
+      return self();
+    }
+    public B tags(List<Tag> tags) {
+      this.tags = tags;
+      return self();
+    }
+    public B status(StatusEnum status) {
+      this.status = status;
+      return self();
+    }
+  }
 }
 

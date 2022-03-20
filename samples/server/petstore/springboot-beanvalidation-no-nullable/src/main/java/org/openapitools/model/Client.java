@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Client   {
+public class Client {
 
   @JsonProperty("client")
   private String client;
