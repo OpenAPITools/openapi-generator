@@ -444,6 +444,10 @@
                     <name>performRelease</name>
                     <value>true</value>
                 </property>
+                <properties>
+  <sonar.organization>ismbargar</sonar.organization>
+  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+</properties>
             </activation>
             <build>
                 <plugins>
