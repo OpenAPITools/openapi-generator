@@ -24,6 +24,12 @@ public class ModelFile  implements Serializable {
   
   private @Valid String sourceURI;
 
+  protected ModelFile(ModelFileBuilder<?, ?> b) {
+  this.sourceURI = b.sourceURI;
+  }
+
+  public ModelFile() { }
+
   /**
    * Test capitalization
    **/
@@ -31,8 +37,6 @@ public class ModelFile  implements Serializable {
     this.sourceURI = sourceURI;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "Test capitalization")
@@ -86,5 +90,33 @@ public class ModelFile  implements Serializable {
   }
 
 
+  public static ModelFileBuilder<?, ?> builder() {
+    return new ModelFileBuilderImpl();
+  }
+
+  private static final class ModelFileBuilderImpl extends ModelFileBuilder<ModelFile, ModelFileBuilderImpl> {
+
+    @Override
+    protected ModelFileBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public ModelFile build() {
+      return new ModelFile(this);
+    }
+  }
+
+  public static abstract class ModelFileBuilder<C extends ModelFile, B extends ModelFileBuilder<C, B>>  {
+    private String sourceURI;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B sourceURI(String sourceURI) {
+      this.sourceURI = sourceURI;
+      return self();
+    }
+  }
 }
 

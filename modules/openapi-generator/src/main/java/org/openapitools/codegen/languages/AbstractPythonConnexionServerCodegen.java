@@ -179,16 +179,16 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             typeMapping.put("long", "long");
         }
         if (additionalProperties.containsKey(FEATURE_CORS)) {
-            setFeatureCORS((String) additionalProperties.get(FEATURE_CORS));
+            setFeatureCORS(String.valueOf(additionalProperties.get(FEATURE_CORS)));
         }
         if (additionalProperties.containsKey(USE_NOSE)) {
-            setUseNose((String) additionalProperties.get(USE_NOSE));
+            setUseNose(String.valueOf(additionalProperties.get(USE_NOSE)));
         }
         if (additionalProperties.containsKey(USE_PYTHON_SRC_ROOT_IN_IMPORTS)) {
-            setUsePythonSrcRootInImports((String) additionalProperties.get(USE_PYTHON_SRC_ROOT_IN_IMPORTS));
+            setUsePythonSrcRootInImports(String.valueOf(additionalProperties.get(USE_PYTHON_SRC_ROOT_IN_IMPORTS)));
         }
         if (additionalProperties.containsKey(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT)) {
-            setMoveTestsUnderPythonSrcRoot((String) additionalProperties.get(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT));
+            setMoveTestsUnderPythonSrcRoot(String.valueOf(additionalProperties.get(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT)));
         }
         if (additionalProperties.containsKey(PYTHON_SRC_ROOT)) {
             String pythonSrcRoot = (String) additionalProperties.get(PYTHON_SRC_ROOT);

@@ -128,8 +128,6 @@ public enum ArrayEnumEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
@@ -147,8 +145,6 @@ public enum ArrayEnumEnum {
     this.arrayEnum = arrayEnum;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

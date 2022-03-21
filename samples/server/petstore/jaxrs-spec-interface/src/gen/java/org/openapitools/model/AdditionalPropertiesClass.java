@@ -43,8 +43,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("map_string")
   public Map<String, String> getMapString() {
@@ -78,8 +76,6 @@ public class AdditionalPropertiesClass  implements Serializable {
     this.mapNumber = mapNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -117,8 +113,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("map_integer")
   public Map<String, Integer> getMapInteger() {
@@ -152,8 +146,6 @@ public class AdditionalPropertiesClass  implements Serializable {
     this.mapBoolean = mapBoolean;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -191,8 +183,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("map_array_integer")
   public Map<String, List<Integer>> getMapArrayInteger() {
@@ -226,8 +216,6 @@ public class AdditionalPropertiesClass  implements Serializable {
     this.mapArrayAnytype = mapArrayAnytype;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -265,8 +253,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_string")
   public Map<String, Map<String, String>> getMapMapString() {
@@ -300,8 +286,6 @@ public class AdditionalPropertiesClass  implements Serializable {
     this.mapMapAnytype = mapMapAnytype;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -339,8 +323,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_1")
   public Object getAnytype1() {
@@ -360,8 +342,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_2")
   public Object getAnytype2() {
@@ -379,8 +359,6 @@ public class AdditionalPropertiesClass  implements Serializable {
     this.anytype3 = anytype3;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

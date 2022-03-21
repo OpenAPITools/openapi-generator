@@ -22,14 +22,18 @@ public class ModelList  implements Serializable {
   
   private @Valid String _123list;
 
+  protected ModelList(ModelListBuilder<?, ?> b) {
+  this._123list = b._123list;
+  }
+
+  public ModelList() { }
+
   /**
    **/
   public ModelList _123list(String _123list) {
     this._123list = _123list;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -83,5 +87,33 @@ public class ModelList  implements Serializable {
   }
 
 
+  public static ModelListBuilder<?, ?> builder() {
+    return new ModelListBuilderImpl();
+  }
+
+  private static final class ModelListBuilderImpl extends ModelListBuilder<ModelList, ModelListBuilderImpl> {
+
+    @Override
+    protected ModelListBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public ModelList build() {
+      return new ModelList(this);
+    }
+  }
+
+  public static abstract class ModelListBuilder<C extends ModelList, B extends ModelListBuilder<C, B>>  {
+    private String _123list;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B _123list(String _123list) {
+      this._123list = _123list;
+      return self();
+    }
+  }
 }
 

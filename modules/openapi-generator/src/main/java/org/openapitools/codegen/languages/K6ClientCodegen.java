@@ -1007,7 +1007,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 && cgOperation.vendorExtensions.get(X_OPERATION_GROUPING) instanceof java.util.Map) {
 
             Map.Entry<?, ?> operationGroupingEntry = ((Map<?, ?>) cgOperation.vendorExtensions
-                    .get(X_OPERATION_GROUPING)).entrySet().stream().findFirst().get();
+                    .get(X_OPERATION_GROUPING)).entrySet().stream().findFirst().orElse(null);
 
             return Optional.of(new OperationGrouping(String.valueOf(operationGroupingEntry.getKey()),
                     Integer.parseInt(String.valueOf(operationGroupingEntry.getValue()))));

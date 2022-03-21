@@ -35,14 +35,18 @@ public class AdditionalPropertiesClass  implements Serializable {
   private @Valid Object anytype2;
   private @Valid Object anytype3;
 
+  protected AdditionalPropertiesClass(AdditionalPropertiesClassBuilder<?, ?> b) {
+  this.mapString = b.mapString;this.mapNumber = b.mapNumber;this.mapInteger = b.mapInteger;this.mapBoolean = b.mapBoolean;this.mapArrayInteger = b.mapArrayInteger;this.mapArrayAnytype = b.mapArrayAnytype;this.mapMapString = b.mapMapString;this.mapMapAnytype = b.mapMapAnytype;this.anytype1 = b.anytype1;this.anytype2 = b.anytype2;this.anytype3 = b.anytype3;
+  }
+
+  public AdditionalPropertiesClass() { }
+
   /**
    **/
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -80,8 +84,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("map_number")
   public Map<String, BigDecimal> getMapNumber() {
@@ -115,8 +117,6 @@ public class AdditionalPropertiesClass  implements Serializable {
     this.mapInteger = mapInteger;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -154,8 +154,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("map_boolean")
   public Map<String, Boolean> getMapBoolean() {
@@ -189,8 +187,6 @@ public class AdditionalPropertiesClass  implements Serializable {
     this.mapArrayInteger = mapArrayInteger;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -228,8 +224,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("map_array_anytype")
   public Map<String, List<Object>> getMapArrayAnytype() {
@@ -263,8 +257,6 @@ public class AdditionalPropertiesClass  implements Serializable {
     this.mapMapString = mapMapString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -302,8 +294,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_anytype")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
@@ -339,8 +329,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_1")
   public Object getAnytype1() {
@@ -360,8 +348,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_2")
   public Object getAnytype2() {
@@ -379,8 +365,6 @@ public class AdditionalPropertiesClass  implements Serializable {
     this.anytype3 = anytype3;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -454,5 +438,83 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
 
 
+  public static AdditionalPropertiesClassBuilder<?, ?> builder() {
+    return new AdditionalPropertiesClassBuilderImpl();
+  }
+
+  private static final class AdditionalPropertiesClassBuilderImpl extends AdditionalPropertiesClassBuilder<AdditionalPropertiesClass, AdditionalPropertiesClassBuilderImpl> {
+
+    @Override
+    protected AdditionalPropertiesClassBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public AdditionalPropertiesClass build() {
+      return new AdditionalPropertiesClass(this);
+    }
+  }
+
+  public static abstract class AdditionalPropertiesClassBuilder<C extends AdditionalPropertiesClass, B extends AdditionalPropertiesClassBuilder<C, B>>  {
+    private Map<String, String> mapString = new HashMap<>();
+    private Map<String, BigDecimal> mapNumber = new HashMap<>();
+    private Map<String, Integer> mapInteger = new HashMap<>();
+    private Map<String, Boolean> mapBoolean = new HashMap<>();
+    private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+    private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+    private Map<String, Map<String, String>> mapMapString = new HashMap<>();
+    private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+    private Object anytype1;
+    private Object anytype2;
+    private Object anytype3;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B mapString(Map<String, String> mapString) {
+      this.mapString = mapString;
+      return self();
+    }
+    public B mapNumber(Map<String, BigDecimal> mapNumber) {
+      this.mapNumber = mapNumber;
+      return self();
+    }
+    public B mapInteger(Map<String, Integer> mapInteger) {
+      this.mapInteger = mapInteger;
+      return self();
+    }
+    public B mapBoolean(Map<String, Boolean> mapBoolean) {
+      this.mapBoolean = mapBoolean;
+      return self();
+    }
+    public B mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
+      this.mapArrayInteger = mapArrayInteger;
+      return self();
+    }
+    public B mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
+      this.mapArrayAnytype = mapArrayAnytype;
+      return self();
+    }
+    public B mapMapString(Map<String, Map<String, String>> mapMapString) {
+      this.mapMapString = mapMapString;
+      return self();
+    }
+    public B mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
+      this.mapMapAnytype = mapMapAnytype;
+      return self();
+    }
+    public B anytype1(Object anytype1) {
+      this.anytype1 = anytype1;
+      return self();
+    }
+    public B anytype2(Object anytype2) {
+      this.anytype2 = anytype2;
+      return self();
+    }
+    public B anytype3(Object anytype3) {
+      this.anytype3 = anytype3;
+      return self();
+    }
+  }
 }
 

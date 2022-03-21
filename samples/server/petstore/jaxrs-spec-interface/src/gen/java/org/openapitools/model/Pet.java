@@ -89,8 +89,6 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -108,8 +106,6 @@ public enum StatusEnum {
     this.category = category;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -131,8 +127,6 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
   @NotNull
@@ -151,8 +145,6 @@ public enum StatusEnum {
     this.photoUrls = photoUrls;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -192,8 +184,6 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
@@ -228,8 +218,6 @@ public enum StatusEnum {
     this.status = status;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "pet status in the store")

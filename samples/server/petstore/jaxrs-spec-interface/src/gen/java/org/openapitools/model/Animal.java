@@ -39,8 +39,6 @@ public class Animal  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("className")
   @NotNull
@@ -59,8 +57,6 @@ public class Animal  implements Serializable {
     this.color = color;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

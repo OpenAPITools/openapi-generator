@@ -30,8 +30,6 @@ public class ModelList  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("123-list")
   public String get123list() {

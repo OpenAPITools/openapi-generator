@@ -144,7 +144,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 .reduce((a, b) -> {
                     throw new IllegalStateException("Multiple elements: " + a + ", " + b);
                 })
-                .get();
+                .orElse(null);
         supportingFiles.remove(originalInitModel);
         supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "model", "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__apis.mustache", packagePath() + File.separatorChar + "apis", "__init__.py"));
