@@ -56,8 +56,7 @@ class URLParse {
 }
 
 export class HttpException extends Error {
-    code: number | undefined;
-    public constructor(msg: string, code?: number) {
+    public constructor(msg: string, public code?: number) {
         super(msg);
         if(code){
             this.code = code;
