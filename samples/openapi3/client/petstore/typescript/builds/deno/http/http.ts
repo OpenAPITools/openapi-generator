@@ -58,9 +58,6 @@ class URLParse {
 export class HttpException extends Error {
     public constructor(msg: string, public code?: number) {
         super(msg);
-        if(code){
-            this.code = code;
-        }
     }
 }
 
