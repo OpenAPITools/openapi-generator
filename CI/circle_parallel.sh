@@ -31,11 +31,15 @@ elif [ "$NODE_INDEX" = "2" ]; then
   #stack upgrade
   #stack --version
   # prepare r
-  sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
-  gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
-  gpg -a --export E084DAB9 | sudo apt-key add -
-  sudo apt-get update
-  sudo apt-get -y install r-base
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+  sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'
+  sudo apt update
+  sudo apt -y install r-base
+  #sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
+  #gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
+  #gpg -a --export E084DAB9 | sudo apt-key add -
+  #sudo apt-get update
+  #sudo apt-get -y install r-base
   R --version
 
   # install curl
