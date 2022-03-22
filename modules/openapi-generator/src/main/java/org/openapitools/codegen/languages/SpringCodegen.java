@@ -281,6 +281,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         super.processOpts();
+        useOneOfInterfaces = true;
+        legacyDiscriminatorBehavior = false;
 
         if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
             LOGGER.warn("The springfox documentation provider is deprecated for removal. Use the springdoc provider instead.");
@@ -678,22 +680,25 @@ public class SpringCodegen extends AbstractJavaCodegen
         final String rt = returnType;
         if (rt == null) {
             dataTypeAssigner.setReturnType("Void");
-        } else if (rt.startsWith("List")) {
+        } else if (rt.startsWith("List") || rt.startsWith("java.util.List")) {
+            final int start = rt.indexOf("<");
             final int end = rt.lastIndexOf(">");
-            if (end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring("List<".length(), end).trim());
+            if (start > 0 && end > 0) {
+                dataTypeAssigner.setReturnType(rt.substring(start + 1, end).trim());
                 dataTypeAssigner.setReturnContainer("List");
             }
-        } else if (rt.startsWith("Map")) {
+        } else if (rt.startsWith("Map") || rt.startsWith("java.util.Map")) {
+            final int start = rt.indexOf("<");
             final int end = rt.lastIndexOf(">");
-            if (end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring("Map<".length(), end).split(",", 2)[1].trim());
+            if (start > 0 && end > 0) {
+                dataTypeAssigner.setReturnType(rt.substring(start + 1, end).split(",", 2)[1].trim());
                 dataTypeAssigner.setReturnContainer("Map");
             }
-        } else if (rt.startsWith("Set")) {
+        } else if (rt.startsWith("Set") || rt.startsWith("java.util.Set")) {
+            final int start = rt.indexOf("<");
             final int end = rt.lastIndexOf(">");
-            if (end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring("Set<".length(), end).trim());
+            if (start > 0 && end > 0) {
+                dataTypeAssigner.setReturnType(rt.substring(start + 1, end).trim());
                 dataTypeAssigner.setReturnContainer("Set");
             }
         }

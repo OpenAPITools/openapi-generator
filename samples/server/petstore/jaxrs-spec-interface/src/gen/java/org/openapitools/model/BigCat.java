@@ -18,7 +18,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("BigCat")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class BigCat extends Cat implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class BigCat extends Cat implements Serializable {
   
 
 public enum KindEnum {
@@ -76,8 +77,6 @@ public enum KindEnum {
     this.kind = kind;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

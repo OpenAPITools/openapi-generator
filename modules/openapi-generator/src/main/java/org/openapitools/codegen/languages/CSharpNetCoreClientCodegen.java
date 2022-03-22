@@ -395,40 +395,66 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         // avoid breaking changes
         if (GENERICHOST.equals(getLibrary())) {
-            Comparator<CodegenProperty> comparatorByDefaultValue = new Comparator<CodegenProperty>() {
-                @Override
-                public int compare(CodegenProperty one, CodegenProperty another) {
-                    if (one.defaultValue == another.defaultValue)
-                        return 0;
-                    else if (Boolean.FALSE.equals(one.defaultValue))
-                        return -1;
-                    else
-                        return 1;
-                }
-            };
-
-            Comparator<CodegenProperty> comparatorByRequired = new Comparator<CodegenProperty>() {
-                @Override
-                public int compare(CodegenProperty one, CodegenProperty another) {
-                    if (one.required == another.required)
-                        return 0;
-                    else if (Boolean.TRUE.equals(one.required))
-                        return -1;
-                    else
-                        return 1;
-                }
-            };
-
-            Collections.sort(codegenModel.vars, comparatorByDefaultValue);
-            Collections.sort(codegenModel.vars, comparatorByRequired);
-            Collections.sort(codegenModel.allVars, comparatorByDefaultValue);
-            Collections.sort(codegenModel.allVars, comparatorByRequired);
-            Collections.sort(codegenModel.readWriteVars, comparatorByDefaultValue);
-            Collections.sort(codegenModel.readWriteVars, comparatorByRequired);
+            Comparator<CodegenProperty> comparatorByRequiredAndDefault = propertyComparatorByRequired.thenComparing(propertyComparatorByDefaultValue);
+            Collections.sort(codegenModel.vars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.allVars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.requiredVars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.optionalVars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.readOnlyVars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.readWriteVars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.parentVars, comparatorByRequiredAndDefault);
         }
 
         return codegenModel;
     }
+
+    public static Comparator<CodegenProperty> propertyComparatorByDefaultValue = new Comparator<CodegenProperty>() {
+        @Override
+        public int compare(CodegenProperty one, CodegenProperty another) {
+            if ((one.defaultValue == null) == (another.defaultValue == null))
+                return 0;
+            else if (one.defaultValue == null)
+                return -1;
+            else
+                return 1;
+        }
+    };
+
+    public static Comparator<CodegenProperty> propertyComparatorByRequired = new Comparator<CodegenProperty>() {
+        @Override
+        public int compare(CodegenProperty one, CodegenProperty another) {
+            if (one.required == another.required)
+                return 0;
+            else if (Boolean.TRUE.equals(one.required))
+                return -1;
+            else
+                return 1;
+        }
+    };
+
+    public static Comparator<CodegenParameter> parameterComparatorByDefaultValue = new Comparator<CodegenParameter>() {
+        @Override
+        public int compare(CodegenParameter one, CodegenParameter another) {
+            if ((one.defaultValue == null) == (another.defaultValue == null))
+                return 0;
+            else if (one.defaultValue == null)
+                return -1;
+            else
+                return 1;
+        }
+    };
+
+    public static Comparator<CodegenParameter> parameterComparatorByRequired = new Comparator<CodegenParameter>() {
+        @Override
+        public int compare(CodegenParameter one, CodegenParameter another) {
+            if (one.required == another.required)
+                return 0;
+            else if (Boolean.TRUE.equals(one.required))
+                return -1;
+            else
+                return 1;
+        }
+    };
 
     @Override
     public String getHelp() {
@@ -782,29 +808,17 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             return op;
         }
 
-        Collections.sort(op.allParams, new Comparator<CodegenParameter>() {
-            @Override
-            public int compare(CodegenParameter one, CodegenParameter another) {
-                if (one.defaultValue == another.defaultValue)
-                    return 0;
-                else if (Boolean.FALSE.equals(one.defaultValue))
-                    return -1;
-                else
-                    return 1;
-            }
-        });
-
-        Collections.sort(op.allParams, new Comparator<CodegenParameter>() {
-            @Override
-            public int compare(CodegenParameter one, CodegenParameter another) {
-                if (one.required == another.required)
-                    return 0;
-                else if (Boolean.TRUE.equals(one.required))
-                    return -1;
-                else
-                    return 1;
-            }
-        });
+        Comparator<CodegenParameter> comparatorByRequiredAndDefault = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
+        Collections.sort(op.allParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.bodyParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.pathParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.queryParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.headerParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.implicitHeadersParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.formParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.cookieParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.requiredParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.optionalParams, comparatorByRequiredAndDefault);
 
         return op;
     }

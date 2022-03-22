@@ -231,7 +231,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -376,7 +376,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let param_body: Option<String> = if !body.is_empty() {
@@ -444,7 +444,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let param_value: Option<String> = if !body.is_empty() {
@@ -541,7 +541,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -627,28 +627,28 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
-    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
+    fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
         match request.method() {
             // AllOfGet - GET /allOf
-            &hyper::Method::GET if path.matched(paths::ID_ALLOF) => Ok("AllOfGet"),
+            &hyper::Method::GET if path.matched(paths::ID_ALLOF) => Some("AllOfGet"),
             // DummyGet - GET /dummy
-            &hyper::Method::GET if path.matched(paths::ID_DUMMY) => Ok("DummyGet"),
+            &hyper::Method::GET if path.matched(paths::ID_DUMMY) => Some("DummyGet"),
             // DummyPut - PUT /dummy
-            &hyper::Method::PUT if path.matched(paths::ID_DUMMY) => Ok("DummyPut"),
+            &hyper::Method::PUT if path.matched(paths::ID_DUMMY) => Some("DummyPut"),
             // FileResponseGet - GET /file_response
-            &hyper::Method::GET if path.matched(paths::ID_FILE_RESPONSE) => Ok("FileResponseGet"),
+            &hyper::Method::GET if path.matched(paths::ID_FILE_RESPONSE) => Some("FileResponseGet"),
             // GetStructuredYaml - GET /get-structured-yaml
-            &hyper::Method::GET if path.matched(paths::ID_GET_STRUCTURED_YAML) => Ok("GetStructuredYaml"),
+            &hyper::Method::GET if path.matched(paths::ID_GET_STRUCTURED_YAML) => Some("GetStructuredYaml"),
             // HtmlPost - POST /html
-            &hyper::Method::POST if path.matched(paths::ID_HTML) => Ok("HtmlPost"),
+            &hyper::Method::POST if path.matched(paths::ID_HTML) => Some("HtmlPost"),
             // PostYaml - POST /post-yaml
-            &hyper::Method::POST if path.matched(paths::ID_POST_YAML) => Ok("PostYaml"),
+            &hyper::Method::POST if path.matched(paths::ID_POST_YAML) => Some("PostYaml"),
             // RawJsonGet - GET /raw_json
-            &hyper::Method::GET if path.matched(paths::ID_RAW_JSON) => Ok("RawJsonGet"),
+            &hyper::Method::GET if path.matched(paths::ID_RAW_JSON) => Some("RawJsonGet"),
             // SoloObjectPost - POST /solo-object
-            &hyper::Method::POST if path.matched(paths::ID_SOLO_OBJECT) => Ok("SoloObjectPost"),
-            _ => Err(()),
+            &hyper::Method::POST if path.matched(paths::ID_SOLO_OBJECT) => Some("SoloObjectPost"),
+            _ => None,
         }
     }
 }

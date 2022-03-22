@@ -20,6 +20,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.apache.commons.io.IOUtils;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openrewrite.maven.internal.RawPom;
 import org.testng.Assert;
@@ -35,6 +36,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import com.google.common.collect.ImmutableMap;
 
 public class TestUtils {
 
@@ -236,5 +239,100 @@ public class TestUtils {
             // File exists, pass.
             assertTrue(true);
         }
+    }
+
+    public static void assertExtraAnnotationFiles(String baseOutputPath) {
+
+        JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/EmployeeEntity.java"))
+                .assertTypeAnnotations()
+                    .containsWithName("javax.persistence.Entity")
+                    .containsWithNameAndAttributes("javax.persistence.Table", ImmutableMap.of("name", "\"employees\""))
+                .toType()
+                .hasProperty("assignments")
+                    .assertPropertyAnnotations()
+                    .containsWithNameAndAttributes("javax.persistence.OneToMany", ImmutableMap.of("mappedBy", "\"employee\""))
+                    .toProperty()
+                .toType();
+
+        JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/Employee.java"))
+                .assertTypeAnnotations()
+                    .containsWithName("javax.persistence.MappedSuperclass")
+                .toType()
+                .hasProperty("id")
+                    .assertPropertyAnnotations()
+                    .containsWithName("javax.persistence.Id")
+                    .toProperty()
+                .toType()
+                .hasProperty("email")
+                    .assertPropertyAnnotations()
+                    .containsWithName("org.hibernate.annotations.Formula")
+                    .toProperty()
+                .toType()
+                .hasProperty("hasAcceptedTerms")
+                    .assertPropertyAnnotations()
+                    .containsWithName("javax.persistence.Transient")
+                    .toProperty()
+                .toType();
+
+        JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/SurveyGroupEntity.java"))
+                .assertTypeAnnotations()
+                    .containsWithName("javax.persistence.Entity")
+                    .containsWithNameAndAttributes("javax.persistence.Table", ImmutableMap.of("name", "\"survey_groups\""))
+                .toType()
+                .hasProperty("assignments")
+                    .assertPropertyAnnotations()
+                    .containsWithName("javax.persistence.OneToMany")
+                    .containsWithNameAndAttributes("javax.persistence.JoinColumn", ImmutableMap.of("name", "\"survey_group_id\""))
+                    .toProperty()
+                .toType()
+                .hasProperty("disabled")
+                    .assertPropertyAnnotations()
+                    .containsWithNameAndAttributes("javax.persistence.Column", ImmutableMap.of("nullable", "false"))
+                    .toProperty()
+                .toType();
+
+        JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/SurveyGroup.java"))
+                .assertTypeAnnotations()
+                    .containsWithName("javax.persistence.MappedSuperclass")
+                    .containsWithName("javax.persistence.EntityListeners")
+                .toType()
+                .hasProperty("id")
+                    .assertPropertyAnnotations()
+                    .containsWithName("javax.persistence.Id")
+                    .containsWithNameAndAttributes("javax.persistence.GeneratedValue", ImmutableMap.of("generator", "\"UUID\""))
+                    .containsWithNameAndAttributes("org.hibernate.annotations.GenericGenerator", ImmutableMap.of("name", "\"UUID\"","strategy", "\"org.hibernate.id.UUIDGenerator\""))
+                    .containsWithNameAndAttributes("javax.persistence.Column", ImmutableMap.of("name", "\"id\"","updatable", "false","nullable", "false"))
+                    .toProperty()
+                .toType()
+                .hasProperty("createdDate")
+                    .assertPropertyAnnotations()
+                    .containsWithName("org.springframework.data.annotation.CreatedDate")
+                    .toProperty()
+                .toType()
+                .hasProperty("createdBy")
+                    .assertPropertyAnnotations()
+                    .containsWithName("org.springframework.data.annotation.CreatedBy")
+                    .toProperty()
+                .toType()
+                .hasProperty("modifiedDate")
+                    .assertPropertyAnnotations()
+                    .containsWithName("org.springframework.data.annotation.LastModifiedDate")
+                    .toProperty()
+                .toType()
+                .hasProperty("modifiedBy")
+                    .assertPropertyAnnotations()
+                    .containsWithName("org.springframework.data.annotation.LastModifiedBy")
+                    .toProperty()
+                .toType()
+                .hasProperty("opportunityId")
+                    .assertPropertyAnnotations()
+                    .containsWithNameAndAttributes("javax.persistence.Column", ImmutableMap.of("unique", "true"))
+                    .toProperty()
+                .toType()
+                .hasProperty("submissionStatus")
+                    .assertPropertyAnnotations()
+                    .containsWithName("javax.persistence.Transient")
+                    .toProperty()
+                .toType();
     }
 }

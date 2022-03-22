@@ -41,6 +41,7 @@ namespace Org.OpenAPITools.Model
         {
             if (className == null)
                 throw new ArgumentNullException("className is a required property for Whale and cannot be null.");
+
             ClassName = className;
             HasBaleen = hasBaleen;
             HasTeeth = hasTeeth;

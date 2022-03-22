@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="catAllOf">catAllOf</param>
         /// <param name="className">className (required)</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
-        public Cat(CatAllOf catAllOf, string className, string? color = "red") : base(className, color)
+        public Cat(CatAllOf? catAllOf, string className, string? color = "red") : base(className, color)
         {
             CatAllOf = catAllOf;
         }

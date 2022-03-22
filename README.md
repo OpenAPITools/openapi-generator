@@ -849,7 +849,6 @@ OpenAPI Generator core team members are contributors who have been making signif
 * [@wing328](https://github.com/wing328) (2015/07) [:heart:](https://www.patreon.com/wing328)
 * [@jimschubert](https://github.com/jimschubert) (2016/05) [:heart:](https://www.patreon.com/jimschubert)
 * [@cbornet](https://github.com/cbornet) (2016/05)
-* [@ackintosh](https://github.com/ackintosh) (2018/02) [:heart:](https://www.patreon.com/ackintosh/overview)
 * [@jmini](https://github.com/jmini) (2018/04)  [:heart:](https://www.patreon.com/jmini)
 * [@etherealjoy](https://github.com/etherealjoy) (2019/06)
 * [@spacether](https://github.com/spacether) (2020/05) [:heart:][spacether sponsorship]
@@ -988,7 +987,7 @@ Here is a list of template creators:
    * PHP Slim4: @ybelenko
    * PHP Symfony: @ksm2
    * Python FastAPI: @krjakbrjak
-   * Python AIOHTTP: @Jyhess
+   * Python AIOHTTP: 
    * Ruby on Rails 5: @zlx
    * Rust (rust-server): @metaswitch
    * Scala Akka: @Bouillie
@@ -1074,9 +1073,9 @@ If you want to join the committee, please kindly apply by sending an email to te
 | ObjC              |                                                                                                                                                                                                                                   |
 | OCaml             | @cgensoul (2019/08)                                                                                                                                                                                                               |
 | Perl              | @wing328 (2017/07) [:heart:](https://www.patreon.com/wing328) @yue9944882 (2019/06)                                                                                                                                               |
-| PHP               | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), @ackintosh (2017/09) [:heart:](https://www.patreon.com/ackintosh/overview), @ybelenko (2018/07), @renepardon (2018/12)                     |
+| PHP               | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), @ybelenko (2018/07), @renepardon (2018/12)                     |
 | PowerShell        | @wing328 (2020/05)                                                                                                                                                                                                                                  |
-| Python            | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) @Jyhess (2019/01) @arun-nalla (2019/11) @spacether (2019/11) [:heart:][spacether sponsorship]               |
+| Python            | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) @arun-nalla (2019/11) @spacether (2019/11) [:heart:][spacether sponsorship]               |
 | R                 | @Ramanth (2019/07) @saigiridhar21 (2019/07)                                                                                                                                                                                       |
 | Ruby              | @cliffano (2017/07) @zlx (2017/09) @autopp (2019/02)                                                                                                                                                                             |
 | Rust              | @frol (2017/07) @farcaller (2017/08) @richardwhiuk (2019/07) @paladinzh (2020/05)                                                                                                                               |

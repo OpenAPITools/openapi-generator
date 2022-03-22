@@ -19,9 +19,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  **/
 @ApiModel(description = "Must be named `File` for test.")
 @JsonTypeName("File")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ModelFile  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class ModelFile  implements Serializable {
   
   private @Valid String sourceURI;
+
+  protected ModelFile(ModelFileBuilder<?, ?> b) {
+  this.sourceURI = b.sourceURI;
+  }
+
+  public ModelFile() { }
 
   /**
    * Test capitalization
@@ -30,8 +37,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.sourceURI = sourceURI;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "Test capitalization")
@@ -85,5 +90,33 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static ModelFileBuilder<?, ?> builder() {
+    return new ModelFileBuilderImpl();
+  }
+
+  private static final class ModelFileBuilderImpl extends ModelFileBuilder<ModelFile, ModelFileBuilderImpl> {
+
+    @Override
+    protected ModelFileBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public ModelFile build() {
+      return new ModelFile(this);
+    }
+  }
+
+  public static abstract class ModelFileBuilder<C extends ModelFile, B extends ModelFileBuilder<C, B>>  {
+    private String sourceURI;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B sourceURI(String sourceURI) {
+      this.sourceURI = sourceURI;
+      return self();
+    }
+  }
 }
 

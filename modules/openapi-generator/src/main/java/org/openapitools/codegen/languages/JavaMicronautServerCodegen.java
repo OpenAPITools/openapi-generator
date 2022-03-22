@@ -29,6 +29,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     protected String controllerSuffix = "Controller";
     protected String apiPrefix = "Abstract";
     protected String apiSuffix = "Controller";
+    private String testOutputDir;
 
     public JavaMicronautServerCodegen() {
         super();
@@ -141,17 +142,26 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     }
 
     @Override
+    public String apiTestFileFolder() {
+        return super.getOutputDir();
+    }
+
+    @Override
     public String apiTestFilename(String templateName, String tag) {
+        // For controller implementation
         if (generateControllerAsAbstract && templateName.contains("controllerImplementation")) {
-            return (
-                    outputFolder + File.separator +
+            String implementationFolder = outputFolder + File.separator +
                     sourceFolder + File.separator +
-                    controllerPackage.replace('.', File.separatorChar) + File.separator +
+                    controllerPackage.replace('.', File.separatorChar);
+            testOutputDir = implementationFolder;
+            return (implementationFolder + File.separator +
                     StringUtils.camelize(controllerPrefix + "_" + tag + "_" + controllerSuffix) + ".java"
             ).replace('/', File.separatorChar);
         }
 
-        return super.apiTestFilename(templateName, tag);
+        // For api tests
+        String suffix = apiTestTemplateFiles().get(templateName);
+        return super.apiTestFileFolder() + File.separator + toApiTestFilename(tag) + suffix;
     }
 
     @Override

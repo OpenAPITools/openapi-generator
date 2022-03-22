@@ -1313,7 +1313,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // recursively add import for mapping one type to multiple imports
@@ -1333,14 +1332,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        List<Object> models = (List<Object>) objs.get("models");
-
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
+        // add x-implements for serializable to all models
+        List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
+        for (Map<String, Object> mo : models) {
             CodegenModel cm = (CodegenModel) mo.get("model");
-
-            cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
             if (this.serializableModel) {
+                cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
                 ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
             }
         }
@@ -1396,7 +1393,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
                         List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
                         String contentType = consumes.isEmpty() ? defaultContentType : consumes.get(0);
-                        operation.addExtension("x-contentType", contentType);
+                        operation.addExtension("x-content-type", contentType);
                     }
                     String accepts = getAccept(openAPI, operation);
                     operation.addExtension("x-accepts", accepts);
@@ -2055,11 +2052,28 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        if (additionalProperties.containsKey(JACKSON)) {
+            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+                Map<String, String> oneImport = new HashMap<>();
+                oneImport.put("import", importMapping.get(i));
+                if (!imports.contains(oneImport)) {
+                    imports.add(oneImport);
+                }
+            }
+        }
+    }
+    @Override
     public List<VendorExtension> getSupportedVendorExtensions() {
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
         extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
         extensions.add(VendorExtension.X_IMPLEMENTS);
         extensions.add(VendorExtension.X_SETTER_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_TAGS);
+        extensions.add(VendorExtension.X_ACCEPTS);
+        extensions.add(VendorExtension.X_CONTENT_TYPE);
+        extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         return extensions;
     }
 }

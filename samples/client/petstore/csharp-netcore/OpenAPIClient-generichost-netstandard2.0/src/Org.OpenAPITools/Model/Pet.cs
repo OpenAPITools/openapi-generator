@@ -44,8 +44,10 @@ namespace Org.OpenAPITools.Model
         {
             if (name == null)
                 throw new ArgumentNullException("name is a required property for Pet and cannot be null.");
+
             if (photoUrls == null)
                 throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null.");
+
             Name = name;
             PhotoUrls = photoUrls;
             Id = id;
@@ -86,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// <value>pet status in the store</value>
         [JsonPropertyName("status")]
         public StatusEnum Status { get; set; }
-        
+
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
