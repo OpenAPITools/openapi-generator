@@ -155,13 +155,11 @@ class ObjectSerializerTest extends TestCase
 
         return [
             // style form
-            // color=
             'form empty, explode on' => [
-                '', 'color', 'string', 'form', true, 'color=',
+                '', 'color', 'string', 'form', true, '',
             ],
-            // color=
             'form empty, explode off' => [
-                '', 'color', 'string', 'form', false, 'color=',
+                '', 'color', 'string', 'form', false, '',
             ],
             // color=blue
             'form string, explode on' => [
@@ -170,6 +168,16 @@ class ObjectSerializerTest extends TestCase
             // color=blue
             'form string, explode off' => [
                 'blue', 'color', 'string', 'form', false, 'color=blue',
+            ],
+            // Boolean value
+            // showColor=1
+            'Boolean value true' => [
+                true, 'showColor', 'boolean', 'form', false, 'showColor=1',
+            ],
+            // Boolean value
+            // showColor=0
+            'Boolean value false' => [
+                false, 'showColor', 'boolean', 'form', false, 'showColor=0',
             ],
             // color=blue&color=black&color=brown
             'form array, explode on' => [

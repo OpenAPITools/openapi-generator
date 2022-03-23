@@ -168,7 +168,10 @@ class ObjectSerializer
         bool $explode = true
     ): array {
         // return empty array
-        if (empty($value)) return [];
+        if (
+            empty($value)
+            && ($value!==false && $openApiType !== 'boolean') // if $value === false and $openApiType ==='boolean' it isn't empty
+        ) return [];
 
         $query = [];
         $value = (in_array($openApiType, ['object', 'array'], true)) ? (array)$value : $value;
