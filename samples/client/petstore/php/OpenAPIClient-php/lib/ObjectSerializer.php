@@ -28,8 +28,8 @@
 
 namespace OpenAPI\Client;
 
-use GuzzleHttp\Psr7\Utils;
 use OpenAPI\Client\Model\ModelInterface;
+use GuzzleHttp\Psr7\Utils;
 
 /**
  * ObjectSerializer Class Doc Comment
@@ -179,7 +179,7 @@ class ObjectSerializer
         // return empty array
         if (
             empty($value)
-            && ($value!==false && $openApiType !== 'boolean') // false
+            && ($value!==false && $openApiType !== 'boolean') // if $value === false and $openApiType ==='boolean' it isn't empty
         ) return [];
 
         $query = [];
@@ -378,7 +378,7 @@ class ObjectSerializer
         if ($class === 'object') {
             settype($data, 'array');
             return $data;
-        } elseif ($class === 'mixed') {
+        } else if ($class === 'mixed') {
             settype($data, gettype($data));
             return $data;
         }
