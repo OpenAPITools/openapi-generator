@@ -182,11 +182,15 @@ public extension OpenAPITransportError {
             data: data
         )
     }
+
+    static let retryErrorCode = 606
+    static let retryError = OpenAPITransportError(statusCode: OpenAPITransportError.retryErrorCode)
 }
 
 public protocol URLSessionOpenAPITransportDelegate: AnyObject {
     func willStart(request: URLRequest)
     func didFinish(request: URLRequest, response: HTTPURLResponse?, data: Data)
+    func didFinish(request: URLRequest, error: Error)
 }
 
 open class URLSessionOpenAPITransport: OpenAPITransport {
@@ -210,7 +214,10 @@ open class URLSessionOpenAPITransport: OpenAPITransport {
                 self.config.delegate?.willStart(request: request)
                 // Perform network call
                 return self.config.session.dataTaskPublisher(for: request)
-                    .mapError { OpenAPITransportError(statusCode: $0.code.rawValue, description: "Network call finished fails") }
+                    .mapError {
+                        self.config.delegate?.didFinish(request: request, error: $0)
+                        return OpenAPITransportError(statusCode: $0.code.rawValue, description: "Network call finished fails")
+                    }
                     .flatMap { output in
                         self.config.processor.decode(output: output)
                     }
@@ -225,7 +232,7 @@ open class URLSessionOpenAPITransport: OpenAPITransport {
                                     let transportResponse = OpenAPITransportResponse(data: output.data, statusCode: 200)
                                     return Result.success(transportResponse).publisher.eraseToAnyPublisher()
                                 case .retry:
-                                    return self.send(request: request, securitySchemes: securitySchemes)
+                                    return Fail(error: OpenAPITransportError.retryError).eraseToAnyPublisher()
                                 case .failure:
                                     let code = response?.statusCode ?? OpenAPITransportError.noResponseCode
                                     let transportError = OpenAPITransportError(statusCode: code, data: output.data)
@@ -235,7 +242,9 @@ open class URLSessionOpenAPITransport: OpenAPITransport {
                     }
                     .eraseToAnyPublisher()
             }
-            .eraseToAnyPublisher()
+            .retry(times: 2) { error -> Bool in
+                return error.statusCode == OpenAPITransportError.retryError.statusCode
+            }.eraseToAnyPublisher()
     }
 
     open func cancelAll() {
@@ -256,5 +265,34 @@ public extension URLSessionOpenAPITransport {
         public init(baseURL: URL) {
             self.baseURL = baseURL
         }
+    }
+}
+
+fileprivate extension Publishers {
+    struct RetryIf<P: Publisher>: Publisher {
+        typealias Output = P.Output
+        typealias Failure = P.Failure
+
+        let publisher: P
+        let times: Int
+        let condition: (P.Failure) -> Bool
+
+        func receive<S>(subscriber: S) where S : Subscriber, Failure == S.Failure, Output == S.Input {
+            guard times > 0 else { return publisher.receive(subscriber: subscriber) }
+
+            publisher.catch { (error: P.Failure) -> AnyPublisher<Output, Failure> in
+                if condition(error)  {
+                    return RetryIf(publisher: publisher, times: times - 1, condition: condition).eraseToAnyPublisher()
+                } else {
+                    return Fail(error: error).eraseToAnyPublisher()
+                }
+            }.receive(subscriber: subscriber)
+        }
+    }
+}
+
+fileprivate extension Publisher {
+    func retry(times: Int, if condition: @escaping (Failure) -> Bool) -> Publishers.RetryIf<Self> {
+        Publishers.RetryIf(publisher: self, times: times, condition: condition)
     }
 }

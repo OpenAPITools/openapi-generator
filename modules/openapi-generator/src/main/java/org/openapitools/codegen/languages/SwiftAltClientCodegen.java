@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FilenameUtils;
@@ -62,8 +63,9 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
      */
     public SwiftAltClientCodegen() {
         super();
+        this.supportsMultipleInheritance = true;
         this.useOneOfInterfaces = true;
-        this.supportsInheritance = true;
+        this.supportsAdditionalPropertiesWithComposedSchema = true;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.STABLE)
@@ -210,6 +212,22 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         return "Generates a Swift 5 alternative client library.";
     }
 
+//    @Override
+//    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
+//                                                       Schema schema) {
+//        final Schema additionalProperties = getAdditionalProperties(schema);
+//        if (additionalProperties != null) {
+//            Schema inner = null;
+//            if (ModelUtils.isArraySchema(schema)) {
+//                ArraySchema ap = (ArraySchema) schema;
+//                inner = ap.getItems();
+//            } else if (ModelUtils.isMapSchema(schema)) {
+//                inner = getAdditionalProperties(schema);
+//            }
+//            codegenModel.additionalPropertiesType = inner != null ? getTypeDeclaration(inner) : getSchemaType(additionalProperties);
+//        }
+//    }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -293,6 +311,13 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
                 p.setAdditionalProperties(inner);
             }
             return "[String: " + getTypeDeclaration(inner) + "]";
+        } else if (ModelUtils.isComposedSchema(target)) {
+            List<Schema> schemas = ModelUtils.getInterfaces((ComposedSchema)target);
+            if (schemas.size() == 1) {
+                return getTypeDeclaration(schemas.get(0));
+            } else {
+                super.getTypeDeclaration(target);
+            }
         }
         return super.getTypeDeclaration(target);
     }
@@ -787,7 +812,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
         System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift alternative generator v0.9.0                                           #");
+        System.out.println("# swift alternative generator v0.12.0                                          #");
         System.out.println("################################################################################");
     }
 }
