@@ -22,6 +22,15 @@ public interface OptionalFeatures {
     // Language supports generating Optional Types
     String USE_OPTIONAL = "useOptional";
 
+    // Generate optional model properties as {@link java.util.Optional}
+    String USE_OPTIONAL_IN_MODEL = "useOptionalInModel";
+
+    // Generate setter exposing the Optional container instead of the contained type.
+    String EXPOSE_OPTIONAL_IN_SETTER = "exposeOptionalInSetter";
+
     void setUseOptional(boolean useOptional);
 
+    void setUseOptionalInModel(boolean useOptionalInModel);
+
+    void setExposeOptionalInSetter(boolean exposeOptionalInSetter);
 }

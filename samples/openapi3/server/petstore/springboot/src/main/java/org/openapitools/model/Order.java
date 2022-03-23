@@ -2,10 +2,14 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -26,17 +30,17 @@ import javax.annotation.Generated;
 public class Order {
 
   @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id = Optional.empty();
 
   @JsonProperty("petId")
-  private Long petId;
+  private Optional<Long> petId = Optional.empty();
 
   @JsonProperty("quantity")
-  private Integer quantity;
+  private JsonNullable<Integer> quantity = JsonNullable.undefined();
 
   @JsonProperty("shipDate")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime shipDate;
+  private JsonNullable<OffsetDateTime> shipDate = JsonNullable.undefined();
 
   /**
    * Order Status
@@ -76,13 +80,13 @@ public class Order {
   }
 
   @JsonProperty("status")
-  private StatusEnum status;
+  private Optional<StatusEnum> status = Optional.empty();
 
   @JsonProperty("complete")
-  private Boolean complete = false;
+  private Optional<Boolean> complete = Optional.of(false);
 
   public Order id(Long id) {
-    this.id = id;
+    this.id = Optional.ofNullable(id);
     return this;
   }
 
@@ -90,18 +94,18 @@ public class Order {
    * Get id
    * @return id
   */
-  
   @Schema(name = "id", required = false)
-  public Long getId() {
+  public Optional<Long> getId() {
     return id;
   }
 
+  @JsonIgnore
   public void setId(Long id) {
-    this.id = id;
+    this.id = Optional.ofNullable(id);
   }
 
   public Order petId(Long petId) {
-    this.petId = petId;
+    this.petId = Optional.ofNullable(petId);
     return this;
   }
 
@@ -109,18 +113,18 @@ public class Order {
    * Get petId
    * @return petId
   */
-  
   @Schema(name = "petId", required = false)
-  public Long getPetId() {
+  public Optional<Long> getPetId() {
     return petId;
   }
 
+  @JsonIgnore
   public void setPetId(Long petId) {
-    this.petId = petId;
+    this.petId = Optional.ofNullable(petId);
   }
 
   public Order quantity(Integer quantity) {
-    this.quantity = quantity;
+    this.quantity = JsonNullable.of(quantity);
     return this;
   }
 
@@ -128,18 +132,17 @@ public class Order {
    * Get quantity
    * @return quantity
   */
-  
   @Schema(name = "quantity", required = false)
-  public Integer getQuantity() {
+  public JsonNullable<Integer> getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(Integer quantity) {
+  public void setQuantity(JsonNullable<Integer> quantity) {
     this.quantity = quantity;
   }
 
   public Order shipDate(OffsetDateTime shipDate) {
-    this.shipDate = shipDate;
+    this.shipDate = JsonNullable.of(shipDate);
     return this;
   }
 
@@ -147,18 +150,17 @@ public class Order {
    * Get shipDate
    * @return shipDate
   */
-  @Valid 
   @Schema(name = "shipDate", required = false)
-  public OffsetDateTime getShipDate() {
+  public JsonNullable<OffsetDateTime> getShipDate() {
     return shipDate;
   }
 
-  public void setShipDate(OffsetDateTime shipDate) {
+  public void setShipDate(JsonNullable<OffsetDateTime> shipDate) {
     this.shipDate = shipDate;
   }
 
   public Order status(StatusEnum status) {
-    this.status = status;
+    this.status = Optional.ofNullable(status);
     return this;
   }
 
@@ -166,18 +168,18 @@ public class Order {
    * Order Status
    * @return status
   */
-  
   @Schema(name = "status", description = "Order Status", required = false)
-  public StatusEnum getStatus() {
+  public Optional<StatusEnum> getStatus() {
     return status;
   }
 
+  @JsonIgnore
   public void setStatus(StatusEnum status) {
-    this.status = status;
+    this.status = Optional.ofNullable(status);
   }
 
   public Order complete(Boolean complete) {
-    this.complete = complete;
+    this.complete = Optional.ofNullable(complete);
     return this;
   }
 
@@ -185,14 +187,14 @@ public class Order {
    * Get complete
    * @return complete
   */
-  
   @Schema(name = "complete", required = false)
-  public Boolean getComplete() {
+  public Optional<Boolean> getComplete() {
     return complete;
   }
 
+  @JsonIgnore
   public void setComplete(Boolean complete) {
-    this.complete = complete;
+    this.complete = Optional.ofNullable(complete);
   }
 
   @Override
@@ -212,9 +214,20 @@ public class Order {
         Objects.equals(this.complete, order.complete);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(id, petId, quantity, shipDate, status, complete);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

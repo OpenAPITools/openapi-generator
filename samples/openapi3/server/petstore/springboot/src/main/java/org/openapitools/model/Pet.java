@@ -2,11 +2,13 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -28,10 +30,10 @@ import javax.annotation.Generated;
 public class Pet {
 
   @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id = Optional.empty();
 
   @JsonProperty("category")
-  private Category category;
+  private Optional<Category> category = Optional.empty();
 
   @JsonProperty("name")
   private String name;
@@ -42,7 +44,7 @@ public class Pet {
 
   @JsonProperty("tags")
   @Valid
-  private List<Tag> tags = null;
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -82,10 +84,10 @@ public class Pet {
   }
 
   @JsonProperty("status")
-  private StatusEnum status;
+  private Optional<StatusEnum> status = Optional.empty();
 
   public Pet id(Long id) {
-    this.id = id;
+    this.id = Optional.ofNullable(id);
     return this;
   }
 
@@ -93,18 +95,18 @@ public class Pet {
    * Get id
    * @return id
   */
-  
   @Schema(name = "id", required = false)
-  public Long getId() {
+  public Optional<Long> getId() {
     return id;
   }
 
+  @JsonIgnore
   public void setId(Long id) {
-    this.id = id;
+    this.id = Optional.ofNullable(id);
   }
 
   public Pet category(Category category) {
-    this.category = category;
+    this.category = Optional.ofNullable(category);
     return this;
   }
 
@@ -112,14 +114,14 @@ public class Pet {
    * Get category
    * @return category
   */
-  @Valid 
   @Schema(name = "category", required = false)
-  public Category getCategory() {
+  public Optional<Category> getCategory() {
     return category;
   }
 
+  @JsonIgnore
   public void setCategory(Category category) {
-    this.category = category;
+    this.category = Optional.ofNullable(category);
   }
 
   public Pet name(String name) {
@@ -193,7 +195,7 @@ public class Pet {
   }
 
   public Pet status(StatusEnum status) {
-    this.status = status;
+    this.status = Optional.ofNullable(status);
     return this;
   }
 
@@ -201,14 +203,14 @@ public class Pet {
    * pet status in the store
    * @return status
   */
-  
   @Schema(name = "status", description = "pet status in the store", required = false)
-  public StatusEnum getStatus() {
+  public Optional<StatusEnum> getStatus() {
     return status;
   }
 
+  @JsonIgnore
   public void setStatus(StatusEnum status) {
-    this.status = status;
+    this.status = Optional.ofNullable(status);
   }
 
   @Override

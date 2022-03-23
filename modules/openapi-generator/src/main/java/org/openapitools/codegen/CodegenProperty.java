@@ -40,6 +40,31 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String dataType;
     public String datatypeWithEnum;
     public String dataFormat;
+
+    /**
+     * Detect support for Wrapper Types.
+     * When isWrapped is true, the dataType should be wrapped using wrapperType.
+     */
+    public boolean isWrapped;
+    /**
+     * The Wrapper Type itself. Wrapper Types are for Example {@link Optional} or
+     * org.openapitools.jackson.nullable.JsonNullable.
+     */
+    public String wrapperType;
+    /**
+     * The concrete Wrapped Type declaration, ie {@code JsonNullable<String>} or {@code Optional<String>}.
+     */
+    public String wrappedType;
+    /**
+     * A Function to wrap a dataType.
+     * For example JsonNullable.of or Optional.ofNullable.
+     */
+    public String wrapperFunc;
+    /**
+     * The wrapped defaultValue.
+     */
+    public String wrappedDefault;
+
     /**
      * The name of this property in the OpenAPI schema.
      */
@@ -960,6 +985,11 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
         sb.append(", composedSchemas=").append(composedSchemas);
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
+        sb.append(", isWrapped=").append(isWrapped);
+        sb.append(", wrapperType=").append(wrapperType);
+        sb.append(", wrappedType=").append(wrappedType);
+        sb.append(", wrapperFunc=").append(wrapperFunc);
+        sb.append(", wrappedDefault=").append(wrappedDefault);
         sb.append('}');
         return sb.toString();
     }
@@ -1060,7 +1090,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(xmlPrefix, that.xmlPrefix) &&
                 Objects.equals(xmlName, that.xmlName) &&
                 Objects.equals(xmlNamespace, that.xmlNamespace) &&
-                Objects.equals(multipleOf, that.multipleOf);
+                Objects.equals(multipleOf, that.multipleOf) &&
+                isWrapped == that.isWrapped &&
+                Objects.equals(wrapperType, that.wrapperType) &&
+                Objects.equals(wrappedType, that.wrappedType) &&
+                Objects.equals(wrapperFunc, that.wrapperFunc) &&
+                Objects.equals(wrappedDefault, that.wrappedDefault);
     }
 
     @Override
@@ -1080,6 +1115,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped, isNull, additionalPropertiesIsAnyType, hasVars, hasRequired,
-                hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes);
+                hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, isWrapped, wrapperType,
+                wrappedType, wrapperFunc, wrappedDefault);
     }
 }

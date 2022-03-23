@@ -703,6 +703,7 @@ components:
         status:
           type: string
           description: pet status in the store
+          nullable: true
           enum:
             - available
             - pending

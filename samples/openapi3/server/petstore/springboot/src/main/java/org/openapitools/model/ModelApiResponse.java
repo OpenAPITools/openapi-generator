@@ -2,9 +2,11 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -25,16 +27,16 @@ import javax.annotation.Generated;
 public class ModelApiResponse {
 
   @JsonProperty("code")
-  private Integer code;
+  private Optional<Integer> code = Optional.empty();
 
   @JsonProperty("type")
-  private String type;
+  private Optional<String> type = Optional.empty();
 
   @JsonProperty("message")
-  private String message;
+  private Optional<String> message = Optional.empty();
 
   public ModelApiResponse code(Integer code) {
-    this.code = code;
+    this.code = Optional.ofNullable(code);
     return this;
   }
 
@@ -42,18 +44,18 @@ public class ModelApiResponse {
    * Get code
    * @return code
   */
-  
   @Schema(name = "code", required = false)
-  public Integer getCode() {
+  public Optional<Integer> getCode() {
     return code;
   }
 
+  @JsonIgnore
   public void setCode(Integer code) {
-    this.code = code;
+    this.code = Optional.ofNullable(code);
   }
 
   public ModelApiResponse type(String type) {
-    this.type = type;
+    this.type = Optional.ofNullable(type);
     return this;
   }
 
@@ -61,18 +63,18 @@ public class ModelApiResponse {
    * Get type
    * @return type
   */
-  
   @Schema(name = "type", required = false)
-  public String getType() {
+  public Optional<String> getType() {
     return type;
   }
 
+  @JsonIgnore
   public void setType(String type) {
-    this.type = type;
+    this.type = Optional.ofNullable(type);
   }
 
   public ModelApiResponse message(String message) {
-    this.message = message;
+    this.message = Optional.ofNullable(message);
     return this;
   }
 
@@ -80,14 +82,14 @@ public class ModelApiResponse {
    * Get message
    * @return message
   */
-  
   @Schema(name = "message", required = false)
-  public String getMessage() {
+  public Optional<String> getMessage() {
     return message;
   }
 
+  @JsonIgnore
   public void setMessage(String message) {
-    this.message = message;
+    this.message = Optional.ofNullable(message);
   }
 
   @Override

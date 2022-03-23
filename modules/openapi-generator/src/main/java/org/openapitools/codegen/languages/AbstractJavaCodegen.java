@@ -17,40 +17,72 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.escape;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
-import static org.openapitools.codegen.utils.StringUtils.*;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
+import org.openapitools.codegen.languages.features.OptionalFeatures;
+import org.openapitools.codegen.meta.features.ClientModificationFeature;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig,
-        DocumentationProviderFeatures {
+        DocumentationProviderFeatures, OptionalFeatures {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
@@ -121,6 +153,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected AnnotationLibrary annotationLibrary;
     protected boolean implicitHeaders = false;
     protected String implicitHeadersRegex = null;
+    protected boolean useOptional = false;
+    protected boolean useOptionalInModel = false;
+    protected boolean exposeOptionalInSetter = false;
 
     public AbstractJavaCodegen() {
         super();
@@ -600,6 +635,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("IOException", "java.io.IOException");
         importMapping.put("Arrays", "java.util.Arrays");
         importMapping.put("Objects", "java.util.Objects");
+        importMapping.put("Optional", "java.util.Optional");
         importMapping.put("StringUtil", invokerPackage + ".StringUtil");
         // import JsonCreator if JsonProperty is imported
         // used later in recursive import in postProcessingModels
@@ -1302,9 +1338,43 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (openApiNullable) {
+            // see org.openapitools.codegen.java.JavaCXFClientCodegenTest.testPostProcessNullableModelPropertyWithOpenApiNullableEnabledForRequiredProperties
             if (Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
+                // Only add import when needed
                 model.imports.add("JsonNullable");
                 model.getVendorExtensions().put("x-jackson-optional-nullable-helpers", true);
+                property.getVendorExtensions().put("x-expose-wrapper-in-setter", true);
+                // Wrap dataType and defaults
+                property.isWrapped = true;
+                property.wrapperType = "JsonNullable";
+                property.wrappedType = "JsonNullable<" + property.datatypeWithEnum + ">";
+                property.wrapperFunc = "JsonNullable.of";
+                property.wrappedDefault = "JsonNullable.undefined()";
+                if (!property.isContainer && property.defaultValue != null) {
+                    property.wrappedDefault = "JsonNullable.of(" + property.defaultValue + ")";
+                }
+            }
+        }
+        if (useOptionalInModel) {
+            if (Boolean.FALSE.equals(property.required) && Boolean.FALSE.equals(property.isNullable)
+                && !property.isArray && !property.isMap) {
+                // Only add import when needed
+                model.imports.add("Optional");
+                if (exposeOptionalInSetter) {
+                    property.getVendorExtensions().put("x-expose-wrapper-in-setter", true);
+                } else {
+                    model.imports.add("JsonIgnore");
+                }
+                // Wrap dataType and defaults
+                property.isWrapped = true;
+                property.wrapperType = "Optional";
+                property.wrappedType = "Optional<" + property.datatypeWithEnum + ">";
+                property.wrapperFunc = "Optional.ofNullable";
+                if (property.defaultValue != null) {
+                    property.wrappedDefault = "Optional.of(" + property.defaultValue + ")";
+                } else {
+                    property.wrappedDefault = "Optional.empty()";
+                }
             }
         }
 
@@ -1841,6 +1911,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setImplicitHeadersRegex(String implicitHeadersRegex) {
         this.implicitHeadersRegex = implicitHeadersRegex;
+    }
+
+    @Override
+    public void setUseOptional(boolean useOptional) {
+        this.useOptional = useOptional;
+    }
+
+    @Override
+    public void setUseOptionalInModel(boolean useOptionalInModel) {
+        this.useOptionalInModel = useOptionalInModel;
+    }
+
+    @Override
+    public void setExposeOptionalInSetter(boolean exposeOptionalInSetter) {
+        this.exposeOptionalInSetter = exposeOptionalInSetter;
     }
 
     @Override
