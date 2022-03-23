@@ -555,21 +555,14 @@ fail:
     {{#vars}}
     {{#isContainer}}
     {{#isArray}}
-    {{#isPrimitiveType}}
     // define the local list for {{{classname}}}->{{{name}}}
     list_t *{{{name}}}List = NULL;
 
-    {{/isPrimitiveType}}
-    {{^isPrimitiveType}}
-    // define the local list for {{{classname}}}->{{{name}}}
-    list_t *{{{name}}}List = NULL;
-
-    {{/isPrimitiveType}}
     {{/isArray}}
     {{#isMap}}
-    // define the local list for {{{classname}}}->{{{name}}}
+    // define the local map for {{{classname}}}->{{{name}}}
     list_t *{{{name}}}List = NULL;
-    
+
     {{/isMap}}
     {{/isContainer}}
     {{^isContainer}}
@@ -774,6 +767,7 @@ fail:
     {{/isArray}}
     {{#isMap}}
     {{^required}}if ({{{name}}}) { {{/required}}
+    {{#isPrimitiveType}}
     cJSON *{{{name}}}_local_map = NULL;
     if(!cJSON_IsObject({{{name}}})) {
         goto end;//primitive map container
@@ -815,6 +809,12 @@ fail:
 		{{/items}}
         list_addElement({{{name}}}List , localMapKeyPair);
     }
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+
+    // The data type of the elements in {{{classname}}}->{{{name}}} is currently not supported.
+
+    {{/isPrimitiveType}}
     {{/isMap}}
     {{/isContainer}}
     {{^required}}
@@ -957,6 +957,7 @@ end:
     {{/isPrimitiveType}}
     {{/isArray}}
     {{#isMap}}
+    {{#isPrimitiveType}}
     if ({{{name}}}List) {
         listEntry_t *listEntry = NULL;
         list_ForEach(listEntry, {{{name}}}List) {
@@ -979,6 +980,12 @@ end:
         list_freeList({{{name}}}List);
         {{{name}}}List = NULL;
     }
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+
+    // The data type of the elements in {{{classname}}}->{{{name}}} is currently not supported.
+
+    {{/isPrimitiveType}}
     {{/isMap}}
     {{/isContainer}}
     {{/vars}}
