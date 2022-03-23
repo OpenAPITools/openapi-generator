@@ -46,7 +46,7 @@ paths:
       tags:
       - pet
       x-codegen-request-body-name: body
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: pet
@@ -83,7 +83,7 @@ paths:
       tags:
       - pet
       x-codegen-request-body-name: body
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: pet
@@ -279,7 +279,7 @@ paths:
       summary: Updates a pet in the store with form data
       tags:
       - pet
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
       x-tags:
       - tag: pet
@@ -320,7 +320,7 @@ paths:
       summary: uploads an image
       tags:
       - pet
-      x-contentType: multipart/form-data
+      x-content-type: multipart/form-data
       x-accepts: application/json
       x-tags:
       - tag: pet
@@ -373,7 +373,7 @@ paths:
       tags:
       - store
       x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-content-type: '*/*'
       x-accepts: application/json
       x-tags:
       - tag: store
@@ -457,7 +457,7 @@ paths:
       tags:
       - user
       x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-content-type: '*/*'
       x-accepts: application/json
       x-tags:
       - tag: user
@@ -481,7 +481,7 @@ paths:
       tags:
       - user
       x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-content-type: '*/*'
       x-accepts: application/json
       x-tags:
       - tag: user
@@ -505,7 +505,7 @@ paths:
       tags:
       - user
       x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-content-type: '*/*'
       x-accepts: application/json
       x-tags:
       - tag: user
@@ -651,7 +651,7 @@ paths:
       tags:
       - user
       x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-content-type: '*/*'
       x-accepts: application/json
       x-tags:
       - tag: user
@@ -679,7 +679,7 @@ paths:
       tags:
       - fake_classname_tags 123#$%^
       x-codegen-request-body-name: body
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: fake_classname_tags 123#$%^
@@ -834,7 +834,7 @@ paths:
       summary: To test enum parameters
       tags:
       - fake
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
       x-tags:
       - tag: fake
@@ -859,7 +859,7 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: fake
@@ -962,7 +962,7 @@ paths:
         가짜 엔드 포인트
       tags:
       - fake
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
       x-tags:
       - tag: fake
@@ -987,7 +987,7 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-content-type: '*/*'
       x-accepts: '*/*'
       x-tags:
       - tag: fake
@@ -1012,7 +1012,7 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-content-type: '*/*'
       x-accepts: '*/*'
       x-tags:
       - tag: fake
@@ -1037,7 +1037,7 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-content-type: '*/*'
       x-accepts: '*/*'
       x-tags:
       - tag: fake
@@ -1062,7 +1062,7 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
-      x-contentType: '*/*'
+      x-content-type: '*/*'
       x-accepts: '*/*'
       x-tags:
       - tag: fake
@@ -1091,7 +1091,7 @@ paths:
       summary: test json serialization of form data
       tags:
       - fake
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
       x-tags:
       - tag: fake
@@ -1115,7 +1115,7 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: param
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: fake
@@ -1141,7 +1141,7 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: fake
@@ -1179,7 +1179,7 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: XmlItem
-      x-contentType: application/xml
+      x-content-type: application/xml
       x-accepts: application/json
       x-tags:
       - tag: fake
@@ -1205,7 +1205,7 @@ paths:
       tags:
       - $another-fake?
       x-codegen-request-body-name: body
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: $another-fake?
@@ -1227,7 +1227,7 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: fake
@@ -1327,7 +1327,7 @@ paths:
       summary: uploads an image (required)
       tags:
       - pet
-      x-contentType: multipart/form-data
+      x-content-type: multipart/form-data
       x-accepts: application/json
       x-tags:
       - tag: pet

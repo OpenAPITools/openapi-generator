@@ -42,6 +42,7 @@ namespace Org.OpenAPITools.Model
         {
             if (nameProperty == null)
                 throw new ArgumentNullException("nameProperty is a required property for Name and cannot be null.");
+
             NameProperty = nameProperty;
             SnakeCase = snakeCase;
             Property = property;

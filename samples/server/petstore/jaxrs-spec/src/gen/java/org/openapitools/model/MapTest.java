@@ -19,7 +19,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("MapTest")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MapTest  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class MapTest  implements Serializable {
   
   private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
@@ -74,14 +75,18 @@ public enum InnerEnum {
   private @Valid Map<String, Boolean> directMap = new HashMap<>();
   private @Valid Map<String, Boolean> indirectMap = new HashMap<>();
 
+  protected MapTest(MapTestBuilder<?, ?> b) {
+  this.mapMapOfString = b.mapMapOfString;this.mapOfEnumString = b.mapOfEnumString;this.directMap = b.directMap;this.indirectMap = b.indirectMap;
+  }
+
+  public MapTest() { }
+
   /**
    **/
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -119,8 +124,6 @@ public enum InnerEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("map_of_enum_string")
   public Map<String, InnerEnum> getMapOfEnumString() {
@@ -156,8 +159,6 @@ public enum InnerEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("direct_map")
   public Map<String, Boolean> getDirectMap() {
@@ -191,8 +192,6 @@ public enum InnerEnum {
     this.indirectMap = indirectMap;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -268,5 +267,48 @@ public enum InnerEnum {
   }
 
 
+  public static MapTestBuilder<?, ?> builder() {
+    return new MapTestBuilderImpl();
+  }
+
+  private static final class MapTestBuilderImpl extends MapTestBuilder<MapTest, MapTestBuilderImpl> {
+
+    @Override
+    protected MapTestBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public MapTest build() {
+      return new MapTest(this);
+    }
+  }
+
+  public static abstract class MapTestBuilder<C extends MapTest, B extends MapTestBuilder<C, B>>  {
+    private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+    private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+    private Map<String, Boolean> directMap = new HashMap<>();
+    private Map<String, Boolean> indirectMap = new HashMap<>();
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+      this.mapMapOfString = mapMapOfString;
+      return self();
+    }
+    public B mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+      this.mapOfEnumString = mapOfEnumString;
+      return self();
+    }
+    public B directMap(Map<String, Boolean> directMap) {
+      this.directMap = directMap;
+      return self();
+    }
+    public B indirectMap(Map<String, Boolean> indirectMap) {
+      this.indirectMap = indirectMap;
+      return self();
+    }
+  }
 }
 

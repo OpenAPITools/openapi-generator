@@ -21,8 +21,8 @@ import java.math.BigDecimal;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import org.openapitools.model.ModelClient;
+import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
@@ -57,7 +57,7 @@ public interface FakeApi {
      * @return Boolean
      */
     @Post(uri="/fake/outer/boolean")
-    @Produces(value={"application/json"})
+    @Produces(value={"*/*"})
     @Consumes(value={"*/*"})
     Mono<Boolean> fakeOuterBooleanSerialize(
         @Body @Nullable Boolean _body
@@ -69,7 +69,7 @@ public interface FakeApi {
      * @return OuterComposite
      */
     @Post(uri="/fake/outer/composite")
-    @Produces(value={"application/json"})
+    @Produces(value={"*/*"})
     @Consumes(value={"*/*"})
     Mono<OuterComposite> fakeOuterCompositeSerialize(
         @Body @Nullable @Valid OuterComposite _body
@@ -81,7 +81,7 @@ public interface FakeApi {
      * @return BigDecimal
      */
     @Post(uri="/fake/outer/number")
-    @Produces(value={"application/json"})
+    @Produces(value={"*/*"})
     @Consumes(value={"*/*"})
     Mono<BigDecimal> fakeOuterNumberSerialize(
         @Body @Nullable BigDecimal _body
@@ -93,7 +93,7 @@ public interface FakeApi {
      * @return String
      */
     @Post(uri="/fake/outer/string")
-    @Produces(value={"application/json"})
+    @Produces(value={"*/*"})
     @Consumes(value={"*/*"})
     Mono<String> fakeOuterStringSerialize(
         @Body @Nullable String _body
@@ -169,7 +169,7 @@ public interface FakeApi {
         @Nullable @Pattern(regexp="/[a-z]/i") String string, 
         @Nullable File binary, 
         @Nullable @Format("yyyy-MM-dd") LocalDate date, 
-        @Nullable @Format("yyyy-MM-dd'T'HH:mm:ss.SSSXXXX") LocalDateTime dateTime, 
+        @Nullable @Format("yyyy-MM-dd'T'HH:mm:ss.SSSXXXX") OffsetDateTime dateTime, 
         @Nullable @Size(min=10, max=64) String password, 
         @Nullable String paramCallback
   );

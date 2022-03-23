@@ -28,7 +28,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class ObjectWithUniqueItems   {
+public class ObjectWithUniqueItems {
 
   @JsonProperty("nullSet")
   @Valid

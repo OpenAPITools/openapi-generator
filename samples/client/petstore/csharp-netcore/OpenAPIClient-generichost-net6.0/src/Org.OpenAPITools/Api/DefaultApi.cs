@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;InlineResponseDefault&gt;&gt;</returns>
         Task<ApiResponse<InlineResponseDefault>> FooGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -75,22 +75,22 @@ namespace Org.OpenAPITools.Api
         /// A token provider of type <see cref="ApiKeyProvider"/>
         /// </summary>
         public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="BearerToken"/>
         /// </summary>
         public TokenProvider<BearerToken> BearerTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="BasicTokenProvider"/>
         /// </summary>
         public TokenProvider<BasicToken> BasicTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="HttpSignatureTokenProvider"/>
         /// </summary>
         public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="OauthTokenProvider"/>
         /// </summary>
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Api
         public async Task<InlineResponseDefault> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<InlineResponseDefault> result = await FooGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -172,11 +172,11 @@ namespace Org.OpenAPITools.Api
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/foo";
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     string[] accepts = new string[] { 
                         "application/json" 
                     };
-                    
+
                     string accept = ClientUtils.SelectHeaderAccept(accepts);
 
                     if (accept != null)

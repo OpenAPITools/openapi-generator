@@ -39,6 +39,7 @@ namespace Org.OpenAPITools.Model
         {
             if (shapeType == null)
                 throw new ArgumentNullException("shapeType is a required property for ShapeInterface and cannot be null.");
+
             ShapeType = shapeType;
         }
 

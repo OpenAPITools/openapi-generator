@@ -268,7 +268,7 @@ Name | Type | Description  | Notes
  **string** | `String`| None | [optional parameter]
  **binary** | `File`| None | [optional parameter]
  **date** | `LocalDate`| None | [optional parameter]
- **dateTime** | `LocalDateTime`| None | [optional parameter]
+ **dateTime** | `OffsetDateTime`| None | [optional parameter]
  **password** | `String`| None | [optional parameter]
  **paramCallback** | `String`| None | [optional parameter]
 

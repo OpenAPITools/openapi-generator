@@ -41,8 +41,10 @@ namespace Org.OpenAPITools.Model
         {
             if (shapeType == null)
                 throw new ArgumentNullException("shapeType is a required property for Triangle and cannot be null.");
+
             if (triangleType == null)
                 throw new ArgumentNullException("triangleType is a required property for Triangle and cannot be null.");
+
             EquilateralTriangle = equilateralTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;
@@ -58,8 +60,10 @@ namespace Org.OpenAPITools.Model
         {
             if (shapeType == null)
                 throw new ArgumentNullException("shapeType is a required property for Triangle and cannot be null.");
+
             if (triangleType == null)
                 throw new ArgumentNullException("triangleType is a required property for Triangle and cannot be null.");
+
             IsoscelesTriangle = isoscelesTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;
@@ -75,8 +79,10 @@ namespace Org.OpenAPITools.Model
         {
             if (shapeType == null)
                 throw new ArgumentNullException("shapeType is a required property for Triangle and cannot be null.");
+
             if (triangleType == null)
                 throw new ArgumentNullException("triangleType is a required property for Triangle and cannot be null.");
+
             ScaleneTriangle = scaleneTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;

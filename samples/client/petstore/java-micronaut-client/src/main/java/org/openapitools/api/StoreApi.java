@@ -69,7 +69,7 @@ public interface StoreApi {
      * @return Order
      */
     @Post(uri="/store/order")
-    @Produces(value={"application/json"})
+    @Produces(value={"*/*"})
     @Consumes(value={"application/json"})
     Mono<Order> placeOrder(
         @Body @NotNull @Valid Order _body

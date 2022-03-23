@@ -209,7 +209,7 @@
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
 {{#vendorExtensions}}
@@ -279,7 +279,7 @@
                 // Form Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw();
+                let result = body.into_raw();
                 match result.await {
                             Ok(body) => {
                                 use std::io::Read;
@@ -368,7 +368,7 @@
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw();
+                let result = body.into_raw();
                 match result.await {
                             Ok(body) => {
                                 let mut unused_elements: Vec<String> = vec![];

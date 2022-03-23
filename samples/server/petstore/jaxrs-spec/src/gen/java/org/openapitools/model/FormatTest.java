@@ -22,7 +22,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class FormatTest  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class FormatTest  implements Serializable {
   
   private @Valid Integer integer;
   private @Valid Integer int32;
@@ -39,6 +40,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   private @Valid String password;
   private @Valid BigDecimal bigDecimal;
 
+  protected FormatTest(FormatTestBuilder<?, ?> b) {
+  this.integer = b.integer;this.int32 = b.int32;this.int64 = b.int64;this.number = b.number;this._float = b._float;this._double = b._double;this.string = b.string;this._byte = b._byte;this.binary = b.binary;this.date = b.date;this.dateTime = b.dateTime;this.uuid = b.uuid;this.password = b.password;this.bigDecimal = b.bigDecimal;
+  }
+
+  public FormatTest() { }
+
   /**
    * minimum: 10
    * maximum: 100
@@ -47,8 +54,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.integer = integer;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -72,8 +77,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("int32")
  @Min(20) @Max(200)  public Integer getInt32() {
@@ -91,8 +94,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.int64 = int64;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -114,8 +115,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.number = number;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -140,8 +139,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("float")
  @DecimalMin("54.3") @DecimalMax("987.6")  public Float getFloat() {
@@ -163,8 +160,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("double")
  @DecimalMin("67.8") @DecimalMax("123.4")  public Double getDouble() {
@@ -184,8 +179,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("string")
  @Pattern(regexp="/[a-z]/i")  public String getString() {
@@ -203,8 +196,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this._byte = _byte;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -227,8 +218,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("binary")
   public File getBinary() {
@@ -246,8 +235,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.date = date;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -270,8 +257,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
@@ -289,8 +274,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.uuid = uuid;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
@@ -312,8 +295,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("password")
   @NotNull
@@ -332,8 +313,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.bigDecimal = bigDecimal;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -413,5 +392,98 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static FormatTestBuilder<?, ?> builder() {
+    return new FormatTestBuilderImpl();
+  }
+
+  private static final class FormatTestBuilderImpl extends FormatTestBuilder<FormatTest, FormatTestBuilderImpl> {
+
+    @Override
+    protected FormatTestBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public FormatTest build() {
+      return new FormatTest(this);
+    }
+  }
+
+  public static abstract class FormatTestBuilder<C extends FormatTest, B extends FormatTestBuilder<C, B>>  {
+    private Integer integer;
+    private Integer int32;
+    private Long int64;
+    private BigDecimal number;
+    private Float _float;
+    private Double _double;
+    private String string;
+    private byte[] _byte;
+    private File binary;
+    private LocalDate date;
+    private Date dateTime;
+    private UUID uuid;
+    private String password;
+    private BigDecimal bigDecimal;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B integer(Integer integer) {
+      this.integer = integer;
+      return self();
+    }
+    public B int32(Integer int32) {
+      this.int32 = int32;
+      return self();
+    }
+    public B int64(Long int64) {
+      this.int64 = int64;
+      return self();
+    }
+    public B number(BigDecimal number) {
+      this.number = number;
+      return self();
+    }
+    public B _float(Float _float) {
+      this._float = _float;
+      return self();
+    }
+    public B _double(Double _double) {
+      this._double = _double;
+      return self();
+    }
+    public B string(String string) {
+      this.string = string;
+      return self();
+    }
+    public B _byte(byte[] _byte) {
+      this._byte = _byte;
+      return self();
+    }
+    public B binary(File binary) {
+      this.binary = binary;
+      return self();
+    }
+    public B date(LocalDate date) {
+      this.date = date;
+      return self();
+    }
+    public B dateTime(Date dateTime) {
+      this.dateTime = dateTime;
+      return self();
+    }
+    public B uuid(UUID uuid) {
+      this.uuid = uuid;
+      return self();
+    }
+    public B password(String password) {
+      this.password = password;
+      return self();
+    }
+    public B bigDecimal(BigDecimal bigDecimal) {
+      this.bigDecimal = bigDecimal;
+      return self();
+    }
+  }
 }
 

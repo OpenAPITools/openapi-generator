@@ -230,10 +230,6 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
                 "Suffix that will be appended to all enum values.",
                 enumValueSuffix);
 
-        addSwitch(GENERATE_BODY,
-                "Generates method body.",
-                generateBody);
-
         classModifier.addEnum("", "Keep class default with no modifier");
         classModifier.addEnum("abstract", "Make class abstract");
         classModifier.setDefault("");

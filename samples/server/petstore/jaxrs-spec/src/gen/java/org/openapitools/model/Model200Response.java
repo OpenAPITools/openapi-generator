@@ -19,10 +19,17 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  **/
 @ApiModel(description = "Model for testing model name starting with number")
 @JsonTypeName("200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Model200Response  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Model200Response  implements Serializable {
   
   private @Valid Integer name;
   private @Valid String propertyClass;
+
+  protected Model200Response(Model200ResponseBuilder<?, ?> b) {
+  this.name = b.name;this.propertyClass = b.propertyClass;
+  }
+
+  public Model200Response() { }
 
   /**
    **/
@@ -30,8 +37,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.name = name;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -51,8 +56,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.propertyClass = propertyClass;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -108,5 +111,38 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static Model200ResponseBuilder<?, ?> builder() {
+    return new Model200ResponseBuilderImpl();
+  }
+
+  private static final class Model200ResponseBuilderImpl extends Model200ResponseBuilder<Model200Response, Model200ResponseBuilderImpl> {
+
+    @Override
+    protected Model200ResponseBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Model200Response build() {
+      return new Model200Response(this);
+    }
+  }
+
+  public static abstract class Model200ResponseBuilder<C extends Model200Response, B extends Model200ResponseBuilder<C, B>>  {
+    private Integer name;
+    private String propertyClass;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B name(Integer name) {
+      this.name = name;
+      return self();
+    }
+    public B propertyClass(String propertyClass) {
+      this.propertyClass = propertyClass;
+      return self();
+    }
+  }
 }
 

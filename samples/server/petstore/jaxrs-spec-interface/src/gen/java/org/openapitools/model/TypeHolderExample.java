@@ -19,7 +19,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("TypeHolderExample")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class TypeHolderExample  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class TypeHolderExample  implements Serializable {
   
   private @Valid String stringItem;
   private @Valid BigDecimal numberItem;
@@ -34,8 +35,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.stringItem = stringItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "what", required = true, value = "")
@@ -58,8 +57,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty("number_item")
   @NotNull
@@ -78,8 +75,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.floatItem = floatItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", required = true, value = "")
@@ -102,8 +97,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(example = "-2", required = true, value = "")
   @JsonProperty("integer_item")
   @NotNull
@@ -124,8 +117,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(example = "true", required = true, value = "")
   @JsonProperty("bool_item")
   @NotNull
@@ -144,8 +135,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayItem = arrayItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")

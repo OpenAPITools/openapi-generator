@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="quadrilateralInterface">quadrilateralInterface</param>
         /// <param name="shapeInterface">shapeInterface</param>
-        public ComplexQuadrilateral(QuadrilateralInterface quadrilateralInterface, ShapeInterface shapeInterface)
+        public ComplexQuadrilateral(QuadrilateralInterface? quadrilateralInterface, ShapeInterface? shapeInterface)
         {
             QuadrilateralInterface = quadrilateralInterface;
             ShapeInterface = shapeInterface;

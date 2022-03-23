@@ -19,9 +19,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ArrayOfArrayOfNumberOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ArrayOfArrayOfNumberOnly  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class ArrayOfArrayOfNumberOnly  implements Serializable {
   
   private @Valid List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
+
+  protected ArrayOfArrayOfNumberOnly(ArrayOfArrayOfNumberOnlyBuilder<?, ?> b) {
+  this.arrayArrayNumber = b.arrayArrayNumber;
+  }
+
+  public ArrayOfArrayOfNumberOnly() { }
 
   /**
    **/
@@ -29,8 +36,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -100,5 +105,33 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static ArrayOfArrayOfNumberOnlyBuilder<?, ?> builder() {
+    return new ArrayOfArrayOfNumberOnlyBuilderImpl();
+  }
+
+  private static final class ArrayOfArrayOfNumberOnlyBuilderImpl extends ArrayOfArrayOfNumberOnlyBuilder<ArrayOfArrayOfNumberOnly, ArrayOfArrayOfNumberOnlyBuilderImpl> {
+
+    @Override
+    protected ArrayOfArrayOfNumberOnlyBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public ArrayOfArrayOfNumberOnly build() {
+      return new ArrayOfArrayOfNumberOnly(this);
+    }
+  }
+
+  public static abstract class ArrayOfArrayOfNumberOnlyBuilder<C extends ArrayOfArrayOfNumberOnly, B extends ArrayOfArrayOfNumberOnlyBuilder<C, B>>  {
+    private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+      this.arrayArrayNumber = arrayArrayNumber;
+      return self();
+    }
+  }
 }
 

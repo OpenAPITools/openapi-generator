@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("just_symbol")]
         public JustSymbolEnum JustSymbol { get; set; }
-        
+
         /// <summary>
         /// Defines ArrayEnum
         /// </summary>
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("array_enum")]
         public List<ArrayEnumEnum> ArrayEnum { get; set; }
-        
+
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>

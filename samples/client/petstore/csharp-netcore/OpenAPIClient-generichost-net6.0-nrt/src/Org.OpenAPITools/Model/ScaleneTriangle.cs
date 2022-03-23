@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="shapeInterface">shapeInterface</param>
         /// <param name="triangleInterface">triangleInterface</param>
-        public ScaleneTriangle(ShapeInterface shapeInterface, TriangleInterface triangleInterface)
+        public ScaleneTriangle(ShapeInterface? shapeInterface, TriangleInterface? triangleInterface)
         {
             ShapeInterface = shapeInterface;
             TriangleInterface = triangleInterface;

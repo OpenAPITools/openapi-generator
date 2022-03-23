@@ -60,7 +60,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("pet_type")]
         public PetTypeEnum? PetType { get; set; }
-        
+
         /// <summary>
         /// Gets or Sets Name
         /// </summary>

@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object?&gt;&gt;</returns>
         Task<ApiResponse<object?>> DeleteOrderWithHttpInfoAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Delete purchase order by ID
         /// </summary>
@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object?> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Delete purchase order by ID
         /// </summary>
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Dictionary&lt;string, int&gt;?&gt;&gt;</returns>
         Task<ApiResponse<Dictionary<string, int>?>> GetInventoryWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Returns pet inventories by status
         /// </summary>
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Dictionary&lt;string, int&gt;&gt;</returns>
         Task<Dictionary<string, int>?> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Returns pet inventories by status
         /// </summary>
@@ -105,7 +105,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Order?&gt;&gt;</returns>
         Task<ApiResponse<Order?>> GetOrderByIdWithHttpInfoAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
@@ -117,7 +117,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Order&gt;</returns>
         Task<Order?> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Order?&gt;&gt;</returns>
         Task<ApiResponse<Order?>> PlaceOrderWithHttpInfoAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Order&gt;</returns>
         Task<Order?> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -190,22 +190,22 @@ namespace Org.OpenAPITools.Api
         /// A token provider of type <see cref="ApiKeyProvider"/>
         /// </summary>
         public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="BearerToken"/>
         /// </summary>
         public TokenProvider<BearerToken> BearerTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="BasicTokenProvider"/>
         /// </summary>
         public TokenProvider<BasicToken> BasicTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="HttpSignatureTokenProvider"/>
         /// </summary>
         public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="OauthTokenProvider"/>
         /// </summary>
@@ -241,7 +241,7 @@ namespace Org.OpenAPITools.Api
         public async Task<object?> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object?> result = await DeleteOrderWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -286,9 +286,9 @@ namespace Org.OpenAPITools.Api
 
                 if (orderId == null)
                     throw new ArgumentNullException(nameof(orderId));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -344,7 +344,7 @@ namespace Org.OpenAPITools.Api
         public async Task<Dictionary<string, int>?> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<Dictionary<string, int>?> result = await GetInventoryWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -391,19 +391,19 @@ namespace Org.OpenAPITools.Api
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/inventory";
 
                     List<TokenBase> tokens = new List<TokenBase>();
-                    
+
                     ApiKeyToken apiKey = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-                    
+
                     tokens.Add(apiKey);
-                    
+
                     apiKey.UseInHeader(request, "api_key");
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     string[] accepts = new string[] { 
                         "application/json" 
                     };
-                    
+
                     string? accept = ClientUtils.SelectHeaderAccept(accepts);
 
                     if (accept != null)
@@ -458,7 +458,7 @@ namespace Org.OpenAPITools.Api
         public async Task<Order?> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<Order?> result = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -503,9 +503,9 @@ namespace Org.OpenAPITools.Api
 
                 if (orderId == null)
                     throw new ArgumentNullException(nameof(orderId));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -515,12 +515,12 @@ namespace Org.OpenAPITools.Api
                     uriBuilder.Path = uriBuilder.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     string[] accepts = new string[] { 
                         "application/xml", 
                         "application/json" 
                     };
-                    
+
                     string? accept = ClientUtils.SelectHeaderAccept(accepts);
 
                     if (accept != null)
@@ -572,7 +572,7 @@ namespace Org.OpenAPITools.Api
         public async Task<Order?> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<Order?> result = await PlaceOrderWithHttpInfoAsync(order, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -617,38 +617,36 @@ namespace Org.OpenAPITools.Api
 
                 if (order == null)
                     throw new ArgumentNullException(nameof(order));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order";
-                    
-                    if ((order as object) is System.IO.Stream stream)
-                        request.Content = new StreamContent(stream);
-                    else
-                        // request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(order, ClientUtils.JsonSerializerSettings));
-                        request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(order, ClientUtils.JsonSerializerOptions));
+
+                    request.Content = (order as object) is System.IO.Stream stream
+                        ? request.Content = new StreamContent(stream)
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(order, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     string[] contentTypes = new string[] {
                         "application/json" 
                     };
-                    
+
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
-                    
+
                     string[] accepts = new string[] { 
                         "application/xml", 
                         "application/json" 
                     };
-                    
+
                     string? accept = ClientUtils.SelectHeaderAccept(accepts);
 
                     if (accept != null)

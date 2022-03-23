@@ -33,7 +33,7 @@ import javax.annotation.Generated;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")
-public class Pet   {
+public class Pet {
 
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
