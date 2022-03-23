@@ -176,8 +176,8 @@ class ObjectSerializer
         string $style = 'form',
         bool $explode = true
     ): array {
-        // return empty string
-        if (empty($value)) return ["{$paramName}" => ''];
+        // return empty array
+        if (empty($value)) return [];
 
         $query = [];
         $value = (in_array($openApiType, ['object', 'array'], true)) ? (array)$value : $value;
@@ -209,10 +209,26 @@ class ObjectSerializer
             return $value;
         }
 
+        if ($openApiType === 'boolean' && is_bool($value)) {
+            $value = self::convertBoolToQueryStringFormat($value);
+        }
+
         // handle style in serializeCollection
         $query[$paramName] = ($explode) ? $value : self::serializeCollection((array)$value, $style);
 
         return $query;
+    }
+
+    /**
+     * Convert boolean value to format for query string
+     *
+     * @param bool $value Boolean value
+     *
+     * @return string Boolean value in format
+     */
+    public static function convertBoolToQueryStringFormat(bool $value): string
+    {
+        return (int) $value;
     }
 
     /**
