@@ -35,12 +35,12 @@ class PetApi(baseUrl: String) {
    * @param pet Pet object that needs to be added to the store
    */
   def addPet(pet: Pet
-): Request[Either[ResponseException[String, Exception], Pet], Nothing] =
+): Request[Either[ResponseException[String, Exception], Pet], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet")
       .contentType("application/json")
       .body(pet)
-      .response(asJson[Pet])
+.response(asJson[Pet])
 
   /**
    * 
@@ -52,12 +52,12 @@ class PetApi(baseUrl: String) {
    * @param apiKey 
    */
   def deletePet(petId: Long, apiKey: Option[String] = None
-): Request[Either[ResponseException[String, Exception], Unit], Nothing] =
+): Request[Either[ResponseException[String, Exception], Unit], Any] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
       .header("api_key", apiKey)
-      .response(asJson[Unit])
+.response(asJson[Unit])
 
   /**
    * Multiple status values can be provided with comma separated strings
@@ -69,11 +69,11 @@ class PetApi(baseUrl: String) {
    * @param status Status values that need to be considered for filter
    */
   def findPetsByStatus(status: Seq[String]
-): Request[Either[ResponseException[String, Exception], Seq[Pet]], Nothing] =
+): Request[Either[ResponseException[String, Exception], Seq[Pet]], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/findByStatus?status=${ status }")
       .contentType("application/json")
-      .response(asJson[Seq[Pet]])
+.response(asJson[Seq[Pet]])
 
   /**
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -85,11 +85,11 @@ class PetApi(baseUrl: String) {
    * @param tags Tags to filter by
    */
   def findPetsByTags(tags: Seq[String]
-): Request[Either[ResponseException[String, Exception], Seq[Pet]], Nothing] =
+): Request[Either[ResponseException[String, Exception], Seq[Pet]], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/findByTags?tags=${ tags }")
       .contentType("application/json")
-      .response(asJson[Seq[Pet]])
+.response(asJson[Seq[Pet]])
 
   /**
    * Returns a single pet
@@ -105,12 +105,12 @@ class PetApi(baseUrl: String) {
    * @param petId ID of pet to return
    */
   def getPetById(apiKey: String)(petId: Long
-): Request[Either[ResponseException[String, Exception], Pet], Nothing] =
+): Request[Either[ResponseException[String, Exception], Pet], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
       .header("api_key", apiKey)
-      .response(asJson[Pet])
+.response(asJson[Pet])
 
   /**
    * 
@@ -124,12 +124,12 @@ class PetApi(baseUrl: String) {
    * @param pet Pet object that needs to be added to the store
    */
   def updatePet(pet: Pet
-): Request[Either[ResponseException[String, Exception], Pet], Nothing] =
+): Request[Either[ResponseException[String, Exception], Pet], Any] =
     basicRequest
       .method(Method.PUT, uri"$baseUrl/pet")
       .contentType("application/json")
       .body(pet)
-      .response(asJson[Pet])
+.response(asJson[Pet])
 
   /**
    * 
@@ -142,7 +142,7 @@ class PetApi(baseUrl: String) {
    * @param status Updated status of the pet
    */
   def updatePetWithForm(petId: Long, name: Option[String] = None, status: Option[String] = None
-): Request[Either[ResponseException[String, Exception], Unit], Nothing] =
+): Request[Either[ResponseException[String, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet/${petId}")
       .contentType("application/x-www-form-urlencoded")
@@ -150,7 +150,7 @@ class PetApi(baseUrl: String) {
         "name" -> name,
         "status" -> status
       ))
-      .response(asJson[Unit])
+.response(asJson[Unit])
 
   /**
    * 
@@ -163,7 +163,7 @@ class PetApi(baseUrl: String) {
    * @param file file to upload
    */
   def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None
-): Request[Either[ResponseException[String, Exception], ApiResponse], Nothing] =
+): Request[Either[ResponseException[String, Exception], ApiResponse], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet/${petId}/uploadImage")
       .contentType("multipart/form-data")
@@ -173,6 +173,6 @@ class PetApi(baseUrl: String) {
                 file.map(multipartFile("file", _))
 
       ).flatten)
-      .response(asJson[ApiResponse])
+.response(asJson[ApiResponse])
 
 }

@@ -33,11 +33,11 @@ class StoreApi(baseUrl: String) {
    * @param orderId ID of the order that needs to be deleted
    */
   def deleteOrder(orderId: String
-): Request[Either[ResponseException[String, Exception], Unit], Nothing] =
+): Request[Either[ResponseException[String, Exception], Unit], Any] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
-      .response(asJson[Unit])
+.response(asJson[Unit])
 
   /**
    * Returns a map of status codes to quantities
@@ -49,12 +49,12 @@ class StoreApi(baseUrl: String) {
    *   api_key (apiKey)
    */
   def getInventory(apiKey: String)(
-): Request[Either[ResponseException[String, Exception], Map[String, Int]], Nothing] =
+): Request[Either[ResponseException[String, Exception], Map[String, Int]], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/inventory")
       .contentType("application/json")
       .header("api_key", apiKey)
-      .response(asJson[Map[String, Int]])
+.response(asJson[Map[String, Int]])
 
   /**
    * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -67,11 +67,11 @@ class StoreApi(baseUrl: String) {
    * @param orderId ID of pet that needs to be fetched
    */
   def getOrderById(orderId: Long
-): Request[Either[ResponseException[String, Exception], Order], Nothing] =
+): Request[Either[ResponseException[String, Exception], Order], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
-      .response(asJson[Order])
+.response(asJson[Order])
 
   /**
    * 
@@ -83,11 +83,11 @@ class StoreApi(baseUrl: String) {
    * @param order order placed for purchasing the pet
    */
   def placeOrder(order: Order
-): Request[Either[ResponseException[String, Exception], Order], Nothing] =
+): Request[Either[ResponseException[String, Exception], Order], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/store/order")
       .contentType("application/json")
       .body(order)
-      .response(asJson[Order])
+.response(asJson[Order])
 
 }
