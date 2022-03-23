@@ -21,7 +21,7 @@ import javax.annotation.Generated;
 
 @Schema(name = "Tag", description = "A tag for a pet")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Tag   {
+public class Tag {
 
   @JsonProperty("id")
   private Optional<Long> id = Optional.empty();

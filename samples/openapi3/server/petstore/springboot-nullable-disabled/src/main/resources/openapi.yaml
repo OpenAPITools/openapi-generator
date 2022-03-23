@@ -36,7 +36,7 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: pet
@@ -59,7 +59,7 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: pet
@@ -255,7 +255,7 @@ paths:
       summary: Updates a pet in the store with form data
       tags:
       - pet
-      x-contentType: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
       x-tags:
       - tag: pet
@@ -301,7 +301,7 @@ paths:
       summary: uploads an image
       tags:
       - pet
-      x-contentType: multipart/form-data
+      x-content-type: multipart/form-data
       x-accepts: application/json
       x-tags:
       - tag: pet
@@ -353,7 +353,7 @@ paths:
       summary: Place an order for a pet
       tags:
       - store
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: store
@@ -437,7 +437,7 @@ paths:
       summary: Create user
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: user
@@ -455,7 +455,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: user
@@ -473,7 +473,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: user
@@ -642,7 +642,7 @@ paths:
       summary: Updated user
       tags:
       - user
-      x-contentType: application/json
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: user
