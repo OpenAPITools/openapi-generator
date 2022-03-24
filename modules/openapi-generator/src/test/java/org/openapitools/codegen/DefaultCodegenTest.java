@@ -36,6 +36,8 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.templating.mustache.LowercaseLambda;
@@ -776,8 +778,8 @@ public class DefaultCodegenTest {
     @Test
     public void postProcessModelsEnumWithPrefixRemoved() {
         final DefaultCodegen codegen = new DefaultCodegen();
-        Map<String, Object> objs = codegenModel(Arrays.asList("animal_dog", "animal_cat"));
-        CodegenModel cm = (CodegenModel) ((Map<String, Object>) ((List<Object>) objs.get("models")).get(0)).get("model");
+        ModelsMap objs = codegenModel(Arrays.asList("animal_dog", "animal_cat"));
+        CodegenModel cm = objs.getModels().get(0).getModel();
 
         codegen.postProcessModelsEnum(objs);
 
@@ -795,8 +797,8 @@ public class DefaultCodegenTest {
     public void postProcessModelsEnumWithoutPrefixRemoved() {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setRemoveEnumValuePrefix(false);
-        Map<String, Object> objs = codegenModel(Arrays.asList("animal_dog", "animal_cat"));
-        CodegenModel cm = (CodegenModel) ((Map<String, Object>) ((List<Object>) objs.get("models")).get(0)).get("model");
+        ModelsMap objs = codegenModel(Arrays.asList("animal_dog", "animal_cat"));
+        CodegenModel cm = objs.getModels().get(0).getModel();
 
         codegen.postProcessModelsEnum(objs);
 
@@ -813,8 +815,8 @@ public class DefaultCodegenTest {
     @Test
     public void postProcessModelsEnumWithExtension() {
         final DefaultCodegen codegen = new DefaultCodegen();
-        Map<String, Object> objs = codegenModelWithXEnumVarName();
-        CodegenModel cm = (CodegenModel) ((Map<String, Object>) ((List<Object>) objs.get("models")).get(0)).get("model");
+        ModelsMap objs = codegenModelWithXEnumVarName();
+        CodegenModel cm = objs.getModels().get(0).getModel();
 
         codegen.postProcessModelsEnum(objs);
 
@@ -1514,10 +1516,9 @@ public class DefaultCodegenTest {
         assertEquals(discriminator, test);
     }
 
-    public CodegenModel getModel(List<Object> allModels, String modelName) {
-        for (Object obj: allModels) {
-            HashMap<String, Object> hm = (HashMap<String, Object>) obj;
-            CodegenModel cm = (CodegenModel) hm.get("model");
+    public CodegenModel getModel(List<ModelMap> allModels, String modelName) {
+        for (ModelMap obj: allModels) {
+            CodegenModel cm = obj.getModel();
             if (modelName.equals(cm.name)) {
                 return cm;
             }
@@ -1546,7 +1547,7 @@ public class DefaultCodegenTest {
         // because children are assigned in config.updateAllModels which is invoked in generator.generateModels
         List<File> files = new ArrayList<>();
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
-        List<Object> allModels = new ArrayList<>();
+        List<ModelMap> allModels = new ArrayList<>();
         generator.generateModels(files, allModels, filteredSchemas);
 
         // check that the model's children contain the x-discriminator-values
@@ -2017,18 +2018,17 @@ public class DefaultCodegenTest {
         return var;
     }
 
-    private Map<String, Object> codegenModel(List<String> values) {
+    private ModelsMap codegenModel(List<String> values) {
         final CodegenModel cm = new CodegenModel();
         cm.isEnum = true;
         final HashMap<String, Object> allowableValues = new HashMap<>();
         allowableValues.put("values", values);
         cm.setAllowableValues(allowableValues);
         cm.dataType = "String";
-        Map<String, Object> objs = Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm)));
-        return objs;
+        return TestUtils.createCodegenModelWrapper(cm);
     }
 
-    private Map<String, Object> codegenModelWithXEnumVarName() {
+    private ModelsMap codegenModelWithXEnumVarName() {
         final CodegenModel cm = new CodegenModel();
         cm.isEnum = true;
         final HashMap<String, Object> allowableValues = new HashMap<>();
@@ -2042,8 +2042,7 @@ public class DefaultCodegenTest {
         extensions.put("x-enum-descriptions", descriptions);
         cm.setVendorExtensions(extensions);
         cm.setVars(Collections.emptyList());
-        Map<String, Object> objs = Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm)));
-        return objs;
+        return TestUtils.createCodegenModelWrapper(cm);
     }
 
     @Test

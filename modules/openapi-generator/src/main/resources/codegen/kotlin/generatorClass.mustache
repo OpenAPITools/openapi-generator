@@ -2,6 +2,7 @@
 package {{generatorPackage}}
 
 import org.openapitools.codegen.*
+import org.openapitools.codegen.model.ModelMap;
 
 import java.util.*
 import java.io.File
@@ -36,7 +37,7 @@ open class {{generatorClass}}() : DefaultCodegen(), CodegenConfig {
      * Provides an opportunity to inspect and modify operation data before the code is generated.
      */
     @Suppress("UNCHECKED_CAST")
-    override fun postProcessOperationsWithModels(objs: Map<String, Any>, allModels: List<Any>?): Map<String, Any> {
+    override fun postProcessOperationsWithModels(objs: Map<String, Any>, allModels: List<ModelMap>?): Map<String, Any> {
         val results = super.postProcessOperationsWithModels(objs, allModels)
 
         val ops = results["operations"] as Map<String, Any>

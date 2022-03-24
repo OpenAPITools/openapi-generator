@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.dart;
 
+import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
@@ -460,7 +462,7 @@ public class DartModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
-        codegen.postProcessModels(Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm))));
+        codegen.postProcessModels(createCodegenModelWrapper(cm));
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "testStringEnum");
@@ -523,7 +525,7 @@ public class DartModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
-        codegen.postProcessModels(Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm))));
+        codegen.postProcessModels(createCodegenModelWrapper(cm));
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "testIntEnum");
