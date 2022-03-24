@@ -1,30 +1,17 @@
 package org.openapitools.codegen.typescript.typescriptnode;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-import org.apache.commons.lang3.ObjectUtils;
-import org.commonmark.node.Code;
 import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.AbstractPhpCodegen;
-import org.openapitools.codegen.languages.DartDioClientCodegen;
-import org.openapitools.codegen.languages.TypeScriptClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
-import org.openapitools.codegen.php.AbstractPhpCodegenTest;
-import org.stringtemplate.v4.ST;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import javax.inject.Singleton;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class TypeScriptNodeClientCodegenTest {
 
