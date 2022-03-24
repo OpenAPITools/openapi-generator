@@ -300,12 +300,7 @@ public class Zebra extends HashMap<String, Object> {
                  else if (value.getAdditionalProperties().get(additionalField) instanceof Character)
                    obj.addProperty(additionalField, (Boolean) value.getAdditionalProperties().get(additionalField));
                  else {
-                   // object
-                   try {
-                     obj.add(additionalField, gson.toJsonTree(value.getAdditionalProperties().get(additionalField)).getAsJsonObject());
-                   } catch (java.lang.IllegalStateException e){
-                     // can't handle unknown type
-                   }
+                   obj.add(additionalField, gson.toJsonTree(value.getAdditionalProperties().get(additionalField)).getAsJsonObject());
                  }
                }
              }
@@ -320,7 +315,18 @@ public class Zebra extends HashMap<String, Object> {
              Zebra instance = thisAdapter.fromJsonTree(jsonObj);
              for (String fieldName : jsonObj.keySet()) {
                if (!openapiFields.contains(fieldName)) {
-                 instance.putAdditionalProperty(fieldName, jsonObj.get(fieldName));
+                 if (jsonObj.get(fieldName).isJsonPrimitive()) {
+                   if (jsonObj.get(fieldName).getAsJsonPrimitive().isString())
+                     instance.putAdditionalProperty(fieldName, jsonObj.get(fieldName).getAsString());
+                   else if (jsonObj.get(fieldName).getAsJsonPrimitive().isNumber())
+                     instance.putAdditionalProperty(fieldName, jsonObj.get(fieldName).getAsNumber());
+                   else if (jsonObj.get(fieldName).getAsJsonPrimitive().isBoolean())
+                     instance.putAdditionalProperty(fieldName, jsonObj.get(fieldName).getAsBoolean());
+                   else
+                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", fieldName, jsonObj.get(fieldName).toString()));
+                 } else {
+                   instance.putAdditionalProperty(fieldName, jsonObj.get(fieldName));
+                 }
                }
              }
              return instance;
