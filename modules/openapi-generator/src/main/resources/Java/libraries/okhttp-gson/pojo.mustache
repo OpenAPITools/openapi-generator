@@ -523,17 +523,17 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
              {{#isAdditionalPropertiesTrue}}
              // serialize additonal properties
              if (value.getAdditionalProperties() != null) {
-               for (String additionalField : value.getAdditionalProperties().keySet()) {
-                 if (value.getAdditionalProperties().get(additionalField) instanceof String)
-                   obj.addProperty(additionalField, (String) value.getAdditionalProperties().get(additionalField));
-                 else if (value.getAdditionalProperties().get(additionalField) instanceof Number)
-                   obj.addProperty(additionalField, (Number) value.getAdditionalProperties().get(additionalField));
-                 else if (value.getAdditionalProperties().get(additionalField) instanceof Boolean)
-                   obj.addProperty(additionalField, (Boolean) value.getAdditionalProperties().get(additionalField));
-                 else if (value.getAdditionalProperties().get(additionalField) instanceof Character)
-                   obj.addProperty(additionalField, (Boolean) value.getAdditionalProperties().get(additionalField));
+               for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+                 if (entry.getValue() instanceof String)
+                   obj.addProperty(entry.getKey(), (String) entry.getValue());
+                 else if (entry.getValue() instanceof Number)
+                   obj.addProperty(entry.getKey(), (Number) entry.getValue());
+                 else if (entry.getValue() instanceof Boolean)
+                   obj.addProperty(entry.getKey(), (Boolean) entry.getValue());
+                 else if (entry.getValue() instanceof Character)
+                   obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(additionalField, gson.toJsonTree(value.getAdditionalProperties().get(additionalField)).getAsJsonObject());
+                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
                  }
                }
              }
