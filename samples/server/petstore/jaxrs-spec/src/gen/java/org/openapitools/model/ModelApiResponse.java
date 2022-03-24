@@ -17,11 +17,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ApiResponse")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ModelApiResponse  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class ModelApiResponse  implements Serializable {
   
   private @Valid Integer code;
   private @Valid String type;
   private @Valid String message;
+
+  protected ModelApiResponse(ModelApiResponseBuilder<?, ?> b) {
+  this.code = b.code;this.type = b.type;this.message = b.message;
+  }
+
+  public ModelApiResponse() { }
 
   /**
    **/
@@ -29,8 +36,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.code = code;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -52,8 +57,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("type")
   public String getType() {
@@ -71,8 +74,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.message = message;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -130,5 +131,43 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static ModelApiResponseBuilder<?, ?> builder() {
+    return new ModelApiResponseBuilderImpl();
+  }
+
+  private static final class ModelApiResponseBuilderImpl extends ModelApiResponseBuilder<ModelApiResponse, ModelApiResponseBuilderImpl> {
+
+    @Override
+    protected ModelApiResponseBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public ModelApiResponse build() {
+      return new ModelApiResponse(this);
+    }
+  }
+
+  public static abstract class ModelApiResponseBuilder<C extends ModelApiResponse, B extends ModelApiResponseBuilder<C, B>>  {
+    private Integer code;
+    private String type;
+    private String message;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B code(Integer code) {
+      this.code = code;
+      return self();
+    }
+    public B type(String type) {
+      this.type = type;
+      return self();
+    }
+    public B message(String message) {
+      this.message = message;
+      return self();
+    }
+  }
 }
 

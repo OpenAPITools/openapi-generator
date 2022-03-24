@@ -12,13 +12,27 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  **/{{/description}}
 {{#useSwaggerAnnotations}}{{#description}}@ApiModel(description = "{{{.}}}"){{/description}}{{/useSwaggerAnnotations}}
 @JsonTypeName("{{name}}")
-{{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+{{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
-  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
+  {{#vendorExtensions.x-field-extra-annotation}}
+  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{/vendorExtensions.x-field-extra-annotation}}
+  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}{{#generateBuilders}}{{^additionalProperties}}
+
+  protected {{classname}}({{classname}}Builder<?, ?> b) {
+  {{#parent}}super(b);
+  {{/parent}}{{#vars}}this.{{name}} = b.{{name}};{{/vars}}
+  }
+
+  public {{classname}}() { }{{/additionalProperties}}{{/generateBuilders}}
 
   {{#vars}}/**
    {{#description}}
@@ -36,16 +50,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     return this;
   }
 
-  {{#generateBuilders}}public {{classname}}({{#vars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vars}}) {
-    {{#vars}}
-    this.{{name}} = {{name}};
-    {{/vars}}
-  }{{/generateBuilders}}
-
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
   @JsonProperty("{{baseName}}")
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>beanValidatedType}} {{getter}}() {
     return {{name}};
   }
 
@@ -134,36 +142,39 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     return o.toString().replace("\n", "\n    ");
   }
 
-  {{#generateBuilders}}
-  public static Builder builder() {
-    return new Builder();
+{{#generateBuilders}}{{^additionalProperties}}
+  public static {{classname}}Builder<?, ?> builder() {
+    return new {{classname}}BuilderImpl();
   }
 
-  public static class Builder {
+  private static final class {{classname}}BuilderImpl extends {{classname}}Builder<{{classname}}, {{classname}}BuilderImpl> {
+
+    @Override
+    protected {{classname}}BuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public {{classname}} build() {
+      return new {{classname}}(this);
+    }
+  }
+
+  public static abstract class {{classname}}Builder<C extends {{classname}}, B extends {{classname}}Builder<C, B>> {{#parent}}extends {{{.}}}Builder<C, B>{{/parent}} {
     {{#vars}}
     private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
     {{/vars}}
+  {{^parent}}
+    protected abstract B self();
+
+    public abstract C build();
+    {{/parent}}
 
     {{#vars}}
-    /**
-      {{#description}}
-      * {{.}}
-      {{/description}}
-      {{#minimum}}
-      * minimum: {{.}}
-      {{/minimum}}
-      {{#maximum}}
-      * maximum: {{.}}
-      {{/maximum}}
-      **/
-    public Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    public B {{name}}({{{datatypeWithEnum}}} {{name}}) {
       this.{{name}} = {{name}};
-      return this;
+      return self();
     }
     {{/vars}}
-
-    public {{classname}} build() {
-      return new {{classname}}({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}});
-    }
-  }{{/generateBuilders}}
+  }{{/additionalProperties}}{{/generateBuilders}}
 }

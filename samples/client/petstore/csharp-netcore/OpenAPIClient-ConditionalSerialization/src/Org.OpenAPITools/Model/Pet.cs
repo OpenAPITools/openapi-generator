@@ -106,19 +106,37 @@ namespace Org.OpenAPITools.Model
         public Pet(long id = default(long), Category category = default(Category), string name = default(string), List<string> photoUrls = default(List<string>), List<Tag> tags = default(List<Tag>), StatusEnum? status = default(StatusEnum?))
         {
             // to ensure "name" is required (not null)
-            if (name == null) {
+            if (name == null)
+            {
                 throw new ArgumentNullException("name is a required property for Pet and cannot be null");
             }
             this._Name = name;
             // to ensure "photoUrls" is required (not null)
-            if (photoUrls == null) {
+            if (photoUrls == null)
+            {
                 throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
             }
             this._PhotoUrls = photoUrls;
             this._Id = id;
+            if (this.Id != null)
+            {
+                this._flagId = true;
+            }
             this._Category = category;
+            if (this.Category != null)
+            {
+                this._flagCategory = true;
+            }
             this._Tags = tags;
+            if (this.Tags != null)
+            {
+                this._flagTags = true;
+            }
             this._Status = status;
+            if (this.Status != null)
+            {
+                this._flagStatus = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

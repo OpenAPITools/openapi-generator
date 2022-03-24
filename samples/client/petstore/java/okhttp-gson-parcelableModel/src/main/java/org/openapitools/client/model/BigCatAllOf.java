@@ -212,7 +212,7 @@ public class BigCatAllOf implements Parcelable {
       if (jsonObj == null) {
         if (BigCatAllOf.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in BigCatAllOf is not found in the empty JSON string", BigCatAllOf.openapiRequiredFields.toString()));
         }
       }

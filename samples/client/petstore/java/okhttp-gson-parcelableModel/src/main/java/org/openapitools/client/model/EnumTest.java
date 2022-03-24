@@ -483,7 +483,7 @@ public class EnumTest implements Parcelable {
       if (jsonObj == null) {
         if (EnumTest.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in EnumTest is not found in the empty JSON string", EnumTest.openapiRequiredFields.toString()));
         }
       }

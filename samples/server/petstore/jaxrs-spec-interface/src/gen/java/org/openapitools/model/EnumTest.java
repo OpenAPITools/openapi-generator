@@ -18,7 +18,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class EnumTest  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class EnumTest  implements Serializable {
   
 
 public enum EnumStringEnum {
@@ -226,8 +227,6 @@ public enum EnumNumberEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_string")
   public EnumStringEnum getEnumString() {
@@ -245,8 +244,6 @@ public enum EnumNumberEnum {
     this.enumStringRequired = enumStringRequired;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -269,8 +266,6 @@ public enum EnumNumberEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_integer")
   public EnumIntegerEnum getEnumInteger() {
@@ -290,8 +285,6 @@ public enum EnumNumberEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_number")
   public EnumNumberEnum getEnumNumber() {
@@ -309,8 +302,6 @@ public enum EnumNumberEnum {
     this.outerEnum = outerEnum;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

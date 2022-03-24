@@ -391,7 +391,7 @@ public class Pet implements Parcelable {
       if (jsonObj == null) {
         if (Pet.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in Pet is not found in the empty JSON string", Pet.openapiRequiredFields.toString()));
         }
       }

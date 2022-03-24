@@ -22,11 +22,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   
   private @Valid UUID uuid;
   private @Valid Date dateTime;
   private @Valid Map<String, Animal> map = new HashMap<>();
+
+  protected MixedPropertiesAndAdditionalPropertiesClass(MixedPropertiesAndAdditionalPropertiesClassBuilder<?, ?> b) {
+  this.uuid = b.uuid;this.dateTime = b.dateTime;this.map = b.map;
+  }
+
+  public MixedPropertiesAndAdditionalPropertiesClass() { }
 
   /**
    **/
@@ -34,8 +41,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.uuid = uuid;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -57,8 +62,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
@@ -76,8 +79,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.map = map;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -151,5 +152,43 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static MixedPropertiesAndAdditionalPropertiesClassBuilder<?, ?> builder() {
+    return new MixedPropertiesAndAdditionalPropertiesClassBuilderImpl();
+  }
+
+  private static final class MixedPropertiesAndAdditionalPropertiesClassBuilderImpl extends MixedPropertiesAndAdditionalPropertiesClassBuilder<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilderImpl> {
+
+    @Override
+    protected MixedPropertiesAndAdditionalPropertiesClassBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public MixedPropertiesAndAdditionalPropertiesClass build() {
+      return new MixedPropertiesAndAdditionalPropertiesClass(this);
+    }
+  }
+
+  public static abstract class MixedPropertiesAndAdditionalPropertiesClassBuilder<C extends MixedPropertiesAndAdditionalPropertiesClass, B extends MixedPropertiesAndAdditionalPropertiesClassBuilder<C, B>>  {
+    private UUID uuid;
+    private Date dateTime;
+    private Map<String, Animal> map = new HashMap<>();
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B uuid(UUID uuid) {
+      this.uuid = uuid;
+      return self();
+    }
+    public B dateTime(Date dateTime) {
+      this.dateTime = dateTime;
+      return self();
+    }
+    public B map(Map<String, Animal> map) {
+      this.map = map;
+      return self();
+    }
+  }
 }
 

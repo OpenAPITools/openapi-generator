@@ -149,7 +149,7 @@ public class ArrayOfArrayOfNumberOnly {
       if (jsonObj == null) {
         if (ArrayOfArrayOfNumberOnly.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfArrayOfNumberOnly is not found in the empty JSON string", ArrayOfArrayOfNumberOnly.openapiRequiredFields.toString()));
         }
       }

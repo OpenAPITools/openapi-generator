@@ -278,8 +278,8 @@ public interface PetApi {
     )
     default Mono<ResponseEntity<Void>> updatePetWithForm(
         @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
-        @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name,
-        @Parameter(name = "status", description = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status,
+        @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
+        @Parameter(name = "status", description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().updatePetWithForm(petId, name, status, exchange);
@@ -315,7 +315,7 @@ public interface PetApi {
     )
     default Mono<ResponseEntity<ModelApiResponse>> uploadFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
-        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
+        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) Flux<Part> file,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {

@@ -21,7 +21,7 @@ import javax.annotation.Generated;
 
 @JsonTypeName("hasOnlyReadOnly")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class HasOnlyReadOnly   {
+public class HasOnlyReadOnly {
 
   @JsonProperty("bar")
   private String bar;

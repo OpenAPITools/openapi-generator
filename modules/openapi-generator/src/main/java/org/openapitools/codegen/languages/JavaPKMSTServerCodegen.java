@@ -45,7 +45,6 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
     protected String basePackage = "com.prokarma.pkmst";
     protected String serviceName = "Pkmst";
     protected String configPackage = "com.prokarma.pkmst.config";
-    protected boolean implicitHeaders = false;
     protected String title;
     protected String eurekaUri;
     protected String zipkinUri;
@@ -347,32 +346,11 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                     }
                 });
 
-                if (implicitHeaders) {
-                    removeHeadersFromAllParams(operation.allParams);
-                }
+                handleImplicitHeaders(operation);
             }
         }
 
         return objs;
-    }
-
-    /**
-     * This method removes header parameters from the list of parameters
-     *
-     * @param allParams list of all parameters
-     */
-    private void removeHeadersFromAllParams(List<CodegenParameter> allParams) {
-        if (allParams.isEmpty()) {
-            return;
-        }
-        final ArrayList<CodegenParameter> copy = new ArrayList<>(allParams);
-        allParams.clear();
-
-        for (CodegenParameter p : copy) {
-            if (!p.isHeaderParam) {
-                allParams.add(p);
-            }
-        }
     }
 
     /**

@@ -245,6 +245,10 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         if (Boolean.TRUE.equals(generateModelTests)) {
             supportingFiles.add(new SupportingFile("base_model_test.mustache", toSrcPath(invokerPackage, testBasePath), "BaseModelTest.php"));
         }
+
+        // based on example from link
+        // @see https://github.com/shivammathur/setup-php/blob/master/examples/slim-framework.yml
+        supportingFiles.add(new SupportingFile("github_action.yml.mustache", ".github" + File.separator + "workflows" + File.separator, "main.yml"));
     }
 
     @Override

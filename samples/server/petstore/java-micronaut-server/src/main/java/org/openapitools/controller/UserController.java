@@ -16,7 +16,7 @@ import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 import javax.annotation.Generated;
 import java.util.ArrayList;

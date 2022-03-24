@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
         Task<ApiResponse<object>> CreateUserWithHttpInfoAsync(User user, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Create user
         /// </summary>
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
         Task<ApiResponse<object>> CreateUsersWithArrayInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
@@ -86,7 +86,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
         Task<ApiResponse<object>> CreateUsersWithListInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
@@ -110,7 +110,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
         Task<ApiResponse<object>> DeleteUserWithHttpInfoAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Delete user
         /// </summary>
@@ -134,7 +134,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;User&gt;&gt;</returns>
         Task<ApiResponse<User>> GetUserByNameWithHttpInfoAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Get user by user name
         /// </summary>
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;string&gt;&gt;</returns>
         Task<ApiResponse<string>> LoginUserWithHttpInfoAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Logs user into the system
         /// </summary>
@@ -183,7 +183,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
         Task<ApiResponse<object>> LogoutUserWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Logs out current logged in user session
         /// </summary>
@@ -207,7 +207,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
         Task<ApiResponse<object>> UpdateUserWithHttpInfoAsync(string username, User user, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Updated user
         /// </summary>
@@ -247,22 +247,22 @@ namespace Org.OpenAPITools.Api
         /// A token provider of type <see cref="ApiKeyProvider"/>
         /// </summary>
         public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="BearerToken"/>
         /// </summary>
         public TokenProvider<BearerToken> BearerTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="BasicTokenProvider"/>
         /// </summary>
         public TokenProvider<BasicToken> BasicTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="HttpSignatureTokenProvider"/>
         /// </summary>
         public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="OauthTokenProvider"/>
         /// </summary>
@@ -298,7 +298,7 @@ namespace Org.OpenAPITools.Api
         public async Task<object> CreateUserAsync(User user, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object> result = await CreateUserWithHttpInfoAsync(user, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -340,36 +340,35 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                    
+
                 if (user == null)
                     throw new ArgumentNullException(nameof(user));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user";
-                    
-                    if ((user as object) is System.IO.Stream stream)
-                        request.Content = new StreamContent(stream);
-                    else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(user, ClientUtils.JsonSerializerSettings));
+
+                    request.Content = (user as object) is System.IO.Stream stream
+                        ? request.Content = new StreamContent(stream)
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     string[] contentTypes = new string[] {
                         "application/json" 
                     };
-                    
+
                     string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
                         
-                    request.Method = new HttpMethod("POST"); 
+                    request.Method = new HttpMethod("POST");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -392,7 +391,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -415,7 +414,7 @@ namespace Org.OpenAPITools.Api
         public async Task<object> CreateUsersWithArrayInputAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object> result = await CreateUsersWithArrayInputWithHttpInfoAsync(user, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -457,36 +456,35 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                    
+
                 if (user == null)
                     throw new ArgumentNullException(nameof(user));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/createWithArray";
-                    
-                    if ((user as object) is System.IO.Stream stream)
-                        request.Content = new StreamContent(stream);
-                    else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(user, ClientUtils.JsonSerializerSettings));
+
+                    request.Content = (user as object) is System.IO.Stream stream
+                        ? request.Content = new StreamContent(stream)
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     string[] contentTypes = new string[] {
                         "application/json" 
                     };
-                    
+
                     string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
                         
-                    request.Method = new HttpMethod("POST"); 
+                    request.Method = new HttpMethod("POST");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -509,7 +507,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -532,7 +530,7 @@ namespace Org.OpenAPITools.Api
         public async Task<object> CreateUsersWithListInputAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object> result = await CreateUsersWithListInputWithHttpInfoAsync(user, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -574,36 +572,35 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                    
+
                 if (user == null)
                     throw new ArgumentNullException(nameof(user));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/createWithList";
-                    
-                    if ((user as object) is System.IO.Stream stream)
-                        request.Content = new StreamContent(stream);
-                    else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(user, ClientUtils.JsonSerializerSettings));
+
+                    request.Content = (user as object) is System.IO.Stream stream
+                        ? request.Content = new StreamContent(stream)
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     string[] contentTypes = new string[] {
                         "application/json" 
                     };
-                    
+
                     string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
                         
-                    request.Method = new HttpMethod("POST"); 
+                    request.Method = new HttpMethod("POST");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -626,7 +623,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -649,7 +646,7 @@ namespace Org.OpenAPITools.Api
         public async Task<object> DeleteUserAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object> result = await DeleteUserWithHttpInfoAsync(username, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -691,12 +688,12 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                    
+
                 if (username == null)
                     throw new ArgumentNullException(nameof(username));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -707,7 +704,7 @@ namespace Org.OpenAPITools.Api
 
                     request.RequestUri = uriBuilder.Uri;
                         
-                    request.Method = new HttpMethod("DELETE"); 
+                    request.Method = new HttpMethod("DELETE");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -730,7 +727,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -753,7 +750,7 @@ namespace Org.OpenAPITools.Api
         public async Task<User> GetUserByNameAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<User> result = await GetUserByNameWithHttpInfoAsync(username, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -795,12 +792,12 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                    
+
                 if (username == null)
                     throw new ArgumentNullException(nameof(username));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -810,18 +807,18 @@ namespace Org.OpenAPITools.Api
                     uriBuilder.Path = uriBuilder.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     string[] accepts = new string[] { 
                         "application/xml", 
                         "application/json" 
                     };
-                    
+
                     string accept = ClientUtils.SelectHeaderAccept(accepts);
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = new HttpMethod("GET"); 
+                    request.Method = new HttpMethod("GET");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -844,7 +841,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<User> apiResponse = new ApiResponse<User>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<User>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -868,7 +865,7 @@ namespace Org.OpenAPITools.Api
         public async Task<string> LoginUserAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<string> result = await LoginUserWithHttpInfoAsync(username, password, cancellationToken).ConfigureAwait(false);
-            
+
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             if (result.Content == null)
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -890,15 +887,15 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                    
+
                 if (username == null)
                     throw new ArgumentNullException(nameof(username));
-                    
+
                 if (password == null)
                     throw new ArgumentNullException(nameof(password));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -914,18 +911,18 @@ namespace Org.OpenAPITools.Api
                     uriBuilder.Query = parseQueryString.ToString();
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     string[] accepts = new string[] { 
                         "application/xml", 
                         "application/json" 
                     };
-                    
+
                     string accept = ClientUtils.SelectHeaderAccept(accepts);
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = new HttpMethod("GET"); 
+                    request.Method = new HttpMethod("GET");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -948,7 +945,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<string> apiResponse = new ApiResponse<string>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<string>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -970,7 +967,7 @@ namespace Org.OpenAPITools.Api
         public async Task<object> LogoutUserAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object> result = await LogoutUserWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -1018,7 +1015,7 @@ namespace Org.OpenAPITools.Api
 
                     request.RequestUri = uriBuilder.Uri;
                         
-                    request.Method = new HttpMethod("GET"); 
+                    request.Method = new HttpMethod("GET");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -1041,7 +1038,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -1065,7 +1062,7 @@ namespace Org.OpenAPITools.Api
         public async Task<object> UpdateUserAsync(string username, User user, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object> result = await UpdateUserWithHttpInfoAsync(username, user, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -1109,15 +1106,15 @@ namespace Org.OpenAPITools.Api
             try
             {
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                    
+
                 if (username == null)
                     throw new ArgumentNullException(nameof(username));
-                    
+
                 if (user == null)
                     throw new ArgumentNullException(nameof(user));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -1125,24 +1122,23 @@ namespace Org.OpenAPITools.Api
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
                     uriBuilder.Path = uriBuilder.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
-                    
-                    if ((user as object) is System.IO.Stream stream)
-                        request.Content = new StreamContent(stream);
-                    else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(user, ClientUtils.JsonSerializerSettings));
+
+                    request.Content = (user as object) is System.IO.Stream stream
+                        ? request.Content = new StreamContent(stream)
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     string[] contentTypes = new string[] {
                         "application/json" 
                     };
-                    
+
                     string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
                         
-                    request.Method = new HttpMethod("PUT"); 
+                    request.Method = new HttpMethod("PUT");
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -1165,7 +1161,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
 
                         return apiResponse;
                     }

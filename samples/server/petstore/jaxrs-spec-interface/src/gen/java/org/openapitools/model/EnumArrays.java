@@ -18,7 +18,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("EnumArrays")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class EnumArrays  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class EnumArrays  implements Serializable {
   
 
 public enum JustSymbolEnum {
@@ -127,8 +128,6 @@ public enum ArrayEnumEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
@@ -146,8 +145,6 @@ public enum ArrayEnumEnum {
     this.arrayEnum = arrayEnum;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

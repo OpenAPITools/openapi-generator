@@ -168,7 +168,7 @@ public class Tag {
       if (jsonObj == null) {
         if (Tag.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in Tag is not found in the empty JSON string", Tag.openapiRequiredFields.toString()));
         }
       }

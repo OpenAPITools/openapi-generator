@@ -42,6 +42,7 @@ import java.util.List;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 
 @SuppressWarnings("Duplicates")
 public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
@@ -73,9 +74,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETSTANDARD_1_6,
             FrameworkStrategy.NETSTANDARD_2_0,
             FrameworkStrategy.NETSTANDARD_2_1,
-            FrameworkStrategy.NETCOREAPP_2_0,
-            FrameworkStrategy.NETCOREAPP_2_1,
-            FrameworkStrategy.NETCOREAPP_3_0,
             FrameworkStrategy.NETCOREAPP_3_1,
             FrameworkStrategy.NETFRAMEWORK_4_7,
             FrameworkStrategy.NET_5_0,
@@ -397,40 +395,66 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         // avoid breaking changes
         if (GENERICHOST.equals(getLibrary())) {
-            Comparator<CodegenProperty> comparatorByDefaultValue = new Comparator<CodegenProperty>() {
-                @Override
-                public int compare(CodegenProperty one, CodegenProperty another) {
-                    if (one.defaultValue == another.defaultValue)
-                        return 0;
-                    else if (Boolean.FALSE.equals(one.defaultValue))
-                        return -1;
-                    else
-                        return 1;
-                }
-            };
-
-            Comparator<CodegenProperty> comparatorByRequired = new Comparator<CodegenProperty>() {
-                @Override
-                public int compare(CodegenProperty one, CodegenProperty another) {
-                    if (one.required == another.required)
-                        return 0;
-                    else if (Boolean.TRUE.equals(one.required))
-                        return -1;
-                    else
-                        return 1;
-                }
-            };
-
-            Collections.sort(codegenModel.vars, comparatorByDefaultValue);
-            Collections.sort(codegenModel.vars, comparatorByRequired);
-            Collections.sort(codegenModel.allVars, comparatorByDefaultValue);
-            Collections.sort(codegenModel.allVars, comparatorByRequired);
-            Collections.sort(codegenModel.readWriteVars, comparatorByDefaultValue);
-            Collections.sort(codegenModel.readWriteVars, comparatorByRequired);
+            Comparator<CodegenProperty> comparatorByRequiredAndDefault = propertyComparatorByRequired.thenComparing(propertyComparatorByDefaultValue);
+            Collections.sort(codegenModel.vars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.allVars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.requiredVars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.optionalVars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.readOnlyVars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.readWriteVars, comparatorByRequiredAndDefault);
+            Collections.sort(codegenModel.parentVars, comparatorByRequiredAndDefault);
         }
 
         return codegenModel;
     }
+
+    public static Comparator<CodegenProperty> propertyComparatorByDefaultValue = new Comparator<CodegenProperty>() {
+        @Override
+        public int compare(CodegenProperty one, CodegenProperty another) {
+            if ((one.defaultValue == null) == (another.defaultValue == null))
+                return 0;
+            else if (one.defaultValue == null)
+                return -1;
+            else
+                return 1;
+        }
+    };
+
+    public static Comparator<CodegenProperty> propertyComparatorByRequired = new Comparator<CodegenProperty>() {
+        @Override
+        public int compare(CodegenProperty one, CodegenProperty another) {
+            if (one.required == another.required)
+                return 0;
+            else if (Boolean.TRUE.equals(one.required))
+                return -1;
+            else
+                return 1;
+        }
+    };
+
+    public static Comparator<CodegenParameter> parameterComparatorByDefaultValue = new Comparator<CodegenParameter>() {
+        @Override
+        public int compare(CodegenParameter one, CodegenParameter another) {
+            if ((one.defaultValue == null) == (another.defaultValue == null))
+                return 0;
+            else if (one.defaultValue == null)
+                return -1;
+            else
+                return 1;
+        }
+    };
+
+    public static Comparator<CodegenParameter> parameterComparatorByRequired = new Comparator<CodegenParameter>() {
+        @Override
+        public int compare(CodegenParameter one, CodegenParameter another) {
+            if (one.required == another.required)
+                return 0;
+            else if (Boolean.TRUE.equals(one.required))
+                return -1;
+            else
+                return 1;
+        }
+    };
 
     @Override
     public String getHelp() {
@@ -518,6 +542,14 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
         postProcessEmitDefaultValue(property.vendorExtensions);
+
+        if (GENERICHOST.equals(getLibrary())) {
+            // all c# libraries should want this, but avoid breaking changes for now
+            // a class cannot contain a property with the same name
+            if (property.name.equals(model.classname)) {
+                property.name = property.name + "Property";
+            }
+        }
 
         super.postProcessModelProperty(model, property);
     }
@@ -694,9 +726,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setNetCoreProjectFileFlag(true);
 
             if (!additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES) && !strategies.stream().anyMatch(s ->
-                    s.equals(FrameworkStrategy.NETCOREAPP_2_0) ||
-                            s.equals(FrameworkStrategy.NETCOREAPP_2_1) ||
-                            s.equals(FrameworkStrategy.NETCOREAPP_3_0) ||
                             s.equals(FrameworkStrategy.NETCOREAPP_3_1) ||
                             s.equals(FrameworkStrategy.NET_5_0) ||
                             s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))) {
@@ -779,29 +808,17 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             return op;
         }
 
-        Collections.sort(op.allParams, new Comparator<CodegenParameter>() {
-            @Override
-            public int compare(CodegenParameter one, CodegenParameter another) {
-                if (one.defaultValue == another.defaultValue)
-                    return 0;
-                else if (Boolean.FALSE.equals(one.defaultValue))
-                    return -1;
-                else
-                    return 1;
-            }
-        });
-
-        Collections.sort(op.allParams, new Comparator<CodegenParameter>() {
-            @Override
-            public int compare(CodegenParameter one, CodegenParameter another) {
-                if (one.required == another.required)
-                    return 0;
-                else if (Boolean.TRUE.equals(one.required))
-                    return -1;
-                else
-                    return 1;
-            }
-        });
+        Comparator<CodegenParameter> comparatorByRequiredAndDefault = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
+        Collections.sort(op.allParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.bodyParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.pathParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.queryParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.headerParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.implicitHeadersParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.formParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.cookieParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.requiredParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.optionalParams, comparatorByRequiredAndDefault);
 
         return op;
     }
@@ -898,8 +915,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
         supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
         supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
-        supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
-        supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
+        supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateJsonConverter.cs"));
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
         supportingFiles.add(new SupportingFile("IApi.mustache", clientPackageDir, getInterfacePrefix() + "Api.cs"));
 
@@ -975,7 +991,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
      */
     public void setApiName(String apiName) {
         if (!"".equals(apiName) && (Boolean.FALSE.equals(apiName.matches("^[a-zA-Z0-9_]*$")) || Boolean.FALSE.equals(apiName.matches("^[a-zA-Z].*")))) {
-            throw new RuntimeException("Invalid project name " + apiName + ". May only contain alphanumeric characaters or underscore and start with a letter.");
+            throw new RuntimeException("Invalid project name " + apiName + ". May only contain alphanumeric characters or underscore and start with a letter.");
         }
         this.apiName = apiName;
     }
@@ -1210,12 +1226,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         };
         static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1 compatible", "netcoreapp3.1") {
         };
-        static FrameworkStrategy NETCOREAPP_2_0 = new FrameworkStrategy("netcoreapp2.0", ".NET Core 2.0 compatible (deprecated)", "netcoreapp2.0", Boolean.FALSE) {
-        };
-        static FrameworkStrategy NETCOREAPP_2_1 = new FrameworkStrategy("netcoreapp2.1", ".NET Core 2.1 compatible (deprecated)", "netcoreapp2.1", Boolean.FALSE) {
-        };
-        static FrameworkStrategy NETCOREAPP_3_0 = new FrameworkStrategy("netcoreapp3.0", ".NET Core 3.0 compatible (deprecated)", "netcoreapp3.0", Boolean.FALSE) {
-        };
         static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible", "netcoreapp3.1", Boolean.FALSE) {
         };
         static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7 compatible", "net47", Boolean.FALSE) {
@@ -1339,9 +1349,127 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 cm.isNullable = true;
                 cm.anyOf.remove("Null");
             }
+
+            for (CodegenProperty cp : cm.readWriteVars) {
+                // ISSUE: https://github.com/OpenAPITools/openapi-generator/issues/11844
+                // allVars may not have all properties
+                // see modules\openapi-generator\src\test\resources\3_0\allOf.yaml
+                // property boosterSeat will be in readWriteVars but not allVars
+                // the property is present in the model but gets removed at CodegenModel#removeDuplicatedProperty
+                if (Boolean.FALSE.equals(cm.allVars.stream().anyMatch(v -> v.baseName.equals(cp.baseName)))) {
+                    LOGGER.debug("Property " + cp.baseName + " was found in readWriteVars but not in allVars. Adding it back to allVars");
+                    cm.allVars.add(cp);
+                }
+            }
+
+            for (CodegenProperty cp : cm.allVars) {
+                // ISSUE: https://github.com/OpenAPITools/openapi-generator/issues/11845
+                // some properties do not have isInherited set correctly
+                // see modules\openapi-generator\src\test\resources\3_0\allOf.yaml
+                // Child properties Type, LastName, FirstName will have isInherited set to false when it should be true
+                if (cp.isInherited){
+                    continue;
+                }
+                if (Boolean.TRUE.equals(cm.parentVars.stream().anyMatch(v -> v.baseName.equals(cp.baseName) && v.dataType.equals(cp.dataType)))) {
+                    LOGGER.debug("Property " + cp.baseName + " was found in the parentVars but not marked as inherited.");
+                    cp.isInherited = true;
+                }
+            }
         }
 
         return objs;
+    }
+
+    /**
+    * ISSUE: https://github.com/OpenAPITools/openapi-generator/issues/11846
+    * Ensures that a model has all inherited properties
+    * Check modules\openapi-generator\src\test\resources\3_0\java\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+    * Without this method, property petType in GrandparentAnimal will not make it through ParentPet and into ChildCat
+    */
+    private void EnsureInheritedVariablesArePresent(CodegenModel derivedModel) {
+        // every c# generator should definetly want this, or we should fix the issue
+        // still, lets avoid breaking changes :(
+        if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))){
+            return;
+        }
+
+        if (derivedModel.parentModel == null){
+            return;
+        }
+
+        for (CodegenProperty parentProperty : derivedModel.parentModel.allVars){
+            if (Boolean.FALSE.equals(derivedModel.allVars.stream().anyMatch(v -> v.baseName.equals(parentProperty.baseName)))) {
+                CodegenProperty clone = parentProperty.clone();
+                clone.isInherited = true;
+                LOGGER.debug("Inherited property " + clone.name + " from model" + derivedModel.parentModel.classname + " was not found in " + derivedModel.classname + ". Adding a clone now.");
+                derivedModel.allVars.add(clone);
+            }
+        }
+
+        EnsureInheritedVariablesArePresent(derivedModel.parentModel);
+    }
+
+    /**
+     * Invoked by {@link DefaultGenerator} after all models have been post-processed, allowing for a last pass of codegen-specific model cleanup.
+     *
+     * @param objs Current state of codegen object model.
+     * @return An in-place modified state of the codegen object model.
+     */
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        // other libraries probably want these fixes, but lets avoid breaking changes for now
+        if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))){
+            return objs;
+        }
+
+        ArrayList<CodegenModel> allModels = new ArrayList<CodegenModel>();
+        for (Map.Entry<String, Object> entry : objs.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+            allModels.add(model);
+        }
+
+        for (CodegenModel cm : allModels) {
+            if (cm.parent != null){
+                // remove the parent CodegenProperty from the model
+                // we need it gone so we can use allOf/oneOf/anyOf in the constructor
+                cm.allOf.removeIf(item -> item.equals(cm.parent));
+                cm.oneOf.removeIf(item -> item.equals(cm.parent));
+                cm.anyOf.removeIf(item -> item.equals(cm.parent));
+            }
+
+            cm.anyOf.forEach(anyOf -> removePropertiesDeclaredInComposedClass(anyOf, allModels, cm));
+            cm.oneOf.forEach(oneOf -> removePropertiesDeclaredInComposedClass(oneOf, allModels, cm));
+            cm.allOf.forEach(allOf -> removePropertiesDeclaredInComposedClass(allOf, allModels, cm));
+
+            EnsureInheritedVariablesArePresent(cm);
+        }
+
+        return objs;
+    }
+
+    /**
+     * Removes properties from a model which are also defined in a composed class.
+     *
+     * @param className The name which may be a composed model
+     * @param allModels A collection of all CodegenModel
+     * @param cm The CodegenModel to correct
+     */
+    private void removePropertiesDeclaredInComposedClass(String className, List<CodegenModel> allModels, CodegenModel cm) {
+        CodegenModel otherModel = allModels.stream().filter(m -> m.classname.equals(className)).findFirst().orElse(null);
+        if (otherModel == null){
+            return;
+        }
+
+        otherModel.readWriteVars.stream().filter(v -> cm.readWriteVars.stream().anyMatch(cmV -> cmV.baseName.equals(v.baseName))).collect(Collectors.toList())
+            .forEach(v -> {
+                cm.readWriteVars.removeIf(item -> item.baseName.equals(v.baseName));
+                cm.vars.removeIf(item -> item.baseName.equals(v.baseName));
+                cm.readOnlyVars.removeIf(item -> item.baseName.equals(v.baseName));
+                cm.requiredVars.removeIf(item -> item.baseName.equals(v.baseName));
+                cm.allVars.removeIf(item -> item.baseName.equals(v.baseName));
+            });
     }
 
     @Override

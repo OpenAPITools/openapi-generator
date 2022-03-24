@@ -405,6 +405,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        // in case ECMAScript 6 is supported add another tsconfig for an ESM (ECMAScript Module)
+        if (supportsES6) {
+            supportingFiles.add(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+        }
         supportingFiles.add(new SupportingFile("npmignore.mustache", "", ".npmignore"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }

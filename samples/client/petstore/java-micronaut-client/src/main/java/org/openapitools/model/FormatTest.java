@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.*;
 
@@ -83,7 +83,7 @@ public class FormatTest {
     private LocalDate date;
 
     public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
-    private LocalDateTime dateTime;
+    private OffsetDateTime dateTime;
 
     public static final String JSON_PROPERTY_UUID = "uuid";
     private UUID uuid;
@@ -349,7 +349,7 @@ public class FormatTest {
         this.date = date;
     }
 
-    public FormatTest dateTime(LocalDateTime dateTime) {
+    public FormatTest dateTime(OffsetDateTime dateTime) {
         this.dateTime = dateTime;
         return this;
     }
@@ -363,14 +363,14 @@ public class FormatTest {
     @JsonProperty(JSON_PROPERTY_DATE_TIME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
-       public LocalDateTime getDateTime() {
+       public OffsetDateTime getDateTime() {
         return dateTime;
     }
 
     @JsonProperty(JSON_PROPERTY_DATE_TIME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
-       public void setDateTime(LocalDateTime dateTime) {
+       public void setDateTime(OffsetDateTime dateTime) {
         this.dateTime = dateTime;
     }
 

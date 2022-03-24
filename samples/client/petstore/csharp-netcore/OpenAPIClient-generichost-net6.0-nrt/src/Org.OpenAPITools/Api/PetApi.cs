@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object?&gt;&gt;</returns>
         Task<ApiResponse<object?>> AddPetWithHttpInfoAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Add a new pet to the store
         /// </summary>
@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object?> AddPetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Add a new pet to the store
         /// </summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object?&gt;&gt;</returns>
         Task<ApiResponse<object?>> DeletePetWithHttpInfoAsync(long petId, string? apiKey = null, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Deletes a pet
         /// </summary>
@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object?> DeletePetAsync(long petId, string? apiKey = null, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Deletes a pet
         /// </summary>
@@ -111,7 +111,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;List&lt;Pet&gt;?&gt;&gt;</returns>
         Task<ApiResponse<List<Pet>?>> FindPetsByStatusWithHttpInfoAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -123,7 +123,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;List&lt;Pet&gt;&gt;</returns>
         Task<List<Pet>?> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;List&lt;Pet&gt;?&gt;&gt;</returns>
         Task<ApiResponse<List<Pet>?>> FindPetsByTagsWithHttpInfoAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Finds Pets by tags
         /// </summary>
@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;List&lt;Pet&gt;&gt;</returns>
         Task<List<Pet>?> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Finds Pets by tags
         /// </summary>
@@ -181,7 +181,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Pet?&gt;&gt;</returns>
         Task<ApiResponse<Pet?>> GetPetByIdWithHttpInfoAsync(long petId, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Find pet by ID
         /// </summary>
@@ -193,7 +193,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Pet&gt;</returns>
         Task<Pet?> GetPetByIdAsync(long petId, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Find pet by ID
         /// </summary>
@@ -216,7 +216,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object?&gt;&gt;</returns>
         Task<ApiResponse<object?>> UpdatePetWithHttpInfoAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -228,7 +228,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object?> UpdatePetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -253,7 +253,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object?&gt;&gt;</returns>
         Task<ApiResponse<object?>> UpdatePetWithFormWithHttpInfoAsync(long petId, string? name = null, string? status = null, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -267,7 +267,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object&gt;</returns>
         Task<object?> UpdatePetWithFormAsync(long petId, string? name = null, string? status = null, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -294,7 +294,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;ApiResponse?&gt;&gt;</returns>
         Task<ApiResponse<ApiResponse?>> UploadFileWithHttpInfoAsync(long petId, string? additionalMetadata = null, System.IO.Stream? file = null, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -308,7 +308,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ApiResponse&gt;</returns>
         Task<ApiResponse?> UploadFileAsync(long petId, string? additionalMetadata = null, System.IO.Stream? file = null, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -335,7 +335,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;ApiResponse?&gt;&gt;</returns>
         Task<ApiResponse<ApiResponse?>> UploadFileWithRequiredFileWithHttpInfoAsync(long petId, System.IO.Stream requiredFile, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -349,7 +349,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ApiResponse&gt;</returns>
         Task<ApiResponse?> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
-        
+
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -389,22 +389,22 @@ namespace Org.OpenAPITools.Api
         /// A token provider of type <see cref="ApiKeyProvider"/>
         /// </summary>
         public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="BearerToken"/>
         /// </summary>
         public TokenProvider<BearerToken> BearerTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="BasicTokenProvider"/>
         /// </summary>
         public TokenProvider<BasicToken> BasicTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="HttpSignatureTokenProvider"/>
         /// </summary>
         public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }
-        
+
         /// <summary>
         /// A token provider of type <see cref="OauthTokenProvider"/>
         /// </summary>
@@ -440,7 +440,7 @@ namespace Org.OpenAPITools.Api
         public async Task<object?> AddPetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object?> result = await AddPetWithHttpInfoAsync(pet, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -485,25 +485,24 @@ namespace Org.OpenAPITools.Api
 
                 if (pet == null)
                     throw new ArgumentNullException(nameof(pet));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet";
-                    
-                    if ((pet as object) is System.IO.Stream stream)
-                        request.Content = new StreamContent(stream);
-                    else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(pet, ClientUtils.JsonSerializerSettings));
+
+                    request.Content = (pet as object) is System.IO.Stream stream
+                        ? request.Content = new StreamContent(stream)
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(pet, ClientUtils.JsonSerializerOptions));
 
                     List<TokenBase> tokens = new List<TokenBase>();
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(signatureToken);
@@ -515,20 +514,20 @@ namespace Org.OpenAPITools.Api
                     OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(oauthToken);
-                    
+
                     oauthToken.UseInHeader(request, "");
-                    
+
                     string[] contentTypes = new string[] {
                         "application/json",
                         "application/xml" 
                     };
-                    
+
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
                         
-                    request.Method = HttpMethod.Post; 
+                    request.Method = HttpMethod.Post;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -551,7 +550,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -581,7 +580,7 @@ namespace Org.OpenAPITools.Api
         public async Task<object?> DeletePetAsync(long petId, string? apiKey = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object?> result = await DeletePetWithHttpInfoAsync(petId, apiKey, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -628,9 +627,9 @@ namespace Org.OpenAPITools.Api
 
                 if (petId == null)
                     throw new ArgumentNullException(nameof(petId));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -638,7 +637,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}";
                     uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
-                    
+
                     if (apiKey != null)
                         request.Headers.Add("api_key", ClientUtils.ParameterToString(apiKey));
 
@@ -649,10 +648,10 @@ namespace Org.OpenAPITools.Api
                     OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(oauthToken);
-                    
+
                     oauthToken.UseInHeader(request, "");
                         
-                    request.Method = HttpMethod.Delete; 
+                    request.Method = HttpMethod.Delete;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -675,7 +674,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -701,7 +700,7 @@ namespace Org.OpenAPITools.Api
         public async Task<List<Pet>?> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<List<Pet>?> result = await FindPetsByStatusWithHttpInfoAsync(status, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -746,9 +745,9 @@ namespace Org.OpenAPITools.Api
 
                 if (status == null)
                     throw new ArgumentNullException(nameof(status));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -765,7 +764,7 @@ namespace Org.OpenAPITools.Api
                     List<TokenBase> tokens = new List<TokenBase>();
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(signatureToken);
@@ -777,20 +776,20 @@ namespace Org.OpenAPITools.Api
                     OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(oauthToken);
-                    
+
                     oauthToken.UseInHeader(request, "");
-                    
+
                     string[] accepts = new string[] { 
                         "application/xml", 
                         "application/json" 
                     };
-                    
+
                     string? accept = ClientUtils.SelectHeaderAccept(accepts);
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = HttpMethod.Get; 
+                    request.Method = HttpMethod.Get;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -813,7 +812,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<List<Pet>?> apiResponse = new ApiResponse<List<Pet>?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Pet>>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -842,7 +841,7 @@ namespace Org.OpenAPITools.Api
         public async Task<List<Pet>?> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<List<Pet>?> result = await FindPetsByTagsWithHttpInfoAsync(tags, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -887,9 +886,9 @@ namespace Org.OpenAPITools.Api
 
                 if (tags == null)
                     throw new ArgumentNullException(nameof(tags));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -906,7 +905,7 @@ namespace Org.OpenAPITools.Api
                     List<TokenBase> tokens = new List<TokenBase>();
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(signatureToken);
@@ -918,20 +917,20 @@ namespace Org.OpenAPITools.Api
                     OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(oauthToken);
-                    
+
                     oauthToken.UseInHeader(request, "");
-                    
+
                     string[] accepts = new string[] { 
                         "application/xml", 
                         "application/json" 
                     };
-                    
+
                     string? accept = ClientUtils.SelectHeaderAccept(accepts);
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = HttpMethod.Get; 
+                    request.Method = HttpMethod.Get;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -954,7 +953,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<List<Pet>?> apiResponse = new ApiResponse<List<Pet>?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Pet>>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -983,7 +982,7 @@ namespace Org.OpenAPITools.Api
         public async Task<Pet?> GetPetByIdAsync(long petId, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<Pet?> result = await GetPetByIdWithHttpInfoAsync(petId, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -1028,9 +1027,9 @@ namespace Org.OpenAPITools.Api
 
                 if (petId == null)
                     throw new ArgumentNullException(nameof(petId));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -1040,26 +1039,26 @@ namespace Org.OpenAPITools.Api
                     uriBuilder.Path = uriBuilder.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
                     List<TokenBase> tokens = new List<TokenBase>();
-                    
+
                     ApiKeyToken apiKey = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-                    
+
                     tokens.Add(apiKey);
-                    
+
                     apiKey.UseInHeader(request, "api_key");
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     string[] accepts = new string[] { 
                         "application/xml", 
                         "application/json" 
                     };
-                    
+
                     string? accept = ClientUtils.SelectHeaderAccept(accepts);
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = HttpMethod.Get; 
+                    request.Method = HttpMethod.Get;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -1082,7 +1081,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<Pet?> apiResponse = new ApiResponse<Pet?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Pet>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<Pet>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1108,7 +1107,7 @@ namespace Org.OpenAPITools.Api
         public async Task<object?> UpdatePetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object?> result = await UpdatePetWithHttpInfoAsync(pet, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -1153,25 +1152,24 @@ namespace Org.OpenAPITools.Api
 
                 if (pet == null)
                     throw new ArgumentNullException(nameof(pet));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
                     uriBuilder.Host = HttpClient.BaseAddress!.Host;
                     uriBuilder.Scheme = ClientUtils.SCHEME;
                     uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/pet";
-                    
-                    if ((pet as object) is System.IO.Stream stream)
-                        request.Content = new StreamContent(stream);
-                    else
-                        request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(pet, ClientUtils.JsonSerializerSettings));
+
+                    request.Content = (pet as object) is System.IO.Stream stream
+                        ? request.Content = new StreamContent(stream)
+                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(pet, ClientUtils.JsonSerializerOptions));
 
                     List<TokenBase> tokens = new List<TokenBase>();
 
                     request.RequestUri = uriBuilder.Uri;
-                    
+
                     HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(signatureToken);
@@ -1183,20 +1181,20 @@ namespace Org.OpenAPITools.Api
                     OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(oauthToken);
-                    
+
                     oauthToken.UseInHeader(request, "");
-                    
+
                     string[] contentTypes = new string[] {
                         "application/json",
                         "application/xml" 
                     };
-                    
+
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
                         
-                    request.Method = HttpMethod.Put; 
+                    request.Method = HttpMethod.Put;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -1219,7 +1217,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1250,7 +1248,7 @@ namespace Org.OpenAPITools.Api
         public async Task<object?> UpdatePetWithFormAsync(long petId, string? name = null, string? status = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<object?> result = await UpdatePetWithFormWithHttpInfoAsync(petId, name, status, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -1299,9 +1297,9 @@ namespace Org.OpenAPITools.Api
 
                 if (petId == null)
                     throw new ArgumentNullException(nameof(petId));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -1313,7 +1311,7 @@ namespace Org.OpenAPITools.Api
                     MultipartContent multipartContent = new MultipartContent();
 
                     request.Content = multipartContent;
-                    
+
                     List<KeyValuePair<string?, string?>> formParams = new List<KeyValuePair<string?, string?>>();
 
                     multipartContent.Add(new FormUrlEncodedContent(formParams));
@@ -1331,19 +1329,19 @@ namespace Org.OpenAPITools.Api
                     OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(oauthToken);
-                    
+
                     oauthToken.UseInHeader(request, "");
-                    
+
                     string[] contentTypes = new string[] {
                         "application/x-www-form-urlencoded" 
                     };
-                    
+
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
                         
-                    request.Method = HttpMethod.Post; 
+                    request.Method = HttpMethod.Post;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -1366,7 +1364,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1394,7 +1392,7 @@ namespace Org.OpenAPITools.Api
         public async Task<ApiResponse?> UploadFileAsync(long petId, string? additionalMetadata = null, System.IO.Stream? file = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<ApiResponse?> result = await UploadFileWithHttpInfoAsync(petId, additionalMetadata, file, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -1443,9 +1441,9 @@ namespace Org.OpenAPITools.Api
 
                 if (petId == null)
                     throw new ArgumentNullException(nameof(petId));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -1457,14 +1455,14 @@ namespace Org.OpenAPITools.Api
                     MultipartContent multipartContent = new MultipartContent();
 
                     request.Content = multipartContent;
-                    
+
                     List<KeyValuePair<string?, string?>> formParams = new List<KeyValuePair<string?, string?>>();
 
                     multipartContent.Add(new FormUrlEncodedContent(formParams));
 
                     if (additionalMetadata != null)
                         formParams.Add(new KeyValuePair<string?, string?>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata)));
-                    
+
                     if (file != null)
                         multipartContent.Add(new StreamContent(file));
 
@@ -1475,28 +1473,28 @@ namespace Org.OpenAPITools.Api
                     OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(oauthToken);
-                    
+
                     oauthToken.UseInHeader(request, "");
-                    
+
                     string[] contentTypes = new string[] {
                         "multipart/form-data" 
                     };
-                    
+
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
-                    
+
                     string[] accepts = new string[] { 
                         "application/json" 
                     };
-                    
+
                     string? accept = ClientUtils.SelectHeaderAccept(accepts);
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = HttpMethod.Post; 
+                    request.Method = HttpMethod.Post;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -1519,7 +1517,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<ApiResponse?> apiResponse = new ApiResponse<ApiResponse?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResponse>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -1547,7 +1545,7 @@ namespace Org.OpenAPITools.Api
         public async Task<ApiResponse?> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<ApiResponse?> result = await UploadFileWithRequiredFileWithHttpInfoAsync(petId, requiredFile, additionalMetadata, cancellationToken).ConfigureAwait(false);
-            
+
             if (result.Content == null)
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
 
@@ -1599,9 +1597,9 @@ namespace Org.OpenAPITools.Api
 
                 if (requiredFile == null)
                     throw new ArgumentNullException(nameof(requiredFile));
-                    
+
                 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                
+
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
                     UriBuilder uriBuilder = new UriBuilder();
@@ -1613,15 +1611,15 @@ namespace Org.OpenAPITools.Api
                     MultipartContent multipartContent = new MultipartContent();
 
                     request.Content = multipartContent;
-                    
+
                     List<KeyValuePair<string?, string?>> formParams = new List<KeyValuePair<string?, string?>>();
 
                     multipartContent.Add(new FormUrlEncodedContent(formParams));
 
+                    multipartContent.Add(new StreamContent(requiredFile));
+
                     if (additionalMetadata != null)
                         formParams.Add(new KeyValuePair<string?, string?>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata)));
-                    
-                    multipartContent.Add(new StreamContent(requiredFile));
 
                     List<TokenBase> tokens = new List<TokenBase>();
 
@@ -1630,28 +1628,28 @@ namespace Org.OpenAPITools.Api
                     OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokens.Add(oauthToken);
-                    
+
                     oauthToken.UseInHeader(request, "");
-                    
+
                     string[] contentTypes = new string[] {
                         "multipart/form-data" 
                     };
-                    
+
                     string? contentType = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentType != null)
                         request.Content.Headers.Add("ContentType", contentType);
-                    
+
                     string[] accepts = new string[] { 
                         "application/json" 
                     };
-                    
+
                     string? accept = ClientUtils.SelectHeaderAccept(accepts);
 
                     if (accept != null)
                         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                     
-                    request.Method = HttpMethod.Post; 
+                    request.Method = HttpMethod.Post;
 
                     using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
@@ -1674,7 +1672,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<ApiResponse?> apiResponse = new ApiResponse<ApiResponse?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResponse>(apiResponse.RawContent, ClientUtils.JsonSerializerSettings);
+                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();

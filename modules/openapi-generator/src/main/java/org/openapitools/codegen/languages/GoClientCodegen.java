@@ -18,6 +18,8 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.Iterables;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +33,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -245,6 +249,19 @@ public class GoClientCodegen extends AbstractGoCodegen {
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
+        // add lambda for mustache templates to handle oneOf/anyOf naming
+        // e.g. []string => ArrayOfString
+        additionalProperties.put("lambda.type-to-name", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String content = fragment.execute();
+                content = content.trim().replace("[]", "array_of_");
+                content = content.trim().replace("[", "map_of_");
+                content = content.trim().replace("]", "");
+                writer.write(camelize(content));
+            }
+        });
+
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
@@ -403,8 +420,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
                 for (CodegenProperty param : Iterables.concat(model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
                     param.vendorExtensions.put("x-go-base-type", param.dataType);
-                    if (!param.isNullable || param.isMap || param.isArray ||
-                            param.isFreeFormObject || param.isAnyType) {
+                    if (!param.isNullable || param.isContainer || param.isFreeFormObject
+                            || (param.isAnyType && !param.isModel)) {
                         continue;
                     }
                     if (param.isDateTime) {
@@ -488,6 +505,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
             String dataType = StringUtils.removeStart(codegenParameter.dataType, "map[string][]");
             if (modelMaps.containsKey(dataType)) {
                 prefix = "map[string][]" + goImportAlias + "." + dataType;
+            }
+            if (codegenParameter.items == null) {
+                return prefix + "{ ... }";
             }
             return prefix + "{\"key\": " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isPrimitiveType) { // primitive type

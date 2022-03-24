@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class ArrayOfNumberOnly   {
+public class ArrayOfNumberOnly {
 
   @JsonProperty("ArrayNumber")
   @Valid

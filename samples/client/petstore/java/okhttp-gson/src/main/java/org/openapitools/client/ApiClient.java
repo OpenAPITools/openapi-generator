@@ -384,7 +384,7 @@ public class ApiClient {
     /**
      * <p>Set OffsetDateTimeFormat.</p>
      *
-     * @param dateFormat a {@link org.threeten.bp.format.DateTimeFormatter} object
+     * @param dateFormat a {@link java.time.format.DateTimeFormatter} object
      * @return a {@link org.openapitools.client.ApiClient} object
      */
     public ApiClient setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
@@ -395,7 +395,7 @@ public class ApiClient {
     /**
      * <p>Set LocalDateFormat.</p>
      *
-     * @param dateFormat a {@link org.threeten.bp.format.DateTimeFormatter} object
+     * @param dateFormat a {@link java.time.format.DateTimeFormatter} object
      * @return a {@link org.openapitools.client.ApiClient} object
      */
     public ApiClient setLocalDateFormat(DateTimeFormatter dateFormat) {
@@ -1417,9 +1417,11 @@ public class ApiClient {
                 File file = (File) param.getValue();
                 addPartToMultiPartBuilder(mpBuilder, param.getKey(), file);
             } else if (param.getValue() instanceof List) {
-                List<File> files = (List<File>) param.getValue();
-                for (File file : files) {
-                    addPartToMultiPartBuilder(mpBuilder, param.getKey(), file);
+                List list = (List) param.getValue();
+                for (Object item: list) {
+                    if (item instanceof File) {
+                        addPartToMultiPartBuilder(mpBuilder, param.getKey(), (File) item);
+                    }
                 }
             } else {
                 Headers partHeaders = Headers.of("Content-Disposition", "form-data; name=\"" + param.getKey() + "\"");

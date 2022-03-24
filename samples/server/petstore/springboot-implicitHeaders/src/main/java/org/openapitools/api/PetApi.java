@@ -56,8 +56,6 @@ public interface PetApi {
         @ApiResponse(code = 200, message = "successful operation"),
         @ApiResponse(code = 405, message = "Invalid input")
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet",
@@ -95,7 +93,7 @@ public interface PetApi {
         @ApiResponse(code = 400, message = "Invalid pet value")
     })
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "apiKey", value = "",  dataType = "String", paramType = "header")
+        @ApiImplicitParam(name = "api_key", value = "",  dataType = "String", paramType = "header")
     })
     @RequestMapping(
         method = RequestMethod.DELETE,
@@ -134,8 +132,6 @@ public interface PetApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.GET,
@@ -191,8 +187,6 @@ public interface PetApi {
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
         @ApiResponse(code = 400, message = "Invalid tag value")
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/findByTags",
@@ -243,8 +237,6 @@ public interface PetApi {
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found")
-    })
-    @ApiImplicitParams({
     })
     @RequestMapping(
         method = RequestMethod.GET,
@@ -300,8 +292,6 @@ public interface PetApi {
         @ApiResponse(code = 404, message = "Pet not found"),
         @ApiResponse(code = 405, message = "Validation exception")
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/pet",
@@ -338,8 +328,6 @@ public interface PetApi {
     @ApiResponses({
         @ApiResponse(code = 405, message = "Invalid input")
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet/{petId}",
@@ -347,8 +335,8 @@ public interface PetApi {
     )
     default ResponseEntity<Void> updatePetWithForm(
         @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name,
-        @ApiParam(value = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status
+        @ApiParam(value = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
+        @ApiParam(value = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -379,8 +367,6 @@ public interface PetApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
     })
-    @ApiImplicitParams({
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet/{petId}/uploadImage",
@@ -389,7 +375,7 @@ public interface PetApi {
     )
     default ResponseEntity<ModelApiResponse> uploadFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
+        @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     ) {
         getRequest().ifPresent(request -> {

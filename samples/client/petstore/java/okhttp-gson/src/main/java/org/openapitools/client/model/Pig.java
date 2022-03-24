@@ -104,12 +104,32 @@ public class Pig extends AbstractOpenApiSchema {
                     Object deserialized = null;
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
+                    // use discriminator value for faster oneOf lookup
+                    Pig newPig = new Pig();
+                    if (jsonObject.get("className") == null) {
+                        log.log(Level.WARNING, "Failed to lookup discriminator value for Pig as `className` was not found in the payload or the payload is empty.");
+                    } else  {
+                        // look up the discriminator value in the field `className`
+                        switch (jsonObject.get("className").getAsString()) {
+                            case "BasquePig":
+                                deserialized = adapterBasquePig.fromJsonTree(jsonObject);
+                                newPig.setActualInstance(deserialized);
+                                return newPig;
+                            case "DanishPig":
+                                deserialized = adapterDanishPig.fromJsonTree(jsonObject);
+                                newPig.setActualInstance(deserialized);
+                                return newPig;
+                            default:
+                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Pig. Possible values: BasquePig DanishPig", jsonObject.get("className").getAsString()));
+                        }
+                    }
+
                     int match = 0;
                     TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize BasquePig
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         BasquePig.validateJsonObject(jsonObject);
                         actualAdapter = adapterBasquePig;
                         match++;
@@ -121,7 +141,7 @@ public class Pig extends AbstractOpenApiSchema {
 
                     // deserialize DanishPig
                     try {
-                        // validate the JSON object to see if any excpetion is thrown
+                        // validate the JSON object to see if any exception is thrown
                         DanishPig.validateJsonObject(jsonObject);
                         actualAdapter = adapterDanishPig;
                         match++;

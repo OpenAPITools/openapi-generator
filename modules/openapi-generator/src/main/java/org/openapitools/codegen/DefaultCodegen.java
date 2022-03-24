@@ -565,6 +565,9 @@ public class DefaultCodegen implements CodegenConfig {
                 parent.getChildren().add(cm);
                 parent.hasChildren = true;
                 Schema parentSchema = this.openAPI.getComponents().getSchemas().get(parent.name);
+                if (parentSchema == null) {
+                    throw new NullPointerException(parent.name+" in "+this.openAPI.getComponents().getSchemas());
+                }
                 if (parentSchema.getDiscriminator() == null) {
                     parent = allModels.get(parent.getParent());
                 } else {
@@ -840,7 +843,7 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        if (useOneOfInterfaces) {
+        if (useOneOfInterfaces && openAPI.getComponents() != null) {
             // we process the openapi schema here to find oneOf schemas and create interface models for them
             Map<String, Schema> schemas = new HashMap<>(openAPI.getComponents().getSchemas());
             if (schemas == null) {
@@ -2532,14 +2535,14 @@ public class DefaultCodegen implements CodegenConfig {
                 if (allDefinitions != null && refSchema != null) {
                     if (allParents.contains(ref) && supportsMultipleInheritance) {
                         // multiple inheritance
-                        addProperties(allProperties, allRequired, refSchema);
+                        addProperties(allProperties, allRequired, refSchema, new HashSet<>());
                     } else if (parentName != null && parentName.equals(ref) && supportsInheritance) {
                         // single inheritance
-                        addProperties(allProperties, allRequired, refSchema);
+                        addProperties(allProperties, allRequired, refSchema, new HashSet<>());
                     } else {
                         // composition
-                        addProperties(properties, required, refSchema);
-                        addProperties(allProperties, allRequired, refSchema);
+                        addProperties(properties, required, refSchema, new HashSet<>());
+                        addProperties(allProperties, allRequired, refSchema, new HashSet<>());
                     }
                 }
 
@@ -2576,10 +2579,10 @@ public class DefaultCodegen implements CodegenConfig {
             if (component.get$ref() == null) {
                 if (component != null) {
                     // component is the child schema
-                    addProperties(properties, required, component);
+                    addProperties(properties, required, component, new HashSet<>());
 
                     // includes child's properties (all, required) in allProperties, allRequired
-                    addProperties(allProperties, allRequired, component);
+                    addProperties(allProperties, allRequired, component, new HashSet<>());
                 }
                 break; // at most one child only
             }
@@ -2765,7 +2768,7 @@ public class DefaultCodegen implements CodegenConfig {
             updateModelForObject(m, schema);
         } else if (!ModelUtils.isNullType(schema)) {
             // referenced models here, component that refs another component which is a model
-            // if a component references a schema which is not a generated model, the the refed schema will be loaded into
+            // if a component references a schema which is not a generated model, the refed schema will be loaded into
             // schema by unaliasSchema and one of the above code paths will be taken
             ;
         }
@@ -3260,17 +3263,21 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Add schema's properties to "properties" and "required" list
      *
-     * @param properties all properties
-     * @param required   required property only
-     * @param schema     schema in which the properties will be added to the lists
+     * @param properties     all properties
+     * @param required       required property only
+     * @param schema         schema in which the properties will be added to the lists
+     * @param visitedSchemas circuit-breaker - the schemas with which the method was called before for recursive structures
      */
-    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema) {
+    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Set<Schema> visitedSchemas) {
+        if (!visitedSchemas.add(schema)) {
+            return;
+        }
         if (schema instanceof ComposedSchema) {
             ComposedSchema composedSchema = (ComposedSchema) schema;
 
             if (composedSchema.getAllOf() != null) {
                 for (Schema component : composedSchema.getAllOf()) {
-                    addProperties(properties, required, component);
+                    addProperties(properties, required, component, visitedSchemas);
                 }
             }
 
@@ -3280,13 +3287,13 @@ public class DefaultCodegen implements CodegenConfig {
 
             if (composedSchema.getOneOf() != null) {
                 for (Schema component : composedSchema.getOneOf()) {
-                    addProperties(properties, required, component);
+                    addProperties(properties, required, component, visitedSchemas);
                 }
             }
 
             if (composedSchema.getAnyOf() != null) {
                 for (Schema component : composedSchema.getAnyOf()) {
-                    addProperties(properties, required, component);
+                    addProperties(properties, required, component, visitedSchemas);
                 }
             }
 
@@ -3295,7 +3302,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
             Schema interfaceSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
-            addProperties(properties, required, interfaceSchema);
+            addProperties(properties, required, interfaceSchema, visitedSchemas);
             return;
         }
         if (schema.getProperties() != null) {
@@ -3617,7 +3624,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (!ModelUtils.isArraySchema(p) && !ModelUtils.isMapSchema(p) && !isFreeFormObject(p) && !isAnyTypeWithNothingElseSet) {
             /* schemas that are not Array, not ModelUtils.isMapSchema, not isFreeFormObject, not AnyType with nothing else set
-             *  so primitve schemas int, str, number, referenced schemas, AnyType schemas with properties, enums, or composition
+             *  so primitive schemas int, str, number, referenced schemas, AnyType schemas with properties, enums, or composition
              */
             String type = getSchemaType(p);
             setNonArrayMapProperty(property, type);
@@ -3998,8 +4005,8 @@ public class DefaultCodegen implements CodegenConfig {
                     List<CodegenParameter> responseHeaders = new ArrayList<>();
                     for (Entry<String, Header> entry : headers.entrySet()) {
                         String headerName = entry.getKey();
-                        Header header = entry.getValue();
-                        CodegenParameter responseHeader = heeaderToCodegenParameter(header, headerName, imports, String.format(Locale.ROOT, "%sResponseParameter", r.code));
+                        Header header = ModelUtils.getReferencedHeader(this.openAPI, entry.getValue());
+                        CodegenParameter responseHeader = headerToCodegenParameter(header, headerName, imports, String.format(Locale.ROOT, "%sResponseParameter", r.code));
                         responseHeaders.add(responseHeader);
                     }
                     r.setResponseHeaders(responseHeaders);
@@ -4025,7 +4032,7 @@ public class DefaultCodegen implements CodegenConfig {
                     op.isResponseFile = Boolean.TRUE;
                 }
 
-                // check if any 4xx or 5xx reponse has an error response object defined
+                // check if any 4xx or 5xx response has an error response object defined
                 if ((Boolean.TRUE.equals(r.is4xx) || Boolean.TRUE.equals(r.is5xx)) &&
                         Boolean.FALSE.equals(r.primitiveType) && Boolean.FALSE.equals(r.simpleType)) {
                     op.hasErrorResponseObject = Boolean.TRUE;
@@ -5956,7 +5963,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // Int.max / 192
                 // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
                 // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
-                // Since this functionality was born in the Swift 5 generator and latter on broth to all generatorss
+                // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
                 // https://github.com/OpenAPITools/openapi-generator/pull/11013
                 enumValue = String.valueOf(11184809);
             }
@@ -6244,7 +6251,7 @@ public class DefaultCodegen implements CodegenConfig {
         // TODO in the future have this return one codegenParameter of type object or composed which includes all definition
         // that will be needed for complex composition use cases
         // https://github.com/OpenAPITools/openapi-generator/issues/10415
-        addProperties(properties, allRequired, schema);
+        addProperties(properties, allRequired, schema, new HashSet<>());
 
         if (!properties.isEmpty()) {
             for (Map.Entry<String, Schema> entry : properties.entrySet()) {
@@ -6689,7 +6696,7 @@ public class DefaultCodegen implements CodegenConfig {
         return "SchemaFor" + mediaTypeSchemaSuffix + toModelName(contentType);
     }
 
-    private CodegenParameter heeaderToCodegenParameter(Header header, String headerName, Set<String> imports, String mediaTypeSchemaSuffix) {
+    private CodegenParameter headerToCodegenParameter(Header header, String headerName, Set<String> imports, String mediaTypeSchemaSuffix) {
         if (header == null) {
             return null;
         }
@@ -6733,7 +6740,7 @@ public class DefaultCodegen implements CodegenConfig {
                         for (Entry<String, Header> headerEntry : encHeaders.entrySet()) {
                             String headerName = headerEntry.getKey();
                             Header header = ModelUtils.getReferencedHeader(this.openAPI, headerEntry.getValue());
-                            CodegenParameter param = heeaderToCodegenParameter(header, headerName, imports, mediaTypeSchemaSuffix);
+                            CodegenParameter param = headerToCodegenParameter(header, headerName, imports, mediaTypeSchemaSuffix);
                             headers.add(param);
                         }
                     }
@@ -7400,5 +7407,8 @@ public class DefaultCodegen implements CodegenConfig {
         return null;
     }
 
-    ;
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        return new ArrayList<>();
+    }
 }
