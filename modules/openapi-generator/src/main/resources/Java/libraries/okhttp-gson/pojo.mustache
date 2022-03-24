@@ -546,21 +546,21 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
              JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
              {{#isAdditionalPropertiesTrue}}
-             // store additional fields in the object
+             // store additional fields in the deserialized instance
              {{classname}} instance = thisAdapter.fromJsonTree(jsonObj);
-             for (String fieldName : jsonObj.keySet()) {
-               if (!openapiFields.contains(fieldName)) {
-                 if (jsonObj.get(fieldName).isJsonPrimitive()) {
-                   if (jsonObj.get(fieldName).getAsJsonPrimitive().isString())
-                     instance.putAdditionalProperty(fieldName, jsonObj.get(fieldName).getAsString());
-                   else if (jsonObj.get(fieldName).getAsJsonPrimitive().isNumber())
-                     instance.putAdditionalProperty(fieldName, jsonObj.get(fieldName).getAsNumber());
-                   else if (jsonObj.get(fieldName).getAsJsonPrimitive().isBoolean())
-                     instance.putAdditionalProperty(fieldName, jsonObj.get(fieldName).getAsBoolean());
+             for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
+               if (!openapiFields.contains(entry.getKey())) {
+                 if (entry.getValue().isJsonPrimitive()) { // primitive type
+                   if (entry.getValue().getAsJsonPrimitive().isString())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsString());
+                   else if (entry.getValue().getAsJsonPrimitive().isNumber())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsNumber());
+                   else if (entry.getValue().getAsJsonPrimitive().isBoolean())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", fieldName, jsonObj.get(fieldName).toString()));
-                 } else {
-                   instance.putAdditionalProperty(fieldName, jsonObj.get(fieldName));
+                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                 } else { // non-primitive type
+                   instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
                  }
                }
              }

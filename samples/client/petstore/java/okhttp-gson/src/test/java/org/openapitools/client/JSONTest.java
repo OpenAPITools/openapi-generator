@@ -525,16 +525,15 @@ public class JSONTest {
      */
     @Test
     public void testAdditionalProperties() throws Exception {
-        org.openapitools.client.model.Tag t = new org.openapitools.client.model.Tag();
-        t.setId(34L);
-        t.setName("just a tag");
-        String str = "{ \"className\": \"zebra\", \"type\": \"plains\", \"from_json\": 45.67 }";
+        String str = "{ \"className\": \"zebra\", \"type\": \"plains\", \"from_json\": 4567, \"from_json_map\": {\"nested_string\": \"nested_value\"} }";
         Zebra z = Zebra.fromJson(str);
         z.putAdditionalProperty("new_key", "new_value");
         z.putAdditionalProperty("new_number", 1.23);
         z.putAdditionalProperty("new_boolean", true);
+        org.openapitools.client.model.Tag t = new org.openapitools.client.model.Tag();
+        t.setId(34L);
+        t.setName("just a tag");
         z.putAdditionalProperty("new_object", t);
-        assertEquals(z.toJson(), "{\"from_json\":45.67,\"className\":\"zebra\",\"type\":\"plains\",\"new_key\":\"new_value\",\"new_boolean\":true,\"new_object\":{\"id\":34,\"name\":\"just a tag\"},\"new_number\":1.23}");
-
+        assertEquals(z.toJson(), "{\"from_json\":4567,\"from_json_map\":{\"nested_string\":\"nested_value\"},\"className\":\"zebra\",\"type\":\"plains\",\"new_key\":\"new_value\",\"new_boolean\":true,\"new_object\":{\"id\":34,\"name\":\"just a tag\"},\"new_number\":1.23}");
     }
 }
