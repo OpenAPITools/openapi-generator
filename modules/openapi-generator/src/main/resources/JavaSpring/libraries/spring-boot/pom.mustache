@@ -51,6 +51,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                {{#classifier}}
+                <configuration>
+                  <classifier>{{{classifier}}}</classifier>
+                </configuration>
+                {{/classifier}}
             </plugin>
             {{#apiFirst}}
             <plugin>
