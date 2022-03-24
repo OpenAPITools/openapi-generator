@@ -24,9 +24,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.openapitools.client.model.Fruit;
 import org.openapitools.client.model.NullableShape;
 import org.openapitools.client.model.Shape;
@@ -45,6 +43,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -56,7 +55,7 @@ import org.openapitools.client.JSON;
  * Drawing
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Drawing extends HashMap<String, Fruit> {
+public class Drawing {
   public static final String SERIALIZED_NAME_MAIN_SHAPE = "mainShape";
   @SerializedName(SERIALIZED_NAME_MAIN_SHAPE)
   private Shape mainShape;
@@ -175,41 +174,6 @@ public class Drawing extends HashMap<String, Fruit> {
     this.shapes = shapes;
   }
 
-  /**
-   * A container for additional, undeclared properties.
-   * This is a holder for any undeclared properties as specified with
-   * the 'additionalProperties' keyword in the OAS document.
-   */
-  private Map<String, Fruit> additionalProperties;
-
-  /**
-   * Set the additional (undeclared) property with the specified name and value.
-   * If the property does not already exist, create it otherwise replace it.
-   */
-  public Drawing putAdditionalProperty(String key, Fruit value) {
-    if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Fruit>();
-    }
-    this.additionalProperties.put(key, value);
-    return this;
-  }
-
-  /**
-   * Return the additional (undeclared) property.
-   */
-  public Map<String, Fruit> getAdditionalProperties() {
-    return additionalProperties;
-  }
-
-  /**
-   * Return the additional (undeclared) property with the specified name.
-   */
-  public Fruit getAdditionalProperty(String key) {
-    if (this.additionalProperties == null) {
-        return null;
-    }
-    return this.additionalProperties.get(key);
-  }
 
 
   @Override
@@ -224,9 +188,7 @@ public class Drawing extends HashMap<String, Fruit> {
     return Objects.equals(this.mainShape, drawing.mainShape) &&
         Objects.equals(this.shapeOrNull, drawing.shapeOrNull) &&
         Objects.equals(this.nullableShape, drawing.nullableShape) &&
-        Objects.equals(this.shapes, drawing.shapes)&&
-        Objects.equals(this.additionalProperties, drawing.additionalProperties) &&
-        super.equals(o);
+        Objects.equals(this.shapes, drawing.shapes);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -235,7 +197,7 @@ public class Drawing extends HashMap<String, Fruit> {
 
   @Override
   public int hashCode() {
-    return Objects.hash(mainShape, shapeOrNull, nullableShape, shapes, super.hashCode(), additionalProperties);
+    return Objects.hash(mainShape, shapeOrNull, nullableShape, shapes);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -249,12 +211,10 @@ public class Drawing extends HashMap<String, Fruit> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Drawing {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    mainShape: ").append(toIndentedString(mainShape)).append("\n");
     sb.append("    shapeOrNull: ").append(toIndentedString(shapeOrNull)).append("\n");
     sb.append("    nullableShape: ").append(toIndentedString(nullableShape)).append("\n");
     sb.append("    shapes: ").append(toIndentedString(shapes)).append("\n");
-    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -298,6 +258,14 @@ public class Drawing extends HashMap<String, Fruit> {
           return;
         } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in Drawing is not found in the empty JSON string", Drawing.openapiRequiredFields.toString()));
+        }
+      }
+
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!Drawing.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Drawing` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
       // validate the optional field `mainShape`

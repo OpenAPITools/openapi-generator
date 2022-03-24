@@ -23,8 +23,6 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -40,6 +38,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -51,13 +50,12 @@ import org.openapitools.client.JSON;
  * AdditionalPropertiesAnyType
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class AdditionalPropertiesAnyType extends HashMap<String, Object> implements Parcelable {
+public class AdditionalPropertiesAnyType implements Parcelable {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
   public AdditionalPropertiesAnyType() { 
-    super();
   }
 
   public AdditionalPropertiesAnyType name(String name) {
@@ -82,41 +80,6 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> impleme
     this.name = name;
   }
 
-  /**
-   * A container for additional, undeclared properties.
-   * This is a holder for any undeclared properties as specified with
-   * the 'additionalProperties' keyword in the OAS document.
-   */
-  private Map<String, Object> additionalProperties;
-
-  /**
-   * Set the additional (undeclared) property with the specified name and value.
-   * If the property does not already exist, create it otherwise replace it.
-   */
-  public AdditionalPropertiesAnyType putAdditionalProperty(String key, Object value) {
-    if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
-    }
-    this.additionalProperties.put(key, value);
-    return this;
-  }
-
-  /**
-   * Return the additional (undeclared) property.
-   */
-  public Map<String, Object> getAdditionalProperties() {
-    return additionalProperties;
-  }
-
-  /**
-   * Return the additional (undeclared) property with the specified name.
-   */
-  public Object getAdditionalProperty(String key) {
-    if (this.additionalProperties == null) {
-        return null;
-    }
-    return this.additionalProperties.get(key);
-  }
 
 
   @Override
@@ -128,23 +91,19 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> impleme
       return false;
     }
     AdditionalPropertiesAnyType additionalPropertiesAnyType = (AdditionalPropertiesAnyType) o;
-    return Objects.equals(this.name, additionalPropertiesAnyType.name)&&
-        Objects.equals(this.additionalProperties, additionalPropertiesAnyType.additionalProperties) &&
-        super.equals(o);
+    return Objects.equals(this.name, additionalPropertiesAnyType.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode(), additionalProperties);
+    return Objects.hash(name);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesAnyType {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -162,12 +121,10 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> impleme
 
 
   public void writeToParcel(Parcel out, int flags) {
-    super.writeToParcel(out, flags);
     out.writeValue(name);
   }
 
   AdditionalPropertiesAnyType(Parcel in) {
-    super(in);
     name = (String)in.readValue(null);
   }
 
@@ -208,6 +165,14 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> impleme
           return;
         } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesAnyType is not found in the empty JSON string", AdditionalPropertiesAnyType.openapiRequiredFields.toString()));
+        }
+      }
+
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!AdditionalPropertiesAnyType.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AdditionalPropertiesAnyType` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
   }

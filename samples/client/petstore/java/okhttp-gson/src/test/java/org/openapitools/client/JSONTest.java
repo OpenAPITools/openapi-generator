@@ -224,13 +224,11 @@ public class JSONTest {
     }
 
     @Test
+    @Disabled("No longer need the following test as additional field(s) should be stored in `additionalProperties`")
     public void testAdditionalFieldException() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             // test json string with additional field(s) to ensure exception is thrown
             Gson gson = json.getGson();
-            //Gson gson = new GsonBuilder()
-            //        .registerTypeAdapter(Tag.class, new Tag.CustomDeserializer())
-            //        .create();
             String json = "{\"id\": 5847, \"name\":\"tag test 1\", \"new-field\": true}";
             org.openapitools.client.model.Tag t = gson.fromJson(json, org.openapitools.client.model.Tag.class);
         });
@@ -268,7 +266,13 @@ public class JSONTest {
         Pet t4 = gson.fromJson(json3, Pet.class);
         assertEquals(t4.getName(), "pet test 1");
         assertEquals(t4.getId(), Long.valueOf(5847));
+    }
 
+    @Test
+    @Disabled("Unknown fields are now correctly deserialized into `additionalProperties`")
+    public void testUnknownFields() {
+        // test unknown fields in the payload
+        Gson gson = json.getGson();
         // test Tag
         String json5 = "{\"unknown_field\": 543, \"id\":\"tag 123\"}";
         Exception exception5 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
@@ -359,6 +363,7 @@ public class JSONTest {
             assertEquals(json.getGson().toJson(o), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
             assertEquals(o.toJson(), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
 
+            /* comment out the following as we've added "additionalProperties" support
             String str2 = "{ \"origin_typo\": \"japan\" }";
             // no match
             Exception exception = assertThrows(java.lang.IllegalArgumentException.class, () -> {
@@ -374,6 +379,7 @@ public class JSONTest {
             Exception exception4 = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
                 GmFruit o2 = json.getGson().fromJson(str2, GmFruit.class);
             });
+             */
         }
     }
 
@@ -407,15 +413,15 @@ public class JSONTest {
 
             // make sure deserialization works for pojo object
             Zebra z = Zebra.fromJson(str2);
-            assertEquals(z.toJson(), "{\"className\":\"zebra\",\"type\":\"plains\"}");
+            assertEquals(z.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\"}");
 
             Mammal o2 = json.getGson().fromJson(str2, Mammal.class);
             assertTrue(o2.getActualInstance() instanceof Zebra);
             Zebra inst2 = (Zebra) o2.getActualInstance();
-            assertEquals(json.getGson().toJson(inst2), "{\"className\":\"zebra\",\"type\":\"plains\"}");
-            assertEquals(inst2.toJson(), "{\"className\":\"zebra\",\"type\":\"plains\"}");
-            assertEquals(json.getGson().toJson(o2), "{\"className\":\"zebra\",\"type\":\"plains\"}");
-            assertEquals(o2.toJson(), "{\"className\":\"zebra\",\"type\":\"plains\"}");
+            assertEquals(json.getGson().toJson(inst2), "{\"type\":\"plains\",\"className\":\"zebra\"}");
+            assertEquals(inst2.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\"}");
+            assertEquals(json.getGson().toJson(o2), "{\"type\":\"plains\",\"className\":\"zebra\"}");
+            assertEquals(o2.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\"}");
         }
         {
             // incorrect payload results in exception
@@ -534,6 +540,6 @@ public class JSONTest {
         t.setId(34L);
         t.setName("just a tag");
         z.putAdditionalProperty("new_object", t);
-        assertEquals(z.toJson(), "{\"from_json\":4567,\"from_json_map\":{\"nested_string\":\"nested_value\"},\"className\":\"zebra\",\"type\":\"plains\",\"new_key\":\"new_value\",\"new_boolean\":true,\"new_object\":{\"id\":34,\"name\":\"just a tag\"},\"new_number\":1.23}");
+        assertEquals(z.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\",\"new_key\":\"new_value\",\"new_boolean\":true,\"new_object\":{\"id\":34,\"name\":\"just a tag\"},\"from_json\":4567,\"from_json_map\":{\"nested_string\":\"nested_value\"},\"new_number\":1.23}");
     }
 }

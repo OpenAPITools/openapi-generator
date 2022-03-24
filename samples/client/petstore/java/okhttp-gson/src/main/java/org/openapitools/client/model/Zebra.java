@@ -23,8 +23,6 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,6 +36,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -49,7 +48,7 @@ import org.openapitools.client.JSON;
  * Zebra
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Zebra extends HashMap<String, Object> {
+public class Zebra {
   /**
    * Gets or Sets type
    */
@@ -203,20 +202,18 @@ public class Zebra extends HashMap<String, Object> {
     Zebra zebra = (Zebra) o;
     return Objects.equals(this.type, zebra.type) &&
         Objects.equals(this.className, zebra.className)&&
-        Objects.equals(this.additionalProperties, zebra.additionalProperties) &&
-        super.equals(o);
+        Objects.equals(this.additionalProperties, zebra.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, className, super.hashCode(), additionalProperties);
+    return Objects.hash(type, className, additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Zebra {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
