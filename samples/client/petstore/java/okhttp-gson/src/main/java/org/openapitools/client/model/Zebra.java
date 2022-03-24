@@ -155,6 +155,42 @@ public class Zebra extends HashMap<String, Object> {
     this.className = className;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  public Zebra putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -166,13 +202,14 @@ public class Zebra extends HashMap<String, Object> {
     }
     Zebra zebra = (Zebra) o;
     return Objects.equals(this.type, zebra.type) &&
-        Objects.equals(this.className, zebra.className) &&
+        Objects.equals(this.className, zebra.className)&&
+        Objects.equals(this.additionalProperties, zebra.additionalProperties) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, className, super.hashCode());
+    return Objects.hash(type, className, super.hashCode(), additionalProperties);
   }
 
   @Override
@@ -182,6 +219,7 @@ public class Zebra extends HashMap<String, Object> {
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -226,13 +264,6 @@ public class Zebra extends HashMap<String, Object> {
           throw new IllegalArgumentException(String.format("The required field(s) %s in Zebra is not found in the empty JSON string", Zebra.openapiRequiredFields.toString()));
         }
       }
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
-      // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
-        if (!Zebra.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Zebra` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
-        }
-      }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : Zebra.openapiRequiredFields) {
@@ -257,6 +288,27 @@ public class Zebra extends HashMap<String, Object> {
            @Override
            public void write(JsonWriter out, Zebra value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             // serialize additonal properties
+             if (value.getAdditionalProperties() != null) {
+               for (String additionalField : value.getAdditionalProperties().keySet()) {
+                 if (value.getAdditionalProperties().get(additionalField) instanceof String)
+                   obj.addProperty(additionalField, (String) value.getAdditionalProperties().get(additionalField));
+                 else if (value.getAdditionalProperties().get(additionalField) instanceof Number)
+                   obj.addProperty(additionalField, (Number) value.getAdditionalProperties().get(additionalField));
+                 else if (value.getAdditionalProperties().get(additionalField) instanceof Boolean)
+                   obj.addProperty(additionalField, (Boolean) value.getAdditionalProperties().get(additionalField));
+                 else if (value.getAdditionalProperties().get(additionalField) instanceof Character)
+                   obj.addProperty(additionalField, (Boolean) value.getAdditionalProperties().get(additionalField));
+                 else {
+                   // object
+                   try {
+                     obj.add(additionalField, gson.toJsonTree(value.getAdditionalProperties().get(additionalField)).getAsJsonObject());
+                   } catch (java.lang.IllegalStateException e){
+                     // can't handle unknown type
+                   }
+                 }
+               }
+             }
              elementAdapter.write(out, obj);
            }
 
@@ -264,7 +316,14 @@ public class Zebra extends HashMap<String, Object> {
            public Zebra read(JsonReader in) throws IOException {
              JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
-             return thisAdapter.fromJsonTree(jsonObj);
+             // store additional fields in the object
+             Zebra instance = thisAdapter.fromJsonTree(jsonObj);
+             for (String fieldName : jsonObj.keySet()) {
+               if (!openapiFields.contains(fieldName)) {
+                 instance.putAdditionalProperty(fieldName, jsonObj.get(fieldName));
+               }
+             }
+             return instance;
            }
 
        }.nullSafe();

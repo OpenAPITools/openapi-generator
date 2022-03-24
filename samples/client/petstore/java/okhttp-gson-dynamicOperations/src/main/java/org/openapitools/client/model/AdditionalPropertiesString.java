@@ -79,6 +79,42 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
     this.name = name;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, String> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  public AdditionalPropertiesString putAdditionalProperty(String key, String value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, String>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  public Map<String, String> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public String getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -89,13 +125,14 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
       return false;
     }
     AdditionalPropertiesString additionalPropertiesString = (AdditionalPropertiesString) o;
-    return Objects.equals(this.name, additionalPropertiesString.name) &&
+    return Objects.equals(this.name, additionalPropertiesString.name)&&
+        Objects.equals(this.additionalProperties, additionalPropertiesString.additionalProperties) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(name, super.hashCode(), additionalProperties);
   }
 
   @Override
@@ -104,6 +141,7 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
     sb.append("class AdditionalPropertiesString {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -144,13 +182,6 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
           return;
         } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesString is not found in the empty JSON string", AdditionalPropertiesString.openapiRequiredFields.toString()));
-        }
-      }
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
-      // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
-        if (!AdditionalPropertiesString.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AdditionalPropertiesString` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
   }

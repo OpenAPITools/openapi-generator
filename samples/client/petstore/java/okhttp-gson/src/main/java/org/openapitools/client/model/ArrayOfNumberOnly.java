@@ -89,6 +89,7 @@ public class ArrayOfNumberOnly {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -153,6 +154,7 @@ public class ArrayOfNumberOnly {
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayOfNumberOnly is not found in the empty JSON string", ArrayOfNumberOnly.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {

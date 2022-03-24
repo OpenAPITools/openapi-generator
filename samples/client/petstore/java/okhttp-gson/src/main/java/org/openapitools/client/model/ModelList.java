@@ -78,6 +78,7 @@ public class ModelList {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -142,6 +143,7 @@ public class ModelList {
           throw new IllegalArgumentException(String.format("The required field(s) %s in ModelList is not found in the empty JSON string", ModelList.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {

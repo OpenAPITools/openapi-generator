@@ -418,6 +418,7 @@ public class AdditionalPropertiesClass implements Parcelable {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -553,6 +554,7 @@ public class AdditionalPropertiesClass implements Parcelable {
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesClass is not found in the empty JSON string", AdditionalPropertiesClass.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {

@@ -106,6 +106,7 @@ public class BananaReq {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -174,6 +175,7 @@ public class BananaReq {
           throw new IllegalArgumentException(String.format("The required field(s) %s in BananaReq is not found in the empty JSON string", BananaReq.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {

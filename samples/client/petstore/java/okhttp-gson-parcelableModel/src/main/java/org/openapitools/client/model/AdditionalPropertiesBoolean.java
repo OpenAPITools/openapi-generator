@@ -82,6 +82,42 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
     this.name = name;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Boolean> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  public AdditionalPropertiesBoolean putAdditionalProperty(String key, Boolean value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Boolean>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  public Map<String, Boolean> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public Boolean getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -92,13 +128,14 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
       return false;
     }
     AdditionalPropertiesBoolean additionalPropertiesBoolean = (AdditionalPropertiesBoolean) o;
-    return Objects.equals(this.name, additionalPropertiesBoolean.name) &&
+    return Objects.equals(this.name, additionalPropertiesBoolean.name)&&
+        Objects.equals(this.additionalProperties, additionalPropertiesBoolean.additionalProperties) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(name, super.hashCode(), additionalProperties);
   }
 
   @Override
@@ -107,6 +144,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
     sb.append("class AdditionalPropertiesBoolean {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -170,13 +208,6 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
           return;
         } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesBoolean is not found in the empty JSON string", AdditionalPropertiesBoolean.openapiRequiredFields.toString()));
-        }
-      }
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
-      // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
-        if (!AdditionalPropertiesBoolean.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AdditionalPropertiesBoolean` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
   }

@@ -107,6 +107,7 @@ public class SimpleQuadrilateral {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -176,6 +177,7 @@ public class SimpleQuadrilateral {
           throw new IllegalArgumentException(String.format("The required field(s) %s in SimpleQuadrilateral is not found in the empty JSON string", SimpleQuadrilateral.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {

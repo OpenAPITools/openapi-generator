@@ -146,6 +146,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -216,6 +217,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
           throw new IllegalArgumentException(String.format("The required field(s) %s in MixedPropertiesAndAdditionalPropertiesClass is not found in the empty JSON string", MixedPropertiesAndAdditionalPropertiesClass.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {

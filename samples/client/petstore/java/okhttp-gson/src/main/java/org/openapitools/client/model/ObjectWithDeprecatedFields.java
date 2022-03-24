@@ -177,6 +177,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -250,6 +251,7 @@ public class ObjectWithDeprecatedFields {
           throw new IllegalArgumentException(String.format("The required field(s) %s in ObjectWithDeprecatedFields is not found in the empty JSON string", ObjectWithDeprecatedFields.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {

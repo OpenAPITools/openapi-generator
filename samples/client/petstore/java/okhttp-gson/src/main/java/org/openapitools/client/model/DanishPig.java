@@ -78,6 +78,7 @@ public class DanishPig {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -143,6 +144,7 @@ public class DanishPig {
           throw new IllegalArgumentException(String.format("The required field(s) %s in DanishPig is not found in the empty JSON string", DanishPig.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {

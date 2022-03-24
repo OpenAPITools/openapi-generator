@@ -231,6 +231,7 @@ public class SomeObj {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -307,6 +308,7 @@ public class SomeObj {
           throw new IllegalArgumentException(String.format("The required field(s) %s in SomeObj is not found in the empty JSON string", SomeObj.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {

@@ -116,6 +116,7 @@ public class FileSchemaTestClass {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -183,6 +184,7 @@ public class FileSchemaTestClass {
           throw new IllegalArgumentException(String.format("The required field(s) %s in FileSchemaTestClass is not found in the empty JSON string", FileSchemaTestClass.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
