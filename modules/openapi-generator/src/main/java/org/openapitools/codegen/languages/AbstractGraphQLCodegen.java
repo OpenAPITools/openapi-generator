@@ -20,6 +20,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -420,7 +421,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<ModelMap> allModels) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
 
         for (CodegenOperation op : (List<CodegenOperation>) objs.get("operation")) {

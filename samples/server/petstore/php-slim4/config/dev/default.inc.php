@@ -32,6 +32,29 @@ return [
     // Doesn't do anything when 'logErrors' is false.
     'slim.logErrorDetails' => false,
 
+    // CORS settings
+    // @see https://github.com/neomerx/cors-psr7/blob/master/src/Strategies/Settings.php
+    'cors.settings' => [
+        isset($_SERVER['HTTPS']) ? 'https' : 'http', // serverOriginScheme
+        $_SERVER['SERVER_NAME'], // serverOriginHost
+        null, // serverOriginPort
+        false, // isPreFlightCanBeCached
+        0, // preFlightCacheMaxAge
+        false, // isForceAddMethods
+        false, // isForceAddHeaders
+        true, // isUseCredentials
+        true, // areAllOriginsAllowed
+        [], // allowedOrigins
+        true, // areAllMethodsAllowed
+        [], // allowedLcMethods
+        'GET, POST, PUT, PATCH, DELETE', // allowedMethodsList
+        true, // areAllHeadersAllowed
+        [], // allowedLcHeaders
+        'authorization, content-type, x-requested-with', // allowedHeadersList
+        '', // exposedHeadersList
+        true, // isCheckHost
+    ],
+
     // PDO
     'pdo.dsn' => 'mysql:host=localhost;charset=utf8mb4',
     'pdo.username' => 'root',

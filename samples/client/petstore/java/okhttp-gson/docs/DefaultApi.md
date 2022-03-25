@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**fooGet**](DefaultApi.md#fooGet) | **GET** /foo | 
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**fooGet**](DefaultApi.md#fooGet) | **GET** /foo |  |
 
 
 <a name="fooGet"></a>
@@ -61,5 +61,5 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | response |  -  |
+| **0** | response |  -  |
 

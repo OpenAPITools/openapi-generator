@@ -27,6 +27,8 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
@@ -322,7 +324,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     // override with any special post-processing
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
@@ -457,13 +459,13 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(final Map<String, Object> models) {
-        final Map<String, Object> processed = super.postProcessAllModels(models);
+    public Map<String, ModelsMap> postProcessAllModels(final Map<String, ModelsMap> models) {
+        final Map<String, ModelsMap> processed = super.postProcessAllModels(models);
         postProcessParentModels(models);
         return processed;
     }
 
-    private void postProcessParentModels(final Map<String, Object> models) {
+    private void postProcessParentModels(final Map<String, ModelsMap> models) {
         for (final String parent : parentModels) {
             final CodegenModel parentModel = ModelUtils.getModelByName(parent, models);
             final Collection<CodegenModel> childrenModels = childrenByParent.get(parent);

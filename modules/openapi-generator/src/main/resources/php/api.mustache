@@ -497,31 +497,13 @@ use {{invokerPackage}}\ObjectSerializer;
 
         {{#queryParams}}
         // query params
-        {{#isExplode}}
-        if (${{paramName}} !== null) {
-        {{#style}}
-            if('form' === '{{style}}' && is_array(${{paramName}})) {
-                foreach(${{paramName}} as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['{{baseName}}'] = ${{paramName}};
-            }
-        {{/style}}
-        {{^style}}
-            $queryParams['{{baseName}}'] = ${{paramName}};
-        {{/style}}
-        }
-        {{/isExplode}}
-        {{^isExplode}}
-        if (is_array(${{paramName}})) {
-            ${{paramName}} = ObjectSerializer::serializeCollection(${{paramName}}, '{{style}}{{^style}}{{collectionFormat}}{{/style}}', true);
-        }
-        if (${{paramName}} !== null) {
-            $queryParams['{{baseName}}'] = ${{paramName}};
-        }
-        {{/isExplode}}
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            ${{paramName}},
+            '{{baseName}}', // param base name
+            '{{#schema}}{{openApiType}}{{/schema}}', // openApiType
+            '{{style}}', // style
+            {{#isExplode}}true{{/isExplode}}{{^isExplode}}false{{/isExplode}} // explode
+        ) ?? []);
         {{/queryParams}}
 
         {{#headerParams}}
@@ -615,7 +597,7 @@ use {{invokerPackage}}\ObjectSerializer;
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -668,7 +650,7 @@ use {{invokerPackage}}\ObjectSerializer;
         $operationHost = $operationHosts[$this->hostIndex];
 
         {{/servers.0}}
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             '{{httpMethod}}',
             {{^servers.0}}$this->config->getHost(){{/servers.0}}{{#servers.0}}$operationHost{{/servers.0}} . $resourcePath . ($query ? "?{$query}" : ''),

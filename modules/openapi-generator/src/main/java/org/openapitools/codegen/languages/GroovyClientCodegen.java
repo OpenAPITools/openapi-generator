@@ -32,6 +32,7 @@ import org.openapitools.codegen.meta.features.ParameterFeature;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.ModelMap;
 
 
 public class GroovyClientCodegen extends AbstractJavaCodegen {
@@ -125,7 +126,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<ModelMap> allModels) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
         for (CodegenOperation op : ops) {

@@ -20,12 +20,13 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
 
-import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -413,11 +414,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
             for (CodegenProperty var : cm.vars) {
                 // check to see if model name is same as the property name
                 // which will result in compilation error
@@ -438,8 +437,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      * @return An in-place modified state of the codegen object model.
      */
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        final Map<String, Object> processed = super.postProcessAllModels(objs);
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
         postProcessEnumRefs(processed);
         updateValueTypeProperty(processed);
         updateNullableTypeProperty(processed);
@@ -472,18 +471,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      *
      * @param models processed models to be further processed for enum references
      */
-    @SuppressWarnings("unchecked")
-    private void postProcessEnumRefs(final Map<String, Object> models) {
+    private void postProcessEnumRefs(final Map<String, ModelsMap> models) {
         Map<String, CodegenModel> enumRefs = new HashMap<>();
-        for (Map.Entry<String, Object> entry : models.entrySet()) {
+        for (Map.Entry<String, ModelsMap> entry : models.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
             if (model.isEnum) {
                 enumRefs.put(entry.getKey(), model);
             }
         }
 
-        for (Map.Entry<String, Object> entry : models.entrySet()) {
-            String openAPIName = entry.getKey();
+        for (String openAPIName : models.keySet()) {
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model != null) {
                 for (CodegenProperty var : model.allVars) {
@@ -636,9 +633,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      *
      * @param models list of all models
      */
-    protected void updateValueTypeProperty(Map<String, Object> models) {
-        for (Map.Entry<String, Object> entry : models.entrySet()) {
-            String openAPIName = entry.getKey();
+    protected void updateValueTypeProperty(Map<String, ModelsMap> models) {
+        for (String openAPIName : models.keySet()) {
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model != null) {
                 for (CodegenProperty var : model.vars) {
@@ -653,9 +649,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      *
      * @param models list of all models
      */
-    protected void updateNullableTypeProperty(Map<String, Object> models) {
-        for (Map.Entry<String, Object> entry : models.entrySet()) {
-            String openAPIName = entry.getKey();
+    protected void updateNullableTypeProperty(Map<String, ModelsMap> models) {
+        for (String openAPIName : models.keySet()) {
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model != null) {
                 for (CodegenProperty var : model.vars) {
@@ -668,7 +663,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         if (objs != null) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
@@ -732,8 +727,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     if (!isSupportNullable()) {
                         for (CodegenParameter parameter : operation.allParams) {
                             CodegenModel model = null;
-                            for (Object modelHashMap : allModels) {
-                                CodegenModel codegenModel = ((HashMap<String, CodegenModel>) modelHashMap).get("model");
+                            for (ModelMap modelHashMap : allModels) {
+                                CodegenModel codegenModel = modelHashMap.getModel();
                                 if (codegenModel.getClassname().equals(parameter.dataType)) {
                                     model = codegenModel;
                                     break;
@@ -772,11 +767,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // default noop
     }
 
-    private void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<Object> allModels) {
+    private void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<ModelMap> allModels) {
         for (CodegenParameter parameter : parameters) {
             CodegenModel model = null;
-            for (Object modelHashMap : allModels) {
-                CodegenModel codegenModel = ((HashMap<String, CodegenModel>) modelHashMap).get("model");
+            for (ModelMap modelHashMap : allModels) {
+                CodegenModel codegenModel = modelHashMap.getModel();
                 if (codegenModel.getClassname().equals(parameter.dataType)) {
                     model = codegenModel;
                     break;
