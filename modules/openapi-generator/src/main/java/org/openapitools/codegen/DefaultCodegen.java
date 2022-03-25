@@ -7122,6 +7122,7 @@ public class DefaultCodegen implements CodegenConfig {
     public void addOneOfNameExtension(ComposedSchema s, String name) {
         if (s.getOneOf() != null && s.getOneOf().size() > 0) {
             s.addExtension("x-one-of-name", name);
+            s.setType(name);
         }
     }
 

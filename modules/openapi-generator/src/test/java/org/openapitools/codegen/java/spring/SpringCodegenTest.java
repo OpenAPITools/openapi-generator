@@ -988,6 +988,19 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void oneOf_11932() throws Exception {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseOneOfInterfaces(true);
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/issue_11932-oneOf.yaml");
+
+        final File fruitBaseClass = files.get("Fruit.java");
+        final String line = "public Fruit putBodyItem(String key,  bodyItem)";
+
+        assertFileNotContains(fruitBaseClass.toPath(), line);
+    }
+
+    @Test
     public void testTypeMappings() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.processOpts();

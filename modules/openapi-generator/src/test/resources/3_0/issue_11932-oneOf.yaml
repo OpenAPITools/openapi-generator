@@ -1,0 +1,48 @@
+openapi: 3.0.1
+info:
+   title: fruity
+   version: 0.0.1
+servers:
+   - url: /
+paths:
+   /:
+      get:
+         responses:
+            "200":
+               content:
+                  application/json:
+                     schema:
+                        $ref: '#/components/schemas/fruit'
+               description: desc
+         x-accepts: application/json
+components:
+   schemas:
+      fruit:
+         example:
+            fruitId: fruitId
+            body: "{}"
+         properties:
+            fruitId:
+               description: The unique ID of the fruit
+               type: string
+            body:
+               description: |
+                  The raw event payload that will be different based on the event.
+               oneOf:
+                  - $ref: '#/components/schemas/apple'
+                  - $ref: '#/components/schemas/banana'
+               type: object
+               x-one-of-name: FruitBodyOneOf
+         title: fruit
+      apple:
+         properties:
+            kind:
+               type: string
+         title: apple
+         type: object
+      banana:
+         properties:
+            count:
+               type: number
+         title: banana
+         type: object
