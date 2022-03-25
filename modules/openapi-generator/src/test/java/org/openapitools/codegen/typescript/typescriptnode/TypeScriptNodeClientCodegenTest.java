@@ -7,6 +7,8 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -176,14 +178,14 @@ public class TypeScriptNodeClientCodegenTest {
         final TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
         codegen.setModelNameSuffix("Suffix");
 
-        final HashMap<String, Object> allModels = createParameterForPostProcessAllModels(
+        final HashMap<String, ModelsMap> allModels = createParameterForPostProcessAllModels(
             codegen.fromModel("Root", rootSchema),
             codegen.fromModel("Child", childSchema)
         );
-        final Map<String, Object> results = codegen.postProcessAllModels(allModels);
-        final Map<String, Object> root = (Map<String, Object>) results.get("Root");
-        final List<Map<String, Object>> modelsOfRoot = (List<Map<String, Object>>) root.get("models");
-        final List<HashMap<String, String>> tsImports = (List<HashMap<String, String>>) modelsOfRoot.get(0)
+        final Map<String, ModelsMap> results = codegen.postProcessAllModels(allModels);
+        final List<ModelMap> rootModelMaps = results.get("Root")
+            .getModels();
+        final List<Map<String, String>> tsImports = (List<Map<String, String>>) rootModelMaps.get(0)
             .get("tsImports");
 
         Assert.assertEquals(tsImports.size(), 1);
@@ -205,14 +207,14 @@ public class TypeScriptNodeClientCodegenTest {
         final TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
         codegen.setModelNamePrefix("Prefix");
 
-        final HashMap<String, Object> allModels = createParameterForPostProcessAllModels(
+        final HashMap<String, ModelsMap> allModels = createParameterForPostProcessAllModels(
             codegen.fromModel("Root", rootSchema),
             codegen.fromModel("Child", childSchema)
         );
-        final Map<String, Object> results = codegen.postProcessAllModels(allModels);
-        final Map<String, Object> root = (Map<String, Object>) results.get("Root");
-        final List<Map<String, Object>> modelsOfRoot = (List<Map<String, Object>>) root.get("models");
-        final List<HashMap<String, String>> tsImports = (List<HashMap<String, String>>) modelsOfRoot.get(0)
+        final Map<String, ModelsMap> results = codegen.postProcessAllModels(allModels);
+        final List<ModelMap> rootModelMaps = results.get("Root")
+            .getModels();
+        final List<Map<String, String>> tsImports = (List<Map<String, String>>) rootModelMaps.get(0)
             .get("tsImports");
 
         Assert.assertEquals(tsImports.size(), 1);
@@ -237,29 +239,21 @@ public class TypeScriptNodeClientCodegenTest {
         }};
     }
 
-    private HashMap<String, Object> createParameterForPostProcessAllModels(CodegenModel root, CodegenModel child) {
-        return new HashMap<String, Object>() {{
-            put("Child", new HashMap<String, Object>() {{
-                put("models", Collections.singletonList(
-                    new HashMap<String, Object>() {{
-                        put("importPath", "../model/child");
-                        put("model", child);
-                    }}
-                ));
-            }});
-            put("Root", new HashMap<String, Object>() {{
-                put("models", Collections.singletonList(
-                    new HashMap<String, Object>() {{
-                        put("importPath", "../model/root");
-                        put("model", root);
-                    }}
-                ));
-                put("imports", Collections.singletonList(
-                    new HashMap<String, Object>() {{
-                        put("import", "../model/child");
-                    }}
-                ));
-            }});
+    private HashMap<String, ModelsMap> createParameterForPostProcessAllModels(CodegenModel root, CodegenModel child) {
+        final ModelsMap rootModelsMap = new ModelsMap();
+        final ModelMap rootModelMap = new ModelMap();
+        rootModelMap.setModel(root);
+        rootModelsMap.setModels(Collections.singletonList(rootModelMap));
+        rootModelsMap.setImports(Collections.singletonList(Collections.singletonMap("import", "../model/Child")));
+
+        final ModelsMap childModelsMap = new ModelsMap();
+        final ModelMap childModelMap = new ModelMap();
+        childModelMap.setModel(child);
+        childModelsMap.setModels(Collections.singletonList(childModelMap));
+
+        return new HashMap<String, ModelsMap>() {{
+            put("Child", childModelsMap);
+            put("Root", rootModelsMap);
         }};
     }
 }
