@@ -205,10 +205,6 @@ import com.squareup.moshi.adapter
         if(body == null) {
             return null
         }
-        val bodyContent = body.string()
-        if (bodyContent.isEmpty()) {
-            return null
-        }
         if (T::class.java == File::class.java) {
             // return tempfile
             {{^supportAndroidApiLevel25AndBelow}}
@@ -224,14 +220,19 @@ import com.squareup.moshi.adapter
             }
             {{/supportAndroidApiLevel25AndBelow}}
             f.deleteOnExit()
-            val out = BufferedWriter(FileWriter(f))
-            out.write(bodyContent)
-            out.close()
+            body.byteStream().use { java.nio.file.Files.copy(it, f.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING) }
             return f as T
         }
+        val bodyContent = body.string()
+        if (bodyContent.isEmpty()) {
+            return null
+        }
         return when {
-        mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
-                {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
+            mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
+                {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{!
+                }}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{!
+                }}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{!
+                }}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
