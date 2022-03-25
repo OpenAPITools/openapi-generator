@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -189,7 +190,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             if (!im.equals(cm.classname)) {
                 HashMap<String, String> tsImport = new HashMap<>();
                 tsImport.put("classname", im);
-                tsImport.put("filename", toModelFilename(im));
+                tsImport.put("filename", toModelFilename(removeModelPrefixSuffix(im)));
                 tsImports.add(tsImport);
             }
         }
@@ -307,6 +308,20 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     private String getApiFilenameFromClassname(String classname) {
         String name = classname.substring(0, classname.length() - apiSuffix.length());
         return toApiFilename(name);
+    }
+
+    private String removeModelPrefixSuffix(String name) {
+        String result = name;
+        final String prefix = capitalize(this.modelNamePrefix);
+        final String suffix = capitalize(this.modelNameSuffix);
+
+        if (prefix.length() > 0 && result.startsWith(prefix)) {
+            result = result.substring(prefix.length());
+        }
+        if (suffix.length() > 0 && result.endsWith(suffix)) {
+            result = result.substring(0, result.length() - suffix.length());
+        }
+        return result;
     }
 
     @Override
