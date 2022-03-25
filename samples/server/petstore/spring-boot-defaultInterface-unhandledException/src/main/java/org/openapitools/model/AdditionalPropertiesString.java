@@ -23,7 +23,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class AdditionalPropertiesString   {
+public class AdditionalPropertiesString {
+
   @JsonProperty("name")
   private String name;
 
@@ -45,7 +46,6 @@ public class AdditionalPropertiesString   {
   public void setName(String name) {
     this.name = name;
   }
-
     /**
     * A container for additional, undeclared properties.
     * This is a holder for any undeclared properties as specified with
@@ -106,7 +106,6 @@ public class AdditionalPropertiesString   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesString {\n");
-    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
