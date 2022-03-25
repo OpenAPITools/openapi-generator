@@ -26,6 +26,8 @@ def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new PetApi(baseUr
 class PetApi(baseUrl: String) {
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 200 : Pet (successful operation)
    *   code 405 :  (Invalid input)
@@ -41,6 +43,8 @@ class PetApi(baseUrl: String) {
       .response(asJson[Pet])
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 400 :  (Invalid pet value)
    * 
@@ -109,6 +113,8 @@ class PetApi(baseUrl: String) {
       .response(asJson[Pet])
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 200 : Pet (successful operation)
    *   code 400 :  (Invalid ID supplied)
@@ -126,6 +132,8 @@ class PetApi(baseUrl: String) {
       .response(asJson[Pet])
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 405 :  (Invalid input)
    * 
@@ -145,6 +153,8 @@ class PetApi(baseUrl: String) {
       .response(asJson[Unit])
 
   /**
+   * 
+   * 
    * Expected answers:
    *   code 200 : ApiResponse (successful operation)
    * 

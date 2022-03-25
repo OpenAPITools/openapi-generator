@@ -55,8 +55,6 @@ public interface AnotherFakeApi {
             })
         }
     )
-    @Parameters({
-    })
     @RequestMapping(
         method = RequestMethod.PATCH,
         value = "/another-fake/dummy",

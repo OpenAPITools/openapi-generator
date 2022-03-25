@@ -288,20 +288,20 @@ public interface FakeApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> testEndpointParameters(
-        @Parameter(name = "number", description = "None", required = true) @RequestParam(value="number", required=true) BigDecimal number,
-        @Parameter(name = "double", description = "None", required = true) @RequestParam(value="double", required=true) Double _double,
-        @Parameter(name = "pattern_without_delimiter", description = "None", required = true) @RequestParam(value="pattern_without_delimiter", required=true) String patternWithoutDelimiter,
-        @Parameter(name = "byte", description = "None", required = true) @RequestParam(value="byte", required=true) byte[] _byte,
-        @Parameter(name = "integer", description = "None") @RequestParam(value="integer", required=false) Integer integer,
-        @Parameter(name = "int32", description = "None") @RequestParam(value="int32", required=false) Integer int32,
-        @Parameter(name = "int64", description = "None") @RequestParam(value="int64", required=false) Long int64,
-        @Parameter(name = "float", description = "None") @RequestParam(value="float", required=false) Float _float,
-        @Parameter(name = "string", description = "None") @RequestParam(value="string", required=false) String string,
-        @Parameter(name = "binary", description = "None") @RequestParam("binary") MultipartFile binary,
-        @Parameter(name = "date", description = "None") @RequestParam(value="date", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @Parameter(name = "dateTime", description = "None") @RequestParam(value="dateTime", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-        @Parameter(name = "password", description = "None") @RequestParam(value="password", required=false) String password,
-        @Parameter(name = "callback", description = "None") @RequestParam(value="callback", required=false) String paramCallback
+        @Parameter(name = "number", description = "None", required = true) @Valid @RequestParam(value = "number", required = true) BigDecimal number,
+        @Parameter(name = "double", description = "None", required = true) @Valid @RequestParam(value = "double", required = true) Double _double,
+        @Parameter(name = "pattern_without_delimiter", description = "None", required = true) @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
+        @Parameter(name = "byte", description = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
+        @Parameter(name = "integer", description = "None") @Valid @RequestParam(value = "integer", required = false) Integer integer,
+        @Parameter(name = "int32", description = "None") @Valid @RequestParam(value = "int32", required = false) Integer int32,
+        @Parameter(name = "int64", description = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
+        @Parameter(name = "float", description = "None") @Valid @RequestParam(value = "float", required = false) Float _float,
+        @Parameter(name = "string", description = "None") @Valid @RequestParam(value = "string", required = false) String string,
+        @Parameter(name = "binary", description = "None") @RequestPart(value = "binary", required = false) MultipartFile binary,
+        @Parameter(name = "date", description = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @Parameter(name = "dateTime", description = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+        @Parameter(name = "password", description = "None") @Valid @RequestParam(value = "password", required = false) String password,
+        @Parameter(name = "callback", description = "None") @Valid @RequestParam(value = "callback", required = false) String paramCallback
     );
 
 
@@ -336,13 +336,13 @@ public interface FakeApi {
     )
     ResponseEntity<Void> testEnumParameters(
         @Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)") @RequestHeader(value = "enum_header_string_array", required = false) List<String> enumHeaderStringArray,
-        @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)") @RequestHeader(value = "enum_header_string", required = false) String enumHeaderString,
+        @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)") @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
         @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
         @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
         @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
         @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
-        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @RequestParam(value="enum_form_string_array", required=false) List<String> enumFormStringArray,
-        @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @RequestParam(value="enum_form_string", required=false) String enumFormString
+        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @Valid @RequestParam(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
+        @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
     );
 
 
@@ -425,8 +425,8 @@ public interface FakeApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> testJsonFormData(
-        @Parameter(name = "param", description = "field1", required = true) @RequestParam(value="param", required=true) String param,
-        @Parameter(name = "param2", description = "field2", required = true) @RequestParam(value="param2", required=true) String param2
+        @Parameter(name = "param", description = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
+        @Parameter(name = "param2", description = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
     );
 
 

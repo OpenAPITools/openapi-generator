@@ -258,7 +258,7 @@ public class Drawing extends HashMap<String, Fruit> {
       if (jsonObj == null) {
         if (Drawing.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in Drawing is not found in the empty JSON string", Drawing.openapiRequiredFields.toString()));
         }
       }

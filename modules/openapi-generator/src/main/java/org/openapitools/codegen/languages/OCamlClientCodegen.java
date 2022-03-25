@@ -25,6 +25,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -189,16 +191,14 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> superobjs) {
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> superobjs) {
         List<String> toRemove = new ArrayList<>();
 
-        for (Map.Entry<String, Object> modelEntry : superobjs.entrySet()) {
-            Map<String, Object> objs = (Map<String, Object>) modelEntry.getValue();
+        for (Map.Entry<String, ModelsMap> modelEntry : superobjs.entrySet()) {
             // process enum in models
-            List<Object> models = (List<Object>) objs.get("models");
-            for (Object _mo : models) {
-                Map<String, Object> mo = (Map<String, Object>) _mo;
-                CodegenModel cm = (CodegenModel) mo.get("model");
+            List<ModelMap> models = modelEntry.getValue().getModels();
+            for (ModelMap mo : models) {
+                CodegenModel cm = mo.getModel();
 
                 // for enum model
                 if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
@@ -705,15 +705,15 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         return m;
     }
 
-    private Map<String, Object> buildEnumModelWrapper(String enumName, String values) {
-        Map<String, Object> m = new HashMap<>();
+    private ModelMap buildEnumModelWrapper(String enumName, String values) {
+        ModelMap m = new ModelMap();
         m.put("importPath", packageName + "." + enumName);
-        m.put("model", buildEnumModel(enumName, values));
+        m.setModel(buildEnumModel(enumName, values));
         return m;
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         @SuppressWarnings("unchecked")
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")

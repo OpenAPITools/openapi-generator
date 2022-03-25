@@ -31,7 +31,6 @@ from {{packageName}}.schemas import (
     Schema,
     FileIO,
     BinarySchema,
-    InstantiationMetadata,
     date,
     datetime,
     none_type,
@@ -807,9 +806,8 @@ class OpenApiResponse:
             else:
                 raise NotImplementedError('Deserialization of {} has not yet been implemented'.format(content_type))
             body_schema = self.content[content_type].schema
-            _instantiation_metadata = InstantiationMetadata(from_server=True, configuration=configuration)
             deserialized_body = body_schema._from_openapi_data(
-                body_data, _instantiation_metadata=_instantiation_metadata)
+                body_data, _configuration=configuration)
         elif streamed:
             response.release_conn()
 

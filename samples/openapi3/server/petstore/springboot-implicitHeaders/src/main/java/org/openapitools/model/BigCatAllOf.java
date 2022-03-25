@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 
 @JsonTypeName("BigCat_allOf")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class BigCatAllOf   {
+public class BigCatAllOf {
 
   /**
    * Gets or Sets kind

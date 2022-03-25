@@ -22,7 +22,7 @@ def __new__(
 {{/unless}}
 {{/unless}}
 {{/each}}
-    _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+    _configuration: typing.Optional[Configuration] = None,
 {{#with additionalProperties}}
     **kwargs: typing.Type[Schema],
 {{/with}}
@@ -46,7 +46,7 @@ def __new__(
 {{/unless}}
 {{/unless}}
 {{/each}}
-        _instantiation_metadata=_instantiation_metadata,
+        _configuration=_configuration,
 {{#with additionalProperties}}
         **kwargs,
 {{/with}}

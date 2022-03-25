@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Client
 {
@@ -89,6 +90,26 @@ namespace Org.OpenAPITools.Client
         public HostConfiguration AddApiHttpClients(
             Action<HttpClient> client = null, Action<IHttpClientBuilder> builder = null)
         {
+            ClientUtils.JsonSerializerOptions.Converters.Add(new OpenAPIDateJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new CatJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new ChildCatJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new ComplexQuadrilateralJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new DogJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new EquilateralTriangleJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new FruitJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new FruitReqJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new GmFruitJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new IsoscelesTriangleJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new MammalJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new NullableShapeJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new PigJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new QuadrilateralJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new ScaleneTriangleJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new ShapeJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new ShapeOrNullJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new SimpleQuadrilateralJsonConverter());
+            ClientUtils.JsonSerializerOptions.Converters.Add(new TriangleJsonConverter());
+
             AddApiHttpClients<AnotherFakeApi, DefaultApi, FakeApi, FakeClassnameTags123Api, PetApi, StoreApi, UserApi>(client, builder);
 
             return this;
@@ -99,9 +120,9 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public HostConfiguration ConfigureJsonOptions(Action<Newtonsoft.Json.JsonSerializerSettings> options)
+        public HostConfiguration ConfigureJsonOptions(Action<System.Text.Json.JsonSerializerOptions> options)
         {
-            options(Client.ClientUtils.JsonSerializerSettings);
+            options(Client.ClientUtils.JsonSerializerOptions);
 
             return this;
         }

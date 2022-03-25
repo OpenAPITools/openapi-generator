@@ -164,10 +164,10 @@ namespace Org.OpenAPITools.Test.Api
             string _string = default;
             System.IO.Stream binary = default;
             DateTime? date = default;
-            DateTime? dateTime = default;
             string password = default;
             string callback = default;
-            await _instance.TestEndpointParametersAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
+            DateTime? dateTime = default;
+            await _instance.TestEndpointParametersAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, password, callback, dateTime);
         }
 
         /// <summary>
@@ -177,14 +177,14 @@ namespace Org.OpenAPITools.Test.Api
         public async Task TestEnumParametersAsyncTest()
         {
             List<string> enumHeaderStringArray = default;
-            string enumHeaderString = default;
             List<string> enumQueryStringArray = default;
-            string enumQueryString = default;
             int? enumQueryInteger = default;
             double? enumQueryDouble = default;
+            string enumHeaderString = default;
+            string enumQueryString = default;
             List<string> enumFormStringArray = default;
             string enumFormString = default;
-            await _instance.TestEnumParametersAsync(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+            await _instance.TestEnumParametersAsync(enumHeaderStringArray, enumQueryStringArray, enumQueryInteger, enumQueryDouble, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString);
         }
 
         /// <summary>

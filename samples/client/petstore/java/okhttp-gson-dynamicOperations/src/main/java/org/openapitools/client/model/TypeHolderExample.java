@@ -302,7 +302,7 @@ public class TypeHolderExample {
       if (jsonObj == null) {
         if (TypeHolderExample.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in TypeHolderExample is not found in the empty JSON string", TypeHolderExample.openapiRequiredFields.toString()));
         }
       }

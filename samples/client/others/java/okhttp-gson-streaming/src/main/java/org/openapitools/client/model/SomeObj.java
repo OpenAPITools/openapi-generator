@@ -303,7 +303,7 @@ public class SomeObj {
       if (jsonObj == null) {
         if (SomeObj.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in SomeObj is not found in the empty JSON string", SomeObj.openapiRequiredFields.toString()));
         }
       }

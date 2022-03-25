@@ -342,7 +342,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -358,7 +358,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -535,16 +535,13 @@ class FakeApi
         $multipart = false;
 
         // query params
-        if ($query_1 !== null) {
-            if('form' === 'form' && is_array($query_1)) {
-                foreach($query_1 as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['query_1'] = $query_1;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $query_1,
+            'query_1', // param base name
+            'string', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
 
         // header params
         if ($header_1 !== null) {
@@ -591,7 +588,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -607,7 +604,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -846,7 +843,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -862,7 +859,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1101,7 +1098,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -1117,7 +1114,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1356,7 +1353,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -1372,7 +1369,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1611,7 +1608,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -1627,7 +1624,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1872,7 +1869,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -1888,7 +1885,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2088,7 +2085,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -2104,7 +2101,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2304,7 +2301,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -2320,7 +2317,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2490,16 +2487,13 @@ class FakeApi
         $multipart = false;
 
         // query params
-        if ($query !== null) {
-            if('form' === 'form' && is_array($query)) {
-                foreach($query as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['query'] = $query;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $query,
+            'query', // param base name
+            'string', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
 
 
 
@@ -2542,7 +2536,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -2558,7 +2552,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2811,7 +2805,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -2827,7 +2821,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'PATCH',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -3223,7 +3217,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -3243,7 +3237,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -3439,49 +3433,37 @@ class FakeApi
         $multipart = false;
 
         // query params
-        if ($enum_query_string_array !== null) {
-            if('form' === 'form' && is_array($enum_query_string_array)) {
-                foreach($enum_query_string_array as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['enum_query_string_array'] = $enum_query_string_array;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $enum_query_string_array,
+            'enum_query_string_array', // param base name
+            'array', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
         // query params
-        if ($enum_query_string !== null) {
-            if('form' === 'form' && is_array($enum_query_string)) {
-                foreach($enum_query_string as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['enum_query_string'] = $enum_query_string;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $enum_query_string,
+            'enum_query_string', // param base name
+            'string', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
         // query params
-        if ($enum_query_integer !== null) {
-            if('form' === 'form' && is_array($enum_query_integer)) {
-                foreach($enum_query_integer as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['enum_query_integer'] = $enum_query_integer;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $enum_query_integer,
+            'enum_query_integer', // param base name
+            'integer', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
         // query params
-        if ($enum_query_double !== null) {
-            if('form' === 'form' && is_array($enum_query_double)) {
-                foreach($enum_query_double as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['enum_query_double'] = $enum_query_double;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $enum_query_double,
+            'enum_query_double', // param base name
+            'number', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
 
         // header params
         if (is_array($enum_header_string_array)) {
@@ -3537,7 +3519,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -3553,7 +3535,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -3775,49 +3757,37 @@ class FakeApi
         $multipart = false;
 
         // query params
-        if ($required_string_group !== null) {
-            if('form' === 'form' && is_array($required_string_group)) {
-                foreach($required_string_group as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['required_string_group'] = $required_string_group;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $required_string_group,
+            'required_string_group', // param base name
+            'integer', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
         // query params
-        if ($required_int64_group !== null) {
-            if('form' === 'form' && is_array($required_int64_group)) {
-                foreach($required_int64_group as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['required_int64_group'] = $required_int64_group;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $required_int64_group,
+            'required_int64_group', // param base name
+            'integer', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
         // query params
-        if ($string_group !== null) {
-            if('form' === 'form' && is_array($string_group)) {
-                foreach($string_group as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['string_group'] = $string_group;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $string_group,
+            'string_group', // param base name
+            'integer', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
         // query params
-        if ($int64_group !== null) {
-            if('form' === 'form' && is_array($int64_group)) {
-                foreach($int64_group as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['int64_group'] = $int64_group;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $int64_group,
+            'int64_group', // param base name
+            'integer', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
 
         // header params
         if ($required_boolean_group !== null) {
@@ -3862,7 +3832,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -3882,7 +3852,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -4090,7 +4060,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -4106,7 +4076,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -4327,7 +4297,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -4343,7 +4313,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -4562,66 +4532,61 @@ class FakeApi
         $multipart = false;
 
         // query params
-        if (is_array($pipe)) {
-            $pipe = ObjectSerializer::serializeCollection($pipe, 'pipeDelimited', true);
-        }
-        if ($pipe !== null) {
-            $queryParams['pipe'] = $pipe;
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $pipe,
+            'pipe', // param base name
+            'array', // openApiType
+            'pipeDelimited', // style
+            false // explode
+        ) ?? []);
         // query params
-        if (is_array($ioutil)) {
-            $ioutil = ObjectSerializer::serializeCollection($ioutil, 'form', true);
-        }
-        if ($ioutil !== null) {
-            $queryParams['ioutil'] = $ioutil;
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $ioutil,
+            'ioutil', // param base name
+            'array', // openApiType
+            'form', // style
+            false // explode
+        ) ?? []);
         // query params
-        if (is_array($http)) {
-            $http = ObjectSerializer::serializeCollection($http, 'spaceDelimited', true);
-        }
-        if ($http !== null) {
-            $queryParams['http'] = $http;
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $http,
+            'http', // param base name
+            'array', // openApiType
+            'spaceDelimited', // style
+            false // explode
+        ) ?? []);
         // query params
-        if (is_array($url)) {
-            $url = ObjectSerializer::serializeCollection($url, 'form', true);
-        }
-        if ($url !== null) {
-            $queryParams['url'] = $url;
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $url,
+            'url', // param base name
+            'array', // openApiType
+            'form', // style
+            false // explode
+        ) ?? []);
         // query params
-        if ($context !== null) {
-            if('form' === 'form' && is_array($context)) {
-                foreach($context as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['context'] = $context;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $context,
+            'context', // param base name
+            'array', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
         // query params
-        if ($language !== null) {
-            if('form' === 'form' && is_array($language)) {
-                foreach($language as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['language'] = $language;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $language,
+            'language', // param base name
+            'object', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
         // query params
-        if ($allow_empty !== null) {
-            if('form' === 'form' && is_array($allow_empty)) {
-                foreach($allow_empty as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['allowEmpty'] = $allow_empty;
-            }
-        }
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $allow_empty,
+            'allowEmpty', // param base name
+            'string', // openApiType
+            'form', // style
+            true // explode
+        ) ?? []);
 
 
 
@@ -4658,7 +4623,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($queryParams);
             }
         }
 
@@ -4674,7 +4639,7 @@ class FakeApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),

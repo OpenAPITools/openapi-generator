@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -80,7 +80,7 @@ class HasOnlyReadOnly(
         *args: typing.Union[dict, frozendict, ],
         bar: typing.Union[bar, Unset] = unset,
         foo: typing.Union[foo, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'HasOnlyReadOnly':
         return super().__new__(
@@ -88,6 +88,6 @@ class HasOnlyReadOnly(
             *args,
             bar=bar,
             foo=foo,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )

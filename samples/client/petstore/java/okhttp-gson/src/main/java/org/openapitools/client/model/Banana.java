@@ -139,7 +139,7 @@ public class Banana {
       if (jsonObj == null) {
         if (Banana.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in Banana is not found in the empty JSON string", Banana.openapiRequiredFields.toString()));
         }
       }

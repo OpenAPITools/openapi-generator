@@ -140,7 +140,7 @@ public class DeprecatedObject {
       if (jsonObj == null) {
         if (DeprecatedObject.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in DeprecatedObject is not found in the empty JSON string", DeprecatedObject.openapiRequiredFields.toString()));
         }
       }

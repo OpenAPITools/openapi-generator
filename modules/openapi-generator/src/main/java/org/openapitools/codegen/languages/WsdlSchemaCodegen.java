@@ -21,6 +21,8 @@ import io.swagger.v3.oas.models.info.Info;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 
 import java.io.File;
 import java.text.Normalizer;
@@ -93,7 +95,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs,
-                                                               List<Object> allModels) {
+                                                               List<ModelMap> allModels) {
 
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
@@ -176,12 +178,9 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-
-        for (Object mo : models) {
-            Map<String, Object> mod = (Map<String, Object>) mo;
-            CodegenModel model = (CodegenModel) mod.get("model");
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel model = mo.getModel();
             Map<String, Object> modelVendorExtensions = model.getVendorExtensions();
 
             for (CodegenProperty var : model.vars) {

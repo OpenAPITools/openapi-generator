@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,7 +20,7 @@ import javax.annotation.Generated;
 
 @JsonTypeName("Dog_allOf")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class DogAllOf   {
+public class DogAllOf {
 
   @JsonProperty("breed")
   private String breed;

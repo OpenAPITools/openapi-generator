@@ -11,6 +11,7 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
 
 @JsonTypeName("format_test")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class FormatTest   {
+public class FormatTest {
 
   @JsonProperty("integer")
   private Integer integer;

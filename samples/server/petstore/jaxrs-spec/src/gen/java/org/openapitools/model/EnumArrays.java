@@ -18,7 +18,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("EnumArrays")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class EnumArrays  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class EnumArrays  implements Serializable {
   
 
 public enum JustSymbolEnum {
@@ -42,6 +43,21 @@ public enum JustSymbolEnum {
         return String.valueOf(value);
     }
 
+    /**
+     * Convert a String into String, as specified in the
+     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+     */
+	public static JustSymbolEnum fromString(String s) {
+        for (JustSymbolEnum b : JustSymbolEnum.values()) {
+            // using Objects.toString() to be safe if value type non-object type
+            // because types like 'int' etc. will be auto-boxed
+            if (java.util.Objects.toString(b.value).equals(s)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+	}
+	
     @JsonCreator
     public static JustSymbolEnum fromValue(String value) {
         for (JustSymbolEnum b : JustSymbolEnum.values()) {
@@ -76,6 +92,21 @@ public enum ArrayEnumEnum {
         return String.valueOf(value);
     }
 
+    /**
+     * Convert a String into String, as specified in the
+     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+     */
+	public static ArrayEnumEnum fromString(String s) {
+        for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
+            // using Objects.toString() to be safe if value type non-object type
+            // because types like 'int' etc. will be auto-boxed
+            if (java.util.Objects.toString(b.value).equals(s)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+	}
+	
     @JsonCreator
     public static ArrayEnumEnum fromValue(String value) {
         for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
@@ -89,14 +120,18 @@ public enum ArrayEnumEnum {
 
   private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
+  protected EnumArrays(EnumArraysBuilder<?, ?> b) {
+  this.justSymbol = b.justSymbol;this.arrayEnum = b.arrayEnum;
+  }
+
+  public EnumArrays() { }
+
   /**
    **/
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -116,8 +151,6 @@ public enum ArrayEnumEnum {
     this.arrayEnum = arrayEnum;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -189,5 +222,38 @@ public enum ArrayEnumEnum {
   }
 
 
+  public static EnumArraysBuilder<?, ?> builder() {
+    return new EnumArraysBuilderImpl();
+  }
+
+  private static final class EnumArraysBuilderImpl extends EnumArraysBuilder<EnumArrays, EnumArraysBuilderImpl> {
+
+    @Override
+    protected EnumArraysBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public EnumArrays build() {
+      return new EnumArrays(this);
+    }
+  }
+
+  public static abstract class EnumArraysBuilder<C extends EnumArrays, B extends EnumArraysBuilder<C, B>>  {
+    private JustSymbolEnum justSymbol;
+    private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B justSymbol(JustSymbolEnum justSymbol) {
+      this.justSymbol = justSymbol;
+      return self();
+    }
+    public B arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+      this.arrayEnum = arrayEnum;
+      return self();
+    }
+  }
 }
 

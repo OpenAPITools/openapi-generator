@@ -107,11 +107,11 @@ public class JavaModelTest {
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
         final Schema schema = new Schema()
-            .description("a sample model")
-            .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-            .addProperties("urls", new ArraySchema()
-                .items(new StringSchema()))
-            .addRequiredItem("id");
+                .description("a sample model")
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("urls", new ArraySchema()
+                        .items(new StringSchema()))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -138,12 +138,12 @@ public class JavaModelTest {
     @Test(description = "convert a model with set property")
     public void setPropertyTest() {
         final Schema schema = new Schema()
-            .description("a sample model")
-            .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-            .addProperties("urls", new ArraySchema()
-                .items(new StringSchema())
-                .uniqueItems(true))
-            .addRequiredItem("id");
+                .description("a sample model")
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("urls", new ArraySchema()
+                        .items(new StringSchema())
+                        .uniqueItems(true))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -406,8 +406,8 @@ public class JavaModelTest {
         Assert.assertTrue(property.isContainer);
 
         final CodegenProperty itemsProperty = property.items;
-        Assert.assertEquals(itemsProperty.baseName,"child");
-        Assert.assertEquals(itemsProperty.name,"child");
+        Assert.assertEquals(itemsProperty.baseName, "child");
+        Assert.assertEquals(itemsProperty.name, "child");
     }
 
     @Test(description = "convert an array model")
@@ -745,7 +745,7 @@ public class JavaModelTest {
 
     @DataProvider(name = "modelNames")
     public static Object[][] primeNumbers() {
-        return new Object[][] {
+        return new Object[][]{
                 {"sample", "Sample"},
                 {"sample_name", "SampleName"},
                 {"sample__name", "SampleName"},
@@ -771,7 +771,7 @@ public class JavaModelTest {
 
     @DataProvider(name = "classProperties")
     public static Object[][] classProperties() {
-        return new Object[][] {
+        return new Object[][]{
                 {"class", "getPropertyClass", "setPropertyClass", "propertyClass"},
                 {"_class", "getPropertyClass", "setPropertyClass", "propertyClass"},
                 {"__class", "getPropertyClass", "setPropertyClass", "propertyClass"}
@@ -1178,7 +1178,7 @@ public class JavaModelTest {
     @Test(description = "convert an array schema in an ApiResponse")
     public void arraySchemaTestInOperationResponse() {
         final Schema testSchema = new ArraySchema()
-                        .items(new Schema<>().$ref("#/components/schemas/Pet"));
+                .items(new Schema<>().$ref("#/components/schemas/Pet"));
         Operation operation = new Operation().responses(
                 new ApiResponses().addApiResponse("200", new ApiResponse()
                         .description("Ok response")

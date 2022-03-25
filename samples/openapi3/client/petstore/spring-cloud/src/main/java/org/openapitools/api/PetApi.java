@@ -37,6 +37,7 @@ public interface PetApi {
 
     /**
      * POST /pet : Add a new pet to the store
+     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
@@ -70,6 +71,7 @@ public interface PetApi {
 
     /**
      * DELETE /pet/{petId} : Deletes a pet
+     * 
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
@@ -200,6 +202,7 @@ public interface PetApi {
 
     /**
      * PUT /pet : Update an existing pet
+     * 
      *
      * @param pet Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
@@ -237,6 +240,7 @@ public interface PetApi {
 
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
+     * 
      *
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
@@ -261,13 +265,14 @@ public interface PetApi {
     )
     ResponseEntity<Void> updatePetWithForm(
         @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
-        @Parameter(name = "name", description = "Updated name of the pet") @RequestParam(value="name", required=false) String name,
-        @Parameter(name = "status", description = "Updated status of the pet") @RequestParam(value="status", required=false) String status
+        @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
+        @Parameter(name = "status", description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
     );
 
 
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
+     * 
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
@@ -295,8 +300,8 @@ public interface PetApi {
     )
     ResponseEntity<ModelApiResponse> uploadFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
-        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @RequestParam(value="additionalMetadata", required=false) String additionalMetadata,
-        @Parameter(name = "file", description = "file to upload") @RequestParam("file") MultipartFile file
+        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+        @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     );
 
 }

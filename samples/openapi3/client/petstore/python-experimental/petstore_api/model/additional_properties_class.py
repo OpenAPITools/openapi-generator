@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -82,13 +82,13 @@ class AdditionalPropertiesClass(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
             **kwargs: typing.Type[Schema],
         ) -> 'map_property':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
                 **kwargs,
             )
     
@@ -107,13 +107,13 @@ class AdditionalPropertiesClass(
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, ],
-                _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+                _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
             ) -> '_additional_properties':
                 return super().__new__(
                     cls,
                     *args,
-                    _instantiation_metadata=_instantiation_metadata,
+                    _configuration=_configuration,
                     **kwargs,
                 )
     
@@ -121,13 +121,13 @@ class AdditionalPropertiesClass(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
             **kwargs: typing.Type[Schema],
         ) -> 'map_of_map_property':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
                 **kwargs,
             )
     anytype_1 = AnyTypeSchema
@@ -145,12 +145,12 @@ class AdditionalPropertiesClass(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
         ) -> 'empty_map':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
             )
     
     
@@ -163,13 +163,13 @@ class AdditionalPropertiesClass(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
             **kwargs: typing.Type[Schema],
         ) -> 'map_with_undeclared_properties_string':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
                 **kwargs,
             )
 
@@ -185,7 +185,7 @@ class AdditionalPropertiesClass(
         map_with_undeclared_properties_anytype_3: typing.Union[map_with_undeclared_properties_anytype_3, Unset] = unset,
         empty_map: typing.Union[empty_map, Unset] = unset,
         map_with_undeclared_properties_string: typing.Union[map_with_undeclared_properties_string, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'AdditionalPropertiesClass':
         return super().__new__(
@@ -199,6 +199,6 @@ class AdditionalPropertiesClass(
             map_with_undeclared_properties_anytype_3=map_with_undeclared_properties_anytype_3,
             empty_map=empty_map,
             map_with_undeclared_properties_string=map_with_undeclared_properties_string,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )

@@ -70,6 +70,8 @@ class UserApi {
 
   /// Creates list of users with given input array
   ///
+  /// 
+  ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
@@ -105,6 +107,8 @@ class UserApi {
 
   /// Creates list of users with given input array
   ///
+  /// 
+  ///
   /// Parameters:
   ///
   /// * [List<User>] user (required):
@@ -117,6 +121,8 @@ class UserApi {
   }
 
   /// Creates list of users with given input array
+  ///
+  /// 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -152,6 +158,8 @@ class UserApi {
   }
 
   /// Creates list of users with given input array
+  ///
+  /// 
   ///
   /// Parameters:
   ///
@@ -219,6 +227,8 @@ class UserApi {
 
   /// Get user by user name
   ///
+  /// 
+  ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
@@ -255,6 +265,8 @@ class UserApi {
 
   /// Get user by user name
   ///
+  /// 
+  ///
   /// Parameters:
   ///
   /// * [String] username (required):
@@ -275,6 +287,8 @@ class UserApi {
   }
 
   /// Logs user into the system
+  ///
+  /// 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -317,6 +331,8 @@ class UserApi {
 
   /// Logs user into the system
   ///
+  /// 
+  ///
   /// Parameters:
   ///
   /// * [String] username (required):
@@ -340,6 +356,8 @@ class UserApi {
   }
 
   /// Logs out current logged in user session
+  ///
+  /// 
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> logoutUserWithHttpInfo() async {
@@ -370,6 +388,8 @@ class UserApi {
   }
 
   /// Logs out current logged in user session
+  ///
+  /// 
   Future<void> logoutUser() async {
     final response = await logoutUserWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {

@@ -19,7 +19,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.CodegenOperation;
@@ -30,6 +30,7 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -225,6 +226,7 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("register_dependencies.mustache", toSrcPath(appPackage, srcBasePath), "RegisterDependencies.php"));
         supportingFiles.add(new SupportingFile("register_middlewares.mustache", toSrcPath(appPackage, srcBasePath), "RegisterMiddlewares.php"));
         supportingFiles.add(new SupportingFile("register_routes.mustache", toSrcPath(appPackage, srcBasePath), "RegisterRoutes.php"));
+        supportingFiles.add(new SupportingFile("response_emitter.mustache", toSrcPath(appPackage, srcBasePath), "ResponseEmitter.php"));
 
         // don't generate phpunit config when tests generation disabled
         if (Boolean.TRUE.equals(generateApiTests) || Boolean.TRUE.equals(generateModelTests)) {
@@ -245,10 +247,14 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         if (Boolean.TRUE.equals(generateModelTests)) {
             supportingFiles.add(new SupportingFile("base_model_test.mustache", toSrcPath(invokerPackage, testBasePath), "BaseModelTest.php"));
         }
+
+        // based on example from link
+        // @see https://github.com/shivammathur/setup-php/blob/master/examples/slim-framework.yml
+        supportingFiles.add(new SupportingFile("github_action.yml.mustache", ".github" + File.separator + "workflows" + File.separator, "main.yml"));
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         addUserClassnameToOperations(operations);

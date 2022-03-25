@@ -139,7 +139,7 @@ public class BasquePig {
       if (jsonObj == null) {
         if (BasquePig.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in BasquePig is not found in the empty JSON string", BasquePig.openapiRequiredFields.toString()));
         }
       }

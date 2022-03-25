@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -21,7 +22,7 @@ import javax.annotation.Generated;
 
 @JsonTypeName("Dog_allOf")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class DogAllOf   {
+public class DogAllOf {
 
   @JsonProperty("breed")
   private String breed;

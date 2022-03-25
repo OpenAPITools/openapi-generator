@@ -17,13 +17,15 @@
 package org.openapitools.codegen.languages;
 
 import com.github.curiousoddman.rgxgen.RgxGen;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
-import org.apache.commons.lang3.tuple.Triple;
+
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.*;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.*;
@@ -52,7 +54,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -179,9 +180,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
-        supportedLibraries.put("asyncio", "Asyncio-based client (python 3.5+)");
-        supportedLibraries.put("tornado", "tornado-based client");
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado, urllib3");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: urllib3");
         libraryOption.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(DEFAULT_LIBRARY);
@@ -671,7 +670,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     @SuppressWarnings("static-method")
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         // fix the imports that each model has, add the module reference to the model
         // loops through imports and converts them all
         // from 'Pet' to 'from petstore_api.model.pet import Pet'
@@ -706,7 +705,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
      * @return the updated objs
      */
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         super.postProcessAllModels(objs);
 
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
@@ -717,11 +716,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             if (unaliasedSchema.get$ref() == null) {
                 continue;
             } else {
-                HashMap<String, Object> objModel = (HashMap<String, Object>) objs.get(modelName);
+                ModelsMap objModel = objs.get(modelName);
                 if (objModel != null) { // to avoid form parameter's models that are not generated (skipFormModel=true)
-                    List<Map<String, Object>> models = (List<Map<String, Object>>) objModel.get("models");
-                    for (Map<String, Object> model : models) {
-                        CodegenModel cm = (CodegenModel) model.get("model");
+                    for (ModelMap model : objModel.getModels()) {
+                        CodegenModel cm = model.getModel();
                         String[] importModelNames = cm.imports.toArray(new String[0]);
                         cm.imports.clear();
                         for (String importModelName : importModelNames) {
@@ -737,28 +735,30 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter cp = super.fromParameter(parameter, imports);
-        switch(parameter.getStyle()) {
-            case MATRIX:
-                cp.style = "MATRIX";
-                break;
-            case LABEL:
-                cp.style = "LABEL";
-                break;
-            case FORM:
-                cp.style = "FORM";
-                break;
-            case SIMPLE:
-                cp.style = "SIMPLE";
-                break;
-            case SPACEDELIMITED:
-                cp.style = "SPACE_DELIMITED";
-                break;
-            case PIPEDELIMITED:
-                cp.style = "PIPE_DELIMITED";
-                break;
-            case DEEPOBJECT:
-                cp.style = "DEEP_OBJECT";
-                break;
+        if (parameter.getStyle() != null) {
+            switch(parameter.getStyle()) {
+                case MATRIX:
+                    cp.style = "MATRIX";
+                    break;
+                case LABEL:
+                    cp.style = "LABEL";
+                    break;
+                case FORM:
+                    cp.style = "FORM";
+                    break;
+                case SIMPLE:
+                    cp.style = "SIMPLE";
+                    break;
+                case SPACEDELIMITED:
+                    cp.style = "SPACE_DELIMITED";
+                    break;
+                case PIPEDELIMITED:
+                    cp.style = "PIPE_DELIMITED";
+                    break;
+                case DEEPOBJECT:
+                    cp.style = "DEEP_OBJECT";
+                    break;
+            }
         }
         // clone this so we can change some properties on it
         CodegenProperty schemaProp = cp.getSchema().clone();
@@ -2015,7 +2015,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
     }
@@ -2189,4 +2189,18 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     public String generatorLanguageVersion() { return ">=3.9"; };
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        String originalSpecVersion;
+        if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty()) {
+            originalSpecVersion = (String) openAPI.getExtensions().get("x-original-swagger-version");
+        } else {
+            originalSpecVersion = openAPI.getOpenapi();
+        }
+        Integer specMajorVersion = Integer.parseInt(originalSpecVersion.substring(0, 1));
+        if (specMajorVersion < 3) {
+            throw new RuntimeException("Your spec version of "+originalSpecVersion+" is too low. python-experimental only works with specs with version >= 3.X.X. Please use a tool like Swagger Editor or Swagger Converter to convert your spec to v3");
+        }
+    }
 }

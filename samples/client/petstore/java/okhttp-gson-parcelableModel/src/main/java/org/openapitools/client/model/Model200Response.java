@@ -194,7 +194,7 @@ public class Model200Response implements Parcelable {
       if (jsonObj == null) {
         if (Model200Response.openapiRequiredFields.isEmpty()) {
           return;
-        } else { // has reuqired fields
+        } else { // has required fields
           throw new IllegalArgumentException(String.format("The required field(s) %s in Model200Response is not found in the empty JSON string", Model200Response.openapiRequiredFields.toString()));
         }
       }

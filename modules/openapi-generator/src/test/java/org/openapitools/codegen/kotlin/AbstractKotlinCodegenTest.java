@@ -16,12 +16,12 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.*;
+import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
 import static org.testng.Assert.*;
 
 public class AbstractKotlinCodegenTest {
@@ -265,7 +265,7 @@ public class AbstractKotlinCodegenTest {
         Assert.assertEquals(codegen.getTypeDeclaration("MyResponse"), "MyResponse");
 
         // We need to postProcess the model for enums to be processed
-        codegen.postProcessModels(Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm1))));
+        codegen.postProcessModels(createCodegenModelWrapper(cm1));
 
         // Assert the enum default value is properly generated
         CodegenProperty cp1 = cm1.vars.get(0);

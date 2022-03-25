@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.Optional;
 {{>generatedAnnotation}}
 
-@Controller
+@Controller{{#beanQualifiers}}("{{package}}.{{classname}}Controller"){{/beanQualifiers}}
 {{=<% %>=}}
 @RequestMapping("\${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
 <%={{ }}=%>

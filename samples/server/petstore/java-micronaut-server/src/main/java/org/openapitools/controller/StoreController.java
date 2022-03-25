@@ -110,6 +110,7 @@ public class StoreController {
 
     /**
      * Place an order for a pet
+     * 
      *
      * @param order order placed for purchasing the pet (required)
      * @return Order
@@ -117,6 +118,7 @@ public class StoreController {
     @ApiOperation(
         value = "Place an order for a pet",
         nickname = "placeOrder",
+        notes = "",
         response = Order.class,
         authorizations = {},
         tags={})
