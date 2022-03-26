@@ -1,5 +1,5 @@
 generatorName: cpp-qt-client
-outputDir: samples/client/petstore/cpp-qt-unqiue-items
+outputDir: samples/client/petstore/cpp-qt-unique-items
 inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore_plus_unique.json
 templateDir: modules/openapi-generator/src/main/resources/cpp-qt-client
 additionalProperties:
