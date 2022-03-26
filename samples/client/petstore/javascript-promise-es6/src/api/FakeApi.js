@@ -788,6 +788,7 @@ export default class FakeApi {
 
     /**
      * test inline additionalProperties
+     * 
      * @param {Object.<String, {String: String}>} requestBody request body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
@@ -820,6 +821,7 @@ export default class FakeApi {
 
     /**
      * test inline additionalProperties
+     * 
      * @param {Object.<String, {String: String}>} requestBody request body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
@@ -833,6 +835,7 @@ export default class FakeApi {
 
     /**
      * test json serialization of form data
+     * 
      * @param {String} param field1
      * @param {String} param2 field2
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
@@ -872,6 +875,7 @@ export default class FakeApi {
 
     /**
      * test json serialization of form data
+     * 
      * @param {String} param field1
      * @param {String} param2 field2
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}

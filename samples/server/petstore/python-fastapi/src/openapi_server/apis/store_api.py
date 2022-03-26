@@ -85,4 +85,5 @@ async def get_order_by_id(
 async def place_order(
     order: Order = Body(None, description="order placed for purchasing the pet"),
 ) -> Order:
+    """"""
     ...

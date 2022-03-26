@@ -18,6 +18,7 @@ module Petstore
       @api_client = api_client
     end
     # Add a new pet to the store
+    # 
     # @param pet [Pet] Pet object that needs to be added to the store
     # @return [Pet]
     def add_pet(pet : Pet)
@@ -26,6 +27,7 @@ module Petstore
     end
 
     # Add a new pet to the store
+    # 
     # @param pet [Pet] Pet object that needs to be added to the store
     # @return [Array<(Pet, Integer, Hash)>] Pet data, response status code and response headers
     def add_pet_with_http_info(pet : Pet)
@@ -77,6 +79,7 @@ module Petstore
     end
 
     # Deletes a pet
+    # 
     # @param pet_id [Int64] Pet id to delete
     # @return [nil]
     def delete_pet(pet_id : Int64, api_key : String?)
@@ -85,6 +88,7 @@ module Petstore
     end
 
     # Deletes a pet
+    # 
     # @param pet_id [Int64] Pet id to delete
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def delete_pet_with_http_info(pet_id : Int64, api_key : String?)
@@ -312,6 +316,7 @@ module Petstore
     end
 
     # Update an existing pet
+    # 
     # @param pet [Pet] Pet object that needs to be added to the store
     # @return [Pet]
     def update_pet(pet : Pet)
@@ -320,6 +325,7 @@ module Petstore
     end
 
     # Update an existing pet
+    # 
     # @param pet [Pet] Pet object that needs to be added to the store
     # @return [Array<(Pet, Integer, Hash)>] Pet data, response status code and response headers
     def update_pet_with_http_info(pet : Pet)
@@ -371,6 +377,7 @@ module Petstore
     end
 
     # Updates a pet in the store with form data
+    # 
     # @param pet_id [Int64] ID of pet that needs to be updated
     # @return [nil]
     def update_pet_with_form(pet_id : Int64, name : String?, status : String?)
@@ -379,6 +386,7 @@ module Petstore
     end
 
     # Updates a pet in the store with form data
+    # 
     # @param pet_id [Int64] ID of pet that needs to be updated
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def update_pet_with_form_with_http_info(pet_id : Int64, name : String?, status : String?)
@@ -430,6 +438,7 @@ module Petstore
     end
 
     # uploads an image
+    # 
     # @param pet_id [Int64] ID of pet to update
     # @return [ApiResponse]
     def upload_file(pet_id : Int64, additional_metadata : String?, file : ::File?)
@@ -438,6 +447,7 @@ module Petstore
     end
 
     # uploads an image
+    # 
     # @param pet_id [Int64] ID of pet to update
     # @return [Array<(ApiResponse, Integer, Hash)>] ApiResponse data, response status code and response headers
     def upload_file_with_http_info(pet_id : Int64, additional_metadata : String?, file : ::File?)

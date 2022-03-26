@@ -28,6 +28,8 @@ import io.swagger.v3.oas.models.servers.ServerVariable;
 import org.openapitools.codegen.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -379,12 +381,9 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
             // cannot handle inheritance from maps and arrays in C++
             if((cm.isArray || cm.isMap ) && (cm.parentModel == null)) {
                 cm.parent = null;
@@ -394,17 +393,17 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs){
-        Map<String, Object> models = super.postProcessAllModels(objs);
-        for (final Entry<String, Object> model : models.entrySet()) {
-            CodegenModel mo = ModelUtils.getModelByName(model.getKey(), models);
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs){
+        Map<String, ModelsMap> models = super.postProcessAllModels(objs);
+        for (final String key : models.keySet()) {
+            CodegenModel mo = ModelUtils.getModelByName(key, models);
             addForwardDeclarations(mo, models);
         }
         return models;
     }
 
-    private void addForwardDeclarations(CodegenModel parentModel, Map<String, Object> objs) {
-        List<String> forwardDeclarations = new ArrayList<String>();
+    private void addForwardDeclarations(CodegenModel parentModel, Map<String, ModelsMap> objs) {
+        List<String> forwardDeclarations = new ArrayList<>();
         if(!parentModel.hasVars) {
             return;
         }
@@ -413,18 +412,15 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 continue;
             }
             String childPropertyType = property.isContainer? property.mostInnerItems.baseType : property.baseType;
-            for(final Entry<String, Object> mo : objs.entrySet()) {
-                CodegenModel childModel = ModelUtils.getModelByName(mo.getKey(), objs);
+            for(final String key : objs.keySet()) {
+                CodegenModel childModel = ModelUtils.getModelByName(key, objs);
                 if( !childPropertyType.equals(childModel.classname) || childPropertyType.equals(parentModel.classname) || !childModel.hasVars ){
                     continue;
                 }
-                for(CodegenProperty p : childModel.vars) {
-                    if(((p.isModel && p.dataType.equals(parentModel.classname)) || (p.isContainer && p.mostInnerItems.baseType.equals(parentModel.classname)))) {
-                        String forwardDecl = "class " + childModel.classname + ";";
-                        if(!forwardDeclarations.contains(forwardDecl)) {
-                            forwardDeclarations.add(forwardDecl);
-                        }
-                    }
+
+                String forwardDecl = "class " + childPropertyType + ";";
+                if(!forwardDeclarations.contains(forwardDecl)) {
+                    forwardDeclarations.add(forwardDecl);
                 }
             }
         }

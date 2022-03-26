@@ -93,6 +93,7 @@ defmodule OpenapiPetstore.Api.Store do
 
   @doc """
   Place an order for a pet
+  
 
   ## Parameters
 

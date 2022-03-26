@@ -5,18 +5,18 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**name** | **String** |  |  [optional]
-**petType** | [**String**](#String) |  | 
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**name** | **String** |  |  [optional] |
+|**petType** | [**String**](#String) |  |  |
 
 
 
 ## Enum: String
 
-Name | Value
----- | -----
-CHILDCAT | &quot;ChildCat&quot;
+| Name | Value |
+|---- | -----|
+| CHILDCAT | &quot;ChildCat&quot; |
 
 
 

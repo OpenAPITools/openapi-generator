@@ -33,6 +33,8 @@ import org.openapitools.codegen.meta.features.ParameterFeature;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -232,7 +234,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(CliOption.newBoolean(GENERATE_ROOM_MODELS, "Generate Android Room database models in addition to API models (JVM Volley library only)", false));
 
-        cliOptions.add(CliOption.newBoolean(SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW, "[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in oder to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284"));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW, "[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284"));
     }
 
     public CodegenType getTag() {
@@ -247,7 +249,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         return "Generates a Kotlin client.";
     }
 
-    public boolean getGenerateRoomModels() { return generateRoomModels; }
+    public boolean getGenerateRoomModels() {
+        return generateRoomModels;
+    }
 
     public void setGenerateRoomModels(Boolean generateRoomModels) {
         this.generateRoomModels = generateRoomModels;
@@ -343,12 +347,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             // Set the value to defaults if we haven't overridden
             if (MULTIPLATFORM.equals(getLibrary())) {
                 setSourceFolder("src/commonMain/kotlin");
-            }
-            else if (JVM_VOLLEY.equals(getLibrary())){
+            } else if (JVM_VOLLEY.equals(getLibrary())) {
                 // Android plugin wants it's source in java
                 setSourceFolder("src/main/java");
-            }
-            else {
+            } else {
                 setSourceFolder(super.sourceFolder);
             }
             additionalProperties.put(CodegenConstants.SOURCE_FOLDER, this.sourceFolder);
@@ -549,8 +551,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             this.setGenerateRoomModels(convertPropertyToBooleanAndWriteBack(GENERATE_ROOM_MODELS));
             // Hide this option behind a property getter and setter in case we need to check it elsewhere
             if (getGenerateRoomModels()) {
-                 modelTemplateFiles.put("model_room.mustache", "RoomModel.kt");
-                 supportingFiles.add(new SupportingFile("infrastructure/ITransformForStorage.mustache", infrastructureFolder, "ITransformForStorage.kt"));
+                modelTemplateFiles.put("model_room.mustache", "RoomModel.kt");
+                supportingFiles.add(new SupportingFile("infrastructure/ITransformForStorage.mustache", infrastructureFolder, "ITransformForStorage.kt"));
 
             }
         } else {
@@ -730,13 +732,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        Map<String, Object> objects = super.postProcessModels(objs);
-        @SuppressWarnings("unchecked") List<Object> models = (List<Object>) objs.get("models");
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        ModelsMap objects = super.postProcessModels(objs);
 
-        for (Object model : models) {
-            @SuppressWarnings("unchecked") Map<String, Object> mo = (Map<String, Object>) model;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelMap mo : objects.getModels()) {
+            CodegenModel cm = mo.getModel();
             if (getGenerateRoomModels()) {
                 cm.vendorExtensions.put("x-has-data-class-body", true);
             }
@@ -768,7 +768,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {

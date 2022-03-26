@@ -19,10 +19,17 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("FileSchemaTestClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class FileSchemaTestClass  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class FileSchemaTestClass  implements Serializable {
   
   private @Valid ModelFile _file;
-  private @Valid List<ModelFile> files = new ArrayList<ModelFile>();
+  private @Valid List<ModelFile> files = new ArrayList<>();
+
+  protected FileSchemaTestClass(FileSchemaTestClassBuilder<?, ?> b) {
+  this._file = b._file;this.files = b.files;
+  }
+
+  public FileSchemaTestClass() { }
 
   /**
    **/
@@ -30,8 +37,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this._file = _file;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -53,8 +58,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("files")
   public List<ModelFile> getFiles() {
@@ -68,7 +71,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
     if (this.files == null) {
-      this.files = new ArrayList<ModelFile>();
+      this.files = new ArrayList<>();
     }
 
     this.files.add(filesItem);
@@ -124,5 +127,38 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static FileSchemaTestClassBuilder<?, ?> builder() {
+    return new FileSchemaTestClassBuilderImpl();
+  }
+
+  private static final class FileSchemaTestClassBuilderImpl extends FileSchemaTestClassBuilder<FileSchemaTestClass, FileSchemaTestClassBuilderImpl> {
+
+    @Override
+    protected FileSchemaTestClassBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public FileSchemaTestClass build() {
+      return new FileSchemaTestClass(this);
+    }
+  }
+
+  public static abstract class FileSchemaTestClassBuilder<C extends FileSchemaTestClass, B extends FileSchemaTestClassBuilder<C, B>>  {
+    private ModelFile _file;
+    private List<ModelFile> files = new ArrayList<>();
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B _file(ModelFile _file) {
+      this._file = _file;
+      return self();
+    }
+    public B files(List<ModelFile> files) {
+      this.files = files;
+      return self();
+    }
+  }
 }
 

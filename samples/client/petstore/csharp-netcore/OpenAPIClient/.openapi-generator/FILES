@@ -67,6 +67,7 @@ docs/ParentPet.md
 docs/Pet.md
 docs/PetApi.md
 docs/Pig.md
+docs/PolymorphicProperty.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
@@ -171,6 +172,7 @@ src/Org.OpenAPITools/Model/OuterEnumIntegerDefaultValue.cs
 src/Org.OpenAPITools/Model/ParentPet.cs
 src/Org.OpenAPITools/Model/Pet.cs
 src/Org.OpenAPITools/Model/Pig.cs
+src/Org.OpenAPITools/Model/PolymorphicProperty.cs
 src/Org.OpenAPITools/Model/Quadrilateral.cs
 src/Org.OpenAPITools/Model/QuadrilateralInterface.cs
 src/Org.OpenAPITools/Model/ReadOnlyFirst.cs

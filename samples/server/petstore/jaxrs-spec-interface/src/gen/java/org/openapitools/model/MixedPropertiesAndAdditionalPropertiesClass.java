@@ -22,11 +22,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   
   private @Valid UUID uuid;
   private @Valid Date dateTime;
-  private @Valid Map<String, Animal> map = new HashMap<String, Animal>();
+  private @Valid Map<String, Animal> map = new HashMap<>();
 
   /**
    **/
@@ -34,8 +35,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.uuid = uuid;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -57,8 +56,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
@@ -78,8 +75,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("map")
   public Map<String, Animal> getMap() {
@@ -93,7 +88,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
     if (this.map == null) {
-      this.map = new HashMap<String, Animal>();
+      this.map = new HashMap<>();
     }
 
     this.map.put(key, mapItem);

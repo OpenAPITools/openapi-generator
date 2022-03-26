@@ -29,6 +29,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -147,7 +149,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 .reduce((a, b) -> {
                     throw new IllegalStateException("Multiple elements: " + a + ", " + b);
                 })
-                .get();
+                .orElse(null);
         supportingFiles.remove(originalInitModel);
         supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "model", "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__apis.mustache", packagePath() + File.separatorChar + "apis", "__init__.py"));
@@ -363,7 +365,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
     @Override
     @SuppressWarnings("static-method")
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         // fix the imports that each model has, add the module reference to the model
         // loops through imports and converts them all
         // from 'Pet' to 'from petstore_api.model.pet import Pet'
@@ -396,7 +398,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      * @return the updated objs
      */
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         super.postProcessAllModels(objs);
 
         List<String> modelsToRemove = new ArrayList<>();
@@ -408,11 +410,10 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             if (unaliasedSchema.get$ref() == null) {
                 modelsToRemove.add(modelName);
             } else {
-                HashMap<String, Object> objModel = (HashMap<String, Object>) objs.get(modelName);
+                ModelsMap objModel = objs.get(modelName);
                 if (objModel != null) { // to avoid form parameter's models that are not generated (skipFormModel=true)
-                    List<Map<String, Object>> models = (List<Map<String, Object>>) objModel.get("models");
-                    for (Map<String, Object> model : models) {
-                        CodegenModel cm = (CodegenModel) model.get("model");
+                    for (ModelMap model : objModel.getModels()) {
+                        CodegenModel cm = model.getModel();
                         String[] importModelNames = cm.imports.toArray(new String[0]);
                         cm.imports.clear();
                         for (String importModelName : importModelNames) {
@@ -637,14 +638,14 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
         for (Schema sc : oneOfanyOfSchemas) {
             Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, sc);
-            addProperties(otherProperties, otherRequired, refSchema);
+            addProperties(otherProperties, otherRequired, refSchema, new HashSet<>());
         }
         Set<String> otherRequiredSet = new HashSet<>(otherRequired);
 
         List<Schema> allOf = cs.getAllOf();
         if ((schema.getProperties() != null && !schema.getProperties().isEmpty()) || allOf != null) {
             // NOTE: this function also adds the allOf properties inside schema
-            addProperties(selfProperties, selfRequired, schema);
+            addProperties(selfProperties, selfRequired, schema, new HashSet<>());
         }
         if (result.discriminator != null) {
             selfRequired.add(result.discriminator.getPropertyBaseName());

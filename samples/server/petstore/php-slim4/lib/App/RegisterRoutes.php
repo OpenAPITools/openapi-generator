@@ -24,6 +24,8 @@ declare(strict_types=1);
  */
 namespace OpenAPIServer\App;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotImplementedException;
 
 /**
@@ -838,8 +840,13 @@ class RegisterRoutes
      */
     public function __invoke(\Slim\App $app): void
     {
+        $app->options('/{routes:.*}', function (ServerRequestInterface $request, ResponseInterface $response) {
+            // CORS Pre-Flight OPTIONS Request Handler
+            return $response;
+        });
+
         foreach ($this->operations as $operation) {
-            $callback = function ($request) use ($operation) {
+            $callback = function (ServerRequestInterface $request) use ($operation) {
                 $message = "How about extending {$operation['classname']} by {$operation['apiPackage']}\\{$operation['userClassname']} class implementing {$operation['operationId']} as a {$operation['httpMethod']} method?";
                 throw new HttpNotImplementedException($request, $message);
             };

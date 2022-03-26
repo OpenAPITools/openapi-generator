@@ -217,6 +217,12 @@ module XAuthIDAlias
       # note that response body is empty when the file is written in chunks in request on_body callback
       return @tempfile if return_type == 'File'
 
+      # return byte stream for Binary return type
+      if return_type == 'Binary'
+        encoding = body.encoding
+        return @stream.join.force_encoding(encoding)
+      end
+
       return nil if body.nil? || body.empty?
 
       # return response body directly for String return type

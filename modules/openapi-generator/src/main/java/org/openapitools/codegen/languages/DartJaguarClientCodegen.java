@@ -20,6 +20,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
@@ -212,15 +214,14 @@ public class DartJaguarClientCodegen extends AbstractDartCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
-        List<Object> models = (List<Object>) objs.get("models");
+        List<ModelMap> models = objs.getModels();
         ProcessUtils.addIndexToProperties(models, 1);
 
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
+        for (ModelMap mo : models) {
             Set<String> modelImports = new HashSet<>();
-            CodegenModel cm = (CodegenModel) mo.get("model");
+            CodegenModel cm = mo.getModel();
             for (String modelImport : cm.imports) {
                 if (!modelToIgnore.contains(modelImport.toLowerCase(Locale.ROOT))) {
                     modelImports.add(underscore(modelImport));
@@ -244,7 +245,7 @@ public class DartJaguarClientCodegen extends AbstractDartCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");

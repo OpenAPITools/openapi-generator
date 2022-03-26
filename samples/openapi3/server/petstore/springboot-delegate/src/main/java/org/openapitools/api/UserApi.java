@@ -56,7 +56,7 @@ public interface UserApi {
         value = "/user"
     )
     default ResponseEntity<Void> createUser(
-        @Parameter(name = "body", description = "Created user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
+        @Parameter(name = "body", description = "Created user object", required = true) @Valid @RequestBody User body
     ) {
         return getDelegate().createUser(body);
     }
@@ -81,7 +81,7 @@ public interface UserApi {
         value = "/user/createWithArray"
     )
     default ResponseEntity<Void> createUsersWithArrayInput(
-        @Parameter(name = "body", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody List<User> body
+        @Parameter(name = "body", description = "List of user object", required = true) @Valid @RequestBody List<User> body
     ) {
         return getDelegate().createUsersWithArrayInput(body);
     }
@@ -106,7 +106,7 @@ public interface UserApi {
         value = "/user/createWithList"
     )
     default ResponseEntity<Void> createUsersWithListInput(
-        @Parameter(name = "body", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody List<User> body
+        @Parameter(name = "body", description = "List of user object", required = true) @Valid @RequestBody List<User> body
     ) {
         return getDelegate().createUsersWithListInput(body);
     }
@@ -134,7 +134,7 @@ public interface UserApi {
         value = "/user/{username}"
     )
     default ResponseEntity<Void> deleteUser(
-        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+        @Parameter(name = "username", description = "The name that needs to be deleted", required = true) @PathVariable("username") String username
     ) {
         return getDelegate().deleteUser(username);
     }
@@ -153,7 +153,10 @@ public interface UserApi {
         summary = "Get user by user name",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  User.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
             @ApiResponse(responseCode = "404", description = "User not found")
         }
@@ -164,7 +167,7 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<User> getUserByName(
-        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
     ) {
         return getDelegate().getUserByName(username);
     }
@@ -183,7 +186,10 @@ public interface UserApi {
         summary = "Logs user into the system",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  String.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = String.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))
+            }),
             @ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
         }
     )
@@ -193,8 +199,8 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<String> loginUser(
-        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "password", required = true) String password
+        @NotNull @Parameter(name = "username", description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password
     ) {
         return getDelegate().loginUser(username, password);
     }
@@ -247,8 +253,8 @@ public interface UserApi {
         value = "/user/{username}"
     )
     default ResponseEntity<Void> updateUser(
-        @Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username,
-        @Parameter(name = "body", description = "Updated user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
+        @Parameter(name = "username", description = "name that need to be deleted", required = true) @PathVariable("username") String username,
+        @Parameter(name = "body", description = "Updated user object", required = true) @Valid @RequestBody User body
     ) {
         return getDelegate().updateUser(username, body);
     }

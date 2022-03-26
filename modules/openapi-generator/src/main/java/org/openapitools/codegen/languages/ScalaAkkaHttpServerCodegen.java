@@ -25,6 +25,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -281,7 +282,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
 
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         Map<String, Object> baseObjs = super.postProcessOperationsWithModels(objs, allModels);
         pathMatcherPatternsPostProcessor(baseObjs);
         marshallingPostProcessor(baseObjs);
