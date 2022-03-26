@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -47,7 +49,9 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -1005,6 +1009,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             Date date = (Date) schema.getDefault();
             LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             return localDate.toString();
+        }
+        if (ModelUtils.isArraySchema(schema)) {
+            if (defaultValue instanceof ArrayNode) {
+                ArrayNode array = (ArrayNode) defaultValue;
+                return StreamSupport.stream(array.spliterator(), false)
+                    .map(JsonNode::toString)
+                    // remove wrapper quotes
+                    .map(item -> StringUtils.removeStart(item, "\""))
+                    .map(item -> StringUtils.removeEnd(item, "\""))
+                    .collect(Collectors.joining(","));
+            }
         }
         // escape quotes
         return defaultValue.toString().replace("\"", "\\\"");
