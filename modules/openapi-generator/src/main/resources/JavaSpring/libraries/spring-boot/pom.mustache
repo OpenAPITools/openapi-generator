@@ -13,20 +13,20 @@
         <springfox.version>2.9.2</springfox.version>
         {{/springFoxDocumentationProvider}}
         {{#springDocDocumentationProvider}}
-        <springdoc.version>1.6.4</springdoc.version>
+        <springdoc.version>1.6.6</springdoc.version>
         {{/springDocDocumentationProvider}}
         {{^springFoxDocumentationProvider}}
         {{^springDocDocumentationProvider}}
         {{#swagger1AnnotationLibrary}}
-        <swagger-annotations.version>1.6.4</swagger-annotations.version>
+        <swagger-annotations.version>1.6.5</swagger-annotations.version>
         {{/swagger1AnnotationLibrary}}
         {{#swagger2AnnotationLibrary}}
-        <swagger-annotations.version>}2.1.12</swagger-annotations.version>
+        <swagger-annotations.version>}2.1.13</swagger-annotations.version>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
         {{/springFoxDocumentationProvider}}
         {{#useSwaggerUI}}
-        <swagger-ui.version>4.4.1-1</swagger-ui.version>
+        <swagger-ui.version>4.8.1</swagger-ui.version>
         {{/useSwaggerUI}}
     </properties>
 {{#parentOverridden}}
@@ -40,7 +40,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>{{#springFoxDocumentationProvider}}2.5.8{{/springFoxDocumentationProvider}}{{^springFoxDocumentationProvider}}2.6.3{{/springFoxDocumentationProvider}}</version>
+        <version>{{#springFoxDocumentationProvider}}2.5.11{{/springFoxDocumentationProvider}}{{^springFoxDocumentationProvider}}2.6.5{{/springFoxDocumentationProvider}}</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 {{/parentOverridden}}
     <build>
@@ -50,6 +51,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                {{#classifier}}
+                <configuration>
+                  <classifier>{{{classifier}}}</classifier>
+                </configuration>
+                {{/classifier}}
             </plugin>
             {{#apiFirst}}
             <plugin>
