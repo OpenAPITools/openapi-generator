@@ -379,6 +379,7 @@ export enum {{operationIdCamelCase}}{{enumName}} {
 }
 {{/stringEnums}}
 {{^stringEnums}}
+{{#typescriptThreePlus}}
 /**
  * @export
  */
@@ -389,7 +390,18 @@ export const {{operationIdCamelCase}}{{enumName}} = {
     {{/enumVars}}
 {{/allowableValues}}
 } as const;
-
+{{/typescriptThreePlus}}
+{{^typescriptThreePlus}}
+/**
+* @export
+*/
+export const {{operationIdCamelCase}}{{enumName}} = {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}}: {{{value}}} as {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+};{{/typescriptThreePlus}}
 export type {{operationIdCamelCase}}{{enumName}} = typeof {{operationIdCamelCase}}{{enumName}}[keyof typeof {{operationIdCamelCase}}{{enumName}}];
 {{/stringEnums}}
 {{/isEnum}}
