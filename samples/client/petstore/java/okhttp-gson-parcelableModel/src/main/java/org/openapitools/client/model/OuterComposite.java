@@ -39,6 +39,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -133,6 +134,7 @@ public class OuterComposite implements Parcelable {
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
+
 
 
   @Override
@@ -230,6 +232,7 @@ public class OuterComposite implements Parcelable {
           throw new IllegalArgumentException(String.format("The required field(s) %s in OuterComposite is not found in the empty JSON string", OuterComposite.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
