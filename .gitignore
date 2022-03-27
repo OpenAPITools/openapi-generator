@@ -245,9 +245,6 @@ samples/server/petstore/erlang-server/rebar.lock
 **/dart*/**/pubspec.lock
 # Dart dio
 **/dart*/**/*.g.dart
-# Dart jaguar
-**/dart*/**/*.jser.dart
-**/dart*/**/*.jretro.dart
 
 # JS
 samples/client/petstore/javascript-es6/package-lock.json
@@ -266,3 +263,6 @@ samples/openapi3/client/petstore/ruby-faraday/Gemfile.lock
 
 # Crystal
 samples/client/petstore/crystal/lib
+
+# Go
+samples/openapi3/client/petstore/go/privatekey.pem

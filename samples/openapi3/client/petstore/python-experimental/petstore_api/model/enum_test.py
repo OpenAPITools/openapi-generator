@@ -38,7 +38,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,6 +47,10 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
     DateBase,
     DateTimeBase,
@@ -205,7 +209,7 @@ class EnumTest(
         StringEnumWithDefaultValue: typing.Union['StringEnumWithDefaultValue', Unset] = unset,
         IntegerEnumWithDefaultValue: typing.Union['IntegerEnumWithDefaultValue', Unset] = unset,
         IntegerEnumOneValue: typing.Union['IntegerEnumOneValue', Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'EnumTest':
         return super().__new__(
@@ -220,7 +224,7 @@ class EnumTest(
             StringEnumWithDefaultValue=StringEnumWithDefaultValue,
             IntegerEnumWithDefaultValue=IntegerEnumWithDefaultValue,
             IntegerEnumOneValue=IntegerEnumOneValue,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )
 

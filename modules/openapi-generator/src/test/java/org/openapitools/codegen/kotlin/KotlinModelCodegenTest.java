@@ -9,7 +9,6 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinClientCodegen;
 import org.openapitools.codegen.languages.KotlinServerCodegen;
-import org.openapitools.codegen.languages.KotlinServerDeprecatedCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.openapitools.codegen.languages.KotlinVertxServerCodegen;
 import org.testng.annotations.DataProvider;
@@ -29,7 +28,6 @@ public class KotlinModelCodegenTest {
         return new Object[][]{
                 {new KotlinClientCodegen()},
                 {new KotlinServerCodegen()},
-                {new KotlinServerDeprecatedCodegen()},
                 {new KotlinSpringServerCodegen()},
                 {new KotlinVertxServerCodegen()},
         };
@@ -90,7 +88,7 @@ public class KotlinModelCodegenTest {
         String outputPath = generateModels(codegen, "src/test/resources/3_0/issue_9848.yaml", false);
 
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/NonUniqueArray.kt"),
-                codegen instanceof KotlinVertxServerCodegen || codegen instanceof KotlinServerDeprecatedCodegen
+                codegen instanceof KotlinVertxServerCodegen
                         ? "val array: kotlin.Array<kotlin.String>"
                         : "val array: kotlin.collections.List<kotlin.String>"
         );
@@ -104,34 +102,12 @@ public class KotlinModelCodegenTest {
         String outputPath = generateModels(codegen, "src/test/resources/3_0/issue_9848.yaml", true);
 
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/NonUniqueArray.kt"),
-                codegen instanceof KotlinVertxServerCodegen || codegen instanceof KotlinServerDeprecatedCodegen
+                codegen instanceof KotlinVertxServerCodegen
                         ? "var array: kotlin.Array<kotlin.String>"
                         : "var array: kotlin.collections.MutableList<kotlin.String>"
         );
 
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/UniqueArray.kt"),
                 "var array: kotlin.collections.MutableSet<kotlin.String>");
-    }
-
-    @Test(dataProvider = "generators")
-    public void mutableContainerTypes(AbstractKotlinCodegen codegen) throws IOException {
-        final String outputPath = generateModels(codegen, "src/test/resources/3_0/kotlin/issue11088-model-mutable-with-containers.yaml", true);
-
-        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/MyModel.kt"),
-            codegen instanceof KotlinVertxServerCodegen || codegen instanceof KotlinServerDeprecatedCodegen
-                ? "var myIntArray: kotlin.Array<kotlin.Int>?"
-                : "var myIntArray: kotlin.collections.MutableList<kotlin.Int>?",
-            "var myStringSet: kotlin.collections.MutableSet<kotlin.String>?",
-            "var myFreeFormObjectWithPrimitiveValues: kotlin.collections.MutableMap<kotlin.String, kotlin.Int>?",
-            "var myFreeFormObjectWithComplexValues: kotlin.collections.MutableMap<kotlin.String, MyModelMyFreeFormObjectWithComplexValues>?",
-            "var myFreeFormObject: kotlin.collections.MutableMap<kotlin.String, kotlin.Any>?"
-        );
-
-        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/MyModelMyFreeFormObjectWithComplexValues.kt"),
-            codegen instanceof KotlinVertxServerCodegen || codegen instanceof KotlinServerDeprecatedCodegen
-                ? "var myArrayOfInts: kotlin.Array<kotlin.Int>?"
-                : "var myArrayOfInts: kotlin.collections.MutableList<kotlin.Int>?",
-            "var mySetOfStrings: kotlin.collections.MutableSet<kotlin.String>?"
-        );
     }
 }

@@ -23,6 +23,8 @@ addPet($pet)
 
 Add a new pet to the store
 
+
+
 ### Example
 
 ```php
@@ -79,6 +81,8 @@ deletePet($pet_id, $api_key)
 ```
 
 Deletes a pet
+
+
 
 ### Example
 
@@ -321,6 +325,8 @@ updatePet($pet)
 
 Update an existing pet
 
+
+
 ### Example
 
 ```php
@@ -377,6 +383,8 @@ updatePetWithForm($pet_id, $name, $status)
 ```
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 
@@ -439,6 +447,8 @@ uploadFile($pet_id, $additional_metadata, $file): \OpenAPI\Client\Model\ApiRespo
 
 uploads an image
 
+
+
 ### Example
 
 ```php
@@ -500,6 +510,8 @@ uploadFileWithRequiredFile($pet_id, $required_file, $additional_metadata): \Open
 ```
 
 uploads an image (required)
+
+
 
 ### Example
 

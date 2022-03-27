@@ -759,6 +759,7 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * test inline additionalProperties
      */
     async testInlineAdditionalPropertiesRaw(requestParameters: TestInlineAdditionalPropertiesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
@@ -784,6 +785,7 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * test inline additionalProperties
      */
     async testInlineAdditionalProperties(requestParameters: TestInlineAdditionalPropertiesRequest, initOverrides?: RequestInit): Promise<void> {
@@ -791,6 +793,7 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * test json serialization of form data
      */
     async testJsonFormDataRaw(requestParameters: TestJsonFormDataRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
@@ -840,6 +843,7 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * test json serialization of form data
      */
     async testJsonFormData(requestParameters: TestJsonFormDataRequest, initOverrides?: RequestInit): Promise<void> {

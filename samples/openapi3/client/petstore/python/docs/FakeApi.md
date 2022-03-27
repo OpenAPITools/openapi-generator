@@ -1583,6 +1583,8 @@ void (empty response body)
 
 test inline additionalProperties
 
+
+
 ### Example
 
 
@@ -1647,6 +1649,8 @@ No authorization required
 > test_json_form_data(param, param2)
 
 test json serialization of form data
+
+
 
 ### Example
 
@@ -1860,6 +1864,8 @@ No authorization required
 
 uploads a file and downloads a file using application/octet-stream
 
+
+
 ### Example
 
 
@@ -1923,6 +1929,8 @@ No authorization required
 > ApiResponse upload_file(file)
 
 uploads a file using multipart/form-data
+
+
 
 ### Example
 
@@ -1999,6 +2007,8 @@ No authorization required
 > ApiResponse upload_files()
 
 uploads files using multipart/form-data
+
+
 
 ### Example
 

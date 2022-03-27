@@ -66,6 +66,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Long</li>
 <li>Map</li>
 <li>Object</li>
+<li>Set</li>
 <li>String</li>
 <li>any</li>
 <li>boolean</li>

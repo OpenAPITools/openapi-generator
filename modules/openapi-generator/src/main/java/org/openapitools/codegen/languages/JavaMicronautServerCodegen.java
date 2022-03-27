@@ -3,6 +3,7 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     protected String controllerSuffix = "Controller";
     protected String apiPrefix = "Abstract";
     protected String apiSuffix = "Controller";
+    private String testOutputDir;
 
     public JavaMicronautServerCodegen() {
         super();
@@ -141,17 +143,26 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     }
 
     @Override
+    public String apiTestFileFolder() {
+        return super.getOutputDir();
+    }
+
+    @Override
     public String apiTestFilename(String templateName, String tag) {
+        // For controller implementation
         if (generateControllerAsAbstract && templateName.contains("controllerImplementation")) {
-            return (
-                    outputFolder + File.separator +
+            String implementationFolder = outputFolder + File.separator +
                     sourceFolder + File.separator +
-                    controllerPackage.replace('.', File.separatorChar) + File.separator +
+                    controllerPackage.replace('.', File.separatorChar);
+            testOutputDir = implementationFolder;
+            return (implementationFolder + File.separator +
                     StringUtils.camelize(controllerPrefix + "_" + tag + "_" + controllerSuffix) + ".java"
             ).replace('/', File.separatorChar);
         }
 
-        return super.apiTestFilename(templateName, tag);
+        // For api tests
+        String suffix = apiTestTemplateFiles().get(templateName);
+        return super.apiTestFileFolder() + File.separator + toApiTestFilename(tag) + suffix;
     }
 
     @Override
@@ -165,7 +176,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
         // Add the controller classname to operations

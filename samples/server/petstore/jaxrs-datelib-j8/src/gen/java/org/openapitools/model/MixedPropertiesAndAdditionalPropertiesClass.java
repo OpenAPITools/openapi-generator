@@ -139,7 +139,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     return Objects.hash(uuid, dateTime, map);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

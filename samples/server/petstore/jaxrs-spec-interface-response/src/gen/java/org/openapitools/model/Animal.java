@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("Animal")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Animal  implements Serializable {
-  
+
   private @Valid String className;
   private @Valid String color = "red";
 
@@ -36,9 +36,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     return this;
   }
 
-  
 
-  
+
+
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("className")
   @NotNull
@@ -58,7 +58,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     return this;
   }
 
-  
+
 
   
   @ApiModelProperty(value = "")
@@ -95,7 +95,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Animal {\n");
-    
+
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("}");

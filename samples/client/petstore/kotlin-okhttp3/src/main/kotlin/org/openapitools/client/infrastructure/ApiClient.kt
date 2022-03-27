@@ -126,6 +126,7 @@ open class ApiClient(val baseUrl: String) {
         }
         if (T::class.java == File::class.java) {
             // return tempfile
+            // Attention: if you are developing an android app that supports API Level 25 and bellow, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
             val f = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
             f.deleteOnExit()
             val out = BufferedWriter(FileWriter(f))

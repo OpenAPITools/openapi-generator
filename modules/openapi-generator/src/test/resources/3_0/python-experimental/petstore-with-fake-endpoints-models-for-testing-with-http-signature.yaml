@@ -1436,6 +1436,60 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /fake/inlineComposition/:
+    post:
+      tags:
+        - fake
+      summary: testing composed schemas at inline locations
+      operationId: inlineComposition
+      parameters:
+        - name: compositionAtRoot
+          in: query
+          schema:
+            allOf:
+              - type: string
+                minLength: 1
+        - name: compositionInProperty
+          in: query
+          schema:
+            type: object
+            properties:
+              someProp:
+                allOf:
+                  - type: string
+                    minLength: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - type: string
+                  minLength: 1
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                someProp:
+                  allOf:
+                    - type: string
+                      minLength: 1
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: string
+                    minLength: 1
+            multipart/form-data:
+              schema:
+                type: object
+                properties:
+                  someProp:
+                    allOf:
+                      - type: string
+                        minLength: 1
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2434,16 +2488,13 @@ components:
         propertyName: shapeType
     NullableShape:
       description: The value may be a shape or the 'null' value.
-        The 'nullable' attribute was introduced in OAS schema >= 3.0
-        and has been deprecated in OAS schema >= 3.1.
-        For a nullable composed schema to work, one of its chosen oneOf schemas must be type null
+        For a composed schema to validate a null payload,
+        one of its chosen oneOf schemas must be type null
+        or nullable (introduced in OAS schema >= 3.0)
       oneOf:
         - $ref: '#/components/schemas/Triangle'
         - $ref: '#/components/schemas/Quadrilateral'
-        - type: null
-      discriminator:
-        propertyName: shapeType
-      nullable: true
+        - type: "null"
     TriangleInterface:
       properties:
         shapeType:
@@ -2682,3 +2733,10 @@ components:
           format: number
         cost:
           $ref: '#/components/schemas/Money'
+    ObjectWithInlineCompositionProperty:
+      type: object
+      properties:
+        someProp:
+          allOf:
+            - type: string
+              minLength: 1

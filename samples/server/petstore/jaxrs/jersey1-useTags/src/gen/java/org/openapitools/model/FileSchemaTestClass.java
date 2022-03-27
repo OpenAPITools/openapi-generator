@@ -69,7 +69,7 @@ public class FileSchemaTestClass   {
 
   public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
     if (this.files == null) {
-      this.files = new ArrayList<ModelFile>();
+      this.files = new ArrayList<>();
     }
     this.files.add(filesItem);
     return this;
@@ -108,7 +108,6 @@ public class FileSchemaTestClass   {
   public int hashCode() {
     return Objects.hash(_file, files);
   }
-
 
   @Override
   public String toString() {

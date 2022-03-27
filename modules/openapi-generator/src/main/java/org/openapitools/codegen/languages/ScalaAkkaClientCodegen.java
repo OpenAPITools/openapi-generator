@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +44,8 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
     protected String resourcesFolder = "src/main/resources";
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
     protected String configKey = "apiRequest";
     protected int defaultTimeoutInMs = 5000;
     protected String configKeyPath = mainPackage;
@@ -85,6 +88,8 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         outputFolder = "generated-code/scala-akka";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "scala-akka-client";
         apiPackage = mainPackage + ".api";
         modelPackage = mainPackage + ".model";
@@ -164,6 +169,9 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
             }
         }
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
@@ -204,7 +212,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         if (registerNonStandardStatusCodes) {
             try {
                 @SuppressWarnings("unchecked")
@@ -359,5 +367,15 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
 
     public void setMainPackage(String mainPackage) {
         this.configKeyPath = this.mainPackage = mainPackage;
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + File.separator + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + File.separator + modelDocPath).replace('/', File.separatorChar);
     }
 }

@@ -19,9 +19,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ArrayOfNumberOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ArrayOfNumberOnly  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class ArrayOfNumberOnly  implements Serializable {
   
-  private @Valid List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();
+  private @Valid List<BigDecimal> arrayNumber = new ArrayList<>();
 
   /**
    **/
@@ -29,8 +30,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayNumber = arrayNumber;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -46,7 +45,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
     if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<BigDecimal>();
+      this.arrayNumber = new ArrayList<>();
     }
 
     this.arrayNumber.add(arrayNumberItem);
