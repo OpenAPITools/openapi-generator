@@ -33,21 +33,27 @@ export interface EnumArrays {
     arrayEnum?: Array<EnumArraysArrayEnumEnum>;
 }
 
+
 /**
 * @export
-* @enum {string}
 */
-export enum EnumArraysJustSymbolEnum {
-    GreaterThanOrEqualTo = '>=',
-    Dollar = '$'
-}/**
+export const EnumArraysJustSymbolEnum = {
+    GreaterThanOrEqualTo: '>=',
+    Dollar: '$'
+} as const;
+
+export type EnumArraysJustSymbolEnum = typeof EnumArraysJustSymbolEnum[keyof typeof EnumArraysJustSymbolEnum];
+
+/**
 * @export
-* @enum {string}
 */
-export enum EnumArraysArrayEnumEnum {
-    Fish = 'fish',
-    Crab = 'crab'
-}
+export const EnumArraysArrayEnumEnum = {
+    Fish: 'fish',
+    Crab: 'crab'
+} as const;
+
+export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeof EnumArraysArrayEnumEnum];
+
 
 export function EnumArraysFromJSON(json: any): EnumArrays {
     return EnumArraysFromJSONTyped(json, false);

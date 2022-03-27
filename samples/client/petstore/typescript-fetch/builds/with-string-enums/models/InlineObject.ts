@@ -45,28 +45,24 @@ export interface InlineObject {
     nullableNumberEnum?: number | null;
 }
 
-
 /**
 * @export
+* @enum {string}
 */
-export const InlineObjectStringEnumEnum = {
-    One: 'one',
-    Two: 'two',
-    Three: 'three'
-} as const;
-
-export type InlineObjectStringEnumEnum = typeof InlineObjectStringEnumEnum[keyof typeof InlineObjectStringEnumEnum];
-
+export enum InlineObjectStringEnumEnum {
+    One = 'one',
+    Two = 'two',
+    Three = 'three'
+}
 /**
 * @export
+* @enum {string}
 */
-export const InlineObjectNumberEnumEnum = {
-    NUMBER_1: 1,
-    NUMBER_2: 2,
-    NUMBER_3: 3
-} as const;
-
-export type InlineObjectNumberEnumEnum = typeof InlineObjectNumberEnumEnum[keyof typeof InlineObjectNumberEnumEnum];
+export enum InlineObjectNumberEnumEnum {
+    NUMBER_1 = 1,
+    NUMBER_2 = 2,
+    NUMBER_3 = 3
+}
 
 
 export function InlineObjectFromJSON(json: any): InlineObject {

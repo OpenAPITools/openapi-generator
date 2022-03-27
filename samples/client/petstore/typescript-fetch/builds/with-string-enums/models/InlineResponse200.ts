@@ -16,64 +16,60 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface InlineObject
+ * @interface InlineResponse200
  */
-export interface InlineObject {
+export interface InlineResponse200 {
     /**
      * 
      * @type {string}
-     * @memberof InlineObject
+     * @memberof InlineResponse200
      */
-    stringEnum?: InlineObjectStringEnumEnum;
+    stringEnum?: InlineResponse200StringEnumEnum;
     /**
      * 
      * @type {string}
-     * @memberof InlineObject
+     * @memberof InlineResponse200
      */
     nullableStringEnum?: string | null;
     /**
      * 
      * @type {number}
-     * @memberof InlineObject
+     * @memberof InlineResponse200
      */
-    numberEnum?: InlineObjectNumberEnumEnum;
+    numberEnum?: InlineResponse200NumberEnumEnum;
     /**
      * 
      * @type {number}
-     * @memberof InlineObject
+     * @memberof InlineResponse200
      */
     nullableNumberEnum?: number | null;
 }
 
-
 /**
 * @export
+* @enum {string}
 */
-export const InlineObjectStringEnumEnum = {
-    One: 'one',
-    Two: 'two',
-    Three: 'three'
-} as const;
-
-export type InlineObjectStringEnumEnum = typeof InlineObjectStringEnumEnum[keyof typeof InlineObjectStringEnumEnum];
-
+export enum InlineResponse200StringEnumEnum {
+    One = 'one',
+    Two = 'two',
+    Three = 'three'
+}
 /**
 * @export
+* @enum {string}
 */
-export const InlineObjectNumberEnumEnum = {
-    NUMBER_1: 1,
-    NUMBER_2: 2,
-    NUMBER_3: 3
-} as const;
-
-export type InlineObjectNumberEnumEnum = typeof InlineObjectNumberEnumEnum[keyof typeof InlineObjectNumberEnumEnum];
-
-
-export function InlineObjectFromJSON(json: any): InlineObject {
-    return InlineObjectFromJSONTyped(json, false);
+export enum InlineResponse200NumberEnumEnum {
+    NUMBER_1 = 1,
+    NUMBER_2 = 2,
+    NUMBER_3 = 3
 }
 
-export function InlineObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): InlineObject {
+
+export function InlineResponse200FromJSON(json: any): InlineResponse200 {
+    return InlineResponse200FromJSONTyped(json, false);
+}
+
+export function InlineResponse200FromJSONTyped(json: any, ignoreDiscriminator: boolean): InlineResponse200 {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -86,7 +82,7 @@ export function InlineObjectFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function InlineObjectToJSON(value?: InlineObject | null): any {
+export function InlineResponse200ToJSON(value?: InlineResponse200 | null): any {
     if (value === undefined) {
         return undefined;
     }
