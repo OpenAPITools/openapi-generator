@@ -89,13 +89,13 @@ module {{moduleName}}
                             "explicitly with `tempfile.delete`"
         return @tempfile
       end
-      {{/isFaraday}}
 
       # return byte stream for Binary return type
       if return_type == 'Binary'
         encoding = body.encoding
         return @stream.join.force_encoding(encoding)
       end
+      {{/isFaraday}}
 
       return nil if body.nil? || body.empty?
 
