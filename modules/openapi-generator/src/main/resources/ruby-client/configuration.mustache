@@ -121,6 +121,8 @@ module {{moduleName}}
       @request_middlewares = []
       @response_middlewares = []
       @timeout = 60
+      # return data as binary instead of file
+      @return_binary_data = false
       {{/isFaraday}}
       {{^isFaraday}}
       @verify_ssl = true
