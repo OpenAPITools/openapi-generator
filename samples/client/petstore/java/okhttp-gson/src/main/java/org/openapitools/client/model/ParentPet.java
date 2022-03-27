@@ -179,6 +179,7 @@ public class ParentPet extends GrandparentAnimal {
            @Override
            public void write(JsonWriter out, ParentPet value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             obj.remove("additionalProperties");
              // serialize additonal properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {

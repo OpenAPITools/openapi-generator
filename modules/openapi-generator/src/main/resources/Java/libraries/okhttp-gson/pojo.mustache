@@ -522,6 +522,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
            public void write(JsonWriter out, {{classname}} value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              {{#isAdditionalPropertiesTrue}}
+             obj.remove("additionalProperties");
              // serialize additonal properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
