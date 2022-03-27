@@ -47,25 +47,23 @@ export interface InlineObject {
 
 
 /**
-* @export
-*/
+ * @export
+ */
 export const InlineObjectStringEnumEnum = {
-    One: 'one',
-    Two: 'two',
-    Three: 'three'
-} as const;
-
+    One: 'one' as 'one',
+    Two: 'two' as 'two',
+    Three: 'three' as 'three'
+};
 export type InlineObjectStringEnumEnum = typeof InlineObjectStringEnumEnum[keyof typeof InlineObjectStringEnumEnum];
 
 /**
-* @export
-*/
+ * @export
+ */
 export const InlineObjectNumberEnumEnum = {
-    NUMBER_1: 1,
-    NUMBER_2: 2,
-    NUMBER_3: 3
-} as const;
-
+    NUMBER_1: 1 as 1,
+    NUMBER_2: 2 as 2,
+    NUMBER_3: 3 as 3
+};
 export type InlineObjectNumberEnumEnum = typeof InlineObjectNumberEnumEnum[keyof typeof InlineObjectNumberEnumEnum];
 
 

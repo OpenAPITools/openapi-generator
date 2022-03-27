@@ -66,8 +66,8 @@ export interface ResponseMeta {
 
 
 /**
-* @export
-*/
+ * @export
+ */
 export const ResponseMetaCodeEnum = {
     Ok: 'Ok',
     GenericException: 'Generic_Exception',

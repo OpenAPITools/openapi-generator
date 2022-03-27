@@ -553,12 +553,11 @@ export class PetApi extends runtime.BaseAPI implements PetApiInterface {
 }
 
 /**
- * @export
- */
+* @export
+*/
 export const FindPetsByStatusStatusEnum = {
-    Available: 'available',
-    Pending: 'pending',
-    Sold: 'sold'
-} as const;
-
+    Available: 'available' as 'available',
+    Pending: 'pending' as 'pending',
+    Sold: 'sold' as 'sold'
+};
 export type FindPetsByStatusStatusEnum = typeof FindPetsByStatusStatusEnum[keyof typeof FindPetsByStatusStatusEnum];

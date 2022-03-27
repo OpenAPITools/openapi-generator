@@ -174,8 +174,8 @@ export interface Pet {
 
 
 /**
-* @export
-*/
+ * @export
+ */
 export const PetStatusEnum = {
     Available: 'available',
     Pending: 'pending',

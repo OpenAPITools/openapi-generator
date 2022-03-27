@@ -90,14 +90,13 @@ export interface Order {
 
 
 /**
-* @export
-*/
+ * @export
+ */
 export const OrderStatusEnum = {
-    Placed: 'placed',
-    Approved: 'approved',
-    Delivered: 'delivered'
-} as const;
-
+    Placed: 'placed' as 'placed',
+    Approved: 'approved' as 'approved',
+    Delivered: 'delivered' as 'delivered'
+};
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
 /**
@@ -146,14 +145,13 @@ export interface Pet {
 
 
 /**
-* @export
-*/
+ * @export
+ */
 export const PetStatusEnum = {
-    Available: 'available',
-    Pending: 'pending',
-    Sold: 'sold'
-} as const;
-
+    Available: 'available' as 'available',
+    Pending: 'pending' as 'pending',
+    Sold: 'sold' as 'sold'
+};
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
 /**

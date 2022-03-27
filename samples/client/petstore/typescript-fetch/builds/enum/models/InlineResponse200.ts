@@ -47,25 +47,23 @@ export interface InlineResponse200 {
 
 
 /**
-* @export
-*/
+ * @export
+ */
 export const InlineResponse200StringEnumEnum = {
-    One: 'one',
-    Two: 'two',
-    Three: 'three'
-} as const;
-
+    One: 'one' as 'one',
+    Two: 'two' as 'two',
+    Three: 'three' as 'three'
+};
 export type InlineResponse200StringEnumEnum = typeof InlineResponse200StringEnumEnum[keyof typeof InlineResponse200StringEnumEnum];
 
 /**
-* @export
-*/
+ * @export
+ */
 export const InlineResponse200NumberEnumEnum = {
-    NUMBER_1: 1,
-    NUMBER_2: 2,
-    NUMBER_3: 3
-} as const;
-
+    NUMBER_1: 1 as 1,
+    NUMBER_2: 2 as 2,
+    NUMBER_3: 3 as 3
+};
 export type InlineResponse200NumberEnumEnum = typeof InlineResponse200NumberEnumEnum[keyof typeof InlineResponse200NumberEnumEnum];
 
 

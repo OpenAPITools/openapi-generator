@@ -59,8 +59,8 @@ export interface Order {
 
 
 /**
-* @export
-*/
+ * @export
+ */
 export const OrderStatusEnum = {
     Placed: 'placed',
     Approved: 'approved',

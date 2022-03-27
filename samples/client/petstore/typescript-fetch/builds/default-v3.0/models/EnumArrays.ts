@@ -35,23 +35,21 @@ export interface EnumArrays {
 
 
 /**
-* @export
-*/
+ * @export
+ */
 export const EnumArraysJustSymbolEnum = {
-    GreaterThanOrEqualTo: '>=',
-    Dollar: '$'
-} as const;
-
+    GreaterThanOrEqualTo: '>=' as '>=',
+    Dollar: '$' as '$'
+};
 export type EnumArraysJustSymbolEnum = typeof EnumArraysJustSymbolEnum[keyof typeof EnumArraysJustSymbolEnum];
 
 /**
-* @export
-*/
+ * @export
+ */
 export const EnumArraysArrayEnumEnum = {
-    Fish: 'fish',
-    Crab: 'crab'
-} as const;
-
+    Fish: 'fish' as 'fish',
+    Crab: 'crab' as 'crab'
+};
 export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeof EnumArraysArrayEnumEnum];
 
 

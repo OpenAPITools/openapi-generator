@@ -18,11 +18,10 @@
  * @export
  */
 export const EnumClass = {
-    Abc: '_abc',
-    Efg: '-efg',
-    Xyz: '(xyz)'
-} as const;
-
+    Abc: '_abc' as '_abc',
+    Efg: '-efg' as '-efg',
+    Xyz: '(xyz)' as '(xyz)'
+};
 export type EnumClass = typeof EnumClass[keyof typeof EnumClass];
 
 

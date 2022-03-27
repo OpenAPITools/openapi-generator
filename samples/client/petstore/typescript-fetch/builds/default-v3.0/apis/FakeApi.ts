@@ -930,77 +930,69 @@ export class FakeApi extends runtime.BaseAPI {
 }
 
 /**
- * @export
- */
+* @export
+*/
 export const TestEnumParametersEnumHeaderStringArrayEnum = {
-    GreaterThan: '>',
-    Dollar: '$'
-} as const;
-
+    GreaterThan: '>' as '>',
+    Dollar: '$' as '$'
+};
 export type TestEnumParametersEnumHeaderStringArrayEnum = typeof TestEnumParametersEnumHeaderStringArrayEnum[keyof typeof TestEnumParametersEnumHeaderStringArrayEnum];
 /**
- * @export
- */
+* @export
+*/
 export const TestEnumParametersEnumHeaderStringEnum = {
-    Abc: '_abc',
-    Efg: '-efg',
-    Xyz: '(xyz)'
-} as const;
-
+    Abc: '_abc' as '_abc',
+    Efg: '-efg' as '-efg',
+    Xyz: '(xyz)' as '(xyz)'
+};
 export type TestEnumParametersEnumHeaderStringEnum = typeof TestEnumParametersEnumHeaderStringEnum[keyof typeof TestEnumParametersEnumHeaderStringEnum];
 /**
- * @export
- */
+* @export
+*/
 export const TestEnumParametersEnumQueryStringArrayEnum = {
-    GreaterThan: '>',
-    Dollar: '$'
-} as const;
-
+    GreaterThan: '>' as '>',
+    Dollar: '$' as '$'
+};
 export type TestEnumParametersEnumQueryStringArrayEnum = typeof TestEnumParametersEnumQueryStringArrayEnum[keyof typeof TestEnumParametersEnumQueryStringArrayEnum];
 /**
- * @export
- */
+* @export
+*/
 export const TestEnumParametersEnumQueryStringEnum = {
-    Abc: '_abc',
-    Efg: '-efg',
-    Xyz: '(xyz)'
-} as const;
-
+    Abc: '_abc' as '_abc',
+    Efg: '-efg' as '-efg',
+    Xyz: '(xyz)' as '(xyz)'
+};
 export type TestEnumParametersEnumQueryStringEnum = typeof TestEnumParametersEnumQueryStringEnum[keyof typeof TestEnumParametersEnumQueryStringEnum];
 /**
- * @export
- */
+* @export
+*/
 export const TestEnumParametersEnumQueryIntegerEnum = {
-    NUMBER_1: 1,
-    NUMBER_MINUS_2: -2
-} as const;
-
+    NUMBER_1: 1 as 1,
+    NUMBER_MINUS_2: -2 as -2
+};
 export type TestEnumParametersEnumQueryIntegerEnum = typeof TestEnumParametersEnumQueryIntegerEnum[keyof typeof TestEnumParametersEnumQueryIntegerEnum];
 /**
- * @export
- */
+* @export
+*/
 export const TestEnumParametersEnumQueryDoubleEnum = {
-    NUMBER_1_DOT_1: 1.1,
-    NUMBER_MINUS_1_DOT_2: -1.2
-} as const;
-
+    NUMBER_1_DOT_1: 1.1 as 1.1,
+    NUMBER_MINUS_1_DOT_2: -1.2 as -1.2
+};
 export type TestEnumParametersEnumQueryDoubleEnum = typeof TestEnumParametersEnumQueryDoubleEnum[keyof typeof TestEnumParametersEnumQueryDoubleEnum];
 /**
- * @export
- */
+* @export
+*/
 export const TestEnumParametersEnumFormStringArrayEnum = {
-    GreaterThan: '>',
-    Dollar: '$'
-} as const;
-
+    GreaterThan: '>' as '>',
+    Dollar: '$' as '$'
+};
 export type TestEnumParametersEnumFormStringArrayEnum = typeof TestEnumParametersEnumFormStringArrayEnum[keyof typeof TestEnumParametersEnumFormStringArrayEnum];
 /**
- * @export
- */
+* @export
+*/
 export const TestEnumParametersEnumFormStringEnum = {
-    Abc: '_abc',
-    Efg: '-efg',
-    Xyz: '(xyz)'
-} as const;
-
+    Abc: '_abc' as '_abc',
+    Efg: '-efg' as '-efg',
+    Xyz: '(xyz)' as '(xyz)'
+};
 export type TestEnumParametersEnumFormStringEnum = typeof TestEnumParametersEnumFormStringEnum[keyof typeof TestEnumParametersEnumFormStringEnum];
