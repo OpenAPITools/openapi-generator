@@ -201,7 +201,11 @@ module Petstore
       # handle file downloading - return the File instance processed in request callbacks
       # note that response body is empty when the file is written in chunks in request on_body callback
       if return_type == 'File'
-        if @config.return_binary_data == false
+        if @config.return_binary_data == true
+          # return byte stream
+          encoding = body.encoding
+          return @stream.join.force_encoding(encoding)
+        else
           # return file instead of binary data
           content_disposition = response.headers['Content-Disposition']
           if content_disposition && content_disposition =~ /filename=/i
@@ -220,10 +224,6 @@ module Petstore
                               "will be deleted automatically with GC. It's also recommended to delete the temp file "\
                               "explicitly with `tempfile.delete`"
           return @tempfile
-        else
-          # return byte stream
-          encoding = body.encoding
-          return @stream.join.force_encoding(encoding)
         end
       end
 

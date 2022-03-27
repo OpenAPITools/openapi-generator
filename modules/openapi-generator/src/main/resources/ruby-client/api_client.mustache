@@ -71,7 +71,11 @@ module {{moduleName}}
       {{/isFaraday}}
       {{#isFaraday}}
       if return_type == 'File'
-        if @config.return_binary_data == false
+        if @config.return_binary_data == true
+          # return byte stream
+          encoding = body.encoding
+          return @stream.join.force_encoding(encoding)
+        else
           # return file instead of binary data
           content_disposition = response.headers['Content-Disposition']
           if content_disposition && content_disposition =~ /filename=/i
@@ -90,10 +94,6 @@ module {{moduleName}}
                               "will be deleted automatically with GC. It's also recommended to delete the temp file "\
                               "explicitly with `tempfile.delete`"
           return @tempfile
-        else
-          # return byte stream
-          encoding = body.encoding
-          return @stream.join.force_encoding(encoding)
         end
       end
       {{/isFaraday}}
