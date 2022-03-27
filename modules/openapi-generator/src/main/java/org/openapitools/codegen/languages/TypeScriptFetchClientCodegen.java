@@ -41,6 +41,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String PREFIX_PARAMETER_INTERFACES = "prefixParameterInterfaces";
     public static final String TYPESCRIPT_THREE_PLUS = "typescriptThreePlus";
     public static final String WITHOUT_RUNTIME_CHECKS = "withoutRuntimeChecks";
+    public static final String STRING_ENUMS = "stringEnums";
+    public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
 
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = true;
@@ -49,6 +51,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean addedModelIndex = false;
     protected boolean typescriptThreePlus = true;
     protected boolean withoutRuntimeChecks = false;
+    protected boolean stringEnums = false;
 
     // "Saga and Record" mode.
     public static final String SAGAS_AND_RECORDS = "sagasAndRecords";
@@ -96,6 +99,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(TYPESCRIPT_THREE_PLUS, "Setting this property to true will generate TypeScript 3.6+ compatible code.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
         this.cliOptions.add(new CliOption(WITHOUT_RUNTIME_CHECKS, "Setting this property to true will remove any runtime checks on the request and response payloads. Payloads will be casted to their expected types.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(SAGAS_AND_RECORDS, "Setting this property to true will generate additional files for use with redux-saga and immutablejs.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -130,6 +134,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     public void setWithoutRuntimeChecks(Boolean withoutRuntimeChecks) {
         this.withoutRuntimeChecks = withoutRuntimeChecks;
+    }
+
+    public Boolean getStringEnums() {
+        return this.stringEnums;
+    }
+    public void setStringEnums(Boolean stringEnums) {
+        this.stringEnums = stringEnums;
     }
 
     public Boolean getSagasAndRecords() {
@@ -227,6 +238,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         if (additionalProperties.containsKey(WITHOUT_RUNTIME_CHECKS)) {
             this.setWithoutRuntimeChecks(convertPropertyToBoolean(WITHOUT_RUNTIME_CHECKS));
+        }
+
+        if (additionalProperties.containsKey(STRING_ENUMS)) {
+            this.setStringEnums(convertPropertyToBoolean(STRING_ENUMS));
         }
 
         if (!withoutRuntimeChecks) {
