@@ -352,7 +352,7 @@ Once built, `run-in-docker.sh` will act as an executable for openapi-generator-c
 ./run-in-docker.sh list # Executes 'list' command for openapi-generator-cli
 ./run-in-docker.sh /gen/bin/go-petstore.sh  # Builds the Go client
 ./run-in-docker.sh generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
-    -g go -o /gen/out/go-petstore --package-name=petstore # generates go client, outputs locally to ./out/go-petstore
+    -g go -o /gen/out/go-petstore -p packageName=petstore # generates go client, outputs locally to ./out/go-petstore
 ```
 
 ##### Troubleshooting
@@ -813,17 +813,17 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2021-01-18 - [「アプリ開発あるある」を疑うことから始まった、API Clientコードの自動生成【デブスト2020】](https://codezine.jp/article/detail/13406?p=2) by [CodeZine編集部](https://codezine.jp/author/1)
 - 2021-02-05 - [REST-API-Roundtrip with SpringDoc and OpenAPI Generator](https://blog.viadee.de/en/rest-api-roundtrip) by [Benjamin Klatt](https://twitter.com/benklatt) at [viadee](https://www.viadee.de/en/)
 - 2021-02-17 - [REST-API-Roundtrip with SpringDoc and OpenAPI Generator](https://medium.com/nerd-for-tech/rest-api-roundtrip-with-springdoc-and-openapi-generator-30bd27ccf698) by [cloud @viadee](https://cloud-viadee.medium.com/)
-- 2021-03-08 - [OpenAPI Generator 工具的躺坑尝试](https://blog.csdn.net/u013019701/article/details/114531975) by [独家雨天](https://blog.csdn.net/u013019701) at [CSDN官方博客](https://blog.csdn.net/) 
+- 2021-03-08 - [OpenAPI Generator 工具的躺坑尝试](https://blog.csdn.net/u013019701/article/details/114531975) by [独家雨天](https://blog.csdn.net/u013019701) at [CSDN官方博客](https://blog.csdn.net/)
 - 2021-03-16 - [如何基于 Swagger 使用 OpenAPI Generator 生成 JMeter 脚本？](https://cloud.tencent.com/developer/article/1802704) by [高楼Zee](https://cloud.tencent.com/developer/user/5836255) at [腾讯云专栏](https://cloud.tencent.com/developer/column)
 - 2021-03-24 - [openapi-generator-cli による TypeScript 型定義](https://zenn.dev/takepepe/articles/openapi-generator-cli-ts) by [Takefumi Yoshii](https://zenn.dev/takepepe)
-- 2021-03-28 - [Trying out NestJS part 4: Generate Typescript clients from OpenAPI documents](https://dev.to/arnaudcortisse/trying-out-nestjs-part-4-generate-typescript-clients-from-openapi-documents-28mk) by [Arnaud Cortisse](https://dev.to/arnaudcortisse) 
+- 2021-03-28 - [Trying out NestJS part 4: Generate Typescript clients from OpenAPI documents](https://dev.to/arnaudcortisse/trying-out-nestjs-part-4-generate-typescript-clients-from-openapi-documents-28mk) by [Arnaud Cortisse](https://dev.to/arnaudcortisse)
 - 2021-03-31 - [Open API Server Implementation Using OpenAPI Generator](https://www.baeldung.com/java-openapi-generator-server) at [Baeldung](https://www.baeldung.com/)
 - 2021-03-31 - [使用OpenAPI Generator實現Open API Server](https://www.1ju.org/article/java-openapi-generator-server) at [億聚網](https://www.1ju.org/)
 - 2021-04-19 - [Introducing Twilio’s OpenAPI Specification Beta](https://www.twilio.com/blog/introducing-twilio-open-api-specification-beta) by [GARETH PAUL JONES](https://www.twilio.com/blog/author/gpj) at [Twilio Blog](https://www.twilio.com/blog)
 - 2021-04-22 - [Leveraging OpenApi strengths in a Micro-Service environment](https://medium.com/unibuddy-technology-blog/leveraging-openapi-strengths-in-a-micro-service-environment-3d7f9e7c26ff) by Nicolas Jellab at [Unibuddy Technology Blog](https://medium.com/unibuddy-technology-blog)
 - 2021-04-27 - [From zero to publishing PowerShell API clients in PowerShell Gallery within minutes](https://speakerdeck.com/wing328/from-zero-to-publishing-powershell-api-clients-in-powershell-gallery-within-minutes) by [William Cheng](https://github.com/wing328) at [PowerShell + DevOps Global Summit 2021](https://events.devopscollective.org/event/powershell-devops-global-summit-2021/)
 - 2021-05-31 - [FlutterでOpen Api Generator(Swagger)を使う](https://aakira.app/blog/2021/05/flutter-open-api/) by [AAkira](https://twitter.com/_a_akira)
-- 2021-06-22 - [Rest API Documentation and Client Generation With OpenAPI](https://dzone.com/articles/rest-api-documentation-and-client-generation-with) by [Prasanth Gullapalli](https://dzone.com/users/1011797/prasanthnath.g@gmail.com.html) 
+- 2021-06-22 - [Rest API Documentation and Client Generation With OpenAPI](https://dzone.com/articles/rest-api-documentation-and-client-generation-with) by [Prasanth Gullapalli](https://dzone.com/users/1011797/prasanthnath.g@gmail.com.html)
 - 2021-07-16 - [銀行事業のサーバーサイド開発について / LINE 京都開発室 エンジニア採用説明会](https://www.youtube.com/watch?v=YrrKQHxLPpQ) by 野田誠人, Robert Mitchell
 - 2021-07-19 - [OpenAPI code generation with kotlin](https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html) by [sylhare](https://github.com/sylhare)
 - 2021-07-29 - [How To Rewrite a Huge Codebase](https://dzone.com/articles/how-to-rewrite-a-huge-code-base) by [Curtis Poe](https://dzone.com/users/4565446/publiusovidius.html)
@@ -868,13 +868,13 @@ Here is a list of template creators:
    * Bash: @bkryza
    * C: @PowerOfCreation @zhemant [:heart:](https://www.patreon.com/zhemant)
    * C++ REST: @Danielku15
-   * C++ Tiny: @AndersSpringborg @kaareHH @michelealbano @mkakbas 
+   * C++ Tiny: @AndersSpringborg @kaareHH @michelealbano @mkakbas
    * C++ UE4: @Kahncode
    * C# (.NET 2.0): @who
    * C# (.NET Standard 1.3 ): @Gronsak
    * C# (.NET 4.5 refactored): @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * C# (GenericHost): @devhl-labs
-   * C# (HttpClient): @Blackclaws 
+   * C# (HttpClient): @Blackclaws
    * Clojure: @xhh
    * Crystal: @wing328
    * Dart: @yissachar
@@ -987,7 +987,7 @@ Here is a list of template creators:
    * PHP Slim4: @ybelenko
    * PHP Symfony: @ksm2
    * Python FastAPI: @krjakbrjak
-   * Python AIOHTTP: 
+   * Python AIOHTTP:
    * Ruby on Rails 5: @zlx
    * Rust (rust-server): @metaswitch
    * Scala Akka: @Bouillie
