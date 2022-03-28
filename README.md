@@ -836,8 +836,9 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2021-11-06 - [スタートアップの開発で意識したこと](https://zenn.dev/woo_noo/articles/5cb09f8e2899ae782ad1) by [woo-noo](https://zenn.dev/woo_noo)
 - 2021-11-09 - [Effective Software Development using OpenAPI Generator](https://apexlabs.ai/post/effective-software-development-using-openapi-generator) by Ajil Oomme
 - 2021-12-07 - [An Introduction to OpenAPI](https://betterprogramming.pub/4-use-cases-of-openapi-which-are-good-to-know-1a041f4ad71e) by [Na'aman Hirschfeld](https://naamanhirschfeld.medium.com/)
-- 2021-01-02 - [Towards a secure API client generator for IoT devices](https://arxiv.org/abs/2201.00270) by Anders Aaen Springborg, Martin Kaldahl Andersen, Kaare Holland Hattel, Michele Albano
-
+- 2022-01-02 - [Towards a secure API client generator for IoT devices](https://arxiv.org/abs/2201.00270) by Anders Aaen Springborg, Martin Kaldahl Andersen, Kaare Holland Hattel, Michele Albano
+- 2022-02-02 - [Use OpenApi generator to share your models between Flutter and your backend](https://www.youtube.com/watch?v=kPW7ccu9Yvk) by [Guillaume Bernos](https://feb2022.fluttervikings.com/speakers/guillaume_bernos) at [Flutter Vikings Conference 2022 (Hybrid)](https://feb2022.fluttervikings.com/)
+- 2022-03-15 - [OpenAPI Specでハイフン区切りのEnum値をOpenAPI Generatorで出力すると、ハイフン区切りのまま出力される](https://qiita.com/yuji38kwmt/items/824d74d4889055ab37d8) by [yuji38kwmt](https://qiita.com/yuji38kwmt)
 
 ## [6 - About Us](#table-of-contents)
 
