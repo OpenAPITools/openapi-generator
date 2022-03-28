@@ -7,7 +7,6 @@ public enum VendorExtension {
 
     X_IMPLEMENTS("x-implements", ExtensionLevel.MODEL, "Ability to specify interfaces that model must implements", "empty array"),
     X_SPRING_PAGINATED("x-spring-paginated", ExtensionLevel.OPERATION, "Add org.springframework.data.domain.Pageable to controller method. Can be used to handle page & size query parameters", "false"),
-    X_DISCRIMINATOR_VALUE("x-discriminator-value", ExtensionLevel.MODEL, "Used with model inheritance to specify value for discriminator that identifies current model", ""),
     X_SETTER_EXTRA_ANNOTATION("x-setter-extra-annotation", ExtensionLevel.FIELD, "Custom annotation that can be specified over java setter for specific field", "When field is array & uniqueItems, then this extension is used to add `@JsonDeserialize(as = LinkedHashSet.class)` over setter, otherwise no value"),
     X_WEBCLIENT_BLOCKING("x-webclient-blocking", ExtensionLevel.OPERATION, "Specifies if method for specific operation should be blocking or non-blocking(ex: return `Mono<T>/Flux<T>` or `return T/List<T>/Set<T>` & execute `.block()` inside generated method)", "false"),
     X_TAGS("x-tags", ExtensionLevel.OPERATION, "Specify multiple swagger tags for operation", null),
@@ -15,7 +14,11 @@ public enum VendorExtension {
     X_CONTENT_TYPE("x-content-type", ExtensionLevel.OPERATION, "Specify custom value for 'Content-Type' header for operation", null),
     X_CLASS_EXTRA_ANNOTATION("x-class-extra-annotation", ExtensionLevel.MODEL, "List of custom annotations to be added to model", null),
     X_FIELD_EXTRA_ANNOTATION("x-field-extra-annotation", ExtensionLevel.FIELD, "List of custom annotations to be added to property", null),
-    ;
+    X_DISCRIMINATOR_VALUE("x-discriminator-value", ExtensionLevel.MODEL, "Used with model inheritance to specify value for discriminator that identifies current model", ""),
+    X_ALL_OF_NAME("x-all-of-name", ExtensionLevel.MODEL, "Specify the name of the generated allOf composed schema", null),
+    X_ONE_OF_NAME("x-one-of-name", ExtensionLevel.MODEL, "Specify the name of the generated oneOf composed schema", null),
+    X_IS_ONE_OF_INTERFACE("x-is-one-of-interface", ExtensionLevel.MODEL, "Generate the oneOf composed schema as a marker interface", null),
+    X_ONEOF_SCHEMAS("x-oneof-schemas", ExtensionLevel.MODEL, "Generate ...", null);
 
     private final String name;
     private final List<ExtensionLevel> levels;
