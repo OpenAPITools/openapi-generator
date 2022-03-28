@@ -196,11 +196,11 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
         List<CodegenOperation> allOperations = (List<CodegenOperation>) operations.get("operation");
         if (useAuth) {
             for (CodegenOperation operation : allOperations) {
-                if (!operation.vendorExtensions.containsKey("x-roles")) {
+                if (!operation.vendorExtensions.containsKey(EXTENSION_ROLES)) {
                     String role = operation.hasAuthMethods ? AUTHORIZED_ROLE : ANONYMOUS_ROLE;
-                    operation.vendorExtensions.put("x-roles", Collections.singletonList(role));
+                    operation.vendorExtensions.put(EXTENSION_ROLES, Collections.singletonList(role));
                 } else {
-                    List<String> roles = (List<String>) operation.vendorExtensions.get("x-roles");
+                    List<String> roles = (List<String>) operation.vendorExtensions.get(EXTENSION_ROLES);
                     roles = roles.stream().map(role -> {
                         switch (role) {
                             case ANONYMOUS_ROLE_KEY:
@@ -213,7 +213,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
                                 return "\"" + escapeText(role) + "\"";
                         }
                     }).collect(Collectors.toList());
-                    operation.vendorExtensions.put("x-roles", roles);
+                    operation.vendorExtensions.put(EXTENSION_ROLES, roles);
                 }
             }
         }
