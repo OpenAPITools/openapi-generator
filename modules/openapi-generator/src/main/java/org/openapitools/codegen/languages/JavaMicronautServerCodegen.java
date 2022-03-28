@@ -17,7 +17,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     public static final String OPT_GENERATE_CONTROLLER_FROM_EXAMPLES = "generateControllerFromExamples";
     public static final String OPT_GENERATE_CONTROLLER_AS_ABSTRACT = "generateControllerAsAbstract";
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautServerCodegen.class);
 
     public static final String NAME = "java-micronaut-server";
 
@@ -30,7 +30,6 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     protected String controllerSuffix = "Controller";
     protected String apiPrefix = "Abstract";
     protected String apiSuffix = "Controller";
-    private String testOutputDir;
 
     public JavaMicronautServerCodegen() {
         super();
@@ -144,6 +143,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
 
     @Override
     public String apiTestFileFolder() {
+        // Set it to the whole output dir, so that validation always passes
         return super.getOutputDir();
     }
 
@@ -154,7 +154,6 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
             String implementationFolder = outputFolder + File.separator +
                     sourceFolder + File.separator +
                     controllerPackage.replace('.', File.separatorChar);
-            testOutputDir = implementationFolder;
             return (implementationFolder + File.separator +
                     StringUtils.camelize(controllerPrefix + "_" + tag + "_" + controllerSuffix) + ".java"
             ).replace('/', File.separatorChar);
