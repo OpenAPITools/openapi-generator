@@ -368,7 +368,7 @@ class FakeClassnameTags123Api
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
