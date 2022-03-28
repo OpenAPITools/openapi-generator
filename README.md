@@ -124,7 +124,7 @@ You can find our released artifacts on maven central:
     <version>${openapi-generator-version}</version>
 </dependency>
 ```
-See the different versions of the [openapi-generator](https://mvnrepository.com/artifact/org.openapitools/openapi-generator) artifact available on maven central.
+See the different versions of the [openapi-generator](https://search.maven.org/artifact/org.openapitools/openapi-generator) artifact available on maven central.
 
 **Cli:**
 ```xml
@@ -134,7 +134,7 @@ See the different versions of the [openapi-generator](https://mvnrepository.com/
     <version>${openapi-generator-version}</version>
 </dependency>
 ```
-See the different versions of the [openapi-generator-cli](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-cli) artifact available on maven central.
+See the different versions of the [openapi-generator-cli](https://search.maven.org/artifact/org.openapitools/openapi-generator-cli) artifact available on maven central.
 
 **Maven plugin:**
 ```xml
@@ -144,7 +144,7 @@ See the different versions of the [openapi-generator-cli](https://mvnrepository.
     <version>${openapi-generator-version}</version>
 </dependency>
 ```
-* See the different versions of the [openapi-generator-maven-plugin](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-maven-plugin) artifact available on maven central.
+* See the different versions of the [openapi-generator-maven-plugin](https://search.maven.org/artifact/org.openapitools/openapi-generator-maven-plugin) artifact available on maven central.
 * [Readme](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-maven-plugin/README.md)
 
 **Gradle plugin:**
@@ -155,7 +155,7 @@ See the different versions of the [openapi-generator-cli](https://mvnrepository.
     <version>${openapi-generator-version}</version>
 </dependency>
 ```
-* See the different versions of the [openapi-generator-gradle-plugin](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-gradle-plugin) artifact available on maven central.
+* See the different versions of the [openapi-generator-gradle-plugin](https://search.maven.org/artifact/org.openapitools/openapi-generator-gradle-plugin) artifact available on maven central.
 * [Readme](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-gradle-plugin/README.adoc)
 
 ### [1.3 - Download JAR](#table-of-contents)
