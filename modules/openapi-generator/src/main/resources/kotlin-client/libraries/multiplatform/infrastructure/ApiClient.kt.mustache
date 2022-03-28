@@ -3,20 +3,17 @@ package {{packageName}}.infrastructure
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.JsonSerializer
-import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.plugins.ContentNegotiation
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.forms.MultiPartFormDataContent
-import io.ktor.client.request.header
-import io.ktor.client.request.parameter
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
 import io.ktor.http.content.OutgoingContent
 import io.ktor.http.content.PartData
-import kotlin.Unit
+import io.ktor.http.content.TextContent
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 import {{apiPackage}}.*
@@ -27,19 +24,14 @@ import {{packageName}}.auth.*
         private val baseUrl: String,
         httpClientEngine: HttpClientEngine?,
         httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
-        private val json: Json
+        @PublishedApi
+        internal val json: Json
 ) {
-
-    private val serializer: JsonSerializer by lazy {
-        KotlinxSerializer(json).ignoreOutgoingContent()
-    }
 
     private val clientConfig: (HttpClientConfig<*>) -> Unit by lazy {
         {
-            // Hold a reference to the serializer to avoid freezing the entire ApiClient instance
-            // when the JsonFeature is configured.
-            val serializerReference = serializer
-            it.install(JsonFeature) { serializer = serializerReference }
+            val json = json
+            it.install(ContentNegotiation) { json(json) }
             httpClientConfig?.invoke(it)
         }
     }
@@ -143,10 +135,10 @@ import {{packageName}}.auth.*
         return request(requestConfig, FormDataContent(body ?: Parameters.Empty), authNames)
     }
 
-    protected suspend fun <T: Any?> jsonRequest(requestConfig: RequestConfig<T>, body: Any? = null, authNames: kotlin.collections.List<String>): HttpResponse {
+    protected suspend inline fun <T: Any?, B: Any?> jsonRequest(requestConfig: RequestConfig<T>, body: B? = null, authNames: kotlin.collections.List<String>): HttpResponse {
         val contentType = (requestConfig.headers[HttpHeaders.ContentType]?.let { ContentType.parse(it) }
                 ?: ContentType.Application.Json)
-        return if (body != null) request(requestConfig, serializer.write(body, contentType), authNames)
+        return if (body != null) request(requestConfig, TextContent(json.encodeToString(body), contentType), authNames)
         else request(requestConfig, authNames = authNames)
     }
 
@@ -193,14 +185,4 @@ import {{packageName}}.auth.*
             RequestMethod.POST -> HttpMethod.Post
             RequestMethod.OPTIONS -> HttpMethod.Options
         }
-}
-
-// https://github.com/ktorio/ktor/issues/851
-private fun JsonSerializer.ignoreOutgoingContent() = IgnoreOutgoingContentJsonSerializer(this)
-
-private class IgnoreOutgoingContentJsonSerializer(private val delegate: JsonSerializer) : JsonSerializer by delegate {
-    override fun write(data: Any): OutgoingContent {
-        if (data is OutgoingContent) return data
-        return delegate.write(data)
-    }
 }

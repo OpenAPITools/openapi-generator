@@ -1,17 +1,17 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
-    kotlin("multiplatform"){{^omitGradlePluginVersions}} version "1.6.0" // kotlin_version{{/omitGradlePluginVersions}}
-    kotlin("plugin.serialization"){{^omitGradlePluginVersions}} version "1.6.0" // kotlin_version{{/omitGradlePluginVersions}}
+    kotlin("multiplatform"){{^omitGradlePluginVersions}} version "1.6.10" // kotlin_version{{/omitGradlePluginVersions}}
+    kotlin("plugin.serialization"){{^omitGradlePluginVersions}} version "1.6.10" // kotlin_version{{/omitGradlePluginVersions}}
 }
 
 group = "{{groupId}}"
 version = "{{artifactVersion}}"
 
-val kotlin_version = "1.6.0"
-val coroutines_version = "1.5.2"
-val serialization_version = "1.3.0"
-val ktor_version = "1.6.4"
+val kotlin_version = "1.6.10"
+val coroutines_version = "1.6.0"
+val serialization_version = "1.3.2"
+val ktor_version = "2.0.0-beta-1"
 
 repositories {
     mavenCentral()
@@ -19,7 +19,17 @@ repositories {
 
 kotlin {
     jvm()
-    ios { binaries { framework { freeCompilerArgs += "-Xobjc-generics" } } }
+    configure(
+        listOf(
+            iosArm64(),
+            iosX64(),
+            iosSimulatorArm64()
+        )
+    ) {
+        binaries.framework {
+            freeCompilerArgs += "-Xobjc-generics"
+        }
+    }
     js {
         browser()
         nodejs()
@@ -56,13 +66,30 @@ kotlin {
             }
         }
 
-        val iosMain by getting {
+        val iosMain by creating {
+            dependsOn(commonMain)
             dependencies {
-                api("io.ktor:ktor-client-ios:$ktor_version")
+                implementation("io.ktor:ktor-client-darwin:$ktor_version")
             }
         }
 
-        val iosTest by getting
+        val iosTest by creating {
+            dependsOn(commonTest)
+        }
+
+        sourceSets.filter { sourceSet ->
+            sourceSet.name.run {
+                startsWith("iosX64") ||
+                  startsWith("iosArm") ||
+                  startsWith("iosSimulator")
+            }
+        }.forEach { sourceSet ->
+            if (sourceSet.name.endsWith("Main")) {
+                sourceSet.dependsOn(iosMain)
+            } else {
+                sourceSet.dependsOn(iosTest)
+            }
+        }
 
         val jsMain by getting {
             dependencies {
