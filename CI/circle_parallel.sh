@@ -26,9 +26,6 @@ if [ "$NODE_INDEX" = "1" ]; then
 
 elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test Go"
-
-  php -v
-
   # install haskell
   #curl -sSLk https://get.haskellstack.org/ | sh
   #stack upgrade
