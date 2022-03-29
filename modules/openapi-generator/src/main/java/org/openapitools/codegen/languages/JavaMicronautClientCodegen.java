@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautClientCodegen.class);
 
     public static final String OPT_CONFIGURE_AUTH = "configureAuth";
 

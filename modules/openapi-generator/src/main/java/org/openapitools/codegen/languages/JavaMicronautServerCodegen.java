@@ -8,8 +8,10 @@ import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
@@ -17,7 +19,15 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     public static final String OPT_GENERATE_CONTROLLER_FROM_EXAMPLES = "generateControllerFromExamples";
     public static final String OPT_GENERATE_CONTROLLER_AS_ABSTRACT = "generateControllerAsAbstract";
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
+    public static final String EXTENSION_ROLES = "x-roles";
+    public static final String ANONYMOUS_ROLE_KEY = "isAnonymous()";
+    public static final String ANONYMOUS_ROLE = "SecurityRule.IS_ANONYMOUS";
+    public static final String AUTHORIZED_ROLE_KEY = "isAuthorized()";
+    public static final String AUTHORIZED_ROLE = "SecurityRule.IS_AUTHENTICATED";
+    public static final String DENY_ALL_ROLE_KEY = "denyAll()";
+    public static final String DENY_ALL_ROLE = "SecurityRule.DENY_ALL";
+
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautServerCodegen.class);
 
     public static final String NAME = "java-micronaut-server";
 
@@ -30,7 +40,6 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     protected String controllerSuffix = "Controller";
     protected String apiPrefix = "Abstract";
     protected String apiSuffix = "Controller";
-    private String testOutputDir;
 
     public JavaMicronautServerCodegen() {
         super();
@@ -144,6 +153,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
 
     @Override
     public String apiTestFileFolder() {
+        // Set it to the whole output dir, so that validation always passes
         return super.getOutputDir();
     }
 
@@ -154,7 +164,6 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
             String implementationFolder = outputFolder + File.separator +
                     sourceFolder + File.separator +
                     controllerPackage.replace('.', File.separatorChar);
-            testOutputDir = implementationFolder;
             return (implementationFolder + File.separator +
                     StringUtils.camelize(controllerPrefix + "_" + tag + "_" + controllerSuffix) + ".java"
             ).replace('/', File.separatorChar);
@@ -183,6 +192,31 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         String controllerClassname = StringUtils.camelize(controllerPrefix + "_" + operations.get("pathPrefix") + "_" + controllerSuffix);
         objs.put("controllerClassname", controllerClassname);
+
+        List<CodegenOperation> allOperations = (List<CodegenOperation>) operations.get("operation");
+        if (useAuth) {
+            for (CodegenOperation operation : allOperations) {
+                if (!operation.vendorExtensions.containsKey(EXTENSION_ROLES)) {
+                    String role = operation.hasAuthMethods ? AUTHORIZED_ROLE : ANONYMOUS_ROLE;
+                    operation.vendorExtensions.put(EXTENSION_ROLES, Collections.singletonList(role));
+                } else {
+                    List<String> roles = (List<String>) operation.vendorExtensions.get(EXTENSION_ROLES);
+                    roles = roles.stream().map(role -> {
+                        switch (role) {
+                            case ANONYMOUS_ROLE_KEY:
+                                return ANONYMOUS_ROLE;
+                            case AUTHORIZED_ROLE_KEY:
+                                return AUTHORIZED_ROLE;
+                            case DENY_ALL_ROLE_KEY:
+                                return DENY_ALL_ROLE;
+                            default:
+                                return "\"" + escapeText(role) + "\"";
+                        }
+                    }).collect(Collectors.toList());
+                    operation.vendorExtensions.put(EXTENSION_ROLES, roles);
+                }
+            }
+        }
 
         return objs;
     }
