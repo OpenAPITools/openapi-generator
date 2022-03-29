@@ -1113,6 +1113,7 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <!-- TODO: move to github action or circleci
                 <module>samples/client/petstore/crystal</module>-->
                 <!-- servers -->
@@ -1271,7 +1272,7 @@
                 <!--<module>samples/server/petstore/erlang-server</module>-->
             </modules>
         </profile>
-        <!-- test with Go, PHP -->
+        <!-- test with Haskell -->
         <profile>
             <id>samples.misc</id>
             <activation>
@@ -1282,7 +1283,6 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <!--<module>samples/client/petstore/haskell-http-client</module>-->
                 <!-- servers -->
                 <!--<module>samples/server/petstore/haskell-servant</module>-->

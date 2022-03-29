@@ -29,6 +29,7 @@ cache:
   - $HOME/.rvm/gems/ruby-2.4.1
   - $HOME/website/node_modules/
   - $HOME/.cache/deno
+  - $HOME/.phpenv/versions/8.1.4
 
 services:
   - docker
