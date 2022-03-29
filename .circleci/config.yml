@@ -154,7 +154,7 @@ jobs:
           nodeNo: "1"
   node2:
     machine:
-      image: ubuntu-2004:202201-02
+      image: cimg/php:8.1.4
     working_directory: ~/OpenAPITools/openapi-generator
     shell: /bin/bash --login
     environment:

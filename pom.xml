@@ -1137,8 +1137,6 @@
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
-                <!-- commented out due to php ^7.3 || ^8.0 not in travis
-                <module>samples/client/petstore/php/OpenAPIClient-php</module> -->
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/python-legacy</module>
                 <module>samples/client/petstore/python-asyncio</module>
@@ -1273,7 +1271,7 @@
                 <!--<module>samples/server/petstore/erlang-server</module>-->
             </modules>
         </profile>
-        <!-- test with Haskell -->
+        <!-- test with Go, PHP -->
         <profile>
             <id>samples.misc</id>
             <activation>
@@ -1284,6 +1282,7 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <!--<module>samples/client/petstore/haskell-http-client</module>-->
                 <!-- servers -->
                 <!--<module>samples/server/petstore/haskell-servant</module>-->
