@@ -29,6 +29,7 @@ cache:
   - $HOME/.rvm/gems/ruby-2.4.1
   - $HOME/website/node_modules/
   - $HOME/.cache/deno
+  - $HOME/.phpenv/versions/8.1.4
 
 services:
   - docker
@@ -88,8 +89,14 @@ before_install:
   #- sudo apt-get update
   #- sudo apt-get install dart
   # switch to php7
+  - sudo apt-get install libonig-dev libzip-dev
+  - git clone https://github.com/php-build/php-build $(phpenv root)/plugins/php-build
+  - git clone https://github.com/ngyuki/phpenv-composer.git $(phpenv root)/plugins/phpenv-composer
+  - phpenv install 8.1.4
+  - phpenv rehash
   - phpenv versions
-  - phpenv global 7.2.15
+  #- phpenv global 7.2.15
+  - phpenv global 8.1.4
   - php -v
   # comment out below as installation failed in travis
   # Add rebar3 build tool and recent Erlang/OTP for Erlang petstore server tests.
