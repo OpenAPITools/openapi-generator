@@ -32,8 +32,8 @@ elif [ "$NODE_INDEX" = "2" ]; then
   #stack --version
 
   # install curl
-  sudo apt-get -y build-dep libcurl4-gnutls-dev
-  sudo apt-get -y install libcurl4-gnutls-dev
+  #sudo apt-get -y build-dep libcurl4-gnutls-dev
+  #sudo apt-get -y install libcurl4-gnutls-dev
 
   # Install golang version 1.14
   go version
