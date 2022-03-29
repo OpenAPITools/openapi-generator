@@ -88,8 +88,10 @@ before_install:
   #- sudo apt-get update
   #- sudo apt-get install dart
   # switch to php7
+  - phpenv install 8.1.4
   - phpenv versions
-  - phpenv global 7.2.15
+  #- phpenv global 7.2.15
+  - phpenv global 8.1.4
   - php -v
   # comment out below as installation failed in travis
   # Add rebar3 build tool and recent Erlang/OTP for Erlang petstore server tests.
