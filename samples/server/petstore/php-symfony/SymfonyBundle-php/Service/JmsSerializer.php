@@ -6,7 +6,6 @@ use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Naming\CamelCaseNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\Visitor\Factory\XmlDeserializationVisitorFactory;
-use JMS\Serializer\XmlDeserializationVisitor;
 use DateTime;
 use RuntimeException;
 

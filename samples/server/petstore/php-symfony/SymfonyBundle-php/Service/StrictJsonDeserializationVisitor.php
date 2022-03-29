@@ -27,7 +27,7 @@ use JMS\Serializer\Visitor\DeserializationVisitorInterface;
 
 class StrictJsonDeserializationVisitor implements DeserializationVisitorInterface
 {
-    protected $jsonDeserializationVisitor; 
+    protected $jsonDeserializationVisitor: JsonDeserializationVisitor; 
 
     public function __construct(
         int $options = 0,
@@ -105,15 +105,15 @@ class StrictJsonDeserializationVisitor implements DeserializationVisitorInterfac
      */
     public function visitDiscriminatorMapProperty($data, ClassMetadata $metadata): string
     {
-        return $this->jsonDeserializationVisitor->visitDiscriminatorMapProperty($data, $type);
+        return $this->jsonDeserializationVisitor->visitDiscriminatorMapProperty($data, $metadata);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function startVisitingObject(ClassMetadata $metadata, object $object, array $type): void
+    public function startVisitingObject(ClassMetadata $metadata, object $data, array $type): void
     {
-        $this->jsonDeserializationVisitor->startVisitingObject($metadata, $object, $type);
+        $this->jsonDeserializationVisitor->startVisitingObject($metadata, $data, $type);
     }
 
     /**
