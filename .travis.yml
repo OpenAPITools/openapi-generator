@@ -88,6 +88,7 @@ before_install:
   #- sudo apt-get update
   #- sudo apt-get install dart
   # switch to php7
+  - sudo apt-get install libonig-dev
   - git clone https://github.com/php-build/php-build $(phpenv root)/plugins/php-build
   - phpenv install 8.1.4
   - phpenv versions
