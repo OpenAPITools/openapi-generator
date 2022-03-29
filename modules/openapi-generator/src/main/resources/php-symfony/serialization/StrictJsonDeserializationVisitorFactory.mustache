@@ -9,15 +9,9 @@ use JMS\Serializer\Visitor\Factory\DeserializationVisitorFactory;
 
 final class StrictJsonDeserializationVisitorFactory implements DeserializationVisitorFactory
 {
-    /**
-     * @var int
-     */
-    private $options = 0;
+    private int $options = 0;
 
-    /**
-     * @var int
-     */
-    private $depth = 512;
+    private int $depth = 512;
 
     public function getVisitor(): DeserializationVisitorInterface
     {
