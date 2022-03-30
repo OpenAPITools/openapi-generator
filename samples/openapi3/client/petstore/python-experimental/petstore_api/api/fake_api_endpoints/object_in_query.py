@@ -109,7 +109,7 @@ request_query_map_bean = api_client.QueryParameter(
     schema=MapBeanSchema,
     explode=True,
 )
-_path = '/users'
+_path = '/fake/objInQuery'
 _method = 'GET'
 
 
@@ -128,9 +128,9 @@ _status_code_to_response = {
 }
 
 
-class UserList(api_client.Api):
+class ObjectInQuery(api_client.Api):
 
-    def user_list(
+    def object_in_query(
         self: api_client.Api,
         query_params: RequestQueryParams = frozendict(),
         stream: bool = False,

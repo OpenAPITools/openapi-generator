@@ -102,6 +102,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**json_form_data**](docs/FakeApi.md#json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**mammal**](docs/FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 *FakeApi* | [**number_with_validations**](docs/FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
+*FakeApi* | [**object_in_query**](docs/FakeApi.md#object_in_query) | **GET** /fake/objInQuery | user list
 *FakeApi* | [**object_model_with_ref_props**](docs/FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
 *FakeApi* | [**parameter_collisions**](docs/FakeApi.md#parameter_collisions) | **POST** /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/ | parameter collision case
 *FakeApi* | [**query_parameter_collection_format**](docs/FakeApi.md#query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
@@ -208,6 +209,7 @@ Class | Method | HTTP request | Description
  - [IsoscelesTriangle](docs/IsoscelesTriangle.md)
  - [IsoscelesTriangleAllOf](docs/IsoscelesTriangleAllOf.md)
  - [Mammal](docs/Mammal.md)
+ - [MapBean](docs/MapBean.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
