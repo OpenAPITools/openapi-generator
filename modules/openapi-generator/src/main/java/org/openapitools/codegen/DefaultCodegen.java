@@ -4749,7 +4749,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
 
         if (codegenParameter.isQueryParam && codegenParameter.isDeepObject) {
-            Schema schema = ModelUtils.getSchema(openAPI, codegenParameter.dataType);
+            Schema schema = parameterSchema;
             codegenParameter.items = fromProperty(codegenParameter.paramName, schema);
             // TODO Check why schema is actually null for a schema of type object defined inline
             // https://swagger.io/docs/specification/serialization/
