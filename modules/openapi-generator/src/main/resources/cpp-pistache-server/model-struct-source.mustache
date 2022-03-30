@@ -33,8 +33,8 @@ bool {{classname}}::operator!=(const {{classname}}& other) const
 void to_json(nlohmann::json& j, const {{classname}}& o)
 {
     {{#vars}}
-    {{^required}}if (!o.{{name}}.isEmpty()){{/required}}
-        j["{{baseName}}"] = o.{{name}}{{^required}}.get(){{/required}};
+    {{^required}}if (o.{{name}}.has_value()){{/required}}
+        j["{{baseName}}"] = o.{{name}}{{^required}}.value(){{/required}};
     {{/vars}}
 }
 
