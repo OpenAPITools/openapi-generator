@@ -619,6 +619,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Logicdrop](https://www.logicdrop.com)
 - [Lumeris](https://www.lumeris.com)
 - [LVM Versicherungen](https://www.lvm.de)
+- [Mastercard](https://developers.mastercard.com)
 - [MailSlurp](https://www.mailslurp.com)
 - [Manticore Search](https://manticoresearch.com)
 - [Médiavision](https://www.mediavision.fr/)
