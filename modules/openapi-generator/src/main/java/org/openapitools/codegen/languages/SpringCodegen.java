@@ -662,6 +662,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
                 handleImplicitHeaders(operation);
             }
+            objs.put("tagDescription", ops.get(0).tags.get(0).getDescription());
         }
 
         return objs;
