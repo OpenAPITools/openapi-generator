@@ -92,7 +92,7 @@ before_install:
   - sudo apt-get install libonig-dev libzip-dev
   - git clone https://github.com/php-build/php-build $(phpenv root)/plugins/php-build
   - git clone https://github.com/ngyuki/phpenv-composer.git $(phpenv root)/plugins/phpenv-composer
-  - phpenv install 8.1.4
+  #- phpenv install 8.1.4
   - phpenv rehash
   - phpenv versions
   #- phpenv global 7.2.15
