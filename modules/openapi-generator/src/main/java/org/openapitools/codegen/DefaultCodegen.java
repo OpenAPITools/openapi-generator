@@ -269,6 +269,8 @@ public class DefaultCodegen implements CodegenConfig {
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
+    protected boolean loadDeepObjectIntoItems = true;
+
     @Override
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -4748,7 +4750,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
 
-        if (codegenParameter.isQueryParam && codegenParameter.isDeepObject) {
+        if (codegenParameter.isQueryParam && codegenParameter.isDeepObject && loadDeepObjectIntoItems) {
             Schema schema = parameterSchema;
             if (schema.get$ref() != null) {
                 schema = ModelUtils.getReferencedSchema(openAPI, schema);

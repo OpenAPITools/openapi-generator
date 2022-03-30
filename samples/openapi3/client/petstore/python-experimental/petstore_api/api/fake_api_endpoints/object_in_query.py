@@ -68,20 +68,20 @@ from petstore_api.model.map_bean import MapBean
 class MapBeanSchema(
     DictSchema
 ):
-    mapBean[keyword] = StrSchema
+    keyword = StrSchema
 
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict, ],
-        mapBean[keyword]: typing.Union[mapBean[keyword], Unset] = unset,
+        keyword: typing.Union[keyword, Unset] = unset,
         _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'MapBeanSchema':
         return super().__new__(
             cls,
             *args,
-            mapBean[keyword]=mapBean[keyword],
+            keyword=keyword,
             _configuration=_configuration,
             **kwargs,
         )
