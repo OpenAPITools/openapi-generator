@@ -4750,8 +4750,10 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (codegenParameter.isQueryParam && codegenParameter.isDeepObject) {
             Schema schema = parameterSchema;
+            if (schema.get$ref() != null) {
+                schema = ModelUtils.getReferencedSchema(openAPI, schema);
+            }
             codegenParameter.items = fromProperty(codegenParameter.paramName, schema);
-            // TODO Check why schema is actually null for a schema of type object defined inline
             // https://swagger.io/docs/specification/serialization/
             if (schema != null) {
                 Map<String, Schema<?>> properties = schema.getProperties();

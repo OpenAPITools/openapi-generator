@@ -32,6 +32,7 @@ from petstore_api.api.fake_api_endpoints.object_in_query import ObjectInQuery
 from petstore_api.api.fake_api_endpoints.object_model_with_ref_props import ObjectModelWithRefProps
 from petstore_api.api.fake_api_endpoints.parameter_collisions import ParameterCollisions
 from petstore_api.api.fake_api_endpoints.query_parameter_collection_format import QueryParameterCollectionFormat
+from petstore_api.api.fake_api_endpoints.ref_object_in_query import RefObjectInQuery
 from petstore_api.api.fake_api_endpoints.string import String
 from petstore_api.api.fake_api_endpoints.string_enum import StringEnum
 from petstore_api.api.fake_api_endpoints.upload_download_file import UploadDownloadFile
@@ -62,6 +63,7 @@ class FakeApi(
     ObjectModelWithRefProps,
     ParameterCollisions,
     QueryParameterCollectionFormat,
+    RefObjectInQuery,
     String,
     StringEnum,
     UploadDownloadFile,

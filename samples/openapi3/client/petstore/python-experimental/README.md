@@ -106,6 +106,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**object_model_with_ref_props**](docs/FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
 *FakeApi* | [**parameter_collisions**](docs/FakeApi.md#parameter_collisions) | **POST** /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/ | parameter collision case
 *FakeApi* | [**query_parameter_collection_format**](docs/FakeApi.md#query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**ref_object_in_query**](docs/FakeApi.md#ref_object_in_query) | **GET** /fake/refObjInQuery | user list
 *FakeApi* | [**string**](docs/FakeApi.md#string) | **POST** /fake/refs/string | 
 *FakeApi* | [**string_enum**](docs/FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
 *FakeApi* | [**upload_download_file**](docs/FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
