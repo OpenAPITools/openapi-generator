@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -59,7 +60,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;HealthCheckResult?&gt;</returns>
         Task<HealthCheckResult?> FakeHealthGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -94,7 +96,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;bool?&gt;</returns>
         Task<bool?> FakeOuterBooleanSerializeOrDefaultAsync(bool? body = null, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -129,7 +132,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;OuterComposite?&gt;</returns>
         Task<OuterComposite?> FakeOuterCompositeSerializeOrDefaultAsync(OuterComposite? outerComposite = null, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -164,7 +168,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;decimal?&gt;</returns>
         Task<decimal?> FakeOuterNumberSerializeOrDefaultAsync(decimal? body = null, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -199,7 +204,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;string?&gt;</returns>
         Task<string?> FakeOuterStringSerializeOrDefaultAsync(string? body = null, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// Array of Enums
         /// </summary>
         /// <remarks>
@@ -231,7 +237,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;List&lt;OuterEnum&gt;?&gt;</returns>
         Task<List<OuterEnum>?> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -266,7 +273,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> TestBodyWithFileSchemaOrDefaultAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -304,7 +312,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> TestBodyWithQueryParamsOrDefaultAsync(string query, User user, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// To test \&quot;client\&quot; model
         /// </summary>
         /// <remarks>
@@ -339,7 +348,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;ModelClient?&gt;</returns>
         Task<ModelClient?> TestClientModelOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
         /// <remarks>
@@ -413,7 +423,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> TestEndpointParametersOrDefaultAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string? _string = null, System.IO.Stream? binary = null, DateTime? date = null, string? password = null, string? callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// To test enum parameters
         /// </summary>
         /// <remarks>
@@ -469,7 +480,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> TestEnumParametersOrDefaultAsync(List<string>? enumHeaderStringArray = null, List<string>? enumQueryStringArray = null, int? enumQueryInteger = null, double? enumQueryDouble = null, string? enumHeaderString = null, string? enumQueryString = null, List<string>? enumFormStringArray = null, string? enumFormString = null, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// Fake endpoint to test group parameters (optional)
         /// </summary>
         /// <remarks>
@@ -519,7 +531,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> TestGroupParametersOrDefaultAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// test inline additionalProperties
         /// </summary>
         /// <remarks>
@@ -554,7 +567,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> TestInlineAdditionalPropertiesOrDefaultAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// test json serialization of form data
         /// </summary>
         /// <remarks>
@@ -592,7 +606,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> TestJsonFormDataOrDefaultAsync(string param, string param2, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -638,13 +653,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> TestQueryParameterCollectionFormatOrDefaultAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken? cancellationToken = null);
-    }
+
+            }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public partial class FakeApi : IFakeApi
     {
+        private JsonSerializerOptions _jsonSerializerOptions;
+
         /// <summary>
         /// An event to track the health of the server. 
         /// If you store these event args, be sure to purge old event args to prevent a memory leak.
@@ -690,13 +708,14 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="FakeApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public FakeApi(ILogger<FakeApi> logger, HttpClient httpClient, 
+        public FakeApi(ILogger<FakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
             TokenProvider<ApiKeyToken> apiKeyProvider, 
             TokenProvider<BearerToken> bearerTokenProvider, 
             TokenProvider<BasicToken> basicTokenProvider, 
             TokenProvider<HttpSignatureToken> httpSignatureTokenProvider, 
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
+            _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
             ApiKeyProvider = apiKeyProvider;
@@ -795,7 +814,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<HealthCheckResult?> apiResponse = new ApiResponse<HealthCheckResult?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<HealthCheckResult>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<HealthCheckResult>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -868,7 +887,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (body as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(body, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -913,7 +932,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<bool?> apiResponse = new ApiResponse<bool?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<bool>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<bool>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -986,7 +1005,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (outerComposite as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(outerComposite, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(outerComposite, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1031,7 +1050,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<OuterComposite?> apiResponse = new ApiResponse<OuterComposite?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<OuterComposite>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<OuterComposite>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -1104,7 +1123,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (body as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(body, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1149,7 +1168,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<decimal?> apiResponse = new ApiResponse<decimal?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<decimal>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<decimal>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -1222,7 +1241,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (body as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(body, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1267,7 +1286,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<string?> apiResponse = new ApiResponse<string?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<string>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<string>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -1369,7 +1388,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<List<OuterEnum>?> apiResponse = new ApiResponse<List<OuterEnum>?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<List<OuterEnum>>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<List<OuterEnum>>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -1449,7 +1468,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (fileSchemaTestClass as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(fileSchemaTestClass, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(fileSchemaTestClass, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1485,7 +1504,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -1577,7 +1596,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (user as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1613,7 +1632,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -1693,7 +1712,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (modelClient as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(modelClient, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -1738,7 +1757,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<ModelClient?> apiResponse = new ApiResponse<ModelClient?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<ModelClient>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<ModelClient>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -1952,7 +1971,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -2116,7 +2135,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -2266,7 +2285,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -2349,7 +2368,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (requestBody as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestBody, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -2385,7 +2404,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -2515,7 +2534,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -2652,7 +2671,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -2663,6 +2682,5 @@ namespace Org.OpenAPITools.Api
                 Logger.LogError(e, "An error occured while sending the request to the server.");
                 throw;
             }
-        }
-    }
+        }    }
 }
