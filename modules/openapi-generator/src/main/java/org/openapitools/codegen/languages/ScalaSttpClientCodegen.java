@@ -28,6 +28,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -219,7 +221,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         return objs;
     }
 
@@ -231,8 +233,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
      * @return An in-place modified state of the codegen object model.
      */
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        final Map<String, Object> processed = super.postProcessAllModels(objs);
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
         postProcessUpdateImports(processed);
         return processed;
     }
@@ -246,26 +248,25 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
      * @param models processed models to be further processed
      */
     @SuppressWarnings("unchecked")
-    private void postProcessUpdateImports(final Map<String, Object> models) {
+    private void postProcessUpdateImports(final Map<String, ModelsMap> models) {
         final String prefix = modelPackage() + ".";
-        Map<String, Object> enumRefs = new HashMap<String, Object>();
-        for (Map.Entry<String, Object> entry : models.entrySet()) {
-            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
+        Map<String, ModelsMap> enumRefs = new HashMap<>();
+        for (String key : models.keySet()) {
+            CodegenModel model = ModelUtils.getModelByName(key, models);
             if (model.isEnum) {
-                Map<String, Object> objs = (Map<String, Object>)models.get(entry.getKey());
-                enumRefs.put(entry.getKey(), objs);
+                ModelsMap objs = models.get(key);
+                enumRefs.put(key, objs);
             }
         }
 
-        for (Map.Entry<String, Object> entry : models.entrySet()) {
-            String openAPIName = entry.getKey();
+        for (String openAPIName : models.keySet()) {
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model == null) {
-                LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
+                LOGGER.warn("Expected to retrieve model {} by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
                 continue;
             }
-            Map<String, Object> objs = (Map<String, Object>)models.get(openAPIName);
-            List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+            ModelsMap objs = models.get(openAPIName);
+            List<Map<String, String>> imports = objs.getImports();
             if (imports == null || imports.isEmpty()) {
                 continue;
             }
@@ -274,7 +275,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             while (iterator.hasNext()) {
                 String importPath = iterator.next().get("import");
                 if (importPath.startsWith(prefix)) {
-                     if (isEnumClass(importPath, (Map<String, Object>)enumRefs)) {
+                     if (isEnumClass(importPath, enumRefs)) {
                          Map<String, String> item = new HashMap<>();
                          item.put("import", importPath.concat("._"));
                          newImports.add(item);
@@ -288,25 +289,21 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
             }
             // reset imports
-            objs.put("imports", newImports);
+            objs.setImports(newImports);
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private boolean isEnumClass(final String importPath, final Map<String, Object> enumModels) {
+    private boolean isEnumClass(final String importPath, final Map<String, ModelsMap> enumModels) {
         if (enumModels == null || enumModels.isEmpty()) {
             return false;
         }
-        for (Map.Entry<String, Object> entry : enumModels.entrySet()) {
-            String name = entry.getKey();
-            Map<String, Object> objs = (Map<String, Object>)enumModels.get(name);
-            List<Map<String, Object>> modles = (List<Map<String, Object>>) objs.get("models");
+        for (ModelsMap objs : enumModels.values()) {
+            List<ModelMap> modles = objs.getModels();
             if (modles == null || modles.isEmpty()) {
                 continue;
             }
-            Iterator<Map<String, Object>> iterator = modles.iterator();
-            while (iterator.hasNext()) {
-                String enumImportPath = (String)iterator.next().get("importPath");
+            for (final Map<String, Object> modle : modles) {
+                String enumImportPath = (String) modle.get("importPath");
                 if (enumImportPath != null && enumImportPath.equals(importPath)) {
                     return true;
                 }
@@ -316,7 +313,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         if (registerNonStandardStatusCodes) {
             try {
                 @SuppressWarnings("unchecked")

@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://localhost:8082*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**postPing**](PingApi.md#postPing) | **POST** /ping | 
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**postPing**](PingApi.md#postPing) | **POST** /ping |  |
 
 
 <a name="postPing"></a>
@@ -45,9 +45,9 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **someObj** | [**SomeObj**](SomeObj.md)|  | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **someObj** | [**SomeObj**](SomeObj.md)|  | [optional] |
 
 ### Return type
 
@@ -65,5 +65,5 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK |  -  |
+| **200** | OK |  -  |
 

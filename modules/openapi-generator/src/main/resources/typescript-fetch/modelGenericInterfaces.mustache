@@ -22,6 +22,7 @@ export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 
 {{#vars}}
 {{#isEnum}}
+{{#stringEnums}}
 /**
 * @export
 * @enum {string}
@@ -32,4 +33,31 @@ export enum {{classname}}{{enumName}} {
     {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
     {{/enumVars}}
 {{/allowableValues}}
-}{{/isEnum}}{{/vars}}{{/hasEnums}}
+}
+{{/stringEnums}}{{^stringEnums}}
+{{#typescriptThreePlus}}
+/**
+ * @export
+ */
+export const {{classname}}{{enumName}} = {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}}: {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+} as const;
+{{/typescriptThreePlus}}
+{{^typescriptThreePlus}}
+/**
+ * @export
+ */
+export const {{classname}}{{enumName}} = {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}}: {{{value}}} as {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+};{{/typescriptThreePlus}}
+export type {{classname}}{{enumName}} = typeof {{classname}}{{enumName}}[keyof typeof {{classname}}{{enumName}}];
+{{/stringEnums}}
+{{/isEnum}}{{/vars}}{{/hasEnums}}

@@ -23,7 +23,6 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -40,6 +39,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -51,13 +51,12 @@ import org.openapitools.client.JSON;
  * AdditionalPropertiesObject
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class AdditionalPropertiesObject extends HashMap<String, Map> implements Parcelable {
+public class AdditionalPropertiesObject implements Parcelable {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
   public AdditionalPropertiesObject() { 
-    super();
   }
 
   public AdditionalPropertiesObject name(String name) {
@@ -83,6 +82,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> implements 
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -92,20 +92,18 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> implements 
       return false;
     }
     AdditionalPropertiesObject additionalPropertiesObject = (AdditionalPropertiesObject) o;
-    return Objects.equals(this.name, additionalPropertiesObject.name) &&
-        super.equals(o);
+    return Objects.equals(this.name, additionalPropertiesObject.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(name);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesObject {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -124,12 +122,10 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> implements 
 
 
   public void writeToParcel(Parcel out, int flags) {
-    super.writeToParcel(out, flags);
     out.writeValue(name);
   }
 
   AdditionalPropertiesObject(Parcel in) {
-    super(in);
     name = (String)in.readValue(null);
   }
 
@@ -172,6 +168,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> implements 
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesObject is not found in the empty JSON string", AdditionalPropertiesObject.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {

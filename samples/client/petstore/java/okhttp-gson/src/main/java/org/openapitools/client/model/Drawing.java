@@ -24,9 +24,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.openapitools.client.model.Fruit;
 import org.openapitools.client.model.NullableShape;
 import org.openapitools.client.model.Shape;
@@ -45,6 +43,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -56,7 +55,7 @@ import org.openapitools.client.JSON;
  * Drawing
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Drawing extends HashMap<String, Fruit> {
+public class Drawing {
   public static final String SERIALIZED_NAME_MAIN_SHAPE = "mainShape";
   @SerializedName(SERIALIZED_NAME_MAIN_SHAPE)
   private Shape mainShape;
@@ -176,6 +175,7 @@ public class Drawing extends HashMap<String, Fruit> {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -188,8 +188,7 @@ public class Drawing extends HashMap<String, Fruit> {
     return Objects.equals(this.mainShape, drawing.mainShape) &&
         Objects.equals(this.shapeOrNull, drawing.shapeOrNull) &&
         Objects.equals(this.nullableShape, drawing.nullableShape) &&
-        Objects.equals(this.shapes, drawing.shapes) &&
-        super.equals(o);
+        Objects.equals(this.shapes, drawing.shapes);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -198,7 +197,7 @@ public class Drawing extends HashMap<String, Fruit> {
 
   @Override
   public int hashCode() {
-    return Objects.hash(mainShape, shapeOrNull, nullableShape, shapes, super.hashCode());
+    return Objects.hash(mainShape, shapeOrNull, nullableShape, shapes);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -212,7 +211,6 @@ public class Drawing extends HashMap<String, Fruit> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Drawing {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    mainShape: ").append(toIndentedString(mainShape)).append("\n");
     sb.append("    shapeOrNull: ").append(toIndentedString(shapeOrNull)).append("\n");
     sb.append("    nullableShape: ").append(toIndentedString(nullableShape)).append("\n");
@@ -262,6 +260,7 @@ public class Drawing extends HashMap<String, Fruit> {
           throw new IllegalArgumentException(String.format("The required field(s) %s in Drawing is not found in the empty JSON string", Drawing.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {

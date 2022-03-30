@@ -33,6 +33,8 @@ import org.openapitools.codegen.meta.features.ParameterFeature;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -730,13 +732,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        Map<String, Object> objects = super.postProcessModels(objs);
-        @SuppressWarnings("unchecked") List<Object> models = (List<Object>) objs.get("models");
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        ModelsMap objects = super.postProcessModels(objs);
 
-        for (Object model : models) {
-            @SuppressWarnings("unchecked") Map<String, Object> mo = (Map<String, Object>) model;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelMap mo : objects.getModels()) {
+            CodegenModel cm = mo.getModel();
             if (getGenerateRoomModels()) {
                 cm.vendorExtensions.put("x-has-data-class-body", true);
             }
@@ -768,7 +768,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {

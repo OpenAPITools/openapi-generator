@@ -39,6 +39,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -107,6 +108,7 @@ public class Animal {
   public void setColor(String color) {
     this.color = color;
   }
+
 
 
   @Override

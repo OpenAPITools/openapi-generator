@@ -56,8 +56,8 @@ class PetApi(baseUrl: String) {
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
-      .header("api_key", apiKey)
-.response(asJson[Unit])
+      .header("api_key", apiKey.toString)
+      .response(asJson[Unit])
 
   /**
    * Multiple status values can be provided with comma separated strings

@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.RubyClientCodegen;
+import org.openapitools.codegen.model.ModelMap;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -159,8 +160,8 @@ public class RubyClientCodegenTest {
         final Operation p = openAPI.getPaths().get(path).getPost();
         Schema schema = openAPI.getComponents().getSchemas().get("Pet");
         CodegenModel model = codegen.fromModel("Pet", schema);
-        Map<String, Object> modelMap = new HashMap<>();
-        modelMap.put("model", model);
+        ModelMap modelMap = new ModelMap();
+        modelMap.setModel(model);
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
         Map<String, Object> operations = ImmutableMap.of("operation", Collections.singletonList(op));
