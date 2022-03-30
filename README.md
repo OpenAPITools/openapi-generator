@@ -621,6 +621,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [LVM Versicherungen](https://www.lvm.de)
 - [MailSlurp](https://www.mailslurp.com)
 - [Manticore Search](https://manticoresearch.com)
+- [Mastercard](https://developers.mastercard.com)
 - [Médiavision](https://www.mediavision.fr/)
 - [Metaswitch](https://www.metaswitch.com/)
 - [MoonVision](https://www.moonvision.io/)
