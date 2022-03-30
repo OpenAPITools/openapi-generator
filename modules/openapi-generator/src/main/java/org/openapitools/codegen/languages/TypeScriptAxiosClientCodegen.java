@@ -24,6 +24,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
@@ -145,10 +147,10 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> vals = (Map<String, Object>) objs.getOrDefault("operations", new HashMap<>());
-        List<CodegenOperation> operations = (List<CodegenOperation>) vals.getOrDefault("operation", new ArrayList<>());
+        OperationMap vals = objs.getOperations();
+        List<CodegenOperation> operations = vals.getOperation();
         /*
             Filter all the operations that are multipart/form-data operations and set the vendor extension flag
             'multipartFormData' for the template to work with.
@@ -156,9 +158,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         operations.stream()
                 .filter(op -> op.hasConsumes)
                 .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
-                .forEach(op -> {
-                    op.vendorExtensions.putIfAbsent("multipartFormData", true);
-                });
+                .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
         return objs;
     }
 
@@ -191,7 +191,6 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public ModelsMap postProcessModels(ModelsMap objs) {
         List<ModelMap> models = postProcessModelsEnum(objs).getModels();
 

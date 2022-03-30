@@ -23,6 +23,7 @@ import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
 import java.text.Normalizer;
@@ -94,12 +95,8 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs,
-                                                               List<ModelMap> allModels) {
-
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-        for (CodegenOperation op : operationList) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        for (CodegenOperation op : objs.getOperations().getOperation()) {
             op.operationId = this.generateOperationId(op);
 
             // for xml compliant primitives, lowercase dataType of openapi

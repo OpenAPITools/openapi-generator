@@ -26,6 +26,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -212,13 +214,12 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         if (registerNonStandardStatusCodes) {
             try {
-                @SuppressWarnings("unchecked")
-                Map<String, ArrayList<CodegenOperation>> opsMap = (Map<String, ArrayList<CodegenOperation>>) objs.get("operations");
-                HashSet<Integer> unknownCodes = new HashSet<Integer>();
-                for (CodegenOperation operation : opsMap.get("operation")) {
+                OperationMap opsMap = objs.getOperations();
+                HashSet<Integer> unknownCodes = new HashSet<>();
+                for (CodegenOperation operation : opsMap.getOperation()) {
                     for (CodegenResponse response : operation.responses) {
                         if ("default".equals(response.code)) {
                             continue;
@@ -251,13 +252,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         }
 
         // Remove OAuth securities
-        Iterator<CodegenSecurity> it = codegenSecurities.iterator();
-        while (it.hasNext()) {
-            final CodegenSecurity security = it.next();
-            if (security.isOAuth) {
-                it.remove();
-            }
-        }
+        codegenSecurities.removeIf(security -> security.isOAuth);
         if (codegenSecurities.isEmpty()) {
             return null;
         }

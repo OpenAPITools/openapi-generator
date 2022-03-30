@@ -35,6 +35,8 @@ import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -318,18 +320,17 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<ModelMap> models) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> models) {
 
         // Add additional filename information for model imports in the apis
-        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
-        for (Map<String, Object> im : imports) {
-            im.put("filename", ((String) im.get("import")).replace(".", "/"));
-            im.put("classname", getModelnameFromModelFilename(im.get("import").toString()));
+        List<Map<String, String>> imports = operations.getImports();
+        for (Map<String, String> im : imports) {
+            im.put("filename", im.get("import").replace(".", "/"));
+            im.put("classname", getModelnameFromModelFilename(im.get("import")));
         }
 
-        @SuppressWarnings("unchecked")
-        Map<String, Object> operationsMap = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operationsMap.get("operation");
+        OperationMap operationsMap = operations.getOperations();
+        List<CodegenOperation> operationList = operationsMap.getOperation();
         for (CodegenOperation operation: operationList) {
             List<CodegenResponse> responses = operation.responses;
             operation.returnType = this.getReturnType(responses);
