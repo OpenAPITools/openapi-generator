@@ -609,7 +609,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else {
             strValue = dateValue.toString();
         }
-        return "isoparse('" + strValue + "').date()";
+        return strValue;
     }
 
     public String pythonDateTime(Object dateTimeValue) {
@@ -626,7 +626,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else {
             strValue = dateTimeValue.toString();
         }
-        return "isoparse('" + strValue + "')";
+        return strValue;
     }
 
     /**
@@ -1445,12 +1445,18 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             }
             String refModelName = getModelName(schema);
             return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, includedSchemas);
-        } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
+        } else if (ModelUtils.isNullType(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
             return fullPrefix + "None" + closeChars;
+        } else if (ModelUtils.isAnyType(schema)) {
+            /*
+             This schema may be a composed schema
+             TODO Work on generating examples here in the future
+             */
+            return fullPrefix + "None" + closeChars;
         } else if (ModelUtils.isBooleanSchema(schema)) {
-            if (objExample == null) {
+            if (example == null) {
                 example = "True";
             } else {
                 if ("false".equalsIgnoreCase(objExample.toString())) {
@@ -1460,60 +1466,61 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 }
             }
             return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isDateSchema(schema)) {
-            if (objExample == null) {
-                example = pythonDate("1970-01-01");
-            } else {
-                example = pythonDate(objExample);
-            }
-            return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isDateTimeSchema(schema)) {
-            if (objExample == null) {
-                example = pythonDateTime("1970-01-01T00:00:00.00Z");
-            } else {
-                example = pythonDateTime(objExample);
-            }
-            return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isBinarySchema(schema)) {
-            if (objExample == null) {
-                example = "/path/to/file";
-            }
-            example = "open('" + example + "', 'rb')";
-            return fullPrefix + example + closeChars;
-        } else if (ModelUtils.isByteArraySchema(schema)) {
-            if (objExample == null) {
-                example = "'YQ=='";
-            }
-            return fullPrefix + example + closeChars;
         } else if (ModelUtils.isStringSchema(schema)) {
-            if (objExample == null) {
-                // a BigDecimal:
-                if ("Number".equalsIgnoreCase(schema.getFormat())) {
-                    example = "2";
-                    return fullPrefix + example + closeChars;
-                } else if (StringUtils.isNotBlank(schema.getPattern())) {
-                    String pattern = schema.getPattern();
-                    RgxGen rgxGen = new RgxGen(pattern);
-                    // this seed makes it so if we have [a-z] we pick a
-                    Random random = new Random(18);
-                    String sample = rgxGen.generate(random);
-                    // omit leading / and trailing /, omit trailing /i
-                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?.?$");
-                    Matcher m = valueExtractor.matcher(sample);
-                    if (m.find()) {
-                        example = m.group(m.groupCount());
-                    } else {
-                        example = "";
-                    }
-                } else if (schema.getMinLength() != null) {
-                    example = "";
-                    int len = schema.getMinLength().intValue();
-                    for (int i = 0; i < len; i++) example += "a";
-                } else if (ModelUtils.isUUIDSchema(schema)) {
-                    example = "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
+            if (example != null) {
+                return fullPrefix + ensureQuotes(example) + closeChars;
+            }
+            if (ModelUtils.isDateSchema(schema)) {
+                if (objExample == null) {
+                    example = pythonDate("1970-01-01");
                 } else {
-                    example = "string_example";
+                    example = pythonDate(objExample);
                 }
+                return fullPrefix + example + closeChars;
+            } else if (ModelUtils.isDateTimeSchema(schema)) {
+                if (objExample == null) {
+                    example = pythonDateTime("1970-01-01T00:00:00.00Z");
+                } else {
+                    example = pythonDateTime(objExample);
+                }
+                return fullPrefix + example + closeChars;
+            } else if (ModelUtils.isBinarySchema(schema)) {
+                if (example == null) {
+                    example = "/path/to/file";
+                }
+                example = "open('" + example + "', 'rb')";
+                return fullPrefix + example + closeChars;
+            } else if (ModelUtils.isByteArraySchema(schema)) {
+                if (objExample == null) {
+                    example = "'YQ=='";
+                }
+                return fullPrefix + example + closeChars;
+            } else if ("Number".equalsIgnoreCase(schema.getFormat())) {
+                // a BigDecimal:
+                example = "2";
+                return fullPrefix + example + closeChars;
+            } else if (StringUtils.isNotBlank(schema.getPattern())) {
+                String pattern = schema.getPattern();
+                RgxGen rgxGen = new RgxGen(pattern);
+                // this seed makes it so if we have [a-z] we pick a
+                Random random = new Random(18);
+                String sample = rgxGen.generate(random);
+                // omit leading / and trailing /, omit trailing /i
+                Pattern valueExtractor = Pattern.compile("^/?(.+?)/?.?$");
+                Matcher m = valueExtractor.matcher(sample);
+                if (m.find()) {
+                    example = m.group(m.groupCount());
+                } else {
+                    example = "";
+                }
+            } else if (schema.getMinLength() != null) {
+                example = "";
+                int len = schema.getMinLength().intValue();
+                for (int i = 0; i < len; i++) example += "a";
+            } else if (ModelUtils.isUUIDSchema(schema)) {
+                example = "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
+            } else {
+                example = "string_example";
             }
             return fullPrefix + ensureQuotes(example) + closeChars;
         } else if (ModelUtils.isIntegerSchema(schema)) {
@@ -1537,7 +1544,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else if (ModelUtils.isArraySchema(schema)) {
             if (objExample instanceof Iterable) {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
-                return fullPrefix + objExample.toString();
+                return fullPrefix + objExample.toString() + closeChars;
             }
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
@@ -1545,37 +1552,11 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             includedSchemas.add(schema);
             String itemExample = toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, includedSchemas);
             if (StringUtils.isEmpty(itemExample) || cycleFound) {
-                return fullPrefix + "[]";
+                return fullPrefix + "[]" + closeChars;
             } else {
                 return fullPrefix + "[" + "\n" + itemExample + "\n" + closingIndentation + "]" + closeChars;
             }
-        } else if (ModelUtils.isMapSchema(schema)) {
-            if (modelName == null) {
-                fullPrefix += "dict(";
-                closeChars = ")";
-            }
-            Object addPropsObj = schema.getAdditionalProperties();
-            // TODO handle true case for additionalProperties
-            if (addPropsObj instanceof Schema && !cycleFound) {
-                Schema addPropsSchema = (Schema) addPropsObj;
-                String key = "key";
-                Object addPropsExample = getObjectExample(addPropsSchema);
-                if (addPropsSchema.getEnum() != null && !addPropsSchema.getEnum().isEmpty()) {
-                    key = addPropsSchema.getEnum().get(0).toString();
-                }
-                addPropsExample = exampleFromStringOrArraySchema(addPropsSchema, addPropsExample, key);
-                String addPropPrefix = key + "=";
-                if (modelName == null) {
-                    addPropPrefix = ensureQuotes(key) + ": ";
-                }
-                String addPropsModelName = getModelName(addPropsSchema);
-                includedSchemas.add(schema);
-                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, includedSchemas) + ",\n" + closingIndentation + closeChars;
-            } else {
-                example = fullPrefix + closeChars;
-            }
-            return example;
-        } else if (ModelUtils.isObjectSchema(schema)) {
+        } else if (ModelUtils.isTypeObjectSchema(schema)) {
             if (modelName == null) {
                 fullPrefix += "dict(";
                 closeChars = ")";
@@ -1595,30 +1576,29 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 } else {
                     return fullPrefix + closeChars;
                 }
-            }
-            return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, includedSchemas);
-        } else if (ModelUtils.isComposedSchema(schema)) {
-            if (cycleFound) {
-                return fullPrefix + closeChars;
-            }
-            // TODO add examples for composed schema models without discriminators
-
-            CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
-            if (disc != null) {
-                MappedModel mm = getDiscriminatorMappedModel(disc);
-                if (mm != null) {
-                    String discPropNameValue = mm.getMappingName();
-                    String chosenModelName = mm.getModelName();
-                    Schema modelSchema = getModelNameToSchemaCache().get(chosenModelName);
-                    CodegenProperty cp = new CodegenProperty();
-                    cp.setName(disc.getPropertyName());
-                    cp.setExample(discPropNameValue);
-                    return exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, includedSchemas);
+            } else {
+                Object addPropsObj = schema.getAdditionalProperties();
+                // TODO handle true case for additionalProperties
+                if (addPropsObj instanceof Schema && !cycleFound) {
+                    Schema addPropsSchema = (Schema) addPropsObj;
+                    String key = "key";
+                    Object addPropsExample = getObjectExample(addPropsSchema);
+                    if (addPropsSchema.getEnum() != null && !addPropsSchema.getEnum().isEmpty()) {
+                        key = addPropsSchema.getEnum().get(0).toString();
+                    }
+                    addPropsExample = exampleFromStringOrArraySchema(addPropsSchema, addPropsExample, key);
+                    String addPropPrefix = key + "=";
+                    if (modelName == null) {
+                        addPropPrefix = ensureQuotes(key) + ": ";
+                    }
+                    String addPropsModelName = getModelName(addPropsSchema);
+                    includedSchemas.add(schema);
+                    example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, includedSchemas) + ",\n" + closingIndentation + closeChars;
                 } else {
-                    return fullPrefix + closeChars;
+                    example = fullPrefix + closeChars;
                 }
             }
-            return fullPrefix + closeChars;
+            return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, includedSchemas);
         } else {
             LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
         }
