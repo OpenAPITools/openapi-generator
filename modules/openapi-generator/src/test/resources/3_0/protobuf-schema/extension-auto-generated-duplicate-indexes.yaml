@@ -1,0 +1,22 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as source for a test to check that automatically generated indexes from hash are not duplicates of specified indexes
+  version: 1.0.0
+  title: Extension auto generated duplicate indexes
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: integer
+          x-protobuf-index: 3355
