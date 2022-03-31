@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
@@ -35,6 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   BananaReq.JSON_PROPERTY_LENGTH_CM,
   BananaReq.JSON_PROPERTY_SWEET
 })
+@JsonTypeName("bananaReq")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BananaReq {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
@@ -43,6 +45,8 @@ public class BananaReq {
   public static final String JSON_PROPERTY_SWEET = "sweet";
   private Boolean sweet;
 
+  public BananaReq() { 
+  }
 
   public BananaReq lengthCm(BigDecimal lengthCm) {
     this.lengthCm = lengthCm;

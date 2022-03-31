@@ -18,7 +18,7 @@ import {
     DeprecatedObjectFromJSON,
     DeprecatedObjectFromJSONTyped,
     DeprecatedObjectToJSON,
-} from './';
+} from './DeprecatedObject';
 
 /**
  * 
@@ -36,18 +36,21 @@ export interface ObjectWithDeprecatedFields {
      * 
      * @type {number}
      * @memberof ObjectWithDeprecatedFields
+     * @deprecated
      */
     id?: number;
     /**
      * 
      * @type {DeprecatedObject}
      * @memberof ObjectWithDeprecatedFields
+     * @deprecated
      */
     deprecatedRef?: DeprecatedObject;
     /**
      * 
      * @type {Array<string>}
      * @memberof ObjectWithDeprecatedFields
+     * @deprecated
      */
     bars?: Array<string>;
 }

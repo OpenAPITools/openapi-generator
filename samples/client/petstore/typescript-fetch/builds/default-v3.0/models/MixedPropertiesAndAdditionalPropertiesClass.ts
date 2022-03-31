@@ -18,7 +18,7 @@ import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
-} from './';
+} from './Animal';
 
 /**
  * 

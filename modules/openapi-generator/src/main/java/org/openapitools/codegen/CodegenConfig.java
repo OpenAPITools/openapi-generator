@@ -27,6 +27,8 @@ import io.swagger.v3.oas.models.servers.ServerVariable;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 
 import java.io.File;
 import java.util.List;
@@ -184,15 +186,15 @@ public interface CodegenConfig {
 
     void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
 
-    Map<String, Object> updateAllModels(Map<String, Object> objs);
+    Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs);
 
     void postProcess();
 
-    Map<String, Object> postProcessAllModels(Map<String, Object> objs);
+    Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs);
 
-    Map<String, Object> postProcessModels(Map<String, Object> objs);
+    ModelsMap postProcessModels(ModelsMap objs);
 
-    Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels);
+    Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels);
 
     Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
 
@@ -304,4 +306,16 @@ public interface CodegenConfig {
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
 
     Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings);
+
+    String defaultTemplatingEngine();
+
+    GeneratorLanguage generatorLanguage();
+
+    /*
+    the version of the language that the generator implements
+    For python 3.9.0, generatorLanguageVersion would be "3.9.0"
+    */
+    String generatorLanguageVersion();
+
+    List<VendorExtension> getSupportedVendorExtensions();
 }

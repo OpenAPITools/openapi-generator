@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class ObjectWithDeprecatedFields {\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
@@ -138,14 +138,22 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.Uuid != null)
-                    hashCode = hashCode * 59 + this.Uuid.GetHashCode();
-                hashCode = hashCode * 59 + this.Id.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.Id.GetHashCode();
                 if (this.DeprecatedRef != null)
-                    hashCode = hashCode * 59 + this.DeprecatedRef.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.DeprecatedRef.GetHashCode();
+                }
                 if (this.Bars != null)
-                    hashCode = hashCode * 59 + this.Bars.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Bars.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

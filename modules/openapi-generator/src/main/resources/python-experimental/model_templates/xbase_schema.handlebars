@@ -1,0 +1,51 @@
+{{#if isArray}}
+List{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if isMap}}
+Dict{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if isString}}
+Str{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if isByteArray}}
+Str{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if isUnboundedInteger}}
+Int{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if isNumber}}
+Number{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#isShort}}
+Int32{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/isShort}}
+{{#isLong}}
+Int64{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/isLong}}
+{{#isFloat}}
+Float32{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/isFloat}}
+{{#isDouble}}
+Float64{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/isDouble}}
+{{#if isDate}}
+Date{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if isDateTime}}
+DateTime{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if isDecimal}}
+Decimal{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if isBoolean}}
+Bool{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if isBinary}}
+Binary{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if isNull}}
+None{{#if getHasMultipleTypes}}Base,{{else}}Schema{{/if}}
+{{/if}}
+{{#if getHasMultipleTypes}}
+Schema
+{{/if}}

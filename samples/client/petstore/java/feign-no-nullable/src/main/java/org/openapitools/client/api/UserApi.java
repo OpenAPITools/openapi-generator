@@ -2,8 +2,9 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.EncodingUtils;
-import org.openapitools.client.model.HttpResponse;
+import org.openapitools.client.model.ApiResponse;
 
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public interface UserApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json",
   })
-  HttpResponse<Void> createUserWithHttpInfo(User body);
+  ApiResponse<Void> createUserWithHttpInfo(User body);
 
 
 
@@ -66,7 +67,7 @@ public interface UserApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json",
   })
-  HttpResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body);
+  ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body);
 
 
 
@@ -93,7 +94,7 @@ public interface UserApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json",
   })
-  HttpResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body);
+  ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body);
 
 
 
@@ -118,7 +119,7 @@ public interface UserApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json",
   })
-  HttpResponse<Void> deleteUserWithHttpInfo(@Param("username") String username);
+  ApiResponse<Void> deleteUserWithHttpInfo(@Param("username") String username);
 
 
 
@@ -139,13 +140,13 @@ public interface UserApi extends ApiClient.Api {
    * Similar to <code>getUserByName</code> but it also returns the http response headers .
    * 
    * @param username The name that needs to be fetched. Use user1 for testing. (required)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("GET /user/{username}")
   @Headers({
     "Accept: application/json",
   })
-  HttpResponse<User> getUserByNameWithHttpInfo(@Param("username") String username);
+  ApiResponse<User> getUserByNameWithHttpInfo(@Param("username") String username);
 
 
 
@@ -168,13 +169,13 @@ public interface UserApi extends ApiClient.Api {
    * 
    * @param username The user name for login (required)
    * @param password The password for login in clear text (required)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("GET /user/login?username={username}&password={password}")
   @Headers({
     "Accept: application/json",
   })
-  HttpResponse<String> loginUserWithHttpInfo(@Param("username") String username, @Param("password") String password);
+  ApiResponse<String> loginUserWithHttpInfo(@Param("username") String username, @Param("password") String password);
 
 
   /**
@@ -216,7 +217,7 @@ public interface UserApi extends ApiClient.Api {
       @Headers({
     "Accept: application/json",
       })
-   HttpResponse<String> loginUserWithHttpInfo(@QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<String> loginUserWithHttpInfo(@QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**
@@ -253,7 +254,7 @@ public interface UserApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json",
   })
-  HttpResponse<Void> logoutUserWithHttpInfo();
+  ApiResponse<Void> logoutUserWithHttpInfo();
 
 
 
@@ -282,7 +283,7 @@ public interface UserApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json",
   })
-  HttpResponse<Void> updateUserWithHttpInfo(@Param("username") String username, User body);
+  ApiResponse<Void> updateUserWithHttpInfo(@Param("username") String username, User body);
 
 
 }

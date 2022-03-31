@@ -16,6 +16,7 @@ import os
 import pprint
 import re
 import tempfile
+import uuid
 
 from dateutil.parser import parse
 
@@ -192,7 +193,7 @@ class OpenApiModel(object):
         if self.get("_spec_property_naming", False):
             return cls._new_from_openapi_data(**self.__dict__)
         else:
-            return new_cls.__new__(cls, **self.__dict__)
+            return cls.__new__(cls, **self.__dict__)
 
     def __deepcopy__(self, memo):
         cls = self.__class__
@@ -1399,7 +1400,13 @@ def deserialize_file(response_data, configuration, content_disposition=None):
 
     if content_disposition:
         filename = re.search(r'filename=[\'"]?([^\'"\s]+)[\'"]?',
-                             content_disposition).group(1)
+                             content_disposition,
+                             flags=re.I)
+        if filename is not None:
+            filename = filename.group(1)
+        else:
+            filename = "default_" + str(uuid.uuid4())
+
         path = os.path.join(os.path.dirname(path), filename)
 
     with open(path, "wb") as f:
@@ -1564,7 +1571,9 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
     input_class_simple = get_simple_class(input_value)
     valid_type = is_valid_type(input_class_simple, valid_classes)
     if not valid_type:
-        if configuration:
+        if (configuration 
+                or (input_class_simple == dict 
+                    and not dict in valid_classes)):
             # if input_value is not valid_type try to convert it
             converted_instance = attempt_convert_item(
                 input_value,
@@ -1657,6 +1666,7 @@ def model_to_dict(model_instance, serialize=True):
             attribute_map
     """
     result = {}
+    extract_item = lambda item: (item[0], model_to_dict(item[1], serialize=serialize)) if hasattr(item[1], '_data_store') else item
 
     model_instances = [model_instance]
     if model_instance._composed_schemas:
@@ -1686,14 +1696,17 @@ def model_to_dict(model_instance, serialize=True):
                            res.append(v)
                        elif isinstance(v, ModelSimple):
                            res.append(v.value)
+                       elif isinstance(v, dict):
+                           res.append(dict(map(
+                               extract_item,
+                               v.items()
+                           )))
                        else:
                            res.append(model_to_dict(v, serialize=serialize))
                    result[attr] = res
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0],
-                                  model_to_dict(item[1], serialize=serialize))
-                    if hasattr(item[1], '_data_store') else item,
+                    extract_item,
                     value.items()
                 ))
             elif isinstance(value, ModelSimple):

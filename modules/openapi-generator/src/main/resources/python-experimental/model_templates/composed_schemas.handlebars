@@ -1,0 +1,86 @@
+@classmethod
+@property
+def _composed_schemas(cls):
+    # we need this here to make our import statements work
+    # we must store _composed_schemas in here so the code is only run
+    # when we invoke this method. If we kept this at the class
+    # level we would get an error because the class level
+    # code would be run when this module is imported, and these composed
+    # classes don't exist yet because their module has not finished
+    # loading
+{{#with composedSchemas}}
+{{#each allOf}}
+{{#unless complexType}}
+{{#unless isAnyType}}
+    {{> model_templates/schema }}
+{{/unless}}
+{{/unless}}
+{{#if isAnyType}}
+    {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}} = AnyTypeSchema
+{{/if}}
+{{/each}}
+{{#each oneOf}}
+{{#unless complexType}}
+{{#unless isAnyType}}
+    {{> model_templates/schema }}
+{{/unless}}
+{{/unless}}
+{{#if isAnyType}}
+    {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}} = AnyTypeSchema
+{{/if}}
+{{/each}}
+{{#each anyOf}}
+{{#unless complexType}}
+{{#unless isAnyType}}
+    {{> model_templates/schema }}
+{{/unless}}
+{{/unless}}
+{{#if isAnyType}}
+    {{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}} = AnyTypeSchema
+{{/if}}
+{{/each}}
+{{/with}}
+    return {
+        'allOf': [
+{{#with composedSchemas}}
+{{#each allOf}}
+{{#if complexType}}
+            {{complexType}},
+{{/if}}
+{{#unless complexType}}
+            {{#if nameInSnakeCase}}{{name}}{{/if}}{{#unless nameInSnakeCase}}{{baseName}}{{/unless}},
+{{/unless}}
+{{/each}}
+        ],
+        'oneOf': [
+{{#each oneOf}}
+{{#if complexType}}
+            {{complexType}},
+{{/if}}
+{{#unless complexType}}
+{{#if isAnyType}}
+            AnyTypeSchema,
+{{/if}}
+{{#unless isAnyType}}
+            {{#if nameInSnakeCase}}{{name}}{{/if}}{{#unless nameInSnakeCase}}{{baseName}}{{/unless}},
+{{/unless}}
+{{/unless}}
+{{/each}}
+        ],
+        'anyOf': [
+{{#each anyOf}}
+{{#if complexType}}
+            {{complexType}},
+{{/if}}
+{{#unless complexType}}
+{{#if isAnyType}}
+            AnyTypeSchema,
+{{/if}}
+{{#unless isAnyType}}
+            {{#if nameInSnakeCase}}{{name}}{{/if}}{{#unless nameInSnakeCase}}{{baseName}}{{/unless}},
+{{/unless}}
+{{/unless}}
+{{/each}}
+{{/with}}
+        ],
+    }

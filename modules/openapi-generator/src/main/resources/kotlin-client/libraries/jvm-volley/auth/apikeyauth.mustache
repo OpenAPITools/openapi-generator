@@ -1,0 +1,16 @@
+     // Api Key auth supports query header and cookie.
+     // Query is supported in the path generation only with a hardcoded value.
+     // TODO: Not sure about cookie auth form
+     // If implementing api key in query parameter use the ^isKeyInHeader property
+
+     val apiKeyAuthHeaderFactoryBuilder = {
+          paramName: String, apiKeyPrefix: String?, apiKey: String? -> {
+              mapOf(paramName to
+                 if (apiKeyPrefix != null) {
+                    "$apiKeyPrefix $apiKey"
+                 } else {
+                     apiKey!!
+                 }
+             )
+         }
+     }

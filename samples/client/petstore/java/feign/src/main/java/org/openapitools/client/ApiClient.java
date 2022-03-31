@@ -5,14 +5,13 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.threeten.bp.*;
 import feign.okhttp.OkHttpClient;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.openapitools.jackson.nullable.JsonNullableModule;
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import feign.Feign;
 import feign.RequestInterceptor;
@@ -23,7 +22,7 @@ import feign.slf4j.Slf4jLogger;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
-import org.openapitools.client.JacksonResponseDecoder;
+import org.openapitools.client.ApiResponseDecoder;
 
 import org.openapitools.client.auth.ApiErrorDecoder;
 import org.openapitools.client.auth.OAuth;
@@ -50,7 +49,7 @@ public class ApiClient {
     feignBuilder = Feign.builder()
                 .client(new OkHttpClient())
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
-                .decoder(new JacksonResponseDecoder(objectMapper))
+                .decoder(new ApiResponseDecoder(objectMapper))
                 .errorDecoder(new ApiErrorDecoder())
                 .retryer(new Retryer.Default(0, 0, 2))
                 .logger(new Slf4jLogger());
@@ -72,7 +71,7 @@ public class ApiClient {
       } else if ("http_signature_test".equals(authName)) {
         auth = new HttpBearerAuth("signature");
       } else if ("petstore_auth".equals(authName)) {
-        auth = buildOauthRequestInterceptor(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+        auth = buildOauthRequestInterceptor(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
@@ -132,11 +131,7 @@ public class ApiClient {
     objectMapper.disable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE);
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     objectMapper.setDateFormat(new RFC3339DateFormat());
-    ThreeTenModule module = new ThreeTenModule();
-    module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-    objectMapper.registerModule(module);
+    objectMapper.registerModule(new JavaTimeModule());
     JsonNullableModule jnm = new JsonNullableModule();
     objectMapper.registerModule(jnm);
     return objectMapper;
@@ -144,9 +139,9 @@ public class ApiClient {
 
   private RequestInterceptor buildOauthRequestInterceptor(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
     switch (flow) {
-      case password:
+      case PASSWORD:
         return new OauthPasswordGrant(tokenUrl, scopes);
-      case application:
+      case APPLICATION:
         return new OauthClientCredentialsGrant(authorizationUrl, tokenUrl, scopes);
       default:
         throw new RuntimeException("Oauth flow \"" + flow + "\" is not implemented");
@@ -237,8 +232,8 @@ public class ApiClient {
 
   /**
    * Helper method to configure the client credentials for Oauth
-   * @param username Username
-   * @param password Password
+   * @param clientId Client ID
+   * @param clientSecret Client secret
    */
   public void setClientCredentials(String clientId, String clientSecret) {
     OauthClientCredentialsGrant authorization = getAuthorization(OauthClientCredentialsGrant.class);
@@ -249,6 +244,8 @@ public class ApiClient {
    * Helper method to configure the username/password for Oauth password grant
    * @param username Username
    * @param password Password
+   * @param clientId Client ID
+   * @param clientSecret Client secret
    */
   public void setOauthPassword(String username, String password, String clientId, String clientSecret) {
     OauthPasswordGrant apiAuthorization = getAuthorization(OauthPasswordGrant.class);
@@ -277,7 +274,7 @@ public class ApiClient {
 
   /**
    * Configures a listener which is notified when a new access token is received.
-   * @param accessTokenListener Acesss token listener
+   * @param accessTokenListener Access token listener
    */
   public void registerAccessTokenListener(AccessTokenListener accessTokenListener) {
     OAuth apiAuthorization = getAuthorization(OAuth.class);

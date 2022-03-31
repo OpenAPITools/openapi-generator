@@ -89,7 +89,7 @@ public class BigCat extends Cat {
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
 
-  public BigCat() {
+  public BigCat() { 
     this.className = this.getClass().getSimpleName();
   }
 

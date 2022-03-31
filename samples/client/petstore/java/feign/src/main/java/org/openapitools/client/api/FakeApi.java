@@ -2,15 +2,15 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.EncodingUtils;
-import org.openapitools.client.model.HttpResponse;
+import org.openapitools.client.model.ApiResponse;
 
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
@@ -41,13 +41,13 @@ public interface FakeApi extends ApiClient.Api {
    * Health check endpoint
    * Similar to <code>fakeHealthGet</code> but it also returns the http response headers .
    * 
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("GET /fake/health")
   @Headers({
     "Accept: application/json",
   })
-  HttpResponse<HealthCheckResult> fakeHealthGetWithHttpInfo();
+  ApiResponse<HealthCheckResult> fakeHealthGetWithHttpInfo();
 
 
 
@@ -80,7 +80,7 @@ public interface FakeApi extends ApiClient.Api {
     "Accept: application/json",
     "header_1: {header1}"
   })
-  HttpResponse<Void> fakeHttpSignatureTestWithHttpInfo(Pet pet, @Param("query1") String query1, @Param("header1") String header1);
+  ApiResponse<Void> fakeHttpSignatureTestWithHttpInfo(Pet pet, @Param("query1") String query1, @Param("header1") String header1);
 
 
   /**
@@ -126,7 +126,7 @@ public interface FakeApi extends ApiClient.Api {
     "Accept: application/json",
           "header_1: {header1}"
       })
-   HttpResponse<Void> fakeHttpSignatureTestWithHttpInfo(Pet pet, @Param("header1") String header1, @QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<Void> fakeHttpSignatureTestWithHttpInfo(Pet pet, @Param("header1") String header1, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**
@@ -158,14 +158,14 @@ public interface FakeApi extends ApiClient.Api {
    * Similar to <code>fakeOuterBooleanSerialize</code> but it also returns the http response headers .
    * Test serialization of outer boolean types
    * @param body Input boolean as post body (optional)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("POST /fake/outer/boolean")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  HttpResponse<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body);
+  ApiResponse<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body);
 
 
 
@@ -187,14 +187,14 @@ public interface FakeApi extends ApiClient.Api {
    * Similar to <code>fakeOuterCompositeSerialize</code> but it also returns the http response headers .
    * Test serialization of object with outer number type
    * @param outerComposite Input composite as post body (optional)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("POST /fake/outer/composite")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  HttpResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite);
+  ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite);
 
 
 
@@ -216,14 +216,14 @@ public interface FakeApi extends ApiClient.Api {
    * Similar to <code>fakeOuterNumberSerialize</code> but it also returns the http response headers .
    * Test serialization of outer number types
    * @param body Input number as post body (optional)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("POST /fake/outer/number")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  HttpResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body);
+  ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body);
 
 
 
@@ -245,14 +245,14 @@ public interface FakeApi extends ApiClient.Api {
    * Similar to <code>fakeOuterStringSerialize</code> but it also returns the http response headers .
    * Test serialization of outer string types
    * @param body Input string as post body (optional)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("POST /fake/outer/string")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  HttpResponse<String> fakeOuterStringSerializeWithHttpInfo(String body);
+  ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(String body);
 
 
 
@@ -274,14 +274,14 @@ public interface FakeApi extends ApiClient.Api {
    * Similar to <code>fakePropertyEnumIntegerSerialize</code> but it also returns the http response headers .
    * Test serialization of enum (int) properties with examples
    * @param outerObjectWithEnumProperty Input enum (int) as post body (required)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("POST /fake/property/enum-int")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  HttpResponse<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty);
+  ApiResponse<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty);
 
 
 
@@ -308,7 +308,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: image/png",
     "Accept: application/json",
   })
-  HttpResponse<Void> testBodyWithBinaryWithHttpInfo(File body);
+  ApiResponse<Void> testBodyWithBinaryWithHttpInfo(File body);
 
 
 
@@ -335,7 +335,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  HttpResponse<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass);
+  ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass);
 
 
 
@@ -364,7 +364,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  HttpResponse<Void> testBodyWithQueryParamsWithHttpInfo(@Param("query") String query, User user);
+  ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(@Param("query") String query, User user);
 
 
   /**
@@ -406,7 +406,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
       })
-   HttpResponse<Void> testBodyWithQueryParamsWithHttpInfo(User user, @QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(User user, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**
@@ -438,14 +438,14 @@ public interface FakeApi extends ApiClient.Api {
    * Similar to <code>testClientModel</code> but it also returns the http response headers .
    * To test \&quot;client\&quot; model
    * @param client client model (required)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("PATCH /fake")
   @Headers({
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  HttpResponse<Client> testClientModelWithHttpInfo(Client client);
+  ApiResponse<Client> testClientModelWithHttpInfo(Client client);
 
 
 
@@ -498,7 +498,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
   })
-  HttpResponse<Void> testEndpointParametersWithHttpInfo(@Param("number") BigDecimal number, @Param("_double") Double _double, @Param("patternWithoutDelimiter") String patternWithoutDelimiter, @Param("_byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("_float") Float _float, @Param("string") String string, @Param("binary") File binary, @Param("date") LocalDate date, @Param("dateTime") OffsetDateTime dateTime, @Param("password") String password, @Param("paramCallback") String paramCallback);
+  ApiResponse<Void> testEndpointParametersWithHttpInfo(@Param("number") BigDecimal number, @Param("_double") Double _double, @Param("patternWithoutDelimiter") String patternWithoutDelimiter, @Param("_byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("_float") Float _float, @Param("string") String string, @Param("binary") File binary, @Param("date") LocalDate date, @Param("dateTime") OffsetDateTime dateTime, @Param("password") String password, @Param("paramCallback") String paramCallback);
 
 
 
@@ -545,7 +545,7 @@ public interface FakeApi extends ApiClient.Api {
     
     "enum_header_string: {enumHeaderString}"
   })
-  HttpResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumQueryStringArray") List<String> enumQueryStringArray, @Param("enumQueryString") String enumQueryString, @Param("enumQueryInteger") Integer enumQueryInteger, @Param("enumQueryDouble") Double enumQueryDouble, @Param("enumFormStringArray") List<String> enumFormStringArray, @Param("enumFormString") String enumFormString);
+  ApiResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumQueryStringArray") List<String> enumQueryStringArray, @Param("enumQueryString") String enumQueryString, @Param("enumQueryInteger") Integer enumQueryInteger, @Param("enumQueryDouble") Double enumQueryDouble, @Param("enumFormStringArray") List<String> enumFormStringArray, @Param("enumFormString") String enumFormString);
 
 
   /**
@@ -605,7 +605,7 @@ public interface FakeApi extends ApiClient.Api {
       
           "enum_header_string: {enumHeaderString}"
       })
-   HttpResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumFormStringArray") List<String> enumFormStringArray, @Param("enumFormString") String enumFormString, @QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumFormStringArray") List<String> enumFormStringArray, @Param("enumFormString") String enumFormString, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**
@@ -668,7 +668,7 @@ public interface FakeApi extends ApiClient.Api {
     
     "boolean_group: {booleanGroup}"
   })
-  HttpResponse<Void> testGroupParametersWithHttpInfo(@Param("requiredStringGroup") Integer requiredStringGroup, @Param("requiredBooleanGroup") Boolean requiredBooleanGroup, @Param("requiredInt64Group") Long requiredInt64Group, @Param("stringGroup") Integer stringGroup, @Param("booleanGroup") Boolean booleanGroup, @Param("int64Group") Long int64Group);
+  ApiResponse<Void> testGroupParametersWithHttpInfo(@Param("requiredStringGroup") Integer requiredStringGroup, @Param("requiredBooleanGroup") Boolean requiredBooleanGroup, @Param("requiredInt64Group") Long requiredInt64Group, @Param("stringGroup") Integer stringGroup, @Param("booleanGroup") Boolean booleanGroup, @Param("int64Group") Long int64Group);
 
 
   /**
@@ -722,7 +722,7 @@ public interface FakeApi extends ApiClient.Api {
       
           "boolean_group: {booleanGroup}"
       })
-   HttpResponse<Void> testGroupParametersWithHttpInfo(@Param("requiredBooleanGroup") Boolean requiredBooleanGroup, @Param("booleanGroup") Boolean booleanGroup, @QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<Void> testGroupParametersWithHttpInfo(@Param("requiredBooleanGroup") Boolean requiredBooleanGroup, @Param("booleanGroup") Boolean booleanGroup, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**
@@ -771,7 +771,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  HttpResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody);
+  ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody);
 
 
 
@@ -800,7 +800,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
   })
-  HttpResponse<Void> testJsonFormDataWithHttpInfo(@Param("param") String param, @Param("param2") String param2);
+  ApiResponse<Void> testJsonFormDataWithHttpInfo(@Param("param") String param, @Param("param2") String param2);
 
 
 
@@ -837,7 +837,7 @@ public interface FakeApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json",
   })
-  HttpResponse<Void> testQueryParameterCollectionFormatWithHttpInfo(@Param("pipe") List<String> pipe, @Param("ioutil") List<String> ioutil, @Param("http") List<String> http, @Param("url") List<String> url, @Param("context") List<String> context, @Param("allowEmpty") String allowEmpty, @Param("language") Map<String, String> language);
+  ApiResponse<Void> testQueryParameterCollectionFormatWithHttpInfo(@Param("pipe") List<String> pipe, @Param("ioutil") List<String> ioutil, @Param("http") List<String> http, @Param("url") List<String> url, @Param("context") List<String> context, @Param("allowEmpty") String allowEmpty, @Param("language") Map<String, String> language);
 
 
   /**
@@ -887,7 +887,7 @@ public interface FakeApi extends ApiClient.Api {
       @Headers({
     "Accept: application/json",
       })
-   HttpResponse<Void> testQueryParameterCollectionFormatWithHttpInfo(@QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<Void> testQueryParameterCollectionFormatWithHttpInfo(@QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**

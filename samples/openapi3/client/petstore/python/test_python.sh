@@ -11,7 +11,7 @@ export LANG=en_US.UTF-8
 
 ### set virtualenv
 if [ -z "$VIRTUAL_ENV" ]; then
-		virtualenv $VENV --no-site-packages --always-copy
+		virtualenv $VENV --always-copy
 		source $VENV/bin/activate
     DEACTIVE=true
 fi

@@ -11,7 +11,7 @@ export LANG=en_US.UTF-8
 
 ### set virtualenv
 if [ -z "$VIRTUAL_ENV" ]; then
-		virtualenv $VENV --no-site-packages --always-copy
+		virtualenv $VENV --always-copy
 		source $VENV/bin/activate
     DEACTIVE=true
 fi
@@ -20,6 +20,7 @@ fi
 pip install -r $REQUIREMENTS_FILE | tee -a $REQUIREMENTS_OUT
 
 ### run tests
+tox -l
 tox -e py27 || exit 1
 
 ### static analysis of code

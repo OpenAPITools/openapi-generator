@@ -35,104 +35,107 @@ import javax.annotation.Generated;
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
 @Introspected
 public class BigCat extends Cat {
-  /**
-   * Gets or Sets kind
-   */
-  public enum KindEnum {
-    LIONS("lions"),
-    TIGERS("tigers"),
-    LEOPARDS("leopards"),
-    JAGUARS("jaguars");
+    /**
+     * Gets or Sets kind
+     */
+    public enum KindEnum {
+        LIONS("lions"),
+        TIGERS("tigers"),
+        LEOPARDS("leopards"),
+        JAGUARS("jaguars");
 
-    private String value;
+        private String value;
 
-    KindEnum(String value) {
-      this.value = value;
+        KindEnum(String value) {
+            this.value = value;
+        }
+
+        @JsonValue
+        public String getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
+
+        @JsonCreator
+        public static KindEnum fromValue(String value) {
+            for (KindEnum b : KindEnum.values()) {
+                if (b.value.equals(value)) {
+                    return b;
+                }
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        }
+    }
+    public static final String JSON_PROPERTY_KIND = "kind";
+    private KindEnum kind;
+
+    public BigCat() {
+        super();
+    }
+    public BigCat kind(KindEnum kind) {
+        this.kind = kind;
+        return this;
     }
 
-    @JsonValue
-    public String getValue() {
-      return value;
+    /**
+     * Get kind
+     * @return kind
+     **/
+    @Nullable
+    @ApiModelProperty(value = "")
+    @JsonProperty(JSON_PROPERTY_KIND)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public KindEnum getKind() {
+        return kind;
+    }
+
+    @JsonProperty(JSON_PROPERTY_KIND)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public void setKind(KindEnum kind) {
+        this.kind = kind;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        BigCat bigCat = (BigCat) o;
+        return Objects.equals(this.kind, bigCat.kind) &&
+            super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(kind, super.hashCode());
     }
 
     @Override
     public String toString() {
-      return String.valueOf(value);
+        StringBuilder sb = new StringBuilder();
+        sb.append("class BigCat {\n");
+        sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+        sb.append("    kind: ").append(toIndentedString(kind)).append("\n");
+        sb.append("}");
+        return sb.toString();
     }
 
-    @JsonCreator
-    public static KindEnum fromValue(String value) {
-      for (KindEnum b : KindEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
         }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        return o.toString().replace("\n", "\n    ");
     }
-  }
-  public static final String JSON_PROPERTY_KIND = "kind";
-  private KindEnum kind;
-
-  public BigCat kind(KindEnum kind) {
-    this.kind = kind;
-    return this;
-  }
-
-  /**
-   * Get kind
-   * @return kind
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_KIND)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public KindEnum getKind() {
-    return kind;
-  }
-
-  @JsonProperty(JSON_PROPERTY_KIND)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setKind(KindEnum kind) {
-    this.kind = kind;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    BigCat bigCat = (BigCat) o;
-    return Objects.equals(this.kind, bigCat.kind) &&
-        super.equals(o);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(kind, super.hashCode());
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class BigCat {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    kind: ").append(toIndentedString(kind)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 
 }

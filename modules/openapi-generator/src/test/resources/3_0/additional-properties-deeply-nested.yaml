@@ -1,0 +1,32 @@
+openapi: 3.0.1
+info:
+  title: Test additional properties with ref
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8000/'
+paths:
+  /ping:
+    post:
+      operationId: pingGet
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    type: object
+                    additionalProperties:
+                      "$ref": "#/components/schemas/Person"
+components:
+  schemas:
+    Person:
+      type: object
+      properties:
+        lastName:
+          type: string
+        firstName:
+          type: string

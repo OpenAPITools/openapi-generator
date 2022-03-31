@@ -23,6 +23,7 @@ package org.openapitools.client.apis
 import org.openapitools.client.models.Order
 
 import org.openapitools.client.infrastructure.*
+import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -32,11 +33,12 @@ import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
-class StoreApi(
+open class StoreApi(
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
+    httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
     jsonSerializer: Json = ApiClient.JSON_DEFAULT
-) : ApiClient(baseUrl, httpClientEngine, jsonSerializer) {
+) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonSerializer) {
 
     /**
      * Delete purchase order by ID
@@ -44,7 +46,7 @@ class StoreApi(
      * @param orderId ID of the order that needs to be deleted 
      * @return void
      */
-    suspend fun deleteOrder(orderId: kotlin.String): HttpResponse<Unit> {
+    open suspend fun deleteOrder(orderId: kotlin.String): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -76,7 +78,7 @@ class StoreApi(
      * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun getInventory(): HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
+    open suspend fun getInventory(): HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
 
         val localVariableAuthNames = listOf<String>("api_key")
 
@@ -119,7 +121,7 @@ class StoreApi(
      * @return Order
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun getOrderById(orderId: kotlin.Long): HttpResponse<Order> {
+    open suspend fun getOrderById(orderId: kotlin.Long): HttpResponse<Order> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -152,7 +154,7 @@ class StoreApi(
      * @return Order
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun placeOrder(body: Order): HttpResponse<Order> {
+    open suspend fun placeOrder(body: Order): HttpResponse<Order> {
 
         val localVariableAuthNames = listOf<String>()
 

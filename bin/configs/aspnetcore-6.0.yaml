@@ -1,0 +1,8 @@
+generatorName: aspnetcore
+outputDir: samples/server/petstore/aspnetcore-6.0
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/aspnetcore/3.0
+additionalProperties:
+  packageGuid: '{3C799344-F285-4669-8FD5-7ED9B795D5C5}'
+  aspnetCoreVersion: "6.0"
+  userSecretsGuid: 'cb87e868-8646-48ef-9bb6-344b537d0d37'

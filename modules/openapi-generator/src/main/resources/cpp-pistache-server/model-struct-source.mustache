@@ -45,7 +45,7 @@ void from_json(const nlohmann::json& j, {{classname}}& o)
     {{^required}}if (j.find("{{baseName}}") != j.end()) {
         {{{dataType}}} temporary_{{name}};
         j.at("{{baseName}}").get_to(temporary_{{name}});
-        o.{{name}} = Pistache::Some(temporary_{{name}});
+        o.{{name}} = temporary_{{name}};
     }{{/required}}
     {{/vars}}
 }

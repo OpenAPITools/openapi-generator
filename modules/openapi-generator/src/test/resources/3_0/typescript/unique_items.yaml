@@ -1,0 +1,31 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Sample for uniqueItems
+servers:
+  - url: http://localhost:3000
+paths:
+  /unique-items:
+    get:
+      operationId: unique_items
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+components:
+  schemas:
+    Response:
+      type: object
+      properties:
+        non-unique-array:
+          type: array
+          items:
+            type: string
+        unique-array:
+          type: array
+          uniqueItems: true
+          items:
+            type: string

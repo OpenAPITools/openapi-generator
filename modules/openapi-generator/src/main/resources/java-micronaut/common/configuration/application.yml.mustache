@@ -1,0 +1,77 @@
+{{!CLIENT CONFIGURATION}}
+{{#client}}
+base-path: "{{{basePath}}}/"
+context-path: "{{{contextPath}}}/"
+
+micronaut:
+    application:
+        name: {{artifactId}}
+    {{!
+    configure authorization from the parameters
+    }}{{#configureAuth}}security:
+        oauth2:
+            clients:{{#oauthMethods}}
+                {{{name}}}:
+                    grant-type: {{#isCode}}authorization_code{{/isCode}}{{#isImplicit}}implicit{{/isImplicit}}{{#isPassword}}password{{/isPassword}}{{#isApplication}}client_credentials{{/isApplication}}
+                    scopes: [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}]{{!authorization url}}{{#authorizationUrl}}
+                    authorization:
+                        url: "{{{authorizationUrl}}}"{{/authorizationUrl}}{{!token url}}{{#tokenUrl}}
+                    token:
+                        auth-method: client_secret_basic
+                        url: "{{{tokenUrl}}}"{{/tokenUrl}}{{!refreshUrl is not used}}
+                    # TODO Fill in the parameters for {{{name}}} authorization if needed
+                    # client-id:
+                    # client-secret:{{/oauthMethods}}{{/configureAuth}}{{!
+    do not configure authorization, but leave hints for user
+    }}{{^configureAuth}}# TODO configure security features
+    security:
+        oauth2:
+            clients:
+                # An example of how oauth client is filled
+                # name:
+                #     grant-type: authorization_code | client_credentials
+                #     scopes: []
+                # token:
+                #     auth-method: client_secret_basic
+                #     url: "https://"
+                # client-id:
+                # client-secret
+        # An example of how to apply other authorization methods
+        # authentication: bearer | cookie | session{{/configureAuth}}
+
+{{#configureAuth}}security:
+    {{!api key authorization}}api-key-auth:{{#authMethods}}{{#isApiKey}}
+        {{{name}}}:
+            location: {{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}{{#isKeyInCookie}}cookie{{/isKeyInCookie}}
+            param-name: "{{{keyParamName}}}"
+            # TODO fill in api key for {{{name}}} authorization
+            api-key:
+    {{/isApiKey}}{{/authMethods}}
+    {{!basic authorization}}basic-auth:{{#authMethods}}{{#isBasic}}
+        {{{name}}}:
+            # TODO fill in credentials for {{{name}}} authorization
+            username:
+            password:
+    {{/isBasic}}{{/authMethods}}{{/configureAuth}}
+{{/client}}
+{{!SERVER CONFIGURATION}}
+{{#server}}
+context-path: "{{{contextPath}}}/"
+
+micronaut:
+    application:
+        name: {{artifactId}}
+    server:
+        port: 8080
+    security:
+        # authentication: bearer | cookie | session | idtoken
+{{/server}}
+
+jackson:
+    serialization:
+        writeEnumsUsingToString: true
+        writeDatesAsTimestamps: false
+    deserialization:
+        readEnumsUsingToString: true
+        failOnUnknownProperties: false
+        failOnInvalidSubtype: false

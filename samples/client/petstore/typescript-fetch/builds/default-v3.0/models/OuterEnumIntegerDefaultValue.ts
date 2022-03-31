@@ -12,16 +12,18 @@
  * Do not edit the class manually.
  */
 
+
 /**
  * 
  * @export
- * @enum {string}
  */
-export enum OuterEnumIntegerDefaultValue {
-    NUMBER_0 = 0,
-    NUMBER_1 = 1,
-    NUMBER_2 = 2
-}
+export const OuterEnumIntegerDefaultValue = {
+    NUMBER_0: 0 as 0,
+    NUMBER_1: 1 as 1,
+    NUMBER_2: 2 as 2
+};
+export type OuterEnumIntegerDefaultValue = typeof OuterEnumIntegerDefaultValue[keyof typeof OuterEnumIntegerDefaultValue];
+
 
 export function OuterEnumIntegerDefaultValueFromJSON(json: any): OuterEnumIntegerDefaultValue {
     return OuterEnumIntegerDefaultValueFromJSONTyped(json, false);

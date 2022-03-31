@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public Return(int _return = default(int))
         {
             this.__Return = _return;
+            if (this._Return != null)
+            {
+                this._flag_Return = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -78,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Return {\n");
             sb.Append("  _Return: ").Append(_Return).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -124,9 +128,11 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this._Return.GetHashCode();
+                hashCode = (hashCode * 59) + this._Return.GetHashCode();
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

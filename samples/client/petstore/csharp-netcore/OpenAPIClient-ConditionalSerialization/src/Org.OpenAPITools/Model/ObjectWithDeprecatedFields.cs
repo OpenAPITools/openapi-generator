@@ -42,9 +42,25 @@ namespace Org.OpenAPITools.Model
         public ObjectWithDeprecatedFields(string uuid = default(string), decimal id = default(decimal), DeprecatedObject deprecatedRef = default(DeprecatedObject), List<string> bars = default(List<string>))
         {
             this._Uuid = uuid;
+            if (this.Uuid != null)
+            {
+                this._flagUuid = true;
+            }
             this._Id = id;
+            if (this.Id != null)
+            {
+                this._flagId = true;
+            }
             this._DeprecatedRef = deprecatedRef;
+            if (this.DeprecatedRef != null)
+            {
+                this._flagDeprecatedRef = true;
+            }
             this._Bars = bars;
+            if (this.Bars != null)
+            {
+                this._flagBars = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -159,7 +175,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class ObjectWithDeprecatedFields {\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
@@ -209,14 +225,22 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.Uuid != null)
-                    hashCode = hashCode * 59 + this.Uuid.GetHashCode();
-                hashCode = hashCode * 59 + this.Id.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.Id.GetHashCode();
                 if (this.DeprecatedRef != null)
-                    hashCode = hashCode * 59 + this.DeprecatedRef.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.DeprecatedRef.GetHashCode();
+                }
                 if (this.Bars != null)
-                    hashCode = hashCode * 59 + this.Bars.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Bars.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

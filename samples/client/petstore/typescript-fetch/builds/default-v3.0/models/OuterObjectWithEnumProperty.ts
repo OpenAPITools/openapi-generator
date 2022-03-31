@@ -18,7 +18,7 @@ import {
     OuterEnumIntegerFromJSON,
     OuterEnumIntegerFromJSONTyped,
     OuterEnumIntegerToJSON,
-} from './';
+} from './OuterEnumInteger';
 
 /**
  * 

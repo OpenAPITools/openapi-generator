@@ -10,15 +10,17 @@ import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import org.junit.*;
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class JSONTest {
     JSON json = null;
     Order order = null;
 
-    @Before
+    @BeforeEach
     public void setup() {
         json = new JSON();
         order = new Order();
@@ -42,7 +44,7 @@ public class JSONTest {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S'Z'");
             sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
             Date date = sdf.parse(dateStr);
-            
+
             RFC3339DateFormat df = new RFC3339DateFormat();
             StringBuffer sb = new StringBuffer();
             String s = df.format(date);
@@ -54,7 +56,7 @@ public class JSONTest {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
             sdf.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
             Date date = sdf.parse(dateStr);
-            
+
             RFC3339DateFormat df = new RFC3339DateFormat();
             StringBuffer sb = new StringBuffer();
             String s = df.format(date);
@@ -74,7 +76,7 @@ public class JSONTest {
     }
 
     /**
-     * Validate a schema with special characters can be deserialized. 
+     * Validate a schema with special characters can be deserialized.
      */
     @Test
     public void testSchemaWithSpecialCharacters() throws Exception {
@@ -85,6 +87,6 @@ public class JSONTest {
         // of the @JsonSubTypes annotation.
         SpecialModelName o = json.getContext(null).readValue(str, SpecialModelName.class);
         assertNotNull(o);
-        assertEquals((long)12345, (long)o.get$SpecialPropertyName());
-    }    
+        assertEquals((long) 12345, (long) o.get$SpecialPropertyName());
+    }
 }

@@ -10,15 +10,15 @@ import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import org.junit.*;
-import static org.junit.Assert.*;
 
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class JSONTest {
     JSON json = null;
     Order order = null;
 
-    @Before
+    @BeforeEach
     public void setup() {
         json = new JSON();
         order = new Order();

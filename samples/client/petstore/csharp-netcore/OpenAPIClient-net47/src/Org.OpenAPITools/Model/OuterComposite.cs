@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class OuterComposite {\n");
             sb.Append("  MyNumber: ").Append(MyNumber).Append("\n");
             sb.Append("  MyString: ").Append(MyString).Append("\n");
@@ -124,12 +124,16 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.MyNumber.GetHashCode();
+                hashCode = (hashCode * 59) + this.MyNumber.GetHashCode();
                 if (this.MyString != null)
-                    hashCode = hashCode * 59 + this.MyString.GetHashCode();
-                hashCode = hashCode * 59 + this.MyBoolean.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.MyString.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.MyBoolean.GetHashCode();
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

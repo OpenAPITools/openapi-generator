@@ -278,7 +278,7 @@ export class UserApi extends runtime.BaseAPI {
      * Logs out current logged in user session
      */
     async logoutUser(initOverrides?: RequestInit): Promise<void> {
-        await this.logoutUserRaw(, initOverrides);
+        await this.logoutUserRaw(initOverrides);
     }
 
     /**

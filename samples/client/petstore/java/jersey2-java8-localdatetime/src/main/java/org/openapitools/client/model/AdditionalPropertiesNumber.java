@@ -30,6 +30,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
@@ -43,6 +44,8 @@ public class AdditionalPropertiesNumber {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+  public AdditionalPropertiesNumber() { 
+  }
 
   public AdditionalPropertiesNumber name(String name) {
     this.name = name;

@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public List(string _123list = default(string))
         {
             this.__123List = _123list;
+            if (this._123List != null)
+            {
+                this._flag_123List = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -78,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class List {\n");
             sb.Append("  _123List: ").Append(_123List).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -125,9 +129,13 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this._123List != null)
-                    hashCode = hashCode * 59 + this._123List.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this._123List.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }
