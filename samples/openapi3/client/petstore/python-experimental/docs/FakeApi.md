@@ -866,7 +866,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         pattern_without_delimiter="AUR,rZ#UM/?R,Fp^l6$ARjbhJk C",
         byte='YQ==',
         binary=open('/path/to/file', 'rb'),
-        date=1970-01-01,
+        date="1970-01-01",
         date_time="2020-02-02T20:20:20.222220Z",
         password="password_example",
         callback="callback_example",

@@ -1476,14 +1476,12 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 } else {
                     example = pythonDate(objExample);
                 }
-                return fullPrefix + example + closeChars;
             } else if (ModelUtils.isDateTimeSchema(schema)) {
                 if (objExample == null) {
                     example = pythonDateTime("1970-01-01T00:00:00.00Z");
                 } else {
                     example = pythonDateTime(objExample);
                 }
-                return fullPrefix + example + closeChars;
             } else if (ModelUtils.isBinarySchema(schema)) {
                 if (example == null) {
                     example = "/path/to/file";
@@ -1494,11 +1492,9 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 if (objExample == null) {
                     example = "'YQ=='";
                 }
-                return fullPrefix + example + closeChars;
             } else if ("Number".equalsIgnoreCase(schema.getFormat())) {
                 // a BigDecimal:
                 example = "2";
-                return fullPrefix + example + closeChars;
             } else if (StringUtils.isNotBlank(schema.getPattern())) {
                 String pattern = schema.getPattern();
                 RgxGen rgxGen = new RgxGen(pattern);
