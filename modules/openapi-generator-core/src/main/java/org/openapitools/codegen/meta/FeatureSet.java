@@ -16,7 +16,6 @@
 
 package org.openapitools.codegen.meta;
 
-import com.google.common.collect.ImmutableList;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.meta.features.annotations.AnnotationType;
 
@@ -203,7 +202,7 @@ public class FeatureSet {
         }
 
         public List<AnnotationType> getSource() {
-            return ImmutableList.copyOf(source);
+            return Collections.unmodifiableList(source);
         }
     }
 

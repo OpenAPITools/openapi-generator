@@ -45,11 +45,16 @@ namespace Org.OpenAPITools.Model
         public AppleReq(string cultivar = default(string), bool mealy = default(bool))
         {
             // to ensure "cultivar" is required (not null)
-            if (cultivar == null) {
+            if (cultivar == null)
+            {
                 throw new ArgumentNullException("cultivar is a required property for AppleReq and cannot be null");
             }
             this._Cultivar = cultivar;
             this._Mealy = mealy;
+            if (this.Mealy != null)
+            {
+                this._flagMealy = true;
+            }
         }
 
         /// <summary>
@@ -106,7 +111,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class AppleReq {\n");
             sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
             sb.Append("  Mealy: ").Append(Mealy).Append("\n");
@@ -153,8 +158,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.Cultivar != null)
-                    hashCode = hashCode * 59 + this.Cultivar.GetHashCode();
-                hashCode = hashCode * 59 + this.Mealy.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Cultivar.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.Mealy.GetHashCode();
                 return hashCode;
             }
         }

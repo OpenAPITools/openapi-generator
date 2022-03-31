@@ -77,6 +77,8 @@ createUsersWithArrayInput($user)
 
 Creates list of users with given input array
 
+
+
 ### Example
 
 ```php
@@ -129,6 +131,8 @@ createUsersWithListInput($user)
 ```
 
 Creates list of users with given input array
+
+
 
 ### Example
 
@@ -238,6 +242,8 @@ getUserByName($username): \OpenAPI\Client\Model\User
 
 Get user by user name
 
+
+
 ### Example
 
 ```php
@@ -291,6 +297,8 @@ loginUser($username, $password): string
 ```
 
 Logs user into the system
+
+
 
 ### Example
 
@@ -347,6 +355,8 @@ logoutUser()
 ```
 
 Logs out current logged in user session
+
+
 
 ### Example
 

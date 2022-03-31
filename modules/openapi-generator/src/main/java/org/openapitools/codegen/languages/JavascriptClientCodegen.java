@@ -26,6 +26,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +53,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public static final String USE_ES6 = "useES6";
     public static final String NPM_REPOSITORY = "npmRepository";
 
-    final String[][] JAVASCRIPT_SUPPORTING_FILES = new String[][]{
+    final String[][] JAVASCRIPT_SUPPORTING_FILES = {
             new String[]{"package.mustache", "package.json"},
             // new String[]{"index.mustache", "src/index.js", },
             // new String[]{"ApiClient.mustache", "src/ApiClient.js"},
@@ -62,7 +64,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             new String[]{"gitignore.mustache", ".gitignore"}
     };
 
-    final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = new String[][]{
+    final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = {
             new String[]{"package.mustache", "package.json"},
             // new String[]{"index.mustache", "src/index.js"},
             // new String[]{"ApiClient.mustache", "src/ApiClient.js"},
@@ -135,10 +137,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                         "prototype", "String", "toString", "undefined", "valueOf")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("String", "Boolean", "Number", "Array", "Object", "Date", "File", "Blob")
         );
-        defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
+        defaultIncludes = new HashSet<>(languageSpecificPrimitives);
 
         instantiationTypes.put("array", "Array");
         instantiationTypes.put("set", "Array");
@@ -988,7 +990,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         // Generate and store argument list string of each operation into
         // vendor-extension: x-codegen-argList.
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
@@ -1039,15 +1041,12 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return objs;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
-        List<Object> models = (List<Object>) objs.get("models");
 
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
 
             // Collect each model's required property names in *document order*.
             // NOTE: can't use 'mandatory' as it is built from ModelImpl.getRequired(), which sorts names
@@ -1212,7 +1211,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = jsPostProcessFile + " " + file.toString();
+            String command = jsPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
@@ -1240,4 +1239,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         return super.getCollectionFormat(codegenParameter);
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }

@@ -37,6 +37,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.IJsonSchemaValidationProperties;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.io.FileUtils;
@@ -103,20 +105,15 @@ public class ModelUtils {
      * @param models Map of models
      * @return model
      */
-    public static CodegenModel getModelByName(final String name, final Map<String, Object> models) {
-        final Object data = models.get(name);
-        if (data instanceof Map) {
-            final Map<?, ?> dataMap = (Map<?, ?>) data;
-            final Object dataModels = dataMap.get("models");
-            if (dataModels instanceof List) {
-                final List<?> dataModelsList = (List<?>) dataModels;
-                for (final Object entry : dataModelsList) {
-                    if (entry instanceof Map) {
-                        final Map<?, ?> entryMap = (Map<?, ?>) entry;
-                        final Object model = entryMap.get("model");
-                        if (model instanceof CodegenModel) {
-                            return (CodegenModel) model;
-                        }
+    public static CodegenModel getModelByName(final String name, final Map<String, ModelsMap> models) {
+        final ModelsMap data = models.get(name);
+        if (data != null) {
+            final List<ModelMap> dataModelsList = data.getModels();
+            if (dataModelsList != null) {
+                for (final ModelMap entryMap : dataModelsList) {
+                    final CodegenModel model = entryMap.getModel();
+                    if (model != null) {
+                        return model;
                     }
                 }
             }
@@ -381,7 +378,11 @@ public class ModelUtils {
     }
 
     public static String getSimpleRef(String ref) {
-        if (ref.startsWith("#/components/")) {
+        if (ref == null) {
+            once(LOGGER).warn("Failed to get the schema name: null");
+            //throw new RuntimeException("Failed to get the schema: null");
+            return null;
+        } else if (ref.startsWith("#/components/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else if (ref.startsWith("#/definitions/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
@@ -389,12 +390,12 @@ public class ModelUtils {
             once(LOGGER).warn("Failed to get the schema name: {}", ref);
             //throw new RuntimeException("Failed to get the schema: " + ref);
             return null;
-
         }
 
         try {
             ref = URLDecoder.decode(ref, "UTF-8");
         } catch (UnsupportedEncodingException ignored) {
+            once(LOGGER).warn("Found UnsupportedEncodingException: {}", ref);
         }
 
         // see https://tools.ietf.org/html/rfc6901#section-3
@@ -1073,7 +1074,7 @@ public class ModelUtils {
      */
     public static Schema unaliasSchema(OpenAPI openAPI,
                                        Schema schema) {
-        return unaliasSchema(openAPI, schema, Collections.<String, String>emptyMap());
+        return unaliasSchema(openAPI, schema, Collections.emptyMap());
     }
 
     /**
@@ -1258,7 +1259,7 @@ public class ModelUtils {
         } else if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
             return composed.getOneOf();
         } else {
-            return Collections.<Schema>emptyList();
+            return Collections.emptyList();
         }
     }
 

@@ -25,6 +25,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -264,23 +265,24 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     @Override
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter param = super.fromParameter(parameter, imports);
-        // Removing unhandled types
-        if (!primitiveParamTypes.contains(param.dataType)) {
-            param.dataType = "String";
-        }
-        if (!param.required) {
-            param.vendorExtensions.put("x-has-default-value", param.defaultValue != null);
-            // Escaping default string values
-            if (param.defaultValue != null && "String".equals(param.dataType)) {
-                param.defaultValue = String.format(Locale.ROOT, "\"%s\"", param.defaultValue);
+        if (primitiveParamTypes.contains(param.dataType)) {
+            if (!param.required) {
+                param.vendorExtensions.put("x-has-default-value", param.defaultValue != null);
+                // Escaping default string values
+                if (param.defaultValue != null && "String".equals(param.dataType)) {
+                    param.defaultValue = String.format(Locale.ROOT, "\"%s\"", param.defaultValue);
+                }
             }
+        } else {
+            // Removing unhandled types
+            param.dataType = "String";
         }
         return param;
     }
 
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         Map<String, Object> baseObjs = super.postProcessOperationsWithModels(objs, allModels);
         pathMatcherPatternsPostProcessor(baseObjs);
         marshallingPostProcessor(baseObjs);

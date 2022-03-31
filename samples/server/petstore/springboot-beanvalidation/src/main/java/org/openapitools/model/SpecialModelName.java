@@ -1,19 +1,29 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * SpecialModelName
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class SpecialModelName   {
+
+@JsonTypeName("$special[model.name]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class SpecialModelName {
+
   @JsonProperty("$special[property.name]")
   private Long $specialPropertyName;
 
@@ -26,9 +36,8 @@ public class SpecialModelName   {
    * Get $specialPropertyName
    * @return $specialPropertyName
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
@@ -36,7 +45,6 @@ public class SpecialModelName   {
   public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -59,7 +67,6 @@ public class SpecialModelName   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpecialModelName {\n");
-    
     sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
     sb.append("}");
     return sb.toString();

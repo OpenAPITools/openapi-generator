@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   * A pet for sale in the pet store
  **/
 @ApiModel(description="A pet for sale in the pet store")
+
 public class Pet  {
   
   @ApiModelProperty(value = "")
@@ -30,7 +31,7 @@ public class Pet  {
   private String name;
 
   @ApiModelProperty(required = true, value = "")
-  private List<String> photoUrls = new ArrayList<String>();
+  private List<String> photoUrls = new ArrayList<>();
 
   @ApiModelProperty(value = "")
   @Valid

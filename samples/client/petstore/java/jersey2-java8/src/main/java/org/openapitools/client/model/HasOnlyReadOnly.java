@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
@@ -34,6 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   HasOnlyReadOnly.JSON_PROPERTY_BAR,
   HasOnlyReadOnly.JSON_PROPERTY_FOO
 })
+@JsonTypeName("hasOnlyReadOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";
@@ -42,6 +44,18 @@ public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_FOO = "foo";
   private String foo;
 
+  public HasOnlyReadOnly() { 
+  }
+
+  @JsonCreator
+  public HasOnlyReadOnly(
+    @JsonProperty(JSON_PROPERTY_BAR) String bar, 
+    @JsonProperty(JSON_PROPERTY_FOO) String foo
+  ) {
+    this();
+    this.bar = bar;
+    this.foo = foo;
+  }
 
    /**
    * Get bar

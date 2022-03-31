@@ -14,10 +14,10 @@ wrapper {
 buildscript {
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
-        maven { url = 'https://repo.jfrog.org/artifactory/gradle-plugins' }
+        maven { url = 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '2.0.16')
+        classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '4.24.20')
     }
 }
 

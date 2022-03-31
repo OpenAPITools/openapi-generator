@@ -44,6 +44,8 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+  public AdditionalPropertiesAnyType() { 
+  }
 
   public AdditionalPropertiesAnyType name(String name) {
     this.name = name;

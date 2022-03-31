@@ -1,0 +1,120 @@
+openapi: 3.0.0
+info:
+  title: Tests content data in an endpoint parameter and a request body
+  description: blah
+paths:
+  /jsonQueryParams:
+    get:
+      parameters:
+        - name: coordinatesInlineSchema
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - lat
+                  - long
+                properties:
+                  lat:
+                    type: number
+                  long:
+                    type: number
+        - name: coordinatesReferencedSchema
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coordinates'
+        - name: stringWithMinLength
+          in: query
+          schema:
+            $ref: '#/components/schemas/stringWithMinLength'
+      responses:
+        '200':
+          description: 'OK'
+          headers:
+            X-Rate-Limit:
+              description: "The number of allowed requests in the current period"
+              schema:
+                type: integer
+            X-Rate-Limit-Ref:
+              $ref: '#/components/headers/X-Rate-Limit'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coordinates'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/stringWithMinLength'
+        '201':
+          description: 'Created OK'
+          headers:
+            X-Rate-Limit-Limit:
+              description: "The number of allowed requests in the current period"
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coordinates'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/stringWithMinLength'
+  /inlineRequestBodySchemasDifferingByContentType:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - lat
+                - long
+              properties:
+                lat:
+                  type: number
+                long:
+                  type: number
+          text/plain:
+            schema:
+              type: string
+              minLength: 5
+      responses:
+        200:
+          description: OK
+  /refRequestBodySchemasDifferingByContentType:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/coordinates'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/stringWithMinLength'
+      responses:
+        200:
+          description: OK
+components:
+  headers:
+    X-Rate-Limit:
+      description: "The number of allowed requests in the current period"
+      schema:
+        type: integer
+  schemas:
+    stringWithMinLength:
+      type: string
+      minLength: 5
+    coordinates:
+      type: object
+      required:
+        - lat
+        - long
+      properties:
+        lat:
+          type: number
+        long:
+          type: number

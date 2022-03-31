@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   * Describes the result of uploading an image resource
  **/
 @ApiModel(description="Describes the result of uploading an image resource")
+
 public class ModelApiResponse  {
   
   @ApiModelProperty(value = "")

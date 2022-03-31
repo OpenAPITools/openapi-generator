@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;

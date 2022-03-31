@@ -226,6 +226,8 @@ public class EnumTest {
   @XmlElement(name = "outerEnum")
   private OuterEnum outerEnum;
 
+  public EnumTest() { 
+  }
 
   public EnumTest enumString(EnumStringEnum enumString) {
     

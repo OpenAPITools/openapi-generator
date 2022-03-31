@@ -18,7 +18,7 @@ import {
     ReadOnlyFirstFromJSON,
     ReadOnlyFirstFromJSONTyped,
     ReadOnlyFirstToJSON,
-} from './';
+} from './ReadOnlyFirst';
 
 /**
  * 

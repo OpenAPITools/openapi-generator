@@ -27,7 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
@@ -36,6 +36,8 @@ import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.CXFExtServerFeatures;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.JsonCache;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.JsonCache.CacheException;
@@ -655,7 +657,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                     var.addTestData(randomBigDecimal);
                 }
             } else {
-                buffer.append(randomBigDecimal.toString()).append('D');
+                buffer.append(randomBigDecimal).append('D');
             }
         }
     }
@@ -1118,18 +1120,14 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
 
         // When populating operation bodies we need to import enum types, which requires the class that defines them.
         if (generateOperationBody) {
-            for (Object value : objs.values()) {
-                @SuppressWarnings("unchecked")
-                Map<String, Object> inner = (Map<String, Object>) value;
-                @SuppressWarnings("unchecked")
-                List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-                for (Map<String, Object> mo : models)
-                    postProcessModel((CodegenModel) mo.get("model"));
+            for (ModelsMap value : objs.values()) {
+                for (ModelMap mo : value.getModels())
+                    postProcessModel(mo.getModel());
             }
         }
 
@@ -1163,7 +1161,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         Map<String, Object> result = super.postProcessOperationsWithModels(objs, allModels);
 
         if (generateOperationBody) {
@@ -1177,9 +1175,8 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
 
                 // Map the models so we can look them up by name.
                 Map<String, CodegenModel> models = new HashMap<>();
-                for (Object model : allModels) {
-                    @SuppressWarnings("unchecked")
-                    CodegenModel cgModel = ((Map<String, CodegenModel>) model).get("model");
+                for (ModelMap model : allModels) {
+                    CodegenModel cgModel = model.getModel();
                     models.put(cgModel.classname, cgModel);
                 }
 
@@ -1294,7 +1291,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 if (testDataCache.root().isDirty()) {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     testDataCache.root().flush(out);
-                    String testDataJson = new String(out.toByteArray(), "UTF-8");
+                    String testDataJson = out.toString("UTF-8");
                     objs.put("test-data.json", testDataJson);
                     supportingFiles.add(new SupportingFile("testData.mustache", testDataFile.getAbsolutePath()));
                 }
@@ -1306,7 +1303,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 if (testDataControlCache.root().isDirty()) {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     testDataControlCache.root().flush(out);
-                    String testDataControlJson = new String(out.toByteArray(), "UTF-8");
+                    String testDataControlJson = out.toString("UTF-8");
                     objs.put("test-data-control.json", testDataControlJson);
                     supportingFiles
                             .add(new SupportingFile("testDataControl.mustache", testDataControlFile.getAbsolutePath()));

@@ -12,7 +12,7 @@
 
 package org.openapitools.client.api;
 
-import com.sun.jersey.api.client.GenericType;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiClient;
@@ -89,7 +89,20 @@ public class AnotherFakeApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    GenericType<Client> localVarReturnType = new GenericType<Client>() {};
-    return apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      }
+    TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "PATCH",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
 }

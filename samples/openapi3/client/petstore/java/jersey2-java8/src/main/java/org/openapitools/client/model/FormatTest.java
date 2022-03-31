@@ -30,6 +30,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
@@ -53,6 +54,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS,
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
+@JsonTypeName("format_test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
@@ -103,6 +105,8 @@ public class FormatTest {
   public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER = "pattern_with_digits_and_delimiter";
   private String patternWithDigitsAndDelimiter;
 
+  public FormatTest() { 
+  }
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;

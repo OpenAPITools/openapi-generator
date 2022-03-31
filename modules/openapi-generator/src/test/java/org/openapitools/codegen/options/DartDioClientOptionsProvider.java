@@ -41,6 +41,7 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
     public static final String PUB_AUTHOR_VALUE = "Author";
     public static final String PUB_AUTHOR_EMAIL_VALUE = "author@homepage";
     public static final String PUB_HOMEPAGE_VALUE = "Homepage";
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -68,6 +69,7 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
                 .put(DartDioClientCodegen.NULLABLE_FIELDS, NULLABLE_FIELDS)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
+                .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .build();
     }
 

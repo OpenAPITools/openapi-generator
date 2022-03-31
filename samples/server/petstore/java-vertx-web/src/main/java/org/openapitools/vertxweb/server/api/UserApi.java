@@ -1,5 +1,6 @@
 package org.openapitools.vertxweb.server.api;
 
+import java.time.OffsetDateTime;
 import org.openapitools.vertxweb.server.model.User;
 
 import org.openapitools.vertxweb.server.ApiResponse;

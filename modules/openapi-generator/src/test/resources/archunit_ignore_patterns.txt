@@ -1,0 +1,2 @@
+# This rule is for ArchUnitRulesTest.classesNotAllowedToUseStandardStreams to ignore method `postProcess()` of CodegenConfig as it contains funding information
+.*\.postProcess\(\).*

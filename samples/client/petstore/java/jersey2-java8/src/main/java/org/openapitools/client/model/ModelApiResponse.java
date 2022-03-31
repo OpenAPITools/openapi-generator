@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
@@ -35,6 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ModelApiResponse.JSON_PROPERTY_TYPE,
   ModelApiResponse.JSON_PROPERTY_MESSAGE
 })
+@JsonTypeName("ApiResponse")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";
@@ -46,6 +48,8 @@ public class ModelApiResponse {
   public static final String JSON_PROPERTY_MESSAGE = "message";
   private String message;
 
+  public ModelApiResponse() { 
+  }
 
   public ModelApiResponse code(Integer code) {
     this.code = code;

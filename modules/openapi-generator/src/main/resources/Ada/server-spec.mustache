@@ -11,7 +11,7 @@
 --  ------------ EDIT NOTE ------------
 {{#imports}}with {{import}};
 {{/imports}}
-with Swagger.Servers;
+with {{openApiPackageName}.Servers;
 with {{package}}.Models;
 with {{package}}.Skeletons;
 package {{package}}.Servers is
@@ -32,7 +32,7 @@ package {{package}}.Servers is
        {{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
        {{/-last}}{{/allParams}}{{#returnType}};
        Result  : out {{.}}{{/returnType}};
-       Context : in out Swagger.Servers.Context_Type);
+       Context : in out {{openApiPackageName}.Servers.Context_Type);
 {{/operation}}
 {{/operations}}
 {{/apis}}

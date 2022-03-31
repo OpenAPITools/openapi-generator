@@ -7,6 +7,7 @@ import org.openapitools.api.factories.UserApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
+import java.util.Date;
 import java.util.List;
 import org.openapitools.model.User;
 
@@ -56,7 +57,7 @@ public class UserApi  {
       this.delegate = delegate;
    }
 
-    @POST
+    @javax.ws.rs.POST
     
     @Consumes({ "application/json" })
     
@@ -68,7 +69,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.createUser(user, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/createWithArray")
     @Consumes({ "application/json" })
     
@@ -80,7 +81,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.createUsersWithArrayInput(user, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/createWithList")
     @Consumes({ "application/json" })
     
@@ -92,7 +93,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.createUsersWithListInput(user, securityContext);
     }
-    @DELETE
+    @javax.ws.rs.DELETE
     @Path("/{username}")
     
     
@@ -105,7 +106,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.deleteUser(username, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/{username}")
     
     @Produces({ "application/xml", "application/json" })
@@ -119,7 +120,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.getUserByName(username, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/login")
     
     @Produces({ "application/xml", "application/json" })
@@ -132,7 +133,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.loginUser(username, password, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/logout")
     
     
@@ -144,7 +145,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.logoutUser(securityContext);
     }
-    @PUT
+    @javax.ws.rs.PUT
     @Path("/{username}")
     @Consumes({ "application/json" })
     

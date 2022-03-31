@@ -2,7 +2,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.EncodingUtils;
-import org.openapitools.client.model.HttpResponse;
+import org.openapitools.client.model.ApiResponse;
 
 import org.openapitools.client.model.Order;
 
@@ -37,7 +37,7 @@ public interface StoreApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json",
   })
-  HttpResponse<Void> deleteOrderWithHttpInfo(@Param("orderId") String orderId);
+  ApiResponse<Void> deleteOrderWithHttpInfo(@Param("orderId") String orderId);
 
 
 
@@ -56,13 +56,13 @@ public interface StoreApi extends ApiClient.Api {
    * Returns pet inventories by status
    * Similar to <code>getInventory</code> but it also returns the http response headers .
    * Returns a map of status codes to quantities
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("GET /store/inventory")
   @Headers({
     "Accept: application/json",
   })
-  HttpResponse<Map<String, Integer>> getInventoryWithHttpInfo();
+  ApiResponse<Map<String, Integer>> getInventoryWithHttpInfo();
 
 
 
@@ -83,13 +83,13 @@ public interface StoreApi extends ApiClient.Api {
    * Similar to <code>getOrderById</code> but it also returns the http response headers .
    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched (required)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("GET /store/order/{orderId}")
   @Headers({
     "Accept: application/json",
   })
-  HttpResponse<Order> getOrderByIdWithHttpInfo(@Param("orderId") Long orderId);
+  ApiResponse<Order> getOrderByIdWithHttpInfo(@Param("orderId") Long orderId);
 
 
 
@@ -111,14 +111,14 @@ public interface StoreApi extends ApiClient.Api {
    * Similar to <code>placeOrder</code> but it also returns the http response headers .
    * 
    * @param order order placed for purchasing the pet (required)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("POST /store/order")
   @Headers({
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  HttpResponse<Order> placeOrderWithHttpInfo(Order order);
+  ApiResponse<Order> placeOrderWithHttpInfo(Order order);
 
 
 }

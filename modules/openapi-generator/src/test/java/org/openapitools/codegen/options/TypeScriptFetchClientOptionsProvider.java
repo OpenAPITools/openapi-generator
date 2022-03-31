@@ -42,6 +42,8 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
     public static final String TYPESCRIPT_THREE_PLUS = "true";
     public static final String WITHOUT_RUNTIME_CHECKS = "true";
     public static final String SAGAS_AND_RECORDS = "false";
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
+    public static final String STRING_ENUMS = "false";
 
     @Override
     public String getLanguage() {
@@ -74,6 +76,8 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
+                .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
+                .put(TypeScriptFetchClientCodegen.STRING_ENUMS, STRING_ENUMS)
                 .build();
     }
 

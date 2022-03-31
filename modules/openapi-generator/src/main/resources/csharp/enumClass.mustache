@@ -4,7 +4,9 @@
         {{#description}}
         /// <value>{{.}}</value>
         {{/description}}
+        {{^useGenericHost}}
         [JsonConverter(typeof(StringEnumConverter))]
+        {{/useGenericHost}}
         {{>visibility}} enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
         {
             {{#allowableValues}}

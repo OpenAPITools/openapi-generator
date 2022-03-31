@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
@@ -153,6 +154,8 @@ public class XmlItem {
   public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   private List<Integer> prefixNsWrappedArray = null;
 
+  public XmlItem() { 
+  }
 
   public XmlItem attributeString(String attributeString) {
     this.attributeString = attributeString;

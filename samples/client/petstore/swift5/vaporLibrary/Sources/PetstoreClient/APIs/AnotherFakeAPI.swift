@@ -60,5 +60,4 @@ open class AnotherFakeAPI {
             }
         }
     }
-
 }

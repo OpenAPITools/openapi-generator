@@ -41,7 +41,6 @@ import javax.xml.bind.annotation.*;
   TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
-@JsonTypeName("TypeHolderExample")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "TypeHolderExample")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -74,6 +73,8 @@ public class TypeHolderExample {
   @XmlElement(name = "arrayItem")
   private List<Integer> arrayItem = new ArrayList<>();
 
+  public TypeHolderExample() { 
+  }
 
   public TypeHolderExample stringItem(String stringItem) {
     

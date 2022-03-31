@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Foo;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
@@ -34,11 +35,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   InlineResponseDefault.JSON_PROPERTY_STRING
 })
+@JsonTypeName("inline_response_default")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class InlineResponseDefault {
   public static final String JSON_PROPERTY_STRING = "string";
   private Foo string;
 
+  public InlineResponseDefault() { 
+  }
 
   public InlineResponseDefault string(Foo string) {
     this.string = string;

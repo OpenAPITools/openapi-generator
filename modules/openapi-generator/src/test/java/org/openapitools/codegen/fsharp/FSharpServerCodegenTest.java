@@ -15,17 +15,19 @@
  */
 
 package org.openapitools.codegen.fsharp;
+import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
+
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.languages.AbstractFSharpCodegen;
 import org.openapitools.codegen.languages.FsharpGiraffeServerCodegen;
+import org.openapitools.codegen.model.ModelsMap;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import java.util.Collections;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Arrays;
-import java.lang.Exception;
 
 @SuppressWarnings("static-method")
 public class FSharpServerCodegenTest {
@@ -35,33 +37,33 @@ public class FSharpServerCodegenTest {
         final AbstractFSharpCodegen codegen = new P_AbstractFSharpCodegen();
 
         final CodegenModel wheel = new CodegenModel();
-        wheel.setImports(new HashSet<String>(Arrays.asList()));
+        wheel.setImports(new HashSet<>(Arrays.asList()));
         wheel.setClassname("wheel");
 
         final CodegenModel bike = new CodegenModel();
-        bike.setImports(new HashSet<String>(Arrays.asList("wheel")));
+        bike.setImports(new HashSet<>(Arrays.asList("wheel")));
         bike.setClassname("bike");
 
         final CodegenModel parent = new CodegenModel();
-        parent.setImports(new HashSet<String>(Arrays.asList("bike", "car")));
+        parent.setImports(new HashSet<>(Arrays.asList("bike", "car")));
         parent.setClassname("parent");
 
         final CodegenModel car = new CodegenModel();
-        car.setImports(new HashSet<String>(Arrays.asList("wheel")));
+        car.setImports(new HashSet<>(Arrays.asList("wheel")));
         car.setClassname("car");
 
         final CodegenModel child = new CodegenModel();
-        child.setImports(new HashSet<String>(Arrays.asList("car", "bike", "parent")));
+        child.setImports(new HashSet<>(Arrays.asList("car", "bike", "parent")));
         child.setClassname("child");
 
-        Map<String, Object> models = new HashMap<String,Object>();
-        models.put("parent", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", parent))));
-        models.put("child", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", child))));
-        models.put("car", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", car))));
-        models.put("bike", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", bike))));
-        models.put("wheel", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", wheel))));
+        Map<String, ModelsMap> models = new HashMap<>();
+        models.put("parent", createCodegenModelWrapper(parent));
+        models.put("child", createCodegenModelWrapper(child));
+        models.put("car", createCodegenModelWrapper(car));
+        models.put("bike", createCodegenModelWrapper(bike));
+        models.put("wheel", createCodegenModelWrapper(wheel));
 
-        Map<String,Object> sorted = codegen.postProcessDependencyOrders(models);
+        Map<String, ModelsMap> sorted = codegen.postProcessDependencyOrders(models);
 
         Object[] keys = sorted.keySet().toArray();
 

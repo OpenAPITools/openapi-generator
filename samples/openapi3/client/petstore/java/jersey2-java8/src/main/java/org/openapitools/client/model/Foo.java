@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
@@ -38,6 +39,8 @@ public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
   private String bar = "bar";
 
+  public Foo() { 
+  }
 
   public Foo bar(String bar) {
     this.bar = bar;

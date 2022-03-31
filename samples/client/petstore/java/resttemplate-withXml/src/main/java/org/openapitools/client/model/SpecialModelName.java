@@ -43,6 +43,8 @@ public class SpecialModelName {
   @XmlElement(name = "$special[property.name]")
   private Long $specialPropertyName;
 
+  public SpecialModelName() { 
+  }
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     

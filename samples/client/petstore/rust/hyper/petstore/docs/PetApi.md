@@ -20,6 +20,8 @@ Method | HTTP request | Description
 > crate::models::Pet add_pet(pet)
 Add a new pet to the store
 
+
+
 ### Parameters
 
 
@@ -47,6 +49,8 @@ Name | Type | Description  | Required | Notes
 
 > delete_pet(pet_id, api_key)
 Deletes a pet
+
+
 
 ### Parameters
 
@@ -167,6 +171,8 @@ Name | Type | Description  | Required | Notes
 > crate::models::Pet update_pet(pet)
 Update an existing pet
 
+
+
 ### Parameters
 
 
@@ -194,6 +200,8 @@ Name | Type | Description  | Required | Notes
 
 > update_pet_with_form(pet_id, name, status)
 Updates a pet in the store with form data
+
+
 
 ### Parameters
 
@@ -224,6 +232,8 @@ Name | Type | Description  | Required | Notes
 
 > crate::models::ApiResponse upload_file(pet_id, additional_metadata, file)
 uploads an image
+
+
 
 ### Parameters
 

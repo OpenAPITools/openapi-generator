@@ -74,11 +74,11 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     // Getting the query params
     {{#queryParams}}
     auto {{paramName}}Query = request.query().get("{{baseName}}");
-    Pistache::Optional<{{^isContainer}}{{dataType}}{{/isContainer}}{{#isArray}}std::vector<{{items.baseType}}>{{/isArray}}> {{paramName}};
-    if(!{{paramName}}Query.isEmpty()){
+    std::optional<{{^isContainer}}{{dataType}}{{/isContainer}}{{#isArray}}std::vector<{{items.baseType}}>{{/isArray}}> {{paramName}};
+    if({{paramName}}Query.has_value()){
         {{^isContainer}}{{dataType}}{{/isContainer}}{{#isArray}}std::vector<{{items.baseType}}>{{/isArray}} valueQuery_instance;
-        if(fromStringValue({{paramName}}Query.get(), valueQuery_instance)){
-            {{paramName}} = Pistache::Some(valueQuery_instance);
+        if(fromStringValue({{paramName}}Query.value(), valueQuery_instance)){
+            {{paramName}} = valueQuery_instance;
         }
     }
     {{/queryParams}}

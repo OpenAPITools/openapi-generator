@@ -178,7 +178,7 @@ function Set-PSConfiguration {
             $Script:Configuration['DefaultHeaders'] = $DefaultHeaders
         }
 
-        If ($Proxy -ne $null) {
+        If ($null -ne $Proxy) {
             If ($Proxy.GetType().FullName -ne "System.Net.SystemWebProxy" -and $Proxy.GetType().FullName -ne "System.Net.WebRequest+WebProxyWrapperOpaque") {
                 throw "Incorrect Proxy type '$($Proxy.GetType().FullName)'. Must be System.Net.SystemWebProxy or System.Net.WebRequest+WebProxyWrapperOpaque."
             }

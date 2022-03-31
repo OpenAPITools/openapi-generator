@@ -1014,6 +1014,8 @@ void (empty response body)
 
 test inline additionalProperties
 
+
+
 ### Example
 
 ```python
@@ -1072,6 +1074,8 @@ No authorization required
 > test_json_form_data(param, param2)
 
 test json serialization of form data
+
+
 
 ### Example
 

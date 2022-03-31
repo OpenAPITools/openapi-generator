@@ -36,7 +36,6 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
-@JsonTypeName("ArrayOfNumberOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "ArrayOfNumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -49,6 +48,8 @@ public class ArrayOfNumberOnly {
   @XmlElement(name = "arrayNumber")
   private List<BigDecimal> arrayNumber = null;
 
+  public ArrayOfNumberOnly() { 
+  }
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     

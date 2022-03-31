@@ -33,7 +33,6 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-@JsonTypeName("Client")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "Client")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -43,6 +42,8 @@ public class Client {
   @XmlElement(name = "client")
   private String client;
 
+  public Client() { 
+  }
 
   public Client client(String client) {
     

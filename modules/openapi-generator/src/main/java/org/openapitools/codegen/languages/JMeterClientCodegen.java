@@ -133,7 +133,7 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
         /*
          * Reserved words.  Override this with reserved words specific to your language
          */
-        reservedWords = new HashSet<String>(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
                         "sample1",  // replace with static values
                         "sample2")

@@ -38,6 +38,8 @@ public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
   private String client;
 
+  public Client() { 
+  }
 
   public Client client(String client) {
     this.client = client;

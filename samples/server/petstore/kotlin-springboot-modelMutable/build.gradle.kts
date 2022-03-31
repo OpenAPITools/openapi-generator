@@ -2,8 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
-        jcenter()
-        maven { url = uri("https://repo1.maven.org/maven2") }
+        mavenCentral()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.0.M3")
@@ -14,8 +13,7 @@ group = "org.openapitools"
 version = "1.0.0"
 
 repositories {
-    jcenter()
-    maven { url = uri("https://repo1.maven.org/maven2") }
+    mavenCentral()
 }
 
 tasks.withType<KotlinCompile> {
@@ -32,7 +30,7 @@ plugins {
 }
 
 dependencies {
-	val kotlinxCoroutinesVersion="1.2.0"
+    val kotlinxCoroutinesVersion="1.2.0"
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
     compile("org.springframework.boot:spring-boot-starter-web")
@@ -48,7 +46,7 @@ dependencies {
 }
 
 repositories {
-	maven { url = uri("https://repo1.maven.org/maven2") }
-	maven { url = uri("https://repo.spring.io/snapshot") }
-	maven { url = uri("https://repo.spring.io/milestone") }
+    maven { url = uri("https://repo1.maven.org/maven2") }
+    maven { url = uri("https://repo.spring.io/snapshot") }
+    maven { url = uri("https://repo.spring.io/milestone") }
 }

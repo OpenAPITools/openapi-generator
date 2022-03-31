@@ -21,6 +21,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.*;
+import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
 import static org.testng.Assert.*;
 
 public class AbstractKotlinCodegenTest {
@@ -249,5 +250,26 @@ public class AbstractKotlinCodegenTest {
             pm.optionalVars.stream().map(CodegenProperty::getBaseName).toArray(),
             new String[] {"b", "d"}
         );
+    }
+
+    @Test(description = "Issue #10591")
+    public void testEnumPropertyWithDefaultValue() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue10591-enum-defaultValue.yaml");
+        final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
+        CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
+
+        // Make sure we got the container object.
+        Assert.assertEquals(cm1.getDataType(), "kotlin.Any");
+        Assert.assertEquals(codegen.getTypeDeclaration("MyResponse"), "MyResponse");
+
+        // We need to postProcess the model for enums to be processed
+        codegen.postProcessModels(createCodegenModelWrapper(cm1));
+
+        // Assert the enum default value is properly generated
+        CodegenProperty cp1 = cm1.vars.get(0);
+        Assert.assertEquals(cp1.getEnumName(), "PropertyName");
+        Assert.assertEquals(cp1.getDefaultValue(), "PropertyName.vALUE");
     }
 }

@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.PathItem;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +67,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
@@ -167,8 +168,17 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        return jaxrsPostProcessOperations(objs);
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
+        Map<String, Object> updatedObjs = jaxrsPostProcessOperations(objs);
+        Map<String, Object> operations = (Map<String, Object>) updatedObjs.get("operations");
+        if (operations != null) {
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation co : ops) {
+                handleImplicitHeaders(co);
+            }
+        }
+        return updatedObjs;
     }
 
     static Map<String, Object> jaxrsPostProcessOperations(Map<String, Object> objs) {
