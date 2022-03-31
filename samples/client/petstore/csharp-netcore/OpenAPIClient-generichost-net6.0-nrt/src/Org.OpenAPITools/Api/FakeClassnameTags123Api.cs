@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -61,13 +62,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ModelClient?&gt;</returns>
         Task<ModelClient?> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
-    }
+
+            }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public partial class FakeClassnameTags123Api : IFakeClassnameTags123Api
     {
+        private JsonSerializerOptions _jsonSerializerOptions;
+
         /// <summary>
         /// An event to track the health of the server. 
         /// If you store these event args, be sure to purge old event args to prevent a memory leak.
@@ -113,13 +117,14 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class.
         /// </summary>
         /// <returns></returns>
-        public FakeClassnameTags123Api(ILogger<FakeClassnameTags123Api> logger, HttpClient httpClient, 
+        public FakeClassnameTags123Api(ILogger<FakeClassnameTags123Api> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
             TokenProvider<ApiKeyToken> apiKeyProvider, 
             TokenProvider<BearerToken> bearerTokenProvider, 
             TokenProvider<BasicToken> basicTokenProvider, 
             TokenProvider<HttpSignatureToken> httpSignatureTokenProvider, 
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
+            _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
             ApiKeyProvider = apiKeyProvider;
@@ -198,7 +203,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (modelClient as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(modelClient, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
 
                     List<TokenBase> tokens = new List<TokenBase>();
 
@@ -253,7 +258,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<ModelClient?> apiResponse = new ApiResponse<ModelClient?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<ModelClient>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<ModelClient>(apiResponse.RawContent, _jsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -267,6 +272,5 @@ namespace Org.OpenAPITools.Api
                 Logger.LogError(e, "An error occured while sending the request to the server.");
                 throw;
             }
-        }
-    }
+        }    }
 }

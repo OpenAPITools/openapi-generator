@@ -25,22 +25,15 @@ if [ "$NODE_INDEX" = "1" ]; then
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 elif [ "$NODE_INDEX" = "2" ]; then
-  echo "Running node $NODE_INDEX to test haskell"
+  echo "Running node $NODE_INDEX to test Go"
   # install haskell
   #curl -sSLk https://get.haskellstack.org/ | sh
   #stack upgrade
   #stack --version
-  # prepare r
-  sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
-  gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
-  gpg -a --export E084DAB9 | sudo apt-key add -
-  sudo apt-get update
-  sudo apt-get -y install r-base
-  R --version
 
   # install curl
-  sudo apt-get -y build-dep libcurl4-gnutls-dev
-  sudo apt-get -y install libcurl4-gnutls-dev
+  #sudo apt-get -y build-dep libcurl4-gnutls-dev
+  #sudo apt-get -y install libcurl4-gnutls-dev
 
   # Install golang version 1.14
   go version

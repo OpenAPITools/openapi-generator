@@ -87,6 +87,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     public PythonExperimentalClientCodegen() {
         super();
+        loadDeepObjectIntoItems = false;
 
         modifyFeatureSet(features -> features
                 .includeSchemaSupportFeatures(

@@ -84,6 +84,7 @@ from petstore_api.model.integer_min15 import IntegerMin15
 from petstore_api.model.isosceles_triangle import IsoscelesTriangle
 from petstore_api.model.isosceles_triangle_all_of import IsoscelesTriangleAllOf
 from petstore_api.model.mammal import Mammal
+from petstore_api.model.map_bean import MapBean
 from petstore_api.model.map_test import MapTest
 from petstore_api.model.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from petstore_api.model.model200_response import Model200Response
