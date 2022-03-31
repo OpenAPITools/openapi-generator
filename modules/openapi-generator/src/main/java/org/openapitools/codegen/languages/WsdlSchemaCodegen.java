@@ -224,7 +224,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                         oneofSchemas.set(i, lowerCaseStringExceptFirstLetter(oneofSchemas.get(i)));
                     }
 
-                    propertyVendorExtensions.put("x-oneof-schemas", oneofSchemas);
+                    propertyVendorExtensions.put(VendorExtension.X_ONEOF_SCHEMAS.getName(), oneofSchemas);
                 }
             }
         }
@@ -282,4 +282,11 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.WSDL; }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> supportedVendorExtensions = super.getSupportedVendorExtensions();
+        supportedVendorExtensions.add(VendorExtension.X_ONEOF_SCHEMAS);
+        return supportedVendorExtensions;
+    }
 }
