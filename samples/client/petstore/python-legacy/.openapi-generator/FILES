@@ -38,8 +38,8 @@ docs/HasOnlyReadOnly.md
 docs/List.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
-docs/Model200Response.md
-docs/ModelReturn.md
+docs/Model_200Response.md
+docs/Model_Return.md
 docs/Name.md
 docs/NumberOnly.md
 docs/Order.md
@@ -102,7 +102,7 @@ petstore_api/models/has_only_read_only.py
 petstore_api/models/list.py
 petstore_api/models/map_test.py
 petstore_api/models/mixed_properties_and_additional_properties_class.py
-petstore_api/models/model200_response.py
+petstore_api/models/model_200_response.py
 petstore_api/models/model_return.py
 petstore_api/models/name.py
 petstore_api/models/number_only.py

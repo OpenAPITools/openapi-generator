@@ -62,10 +62,10 @@ from petstore_api.schemas import (  # noqa: F401
 )
 
 # query params
-Model1Schema = StrSchema
+Model_1Schema = StrSchema
 ABSchema = StrSchema
 AbSchema = StrSchema
-ModelSelfSchema = StrSchema
+Model_SelfSchema = StrSchema
 ABSchema = StrSchema
 RequestRequiredQueryParams = typing.TypedDict(
     'RequestRequiredQueryParams',
@@ -75,10 +75,10 @@ RequestRequiredQueryParams = typing.TypedDict(
 RequestOptionalQueryParams = typing.TypedDict(
     'RequestOptionalQueryParams',
     {
-        '1': Model1Schema,
+        '1': Model_1Schema,
         'aB': ABSchema,
         'Ab': AbSchema,
-        'self': ModelSelfSchema,
+        'self': Model_SelfSchema,
         'A-B': ABSchema,
     },
     total=False
@@ -92,7 +92,7 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
 request_query__1 = api_client.QueryParameter(
     name="1",
     style=api_client.ParameterStyle.FORM,
-    schema=Model1Schema,
+    schema=Model_1Schema,
     explode=True,
 )
 request_query_a_b = api_client.QueryParameter(
@@ -110,7 +110,7 @@ request_query_ab = api_client.QueryParameter(
 request_query__self = api_client.QueryParameter(
     name="self",
     style=api_client.ParameterStyle.FORM,
-    schema=ModelSelfSchema,
+    schema=Model_SelfSchema,
     explode=True,
 )
 request_query_a_b2 = api_client.QueryParameter(
@@ -120,9 +120,9 @@ request_query_a_b2 = api_client.QueryParameter(
     explode=True,
 )
 # header params
-Model1Schema = StrSchema
+Model_1Schema = StrSchema
 ABSchema = StrSchema
-ModelSelfSchema = StrSchema
+Model_SelfSchema = StrSchema
 ABSchema = StrSchema
 RequestRequiredHeaderParams = typing.TypedDict(
     'RequestRequiredHeaderParams',
@@ -132,9 +132,9 @@ RequestRequiredHeaderParams = typing.TypedDict(
 RequestOptionalHeaderParams = typing.TypedDict(
     'RequestOptionalHeaderParams',
     {
-        '1': Model1Schema,
+        '1': Model_1Schema,
         'aB': ABSchema,
-        'self': ModelSelfSchema,
+        'self': Model_SelfSchema,
         'A-B': ABSchema,
     },
     total=False
@@ -148,7 +148,7 @@ class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderPara
 request_header__2 = api_client.HeaderParameter(
     name="1",
     style=api_client.ParameterStyle.SIMPLE,
-    schema=Model1Schema,
+    schema=Model_1Schema,
 )
 request_header_a_b3 = api_client.HeaderParameter(
     name="aB",
@@ -158,7 +158,7 @@ request_header_a_b3 = api_client.HeaderParameter(
 request_header__self2 = api_client.HeaderParameter(
     name="self",
     style=api_client.ParameterStyle.SIMPLE,
-    schema=ModelSelfSchema,
+    schema=Model_SelfSchema,
 )
 request_header_a_b4 = api_client.HeaderParameter(
     name="A-B",
@@ -166,18 +166,18 @@ request_header_a_b4 = api_client.HeaderParameter(
     schema=ABSchema,
 )
 # path params
-Model1Schema = StrSchema
+Model_1Schema = StrSchema
 ABSchema = StrSchema
 AbSchema = StrSchema
-ModelSelfSchema = StrSchema
+Model_SelfSchema = StrSchema
 ABSchema = StrSchema
 RequestRequiredPathParams = typing.TypedDict(
     'RequestRequiredPathParams',
     {
-        '1': Model1Schema,
+        '1': Model_1Schema,
         'aB': ABSchema,
         'Ab': AbSchema,
-        'self': ModelSelfSchema,
+        'self': Model_SelfSchema,
         'A-B': ABSchema,
     }
 )
@@ -196,7 +196,7 @@ class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
 request_path__3 = api_client.PathParameter(
     name="1",
     style=api_client.ParameterStyle.SIMPLE,
-    schema=Model1Schema,
+    schema=Model_1Schema,
     required=True,
 )
 request_path_a_b5 = api_client.PathParameter(
@@ -214,7 +214,7 @@ request_path_ab2 = api_client.PathParameter(
 request_path__self3 = api_client.PathParameter(
     name="self",
     style=api_client.ParameterStyle.SIMPLE,
-    schema=ModelSelfSchema,
+    schema=Model_SelfSchema,
     required=True,
 )
 request_path_a_b6 = api_client.PathParameter(
@@ -224,10 +224,10 @@ request_path_a_b6 = api_client.PathParameter(
     required=True,
 )
 # cookie params
-Model1Schema = StrSchema
+Model_1Schema = StrSchema
 ABSchema = StrSchema
 AbSchema = StrSchema
-ModelSelfSchema = StrSchema
+Model_SelfSchema = StrSchema
 ABSchema = StrSchema
 RequestRequiredCookieParams = typing.TypedDict(
     'RequestRequiredCookieParams',
@@ -237,10 +237,10 @@ RequestRequiredCookieParams = typing.TypedDict(
 RequestOptionalCookieParams = typing.TypedDict(
     'RequestOptionalCookieParams',
     {
-        '1': Model1Schema,
+        '1': Model_1Schema,
         'aB': ABSchema,
         'Ab': AbSchema,
-        'self': ModelSelfSchema,
+        'self': Model_SelfSchema,
         'A-B': ABSchema,
     },
     total=False
@@ -254,7 +254,7 @@ class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookiePara
 request_cookie__4 = api_client.CookieParameter(
     name="1",
     style=api_client.ParameterStyle.FORM,
-    schema=Model1Schema,
+    schema=Model_1Schema,
     explode=True,
 )
 request_cookie_a_b7 = api_client.CookieParameter(
@@ -272,7 +272,7 @@ request_cookie_ab3 = api_client.CookieParameter(
 request_cookie__self4 = api_client.CookieParameter(
     name="self",
     style=api_client.ParameterStyle.FORM,
-    schema=ModelSelfSchema,
+    schema=Model_SelfSchema,
     explode=True,
 )
 request_cookie_a_b8 = api_client.CookieParameter(

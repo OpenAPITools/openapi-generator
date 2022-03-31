@@ -42,8 +42,8 @@ from petstore_api.models.inline_response_default import InlineResponseDefault
 from petstore_api.models.list import List
 from petstore_api.models.map_test import MapTest
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
-from petstore_api.models.model200_response import Model200Response
-from petstore_api.models.model_return import ModelReturn
+from petstore_api.models.model_200_response import Model_200Response
+from petstore_api.models.model_return import Model_Return
 from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass
 from petstore_api.models.number_only import NumberOnly

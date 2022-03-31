@@ -2076,14 +2076,14 @@ typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, N
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-1 | Model1Schema | | optional
+1 | Model_1Schema | | optional
 aB | ABSchema | | optional
 Ab | AbSchema | | optional
-self | ModelSelfSchema | | optional
+self | Model_SelfSchema | | optional
 A-B | ABSchema | | optional
 
 
-#### Model1Schema
+#### Model_1Schema
 
 Type | Description | Notes
 ------------- | ------------- | -------------
@@ -2101,7 +2101,7 @@ Type | Description | Notes
 ------------- | ------------- | -------------
 **str** |  | 
 
-#### ModelSelfSchema
+#### Model_SelfSchema
 
 Type | Description | Notes
 ------------- | ------------- | -------------
@@ -2118,12 +2118,12 @@ Type | Description | Notes
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-1 | Model1Schema | | optional
+1 | Model_1Schema | | optional
 aB | ABSchema | | optional
-self | ModelSelfSchema | | optional
+self | Model_SelfSchema | | optional
 A-B | ABSchema | | optional
 
-#### Model1Schema
+#### Model_1Schema
 
 Type | Description | Notes
 ------------- | ------------- | -------------
@@ -2135,7 +2135,7 @@ Type | Description | Notes
 ------------- | ------------- | -------------
 **str** |  | 
 
-#### ModelSelfSchema
+#### Model_SelfSchema
 
 Type | Description | Notes
 ------------- | ------------- | -------------
@@ -2152,13 +2152,13 @@ Type | Description | Notes
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-1 | Model1Schema | | 
+1 | Model_1Schema | | 
 aB | ABSchema | | 
 Ab | AbSchema | | 
-self | ModelSelfSchema | | 
+self | Model_SelfSchema | | 
 A-B | ABSchema | | 
 
-#### Model1Schema
+#### Model_1Schema
 
 Type | Description | Notes
 ------------- | ------------- | -------------
@@ -2176,7 +2176,7 @@ Type | Description | Notes
 ------------- | ------------- | -------------
 **str** |  | 
 
-#### ModelSelfSchema
+#### Model_SelfSchema
 
 Type | Description | Notes
 ------------- | ------------- | -------------
@@ -2193,13 +2193,13 @@ Type | Description | Notes
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-1 | Model1Schema | | optional
+1 | Model_1Schema | | optional
 aB | ABSchema | | optional
 Ab | AbSchema | | optional
-self | ModelSelfSchema | | optional
+self | Model_SelfSchema | | optional
 A-B | ABSchema | | optional
 
-#### Model1Schema
+#### Model_1Schema
 
 Type | Description | Notes
 ------------- | ------------- | -------------
@@ -2217,7 +2217,7 @@ Type | Description | Notes
 ------------- | ------------- | -------------
 **str** |  | 
 
-#### ModelSelfSchema
+#### Model_SelfSchema
 
 Type | Description | Notes
 ------------- | ------------- | -------------

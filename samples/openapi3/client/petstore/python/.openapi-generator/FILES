@@ -66,8 +66,8 @@ docs/List.md
 docs/Mammal.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
-docs/Model200Response.md
-docs/ModelReturn.md
+docs/Model_200Response.md
+docs/Model_Return.md
 docs/Mole.md
 docs/Name.md
 docs/NullableClass.md
@@ -180,7 +180,7 @@ petstore_api/model/list.py
 petstore_api/model/mammal.py
 petstore_api/model/map_test.py
 petstore_api/model/mixed_properties_and_additional_properties_class.py
-petstore_api/model/model200_response.py
+petstore_api/model/model_200_response.py
 petstore_api/model/model_return.py
 petstore_api/model/mole.py
 petstore_api/model/name.py
