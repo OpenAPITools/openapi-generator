@@ -459,7 +459,7 @@ public class DefaultCodegen implements CodegenConfig {
                 for (ModelMap mo : modelsAttrs.getModels()) {
                     CodegenModel cm = mo.getModel();
                     if (cm.oneOf.size() > 0) {
-                        cm.vendorExtensions.put(VendorExtension.X_ONE_OF_NAME.getName(), true);
+                        cm.vendorExtensions.put(VendorExtension.X_IS_ONE_OF_INTERFACE.getName(), true);
                         for (String one : cm.oneOf) {
                             if (!additionalDataMap.containsKey(one)) {
                                 additionalDataMap.put(one, new OneOfImplementorAdditionalData(one));
