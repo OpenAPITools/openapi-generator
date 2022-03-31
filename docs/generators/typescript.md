@@ -39,6 +39,15 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useObjectParameters|Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.| |false|
 |useRxJS|Enable this to internally use rxjs observables. If disabled, a stub is used instead. This is required for the 'angular' framework.| |false|
 
+## SUPPORTED VENDOR EXTENSIONS
+
+| Extension name | Description | Applicable for | Default value |
+| -------------- | ----------- | -------------- | ------------- |
+|x-all-of-name|Specify the name of the generated allOf composed schema|MODEL|null
+|x-one-of-name|Specify the name of the generated oneOf composed schema|MODEL|null
+|x-is-one-of-interface|Generate the oneOf composed schema as a marker interface|MODEL|null
+
+
 ## IMPORT MAPPING
 
 | Type/Alias | Imports |

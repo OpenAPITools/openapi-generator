@@ -36,6 +36,15 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useClassNameInModelsExamples|Use classname instead of name when generating the Models cmdlets in the examples.| |true|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |null|
 
+## SUPPORTED VENDOR EXTENSIONS
+
+| Extension name | Description | Applicable for | Default value |
+| -------------- | ----------- | -------------- | ------------- |
+|x-all-of-name|Specify the name of the generated allOf composed schema|MODEL|null
+|x-one-of-name|Specify the name of the generated oneOf composed schema|MODEL|null
+|x-is-one-of-interface|Generate the oneOf composed schema as a marker interface|MODEL|null
+
+
 ## IMPORT MAPPING
 
 | Type/Alias | Imports |

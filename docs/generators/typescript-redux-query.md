@@ -39,6 +39,15 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |true|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 
+## SUPPORTED VENDOR EXTENSIONS
+
+| Extension name | Description | Applicable for | Default value |
+| -------------- | ----------- | -------------- | ------------- |
+|x-all-of-name|Specify the name of the generated allOf composed schema|MODEL|null
+|x-one-of-name|Specify the name of the generated oneOf composed schema|MODEL|null
+|x-is-one-of-interface|Generate the oneOf composed schema as a marker interface|MODEL|null
+
+
 ## IMPORT MAPPING
 
 | Type/Alias | Imports |

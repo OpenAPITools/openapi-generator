@@ -37,6 +37,15 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |supportAsync|If set, wraps API return types with Futures and generates async actions.| |false|
 |useSwaggerUI|Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies| |true|
 
+## SUPPORTED VENDOR EXTENSIONS
+
+| Extension name | Description | Applicable for | Default value |
+| -------------- | ----------- | -------------- | ------------- |
+|x-all-of-name|Specify the name of the generated allOf composed schema|MODEL|null
+|x-one-of-name|Specify the name of the generated oneOf composed schema|MODEL|null
+|x-is-one-of-interface|Generate the oneOf composed schema as a marker interface|MODEL|null
+
+
 ## IMPORT MAPPING
 
 | Type/Alias | Imports |

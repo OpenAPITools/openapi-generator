@@ -49,6 +49,15 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |strictFields|Add strictness annotations to all model fields| |true|
 |useKatip|Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger| |true|
 
+## SUPPORTED VENDOR EXTENSIONS
+
+| Extension name | Description | Applicable for | Default value |
+| -------------- | ----------- | -------------- | ------------- |
+|x-all-of-name|Specify the name of the generated allOf composed schema|MODEL|null
+|x-one-of-name|Specify the name of the generated oneOf composed schema|MODEL|null
+|x-is-one-of-interface|Generate the oneOf composed schema as a marker interface|MODEL|null
+
+
 ## IMPORT MAPPING
 
 | Type/Alias | Imports |
