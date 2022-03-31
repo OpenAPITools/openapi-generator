@@ -220,7 +220,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
                 .append("|").append(extension.getDescription())
                 .append("|").append(extension.getLevels().stream().map(Objects::toString).collect(Collectors.joining(", ")))
                 .append("|").append(extension.getDefaultValue())
-                .append(newline)
+                .append("|").append(newline)
         );
         sb.append(newline);
     }

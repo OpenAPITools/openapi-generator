@@ -55,9 +55,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Extension name | Description | Applicable for | Default value |
 | -------------- | ----------- | -------------- | ------------- |
-|x-all-of-name|Specify the name of the generated allOf composed schema|MODEL|null
-|x-one-of-name|Specify the name of the generated oneOf composed schema|MODEL|null
-|x-is-one-of-interface|Generate the oneOf composed schema as a marker interface|MODEL|null
+|x-all-of-name|Specify the name of the generated allOf composed schema|MODEL|null|
+|x-one-of-name|Specify the name of the generated oneOf composed schema|MODEL|null|
+|x-is-one-of-interface|Generate the oneOf composed schema as a marker interface|MODEL|null|
 
 
 ## IMPORT MAPPING
