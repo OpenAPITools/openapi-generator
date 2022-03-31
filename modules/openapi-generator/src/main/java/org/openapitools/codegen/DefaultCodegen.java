@@ -457,7 +457,7 @@ public class DefaultCodegen implements CodegenConfig {
                 for (ModelMap mo : modelsAttrs.getModels()) {
                     CodegenModel cm = mo.getModel();
                     if (cm.oneOf.size() > 0) {
-                        cm.vendorExtensions.put("x-is-one-of-interface", true);
+                        cm.vendorExtensions.put(VendorExtension.X_ONE_OF_NAME.getName(), true);
                         for (String one : cm.oneOf) {
                             if (!additionalDataMap.containsKey(one)) {
                                 additionalDataMap.put(one, new OneOfImplementorAdditionalData(one));
@@ -2091,8 +2091,8 @@ public class DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("static-method")
     public String toAllOfName(List<String> names, ComposedSchema composedSchema) {
         Map<String, Object> exts = composedSchema.getExtensions();
-        if (exts != null && exts.containsKey("x-all-of-name")) {
-            return (String) exts.get("x-all-of-name");
+        if (exts != null && exts.containsKey(VendorExtension.X_ALL_OF_NAME.getName())) {
+            return (String) exts.get(VendorExtension.X_ALL_OF_NAME.getName());
         }
         if (names.size() == 0) {
             LOGGER.error("allOf has no member defined: {}. Default to ERROR_ALLOF_SCHEMA", composedSchema);
@@ -2133,8 +2133,8 @@ public class DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("static-method")
     public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
         Map<String, Object> exts = composedSchema.getExtensions();
-        if (exts != null && exts.containsKey("x-one-of-name")) {
-            return (String) exts.get("x-one-of-name");
+        if (exts != null && exts.containsKey(VendorExtension.X_ONE_OF_NAME.getName())) {
+            return (String) exts.get(VendorExtension.X_ONE_OF_NAME.getName());
         }
         return "oneOf<" + String.join(",", names) + ">";
     }
@@ -7121,7 +7121,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public void addOneOfNameExtension(ComposedSchema s, String name) {
         if (s.getOneOf() != null && s.getOneOf().size() > 0) {
-            s.addExtension("x-one-of-name", name);
+            s.addExtension(VendorExtension.X_ONE_OF_NAME.getName(), name);
         }
     }
 
@@ -7158,7 +7158,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         cm.name = type;
         cm.classname = type;
-        cm.vendorExtensions.put("x-is-one-of-interface", true);
+        cm.vendorExtensions.put(VendorExtension.X_IS_ONE_OF_INTERFACE.getName(), true);
         cm.interfaceModels = new ArrayList<>();
 
         addOneOfInterfaces.add(cm);
@@ -7401,6 +7401,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public List<VendorExtension> getSupportedVendorExtensions() {
-        return new ArrayList<>();
+        List<VendorExtension> supportedVendorExtensions = new ArrayList<>();
+        supportedVendorExtensions.add(VendorExtension.X_ALL_OF_NAME);
+        supportedVendorExtensions.add(VendorExtension.X_ONE_OF_NAME);
+        supportedVendorExtensions.add(VendorExtension.X_IS_ONE_OF_INTERFACE);
+        return supportedVendorExtensions;
     }
 }
