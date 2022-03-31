@@ -289,6 +289,11 @@
   infoLink: "https://www.mailslurp.com/"
   pinned: false
 -
+  caption: Mastercard
+  image: "img/companies/mastercard.png"
+  infoLink: "https://developers.mastercard.com"
+  pinned: false
+-
   caption: "Médiavision"
   image: "img/companies/mediavision.jpeg"
   infoLink: "https://www.mediavision.fr/"
