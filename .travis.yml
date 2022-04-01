@@ -92,7 +92,9 @@ before_install:
   - sudo apt-get install libonig-dev libzip-dev
   - git clone https://github.com/php-build/php-build $(phpenv root)/plugins/php-build
   - git clone https://github.com/ngyuki/phpenv-composer.git $(phpenv root)/plugins/phpenv-composer
-  #- phpenv install 8.1.4
+  - if [ $(ls -A "$HOME/.phpenv/versions/8.1.4" | wc -l) -eq 0 ]; then
+      phpenv install 8.1.4;
+    fi;
   - phpenv rehash
   - phpenv versions
   #- phpenv global 7.2.15
@@ -104,10 +106,10 @@ before_install:
   # - Rely on `kerl` for [pre-compiled versions available](https://docs.travis-ci.com/user/languages/erlang#Choosing-OTP-releases-to-test-against). Rely on installation path chosen by [`travis-erlang-builder`](https://github.com/travis-ci/travis-erlang-builder/blob/e6d016b1a91ca7ecac5a5a46395bde917ea13d36/bin/compile#L18).
   # - . ~/otp/18.2.1/activate && erl -version
   #- curl -f -L -o ./rebar3 https://s3.amazonaws.com/rebar3/rebar3 && chmod +x ./rebar3 && ./rebar3 version && export PATH="${TRAVIS_BUILD_DIR}:$PATH"
-  # install C++ tools 
-  - sudo apt install -y --no-install-recommends valgrind cmake build-essential 
+  # install C++ tools
+  - sudo apt install -y --no-install-recommends valgrind cmake build-essential
   # install Qt5
-  - sudo apt install -y --no-install-recommends qt5-default 
+  - sudo apt install -y --no-install-recommends qt5-default
   - cmake --version
   # -- skip perl test to shorten build time
   # perl dep
