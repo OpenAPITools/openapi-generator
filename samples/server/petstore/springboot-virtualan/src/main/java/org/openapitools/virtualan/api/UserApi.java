@@ -28,7 +28,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Api(value = "user", description = "the user API")
+@Api(value = "user", description = "Operations about user")
 @VirtualService
 public interface UserApi {
 

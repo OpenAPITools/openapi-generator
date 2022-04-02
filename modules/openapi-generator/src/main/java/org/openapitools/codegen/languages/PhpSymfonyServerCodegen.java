@@ -22,6 +22,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -389,7 +391,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
@@ -447,12 +449,11 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
 
-        ArrayList<Object> modelsArray = (ArrayList<Object>) objs.get("models");
-        Map<String, Object> models = (Map<String, Object>) modelsArray.get(0);
-        CodegenModel model = (CodegenModel) models.get("model");
+        ModelMap models = objs.getModels().get(0);
+        CodegenModel model = models.getModel();
 
         // Simplify model var type
         for (CodegenProperty var : model.vars) {

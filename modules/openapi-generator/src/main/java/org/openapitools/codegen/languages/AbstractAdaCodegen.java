@@ -34,6 +34,8 @@ import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +52,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     protected String packageName = "defaultPackage";
     protected String projectName = "defaultProject";
-    protected List<Map<String, Object>> orderedModels;
+    protected List<ModelMap> orderedModels;
     protected final Map<String, List<String>> modelDepends;
     protected final Map<String, String> nullableTypeMapping;
     protected final Map<String, String> operationsScopes;
@@ -605,7 +607,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
@@ -676,43 +678,39 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // Collect the model dependencies.
-        List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
-        for (Map<String, Object> model : models) {
-            Object v = model.get("model");
-            if (v instanceof CodegenModel) {
-                CodegenModel m = (CodegenModel) v;
-                List<String> d = new ArrayList<>();
-                for (CodegenProperty p : m.vars) {
-                    boolean isModel = false;
-                    CodegenProperty item = p;
-                    if (p.isContainer) {
-                        item = p.items;
-                    }
-                    if (item != null && !item.isString && !item.isPrimitiveType && !item.isContainer && !item.isInteger) {
-                        if (!d.contains(item.dataType)) {
-                            // LOGGER.info("Model " + m.name + " uses " + p.datatype);
-                            d.add(item.dataType);
-                        }
-                        isModel = true;
-                    }
-                    p.vendorExtensions.put("x-is-model-type", isModel);
-                    p.vendorExtensions.put("x-is-stream-type", isStreamType(p));
-                    Boolean required = p.getRequired();
-
-                    // Convert optional members to use the Nullable_<T> type.
-                    if (!Boolean.TRUE.equals(required) && nullableTypeMapping.containsKey(p.dataType)) {
-                        p.dataType = nullableTypeMapping.get(p.dataType);
-                        p.vendorExtensions.put("x-is-required", false);
-                    } else {
-                        p.vendorExtensions.put("x-is-required", true);
-                    }
+        for (ModelMap model : objs.getModels()) {
+            CodegenModel m = model.getModel();
+            List<String> d = new ArrayList<>();
+            for (CodegenProperty p : m.vars) {
+                boolean isModel = false;
+                CodegenProperty item = p;
+                if (p.isContainer) {
+                    item = p.items;
                 }
-                // let us work with fully qualified names only
-                modelDepends.put(modelPackage + ".Models." + m.classname, d);
-                orderedModels.add(model);
+                if (item != null && !item.isString && !item.isPrimitiveType && !item.isContainer && !item.isInteger) {
+                    if (!d.contains(item.dataType)) {
+                        // LOGGER.info("Model " + m.name + " uses " + p.datatype);
+                        d.add(item.dataType);
+                    }
+                    isModel = true;
+                }
+                p.vendorExtensions.put("x-is-model-type", isModel);
+                p.vendorExtensions.put("x-is-stream-type", isStreamType(p));
+                Boolean required = p.getRequired();
+
+                // Convert optional members to use the Nullable_<T> type.
+                if (!Boolean.TRUE.equals(required) && nullableTypeMapping.containsKey(p.dataType)) {
+                    p.dataType = nullableTypeMapping.get(p.dataType);
+                    p.vendorExtensions.put("x-is-required", false);
+                } else {
+                    p.vendorExtensions.put("x-is-required", true);
+                }
             }
+            // let us work with fully qualified names only
+            modelDepends.put(modelPackage + ".Models." + m.classname, d);
+            orderedModels.add(model);
         }
 
         // Sort models using dependencies:
@@ -722,15 +720,15 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         //     if I find a model that has no dependencies, or all of its dependencies are in revisedOrderedModels, consider it the independentModel
         //   put the independentModel at the end of revisedOrderedModels, and remove it from orderedModels
         //
-        List<Map<String, Object>> revisedOrderedModels = new ArrayList<>();
+        List<ModelMap> revisedOrderedModels = new ArrayList<>();
         List<String> collectedModelNames = new ArrayList<>();
         int sizeOrderedModels = orderedModels.size();
         for (int i = 0; i < sizeOrderedModels; i++) {
-            Map<String, Object> independentModel = null;
+            ModelMap independentModel = null;
             String independentModelName = null;
-            for (Map<String, Object> model : orderedModels) {
+            for (ModelMap model : orderedModels) {
                 // let us work with fully qualified names only
-                String modelName = modelPackage + ".Models." + ((CodegenModel) model.get("model")).classname;
+                String modelName = modelPackage + ".Models." + model.getModel().classname;
                 boolean dependent = false;
                 for (String dependency : modelDepends.get(modelName)) {
                     if (!collectedModelNames.contains(dependency)) {

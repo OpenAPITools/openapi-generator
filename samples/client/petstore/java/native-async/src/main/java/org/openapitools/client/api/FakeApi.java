@@ -87,6 +87,7 @@ public class FakeApi {
    * creates an XmlItem
    * this route creates an XmlItem
    * @param xmlItem XmlItem Body (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> createXmlItem(XmlItem xmlItem) throws ApiException {
@@ -532,6 +533,7 @@ public class FakeApi {
    * 
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
    * @param body  (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testBodyWithFileSchema(FileSchemaTestClass body) throws ApiException {
@@ -615,6 +617,7 @@ public class FakeApi {
    * 
    * @param query  (required)
    * @param body  (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testBodyWithQueryParams(String query, User body) throws ApiException {
@@ -820,6 +823,7 @@ public class FakeApi {
    * @param dateTime None (optional)
    * @param password None (optional)
    * @param paramCallback None (optional)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
@@ -928,6 +932,7 @@ public class FakeApi {
    * @param enumQueryDouble Query parameter enum test (double) (optional)
    * @param enumFormStringArray Form parameter enum test (string array) (optional
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
@@ -1025,6 +1030,7 @@ public class FakeApi {
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
    * @param apiRequest {@link APItestGroupParametersRequest}
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testGroupParameters(APItestGroupParametersRequest apiRequest) throws ApiException {
@@ -1063,6 +1069,7 @@ public class FakeApi {
    * @param stringGroup String in group parameters (optional)
    * @param booleanGroup Boolean in group parameters (optional)
    * @param int64Group Integer in group parameters (optional)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
@@ -1247,6 +1254,7 @@ public class FakeApi {
    * test inline additionalProperties
    * 
    * @param param request body (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testInlineAdditionalProperties(Map<String, String> param) throws ApiException {
@@ -1330,6 +1338,7 @@ public class FakeApi {
    * 
    * @param param field1 (required)
    * @param param2 field2 (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testJsonFormData(String param, String param2) throws ApiException {
@@ -1415,6 +1424,7 @@ public class FakeApi {
    * @param http  (required)
    * @param url  (required)
    * @param context  (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {

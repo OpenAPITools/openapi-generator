@@ -42,10 +42,6 @@
             <name>Christophe Bornet</name>
         </developer>
         <developer>
-            <id>ackintosh</id>
-            <name>Akihito Nakano</name>
-        </developer>
-        <developer>
             <id>jmini</id>
             <name>Jérémie Bresson</name>
             <email>dev@jmini.fr</email>
@@ -1117,6 +1113,7 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <!-- TODO: move to github action or circleci
                 <module>samples/client/petstore/crystal</module>-->
                 <!-- servers -->
@@ -1141,8 +1138,6 @@
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
-                <!-- commented out due to php ^7.3 || ^8.0 not in travis
-                <module>samples/client/petstore/php/OpenAPIClient-php</module> -->
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/python-legacy</module>
                 <module>samples/client/petstore/python-asyncio</module>
@@ -1252,7 +1247,6 @@
                 <!-- test java-related projects -->
                 <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-sttp</module>
-                <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
                 <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
@@ -1289,7 +1283,6 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <module>samples/client/petstore/R</module>
                 <!--<module>samples/client/petstore/haskell-http-client</module>-->
                 <!-- servers -->
                 <!--<module>samples/server/petstore/haskell-servant</module>-->
@@ -1492,7 +1485,7 @@
         <openrewrite.version>7.19.0</openrewrite.version>
         <swagger-core.version>2.1.12</swagger-core.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
-        <swagger-parser.version>2.0.29</swagger-parser.version>
+        <swagger-parser.version>2.0.31</swagger-parser.version>
         <testng.version>7.3.0</testng.version>
         <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
         <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>

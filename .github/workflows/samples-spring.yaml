@@ -47,7 +47,7 @@ jobs:
           distribution: 'temurin'
           java-version: 8
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         env:
           cache-name: maven-repository
         with:

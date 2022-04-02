@@ -134,7 +134,7 @@ module Petstore
 
       request.url url
       request.params = query_params
-      download_file(request) if opts[:return_type] == 'File'
+      download_file(request) if opts[:return_type] == 'File' || opts[:return_type] == 'Binary'
       request
     end
 
@@ -218,6 +218,12 @@ module Petstore
                             "will be deleted automatically with GC. It's also recommended to delete the temp file "\
                             "explicitly with `tempfile.delete`"
         return @tempfile
+      end
+
+      # return byte stream for Binary return type
+      if return_type == 'Binary'
+        encoding = body.encoding
+        return @stream.join.force_encoding(encoding)
       end
 
       return nil if body.nil? || body.empty?

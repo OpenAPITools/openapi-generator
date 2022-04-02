@@ -24,8 +24,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,6 +37,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -50,7 +49,7 @@ import org.openapitools.client.JSON;
  * AdditionalPropertiesNumber
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
+public class AdditionalPropertiesNumber {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
@@ -81,6 +80,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -90,20 +90,18 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
       return false;
     }
     AdditionalPropertiesNumber additionalPropertiesNumber = (AdditionalPropertiesNumber) o;
-    return Objects.equals(this.name, additionalPropertiesNumber.name) &&
-        super.equals(o);
+    return Objects.equals(this.name, additionalPropertiesNumber.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(name);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesNumber {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -147,6 +145,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesNumber is not found in the empty JSON string", AdditionalPropertiesNumber.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {

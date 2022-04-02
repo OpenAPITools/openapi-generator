@@ -22,6 +22,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
@@ -122,7 +124,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public Map<String, Object> updateAllModels(Map<String, Object> objs) {
+    public Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs) {
         // Index all CodegenModels by model name.
         Map<String, CodegenModel> allModels = getAllModels(objs);
 
@@ -282,7 +284,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         List<CodegenOperation> newOpList = new ArrayList<>();
