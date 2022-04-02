@@ -202,9 +202,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(USE_ES6,
-                "use JavaScript ES6 (ECMAScript 6). Default is ES6. (This option has been deprecated and will be removed in the 5.x release as ES5 is no longer supported)")
-                .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
         cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
     }
@@ -226,11 +223,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public void processOpts() {
-        if (additionalProperties.containsKey(USE_ES6)) {
-            setUseES6(convertPropertyToBooleanAndWriteBack(USE_ES6));
-        } else {
-            setUseES6(true); // default to ES6
-        }
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("JS_POST_PROCESS_FILE"))) {
@@ -453,17 +445,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     public void setNpmRepository(String npmRepository) {
         this.npmRepository = npmRepository;
-    }
-
-    public void setUseES6(boolean useES6) {
-        this.useES6 = useES6;
-        if (useES6) {
-            embeddedTemplateDir = templateDir = "Javascript/es6";
-            LOGGER.info("Using JS ES6 templates");
-        } else {
-            embeddedTemplateDir = templateDir = "Javascript";
-            LOGGER.info("Using JS ES5 templates");
-        }
     }
 
     public void setUseInheritance(boolean useInheritance) {
