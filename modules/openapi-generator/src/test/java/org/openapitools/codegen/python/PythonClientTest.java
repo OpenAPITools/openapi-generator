@@ -528,12 +528,12 @@ public class PythonClientTest {
             new Object[] {"", "Abc", "foo", "FooAbc"},
             new Object[] {"Abc", "Xyz", "foo", "AbcFooXyz"},
 
-            new Object[] {"", "", "1", "Model_1"},
+            new Object[] {"", "", "1", "Model1"},
             new Object[] {"Abc", "", "1", "Abc1"},
-            new Object[] {"", "Abc", "1", "Model_1Abc"},
+            new Object[] {"", "Abc", "1", "Model1Abc"},
             new Object[] {"Abc", "Xyz", "1", "Abc1Xyz"},
 
-            new Object[] {"", "", "and", "Model_And"},
+            new Object[] {"", "", "and", "ModelAnd"},
             new Object[] {"Abc", "", "and", "AbcAnd"},
             new Object[] {"", "Abc", "and", "AndAbc"},
             new Object[] {"Abc", "Xyz", "and", "AbcAndXyz"},
