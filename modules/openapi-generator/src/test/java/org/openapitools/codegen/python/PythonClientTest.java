@@ -40,6 +40,7 @@ import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.languages.PythonExperimentalClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("static-method")
@@ -518,5 +519,34 @@ public class PythonClientTest {
         expectedValue = expectedValue.replaceAll("\\r\\n", "\n");
         Assert.assertEquals(exampleValue.trim(), expectedValue.trim());
     }
+
+    @DataProvider
+    public Object[][] testToModelData() {
+        return new Object[][] {
+            new Object[] {"", "", "foo", "Foo"},
+            new Object[] {"Abc", "", "foo", "AbcFoo"},
+            new Object[] {"", "Abc", "foo", "FooAbc"},
+            new Object[] {"Abc", "Xyz", "foo", "AbcFooXyz"},
+
+            new Object[] {"", "", "1", "Model1"},
+            new Object[] {"Abc", "", "1", "Abc1"},
+            new Object[] {"", "Abc", "1", "Model1Abc"},
+            new Object[] {"Abc", "Xyz", "1", "Abc1Xyz"},
+
+            new Object[] {"", "", "and", "ModelAnd"},
+            new Object[] {"Abc", "", "and", "AbcAnd"},
+            new Object[] {"", "Abc", "and", "AndAbc"},
+            new Object[] {"Abc", "Xyz", "and", "AbcAndXyz"},
+        };
+    }
+
+    @Test(dataProvider = "testToModelData")
+    public void testToModel(String prefix, String suffix, String input, String want) {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setModelNamePrefix(prefix);
+        codegen.setModelNameSuffix(suffix);
+        Assert.assertEquals(codegen.toModelName(input), want);
+    }
+
 
 }
