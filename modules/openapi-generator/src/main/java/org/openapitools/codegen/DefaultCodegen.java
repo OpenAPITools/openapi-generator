@@ -270,6 +270,8 @@ public class DefaultCodegen implements CodegenConfig {
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
+    protected boolean loadDeepObjectIntoItems = true;
+
     @Override
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -4749,10 +4751,12 @@ public class DefaultCodegen implements CodegenConfig {
         }
         codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
 
-        if (codegenParameter.isQueryParam && codegenParameter.isDeepObject) {
-            Schema schema = ModelUtils.getSchema(openAPI, codegenParameter.dataType);
+        if (codegenParameter.isQueryParam && codegenParameter.isDeepObject && loadDeepObjectIntoItems) {
+            Schema schema = parameterSchema;
+            if (schema.get$ref() != null) {
+                schema = ModelUtils.getReferencedSchema(openAPI, schema);
+            }
             codegenParameter.items = fromProperty(codegenParameter.paramName, schema);
-            // TODO Check why schema is actually null for a schema of type object defined inline
             // https://swagger.io/docs/specification/serialization/
             if (schema != null) {
                 Map<String, Schema<?>> properties = schema.getProperties();

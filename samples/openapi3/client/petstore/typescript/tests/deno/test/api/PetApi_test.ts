@@ -19,7 +19,6 @@ pet.name = "PetName";
 pet.photoUrls = [];
 pet.status = "available";
 pet.tags = [tag];
-pet.category = undefined;
 
 Deno.test({
   name: "PetApi addPet getPetById",
