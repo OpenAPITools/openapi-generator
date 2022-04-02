@@ -39,6 +39,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -80,6 +81,7 @@ public class Cat extends Animal {
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
+
 
 
   @Override

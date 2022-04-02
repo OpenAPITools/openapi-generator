@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -230,10 +231,6 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
                 "Suffix that will be appended to all enum values.",
                 enumValueSuffix);
 
-        addSwitch(GENERATE_BODY,
-                "Generates method body.",
-                generateBody);
-
         classModifier.addEnum("", "Keep class default with no modifier");
         classModifier.addEnum("abstract", "Make class abstract");
         classModifier.setDefault("");
@@ -396,7 +393,7 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         // We need to postprocess the operations to add proper consumes tags and fix form file handling
         if (objs != null) {

@@ -21,7 +21,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |generateSourceCodeOnly|Specifies that only a library source code is to be generated.| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|library|library template (sub-template) to use: asyncio, tornado, urllib3| |urllib3|
+|library|library template (sub-template) to use: urllib3| |urllib3|
 |packageName|python package name (convention: snake_case).| |openapi_client|
 |packageUrl|python package URL.| |null|
 |packageVersion|python package version.| |1.0.0|

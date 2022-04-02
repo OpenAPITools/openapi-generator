@@ -171,6 +171,12 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
     // define the local variable for pet->category
     category_t *category_local_nonprim = NULL;
 
+    // define the local list for pet->photo_urls
+    list_t *photo_urlsList = NULL;
+
+    // define the local list for pet->tags
+    list_t *tagsList = NULL;
+
     // pet->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(petJSON, "id");
     if (id) { 
@@ -204,9 +210,8 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
         goto end;
     }
 
-    list_t *photo_urlsList;
     
-    cJSON *photo_urls_local;
+    cJSON *photo_urls_local = NULL;
     if(!cJSON_IsArray(photo_urls)) {
         goto end;//primitive container
     }
@@ -223,9 +228,8 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->tags
     cJSON *tags = cJSON_GetObjectItemCaseSensitive(petJSON, "tags");
-    list_t *tagsList;
     if (tags) { 
-    cJSON *tags_local_nonprimitive;
+    cJSON *tags_local_nonprimitive = NULL;
     if(!cJSON_IsArray(tags)){
         goto end; //nonprimitive container
     }
@@ -269,6 +273,24 @@ end:
     if (category_local_nonprim) {
         category_free(category_local_nonprim);
         category_local_nonprim = NULL;
+    }
+    if (photo_urlsList) {
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, photo_urlsList) {
+            free(listEntry->data);
+            listEntry->data = NULL;
+        }
+        list_freeList(photo_urlsList);
+        photo_urlsList = NULL;
+    }
+    if (tagsList) {
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, tagsList) {
+            tag_free(listEntry->data);
+            listEntry->data = NULL;
+        }
+        list_freeList(tagsList);
+        tagsList = NULL;
     }
     return NULL;
 

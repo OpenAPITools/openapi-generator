@@ -1490,6 +1490,46 @@ paths:
                     allOf:
                       - type: string
                         minLength: 1
+  '/fake/objInQuery':
+    get:
+      tags:
+        - fake
+      summary: user list
+      operationId: objectInQuery
+      parameters:
+        - name: mapBean
+          in: query
+          required: false
+          description: mapBean
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            properties:
+              keyword:
+                title: keyword
+                type: string
+      responses:
+        '200':
+          description: ok
+  '/fake/refObjInQuery':
+    get:
+      tags:
+        - fake
+      summary: user list
+      operationId: refObjectInQuery
+      parameters:
+        - name: mapBean
+          in: query
+          required: false
+          description: mapBean
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/Foo'
+      responses:
+        '200':
+          description: ok
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server

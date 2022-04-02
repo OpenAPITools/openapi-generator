@@ -22,9 +22,11 @@ Method | HTTP request | Description
 [**json_form_data**](FakeApi.md#json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 [**mammal**](FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 [**number_with_validations**](FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
+[**object_in_query**](FakeApi.md#object_in_query) | **GET** /fake/objInQuery | user list
 [**object_model_with_ref_props**](FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
 [**parameter_collisions**](FakeApi.md#parameter_collisions) | **POST** /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/ | parameter collision case
 [**query_parameter_collection_format**](FakeApi.md#query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+[**ref_object_in_query**](FakeApi.md#ref_object_in_query) | **GET** /fake/refObjInQuery | user list
 [**string**](FakeApi.md#string) | **POST** /fake/refs/string | 
 [**string_enum**](FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
 [**upload_download_file**](FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
@@ -1786,6 +1788,89 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **object_in_query**
+> object_in_query()
+
+user list
+
+### Example
+
+```python
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model.map_bean import MapBean
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+
+    # example passing only optional values
+    query_params = {
+        'mapBean': dict(
+        keyword="keyword_example",
+    ),
+    }
+    try:
+        # user list
+        api_response = api_instance.object_in_query(
+            query_params=query_params,
+        )
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->object_in_query: %s\n" % e)
+```
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+query_params | RequestQueryParams | |
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+
+### query_params
+#### RequestQueryParams
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+mapBean | MapBeanSchema | | optional
+
+
+#### MapBeanSchema
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**](MapBean.md) |  | 
+
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | ok 
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **object_model_with_ref_props**
 > ObjectModelWithRefProps object_model_with_ref_props()
 
@@ -2288,6 +2373,89 @@ Code | Class | Description
 ------------- | ------------- | -------------
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
 200 | ApiResponseFor200 | Success 
+
+#### ApiResponseFor200
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+response | urllib3.HTTPResponse | Raw response |
+body | Unset | body was not defined |
+headers | Unset | headers were not defined |
+
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **ref_object_in_query**
+> ref_object_in_query()
+
+user list
+
+### Example
+
+```python
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model.foo import Foo
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+
+    # example passing only optional values
+    query_params = {
+        'mapBean': Foo(
+        bar="bar",
+    ),
+    }
+    try:
+        # user list
+        api_response = api_instance.ref_object_in_query(
+            query_params=query_params,
+        )
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->ref_object_in_query: %s\n" % e)
+```
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+query_params | RequestQueryParams | |
+stream | bool | default is False | if True then the response.content will be streamed and loaded from a file like object. When downloading a file, set this to True to force the code to deserialize the content to a FileSchema file
+timeout | typing.Optional[typing.Union[int, typing.Tuple]] | default is None | the timeout used by the rest client
+skip_deserialization | bool | default is False | when True, headers and body will be unset and an instance of api_client.ApiResponseWithoutDeserialization will be returned
+
+### query_params
+#### RequestQueryParams
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+mapBean | MapBeanSchema | | optional
+
+
+#### MapBeanSchema
+Type | Description  | Notes
+------------- | ------------- | -------------
+[**Foo**](Foo.md) |  | 
+
+
+### Return Types, Responses
+
+Code | Class | Description
+------------- | ------------- | -------------
+n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
+200 | ApiResponseFor200 | ok 
 
 #### ApiResponseFor200
 Name | Type | Description  | Notes
