@@ -56,14 +56,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.groupingBy;
-import static org.junit.Assert.assertFalse;
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
-
 import org.assertj.core.api.Assertions;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.CliOption;
@@ -77,13 +69,8 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
-import org.openapitools.codegen.languages.SpringCodegen;
-import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
-import org.testng.annotations.Test;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -1406,11 +1393,11 @@ public class SpringCodegenTest {
                 }
             }
         });
-        assertFalse(oneOfModels.isEmpty());
+        Assert.assertFalse(oneOfModels.isEmpty());
 
         final String pathFormat = "%s/%s/%s.java";
         final String relativePath = "/src/main/java/org/openapitools/model";
-        final String jacksonSubTypeFormat = "@JsonSubTypes.Type(value = %s.class, name = \"%s\"),";
+        final String jacksonSubTypeFormat = "@JsonSubTypes.Type(value = %s.class, name = \"%s\")";
 
         models.forEach(modelName -> {
             final String modelPath = String.format(Locale.ROOT, pathFormat, outputPath, relativePath, modelName);
