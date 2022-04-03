@@ -32,21 +32,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeOrNull" /> class.
         /// </summary>
-        /// <param name="quadrilateral">quadrilateral</param>
-        /// <param name="quadrilateralType">quadrilateralType (required)</param>
-        public ShapeOrNull(Quadrilateral quadrilateral, string quadrilateralType)
-        {
-            if (quadrilateralType == null)
-                throw new ArgumentNullException("quadrilateralType is a required property for ShapeOrNull and cannot be null.");
-
-            Quadrilateral = quadrilateral;
-            QuadrilateralType = quadrilateralType;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ShapeOrNull" /> class.
-        /// </summary>
-        /// <param name="triangle">triangle</param>
+        /// <param name="triangle"></param>
         /// <param name="quadrilateralType">quadrilateralType (required)</param>
         public ShapeOrNull(Triangle triangle, string quadrilateralType)
         {
@@ -58,16 +44,28 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// The value may be a shape or the &#39;null&#39; value. This is introduced in OAS schema &gt;&#x3D; 3.1.
+        /// Initializes a new instance of the <see cref="ShapeOrNull" /> class.
         /// </summary>
-        /// <value>The value may be a shape or the &#39;null&#39; value. This is introduced in OAS schema &gt;&#x3D; 3.1.</value>
-        public Quadrilateral Quadrilateral { get; set; }
+        /// <param name="quadrilateral"></param>
+        /// <param name="quadrilateralType">quadrilateralType (required)</param>
+        public ShapeOrNull(Quadrilateral quadrilateral, string quadrilateralType)
+        {
+            if (quadrilateralType == null)
+                throw new ArgumentNullException("quadrilateralType is a required property for ShapeOrNull and cannot be null.");
+
+            Quadrilateral = quadrilateral;
+            QuadrilateralType = quadrilateralType;
+        }
 
         /// <summary>
-        /// The value may be a shape or the &#39;null&#39; value. This is introduced in OAS schema &gt;&#x3D; 3.1.
+        /// Gets or Sets Triangle
         /// </summary>
-        /// <value>The value may be a shape or the &#39;null&#39; value. This is introduced in OAS schema &gt;&#x3D; 3.1.</value>
         public Triangle Triangle { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Quadrilateral
+        /// </summary>
+        public Quadrilateral Quadrilateral { get; set; }
 
         /// <summary>
         /// Gets or Sets QuadrilateralType
@@ -184,11 +182,11 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException();
 
-            Utf8JsonReader quadrilateralReader = reader;
-            Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, options, out Quadrilateral quadrilateral);
-
             Utf8JsonReader triangleReader = reader;
-            Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, options, out Triangle triangle);
+            bool triangleDeserialized = Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, options, out Triangle triangle);
+
+            Utf8JsonReader quadrilateralReader = reader;
+            bool quadrilateralDeserialized = Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, options, out Quadrilateral quadrilateral);
 
             string quadrilateralType = default;
 
@@ -211,11 +209,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (quadrilateral != null)
-                return new ShapeOrNull(quadrilateral, quadrilateralType);
-
-            if (triangle != null)
+            if (triangleDeserialized)
                 return new ShapeOrNull(triangle, quadrilateralType);
+
+            if (quadrilateralDeserialized)
+                return new ShapeOrNull(quadrilateral, quadrilateralType);
 
             throw new JsonException();
         }

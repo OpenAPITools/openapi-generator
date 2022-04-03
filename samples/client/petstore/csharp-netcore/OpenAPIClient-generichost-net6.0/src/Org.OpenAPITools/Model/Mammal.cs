@@ -32,16 +32,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
-        /// <param name="pig">pig</param>
-        public Mammal(Pig pig)
-        {
-            Pig = pig;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Mammal" /> class.
-        /// </summary>
-        /// <param name="whale">whale</param>
+        /// <param name="whale"></param>
         public Mammal(Whale whale)
         {
             Whale = whale;
@@ -50,26 +41,35 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
-        /// <param name="zebra">zebra</param>
+        /// <param name="zebra"></param>
         public Mammal(Zebra zebra)
         {
             Zebra = zebra;
         }
 
         /// <summary>
-        /// Gets or Sets mammal
+        /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
-        public Pig Pig { get; set; }
+        /// <param name="pig"></param>
+        public Mammal(Pig pig)
+        {
+            Pig = pig;
+        }
 
         /// <summary>
-        /// Gets or Sets mammal
+        /// Gets or Sets Whale
         /// </summary>
         public Whale Whale { get; set; }
 
         /// <summary>
-        /// Gets or Sets mammal
+        /// Gets or Sets Zebra
         /// </summary>
         public Zebra Zebra { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Pig
+        /// </summary>
+        public Pig Pig { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -175,14 +175,14 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException();
 
-            Utf8JsonReader pigReader = reader;
-            Client.ClientUtils.TryDeserialize<Pig>(ref pigReader, options, out Pig pig);
-
             Utf8JsonReader whaleReader = reader;
-            Client.ClientUtils.TryDeserialize<Whale>(ref whaleReader, options, out Whale whale);
+            bool whaleDeserialized = Client.ClientUtils.TryDeserialize<Whale>(ref whaleReader, options, out Whale whale);
 
             Utf8JsonReader zebraReader = reader;
-            Client.ClientUtils.TryDeserialize<Zebra>(ref zebraReader, options, out Zebra zebra);
+            bool zebraDeserialized = Client.ClientUtils.TryDeserialize<Zebra>(ref zebraReader, options, out Zebra zebra);
+
+            Utf8JsonReader pigReader = reader;
+            bool pigDeserialized = Client.ClientUtils.TryDeserialize<Pig>(ref pigReader, options, out Pig pig);
 
 
             while (reader.Read())
@@ -201,14 +201,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (pig != null)
-                return new Mammal(pig);
-
-            if (whale != null)
+            if (whaleDeserialized)
                 return new Mammal(whale);
 
-            if (zebra != null)
+            if (zebraDeserialized)
                 return new Mammal(zebra);
+
+            if (pigDeserialized)
+                return new Mammal(pig);
 
             throw new JsonException();
         }
