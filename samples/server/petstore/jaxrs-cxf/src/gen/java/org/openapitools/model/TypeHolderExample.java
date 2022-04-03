@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class TypeHolderExample  {
   
   @ApiModelProperty(example = "what", required = true, value = "")
@@ -28,7 +29,7 @@ public class TypeHolderExample  {
   private Boolean boolItem;
 
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  private List<Integer> arrayItem = new ArrayList<>();
  /**
    * Get stringItem
    * @return stringItem

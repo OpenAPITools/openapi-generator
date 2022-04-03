@@ -27,6 +27,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -297,7 +298,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         Map<String, Object> operations = (Map<String, Object>) super.postProcessOperationsWithModels(objs, allModels).get("operations");
         List<CodegenOperation> os = (List<CodegenOperation>) operations.get("operation");
         List<ExtendedCodegenOperation> newOs = new ArrayList<>();
@@ -613,7 +614,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 return "%{}";
             }
             // Primitive return type, don't even try to decode
-            if (baseType == null || (simpleType && primitiveType)) {
+            if (baseType == null || (containerType == null && primitiveType)) {
                 return "false";
             } else if (isArray && languageSpecificPrimitives().contains(baseType)) {
                 return "[]";
@@ -733,15 +734,12 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 StringBuilder returnEntry = new StringBuilder();
                 if (exResponse.baseType == null) {
                     returnEntry.append("nil");
-                } else if (exResponse.simpleType) {
+                } else if (exResponse.containerType == null) { // not container (array, map, set)
                     if (!exResponse.primitiveType) {
                         returnEntry.append(moduleName);
                         returnEntry.append(".Model.");
                     }
                     returnEntry.append(exResponse.baseType);
-                    returnEntry.append(".t");
-                } else if (exResponse.containerType == null) {
-                    returnEntry.append(returnBaseType);
                     returnEntry.append(".t");
                 } else {
                     if (exResponse.containerType.equals("array") ||
@@ -918,4 +916,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     public void setModuleName(String moduleName) {
         this.moduleName = moduleName;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ELIXIR; }
 }

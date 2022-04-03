@@ -22,10 +22,12 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.text.WordUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +35,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.time.OffsetDateTime;
 import java.time.Instant;
 import java.time.temporal.ChronoField;
@@ -972,25 +972,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             return "empty";
         }
 
-        Pattern startWithNumberPattern = Pattern.compile("^\\d+");
-        Matcher startWithNumberMatcher = startWithNumberPattern.matcher(name);
-        if (startWithNumberMatcher.find()) {
-            String startingNumbers = startWithNumberMatcher.group(0);
-            String nameWithoutStartingNumbers = name.substring(startingNumbers.length());
-
-            return "_" + startingNumbers + camelize(nameWithoutStartingNumbers, true);
-        }
-
-        // for symbol, e.g. $, #
-        if (getSymbolName(name) != null) {
-            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
-        }
-
-        // Camelize only when we have a structure defined below
-        Boolean camelized = false;
-        if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
-            name = camelize(name, true);
-            camelized = true;
+        if (enumUnknownDefaultCase) {
+            if (name.equals(enumUnknownDefaultCaseName)) {
+                return camelize(name, true);
+            }
         }
 
         // Reserved Name
@@ -999,26 +984,82 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             return escapeReservedWord(nameLowercase);
         }
 
+        // Prefix with underscore if name starts with number
+        if (name.matches("\\d.*")) {
+            return "_" + replaceSpecialCharacters(camelize(name, true));
+        }
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
+        }
+        
+        // Camelize only when we have a structure defined below
+        Boolean camelized = false;
+        if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
+            name = camelize(name, true);
+            camelized = true;
+        }
+
         // Check for numerical conversions
         if ("Int".equals(datatype) || "Int32".equals(datatype) || "Int64".equals(datatype)
                 || "Float".equals(datatype) || "Double".equals(datatype)) {
             String varName = "number" + camelize(name);
-            varName = varName.replaceAll("-", "minus");
-            varName = varName.replaceAll("\\+", "plus");
-            varName = varName.replaceAll("\\.", "dot");
-            return varName;
+            return replaceSpecialCharacters(varName);
         }
 
         // If we have already camelized the word, don't progress
         // any further
         if (camelized) {
-            return name;
+            return replaceSpecialCharacters(name);
         }
 
         char[] separators = {'-', '_', ' ', ':', '(', ')'};
-        return camelize(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
-                        .replaceAll("[-_ :\\(\\)]", ""),
+        return camelize(replaceSpecialCharacters(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
+                        .replaceAll("[-_ :\\(\\)]", "")),
                 true);
+    }
+
+    private String replaceSpecialCharacters(String name) {
+        for (Map.Entry<String, String> specialCharacters : specialCharReplacements.entrySet()) {
+            String specialChar = specialCharacters.getKey();
+            String replacement = specialCharacters.getValue();
+            // Underscore is the only special character we'll allow
+            if (!specialChar.equals("_") && name.contains(specialChar)) {
+                name = replaceCharacters(name, specialChar, replacement);
+            }
+        }
+
+        // Fallback, replace unknowns with underscore.
+        name = name.replaceAll("\\W+", "_");
+
+        return name;
+    }
+
+    private String replaceCharacters(String word, String oldValue, String newValue) {
+        if (!word.contains(oldValue)) {
+            return word;
+        }
+        if (word.equals(oldValue)) {
+            return newValue;
+        }
+        int i = word.indexOf(oldValue);
+        String start = word.substring(0, i);
+        String end = recurseOnEndOfWord(word, oldValue, newValue, i);
+        return start + newValue + end;
+    }
+
+    private String recurseOnEndOfWord(String word, String oldValue, String newValue, int lastReplacedValue) {
+        String end = word.substring(lastReplacedValue + 1);
+        if (!end.isEmpty()) {
+            end = titleCase(end);
+            end = replaceCharacters(end, oldValue, newValue);
+        }
+        return end;
+    }
+
+    private String titleCase(final String input) {
+        return input.substring(0, 1).toUpperCase(Locale.ROOT) + input.substring(1);
     }
 
     @Override
@@ -1043,8 +1084,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        Map<String, Object> postProcessedModelsEnum = postProcessModelsEnum(objs);
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        ModelsMap postProcessedModelsEnum = postProcessModelsEnum(objs);
 
         // We iterate through the list of models, and also iterate through each of the
         // properties for each model. For each property, if:
@@ -1059,15 +1100,23 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         //
         // CodegenModel.vendorExtensions["x-codegen-has-escaped-property-names"] = true
         //
-        List<Object> models = (List<Object>) postProcessedModelsEnum.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelMap mo : postProcessedModelsEnum.getModels()) {
+            CodegenModel cm = mo.getModel();
             boolean modelHasPropertyWithEscapedName = false;
             for (CodegenProperty prop : cm.allVars) {
                 if (!prop.name.equals(prop.baseName)) {
                     prop.vendorExtensions.put("x-codegen-escaped-property-name", true);
                     modelHasPropertyWithEscapedName = true;
+                }
+
+                if (prop.vendorExtensions.containsKey("x-null-encodable")) {
+                    if (prop.vendorExtensions.get("x-null-encodable").toString().equals("true")) {
+                        if (prop.defaultValue == null || prop.defaultValue.equals("null")) {
+                            prop.vendorExtensions.put("x-null-encodable-default-value", ".encodeNull");
+                        } else {
+                            prop.vendorExtensions.put("x-null-encodable-default-value", ".encodeValue(" + prop.defaultValue + ")");
+                        }
+                    }
                 }
             }
             if (modelHasPropertyWithEscapedName) {
@@ -1133,13 +1182,12 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
 
         HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
+        for (ModelMap modelMap: allModels) {
+            CodegenModel m = modelMap.getModel();
             modelMaps.put(m.classname, m);
         }
 
@@ -1269,4 +1317,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         System.out.println("# Please support his work directly via https://paypal.com/paypalme/4brunu \uD83D\uDE4F   #");
         System.out.println("################################################################################");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SWIFT; }
 }

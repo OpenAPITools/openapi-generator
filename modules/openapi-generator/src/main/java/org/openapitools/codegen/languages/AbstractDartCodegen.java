@@ -1,5 +1,6 @@
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -9,6 +10,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -112,12 +115,13 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         setReservedWordsLowerCase(reservedWordsList);
 
         // These types return isPrimitive=true in templates
-        languageSpecificPrimitives = new HashSet<>(5);
-        languageSpecificPrimitives.add("String");
-        languageSpecificPrimitives.add("bool");
-        languageSpecificPrimitives.add("int");
-        languageSpecificPrimitives.add("num");
-        languageSpecificPrimitives.add("double");
+        languageSpecificPrimitives = Sets.newHashSet(
+                "String",
+                "bool",
+                "int",
+                "num",
+                "double"
+        );
 
         typeMapping = new HashMap<>();
         typeMapping.put("Array", "List");
@@ -148,17 +152,18 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         typeMapping.put("AnyType", "Object");
 
         // Data types of the above values which are automatically imported
-        defaultIncludes = new HashSet<>();
-        defaultIncludes.add("String");
-        defaultIncludes.add("bool");
-        defaultIncludes.add("int");
-        defaultIncludes.add("num");
-        defaultIncludes.add("double");
-        defaultIncludes.add("List");
-        defaultIncludes.add("Set");
-        defaultIncludes.add("Map");
-        defaultIncludes.add("DateTime");
-        defaultIncludes.add("Object");
+        defaultIncludes = Sets.newHashSet(
+                "String",
+                "bool",
+                "int",
+                "num",
+                "double",
+                "List",
+                "Set",
+                "Map",
+                "DateTime",
+                "Object"
+        );
 
         imports.put("String", "dart:core");
         imports.put("bool", "dart:core");
@@ -496,7 +501,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         return postProcessModelsEnum(objs);
     }
 
@@ -505,7 +510,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         super.postProcessModelProperty(model, property);
         if (!model.isEnum && property.isEnum) {
             // These are inner enums, enums which do not exist as models, just as properties.
-            // They are handled via the enum_inline template and and are generated in the
+            // They are handled via the enum_inline template and are generated in the
             // same file as the containing class. To prevent name clashes the inline enum classes
             // are prefix with the classname of the containing class in the template.
             // Here the datatypeWithEnum template variable gets updated to match that scheme.
@@ -529,9 +534,9 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         final CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         for (CodegenResponse r : op.responses) {
-            // By default only set types are automatically added to operation imports, not sure why.
+            // By default, only set types are automatically added to operation imports, not sure why.
             // Add all container type imports here, by default 'dart:core' imports are skipped
-            // but other sub classes may required specific container type imports.
+            // but other sub-classes may require specific container type imports.
             if (r.containerType != null && typeMapping().containsKey(r.containerType)) {
                 final String value = typeMapping().get(r.containerType);
                 if (needToImport(value)) {
@@ -555,7 +560,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
@@ -768,4 +773,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.DART; }
 }

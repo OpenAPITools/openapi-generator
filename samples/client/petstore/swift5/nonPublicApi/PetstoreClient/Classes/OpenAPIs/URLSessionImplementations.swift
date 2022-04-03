@@ -100,7 +100,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     }
 
     @discardableResult
-    override internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> URLSessionTask? {
+    override internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let urlSession = createURLSession()
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
@@ -172,14 +172,14 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
             dataTask.resume()
 
-            return dataTask
+            requestTask.set(task: dataTask)
         } catch {
             apiResponseQueue.async {
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
-
-            return nil
         }
+
+        return requestTask
     }
 
     fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
@@ -476,6 +476,15 @@ private class FormDataEncoding: ParameterEncoding {
                         data: data
                     )
                 }
+
+            case let data as Data:
+
+                urlRequest = configureDataUploadRequest(
+                    urlRequest: urlRequest,
+                    boundary: boundary,
+                    name: key,
+                    data: data
+                )
 
             default:
                 fatalError("Unprocessable value \(value) with key \(key)")

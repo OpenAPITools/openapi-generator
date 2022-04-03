@@ -2,24 +2,32 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
 import org.openapitools.model.CatAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Cat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Cat extends Animal  {
+
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class Cat extends Animal {
+
   @JsonProperty("declawed")
   private Boolean declawed;
 
@@ -32,9 +40,8 @@ public class Cat extends Animal  {
    * Get declawed
    * @return declawed
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Boolean getDeclawed() {
     return declawed;
   }
@@ -42,7 +49,6 @@ public class Cat extends Animal  {
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
-
 
   @Override
   public boolean equals(Object o) {

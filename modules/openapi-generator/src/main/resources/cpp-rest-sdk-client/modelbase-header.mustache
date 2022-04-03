@@ -9,14 +9,15 @@
 #define {{modelHeaderGuardPrefix}}_ModelBase_H_
 
 {{{defaultInclude}}}
-#include <map>
-#include <vector>
 
-#include "HttpContent.h"
-#include "MultipartFormData.h"
+#include "{{packageName}}/HttpContent.h"
+#include "{{packageName}}/MultipartFormData.h"
 
 #include <cpprest/details/basic_types.h>
 #include <cpprest/json.h>
+
+#include <map>
+#include <vector>
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {

@@ -1,0 +1,51 @@
+openapi: 3.0.2
+info:
+  title: OAI Specification example for Polymorphism
+  version: 1.0.0
+paths:
+  /status:
+    get:
+      responses:
+        '201':
+          description: desc
+
+components:
+  schemas:
+    TokenMetadata:
+      type: object
+      properties:
+        tag1:
+          type: string
+
+    Token:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/TokenMetadata'
+      discriminator:
+        propertyName: type
+        mapping:
+          string: '#/components/schemas/StringToken'
+          expression: '#/components/schemas/ExpressionToken'
+
+    StringToken:
+      allOf:
+        - $ref: '#/components/schemas/Token'
+        - type: object
+          properties:
+            value:
+              type: string
+
+    ExpressionToken:
+      allOf:
+        - $ref: '#/components/schemas/Token'
+        - type: object
+          properties:
+            tokens:
+              type: array
+              items:
+                $ref: '#/components/schemas/Token'

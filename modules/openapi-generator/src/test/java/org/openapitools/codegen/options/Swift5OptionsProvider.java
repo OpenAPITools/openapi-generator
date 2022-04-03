@@ -55,6 +55,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
     public static final String LIBRARY_VALUE = "alamofire";
     public static final String USE_SPM_FILE_STRUCTURE_VALUE = "false";
     public static final String SWIFT_PACKAGE_PATH_VALUE = "";
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -99,6 +100,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(Swift5ClientCodegen.HASHABLE_MODELS, HASHABLE_MODELS_VALUE)
                 .put(Swift5ClientCodegen.MAP_FILE_BINARY_TO_DATA, "false")
                 .put(Swift5ClientCodegen.USE_CLASSES, "false")
+                .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .build();
     }
 

@@ -232,7 +232,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of outer boolean types
      */
-    async fakeOuterBooleanSerialize(requestParameters: FakeOuterBooleanSerializeRequest, initOverrides?: RequestInit): Promise<boolean> {
+    async fakeOuterBooleanSerialize(requestParameters: FakeOuterBooleanSerializeRequest = {}, initOverrides?: RequestInit): Promise<boolean> {
         const response = await this.fakeOuterBooleanSerializeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -261,7 +261,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of object with outer number type
      */
-    async fakeOuterCompositeSerialize(requestParameters: FakeOuterCompositeSerializeRequest, initOverrides?: RequestInit): Promise<OuterComposite> {
+    async fakeOuterCompositeSerialize(requestParameters: FakeOuterCompositeSerializeRequest = {}, initOverrides?: RequestInit): Promise<OuterComposite> {
         const response = await this.fakeOuterCompositeSerializeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -290,7 +290,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of outer number types
      */
-    async fakeOuterNumberSerialize(requestParameters: FakeOuterNumberSerializeRequest, initOverrides?: RequestInit): Promise<number> {
+    async fakeOuterNumberSerialize(requestParameters: FakeOuterNumberSerializeRequest = {}, initOverrides?: RequestInit): Promise<number> {
         const response = await this.fakeOuterNumberSerializeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -319,7 +319,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Test serialization of outer string types
      */
-    async fakeOuterStringSerialize(requestParameters: FakeOuterStringSerializeRequest, initOverrides?: RequestInit): Promise<string> {
+    async fakeOuterStringSerialize(requestParameters: FakeOuterStringSerializeRequest = {}, initOverrides?: RequestInit): Promise<string> {
         const response = await this.fakeOuterStringSerializeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -683,7 +683,7 @@ export class FakeApi extends runtime.BaseAPI {
      * To test enum parameters
      * To test enum parameters
      */
-    async testEnumParameters(requestParameters: TestEnumParametersRequest, initOverrides?: RequestInit): Promise<void> {
+    async testEnumParameters(requestParameters: TestEnumParametersRequest = {}, initOverrides?: RequestInit): Promise<void> {
         await this.testEnumParametersRaw(requestParameters, initOverrides);
     }
 
@@ -759,6 +759,7 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * test inline additionalProperties
      */
     async testInlineAdditionalPropertiesRaw(requestParameters: TestInlineAdditionalPropertiesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
@@ -784,6 +785,7 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * test inline additionalProperties
      */
     async testInlineAdditionalProperties(requestParameters: TestInlineAdditionalPropertiesRequest, initOverrides?: RequestInit): Promise<void> {
@@ -791,6 +793,7 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * test json serialization of form data
      */
     async testJsonFormDataRaw(requestParameters: TestJsonFormDataRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
@@ -840,6 +843,7 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
+     * 
      * test json serialization of form data
      */
     async testJsonFormData(requestParameters: TestJsonFormDataRequest, initOverrides?: RequestInit): Promise<void> {
@@ -926,69 +930,69 @@ export class FakeApi extends runtime.BaseAPI {
 }
 
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumHeaderStringArrayEnum {
-    GreaterThan = '>',
-    Dollar = '$'
-}
+* @export
+*/
+export const TestEnumParametersEnumHeaderStringArrayEnum = {
+    GreaterThan: '>' as '>',
+    Dollar: '$' as '$'
+};
+export type TestEnumParametersEnumHeaderStringArrayEnum = typeof TestEnumParametersEnumHeaderStringArrayEnum[keyof typeof TestEnumParametersEnumHeaderStringArrayEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumHeaderStringEnum {
-    Abc = '_abc',
-    Efg = '-efg',
-    Xyz = '(xyz)'
-}
+* @export
+*/
+export const TestEnumParametersEnumHeaderStringEnum = {
+    Abc: '_abc' as '_abc',
+    Efg: '-efg' as '-efg',
+    Xyz: '(xyz)' as '(xyz)'
+};
+export type TestEnumParametersEnumHeaderStringEnum = typeof TestEnumParametersEnumHeaderStringEnum[keyof typeof TestEnumParametersEnumHeaderStringEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumQueryStringArrayEnum {
-    GreaterThan = '>',
-    Dollar = '$'
-}
+* @export
+*/
+export const TestEnumParametersEnumQueryStringArrayEnum = {
+    GreaterThan: '>' as '>',
+    Dollar: '$' as '$'
+};
+export type TestEnumParametersEnumQueryStringArrayEnum = typeof TestEnumParametersEnumQueryStringArrayEnum[keyof typeof TestEnumParametersEnumQueryStringArrayEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumQueryStringEnum {
-    Abc = '_abc',
-    Efg = '-efg',
-    Xyz = '(xyz)'
-}
+* @export
+*/
+export const TestEnumParametersEnumQueryStringEnum = {
+    Abc: '_abc' as '_abc',
+    Efg: '-efg' as '-efg',
+    Xyz: '(xyz)' as '(xyz)'
+};
+export type TestEnumParametersEnumQueryStringEnum = typeof TestEnumParametersEnumQueryStringEnum[keyof typeof TestEnumParametersEnumQueryStringEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumQueryIntegerEnum {
-    NUMBER_1 = 1,
-    NUMBER_MINUS_2 = -2
-}
+* @export
+*/
+export const TestEnumParametersEnumQueryIntegerEnum = {
+    NUMBER_1: 1 as 1,
+    NUMBER_MINUS_2: -2 as -2
+};
+export type TestEnumParametersEnumQueryIntegerEnum = typeof TestEnumParametersEnumQueryIntegerEnum[keyof typeof TestEnumParametersEnumQueryIntegerEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumQueryDoubleEnum {
-    NUMBER_1_DOT_1 = 1.1,
-    NUMBER_MINUS_1_DOT_2 = -1.2
-}
+* @export
+*/
+export const TestEnumParametersEnumQueryDoubleEnum = {
+    NUMBER_1_DOT_1: 1.1 as 1.1,
+    NUMBER_MINUS_1_DOT_2: -1.2 as -1.2
+};
+export type TestEnumParametersEnumQueryDoubleEnum = typeof TestEnumParametersEnumQueryDoubleEnum[keyof typeof TestEnumParametersEnumQueryDoubleEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumFormStringArrayEnum {
-    GreaterThan = '>',
-    Dollar = '$'
-}
+* @export
+*/
+export const TestEnumParametersEnumFormStringArrayEnum = {
+    GreaterThan: '>' as '>',
+    Dollar: '$' as '$'
+};
+export type TestEnumParametersEnumFormStringArrayEnum = typeof TestEnumParametersEnumFormStringArrayEnum[keyof typeof TestEnumParametersEnumFormStringArrayEnum];
 /**
-    * @export
-    * @enum {string}
-    */
-export enum TestEnumParametersEnumFormStringEnum {
-    Abc = '_abc',
-    Efg = '-efg',
-    Xyz = '(xyz)'
-}
+* @export
+*/
+export const TestEnumParametersEnumFormStringEnum = {
+    Abc: '_abc' as '_abc',
+    Efg: '-efg' as '-efg',
+    Xyz: '(xyz)' as '(xyz)'
+};
+export type TestEnumParametersEnumFormStringEnum = typeof TestEnumParametersEnumFormStringEnum[keyof typeof TestEnumParametersEnumFormStringEnum];

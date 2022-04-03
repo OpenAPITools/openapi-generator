@@ -1,0 +1,32 @@
+
+{{#if description}}
+{{&description}}
+
+{{/if}}
+{{#or vars additionalProperties}}
+#### Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+    {{#each vars}}
+**{{baseName}}** | {{#unless complexType}}**{{dataType}}**{{/unless}}{{#if complexType}}[**{{dataType}}**]({{complexType}}.md){{/if}} | {{description}} | {{#unless required}}[optional] {{/unless}}{{#if isReadOnly}}[readonly] {{/if}}{{#if defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/if}}
+    {{/each}}
+    {{#with additionalProperties}}
+**any string name** | **{{dataType}}** | any string name can be used but the value must be the correct type | [optional]
+    {{/with}}
+{{else}}
+Type | Description | Notes
+------------- | ------------- | -------------
+    {{#if isAnyType}}
+typing.Union[dict, frozendict, str, date, datetime, int, float, bool, Decimal, None, list, tuple, bytes] | |
+    {{else}}
+        {{#if hasMultipleTypes}}
+typing.Union[{{#if isMap}}dict, frozendict, {{/if}}{{#if isString}}str, {{/if}}{{#if isDate}}date, {{/if}}{{#if isDataTime}}datetime, {{/if}}{{#or isLong isShort isUnboundedInteger}}int, {{/or}}{{#or isFloat isDouble}}float, {{/or}}{{#if isNumber}}Decimal, {{/if}}{{#if isBoolean}}bool, {{/if}}{{#if isNull}}None, {{/if}}{{#if isArray}}list, tuple, {{/if}}{{#if isBinary}}bytes{{/if}}] | | {{#with allowableValues}}{{#if defaultValue}}, {{/if}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}
+        {{else}}
+            {{#if isArray}}
+{{#unless arrayModelType}}**{{dataType}}**{{/unless}}{{#if arrayModelType}}[**{{dataType}}**]({{arrayModelType}}.md){{/if}} | {{description}} | {{#if defaultValue}}{{#if hasRequired}} if omitted the server will use the default value of {{/if}}{{#unless hasRequired}}defaults to {{/unless}}{{{defaultValue}}}{{/if}}
+            {{else}}
+{{#unless arrayModelType}}**{{dataType}}**{{/unless}} | {{description}} | {{#if defaultValue}}{{#if hasRequired}} if omitted the server will use the default value of {{/if}}{{#unless hasRequired}}defaults to {{/unless}}{{{defaultValue}}}{{/if}}{{#with allowableValues}}{{#if defaultValue}}, {{/if}} must be one of [{{#each enumVars}}{{{value}}}, {{/each}}]{{/with}}
+            {{/if}}
+        {{/if}}
+    {{/if}}
+{{/or}}

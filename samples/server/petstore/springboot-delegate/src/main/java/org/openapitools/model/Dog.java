@@ -2,8 +2,11 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
@@ -15,12 +18,16 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Dog
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Dog extends Animal  {
+
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class Dog extends Animal {
+
   @JsonProperty("breed")
   private String breed;
 
@@ -33,9 +40,8 @@ public class Dog extends Animal  {
    * Get breed
    * @return breed
   */
+  
   @ApiModelProperty(value = "")
-
-
   public String getBreed() {
     return breed;
   }
@@ -43,7 +49,6 @@ public class Dog extends Animal  {
   public void setBreed(String breed) {
     this.breed = breed;
   }
-
 
   @Override
   public boolean equals(Object o) {

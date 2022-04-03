@@ -96,7 +96,7 @@ class ApiClientTests(unittest.TestCase):
 
         content_types = []
         content_type = self.api_client.select_header_content_type(content_types)
-        self.assertEqual(content_type, 'application/json')
+        self.assertEqual(content_type, None)
 
         content_types = ['application/json-patch+json', 'application/json']
         content_type = self.api_client.select_header_content_type(content_types,

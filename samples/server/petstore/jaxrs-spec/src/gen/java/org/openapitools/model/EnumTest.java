@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnum;
@@ -17,7 +18,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class EnumTest  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class EnumTest  implements Serializable {
   
 
 public enum EnumStringEnum {
@@ -41,6 +43,21 @@ public enum EnumStringEnum {
         return String.valueOf(value);
     }
 
+    /**
+     * Convert a String into String, as specified in the
+     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+     */
+	public static EnumStringEnum fromString(String s) {
+        for (EnumStringEnum b : EnumStringEnum.values()) {
+            // using Objects.toString() to be safe if value type non-object type
+            // because types like 'int' etc. will be auto-boxed
+            if (java.util.Objects.toString(b.value).equals(s)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+	}
+	
     @JsonCreator
     public static EnumStringEnum fromValue(String value) {
         for (EnumStringEnum b : EnumStringEnum.values()) {
@@ -75,6 +92,21 @@ public enum EnumStringRequiredEnum {
         return String.valueOf(value);
     }
 
+    /**
+     * Convert a String into String, as specified in the
+     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+     */
+	public static EnumStringRequiredEnum fromString(String s) {
+        for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
+            // using Objects.toString() to be safe if value type non-object type
+            // because types like 'int' etc. will be auto-boxed
+            if (java.util.Objects.toString(b.value).equals(s)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+	}
+	
     @JsonCreator
     public static EnumStringRequiredEnum fromValue(String value) {
         for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
@@ -109,6 +141,21 @@ public enum EnumIntegerEnum {
         return String.valueOf(value);
     }
 
+    /**
+     * Convert a String into Integer, as specified in the
+     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+     */
+	public static EnumIntegerEnum fromString(String s) {
+        for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
+            // using Objects.toString() to be safe if value type non-object type
+            // because types like 'int' etc. will be auto-boxed
+            if (java.util.Objects.toString(b.value).equals(s)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+	}
+	
     @JsonCreator
     public static EnumIntegerEnum fromValue(Integer value) {
         for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
@@ -143,6 +190,21 @@ public enum EnumNumberEnum {
         return String.valueOf(value);
     }
 
+    /**
+     * Convert a String into Double, as specified in the
+     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+     */
+	public static EnumNumberEnum fromString(String s) {
+        for (EnumNumberEnum b : EnumNumberEnum.values()) {
+            // using Objects.toString() to be safe if value type non-object type
+            // because types like 'int' etc. will be auto-boxed
+            if (java.util.Objects.toString(b.value).equals(s)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+	}
+	
     @JsonCreator
     public static EnumNumberEnum fromValue(Double value) {
         for (EnumNumberEnum b : EnumNumberEnum.values()) {
@@ -157,14 +219,18 @@ public enum EnumNumberEnum {
   private @Valid EnumNumberEnum enumNumber;
   private @Valid OuterEnum outerEnum;
 
+  protected EnumTest(EnumTestBuilder<?, ?> b) {
+  this.enumString = b.enumString;this.enumStringRequired = b.enumStringRequired;this.enumInteger = b.enumInteger;this.enumNumber = b.enumNumber;this.outerEnum = b.outerEnum;
+  }
+
+  public EnumTest() { }
+
   /**
    **/
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -184,8 +250,6 @@ public enum EnumNumberEnum {
     this.enumStringRequired = enumStringRequired;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -208,8 +272,6 @@ public enum EnumNumberEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_integer")
   public EnumIntegerEnum getEnumInteger() {
@@ -229,8 +291,6 @@ public enum EnumNumberEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_number")
   public EnumNumberEnum getEnumNumber() {
@@ -248,8 +308,6 @@ public enum EnumNumberEnum {
     this.outerEnum = outerEnum;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -311,5 +369,53 @@ public enum EnumNumberEnum {
   }
 
 
+  public static EnumTestBuilder<?, ?> builder() {
+    return new EnumTestBuilderImpl();
+  }
+
+  private static final class EnumTestBuilderImpl extends EnumTestBuilder<EnumTest, EnumTestBuilderImpl> {
+
+    @Override
+    protected EnumTestBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public EnumTest build() {
+      return new EnumTest(this);
+    }
+  }
+
+  public static abstract class EnumTestBuilder<C extends EnumTest, B extends EnumTestBuilder<C, B>>  {
+    private EnumStringEnum enumString;
+    private EnumStringRequiredEnum enumStringRequired;
+    private EnumIntegerEnum enumInteger;
+    private EnumNumberEnum enumNumber;
+    private OuterEnum outerEnum;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B enumString(EnumStringEnum enumString) {
+      this.enumString = enumString;
+      return self();
+    }
+    public B enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+      this.enumStringRequired = enumStringRequired;
+      return self();
+    }
+    public B enumInteger(EnumIntegerEnum enumInteger) {
+      this.enumInteger = enumInteger;
+      return self();
+    }
+    public B enumNumber(EnumNumberEnum enumNumber) {
+      this.enumNumber = enumNumber;
+      return self();
+    }
+    public B outerEnum(OuterEnum outerEnum) {
+      this.outerEnum = outerEnum;
+      return self();
+    }
+  }
 }
 

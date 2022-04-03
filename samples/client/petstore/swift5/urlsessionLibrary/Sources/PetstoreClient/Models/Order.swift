@@ -15,7 +15,7 @@ public typealias Order = PetstoreClientAPI.Order
 
 extension PetstoreClientAPI {
 
-public final class Order: Codable, Hashable {
+public final class Order: Codable, JSONEncodable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
         case placed = "placed"

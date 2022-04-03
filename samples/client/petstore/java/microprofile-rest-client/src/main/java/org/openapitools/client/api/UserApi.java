@@ -12,6 +12,7 @@
 
 package org.openapitools.client.api;
 
+import java.util.Date;
 import org.openapitools.client.model.User;
 
 import java.io.InputStream;
@@ -23,6 +24,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
+
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;

@@ -1,0 +1,7 @@
+{{!
+default type
+}}{{^isDate}}{{^isDateTime}}{{{dataType}}}{{/isDateTime}}{{/isDate}}{{!
+date-time
+}}{{#isDateTime}}@Format("{{{datetimeFormat}}}") {{{dataType}}}{{/isDateTime}}{{!
+date
+}}{{#isDate}}@Format("{{{dateFormat}}}") {{{dataType}}}{{/isDate}}

@@ -1,0 +1,34 @@
+{{>common/licenseInfo}}
+package {{controllerPackage}};
+
+import io.micronaut.http.annotation.Controller;
+import reactor.core.publisher.Mono;
+import {{package}}.{{classname}};
+{{#imports}}
+import {{import}};
+{{/imports}}
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{#generateControllerFromExamples}}
+import java.util.Arrays;
+{{/generateControllerFromExamples}}
+{{/fullJavaUtil}}
+
+
+@Controller("${context-path}")
+public class {{controllerClassname}} extends {{classname}} {
+{{#operations}}
+    {{#operation}}
+    {{!the method definition}}
+    @Override
+    public {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+{{>server/controllerOperationBody}}    }
+    {{^-last}}
+
+    {{/-last}}
+    {{/operation}}
+{{/operations}}
+}

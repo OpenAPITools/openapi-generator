@@ -5,7 +5,7 @@ import retrofit2.http.*
 import retrofit2.Call
 import okhttp3.RequestBody
 
-import org.openapitools.client.models.ApiResponse
+import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 
 import okhttp3.MultipartBody
@@ -115,10 +115,10 @@ interface PetApi {
      * @param petId ID of pet to update 
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param file file to upload (optional)
-     * @return [Call]<[ApiResponse]>
+     * @return [Call]<[ModelApiResponse]>
      */
     @Multipart
     @POST("pet/{petId}/uploadImage")
-    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String? = null, @Part file: MultipartBody.Part? = null): Call<ApiResponse>
+    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String? = null, @Part file: MultipartBody.Part? = null): Call<ModelApiResponse>
 
 }

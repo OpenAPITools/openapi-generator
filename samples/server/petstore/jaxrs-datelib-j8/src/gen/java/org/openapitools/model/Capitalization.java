@@ -203,7 +203,6 @@ public class Capitalization  implements Serializable {
     return Objects.hash(smallCamel, capitalCamel, smallSnake, capitalSnake, scAETHFlowPoints, ATT_NAME);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

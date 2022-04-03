@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct Tag: Codable, Hashable {
+public struct Tag: Codable, JSONEncodable, Hashable {
 
     public private(set) var id: Int64?
     public private(set) var name: String?

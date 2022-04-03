@@ -46,5 +46,6 @@ public class TypeScriptNestjsClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setSupportsES6(Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.SUPPORTS_ES6_VALUE));
         verify(clientCodegen).setStringEnums(Boolean.parseBoolean(TypeScriptNestjsClientOptionsProvider.STRING_ENUMS_VALUE));
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(TypeScriptNestjsClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

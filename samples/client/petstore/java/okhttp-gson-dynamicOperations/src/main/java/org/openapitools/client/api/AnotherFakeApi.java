@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.GenericType;
 
 public class AnotherFakeApi {
     private ApiClient localVarApiClient;
@@ -89,7 +90,6 @@ public class AnotherFakeApi {
      */
     public okhttp3.Call call123testSpecialTagsCall(Client body, final ApiCallback _callback) throws ApiException {
         String basePath = null;
-
         // Operation Servers
         String[] localBasePaths = new String[] {  };
 
@@ -133,7 +133,7 @@ public class AnotherFakeApi {
             "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarHeaderParams != null) {
+        if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
@@ -186,8 +186,14 @@ public class AnotherFakeApi {
      */
     public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client body) throws ApiException {
         okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(body, null);
-        Type localVarReturnType = new TypeToken<Client>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+        try {
+            Type localVarReturnType = new TypeToken<Client>(){}.getType();
+            return localVarApiClient.execute(localVarCall, localVarReturnType);
+        } catch (ApiException e) {
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Client>(){}.getType()));
+            e.setErrorObjectType(new GenericType<Client>(){});
+            throw e;
+        }
     }
 
     /**

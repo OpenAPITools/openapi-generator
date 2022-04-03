@@ -1,0 +1,549 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+from dataclasses import dataclass
+import re  # noqa: F401
+import sys  # noqa: F401
+import typing
+import urllib3
+{{#with operation}}
+{{#or headerParams bodyParam produces}}
+from urllib3._collections import HTTPHeaderDict
+{{/or}}
+{{/with}}
+
+from {{packageName}} import api_client, exceptions
+{{> model_templates/imports_schema_types }}
+{{> model_templates/imports_schemas }}
+
+{{#with operation}}
+{{#if queryParams}}
+# query params
+{{#each queryParams}}
+{{#with schema}}
+{{> model_templates/schema }}
+{{/with}}
+{{/each}}
+RequestRequiredQueryParams = typing.TypedDict(
+    'RequestRequiredQueryParams',
+    {
+{{#each queryParams}}
+{{#if required}}
+        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+{{/if}}
+{{/each}}
+    }
+)
+RequestOptionalQueryParams = typing.TypedDict(
+    'RequestOptionalQueryParams',
+    {
+{{#each queryParams}}
+{{#unless required}}
+        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+{{/unless}}
+{{/each}}
+    },
+    total=False
+)
+
+
+class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
+    pass
+
+
+{{#each queryParams}}
+{{> endpoint_parameter }}
+{{/each}}
+{{/if}}
+{{#if headerParams}}
+# header params
+{{#each headerParams}}
+{{#with schema}}
+{{> model_templates/schema }}
+{{/with}}
+{{/each}}
+RequestRequiredHeaderParams = typing.TypedDict(
+    'RequestRequiredHeaderParams',
+    {
+{{#each headerParams}}
+{{#if required}}
+        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+{{/if}}
+{{/each}}
+    }
+)
+RequestOptionalHeaderParams = typing.TypedDict(
+    'RequestOptionalHeaderParams',
+    {
+{{#each headerParams}}
+{{#unless required}}
+        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+{{/unless}}
+{{/each}}
+    },
+    total=False
+)
+
+
+class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderParams):
+    pass
+
+
+{{#each headerParams}}
+{{> endpoint_parameter }}
+{{/each}}
+{{/if}}
+{{#if pathParams}}
+# path params
+{{#each pathParams}}
+{{#with schema}}
+{{> model_templates/schema }}
+{{/with}}
+{{/each}}
+RequestRequiredPathParams = typing.TypedDict(
+    'RequestRequiredPathParams',
+    {
+{{#each pathParams}}
+{{#if required}}
+        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+{{/if}}
+{{/each}}
+    }
+)
+RequestOptionalPathParams = typing.TypedDict(
+    'RequestOptionalPathParams',
+    {
+{{#each pathParams}}
+{{#unless required}}
+        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+{{/unless}}
+{{/each}}
+    },
+    total=False
+)
+
+
+class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
+    pass
+
+
+{{#each pathParams}}
+{{> endpoint_parameter }}
+{{/each}}
+{{/if}}
+{{#if cookieParams}}
+# cookie params
+{{#each cookieParams}}
+{{#with schema}}
+{{> model_templates/schema }}
+{{/with}}
+{{/each}}
+RequestRequiredCookieParams = typing.TypedDict(
+    'RequestRequiredCookieParams',
+    {
+{{#each cookieParams}}
+{{#if required}}
+        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+{{/if}}
+{{/each}}
+    }
+)
+RequestOptionalCookieParams = typing.TypedDict(
+    'RequestOptionalCookieParams',
+    {
+{{#each cookieParams}}
+{{#unless required}}
+        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+{{/unless}}
+{{/each}}
+    },
+    total=False
+)
+
+
+class RequestCookieParams(RequestRequiredCookieParams, RequestOptionalCookieParams):
+    pass
+
+
+{{#each cookieParams}}
+{{> endpoint_parameter }}
+{{/each}}
+{{/if}}
+{{#with bodyParam}}
+# body param
+{{#each content}}
+{{#with this.schema}}
+{{> model_templates/schema }}
+{{/with}}
+{{/each}}
+
+
+request_body_{{paramName}} = api_client.RequestBody(
+    content={
+{{#each content}}
+        '{{@key}}': api_client.MediaType(
+            schema={{this.schema.baseName}}),
+{{/each}}
+    },
+{{#if required}}
+    required=True,
+{{/if}}
+)
+{{/with}}
+_path = '{{{path}}}'
+_method = '{{httpMethod}}'
+{{#each authMethods}}
+{{#if @first}}
+_auth = [
+{{/if}}
+    '{{name}}',
+{{#if @last}}
+]
+{{/if}}
+{{/each}}
+{{#each servers}}
+{{#if @first}}
+_servers = (
+{{/if}}
+    {
+        'url': "{{{url}}}",
+        'description': "{{{description}}}{{#unless description}}No description provided{{/unless}}",
+        {{#each variables}}
+        {{#if @first}}
+        'variables': {
+        {{/if}}
+            '{{{name}}}': {
+                'description': "{{{description}}}{{#unless description}}No description provided{{/unless}}",
+                'default_value': "{{{defaultValue}}}",
+                {{#each enumValues}}
+                {{#if @first}}
+                'enum_values': [
+                {{/if}}
+                    "{{{.}}}"{{#unless @last}},{{/unless}}
+                {{#if @last}}
+                ]
+                {{/if}}
+                {{/each}}
+                }{{#unless @last}},{{/unless}}
+        {{#if @last}}
+            }
+        {{/if}}
+        {{/each}}
+    },
+{{#if @last}}
+)
+{{/if}}
+{{/each}}
+{{#each responses}}
+{{#each responseHeaders}}
+{{#with schema}}
+{{> model_templates/schema }}
+{{/with}}
+{{paramName}}_parameter = api_client.HeaderParameter(
+    name="{{baseName}}",
+{{#if style}}
+    style=api_client.ParameterStyle.{{style}},
+{{/if}}
+{{#if schema}}
+{{#with schema}}
+    schema={{baseName}},
+{{/with}}
+{{/if}}
+{{#if required}}
+    required=True,
+{{/if}}
+{{#if isExplode}}
+    explode=True,
+{{/if}}
+)
+{{/each}}
+{{#each content}}
+{{#with this.schema}}
+{{> model_templates/schema }}
+{{/with}}
+{{/each}}
+{{#if responseHeaders}}
+ResponseHeadersFor{{code}} = typing.TypedDict(
+    'ResponseHeadersFor{{code}}',
+    {
+{{#each responseHeaders}}
+        '{{baseName}}': {{#with schema}}{{baseName}},{{/with}}
+{{/each}}
+    }
+)
+{{/if}}
+
+
+@dataclass
+{{#if isDefault}}
+class ApiResponseForDefault(api_client.ApiResponse):
+{{else}}
+class ApiResponseFor{{code}}(api_client.ApiResponse):
+{{/if}}
+    response: urllib3.HTTPResponse
+{{#and responseHeaders content}}
+    body: typing.Union[
+{{#each content}}
+        {{this.schema.baseName}},
+{{/each}}
+    ]
+    headers: ResponseHeadersFor{{code}}
+{{else}}
+{{#or responseHeaders content}}
+{{#if responseHeaders}}
+    headers: ResponseHeadersFor{{code}}
+    body: Unset = unset
+{{else}}
+    body: typing.Union[
+{{#each content}}
+        {{this.schema.baseName}},
+{{/each}}
+    ]
+    headers: Unset = unset
+{{/if}}
+{{/or}}
+{{/and}}
+{{#unless responseHeaders}}
+{{#unless content}}
+    body: Unset = unset
+    headers: Unset = unset
+{{/unless}}
+{{/unless}}
+
+
+{{#if isDefault}}
+_response_for_default = api_client.OpenApiResponse(
+    response_cls=ApiResponseForDefault,
+{{else}}
+_response_for_{{code}} = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor{{code}},
+{{/if}}
+{{#each content}}
+{{#if @first}}
+    content={
+{{/if}}
+        '{{@key}}': api_client.MediaType(
+            schema={{this.schema.baseName}}),
+{{#if @last}}
+    },
+{{/if}}
+{{/each}}
+{{#if responseHeaders}}
+    headers=[
+{{#each responseHeaders}}
+        {{paramName}}_parameter,
+{{/each}}
+    ]
+{{/if}}
+)
+{{/each}}
+_status_code_to_response = {
+{{#each responses}}
+{{#if isDefault}}
+    'default': _response_for_default,
+{{else}}
+    '{{code}}': _response_for_{{code}},
+{{/if}}
+{{/each}}
+}
+{{#each produces}}
+{{#if @first}}
+_all_accept_content_types = (
+{{/if}}
+    '{{this.mediaType}}',
+{{#if @last}}
+)
+{{/if}}
+{{/each}}
+
+
+class {{operationIdCamelCase}}(api_client.Api):
+
+    def {{operationId}}(
+        self: api_client.Api,
+    {{#if bodyParam}}
+    {{#with bodyParam}}
+        {{baseName}}: typing.Union[{{#each content}}{{#unless @first}}, {{/unless}}{{this.schema.baseName}}{{/each}}{{#unless required}}, Unset] = unset{{else}}]{{/unless}},
+    {{/with}}
+    {{/if}}
+    {{#if queryParams}}
+        query_params: RequestQueryParams = frozendict(),
+    {{/if}}
+    {{#if headerParams}}
+        header_params: RequestHeaderParams = frozendict(),
+    {{/if}}
+    {{#if pathParams}}
+        path_params: RequestPathParams = frozendict(),
+    {{/if}}
+    {{#if cookieParams}}
+        cookie_params: RequestCookieParams = frozendict(),
+    {{/if}}
+    {{#with bodyParam}}
+    {{#each content}}
+    {{#if @first}}
+        content_type: str = '{{@key}}',
+    {{/if}}
+    {{/each}}
+    {{/with}}
+    {{#if produces}}
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+    {{/if}}
+    {{#if servers}}
+        host_index: typing.Optional[int] = None,
+    {{/if}}
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = False,
+    ) -> typing.Union[
+    {{#each responses}}
+        {{#if isDefault}}
+        ApiResponseForDefault,
+        {{else}}
+            {{#if is2xx}}
+        ApiResponseFor{{code}},
+            {{/if}}
+        {{/if}}
+    {{/each}}
+        api_client.ApiResponseWithoutDeserialization
+    ]:
+        """
+    {{#if summary}}
+        {{summary}}
+    {{/if}}
+        :param skip_deserialization: If true then api_response.response will be set but
+            api_response.body and api_response.headers will not be deserialized into schema
+            class instances
+        """
+    {{#if queryParams}}
+        self._verify_typed_dict_inputs(RequestQueryParams, query_params)
+    {{/if}}
+    {{#if headerParams}}
+        self._verify_typed_dict_inputs(RequestHeaderParams, header_params)
+    {{/if}}
+    {{#if pathParams}}
+        self._verify_typed_dict_inputs(RequestPathParams, path_params)
+    {{/if}}
+    {{#if cookieParams}}
+        self._verify_typed_dict_inputs(RequestCookieParams, cookie_params)
+    {{/if}}
+    {{#if pathParams}}
+
+        _path_params = {}
+        for parameter in (
+    {{#each pathParams}}
+            request_path_{{paramName}},
+    {{/each}}
+        ):
+            parameter_data = path_params.get(parameter.name, unset)
+            if parameter_data is unset:
+                continue
+            serialized_data = parameter.serialize(parameter_data)
+            _path_params.update(serialized_data)
+    {{/if}}
+    {{#if queryParams}}
+
+        _query_params = []
+        for parameter in (
+    {{#each queryParams}}
+            request_query_{{paramName}},
+    {{/each}}
+        ):
+            parameter_data = query_params.get(parameter.name, unset)
+            if parameter_data is unset:
+                continue
+            serialized_data = parameter.serialize(parameter_data)
+            _query_params.extend(serialized_data)
+    {{/if}}
+    {{#or headerParams bodyParam produces}}
+
+        _headers = HTTPHeaderDict()
+    {{else}}
+    {{/or}}
+    {{#if headerParams}}
+        for parameter in (
+    {{#each headerParams}}
+            request_header_{{paramName}},
+    {{/each}}
+        ):
+            parameter_data = header_params.get(parameter.name, unset)
+            if parameter_data is unset:
+                continue
+            serialized_data = parameter.serialize(parameter_data)
+            _headers.extend(serialized_data)
+    {{/if}}
+        # TODO add cookie handling
+    {{#if produces}}
+        if accept_content_types:
+            for accept_content_type in accept_content_types:
+                _headers.add('Accept', accept_content_type)
+    {{/if}}
+    {{#with bodyParam}}
+
+    {{#if required}}
+        if body is unset:
+            raise exceptions.ApiValueError(
+                'The required body parameter has an invalid value of: unset. Set a valid value instead')
+    {{/if}}
+        _fields = None
+        _body = None
+    {{#if required}}
+        {{> endpoint_body_serialization }}
+    {{else}}
+        if body is not unset:
+            {{> endpoint_body_serialization }}
+    {{/if}}
+    {{/with}}
+    {{#if servers}}
+
+        host = self.get_host('{{operationId}}', _servers, host_index)
+    {{/if}}
+
+        response = self.api_client.call_api(
+            resource_path=_path,
+            method=_method,
+    {{#if pathParams}}
+            path_params=_path_params,
+    {{/if}}
+    {{#if queryParams}}
+            query_params=tuple(_query_params),
+    {{/if}}
+    {{#or headerParams bodyParam produces}}
+            headers=_headers,
+    {{/or}}
+    {{#if bodyParam}}
+            fields=_fields,
+            body=_body,
+    {{/if}}
+    {{#if hasAuthMethods}}
+            auth_settings=_auth,
+    {{/if}}
+    {{#if servers}}
+            host=host,
+    {{/if}}
+            stream=stream,
+            timeout=timeout,
+        )
+
+        if skip_deserialization:
+            api_response = api_client.ApiResponseWithoutDeserialization(response=response)
+        else:
+            response_for_status = _status_code_to_response.get(str(response.status))
+            if response_for_status:
+                api_response = response_for_status.deserialize(response, self.api_client.configuration)
+            else:
+                {{#if hasDefaultResponse}}
+                default_response = _status_code_to_response.get('default')
+                if default_response:
+                    api_response = default_response.deserialize(response, self.api_client.configuration)
+                else:
+                    api_response = api_client.ApiResponseWithoutDeserialization(response=response)
+                {{else}}
+                api_response = api_client.ApiResponseWithoutDeserialization(response=response)
+                {{/if}}
+
+        if not 200 <= response.status <= 299:
+            raise exceptions.ApiException(api_response=api_response)
+
+        return api_response
+{{/with}}

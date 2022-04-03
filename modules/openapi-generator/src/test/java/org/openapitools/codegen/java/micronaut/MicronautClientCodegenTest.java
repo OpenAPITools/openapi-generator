@@ -1,31 +1,18 @@
 package org.openapitools.codegen.java.micronaut;
 
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.JavaMicronautClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import static java.util.stream.Collectors.groupingBy;
 import static org.testng.Assert.*;
-import static org.testng.Assert.fail;
 
-public class MicronautClientCodegenTest {
-    private final String PETSTORE_PATH = "src/test/resources/petstore.json";
 
+public class MicronautClientCodegenTest extends AbstractMicronautCodegenTest {
     @Test
     public void clientOptsUnicity() {
         JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
@@ -53,6 +40,31 @@ public class MicronautClientCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools");
+    }
+
+    @Test
+    public void testApiAndModelFilesPresent() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "org.test.test");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.test.test.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.test.test.api");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH,
+                CodegenConstants.SUPPORTING_FILES,
+                CodegenConstants.APIS,
+                CodegenConstants.MODELS);
+
+        String apiFolder = outputPath + "src/main/java/org/test/test/api/";
+        assertFileExists(apiFolder + "PetApi.java");
+        assertFileExists(apiFolder + "StoreApi.java");
+        assertFileExists(apiFolder + "UserApi.java");
+
+        String modelFolder = outputPath + "src/main/java/org/test/test/model/";
+        assertFileExists(modelFolder + "Pet.java");
+        assertFileExists(modelFolder + "User.java");
+        assertFileExists(modelFolder + "Order.java");
+
+        String resources = outputPath + "src/main/resources/";
+        assertFileExists(resources + "application.yml");
     }
 
     @Test
@@ -85,13 +97,25 @@ public class MicronautClientCodegenTest {
     @Test
     public void doUseValidationParam() {
         JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
-        codegen.additionalProperties().put(JavaMicronautClientCodegen.OPT_CONFIGURE_AUTH, "false");
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.USE_BEANVALIDATION, "true");
         String outputPath = generateFiles(codegen, PETSTORE_PATH,
                 CodegenConstants.APIS);
 
         // Files are not generated
         assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Valid");
         assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@NotNull");
+    }
+
+    @Test
+    public void doNotUseValidationParam() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.USE_BEANVALIDATION, "false");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH,
+                CodegenConstants.APIS);
+
+        // Files are not generated
+        assertFileNotContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Valid");
+        assertFileNotContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@NotNull");
     }
 
     @Test
@@ -162,89 +186,33 @@ public class MicronautClientCodegenTest {
         assertFileContains(outputPath + "src/test/groovy/org/openapitools/api/PetApiSpec.groovy", "PetApiSpec", "@MicronautTest");
     }
 
-    /**
-     *
-     * @param codegen - the code generator
-     * @param configPath - the path to the config starting from src/test/resources
-     * @param filesToGenerate - which files to generate - can be CodegenConstants.MODELS, APIS, SUPPORTING_FILES, ...
-     * @return - the path to the generated folder
-     */
-    protected String generateFiles(JavaMicronautClientCodegen codegen, String configPath, String... filesToGenerate) {
-        File output = null;
-        try {
-            output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        } catch (IOException e) {
-            fail("Unable to create temporary directory for output");
-        }
-        output.deleteOnExit();
+    @Test
+    public void doGenerateRequiredPropertiesInConstructor() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR, "true");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.MODELS, CodegenConstants.APIS);
 
-        // Create parser
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation(configPath, null, new ParseOptions()).getOpenAPI();
-
-        // Configure codegen
-        codegen.setOutputDir(outputPath);
-
-        // Create input
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        // Generate
-        DefaultGenerator generator = new DefaultGenerator();
-        // by default nothing is generated
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
-        // set all the files user wants to generate
-        for (String files: filesToGenerate) {
-            generator.setGeneratorPropertyDefault(files, "true");
-        }
-
-        generator.opts(input).generate();
-
-        return outputPath + "/";
+        // Constructor should have properties
+        String modelPath = outputPath + "src/main/java/org/openapitools/model/";
+        assertFileContains(modelPath + "Pet.java", "public Pet(String name, List<String> photoUrls)");
+        assertFileNotContains(modelPath + "Pet.java", "public Pet()");
+        assertFileContains(modelPath + "User.java", "public User()");
+        assertFileContains(modelPath + "Order.java", "public Order()");
     }
 
-    public static void assertFileContains(String path, String... lines) {
-        String file = readFile(path);
-        for (String line : lines)
-            assertTrue(file.contains(linearize(line)), "File does not contain line [" + line + "]");
-    }
+    @Test
+    public void doNotGenerateRequiredPropertiesInConstructor() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR, "false");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.MODELS, CodegenConstants.APIS);
 
-    public static void assertFileNotContains(String path, String... lines) {
-        String file = readFile(path);
-        for (String line : lines)
-            assertFalse(file.contains(linearize(line)), "File contains line [" + line + "]");
-    }
-
-    public static void assertFileExists(String path) {
-        assertTrue(Paths.get(path).toFile().exists(), "File \"" + path + "\" should exist");
-    }
-
-    public static void assertFileNotExists(String path) {
-        assertFalse(Paths.get(path).toFile().exists(), "File \"" + path + "\" should not exist");
-    }
-
-    public static String readFile(String path) {
-        String file = null;
-        try {
-            String generatedFile = new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8);
-            file = linearize(generatedFile);
-            assertNotNull(file);
-        } catch (IOException e) {
-            fail("Unable to evaluate file " + path);
-        }
-
-        return file;
-    }
-
-    public static String linearize(String target) {
-        return target.replaceAll("\r?\n", "").replaceAll("\\s+", "\\s");
+        // Constructor should have properties
+        String modelPath = outputPath + "src/main/java/org/openapitools/model/";
+        assertFileContains(modelPath + "Pet.java", "public Pet()");
+        assertFileNotContainsRegex(modelPath + "Pet.java", "public Pet\\([^)]+\\)");
+        assertFileContains(modelPath + "User.java", "public User()");
+        assertFileNotContainsRegex(modelPath + "User.java", "public User\\([^)]+\\)");
+        assertFileContains(modelPath + "Order.java", "public Order()");
+        assertFileNotContainsRegex(modelPath + "Order.java", "public Order\\([^)]+\\)");
     }
 }

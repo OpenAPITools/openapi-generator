@@ -1,0 +1,28 @@
+        {{^isContainer}}
+        /// <summary>
+        /// {{^description}}Defines {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// </summary>
+        {{#description}}
+        /// <value>{{description}}</value>
+        {{/description}}
+        {{#isString}}
+        {{^useGenericHost}}
+        [JsonConverter(typeof(StringEnumConverter))]
+        {{/useGenericHost}}
+        {{/isString}}
+        {{>visibility}} enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}
+        {
+            {{#allowableValues}}
+            {{#enumVars}}
+            /// <summary>
+            /// Enum {{name}} for value: {{{value}}}
+            /// </summary>
+            {{#isString}}
+            [EnumMember(Value = "{{{value}}}")]
+            {{/isString}}
+            {{name}}{{^isString}} = {{{value}}}{{/isString}}{{#isString}} = {{-index}}{{/isString}}{{^-last}},{{/-last}}
+
+            {{/enumVars}}
+            {{/allowableValues}}
+        }
+        {{/isContainer}}

@@ -47,7 +47,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
-import org.threeten.bp.OffsetDateTime;
+import java.time.OffsetDateTime;
 
 import java.net.URLEncoder;
 
@@ -1036,7 +1036,12 @@ public class ApiClient extends JavaTimeFormatter {
       }
     }
 
-    Invocation.Builder invocationBuilder = target.request().accept(accept);
+    Invocation.Builder invocationBuilder;
+    if (accept != null) {
+      invocationBuilder = target.request().accept(accept);
+    } else {
+      invocationBuilder = target.request();
+    }
 
     for (Entry<String, String> entry : cookieParams.entrySet()) {
       String value = entry.getValue();

@@ -1,0 +1,50 @@
+package {{packageName}}.infrastructure
+
+{{#moshi}}
+import com.squareup.moshi.Moshi
+{{#enumUnknownDefaultCase}}
+import com.squareup.moshi.adapters.EnumJsonAdapter
+{{/enumUnknownDefaultCase}}
+{{/moshi}}
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}object SerializerHelper {
+{{#moshi}}
+    fun addEnumUnknownDefaultCase(moshiBuilder: Moshi.Builder): Moshi.Builder {
+        return moshiBuilder
+{{#enumUnknownDefaultCase}}
+{{#models}}
+{{#model}}
+{{#isEnum}}
+{{#allowableValues}}
+{{#enumVars}}
+{{#-last}}
+            .add({{modelPackage}}.{{classname}}::class.java, EnumJsonAdapter.create({{modelPackage}}.{{classname}}::class.java)
+                .withUnknownFallback({{modelPackage}}.{{classname}}.{{&name}}))
+{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+{{/isEnum}}
+{{^isEnum}}
+{{^isAlias}}
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+{{#allowableValues}}
+{{#enumVars}}
+{{#-last}}
+            .add({{modelPackage}}.{{classname}}.{{{nameInCamelCase}}}::class.java, EnumJsonAdapter.create({{modelPackage}}.{{classname}}.{{{nameInCamelCase}}}::class.java)
+                .withUnknownFallback({{modelPackage}}.{{classname}}.{{{nameInCamelCase}}}.{{&name}}))
+{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+{{/isAlias}}
+{{/isEnum}}
+{{/model}}
+{{/models}}
+{{/enumUnknownDefaultCase}}
+    }
+{{/moshi}}
+}
