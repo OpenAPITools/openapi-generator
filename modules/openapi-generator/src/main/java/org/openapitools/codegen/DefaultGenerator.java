@@ -963,6 +963,10 @@ public class DefaultGenerator implements Generator {
 
         // apis
         List<Object> allOperations = new ArrayList<>();
+
+        // the api operations which will be added to the supportingFile data structure
+        List<Object> allApiOperations = generateAllApiOperations(allOperations, allModels);
+
         Thread generateApisThread = new Thread(() -> generateApis(files, allOperations, allModels));
         generateApisThread.start();
 
@@ -971,7 +975,8 @@ public class DefaultGenerator implements Generator {
         generateOperationsThread.start();
 
         // supporting files
-        Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels);
+        // using the generated api operations "allApiOperations" instead of the empty list "allOperations"
+        Map<String, Object> bundle = buildSupportFileBundle(allApiOperations, allModels);
         Thread generateSupportingFilesThread = new Thread(() -> generateSupportingFiles(files, bundle));
         generateSupportingFilesThread.start();
 
@@ -1035,6 +1040,75 @@ public class DefaultGenerator implements Generator {
         GlobalSettings.reset();
 
         return files;
+    }
+
+    // generates and returns the api operations
+    private List<Object> generateAllApiOperations(List<Object> allOperations, List<Object> allModels) {
+        Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
+        Set<String> apisToGenerate = null;
+        String apiNames = GlobalSettings.getProperty("apis");
+        if (apiNames != null && !apiNames.isEmpty()) {
+            apisToGenerate = new HashSet<>(Arrays.asList(apiNames.split(",")));
+        }
+        if (apisToGenerate != null && !apisToGenerate.isEmpty()) {
+            Map<String, List<CodegenOperation>> updatedPaths = new TreeMap<>();
+            for (String m : paths.keySet()) {
+                if (apisToGenerate.contains(m)) {
+                    updatedPaths.put(m, paths.get(m));
+                }
+            }
+            paths = updatedPaths;
+        }
+        for (String tag : paths.keySet()) {
+            try {
+                List<CodegenOperation> ops = paths.get(tag);
+                ops.sort((one, another) -> ObjectUtils.compare(one.operationId, another.operationId));
+                Map<String, Object> operation = processOperations(config, tag, ops, allModels);
+                URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
+                operation.put("basePath", basePath);
+                operation.put("basePathWithoutHost", removeTrailingSlash(config.encodePath(url.getPath())));
+                operation.put("contextPath", contextPath);
+                operation.put("baseName", tag);
+                operation.put("apiPackage", config.apiPackage());
+                operation.put("modelPackage", config.modelPackage());
+                operation.putAll(config.additionalProperties());
+                operation.put("classname", config.toApiName(tag));
+                operation.put("classVarName", config.toApiVarName(tag));
+                operation.put("importPath", config.toApiImport(tag));
+                operation.put("classFilename", config.toApiFilename(tag));
+                operation.put("strictSpecBehavior", config.isStrictSpecBehavior());
+                if (allModels == null || allModels.isEmpty()) {
+                    operation.put("hasModel", false);
+                } else {
+                    operation.put("hasModel", true);
+                }
+                if (!config.vendorExtensions().isEmpty()) {
+                    operation.put("vendorExtensions", config.vendorExtensions());
+                }
+                // process top-level x-group-parameters
+                if (config.vendorExtensions().containsKey("x-group-parameters")) {
+                    boolean isGroupParameters = Boolean.parseBoolean(config.vendorExtensions().get("x-group-parameters").toString());
+                    Map<String, Object> objectMap = (Map<String, Object>) operation.get("operations");
+                    @SuppressWarnings("unchecked")
+                    List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+                    for (CodegenOperation op : operations) {
+                        if (isGroupParameters && !op.vendorExtensions.containsKey("x-group-parameters")) {
+                            op.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
+                        }
+                    }
+                }
+                // Pass sortParamsByRequiredFlag through to the Mustache template...
+                boolean sortParamsByRequiredFlag = true;
+                if (this.config.additionalProperties().containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
+                    sortParamsByRequiredFlag = Boolean.parseBoolean(this.config.additionalProperties().get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString());
+                }
+                operation.put("sortParamsByRequiredFlag", sortParamsByRequiredFlag);
+                allOperations.add(new HashMap<>(operation));
+            } catch (Exception e) {
+                throw new RuntimeException("Could not generate api file for '" + tag + "'", e);
+            }
+        }
+        return allOperations;
     }
 
     private void processUserDefinedTemplates() {
