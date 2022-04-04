@@ -223,8 +223,13 @@ public class FileSchemaTestClass implements Parcelable {
         ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
       }
       JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
-      // validate the optional field `files` (array)
       if (jsonArrayfiles != null) {
+        // ensure the json data is an array
+        if (!jsonObj.get("files").isJsonArray()) {
+          throw new IllegalArgumentException(String.format("Expected the field `files` to be an array in the JSON string but got `%s`", jsonObj.get("files").toString()));
+        }
+
+        // validate the optional field `files` (array)
         for (int i = 0; i < jsonArrayfiles.size(); i++) {
           ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
         };
