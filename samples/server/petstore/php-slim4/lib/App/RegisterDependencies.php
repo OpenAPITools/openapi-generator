@@ -72,6 +72,15 @@ final class RegisterDependencies
                     \DI\get('pdo.password'),
                     \DI\get('pdo.options', null)
                 ),
+
+            // DataMocker
+            // @see https://github.com/ybelenko/openapi-data-mocker-server-middleware
+            \OpenAPIServer\Mock\OpenApiDataMockerInterface::class => \DI\create(\OpenAPIServer\Mock\OpenApiDataMocker::class)
+                ->method('setModelsNamespace', 'OpenAPIServer\Model\\'),
+
+            \OpenAPIServer\Mock\OpenApiDataMockerRouteMiddlewareFactory::class => \DI\autowire()
+                ->constructorParameter('getMockStatusCodeCallback', \DI\get('mocker.getMockStatusCodeCallback'))
+                ->constructorParameter('afterCallback', \DI\get('mocker.afterCallback')),
         ]);
     }
 }

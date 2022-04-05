@@ -62,4 +62,37 @@ return [
     'pdo.options' => [
         \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
     ],
+
+    // mocker
+    // OBVIOUSLY MUST NOT BE USED for production
+    // @see https://github.com/ybelenko/openapi-data-mocker-server-middleware
+    'mocker.getMockStatusCodeCallback' => function () {
+        return function (\Psr\Http\Message\ServerRequestInterface $request, array $responses) {
+            // check if client clearly asks for mocked response
+            $pingHeader = 'X-OpenAPIServer-Mock';
+            $pingHeaderCode = 'X-OpenAPIServer-Mock-Code';
+            if (
+                $request->hasHeader($pingHeader)
+                && $request->getHeader($pingHeader)[0] === 'ping'
+            ) {
+                $responses = (array) $responses;
+                $requestedResponseCode = ($request->hasHeader($pingHeaderCode)) ? $request->getHeader($pingHeaderCode)[0] : 'default';
+                if (array_key_exists($requestedResponseCode, $responses)) {
+                    return $requestedResponseCode;
+                }
+
+                // return first response key
+                reset($responses);
+                return key($responses);
+            }
+
+            return false;
+        };
+    },
+    'mocker.afterCallback' => function () {
+        return function (\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response) {
+            // mark mocked response to distinguish real and fake responses
+            return $response->withHeader('X-OpenAPIServer-Mock', 'pong');
+        };
+    },
 ];
