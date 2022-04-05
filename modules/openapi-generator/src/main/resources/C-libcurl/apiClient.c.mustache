@@ -134,6 +134,15 @@ void apiClient_free(apiClient_t *apiClient) {
     free(apiClient);
 }
 
+void apiClient_free_data(apiClient_t *apiClient) {
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
+    }
+}
+
+
 sslConfig_t *sslConfig_create(const char *clientCertFile, const char *clientKeyFile, const char *CACertFile, int insecureSkipTlsVerify) {
     sslConfig_t *sslConfig = calloc(1, sizeof(sslConfig_t));
     if ( clientCertFile ) {
@@ -170,7 +179,8 @@ void replaceSpaceWithPlus(char *stringToProcess) {
     }
 }
 
-char *assembleTargetUrl(char    *basePath,
+char *assembleTargetUrl(CURL *curl, 
+                        char    *basePath,
                         char    *operationParameter,
                         list_t    *queryParameters) {
     int neededBufferSizeForQueryParameters = 0;
@@ -209,11 +219,13 @@ char *assembleTargetUrl(char    *basePath,
         strcat(targetUrl, "?");
         list_ForEach(listEntry, queryParameters) {
             keyValuePair_t *pair = listEntry->data;
-            replaceSpaceWithPlus(pair->key);
-            strcat(targetUrl, pair->key);
+            char *key = curl_easy_escape(curl, pair->key, 0);
+            strcat(targetUrl, key);
+            curl_free(key);
             strcat(targetUrl, "=");
-            replaceSpaceWithPlus(pair->value);
-            strcat(targetUrl, pair->value);
+            char *value = curl_easy_escape(curl, pair->value, 0);
+            strcat(targetUrl, value);
+            curl_free(value);
             if(listEntry->nextListEntry != NULL) {
                 strcat(targetUrl, "&");
             }
@@ -471,7 +483,8 @@ void apiClient_invoke(apiClient_t    *apiClient,
         {{/hasAuthMethods}}
 
         char *targetUrl =
-            assembleTargetUrl(apiClient->basePath,
+            assembleTargetUrl(handle,
+                              apiClient->basePath,
                               operationParameter,
                               queryParameters);
 
