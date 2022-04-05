@@ -7,8 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.openapitools.model.Entity;
-import org.openapitools.model.FooRefOrValue;
+import org.openapitools.model.EntityRef;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -20,24 +19,12 @@ import java.util.*;
 import javax.annotation.Generated;
 
 /**
- * Bar
+ * BarRef
  */
 
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Bar extends Entity implements BarRefOrValue {
-
-  @JsonProperty("id")
-  private String id;
-
-  @JsonProperty("barPropA")
-  private String barPropA;
-
-  @JsonProperty("fooPropB")
-  private String fooPropB;
-
-  @JsonProperty("foo")
-  private FooRefOrValue foo;
+public class BarRef extends EntityRef implements BarRefOrValue {
 
   @JsonProperty("href")
   private String href;
@@ -51,83 +38,7 @@ public class Bar extends Entity implements BarRefOrValue {
   @JsonProperty("@type")
   private String atType;
 
-  public Bar id(String id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * Get id
-   * @return id
-  */
-  @NotNull 
-  @Schema(name = "id", required = true)
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public Bar barPropA(String barPropA) {
-    this.barPropA = barPropA;
-    return this;
-  }
-
-  /**
-   * Get barPropA
-   * @return barPropA
-  */
-  
-  @Schema(name = "barPropA", required = false)
-  public String getBarPropA() {
-    return barPropA;
-  }
-
-  public void setBarPropA(String barPropA) {
-    this.barPropA = barPropA;
-  }
-
-  public Bar fooPropB(String fooPropB) {
-    this.fooPropB = fooPropB;
-    return this;
-  }
-
-  /**
-   * Get fooPropB
-   * @return fooPropB
-  */
-  
-  @Schema(name = "fooPropB", required = false)
-  public String getFooPropB() {
-    return fooPropB;
-  }
-
-  public void setFooPropB(String fooPropB) {
-    this.fooPropB = fooPropB;
-  }
-
-  public Bar foo(FooRefOrValue foo) {
-    this.foo = foo;
-    return this;
-  }
-
-  /**
-   * Get foo
-   * @return foo
-  */
-  @Valid 
-  @Schema(name = "foo", required = false)
-  public FooRefOrValue getFoo() {
-    return foo;
-  }
-
-  public void setFoo(FooRefOrValue foo) {
-    this.foo = foo;
-  }
-
-  public Bar href(String href) {
+  public BarRef href(String href) {
     this.href = href;
     return this;
   }
@@ -146,7 +57,7 @@ public class Bar extends Entity implements BarRefOrValue {
     this.href = href;
   }
 
-  public Bar atSchemaLocation(String atSchemaLocation) {
+  public BarRef atSchemaLocation(String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
     return this;
   }
@@ -165,7 +76,7 @@ public class Bar extends Entity implements BarRefOrValue {
     this.atSchemaLocation = atSchemaLocation;
   }
 
-  public Bar atBaseType(String atBaseType) {
+  public BarRef atBaseType(String atBaseType) {
     this.atBaseType = atBaseType;
     return this;
   }
@@ -184,7 +95,7 @@ public class Bar extends Entity implements BarRefOrValue {
     this.atBaseType = atBaseType;
   }
 
-  public Bar atType(String atType) {
+  public BarRef atType(String atType) {
     this.atType = atType;
     return this;
   }
@@ -211,32 +122,19 @@ public class Bar extends Entity implements BarRefOrValue {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Bar bar = (Bar) o;
-    return Objects.equals(this.id, bar.id) &&
-        Objects.equals(this.barPropA, bar.barPropA) &&
-        Objects.equals(this.fooPropB, bar.fooPropB) &&
-        Objects.equals(this.foo, bar.foo) &&
-        Objects.equals(this.href, bar.href) &&
-        Objects.equals(this.atSchemaLocation, bar.atSchemaLocation) &&
-        Objects.equals(this.atBaseType, bar.atBaseType) &&
-        Objects.equals(this.atType, bar.atType) &&
-        super.equals(o);
+    return true;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, barPropA, fooPropB, foo, href, atSchemaLocation, atBaseType, atType, super.hashCode());
+    return Objects.hash(href, atSchemaLocation, atBaseType, atTypesuper.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Bar {\n");
+    sb.append("class BarRef {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    barPropA: ").append(toIndentedString(barPropA)).append("\n");
-    sb.append("    fooPropB: ").append(toIndentedString(fooPropB)).append("\n");
-    sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
     sb.append("    href: ").append(toIndentedString(href)).append("\n");
     sb.append("    atSchemaLocation: ").append(toIndentedString(atSchemaLocation)).append("\n");
     sb.append("    atBaseType: ").append(toIndentedString(atBaseType)).append("\n");

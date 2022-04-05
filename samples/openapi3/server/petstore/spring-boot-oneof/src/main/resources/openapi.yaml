@@ -166,11 +166,13 @@ components:
     FooRef:
       allOf:
       - $ref: '#/components/schemas/EntityRef'
-      discriminator:
-        propertyName: '@type'
       properties:
         foorefPropA:
           type: string
+      type: object
+    BarRef:
+      allOf:
+      - $ref: '#/components/schemas/EntityRef'
       type: object
     Bar_Create:
       allOf:
@@ -203,3 +205,9 @@ components:
       required:
       - id
       type: object
+    BarRefOrValue:
+      oneOf:
+      - $ref: '#/components/schemas/Bar'
+      - $ref: '#/components/schemas/BarRef'
+      type: object
+      x-one-of-name: BarRefOrValue
