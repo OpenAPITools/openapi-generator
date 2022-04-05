@@ -268,6 +268,18 @@ public class ArrayTest {
           throw new IllegalArgumentException(String.format("The required field(s) %s in ArrayTest is not found in the empty JSON string", ArrayTest.openapiRequiredFields.toString()));
         }
       }
+      // ensure the json data is an array
+      if (jsonObj.get("array_of_string") != null && !jsonObj.get("array_of_string").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `array_of_string` to be an array in the JSON string but got `%s`", jsonObj.get("array_of_string").toString()));
+      }
+      // ensure the json data is an array
+      if (jsonObj.get("array_array_of_integer") != null && !jsonObj.get("array_array_of_integer").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `array_array_of_integer` to be an array in the JSON string but got `%s`", jsonObj.get("array_array_of_integer").toString()));
+      }
+      // ensure the json data is an array
+      if (jsonObj.get("array_array_of_model") != null && !jsonObj.get("array_array_of_model").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `array_array_of_model` to be an array in the JSON string but got `%s`", jsonObj.get("array_array_of_model").toString()));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

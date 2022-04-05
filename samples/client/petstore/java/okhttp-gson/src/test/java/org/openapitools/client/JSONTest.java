@@ -443,6 +443,24 @@ public class JSONTest {
     }
 
     /**
+     * Test JSON validation method
+     */
+    @Test
+    public void testJsonValidation() throws Exception {
+        String str = "{ \"cultivar\": [\"golden delicious\"], \"mealy\": false }";
+        Exception exception = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+            AppleReq a = json.getGson().fromJson(str, AppleReq.class);
+        });
+        assertTrue(exception.getMessage().contains("Expected the field `cultivar` to be a primitive type in the JSON string but got `[\"golden delicious\"]`"));
+
+        String str2 = "{ \"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": 123 }";
+        Exception exception2 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+            Pet p1 = json.getGson().fromJson(str2, Pet.class);
+        });
+        assertTrue(exception2.getMessage().contains("Expected the field `photoUrls` to be an array in the JSON string but got `123`"));
+    }
+
+    /**
      * Validate a oneOf schema can be deserialized into the expected class.
      * The oneOf schema does not have a discriminator.
      */
