@@ -1569,32 +1569,32 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                     // TODO handle this case in the future, this is when the discriminated
                     // schema allOf includes this schema, like Cat allOf includes Pet
                     // so this is the composed schema use case
-                } else {
-                    return fullPrefix + closeChars;
                 }
-            } else {
-                Object addPropsObj = schema.getAdditionalProperties();
-                // TODO handle true case for additionalProperties
-                if (addPropsObj instanceof Schema && !cycleFound) {
-                    Schema addPropsSchema = (Schema) addPropsObj;
-                    String key = "key";
-                    Object addPropsExample = getObjectExample(addPropsSchema);
-                    if (addPropsSchema.getEnum() != null && !addPropsSchema.getEnum().isEmpty()) {
-                        key = addPropsSchema.getEnum().get(0).toString();
-                    }
-                    addPropsExample = exampleFromStringOrArraySchema(addPropsSchema, addPropsExample, key);
-                    String addPropPrefix = key + "=";
-                    if (modelName == null) {
-                        addPropPrefix = ensureQuotes(key) + ": ";
-                    }
-                    String addPropsModelName = getModelName(addPropsSchema);
-                    includedSchemas.add(schema);
-                    example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, includedSchemas) + ",\n" + closingIndentation + closeChars;
-                } else {
-                    example = fullPrefix + closeChars;
-                }
+                return fullPrefix + closeChars;
             }
-            return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, includedSchemas);
+            Boolean hasProperties = (schema.getProperties() != null && !schema.getProperties().isEmpty());
+            Object addPropsObj = schema.getAdditionalProperties();
+            if (hasProperties) {
+                return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, includedSchemas);
+            } else if (addPropsObj instanceof Schema) {
+                // TODO handle true case for additionalProperties
+                Schema addPropsSchema = (Schema) addPropsObj;
+                String key = "key";
+                Object addPropsExample = getObjectExample(addPropsSchema);
+                if (addPropsSchema.getEnum() != null && !addPropsSchema.getEnum().isEmpty()) {
+                    key = addPropsSchema.getEnum().get(0).toString();
+                }
+                addPropsExample = exampleFromStringOrArraySchema(addPropsSchema, addPropsExample, key);
+                String addPropPrefix = key + "=";
+                if (modelName == null) {
+                    addPropPrefix = ensureQuotes(key) + ": ";
+                }
+                String addPropsModelName = getModelName(addPropsSchema);
+                includedSchemas.add(schema);
+                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, includedSchemas) + ",\n" + closingIndentation + closeChars;
+            } else {
+                example = fullPrefix + closeChars;
+            }
         } else {
             LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
         }
