@@ -1560,6 +1560,12 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             if (cycleFound) {
                 return fullPrefix + closeChars;
             }
+            if (ModelUtils.isComposedSchema(schema)) {
+                // composed object type schemas not yet handled
+                // what if this composed schema defined properties + allOf?
+                // what if it needs one oneOf schema, one anYof schema, and two allOf schemas?
+                return fullPrefix + closeChars;
+            }
             CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
             if (disc != null) {
                 MappedModel mm = getDiscriminatorMappedModel(disc);

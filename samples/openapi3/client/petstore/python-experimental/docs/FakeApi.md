@@ -57,7 +57,11 @@ with petstore_api.ApiClient(configuration) as api_client:
     api_instance = fake_api.FakeApi(api_client)
 
     # example passing only optional values
-    body = AdditionalPropertiesWithArrayOfEnums()
+    body = AdditionalPropertiesWithArrayOfEnums(
+        key=[
+            EnumClass("-efg")
+        ],
+    )
     try:
         # Additional Properties with Array of Enums
         api_response = api_instance.additional_properties_with_array_of_enums(
@@ -1352,7 +1356,9 @@ with petstore_api.ApiClient(configuration) as api_client:
     api_instance = fake_api.FakeApi(api_client)
 
     # example passing only required values which don't have defaults set
-    body = dict()
+    body = dict(
+        "key": "key_example",
+    )
     try:
         # test inline additionalProperties
         api_response = api_instance.inline_additional_properties(
