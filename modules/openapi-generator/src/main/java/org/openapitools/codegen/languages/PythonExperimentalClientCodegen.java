@@ -1452,8 +1452,56 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         } else if (ModelUtils.isAnyType(schema)) {
             /*
              This schema may be a composed schema
-             TODO Work on generating examples here in the future
+             TODO generate examples for some of these use cases in the future like
+             only oneOf without a discriminators
              */
+            Boolean hasProperties = (schema.getProperties() != null && !schema.getProperties().isEmpty());
+            CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
+            if (ModelUtils.isComposedSchema(schema)) {
+                // complex composed object type schemas not yet handled and the code returns early
+                if (hasProperties) {
+                    // what if this composed schema defined properties + allOf?
+                    // or items + properties, both a ist and a dict could be accepted as payloads
+                    return fullPrefix + "{}" + closeChars;
+                }
+                ComposedSchema cs = (ComposedSchema) schema;
+                Integer allOfExists = 0;
+                if (cs.getAllOf() != null && !cs.getAllOf().isEmpty()) {
+                    allOfExists = 1;
+                }
+                Integer anyOfExists = 0;
+                if (cs.getAnyOf() != null && !cs.getAnyOf().isEmpty()) {
+                    anyOfExists = 1;
+                }
+                Integer oneOfExists = 0;
+                if (cs.getOneOf() != null && !cs.getOneOf().isEmpty()) {
+                    oneOfExists = 1;
+                }
+                if (allOfExists + anyOfExists + oneOfExists > 1) {
+                    // what if it needs one oneOf schema, one anyOf schema, and two allOf schemas?
+                    return fullPrefix + "None" + closeChars;
+                }
+                // for now only oneOf with discriminator is supported
+                if (oneOfExists == 1 && disc != null) {
+                    ;
+                } else {
+                    return fullPrefix + "None" + closeChars;
+                }
+            }
+            if (disc != null) {
+                // a discriminator means that the type must be object
+                MappedModel mm = getDiscriminatorMappedModel(disc);
+                if (mm == null) {
+                    return fullPrefix + "None" + closeChars;
+                }
+                String discPropNameValue = mm.getMappingName();
+                String chosenModelName = mm.getModelName();
+                Schema modelSchema = getModelNameToSchemaCache().get(chosenModelName);
+                CodegenProperty cp = new CodegenProperty();
+                cp.setName(disc.getPropertyName());
+                cp.setExample(discPropNameValue);
+                return exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, includedSchemas);
+            }
             return fullPrefix + "None" + closeChars;
         } else if (ModelUtils.isBooleanSchema(schema)) {
             if (example == null) {
@@ -1560,25 +1608,51 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             if (cycleFound) {
                 return fullPrefix + closeChars;
             }
-            if (ModelUtils.isComposedSchema(schema)) {
-                // composed object type schemas not yet handled
-                // what if this composed schema defined properties + allOf?
-                // what if it needs one oneOf schema, one anYof schema, and two allOf schemas?
-                return fullPrefix + closeChars;
-            }
+            Boolean hasProperties = (schema.getProperties() != null && !schema.getProperties().isEmpty());
             CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
+            if (ModelUtils.isComposedSchema(schema)) {
+                // complex composed object type schemas not yet handled and the code returns early
+                if (hasProperties) {
+                    // what if this composed schema defined properties + allOf?
+                    return fullPrefix + closeChars;
+                }
+                ComposedSchema cs = (ComposedSchema) schema;
+                Integer allOfExists = 0;
+                if (cs.getAllOf() != null && !cs.getAllOf().isEmpty()) {
+                    allOfExists = 1;
+                }
+                Integer anyOfExists = 0;
+                if (cs.getAnyOf() != null && !cs.getAnyOf().isEmpty()) {
+                    anyOfExists = 1;
+                }
+                Integer oneOfExists = 0;
+                if (cs.getOneOf() != null && !cs.getOneOf().isEmpty()) {
+                    oneOfExists = 1;
+                }
+                if (allOfExists + anyOfExists + oneOfExists > 1) {
+                    // what if it needs one oneOf schema, one anyOf schema, and two allOf schemas?
+                    return fullPrefix + closeChars;
+                }
+                // for now only oneOf with discriminator is supported
+                if (oneOfExists == 1 && disc != null) {
+                    ;
+                } else {
+                    return fullPrefix + closeChars;
+                }
+            }
             if (disc != null) {
                 MappedModel mm = getDiscriminatorMappedModel(disc);
-                if (mm != null) {
-                    String discPropNameValue = mm.getMappingName();
-                    String chosenModelName = mm.getModelName();
-                    // TODO handle this case in the future, this is when the discriminated
-                    // schema allOf includes this schema, like Cat allOf includes Pet
-                    // so this is the composed schema use case
+                if (mm == null) {
+                    return fullPrefix + closeChars;
                 }
-                return fullPrefix + closeChars;
+                String discPropNameValue = mm.getMappingName();
+                String chosenModelName = mm.getModelName();
+                Schema modelSchema = getModelNameToSchemaCache().get(chosenModelName);
+                CodegenProperty cp = new CodegenProperty();
+                cp.setName(disc.getPropertyName());
+                cp.setExample(discPropNameValue);
+                return exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, includedSchemas);
             }
-            Boolean hasProperties = (schema.getProperties() != null && !schema.getProperties().isEmpty());
             Object addPropsObj = schema.getAdditionalProperties();
             if (hasProperties) {
                 return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, includedSchemas);
