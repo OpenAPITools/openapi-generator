@@ -11,11 +11,11 @@ lazy val root = (project in file(".")).
     libraryDependencies ++= Seq(
       "com.google.code.findbugs" % "jsr305" % "3.0.0",
       "io.swagger" % "swagger-annotations" % "1.6.5",
-      "org.glassfish.jersey.core" % "jersey-client" % "2.35",
-      "org.glassfish.jersey.inject" % "jersey-hk2" % "2.35",
-      "org.glassfish.jersey.media" % "jersey-media-multipart" % "2.35",
-      "org.glassfish.jersey.media" % "jersey-media-json-jackson" % "2.35",
-      "org.glassfish.jersey.connectors" % "jersey-apache-connector" % "2.35",
+      "org.glassfish.jersey.core" % "jersey-client" % "3.0.4",
+      "org.glassfish.jersey.inject" % "jersey-hk2" % "3.0.4",
+      "org.glassfish.jersey.media" % "jersey-media-multipart" % "3.0.4",
+      "org.glassfish.jersey.media" % "jersey-media-json-jackson" % "3.0.4",
+      "org.glassfish.jersey.connectors" % "jersey-apache-connector" % "3.0.4",
       "com.fasterxml.jackson.core" % "jackson-core" % "2.13.2" % "compile",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.13.2" % "compile",
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.13.2" % "compile",
@@ -23,8 +23,7 @@ lazy val root = (project in file(".")).
       "org.openapitools" % "jackson-databind-nullable" % "0.2.2" % "compile",
       "com.github.scribejava" % "scribejava-apis" % "8.3.1" % "compile",
       "org.tomitribe" % "tomitribe-http-signatures" % "1.7" % "compile",
-      "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5" % "compile",
-      "junit" % "junit" % "4.13.2" % "test",
-      "com.novocode" % "junit-interface" % "0.10" % "test"
+      "jakarta.annotation" % "jakarta.annotation-api" % "2.1.0" % "compile",
+      "org.junit.jupiter" % "junit-jupiter-api" % "5.8.2" % "test"
     )
   )
