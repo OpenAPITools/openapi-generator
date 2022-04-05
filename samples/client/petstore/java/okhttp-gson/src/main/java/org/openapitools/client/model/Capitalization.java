@@ -331,6 +331,24 @@ public class Capitalization {
           throw new IllegalArgumentException(String.format("The required field(s) %s in Capitalization is not found in the empty JSON string", Capitalization.openapiRequiredFields.toString()));
         }
       }
+      if (jsonObj.get("smallCamel") != null && !jsonObj.get("smallCamel").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `smallCamel` to be a primitive type in the JSON string but got `%s`", jsonObj.get("smallCamel").toString()));
+      }
+      if (jsonObj.get("CapitalCamel") != null && !jsonObj.get("CapitalCamel").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `CapitalCamel` to be a primitive type in the JSON string but got `%s`", jsonObj.get("CapitalCamel").toString()));
+      }
+      if (jsonObj.get("small_Snake") != null && !jsonObj.get("small_Snake").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `small_Snake` to be a primitive type in the JSON string but got `%s`", jsonObj.get("small_Snake").toString()));
+      }
+      if (jsonObj.get("Capital_Snake") != null && !jsonObj.get("Capital_Snake").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `Capital_Snake` to be a primitive type in the JSON string but got `%s`", jsonObj.get("Capital_Snake").toString()));
+      }
+      if (jsonObj.get("SCA_ETH_Flow_Points") != null && !jsonObj.get("SCA_ETH_Flow_Points").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `SCA_ETH_Flow_Points` to be a primitive type in the JSON string but got `%s`", jsonObj.get("SCA_ETH_Flow_Points").toString()));
+      }
+      if (jsonObj.get("ATT_NAME") != null && !jsonObj.get("ATT_NAME").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `ATT_NAME` to be a primitive type in the JSON string but got `%s`", jsonObj.get("ATT_NAME").toString()));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

@@ -186,6 +186,10 @@ public class ArrayOfArrayOfNumberOnly implements Parcelable {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ArrayOfArrayOfNumberOnly` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
+      // ensure the json data is an array
+      if (jsonObj.get("ArrayArrayNumber") != null && !jsonObj.get("ArrayArrayNumber").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `ArrayArrayNumber` to be an array in the JSON string but got `%s`", jsonObj.get("ArrayArrayNumber").toString()));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
