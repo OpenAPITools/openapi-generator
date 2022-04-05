@@ -1590,6 +1590,10 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
                 return fullPrefix + objExample.toString() + closeChars;
             }
+            if (ModelUtils.isComposedSchema(schema)) {
+                // complex composed array type schemas not yet handled and the code returns early
+                return fullPrefix + "[]" + closeChars;
+            }
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
