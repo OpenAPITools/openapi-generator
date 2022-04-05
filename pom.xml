@@ -1250,6 +1250,7 @@
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
                 <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
+                <module>samples/client/petstore/java/jersey3</module>
                 <module>samples/client/others/java/okhttp-gson-streaming</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
             </modules>
