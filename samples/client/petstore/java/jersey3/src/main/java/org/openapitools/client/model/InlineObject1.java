@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
   InlineObject1.JSON_PROPERTY_ADDITIONAL_METADATA,
   InlineObject1.JSON_PROPERTY_FILE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class InlineObject1 {
   public static final String JSON_PROPERTY_ADDITIONAL_METADATA = "additionalMetadata";
   private String additionalMetadata;
@@ -54,7 +54,7 @@ public class InlineObject1 {
    * Additional data to pass to server
    * @return additionalMetadata
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @ApiModelProperty(value = "Additional data to pass to server")
   @JsonProperty(JSON_PROPERTY_ADDITIONAL_METADATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -78,7 +78,7 @@ public class InlineObject1 {
    * file to upload
    * @return file
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @ApiModelProperty(value = "file to upload")
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
   InlineResponseDefault.JSON_PROPERTY_STRING
 })
 @JsonTypeName("inline_response_default")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class InlineResponseDefault {
   public static final String JSON_PROPERTY_STRING = "string";
   private Foo string;
@@ -53,7 +53,7 @@ public class InlineResponseDefault {
    * Get string
    * @return string
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

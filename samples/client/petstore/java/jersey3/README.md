@@ -1,4 +1,4 @@
-# petstore-openapi3-jersey2-java8
+# petstore-jersey3
 
 OpenAPI Petstore
 
@@ -14,7 +14,7 @@ This spec is mainly for testing Petstore server and contains fake endpoints, mod
 Building the API client library requires:
 
 1. Java 1.8+
-2. Maven (3.8.3+)/Gradle (7.2+)
+2. Maven/Gradle
 
 ## Installation
 
@@ -39,7 +39,7 @@ Add this dependency to your project's POM:
 ```xml
 <dependency>
   <groupId>org.openapitools</groupId>
-  <artifactId>petstore-openapi3-jersey2-java8</artifactId>
+  <artifactId>petstore-jersey3</artifactId>
   <version>1.0.0</version>
   <scope>compile</scope>
 </dependency>
@@ -51,12 +51,12 @@ Add this dependency to your project's build file:
 
 ```groovy
   repositories {
-    mavenCentral()     // Needed if the 'petstore-openapi3-jersey2-java8' jar has been published to maven central.
-    mavenLocal()       // Needed if the 'petstore-openapi3-jersey2-java8' jar has been published to the local maven repo.
+    mavenCentral()     // Needed if the 'petstore-jersey3' jar has been published to maven central.
+    mavenLocal()       // Needed if the 'petstore-jersey3' jar has been published to the local maven repo.
   }
 
   dependencies {
-     implementation "org.openapitools:petstore-openapi3-jersey2-java8:1.0.0"
+     implementation "org.openapitools:petstore-jersey3:1.0.0"
   }
 ```
 
@@ -70,33 +70,8 @@ mvn clean package
 
 Then manually install the following JARs:
 
-- `target/petstore-openapi3-jersey2-java8-1.0.0.jar`
+- `target/petstore-jersey3-1.0.0.jar`
 - `target/lib/*.jar`
-
-## Usage
-
-To add a HTTP proxy for the API client, use `ClientConfig`:
-```java
-
-import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.ClientProperties;
-import org.openapitools.client.*;
-import org.openapitools.client.api.AnotherFakeApi;
-
-...
-
-ApiClient defaultClient = Configuration.getDefaultApiClient();
-ClientConfig clientConfig = defaultClient.getClientConfig();
-clientConfig.connectorProvider(new ApacheConnectorProvider());
-clientConfig.property(ClientProperties.PROXY_URI, "http://proxy_url_here");
-clientConfig.property(ClientProperties.PROXY_USERNAME, "proxy_username");
-clientConfig.property(ClientProperties.PROXY_PASSWORD, "proxy_password");
-defaultClient.setClientConfig(clientConfig);
-
-AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
-
-```
 
 ## Getting Started
 

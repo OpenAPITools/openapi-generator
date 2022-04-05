@@ -37,7 +37,7 @@ import org.openapitools.client.JSON;
   InlineObject2.JSON_PROPERTY_ENUM_FORM_STRING_ARRAY,
   InlineObject2.JSON_PROPERTY_ENUM_FORM_STRING
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class InlineObject2 {
   /**
    * Gets or Sets enumFormStringArray
@@ -135,7 +135,7 @@ public class InlineObject2 {
    * Form parameter enum test (string array)
    * @return enumFormStringArray
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @ApiModelProperty(value = "Form parameter enum test (string array)")
   @JsonProperty(JSON_PROPERTY_ENUM_FORM_STRING_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -159,7 +159,7 @@ public class InlineObject2 {
    * Form parameter enum test (string)
    * @return enumFormString
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @ApiModelProperty(value = "Form parameter enum test (string)")
   @JsonProperty(JSON_PROPERTY_ENUM_FORM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

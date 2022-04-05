@@ -38,7 +38,7 @@ import org.openapitools.client.JSON;
   ChildCatAllOf.JSON_PROPERTY_PET_TYPE
 })
 @JsonTypeName("ChildCat_allOf")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ChildCatAllOf {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
@@ -58,7 +58,7 @@ public class ChildCatAllOf {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -92,7 +92,7 @@ public class ChildCatAllOf {
    * Get petType
    * @return petType
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

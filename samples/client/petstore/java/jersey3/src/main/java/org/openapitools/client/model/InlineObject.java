@@ -35,7 +35,7 @@ import org.openapitools.client.JSON;
   InlineObject.JSON_PROPERTY_NAME,
   InlineObject.JSON_PROPERTY_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class InlineObject {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
@@ -53,7 +53,7 @@ public class InlineObject {
    * Updated name of the pet
    * @return name
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @ApiModelProperty(value = "Updated name of the pet")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -77,7 +77,7 @@ public class InlineObject {
    * Updated status of the pet
    * @return status
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @ApiModelProperty(value = "Updated status of the pet")
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

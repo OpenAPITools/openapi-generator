@@ -84,7 +84,7 @@ if(hasProperty('target') && target == 'android') {
     publishing {
         publications {
             maven(MavenPublication) {
-               artifactId = 'petstore-openapi3-jersey2-java8'
+               artifactId = 'petstore-jersey3'
 
                from components.java
             }
