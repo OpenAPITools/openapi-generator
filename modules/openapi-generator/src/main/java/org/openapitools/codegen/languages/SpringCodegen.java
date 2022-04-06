@@ -62,6 +62,8 @@ import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -622,10 +624,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        final Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        final OperationMap operations = objs.getOperations();
         if (operations != null) {
-            final List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            final List<CodegenOperation> ops = operations.getOperation();
             for (final CodegenOperation operation : ops) {
                 final List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {

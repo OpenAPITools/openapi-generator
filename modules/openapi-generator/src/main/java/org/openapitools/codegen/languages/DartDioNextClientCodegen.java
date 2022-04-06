@@ -26,6 +26,8 @@ import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -295,10 +297,10 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList =  operations.getOperation();
 
         Set<String> resultImports = new HashSet<>();
 
@@ -365,6 +367,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             }
         }
 
+        // for some reason "import" structure is changed ..
         objs.put("imports", resultImports.stream().sorted().collect(Collectors.toList()));
 
         return objs;

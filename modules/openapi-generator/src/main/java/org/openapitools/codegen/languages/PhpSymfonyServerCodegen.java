@@ -24,6 +24,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -391,15 +393,15 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        operations.put("controllerName", toControllerName((String) operations.get("pathPrefix")));
-        operations.put("symfonyService", toSymfonyService((String) operations.get("pathPrefix")));
+        OperationMap operations = objs.getOperations();
+        operations.put("controllerName", toControllerName(operations.getPathPrefix()));
+        operations.put("symfonyService", toSymfonyService(operations.getPathPrefix()));
 
         List<CodegenSecurity> authMethods = new ArrayList<>();
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        List<CodegenOperation> operationList = operations.getOperation();
 
         for (CodegenOperation op : operationList) {
             // Loop through all input parameters to determine, whether we have to import something to
