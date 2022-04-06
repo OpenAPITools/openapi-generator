@@ -1,4 +1,3 @@
-
 package org.openapitools.api;
 
 import org.openapitools.model.Client;
