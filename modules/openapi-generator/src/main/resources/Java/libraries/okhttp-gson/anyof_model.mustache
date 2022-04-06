@@ -1,0 +1,236 @@
+import javax.ws.rs.core.GenericType;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import {{invokerPackage}}.JSON;
+
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
+public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
+    private static final Logger log = Logger.getLogger({{classname}}.class.getName());
+
+    public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+        @SuppressWarnings("unchecked")
+        @Override
+        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+            if (!{{classname}}.class.isAssignableFrom(type.getRawType())) {
+                return null; // this class only serializes '{{classname}}' and its subtypes
+            }
+            final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+            {{#anyOf}}
+            final TypeAdapter<{{.}}> adapter{{.}} = gson.getDelegateAdapter(this, TypeToken.get({{.}}.class));
+            {{/anyOf}}
+
+            return (TypeAdapter<T>) new TypeAdapter<{{classname}}>() {
+                @Override
+                public void write(JsonWriter out, {{classname}} value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
+                    {{#anyOf}}
+                    // check if the actual instance is of the type `{{.}}`
+                    if (value.getActualInstance() instanceof {{.}}) {
+                        JsonObject obj = adapter{{.}}.toJsonTree(({{.}})value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                        return;
+                    }
+
+                    {{/anyOf}}
+                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
+                }
+
+                @Override
+                public {{classname}} read(JsonReader in) throws IOException {
+                    Object deserialized = null;
+                    JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
+
+                    {{#useOneOfDiscriminatorLookup}}
+                    {{#discriminator}}
+                    // use discriminator value for faster anyOf lookup
+                    {{classname}} new{{classname}} = new {{classname}}();
+                    String discriminatorValue = elementAdapter.read(in).getAsJsonObject().get("{{{propertyBaseName}}}").getAsString();
+                    switch (discriminatorValue) {
+                    {{#mappedModels}}
+                        case "{{{mappingName}}}":
+                            deserialized = adapter{{modelName}}.fromJsonTree(jsonObject);
+                            new{{classname}}.setActualInstance(deserialized);
+                            return new{{classname}};
+                    {{/mappedModels}}
+                        default:
+                            log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
+                    }
+
+                    {{/discriminator}}
+                    {{/useOneOfDiscriminatorLookup}}
+                    {{#anyOf}}
+                    // deserialize {{{.}}}
+                    try {
+                        // validate the JSON object to see if any exception is thrown
+                        {{.}}.validateJsonObject(jsonObject);
+                        log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
+                        {{classname}} ret = new {{classname}}();
+                        ret.setActualInstance(adapter{{.}}.fromJsonTree(jsonObject));
+                        return ret;
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema '{{{.}}}'", e);
+                    }
+
+                    {{/anyOf}}
+
+                    throw new IOException(String.format("Failed deserialization for {{classname}}: no class matched. JSON: %s", jsonObject.toString()));
+                }
+            }.nullSafe();
+        }
+    }
+
+    // store a list of schema names defined in anyOf
+    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+
+    public {{classname}}() {
+        super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+    }
+
+    {{#anyOf}}
+    public {{classname}}({{{.}}} o) {
+        super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+        setActualInstance(o);
+    }
+
+    {{/anyOf}}
+    static {
+        {{#anyOf}}
+        schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
+        });
+        {{/anyOf}}
+    }
+
+    @Override
+    public Map<String, GenericType> getSchemas() {
+        return {{classname}}.schemas;
+    }
+
+    /**
+     * Set the instance that matches the anyOf child schema, check
+     * the instance parameter is valid against the anyOf child schemas:
+     * {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}
+     *
+     * It could be an instance of the 'anyOf' schemas.
+     * The anyOf child schemas may themselves be a composed schema (allOf, anyOf, anyOf).
+     */
+    @Override
+    public void setActualInstance(Object instance) {
+        {{#isNullable}}
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
+        {{/isNullable}}
+        {{#anyOf}}
+        if (instance instanceof {{{.}}}) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        {{/anyOf}}
+        throw new RuntimeException("Invalid instance type. Must be {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
+    }
+
+    /**
+     * Get the actual instance, which can be the following:
+     * {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}
+     *
+     * @return The actual instance ({{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}})
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
+
+    {{#anyOf}}
+    /**
+     * Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `{{{.}}}`
+     * @throws ClassCastException if the instance is not `{{{.}}}`
+     */
+    public {{{.}}} get{{{.}}}() throws ClassCastException {
+        return ({{{.}}})super.getActualInstance();
+    }
+
+    {{/anyOf}}
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to {{classname}}
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+    // validate anyOf schemas one by one
+    int validCount = 0;
+    {{#anyOf}}
+    // validate the json string with {{{.}}}
+    try {
+      {{{.}}}.validateJsonObject(jsonObj);
+      return; // return earlier as at least one schema is valid with respect to the Json object
+      //validCount++;
+    } catch (Exception e) {
+      // continue to the next one
+    }
+    {{/anyOf}}
+    if (validCount == 0) {
+      throw new IOException(String.format("The JSON string is invalid for {{classname}} with anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. JSON: %s", jsonObj.toString()));
+    }
+  }
+
+ /**
+  * Create an instance of {{classname}} given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of {{classname}}
+  * @throws IOException if the JSON string is invalid with respect to {{classname}}
+  */
+  public static {{{classname}}} fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, {{{classname}}}.class);
+  }
+
+ /**
+  * Convert an instance of {{classname}} to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
+}

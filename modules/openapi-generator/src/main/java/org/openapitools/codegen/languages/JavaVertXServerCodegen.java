@@ -27,6 +27,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.utils.URLPathUtils;
 
 import org.slf4j.Logger;
@@ -95,7 +96,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         updateOption(CodegenConstants.ARTIFACT_VERSION, this.getArtifactVersion());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
 
         additionalProperties.put(ROOT_PACKAGE, rootPackage);
 
@@ -190,7 +191,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         Map<String, Object> newObjs = super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> operations = (Map<String, Object>) newObjs.get("operations");
         if (operations != null) {

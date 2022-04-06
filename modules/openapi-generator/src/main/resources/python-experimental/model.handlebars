@@ -1,0 +1,17 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+import re  # noqa: F401
+import sys  # noqa: F401
+import typing  # noqa: F401
+
+from frozendict import frozendict  # noqa: F401
+
+{{#each models}}
+{{#with model}}
+{{> model_templates/imports_schema_types }}
+{{> model_templates/schema }}
+{{> model_templates/imports_schemas }}
+{{/with}}
+{{/each}}

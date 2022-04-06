@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.*;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@JsonTypeName("ReadOnlyFirst")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "ReadOnlyFirst")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -48,6 +47,8 @@ public class ReadOnlyFirst {
   @XmlElement(name = "baz")
   private String baz;
 
+  public ReadOnlyFirst() { 
+  }
 
    /**
    * Get bar

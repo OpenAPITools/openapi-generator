@@ -11,7 +11,7 @@ class {{classname}} extends EnumClass {
       {{#description}}
   /// {{{.}}}
       {{/description}}
-  @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{^isInteger}}wireName: r{{{value}}}{{/isInteger}})
+  @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{#isLong}}wireNumber: {{{value}}}{{/isLong}}{{^isInteger}}{{^isLong}}wireName: r{{{value}}}{{/isLong}}{{/isInteger}})
   static const {{classname}} {{name}} = _${{name}};
     {{/enumVars}}
   {{/allowableValues}}

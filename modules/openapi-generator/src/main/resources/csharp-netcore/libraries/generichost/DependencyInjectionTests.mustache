@@ -1,0 +1,158 @@
+{{>partial_header}}
+using System;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using {{packageName}}.Client;
+using {{packageName}}.{{apiPackage}};
+using Xunit;
+
+namespace {{packageName}}.Test.Api
+{
+    /// <summary>
+    ///  Tests the dependency injection.
+    /// </summary>
+    public class DependencyInjectionTest
+    {
+        private readonly IHost _hostUsingConfigureWithoutAClient = 
+            Host.CreateDefaultBuilder(Array.Empty<string>()).Configure{{apiName}}((context, options) =>
+            {
+                {{#hasApiKeyMethods}}ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(apiKeyToken);
+                {{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
+                BearerToken bearerToken = new BearerToken($"<token>", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(bearerToken);
+                {{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
+                BasicToken basicToken = new BasicToken("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(basicToken);
+                {{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
+                HttpSigningConfiguration config = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                HttpSignatureToken httpSignatureToken = new HttpSignatureToken(config, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(httpSignatureToken);
+                {{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}
+                OAuthToken oauthToken = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken);{{/hasOAuthMethods}}
+            })
+            .Build();
+
+        private readonly IHost _hostUsingConfigureWithAClient =
+            Host.CreateDefaultBuilder(Array.Empty<string>()).Configure{{apiName}}((context, options) =>
+            {
+                {{#hasApiKeyMethods}}ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(apiKeyToken);
+                {{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
+                BearerToken bearerToken = new BearerToken($"<token>", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(bearerToken);
+                {{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
+                BasicToken basicToken = new BasicToken("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(basicToken);
+                {{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
+                HttpSigningConfiguration config = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                HttpSignatureToken httpSignatureToken = new HttpSignatureToken(config, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(httpSignatureToken);
+                {{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}
+                OAuthToken oauthToken = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken);{{/hasOAuthMethods}}
+                options.Add{{apiName}}HttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
+            })
+            .Build();
+
+        private readonly IHost _hostUsingAddWithoutAClient =
+            Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureServices((host, services) =>
+            {
+                services.Add{{apiName}}(options =>
+                {
+                    {{#hasApiKeyMethods}}ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(apiKeyToken);
+                    {{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
+                    BearerToken bearerToken = new BearerToken($"<token>", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(bearerToken);
+                    {{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
+                    BasicToken basicToken = new BasicToken("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(basicToken);
+                    {{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
+                    HttpSigningConfiguration config = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                    HttpSignatureToken httpSignatureToken = new HttpSignatureToken(config, timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(httpSignatureToken);
+                    {{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}
+                    OAuthToken oauthToken = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(oauthToken);{{/hasOAuthMethods}}
+                });
+            })
+            .Build();
+
+        private readonly IHost _hostUsingAddWithAClient =
+            Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureServices((host, services) =>
+            {
+                services.Add{{apiName}}(options =>
+                {
+                    {{#hasApiKeyMethods}}ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(apiKeyToken);
+                    {{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
+                    BearerToken bearerToken = new BearerToken($"<token>", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(bearerToken);
+                    {{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
+                    BasicToken basicToken = new BasicToken("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(basicToken);
+                    {{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
+                    HttpSigningConfiguration config = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                    HttpSignatureToken httpSignatureToken = new HttpSignatureToken(config, timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(httpSignatureToken);
+                    {{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}
+                    OAuthToken oauthToken = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(oauthToken);{{/hasOAuthMethods}}
+                    options.Add{{apiName}}HttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
+                });
+            })
+            .Build();
+
+        /// <summary>
+        /// Test dependency injection when using the configure method
+        /// </summary>
+        [Fact]
+        public void ConfigureApiWithAClientTest()
+        {
+            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingConfigureWithAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
+            Assert.True({{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.HttpClient.BaseAddress != null);{{^-last}}
+            
+            {{/-last}}{{/apis}}{{/apiInfo}}
+        }
+
+        /// <summary>
+        /// Test dependency injection when using the configure method
+        /// </summary>
+        [Fact]
+        public void ConfigureApiWithoutAClientTest()
+        {
+            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
+            Assert.True({{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.HttpClient.BaseAddress != null);{{^-last}}
+            
+            {{/-last}}{{/apis}}{{/apiInfo}}
+        }
+
+        /// <summary>
+        /// Test dependency injection when using the add method
+        /// </summary>
+        [Fact]
+        public void AddApiWithAClientTest()
+        {
+            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingAddWithAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
+            Assert.True({{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.HttpClient.BaseAddress != null);{{^-last}}
+            
+            {{/-last}}{{/apis}}{{/apiInfo}}
+        }
+
+        /// <summary>
+        /// Test dependency injection when using the add method
+        /// </summary>
+        [Fact]
+        public void AddApiWithoutAClientTest()
+        {
+            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingAddWithoutAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
+            Assert.True({{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.HttpClient.BaseAddress != null);{{^-last}}
+            
+            {{/-last}}{{/apis}}{{/apiInfo}}
+        }
+    }
+}

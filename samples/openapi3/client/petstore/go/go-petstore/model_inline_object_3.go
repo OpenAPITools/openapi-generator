@@ -45,7 +45,7 @@ type InlineObject3 struct {
 	// None
 	Password *string `json:"password,omitempty"`
 	// None
-	Callback *string `json:"callback,omitempty"`
+	Callback             *string `json:"callback,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -55,7 +55,7 @@ type _InlineObject3 InlineObject3
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInlineObject3(number float32, double float64, patternWithoutDelimiter string, byte_ string, ) *InlineObject3 {
+func NewInlineObject3(number float32, double float64, patternWithoutDelimiter string, byte_ string) *InlineObject3 {
 	this := InlineObject3{}
 	this.Number = number
 	this.Double = double
@@ -170,7 +170,7 @@ func (o *InlineObject3) SetInt64(v int64) {
 
 // GetNumber returns the Number field value
 func (o *InlineObject3) GetNumber() float32 {
-	if o == nil  {
+	if o == nil {
 		var ret float32
 		return ret
 	}
@@ -181,7 +181,7 @@ func (o *InlineObject3) GetNumber() float32 {
 // GetNumberOk returns a tuple with the Number field value
 // and a boolean to check if the value has been set.
 func (o *InlineObject3) GetNumberOk() (*float32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Number, true
@@ -226,7 +226,7 @@ func (o *InlineObject3) SetFloat(v float32) {
 
 // GetDouble returns the Double field value
 func (o *InlineObject3) GetDouble() float64 {
-	if o == nil  {
+	if o == nil {
 		var ret float64
 		return ret
 	}
@@ -237,7 +237,7 @@ func (o *InlineObject3) GetDouble() float64 {
 // GetDoubleOk returns a tuple with the Double field value
 // and a boolean to check if the value has been set.
 func (o *InlineObject3) GetDoubleOk() (*float64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Double, true
@@ -282,7 +282,7 @@ func (o *InlineObject3) SetString(v string) {
 
 // GetPatternWithoutDelimiter returns the PatternWithoutDelimiter field value
 func (o *InlineObject3) GetPatternWithoutDelimiter() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -293,7 +293,7 @@ func (o *InlineObject3) GetPatternWithoutDelimiter() string {
 // GetPatternWithoutDelimiterOk returns a tuple with the PatternWithoutDelimiter field value
 // and a boolean to check if the value has been set.
 func (o *InlineObject3) GetPatternWithoutDelimiterOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.PatternWithoutDelimiter, true
@@ -306,7 +306,7 @@ func (o *InlineObject3) SetPatternWithoutDelimiter(v string) {
 
 // GetByte returns the Byte field value
 func (o *InlineObject3) GetByte() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -317,7 +317,7 @@ func (o *InlineObject3) GetByte() string {
 // GetByteOk returns a tuple with the Byte field value
 // and a boolean to check if the value has been set.
 func (o *InlineObject3) GetByteOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Byte, true
@@ -605,5 +605,3 @@ func (v *NullableInlineObject3) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

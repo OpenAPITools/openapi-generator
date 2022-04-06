@@ -18,7 +18,7 @@ import {
     PartFromJSON,
     PartFromJSONTyped,
     PartToJSON,
-} from './';
+} from './Part';
 
 /**
  * Contains all the matching parts

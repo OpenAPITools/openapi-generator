@@ -1,8 +1,19 @@
 ---
-title: Config Options for kotlin-spring
-sidebar_label: kotlin-spring
+title: Documentation for the kotlin-spring Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | kotlin-spring | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Kotlin | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a Kotlin Spring application. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -12,6 +23,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactId|Generated artifact id (name of jar).| |openapi-spring|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
+|beanQualifiers|Whether to add fully-qualifier class names as bean qualifiers in @Component and @RestController annotations. May be used to prevent bean names clash if multiple generated libraries (contexts) added to single project.| |false|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
 |exceptionHandler|generate default global exception handlers (not compatible with reactive. enabling reactive will disable exceptionHandler )| |true|
@@ -78,6 +90,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>kotlin.String</li>
 <li>kotlin.collections.List</li>
 <li>kotlin.collections.Map</li>
+<li>kotlin.collections.MutableList</li>
+<li>kotlin.collections.MutableMap</li>
+<li>kotlin.collections.MutableSet</li>
 <li>kotlin.collections.Set</li>
 </ul>
 

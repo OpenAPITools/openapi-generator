@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class Pet  {
   
@@ -27,7 +29,7 @@ public class Pet  {
   private String name;
 
   @ApiModelProperty(required = true, value = "")
-  private Set<String> photoUrls = new LinkedHashSet<String>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   @ApiModelProperty(value = "")
   @Valid
@@ -135,6 +137,7 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
     return photoUrls;
   }
 
+  @JsonDeserialize(as = LinkedHashSet.class)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }

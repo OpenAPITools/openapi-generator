@@ -27,7 +27,7 @@ class {{classname}}Test {
     @Test
     fun {{operationId}}Test() {{#reactive}}= runBlockingTest {{/reactive}}{
         {{#allParams}}
-        val {{paramName}}:{{{dataType}}}? = null
+        val {{paramName}}:{{>optionalDataType}} = TODO()
         {{/allParams}}
         val response: ResponseEntity<{{>returnTypes}}> = api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
 

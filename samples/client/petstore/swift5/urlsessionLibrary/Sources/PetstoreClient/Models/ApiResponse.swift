@@ -15,7 +15,7 @@ public typealias ApiResponse = PetstoreClientAPI.ApiResponse
 
 extension PetstoreClientAPI {
 
-public final class ApiResponse: Codable, Hashable {
+public final class ApiResponse: Codable, JSONEncodable, Hashable {
 
     public var code: Int?
     public var type: String?

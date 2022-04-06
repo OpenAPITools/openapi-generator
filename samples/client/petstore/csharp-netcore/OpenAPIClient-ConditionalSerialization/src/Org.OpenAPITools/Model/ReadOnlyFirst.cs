@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public ReadOnlyFirst(string baz = default(string))
         {
             this._Baz = baz;
+            if (this.Baz != null)
+            {
+                this._flagBaz = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -92,7 +96,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class ReadOnlyFirst {\n");
             sb.Append("  Bar: ").Append(Bar).Append("\n");
             sb.Append("  Baz: ").Append(Baz).Append("\n");
@@ -140,11 +144,17 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.Bar != null)
-                    hashCode = hashCode * 59 + this.Bar.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Bar.GetHashCode();
+                }
                 if (this.Baz != null)
-                    hashCode = hashCode * 59 + this.Baz.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Baz.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

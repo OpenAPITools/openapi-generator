@@ -1,0 +1,32 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+import unittest
+
+import {{packageName}}
+{{#each models}}
+{{#with model}}
+from {{packageName}}.{{modelPackage}}.{{classFilename}} import {{classname}}
+
+
+class Test{{classname}}(unittest.TestCase):
+    """{{classname}} unit test stubs"""
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_{{classname}}(self):
+        """Test {{classname}}"""
+        # FIXME: construct object with mandatory attributes with example values
+        # model = {{classname}}()  # noqa: E501
+        pass
+
+{{/with}}
+{{/each}}
+
+if __name__ == '__main__':
+    unittest.main()

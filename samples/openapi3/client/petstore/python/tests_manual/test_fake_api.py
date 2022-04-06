@@ -495,42 +495,46 @@ class TestFakeApi(unittest.TestCase):
 
         # sample from http://www.jtricks.com/download-text
         file_name = 'content.txt'
-        headers = {'Content-Disposition': 'attachment; filename={}'.format(file_name), 'Content-Type': 'text/plain'}
-        def get_headers():
-            return headers
-        def get_header(name, default=None):
-            return headers.get(name, default)
+        headers_dict = {
+                    'with_filename': {'Content-Disposition': 'attachment; filename={}'.format(file_name), 'Content-Type': 'text/plain'},
+                    'no_filename': {'Content-Disposition': 'attachment;', 'Content-Type': 'text/plain'}
+        }
+        def get_headers(*args):
+            return args
         file_data = (
             "You are reading text file that was supposed to be downloaded\r\n"
             "to your hard disk. If your browser offered to save you the file,"
             "\r\nthen it handled the Content-Disposition header correctly."
         )
-        http_response = HTTPResponse(
-            status=200,
-            reason='OK',
-            data=file_data,
-            getheaders=get_headers,
-            getheader=get_header
-        )
-        # deserialize response to a file
-        mock_response = RESTResponse(http_response)
-        with patch.object(RESTClientObject, 'request') as mock_method:
-            mock_method.return_value = mock_response
-            try:
-                file_object = self.api.download_attachment(file_name='download-text')
-                self.assert_request_called_with(
-                    mock_method,
-                    'http://www.jtricks.com/download-text',
-                    http_method='GET',
-                    accept='text/plain',
-                    content_type=None,
-                )
-                self.assertTrue(isinstance(file_object, file_type))
-                self.assertFalse(file_object.closed)
-                self.assertEqual(file_object.read(), file_data.encode('utf-8'))
-            finally:
-                file_object.close()
-                os.unlink(file_object.name)
+        for key, headers in headers_dict.items():
+            def get_header(name, default=None):
+                return headers_dict[key].get(name, default)
+            http_response = HTTPResponse(
+                status=200,
+                reason='OK',
+                data=file_data,
+                getheaders=get_headers(headers),
+                getheader=get_header
+            )
+            # deserialize response to a file
+            mock_response = RESTResponse(http_response)
+            with patch.object(RESTClientObject, 'request') as mock_method:
+                mock_method.return_value = mock_response
+                try:
+                    file_object = self.api.download_attachment(file_name='download-text')
+                    self.assert_request_called_with(
+                        mock_method,
+                        'http://www.jtricks.com/download-text',
+                        http_method='GET',
+                        accept='text/plain',
+                        content_type=None,
+                    )
+                    self.assertTrue(isinstance(file_object, file_type))
+                    self.assertFalse(file_object.closed)
+                    self.assertEqual(file_object.read(), file_data.encode('utf-8'))
+                finally:
+                    file_object.close()
+                    os.unlink(file_object.name)
 
     def test_upload_download_file(self):
         test_file_dir = os.path.realpath(
@@ -712,6 +716,35 @@ class TestFakeApi(unittest.TestCase):
             )
 
             assert isinstance(response, InlineObject6)
+            assert model_to_dict(response) == expected_json_body
+
+    def test_post_tx_rx_any_of_payload(self):
+        """Test case for postInlineAdditionlPropertiesPayload
+        """
+        from petstore_api.model.gm_fruit_no_properties import GmFruitNoProperties
+        endpoint = self.api.tx_rx_any_of_model_endpoint
+        assert endpoint.openapi_types['gm_fruit_no_properties'] == (GmFruitNoProperties,)
+        assert endpoint.settings['response_type'] == (GmFruitNoProperties,)
+
+        # serialization + deserialization works
+        from petstore_api.rest import RESTClientObject, RESTResponse
+        with patch.object(RESTClientObject, 'request') as mock_method:
+            expected_json_body = {
+                'cultivar': 'Alice',
+                'origin': 'Kazakhstan',
+                'lengthCm': 7,
+            }
+            fruit = GmFruitNoProperties(**expected_json_body)
+            mock_method.return_value = self.mock_response(expected_json_body)
+
+            response = self.api.tx_rx_any_of_model(gm_fruit_no_properties=fruit)
+            self.assert_request_called_with(
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/TxRxAnyOfModel',
+                body=expected_json_body
+            )
+
+            assert isinstance(response, GmFruitNoProperties)
             assert model_to_dict(response) == expected_json_body
 
 if __name__ == '__main__':

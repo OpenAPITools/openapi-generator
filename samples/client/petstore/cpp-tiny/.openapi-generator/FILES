@@ -1,5 +1,4 @@
 README.md
-README.md
 lib/Models/ApiResponse.cpp
 lib/Models/ApiResponse.h
 lib/Models/Category.cpp
@@ -14,11 +13,11 @@ lib/Models/Tag.cpp
 lib/Models/Tag.h
 lib/Models/User.cpp
 lib/Models/User.h
-lib/service/AbstractService.cpp
-lib/service/AbstractService.h
 lib/service/PetApi.cpp
 lib/service/PetApi.h
 lib/service/Response.h
+lib/service/Service.cpp
+lib/service/Service.h
 lib/service/StoreApi.cpp
 lib/service/StoreApi.h
 lib/service/UserApi.cpp

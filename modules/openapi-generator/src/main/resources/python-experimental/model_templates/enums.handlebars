@@ -1,0 +1,16 @@
+{{#if isNull}}
+
+@classmethod
+@property
+def NONE(cls):
+    return cls._enum_by_value[None](None)
+{{/if}}
+{{#with allowableValues}}
+{{#each enumVars}}
+
+@classmethod
+@property
+def {{name}}(cls):
+    return cls._enum_by_value[{{{value}}}]({{{value}}})
+{{/each}}
+{{/with}}

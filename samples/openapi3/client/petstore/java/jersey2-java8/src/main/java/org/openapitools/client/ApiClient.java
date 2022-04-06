@@ -1190,7 +1190,12 @@ public class ApiClient extends JavaTimeFormatter {
       }
     }
 
-    Invocation.Builder invocationBuilder = target.request().accept(accept);
+    Invocation.Builder invocationBuilder;
+    if (accept != null) {
+      invocationBuilder = target.request().accept(accept);
+    } else {
+      invocationBuilder = target.request();
+    }
 
     for (Entry<String, String> entry : cookieParams.entrySet()) {
       String value = entry.getValue();

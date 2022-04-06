@@ -24,6 +24,8 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
@@ -40,6 +42,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     private boolean useSingleRequestParameter = false;
     private boolean supportAsync = true;
     private boolean supportMultipleResponses = false;
+    private boolean withAWSV4Signature = false;
 
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
@@ -124,13 +127,13 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "i8", "i16", "i32", "i64",
                         "u8", "u16", "u32", "u64",
@@ -179,8 +182,10 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(SUPPORT_ASYNC, "If set, generate async function call instead. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
-            .defaultValue(Boolean.FALSE.toString()));
+                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
+        cliOptions.add(new CliOption(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT_DESC, SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
@@ -194,31 +199,29 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
     }
 
-    @SuppressWarnings({"static-method", "unchecked"})
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+    @SuppressWarnings("static-method")
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         // Index all CodegenModels by model name.
         Map<String, CodegenModel> allModels = new HashMap<>();
 
-        for (Map.Entry<String, Object> entry : objs.entrySet()) {
+        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             String modelName = toModelName(entry.getKey());
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
+            List<ModelMap> models = entry.getValue().getModels();
+            for (ModelMap mo : models) {
+                CodegenModel cm = mo.getModel();
                 allModels.put(modelName, cm);
             }
         }
 
-        for (Map.Entry<String, Object> entry : objs.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
+        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
+            List<ModelMap> models = entry.getValue().getModels();
+            for (ModelMap mo : models) {
+                CodegenModel cm = mo.getModel();
                 if (cm.discriminator != null) {
                     List<Object> discriminatorVars = new ArrayList<>();
                     for (CodegenDiscriminator.MappedModel mappedModel : cm.discriminator.getMappedModels()) {
@@ -248,6 +251,10 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT)) {
+            withAWSV4Signature = Boolean.parseBoolean(additionalProperties.get(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT).toString());
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_NAME_SUFFIX)) {
             enumSuffix = additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString();
@@ -518,7 +525,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
         @SuppressWarnings("unchecked")
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
@@ -690,4 +697,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             return null;
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUST; }
 }

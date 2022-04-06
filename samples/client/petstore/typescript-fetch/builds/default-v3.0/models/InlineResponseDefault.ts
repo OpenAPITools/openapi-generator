@@ -18,7 +18,7 @@ import {
     FooFromJSON,
     FooFromJSONTyped,
     FooToJSON,
-} from './';
+} from './Foo';
 
 /**
  * 

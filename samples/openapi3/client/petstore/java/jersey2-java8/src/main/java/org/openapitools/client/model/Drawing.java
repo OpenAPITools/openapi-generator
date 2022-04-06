@@ -65,6 +65,8 @@ public class Drawing {
   public static final String JSON_PROPERTY_SHAPES = "shapes";
   private List<Shape> shapes = null;
 
+  public Drawing() { 
+  }
 
   public Drawing mainShape(Shape mainShape) {
     this.mainShape = mainShape;

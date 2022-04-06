@@ -12,16 +12,18 @@
  * Do not edit the class manually.
  */
 
+
 /**
  * 
  * @export
- * @enum {string}
  */
-export enum NumberEnum {
-    NUMBER_1 = 1,
-    NUMBER_2 = 2,
-    NUMBER_3 = 3
-}
+export const NumberEnum = {
+    NUMBER_1: 1 as 1,
+    NUMBER_2: 2 as 2,
+    NUMBER_3: 3 as 3
+};
+export type NumberEnum = typeof NumberEnum[keyof typeof NumberEnum];
+
 
 export function NumberEnumFromJSON(json: any): NumberEnum {
     return NumberEnumFromJSONTyped(json, false);

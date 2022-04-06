@@ -15,7 +15,6 @@ package org.openapitools.api;
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
-import org.openapitools.query.QueryParam;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
 import java.io.File;
@@ -34,130 +33,121 @@ import javax.validation.constraints.*;
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
 @Client("${base-path}")
 public interface PetApi {
-
-  /**
-   * Add a new pet to the store
-   *
-   * @param _body Pet object that needs to be added to the store (required)
-   */
-  @Post(uri="/pet")
-  @Produces(value={"application/json"})
-  @Consumes(value={"application/json"})
-  Mono<Object> addPet(
-        @Body @Valid @NotNull Pet _body
+    /**
+     * Add a new pet to the store
+     *
+     * @param _body Pet object that needs to be added to the store (required)
+     */
+    @Post(uri="/pet")
+    @Produces(value={"application/json"})
+    @Consumes(value={"application/json"})
+    Mono<Object> addPet(
+        @Body @NotNull @Valid Pet _body
   );
-
-  /**
-   * Deletes a pet
-   *
-   * @param petId Pet id to delete (required)
-   * @param apiKey  (optional)
-   */
-  @Delete(uri="/pet/{petId}")
-  @Consumes(value={"application/json"})
-  Mono<Object> deletePet(
+    /**
+     * Deletes a pet
+     *
+     * @param petId Pet id to delete (required)
+     * @param apiKey  (optional)
+     */
+    @Delete(uri="/pet/{petId}")
+    @Consumes(value={"application/json"})
+    Mono<Object> deletePet(
         @PathVariable(name="petId") @NotNull Long petId, 
-        @Header(name="api_key") String apiKey
+        @Header(name="api_key") @Nullable String apiKey
   );
-
-  /**
-   * Finds Pets by status
-   * Multiple status values can be provided with comma separated strings
-   *
-   * @param status Status values that need to be considered for filter (required)
-   * @return List&lt;Pet&gt;
-   */
-  @Get(uri="/pet/findByStatus")
-  @Consumes(value={"application/json"})
-  Mono<List<Pet>> findPetsByStatus(
-        @QueryParam(name="status", format=QueryParam.Format.CSV) @NotNull List<String> status
+    /**
+     * Finds Pets by status
+     * Multiple status values can be provided with comma separated strings
+     *
+     * @param status Status values that need to be considered for filter (required)
+     * @return List&lt;Pet&gt;
+     */
+    @Get(uri="/pet/findByStatus")
+    @Consumes(value={"application/json"})
+    Mono<List<Pet>> findPetsByStatus(
+        @QueryValue(value="status") @NotNull List<String> status
   );
-
-  /**
-   * Finds Pets by tags
-   * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-   *
-   * @param tags Tags to filter by (required)
-   * @return Set&lt;Pet&gt;
-   */
-  @Get(uri="/pet/findByTags")
-  @Consumes(value={"application/json"})
-  Mono<Set<Pet>> findPetsByTags(
-        @QueryParam(name="tags", format=QueryParam.Format.CSV) @NotNull Set<String> tags
+    /**
+     * Finds Pets by tags
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     *
+     * @param tags Tags to filter by (required)
+     * @return Set&lt;Pet&gt;
+     */
+    @Get(uri="/pet/findByTags")
+    @Consumes(value={"application/json"})
+    Mono<Set<Pet>> findPetsByTags(
+        @QueryValue(value="tags") @NotNull Set<String> tags
   );
-
-  /**
-   * Find pet by ID
-   * Returns a single pet
-   *
-   * @param petId ID of pet to return (required)
-   * @return Pet
-   */
-  @Get(uri="/pet/{petId}")
-  @Consumes(value={"application/json"})
-  Mono<Pet> getPetById(
+    /**
+     * Find pet by ID
+     * Returns a single pet
+     *
+     * @param petId ID of pet to return (required)
+     * @return Pet
+     */
+    @Get(uri="/pet/{petId}")
+    @Consumes(value={"application/json"})
+    Mono<Pet> getPetById(
         @PathVariable(name="petId") @NotNull Long petId
   );
-
-  /**
-   * Update an existing pet
-   *
-   * @param _body Pet object that needs to be added to the store (required)
-   */
-  @Put(uri="/pet")
-  @Produces(value={"application/json"})
-  @Consumes(value={"application/json"})
-  Mono<Object> updatePet(
-        @Body @Valid @NotNull Pet _body
+    /**
+     * Update an existing pet
+     *
+     * @param _body Pet object that needs to be added to the store (required)
+     */
+    @Put(uri="/pet")
+    @Produces(value={"application/json"})
+    @Consumes(value={"application/json"})
+    Mono<Object> updatePet(
+        @Body @NotNull @Valid Pet _body
   );
-
-  /**
-   * Updates a pet in the store with form data
-   *
-   * @param petId ID of pet that needs to be updated (required)
-   * @param name Updated name of the pet (optional)
-   * @param status Updated status of the pet (optional)
-   */
-  @Post(uri="/pet/{petId}")
-  @Produces(value={"application/x-www-form-urlencoded"})
-  @Consumes(value={"application/json"})
-  Mono<Object> updatePetWithForm(
+    /**
+     * Updates a pet in the store with form data
+     *
+     * @param petId ID of pet that needs to be updated (required)
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
+     */
+    @Post(uri="/pet/{petId}")
+    @Produces(value={"application/x-www-form-urlencoded"})
+    @Consumes(value={"application/json"})
+    Mono<Object> updatePetWithForm(
         @PathVariable(name="petId") @NotNull Long petId, 
-        String name, 
-        String status
+        @Nullable String name, 
+        @Nullable String status
   );
-
-  /**
-   * uploads an image
-   *
-   * @param petId ID of pet to update (required)
-   * @param additionalMetadata Additional data to pass to server (optional)
-   * @param file file to upload (optional)
-   * @return ModelApiResponse
-   */
-  @Post(uri="/pet/{petId}/uploadImage")
-  @Produces(value={"multipart/form-data"})
-  @Consumes(value={"application/json"})
-  Mono<ModelApiResponse> uploadFile(
+    /**
+     * uploads an image
+     *
+     * @param petId ID of pet to update (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param _file file to upload (optional)
+     * @return ModelApiResponse
+     */
+    @Post(uri="/pet/{petId}/uploadImage")
+    @Produces(value={"multipart/form-data"})
+    @Consumes(value={"application/json"})
+    Mono<ModelApiResponse> uploadFile(
         @PathVariable(name="petId") @NotNull Long petId, 
-        String additionalMetadata, 
-        File file
+        @Nullable String additionalMetadata, 
+        @Nullable File _file
   );
-
-  /**
-   * uploads an image (required)
-   *
-   * @param petId ID of pet to update (required)
-   * @param requiredFile file to upload (required)
-   * @param additionalMetadata Additional data to pass to server (optional)
-   * @return ModelApiResponse
-   */
-  @Post(uri="/fake/{petId}/uploadImageWithRequiredFile")
-  @Produces(value={"multipart/form-data"})
-  @Consumes(value={"application/json"})
-  Mono<ModelApiResponse> uploadFileWithRequiredFile(
+    /**
+     * uploads an image (required)
+     *
+     * @param petId ID of pet to update (required)
+     * @param requiredFile file to upload (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @return ModelApiResponse
+     */
+    @Post(uri="/fake/{petId}/uploadImageWithRequiredFile")
+    @Produces(value={"multipart/form-data"})
+    @Consumes(value={"application/json"})
+    Mono<ModelApiResponse> uploadFileWithRequiredFile(
         @PathVariable(name="petId") @NotNull Long petId, 
         @NotNull File requiredFile, 
-        String additionalMetadata
+        @Nullable String additionalMetadata
   );
 }

@@ -1,23 +1,18 @@
 package org.openapitools.client;
 
-import okhttp3.OkHttpClient;
-import org.openapitools.client.auth.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.TimeZone;
 
-import org.junit.*;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-
+import okhttp3.OkHttpClient;
+import org.junit.jupiter.api.*;
+import org.openapitools.client.auth.*;
 
 public class ApiClientTest {
     ApiClient apiClient;
     JSON json;
 
-    @Before
+    @BeforeEach
     public void setup() {
         apiClient = new ApiClient();
         json = apiClient.getJSON();
@@ -76,13 +71,14 @@ public class ApiClientTest {
         assertEquals("APPLICATION/JSON", apiClient.selectHeaderContentType(contentTypes));
 
         contentTypes = new String[]{"application/xml", "application/json; charset=UTF8"};
-        assertEquals("application/json; charset=UTF8", apiClient.selectHeaderContentType(contentTypes));
+        assertEquals(
+                "application/json; charset=UTF8", apiClient.selectHeaderContentType(contentTypes));
 
         contentTypes = new String[]{"text/plain", "application/xml"};
         assertEquals("text/plain", apiClient.selectHeaderContentType(contentTypes));
 
         contentTypes = new String[]{};
-        assertEquals("application/json", apiClient.selectHeaderContentType(contentTypes));
+        assertNull(apiClient.selectHeaderContentType(contentTypes));
     }
 
     @Test
@@ -293,7 +289,9 @@ public class ApiClientTest {
         List<Pair> multiPairs = apiClient.parameterToPairs("multi", name, values);
         assertEquals(values.size(), multiPairs.size());
         for (int i = 0; i < values.size(); i++) {
-            assertEquals(apiClient.escapeString(apiClient.parameterToString(values.get(i))), multiPairs.get(i).getValue());
+            assertEquals(
+                    apiClient.escapeString(apiClient.parameterToString(values.get(i))),
+                    multiPairs.get(i).getValue());
         }
 
         // all other formats
@@ -312,7 +310,9 @@ public class ApiClientTest {
             // must equal input values
             assertEquals(values.size(), pairValueSplit.length);
             for (int i = 0; i < values.size(); i++) {
-                assertEquals(apiClient.escapeString(apiClient.parameterToString(values.get(i))), pairValueSplit[i]);
+                assertEquals(
+                        apiClient.escapeString(apiClient.parameterToString(values.get(i))),
+                        pairValueSplit[i]);
             }
         }
     }
@@ -334,14 +334,17 @@ public class ApiClientTest {
     public void testNewHttpClient() {
         OkHttpClient oldClient = apiClient.getHttpClient();
         apiClient.setHttpClient(oldClient.newBuilder().build());
-        assertThat(apiClient.getHttpClient(), is(not(oldClient)));
+        assertNotSame(apiClient.getHttpClient(), oldClient);
     }
 
     /**
      * Tests the invariant that the HttpClient for the ApiClient must never be null
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testNullHttpClient() {
-        apiClient.setHttpClient(null);
+        NullPointerException thrown = Assertions.assertThrows(NullPointerException.class, () -> {
+            apiClient.setHttpClient(null);
+        });
+        Assertions.assertEquals("HttpClient must not be null!", thrown.getMessage());
     }
 }

@@ -61,6 +61,7 @@ class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
 
     public *toInlined(entityId?: string | null) {
         if (!entityId) {return undefined; }
+        // @ts-ignore
         const entity = yield select(apiEntityCategorySelector, {id: entityId});
         if (!entity) {return undefined; }
 
@@ -82,6 +83,7 @@ class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
         if (!entityIds) {return null; }
         let entities = List<CategoryRecord>();
         for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
+            // @ts-ignore
             const entity = yield call(this.toInlined, entityIds.get(entityIndex));
             if (entity) {
                 entities.push(entity);

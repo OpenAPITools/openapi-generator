@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   ClassModel.JSON_PROPERTY_PROPERTY_CLASS
 })
-@JsonTypeName("ClassModel")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "ClassModel")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -44,6 +43,8 @@ public class ClassModel {
   @XmlElement(name = "_class")
   private String propertyClass;
 
+  public ClassModel() { 
+  }
 
   public ClassModel propertyClass(String propertyClass) {
     

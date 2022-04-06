@@ -26,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -67,7 +68,7 @@ public class DartDioNextClientCodegenTest {
 
         List<String> reservedWordsList = new ArrayList<String>();
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/dart/dart-keywords.txt"), Charset.forName("UTF-8")));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/dart/dart-keywords.txt"), StandardCharsets.UTF_8));
             while(reader.ready()) { reservedWordsList.add(reader.readLine()); }
             reader.close();
         } catch (Exception e) {
@@ -81,26 +82,6 @@ public class DartDioNextClientCodegenTest {
             // reserved words are stored in lowercase
             Assert.assertTrue(codegen.reservedWords().contains(keyword.toLowerCase(Locale.ROOT)), String.format(Locale.ROOT, "%s, part of %s, was not found in %s", keyword, reservedWordsList, codegen.reservedWords().toString()));
         }
-    }
-
-
-    @Test
-    public void testInitialDioLibraryValues() throws Exception {
-        final DartDioNextClientCodegen codegen = new DartDioNextClientCodegen();
-        codegen.processOpts();
-
-        Assert.assertEquals(codegen.additionalProperties().get(DartDioNextClientCodegen.DIO_LIBRARY), DartDioNextClientCodegen.DIO_LIBRARY_DEFAULT);
-        Assert.assertEquals(codegen.getDioLibrary(), DartDioNextClientCodegen.DIO_LIBRARY_DEFAULT);
-    }
-
-    @Test
-    public void testAdditionalPropertiesPutForDioLibraryValues() throws Exception {
-        final DartDioNextClientCodegen codegen = new DartDioNextClientCodegen();
-        codegen.additionalProperties().put(DartDioNextClientCodegen.DIO_LIBRARY, DartDioNextClientCodegen.DIO_HTTP);
-        codegen.processOpts();
-
-        Assert.assertEquals(codegen.additionalProperties().get(DartDioNextClientCodegen.DIO_LIBRARY), DartDioNextClientCodegen.DIO_HTTP);
-        Assert.assertEquals(codegen.getDioLibrary(), DartDioNextClientCodegen.DIO_HTTP);
     }
 
 }

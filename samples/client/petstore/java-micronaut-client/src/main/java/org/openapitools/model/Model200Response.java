@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
@@ -35,95 +36,97 @@ import javax.annotation.Generated;
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
 @Introspected
 public class Model200Response {
-  public static final String JSON_PROPERTY_NAME = "name";
-  private Integer name;
+    public static final String JSON_PROPERTY_NAME = "name";
+    private Integer name;
 
-  public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
-  private String propertyClass;
+    public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
+    private String propertyClass;
 
-  public Model200Response name(Integer name) {
-    this.name = name;
-    return this;
-  }
-
-  /**
-   * Get name
-   * @return name
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public Integer getName() {
-    return name;
-  }
-
-  @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(Integer name) {
-    this.name = name;
-  }
-
-  public Model200Response propertyClass(String propertyClass) {
-    this.propertyClass = propertyClass;
-    return this;
-  }
-
-  /**
-   * Get propertyClass
-   * @return propertyClass
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public String getPropertyClass() {
-    return propertyClass;
-  }
-
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPropertyClass(String propertyClass) {
-    this.propertyClass = propertyClass;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public Model200Response() {
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+    public Model200Response name(Integer name) {
+        this.name = name;
+        return this;
     }
-    Model200Response _200response = (Model200Response) o;
-    return Objects.equals(this.name, _200response.name) &&
-        Objects.equals(this.propertyClass, _200response.propertyClass);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(name, propertyClass);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Model200Response {\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    /**
+     * Get name
+     * @return name
+     **/
+    @Nullable
+    @ApiModelProperty(value = "")
+    @JsonProperty(JSON_PROPERTY_NAME)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public Integer getName() {
+        return name;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    @JsonProperty(JSON_PROPERTY_NAME)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public void setName(Integer name) {
+        this.name = name;
+    }
+
+    public Model200Response propertyClass(String propertyClass) {
+        this.propertyClass = propertyClass;
+        return this;
+    }
+
+    /**
+     * Get propertyClass
+     * @return propertyClass
+     **/
+    @Nullable
+    @ApiModelProperty(value = "")
+    @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public String getPropertyClass() {
+        return propertyClass;
+    }
+
+    @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+       public void setPropertyClass(String propertyClass) {
+        this.propertyClass = propertyClass;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Model200Response _200response = (Model200Response) o;
+        return Objects.equals(this.name, _200response.name) &&
+            Objects.equals(this.propertyClass, _200response.propertyClass);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, propertyClass);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class Model200Response {\n");
+        sb.append("    name: ").append(toIndentedString(name)).append("\n");
+        sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
 
 }

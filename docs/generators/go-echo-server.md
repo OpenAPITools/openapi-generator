@@ -1,8 +1,19 @@
 ---
-title: Config Options for go-echo-server
-sidebar_label: go-echo-server
+title: Documentation for the go-echo-server Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | go-echo-server | pass this to the generate command after -g |
+| generator stability | BETA | |
+| generator type | SERVER | |
+| generator language | Go | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a go-echo server. (Beta) | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |

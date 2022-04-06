@@ -45,6 +45,8 @@ public class IsoscelesTriangle {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
   private String triangleType;
 
+  public IsoscelesTriangle() { 
+  }
 
   public IsoscelesTriangle shapeType(String shapeType) {
     this.shapeType = shapeType;

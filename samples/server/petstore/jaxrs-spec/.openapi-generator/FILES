@@ -39,6 +39,8 @@ src/gen/java/org/openapitools/model/MapTest.java
 src/gen/java/org/openapitools/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/gen/java/org/openapitools/model/Model200Response.java
 src/gen/java/org/openapitools/model/ModelApiResponse.java
+src/gen/java/org/openapitools/model/ModelFile.java
+src/gen/java/org/openapitools/model/ModelList.java
 src/gen/java/org/openapitools/model/ModelReturn.java
 src/gen/java/org/openapitools/model/Name.java
 src/gen/java/org/openapitools/model/NumberOnly.java

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc public class DogAllOf: NSObject, Codable {
+@objc public class DogAllOf: NSObject, Codable, JSONEncodable {
 
     public var breed: String?
 
