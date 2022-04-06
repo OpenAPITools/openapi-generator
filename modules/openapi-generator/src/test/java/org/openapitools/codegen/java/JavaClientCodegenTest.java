@@ -59,6 +59,8 @@ import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -136,9 +138,12 @@ public class JavaClientCodegenTest {
         CodegenParameter pathParam2 = createPathParam("pathParam2");
 
         codegenOperation.allParams.addAll(Arrays.asList(queryParamRequired, pathParam1, pathParam2, queryParamOptional));
-        Map<String, Object> operations = ImmutableMap.of("operation", Arrays.asList(codegenOperation));
+        OperationMap operations = new OperationMap();
+        operations.setOperation(codegenOperation);
 
-        Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<Map<String, String>>());
+        OperationsMap objs = new OperationsMap();
+        objs.setOperation(operations);
+        objs.setImports(new ArrayList<>());
 
         javaClientCodegen.postProcessOperationsWithModels(objs, Collections.emptyList());
 

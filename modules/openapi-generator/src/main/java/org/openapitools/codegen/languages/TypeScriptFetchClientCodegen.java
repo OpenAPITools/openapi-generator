@@ -30,6 +30,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 
@@ -572,9 +574,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
         // Add supporting file only if we plan to generate files in /apis
-        if (operations.size() > 0 && !addedApiIndex) {
+        if (!operations.isEmpty() && !addedApiIndex) {
             addedApiIndex = true;
             supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
             if (this.getSagasAndRecords()) {
@@ -584,7 +586,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         // Add supporting file only if we plan to generate files in /models
-        if (allModels.size() > 0 && !addedModelIndex) {
+        if (!allModels.isEmpty() && !addedModelIndex) {
             addedModelIndex = true;
             supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
         }
@@ -763,10 +765,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return var.items.isNullable || (var.items.items != null && var.items.items.isNullable);
     }
 
-    private void escapeOperationIds(Map<String, Object> operations) {
-        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
-        for (ExtendedCodegenOperation op : operationList) {
+    private void escapeOperationIds(OperationsMap operations) {
+        for (CodegenOperation _op : operations.getOperations().getOperation()) {
+            ExtendedCodegenOperation op = (ExtendedCodegenOperation) _op;
             String param = op.operationIdCamelCase + "Request";
             if (op.imports.contains(param)) {
                 // we import a model with the same name as the generated operation, escape it
@@ -777,26 +778,25 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
-    private void addOperationModelImportInformation(Map<String, Object> operations) {
+    private void addOperationModelImportInformation(OperationsMap operations) {
         // This method will add extra information to the operations.imports array.
         // The api template uses this information to import all the required
         // models for a given operation.
-        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
-        List<String> existingRecordClassNames = new ArrayList<String>();
-        List<String> existingClassNames = new ArrayList<String>();
-        for (Map<String, Object> im : imports) {
-            String className = im.get("import").toString().replace(modelPackage() + ".", "");
+        List<Map<String, String>> imports = operations.getImports();
+        List<String> existingRecordClassNames = new ArrayList<>();
+        List<String> existingClassNames = new ArrayList<>();
+        for (Map<String, String> im : imports) {
+            String className = im.get("import").replace(modelPackage() + ".", "");
             existingClassNames.add(className);
             existingRecordClassNames.add(className + "Record");
             im.put("className", className);
         }
 
         if (this.getSagasAndRecords()) {
-            Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-            List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
-            Set<String> additionalPassthroughImports = new TreeSet<String>();
-            for (ExtendedCodegenOperation op : operationList) {
-                if (op.returnPassthrough != null && op.returnBaseTypeAlternate instanceof String) {
+            Set<String> additionalPassthroughImports = new TreeSet<>();
+            for (CodegenOperation _op : operations.getOperations().getOperation()) {
+                ExtendedCodegenOperation op = (ExtendedCodegenOperation) _op;
+                if (op.returnPassthrough != null && op.returnBaseTypeAlternate != null) {
                     if (op.returnTypeSupportsEntities && !existingRecordClassNames.contains(op.returnBaseTypeAlternate)) {
                         additionalPassthroughImports.add(op.returnBaseTypeAlternate);
                     } else if (!op.returnTypeSupportsEntities && !existingClassNames.contains(op.returnBaseTypeAlternate)) {
@@ -809,14 +809,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
-    private void updateOperationParameterForEnum(Map<String, Object> operations) {
+    private void updateOperationParameterForEnum(OperationsMap operations) {
         // This method will add extra information as to whether or not we have enums and
         // update their names with the operation.id prefixed.
         // It will also set the uniqueId status if provided.
-        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
         boolean hasEnum = false;
-        for (ExtendedCodegenOperation op : operationList) {
+        for (CodegenOperation _op : operations.getOperations().getOperation()) {
+            ExtendedCodegenOperation op = (ExtendedCodegenOperation) _op;
             for (CodegenParameter cpParam : op.allParams) {
                 ExtendedCodegenParameter param = (ExtendedCodegenParameter) cpParam;
 
@@ -831,13 +830,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         operations.put("hasEnums", hasEnum);
     }
 
-    private void updateOperationParameterForSagaAndRecords(Map<String, Object> operations) {
+    private void updateOperationParameterForSagaAndRecords(OperationsMap operations) {
         // This method will add extra information as to whether or not we have enums and
         // update their names with the operation.id prefixed.
         // It will also set the uniqueId status if provided.
-        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
-        for (ExtendedCodegenOperation op : operationList) {
+        for (CodegenOperation _op : operations.getOperations().getOperation()) {
+            ExtendedCodegenOperation op = (ExtendedCodegenOperation) _op;
             for (CodegenParameter cpParam : op.allParams) {
                 ExtendedCodegenParameter param = (ExtendedCodegenParameter) cpParam;
 
@@ -881,13 +879,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
-    private void addOperationObjectResponseInformation(Map<String, Object> operations) {
+    private void addOperationObjectResponseInformation(OperationsMap operations) {
         // This method will modify the information on the operations' return type.
         // The api template uses this information to know when to return a text
         // response for a given simple response operation.
-        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
-        for (ExtendedCodegenOperation op : operationList) {
+        for (CodegenOperation _op : operations.getOperations().getOperation()) {
+            ExtendedCodegenOperation op = (ExtendedCodegenOperation) _op;
             if ("object".equals(op.returnType)) {
                 op.isMap = true;
                 op.returnSimpleType = false;
@@ -896,7 +893,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private void addOperationPrefixParameterInterfacesInformation(Map<String, Object> operations) {
-        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
         operations.put("prefixParameterInterfaces", getPrefixParameterInterfaces());
     }
 

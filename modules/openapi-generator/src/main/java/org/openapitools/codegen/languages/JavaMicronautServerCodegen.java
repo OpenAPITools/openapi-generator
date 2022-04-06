@@ -4,6 +4,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -185,12 +187,12 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
         // Add the controller classname to operations
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        String controllerClassname = StringUtils.camelize(controllerPrefix + "_" + operations.get("pathPrefix") + "_" + controllerSuffix);
+        OperationMap operations = objs.getOperations();
+        String controllerClassname = StringUtils.camelize(controllerPrefix + "_" + operations.getPathPrefix() + "_" + controllerSuffix);
         objs.put("controllerClassname", controllerClassname);
 
         List<CodegenOperation> allOperations = (List<CodegenOperation>) operations.get("operation");

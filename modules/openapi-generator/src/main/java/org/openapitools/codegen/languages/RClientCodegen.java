@@ -26,6 +26,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -689,16 +691,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getOperations();
 
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
+        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
         for (ModelMap modelMap : allModels) {
             CodegenModel m = modelMap.getModel();
             modelMaps.put(m.classname, m);
         }
 
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+        List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             for (CodegenParameter cp : operation.allParams) {
                 cp.vendorExtensions.put("x-r-example", constructExampleCode(cp, modelMaps));

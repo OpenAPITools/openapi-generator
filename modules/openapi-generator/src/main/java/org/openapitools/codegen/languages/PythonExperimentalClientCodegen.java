@@ -26,6 +26,8 @@ import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.*;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.*;
@@ -424,12 +426,12 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
     It is very verbose to write all of this info into the api template
     This ingests all operations under a tag in the objs input and writes out one file for each endpoint
      */
-    protected void generateEndpoints(Map<String, Object> objs) {
+    protected void generateEndpoints(OperationsMap objs) {
         if (!(Boolean) additionalProperties.get(CodegenConstants.GENERATE_APIS)) {
             return;
         }
-        HashMap<String, Object> operations = (HashMap<String, Object>) objs.get("operations");
-        ArrayList<CodegenOperation> codegenOperations = (ArrayList<CodegenOperation>) operations.get("operation");
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> codegenOperations = operations.getOperation();
         for (CodegenOperation co: codegenOperations) {
             for (Tag tag: co.tags) {
                 String tagName = tag.getName();
@@ -442,7 +444,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 String templateName = "endpoint.handlebars";
                 String filename = endpointFilename(templateName, pythonTagName, co.operationId);
                 try {
-                    File written = processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
+                    processTemplateToFile(operationMap, templateName, filename, true, CodegenConstants.APIS);
                 } catch (IOException e) {
                     LOGGER.error("Error when writing template file {}", e.toString());
                 }
@@ -671,14 +673,14 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
 
     @Override
     @SuppressWarnings("static-method")
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         // fix the imports that each model has, add the module reference to the model
         // loops through imports and converts them all
         // from 'Pet' to 'from petstore_api.model.pet import Pet'
 
-        HashMap<String, Object> val = (HashMap<String, Object>) objs.get("operations");
-        ArrayList<CodegenOperation> operations = (ArrayList<CodegenOperation>) val.get("operation");
-        ArrayList<HashMap<String, String>> imports = (ArrayList<HashMap<String, String>>) objs.get("imports");
+        OperationMap val = objs.getOperations();
+        List<CodegenOperation> operations = val.getOperation();
+        List<Map<String, String>> imports = objs.getImports();
         for (CodegenOperation operation : operations) {
             if (operation.imports.size() == 0) {
                 continue;
