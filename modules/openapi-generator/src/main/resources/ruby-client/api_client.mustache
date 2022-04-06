@@ -71,31 +71,32 @@ module {{moduleName}}
       {{/isFaraday}}
       {{#isFaraday}}
       if return_type == 'File'
-        content_disposition = response.headers['Content-Disposition']
-        if content_disposition && content_disposition =~ /filename=/i
-          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
-          prefix = sanitize_filename(filename)
+        if @config.return_binary_data == true
+          # return byte stream
+          encoding = body.encoding
+          return @stream.join.force_encoding(encoding)
         else
-          prefix = 'download-'
+          # return file instead of binary data
+          content_disposition = response.headers['Content-Disposition']
+          if content_disposition && content_disposition =~ /filename=/i
+            filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
+            prefix = sanitize_filename(filename)
+          else
+            prefix = 'download-'
+          end
+          prefix = prefix + '-' unless prefix.end_with?('-')
+          encoding = body.encoding
+          @tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+          @tempfile.write(@stream.join.force_encoding(encoding))
+          @tempfile.close
+          @config.logger.info "Temp file written to #{@tempfile.path}, please copy the file to a proper folder "\
+                              "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                              "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                              "explicitly with `tempfile.delete`"
+          return @tempfile
         end
-        prefix = prefix + '-' unless prefix.end_with?('-')
-        encoding = body.encoding
-        @tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
-        @tempfile.write(@stream.join.force_encoding(encoding))
-        @tempfile.close
-        @config.logger.info "Temp file written to #{@tempfile.path}, please copy the file to a proper folder "\
-                            "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
-                            "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-                            "explicitly with `tempfile.delete`"
-        return @tempfile
       end
       {{/isFaraday}}
-
-      # return byte stream for Binary return type
-      if return_type == 'Binary'
-        encoding = body.encoding
-        return @stream.join.force_encoding(encoding)
-      end
 
       return nil if body.nil? || body.empty?
 

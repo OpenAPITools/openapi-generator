@@ -29,6 +29,7 @@ import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
 import java.util.List;
@@ -194,7 +195,7 @@ public interface CodegenConfig {
 
     ModelsMap postProcessModels(ModelsMap objs);
 
-    Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels);
+    OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels);
 
     Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
 

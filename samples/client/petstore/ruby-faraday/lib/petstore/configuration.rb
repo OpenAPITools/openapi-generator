@@ -156,6 +156,8 @@ module Petstore
       @request_middlewares = []
       @response_middlewares = []
       @timeout = 60
+      # return data as binary instead of file
+      @return_binary_data = false
       @debugging = false
       @inject_format = false
       @force_ending_format = false

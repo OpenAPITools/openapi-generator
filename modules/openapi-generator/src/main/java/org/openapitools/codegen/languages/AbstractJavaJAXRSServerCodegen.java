@@ -25,6 +25,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -168,12 +170,11 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        Map<String, Object> updatedObjs = jaxrsPostProcessOperations(objs);
-        Map<String, Object> operations = (Map<String, Object>) updatedObjs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationsMap updatedObjs = jaxrsPostProcessOperations(objs);
+        OperationMap operations = updatedObjs.getOperations();
         if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation co : ops) {
                 handleImplicitHeaders(co);
             }
@@ -181,13 +182,11 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         return updatedObjs;
     }
 
-    static Map<String, Object> jaxrsPostProcessOperations(Map<String, Object> objs) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+    static OperationsMap jaxrsPostProcessOperations(OperationsMap objs) {
+        OperationMap operations = objs.getOperations();
         String commonPath = null;
         if (operations != null) {
-            @SuppressWarnings("unchecked")
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation operation : ops) {
                 if (operation.hasConsumes == Boolean.TRUE) {
                     Map<String, String> firstType = operation.consumes.get(0);

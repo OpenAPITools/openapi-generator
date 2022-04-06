@@ -34,25 +34,25 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="GmFruit" /> class.
         /// </summary>
-        /// <param name="apple">apple</param>
-        /// <param name="banana">banana</param>
+        /// <param name="apple?"></param>
+        /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public GmFruit(Apple? apple, Banana? banana, string? color = default)
+        public GmFruit(Apple? apple, Banana banana, string? color = default)
         {
-            Apple = apple;
-            Banana = banana;
+            Apple = Apple;
+            Banana = Banana;
             Color = color;
         }
 
         /// <summary>
-        /// Gets or Sets gmFruit
+        /// Gets or Sets Apple
         /// </summary>
         public Apple? Apple { get; set; }
 
         /// <summary>
-        /// Gets or Sets gmFruit
+        /// Gets or Sets Banana
         /// </summary>
-        public Banana? Banana { get; set; }
+        public Banana Banana { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
@@ -149,10 +149,10 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException();
 
             Utf8JsonReader appleReader = reader;
-            Client.ClientUtils.TryDeserialize<Apple>(ref appleReader, options, out Apple? apple);
+            bool appleDeserialized = Client.ClientUtils.TryDeserialize<Apple>(ref appleReader, options, out Apple? apple);
 
             Utf8JsonReader bananaReader = reader;
-            Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, options, out Banana? banana);
+            bool bananaDeserialized = Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, options, out Banana? banana);
 
             string? color = default;
 
