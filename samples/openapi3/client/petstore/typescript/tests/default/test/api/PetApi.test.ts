@@ -20,7 +20,6 @@ describe("PetApi", () => {
         pet.photoUrls = []
         pet.status = 'available'
         pet.tags = [ tag ]
-        pet.category = undefined
 
         await petApi.addPet(pet);
     });

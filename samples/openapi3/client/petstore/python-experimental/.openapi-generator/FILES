@@ -79,6 +79,7 @@ docs/IntegerMin15.md
 docs/IsoscelesTriangle.md
 docs/IsoscelesTriangleAllOf.md
 docs/Mammal.md
+docs/MapBean.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
@@ -216,6 +217,7 @@ petstore_api/model/integer_min15.py
 petstore_api/model/isosceles_triangle.py
 petstore_api/model/isosceles_triangle_all_of.py
 petstore_api/model/mammal.py
+petstore_api/model/map_bean.py
 petstore_api/model/map_test.py
 petstore_api/model/mixed_properties_and_additional_properties_class.py
 petstore_api/model/model200_response.py

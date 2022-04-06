@@ -41,6 +41,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -196,6 +197,7 @@ public class TypeHolderDefault implements Parcelable {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -306,6 +308,7 @@ public class TypeHolderDefault implements Parcelable {
           throw new IllegalArgumentException(String.format("The required field(s) %s in TypeHolderDefault is not found in the empty JSON string", TypeHolderDefault.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -319,6 +322,13 @@ public class TypeHolderDefault implements Parcelable {
         if (jsonObj.get(requiredField) == null) {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
+      }
+      if (jsonObj.get("string_item") != null && !jsonObj.get("string_item").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `string_item` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string_item").toString()));
+      }
+      // ensure the json data is an array
+      if (jsonObj.get("array_item") != null && !jsonObj.get("array_item").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `array_item` to be an array in the JSON string but got `%s`", jsonObj.get("array_item").toString()));
       }
   }
 

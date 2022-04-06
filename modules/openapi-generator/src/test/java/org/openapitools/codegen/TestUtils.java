@@ -21,6 +21,8 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.io.IOUtils;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openrewrite.maven.internal.RawPom;
 import org.testng.Assert;
@@ -32,6 +34,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -334,5 +337,15 @@ public class TestUtils {
                     .containsWithName("javax.persistence.Transient")
                     .toProperty()
                 .toType();
+    }
+
+    public static ModelsMap createCodegenModelWrapper(CodegenModel cm) {
+        ModelsMap objs = new ModelsMap();
+        List<ModelMap> modelMaps = new ArrayList<>();
+        ModelMap modelMap = new ModelMap();
+        modelMap.setModel(cm);
+        modelMaps.add(modelMap);
+        objs.setModels(modelMaps);
+        return objs;
     }
 }

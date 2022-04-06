@@ -58,6 +58,12 @@ final class RegisterDependencies
                 ->constructorParameter('logErrors', \DI\get('slim.logErrors', true))
                 ->constructorParameter('logErrorDetails', \DI\get('slim.logErrorDetails', true)),
 
+            // CORS
+            \Neomerx\Cors\Contracts\AnalysisStrategyInterface::class => \DI\create(\Neomerx\Cors\Strategies\Settings::class)
+                ->method('setData', \DI\get('cors.settings')),
+
+            \Neomerx\Cors\Contracts\AnalyzerInterface::class => \DI\factory([\Neomerx\Cors\Analyzer::class, 'instance']),
+
             // PDO class for database managing
             \PDO::class => \DI\create()
                 ->constructor(
