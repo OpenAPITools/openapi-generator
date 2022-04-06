@@ -106,6 +106,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     modelPackage.set(generate.modelPackage)
                     modelNamePrefix.set(generate.modelNamePrefix)
                     modelNameSuffix.set(generate.modelNameSuffix)
+                    apiNameSuffix.set(generate.apiNameSuffix)
                     instantiationTypes.set(generate.instantiationTypes)
                     typeMappings.set(generate.typeMappings)
                     additionalProperties.set(generate.additionalProperties)

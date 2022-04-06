@@ -107,6 +107,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val modelNameSuffix = project.objects.property<String>()
 
     /**
+     * Suffix that will be appended to all api names. Default is the empty string.
+     */
+    val apiNameSuffix = project.objects.property<String>()
+
+    /**
      * Sets instantiation type mappings.
      */
     val instantiationTypes = project.objects.mapProperty<String, String>()
@@ -326,6 +331,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
         releaseNote.set("Minor update")
         modelNamePrefix.set("")
         modelNameSuffix.set("")
+        apiNameSuffix.set("")
         generateModelTests.set(true)
         generateModelDocumentation.set(true)
         generateApiTests.set(true)
