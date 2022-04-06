@@ -74,7 +74,7 @@ Class | Method | HTTP request | Description
 *PSFakeApi* | [**Test-PSQueryParameterCollectionFormat**](docs/PSFakeApi.md#Test-PSQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 *PSFakeClassnameTags123Api* | [**Test-PSClassname**](docs/PSFakeClassnameTags123Api.md#Test-PSClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PSPetApi* | [**Add-PSPet**](docs/PSPetApi.md#Add-PSPet) | **POST** /pet | Add a new pet to the store
-*PSPetApi* | [**Remove-PSPet**](docs/PSPetApi.md#Remove-PSPet) | **DELETE** /pet/{petId} | Deletes a pet
+*PSPetApi* | [**Remove-Pet**](docs/PSPetApi.md#remove-pet) | **DELETE** /pet/{petId} | Deletes a pet
 *PSPetApi* | [**Find-PSPetsByStatus**](docs/PSPetApi.md#Find-PSPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 *PSPetApi* | [**Find-PSPetsByTags**](docs/PSPetApi.md#Find-PSPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
 *PSPetApi* | [**Get-PSPetById**](docs/PSPetApi.md#Get-PSPetById) | **GET** /pet/{petId} | Find pet by ID

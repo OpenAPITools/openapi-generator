@@ -105,7 +105,7 @@ A switch when turned on will return a hash table of Response, StatusCode and Hea
 
 None
 #>
-function Remove-PSPet {
+function Remove-Pet {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -119,7 +119,7 @@ function Remove-PSPet {
     )
 
     Process {
-        'Calling method: Remove-PSPet' | Write-Debug
+        'Calling method: Remove-Pet' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
