@@ -95,9 +95,6 @@ PetAPI_addPet(apiClient_t *apiClient, pet_t * body )
                     localVarBodyParameters,
                     "POST");
 
-    if (apiClient->response_code == 405) {
-        printf("%s\n","Invalid input");
-    }
     //No return type
 end:
     if (apiClient->dataReceived) {
@@ -174,9 +171,6 @@ PetAPI_deletePet(apiClient_t *apiClient, long petId , char * api_key )
                     localVarBodyParameters,
                     "DELETE");
 
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Invalid pet value");
-    }
     //No return type
 end:
     if (apiClient->dataReceived) {
@@ -242,12 +236,6 @@ PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t * status )
                     localVarBodyParameters,
                     "GET");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","successful operation");
-    }
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Invalid status value");
-    }
     cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     if(!cJSON_IsArray(PetAPIlocalVarJSON)) {
         return 0;//nonprimitive container
@@ -324,12 +312,6 @@ PetAPI_findPetsByTags(apiClient_t *apiClient, list_t * tags )
                     localVarBodyParameters,
                     "GET");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","successful operation");
-    }
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Invalid tag value");
-    }
     cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     if(!cJSON_IsArray(PetAPIlocalVarJSON)) {
         return 0;//nonprimitive container
@@ -414,15 +396,6 @@ PetAPI_getPetById(apiClient_t *apiClient, long petId )
                     localVarBodyParameters,
                     "GET");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","successful operation");
-    }
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Invalid ID supplied");
-    }
-    if (apiClient->response_code == 404) {
-        printf("%s\n","Pet not found");
-    }
     //nonprimitive not container
     cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     pet_t *elementToReturn = pet_parseFromJSON(PetAPIlocalVarJSON);
@@ -491,15 +464,6 @@ PetAPI_updatePet(apiClient_t *apiClient, pet_t * body )
                     localVarBodyParameters,
                     "PUT");
 
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Invalid ID supplied");
-    }
-    if (apiClient->response_code == 404) {
-        printf("%s\n","Pet not found");
-    }
-    if (apiClient->response_code == 405) {
-        printf("%s\n","Validation exception");
-    }
     //No return type
 end:
     if (apiClient->dataReceived) {
@@ -589,9 +553,6 @@ PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId , char * name , char
                     localVarBodyParameters,
                     "POST");
 
-    if (apiClient->response_code == 405) {
-        printf("%s\n","Invalid input");
-    }
     //No return type
 end:
     if (apiClient->dataReceived) {
@@ -696,9 +657,6 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId , char * additionalMetadata
                     localVarBodyParameters,
                     "POST");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","successful operation");
-    }
     //nonprimitive not container
     cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     api_response_t *elementToReturn = api_response_parseFromJSON(PetAPIlocalVarJSON);

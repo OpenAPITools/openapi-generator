@@ -88,6 +88,15 @@ void apiClient_free(apiClient_t *apiClient) {
     free(apiClient);
 }
 
+void apiClient_free_data(apiClient_t *apiClient) {
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
+    }
+}
+
+
 sslConfig_t *sslConfig_create(const char *clientCertFile, const char *clientKeyFile, const char *CACertFile, int insecureSkipTlsVerify) {
     sslConfig_t *sslConfig = calloc(1, sizeof(sslConfig_t));
     if ( clientCertFile ) {
@@ -124,7 +133,8 @@ void replaceSpaceWithPlus(char *stringToProcess) {
     }
 }
 
-char *assembleTargetUrl(char    *basePath,
+char *assembleTargetUrl(CURL *curl, 
+                        char    *basePath,
                         char    *operationParameter,
                         list_t    *queryParameters) {
     int neededBufferSizeForQueryParameters = 0;
@@ -133,8 +143,11 @@ char *assembleTargetUrl(char    *basePath,
     if(queryParameters != NULL) {
         list_ForEach(listEntry, queryParameters) {
             keyValuePair_t *pair = listEntry->data;
-            neededBufferSizeForQueryParameters +=
-                strlen(pair->key) + strlen(pair->value);
+            char *key = curl_easy_escape(curl, pair->key, 0);
+            char *value = curl_easy_escape(curl, pair->value, 0);
+            neededBufferSizeForQueryParameters += strlen(key) + strlen(value);
+            curl_free(key);
+            curl_free(value);
         }
 
         neededBufferSizeForQueryParameters +=
@@ -148,28 +161,76 @@ char *assembleTargetUrl(char    *basePath,
         operationParameterLength = (1 + strlen(operationParameter));
     }
 
-    char *targetUrl =
-        malloc(
-            neededBufferSizeForQueryParameters + basePathLength + operationParameterLength +
-            1);
+    int targetUrlSize = neededBufferSizeForQueryParameters + basePathLength + operationParameterLength + 1;
 
-    strcpy(targetUrl, basePath);
+    char *targetUrl = malloc(targetUrlSize);
+
+    strncpy(targetUrl, basePath, targetUrlSize);
+    targetUrlSize -= basePathLength;
+    if (targetUrlSize <= 0) {
+        fprintf(stderr, "%s.%d: ERROR ran out of room for target URL\n", __func__, __LINE__);
+        free(targetUrl);
+        return NULL;
+    }
 
     if(operationParameter != NULL) {
-        strcat(targetUrl, operationParameter);
+        strncat(targetUrl, operationParameter, targetUrlSize-1);
+        targetUrlSize -= strlen(operationParameter);
+        if (targetUrlSize <= 0) {
+            fprintf(stderr, "%s.%d: ERROR ran out of room for target URL\n", __func__, __LINE__);
+            free(targetUrl);
+            return NULL;
+        }
     }
 
     if(queryParameters != NULL) {
-        strcat(targetUrl, "?");
+        strncat(targetUrl, "?", targetUrlSize);
+        targetUrlSize -= 1;
+        if (targetUrlSize <= 0) {
+            fprintf(stderr, "%s.%d: ERROR ran out of room for target URL\n", __func__, __LINE__);
+            free(targetUrl);
+            return NULL;
+        }
         list_ForEach(listEntry, queryParameters) {
             keyValuePair_t *pair = listEntry->data;
-            replaceSpaceWithPlus(pair->key);
-            strcat(targetUrl, pair->key);
-            strcat(targetUrl, "=");
-            replaceSpaceWithPlus(pair->value);
-            strcat(targetUrl, pair->value);
+            char *key = curl_easy_escape(curl, pair->key, 0);
+            strncat(targetUrl, key, targetUrlSize);
+            targetUrlSize -= strlen(key);
+            if (targetUrlSize <= 0) {
+                fprintf(stderr, "%s.%d: ERROR ran out of room for target URL\n", __func__, __LINE__);
+                free(targetUrl);
+                return NULL;
+            }
+            curl_free(key);
+            strncat(targetUrl, "=", targetUrlSize);
+            if (targetUrlSize <= 0) {
+                fprintf(stderr, "%s.%d: ERROR ran out of room for target URL\n", __func__, __LINE__);
+                free(targetUrl);
+                return NULL;
+            }
+            targetUrlSize -= 1;
+            if (targetUrlSize <= 0) {
+                fprintf(stderr, "%s.%d: ERROR ran out of room for target URL\n", __func__, __LINE__);
+                free(targetUrl);
+                return NULL;
+            }
+            char *value = curl_easy_escape(curl, pair->value, 0);
+            strncat(targetUrl, value, targetUrlSize);
+            targetUrlSize -= strlen(value);
+            if (targetUrlSize <= 0) {
+                fprintf(stderr, "%s.%d: ERROR ran out of room for target URL\n", __func__, __LINE__);
+                free(targetUrl);
+                return NULL;
+            }
+            curl_free(value);
             if(listEntry->nextListEntry != NULL) {
-                strcat(targetUrl, "&");
+                strncat(targetUrl, "&", targetUrlSize);
+                targetUrlSize -= 1;
+                if (targetUrlSize < 0) {
+                    fprintf(stderr, "%s.%d: ERROR ran out of room for target URL\n", __func__, __LINE__);
+                    free(targetUrl);
+                    return NULL;
+                }
             }
         }
     }
@@ -178,11 +239,30 @@ char *assembleTargetUrl(char    *basePath,
 }
 
 char *assembleHeaderField(char *key, char *value) {
-    char *header = malloc(strlen(key) + strlen(value) + 3);
+    int headerSize = strlen(key) + strlen(value) + 3;
+    char *header = malloc(headerSize);
 
-    strcpy(header, key),
-    strcat(header, ": ");
-    strcat(header, value);
+    strncpy(header, key, headerSize);
+    headerSize -= strlen(key);
+    if (headerSize <= 0) {
+        fprintf(stderr, "%s.%d: ERROR ran out of room for header\n", __func__, __LINE__);
+        free(header);
+        return NULL;
+    }
+    strncat(header, ": ", headerSize);
+    headerSize -= 2;
+    if (headerSize <= 0) {
+        fprintf(stderr, "%s.%d: ERROR ran out of room for header\n", __func__, __LINE__);
+        free(header);
+        return NULL;
+    }
+    strncat(header, value, headerSize);
+    headerSize -= strlen(value);
+    if (headerSize < 0) {
+        fprintf(stderr, "%s.%d: ERROR ran out of room for header\n", __func__, __LINE__);
+        free(header);
+        return NULL;
+    }
 
     return header;
 }
@@ -296,6 +376,7 @@ void apiClient_invoke(apiClient_t    *apiClient,
 
                 formString = malloc(parameterLength + 1);
                 memset(formString, 0, parameterLength + 1);
+                parameterLength += 1;
 
                 list_ForEach(listEntry, formParameters) {
                     keyValuePair_t *keyPair =
@@ -303,15 +384,44 @@ void apiClient_invoke(apiClient_t    *apiClient,
                     if((keyPair->key != NULL) &&
                        (keyPair->value != NULL) )
                     {
-                        strcat(formString,
-                               keyPair->key);
-                        strcat(formString, "=");
-                        strcat(formString,
-                               keyPair->value);
-                        if(listEntry->nextListEntry !=
-                           NULL)
+                        strncat(formString, keyPair->key, parameterLength);
+                        parameterLength -= strlen(keyPair->key);
+                        if (parameterLength <= 0) {
+                            fprintf(stderr, "%s.%d: ERROR ran out of room for parameters %s=%s\n", 
+                                    __func__, __LINE__, keyPair->key, keyPair->value);
+                            free(formString);
+                            curl_easy_cleanup(handle);
+                            return;
+                        }
+                        strncat(formString, "=", parameterLength);
+                        parameterLength -= 1;
+                        if (parameterLength <= 0) {
+                            fprintf(stderr, "%s.%d: ERROR ran out of room for parameters %s=%s\n", 
+                                    __func__, __LINE__, keyPair->key, keyPair->value);
+                            free(formString);
+                            curl_easy_cleanup(handle);
+                            return;
+                        }
+                        strncat(formString, keyPair->value, parameterLength);
+                        parameterLength -= strlen(keyPair->value);
+                        if (parameterLength <= 0) {
+                            fprintf(stderr, "%s.%d: ERROR ran out of room for parameters %s=%s\n", 
+                                    __func__, __LINE__, keyPair->key, keyPair->value);
+                            free(formString);
+                            curl_easy_cleanup(handle);
+                            return;
+                        }
+                        if(listEntry->nextListEntry != NULL)
                         {
-                            strcat(formString, "&");
+                            strncat(formString, "&", parameterLength);
+                            parameterLength -= strlen(keyPair->value);
+                            if (parameterLength < 0) {
+                                fprintf(stderr, "%s.%d: ERROR ran out of room for parameters %s=%s\n", 
+                                        __func__, __LINE__, keyPair->key, keyPair->value);
+                                free(formString);
+                                curl_easy_cleanup(handle);
+                                return;
+                            }
                         }
                     }
                 }
@@ -419,7 +529,8 @@ void apiClient_invoke(apiClient_t    *apiClient,
         }
 
         char *targetUrl =
-            assembleTargetUrl(apiClient->basePath,
+            assembleTargetUrl(handle,
+                              apiClient->basePath,
                               operationParameter,
                               queryParameters);
 
@@ -493,6 +604,7 @@ char *strReplace(char *orig, char *rep, char *with) {
     int lenWith; // length of with (the string to replace rep with)
     int lenFront; // distance between rep and end of last rep
     int count; // number of replacements
+    int lenOrig = strlen(orig);
 
     // sanity checks and initialization
     if(!orig || !rep)
@@ -514,7 +626,8 @@ char *strReplace(char *orig, char *rep, char *with) {
         ins = tmp + lenRep;
     }
 
-    tmp = result = malloc(strlen(orig) + (lenWith - lenRep) * count + 1);
+    int length = lenOrig + (lenWith - lenRep) * count + 1;
+    tmp = result = malloc(length);
 
     if(!result) {
         return NULL;
@@ -529,10 +642,24 @@ char *strReplace(char *orig, char *rep, char *with) {
         ins = strstr(orig, rep);
         lenFront = ins - orig;
         tmp = strncpy(tmp, orig, lenFront) + lenFront;
-        tmp = strcpy(tmp, with) + lenWith;
+        length -= lenFront;
+        if (length <= 0) {
+            fprintf(stderr, "%s.%d: ERROR ran out of room for replace\n", __func__, __LINE__);
+            free(result);
+            free(originalPointer);
+            return NULL;
+        }
+        tmp = strncpy(tmp, with, length) + lenWith;
+        length -= lenWith;
+        if (length <= 0) {
+            fprintf(stderr, "%s.%d: ERROR ran out of room for replace\n", __func__, __LINE__);
+            free(result);
+            free(originalPointer);
+            return NULL;
+        }
         orig += lenFront + lenRep; // move to next "end of rep"
     }
-    strcpy(tmp, orig);
+    strncpy(tmp, orig, length);
     free(originalPointer);
     return result;
 }
