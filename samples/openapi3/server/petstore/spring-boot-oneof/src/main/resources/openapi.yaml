@@ -211,3 +211,14 @@ components:
       - $ref: '#/components/schemas/BarRef'
       type: object
       x-one-of-name: BarRefOrValue
+    Pizza:
+      allOf:
+      - $ref: '#/components/schemas/Entity'
+      type: object
+    Pasta:
+      allOf:
+      - $ref: '#/components/schemas/Entity'
+      properties:
+        vendor:
+          type: string
+      type: object

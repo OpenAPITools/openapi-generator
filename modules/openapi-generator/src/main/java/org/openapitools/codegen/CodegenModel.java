@@ -994,8 +994,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", interfaces=").append(interfaces);
         sb.append(", allParents=").append(allParents);
         sb.append(", parentModel=").append(parentModel);
-        sb.append(", interfaceModels=").append(interfaceModels);
-        sb.append(", children=").append(children);
+        sb.append(", interfaceModels=").append(interfaceModels!=null?interfaceModels.size():"[]");
+        sb.append(", children=").append(children!=null?children.size():"[]");
         sb.append(", anyOf=").append(anyOf);
         sb.append(", oneOf=").append(oneOf);
         sb.append(", allOf=").append(allOf);

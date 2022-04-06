@@ -156,6 +156,17 @@ components:
       oneOf:
         - $ref: "#/components/schemas/Bar"
         - $ref: "#/components/schemas/BarRef"
+    Pizza:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+    Pasta:
+      type: object
+      properties:
+        vendor:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Entity'
 
   requestBodies:
     Foo:
