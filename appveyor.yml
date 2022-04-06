@@ -101,15 +101,8 @@ test_script:
 
   # test ps petstore
   - ps: |
-      $ErrorActionPreference = "Stop"
       cd samples\client\petstore\powershell\
-      .\Build.ps1
-      Import-Module -Name '.\src\PSPetstore'
-      $Result = Invoke-Pester -PassThru
-      if ($Result.FailedCount -gt 0) {
-          $host.SetShouldExit($Result.FailedCount)
-          exit $Result.FailedCount
-      }
+      .\CIRunTest.ps1
 cache:
   - C:\maven\
   - C:\gradle\
