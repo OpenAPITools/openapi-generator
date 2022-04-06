@@ -41,6 +41,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -116,6 +117,7 @@ public class FileSchemaTestClass implements Parcelable {
   public void setFiles(List<ModelFile> files) {
     this.files = files;
   }
+
 
 
   @Override
@@ -208,6 +210,7 @@ public class FileSchemaTestClass implements Parcelable {
           throw new IllegalArgumentException(String.format("The required field(s) %s in FileSchemaTestClass is not found in the empty JSON string", FileSchemaTestClass.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -220,8 +223,13 @@ public class FileSchemaTestClass implements Parcelable {
         ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
       }
       JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
-      // validate the optional field `files` (array)
       if (jsonArrayfiles != null) {
+        // ensure the json data is an array
+        if (!jsonObj.get("files").isJsonArray()) {
+          throw new IllegalArgumentException(String.format("Expected the field `files` to be an array in the JSON string but got `%s`", jsonObj.get("files").toString()));
+        }
+
+        // validate the optional field `files` (array)
         for (int i = 0; i < jsonArrayfiles.size(); i++) {
           ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
         };

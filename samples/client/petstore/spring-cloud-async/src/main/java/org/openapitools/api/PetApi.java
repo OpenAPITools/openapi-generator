@@ -26,7 +26,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-@Api(value = "Pet", description = "the Pet API")
+@Api(value = "Pet", description = "Everything about your Pets")
 public interface PetApi {
 
     /**

@@ -42,6 +42,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -281,6 +282,7 @@ public class Pet {
   }
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -362,6 +364,7 @@ public class Pet {
           throw new IllegalArgumentException(String.format("The required field(s) %s in Pet is not found in the empty JSON string", Pet.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -380,12 +383,27 @@ public class Pet {
       if (jsonObj.getAsJsonObject("category") != null) {
         Category.validateJsonObject(jsonObj.getAsJsonObject("category"));
       }
+      if (jsonObj.get("name") != null && !jsonObj.get("name").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
+      }
+      // ensure the json data is an array
+      if (jsonObj.get("photoUrls") != null && !jsonObj.get("photoUrls").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj.get("photoUrls").toString()));
+      }
       JsonArray jsonArraytags = jsonObj.getAsJsonArray("tags");
-      // validate the optional field `tags` (array)
       if (jsonArraytags != null) {
+        // ensure the json data is an array
+        if (!jsonObj.get("tags").isJsonArray()) {
+          throw new IllegalArgumentException(String.format("Expected the field `tags` to be an array in the JSON string but got `%s`", jsonObj.get("tags").toString()));
+        }
+
+        // validate the optional field `tags` (array)
         for (int i = 0; i < jsonArraytags.size(); i++) {
           Tag.validateJsonObject(jsonArraytags.get(i).getAsJsonObject());
         };
+      }
+      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
       }
   }
 

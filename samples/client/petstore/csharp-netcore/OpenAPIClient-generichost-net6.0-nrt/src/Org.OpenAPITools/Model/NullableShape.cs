@@ -34,32 +34,30 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableShape" /> class.
         /// </summary>
-        /// <param name="quadrilateral">quadrilateral</param>
-        public NullableShape(Quadrilateral? quadrilateral)
-        {
-            Quadrilateral = quadrilateral;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NullableShape" /> class.
-        /// </summary>
-        /// <param name="triangle">triangle</param>
-        public NullableShape(Triangle? triangle)
+        /// <param name="triangle"></param>
+        public NullableShape(Triangle triangle)
         {
             Triangle = triangle;
         }
 
         /// <summary>
-        /// The value may be a shape or the &#39;null&#39; value. The &#39;nullable&#39; attribute was introduced in OAS schema &gt;&#x3D; 3.0 and has been deprecated in OAS schema &gt;&#x3D; 3.1.
+        /// Initializes a new instance of the <see cref="NullableShape" /> class.
         /// </summary>
-        /// <value>The value may be a shape or the &#39;null&#39; value. The &#39;nullable&#39; attribute was introduced in OAS schema &gt;&#x3D; 3.0 and has been deprecated in OAS schema &gt;&#x3D; 3.1.</value>
-        public Quadrilateral? Quadrilateral { get; set; }
+        /// <param name="quadrilateral"></param>
+        public NullableShape(Quadrilateral quadrilateral)
+        {
+            Quadrilateral = quadrilateral;
+        }
 
         /// <summary>
-        /// The value may be a shape or the &#39;null&#39; value. The &#39;nullable&#39; attribute was introduced in OAS schema &gt;&#x3D; 3.0 and has been deprecated in OAS schema &gt;&#x3D; 3.1.
+        /// Gets or Sets Triangle
         /// </summary>
-        /// <value>The value may be a shape or the &#39;null&#39; value. The &#39;nullable&#39; attribute was introduced in OAS schema &gt;&#x3D; 3.0 and has been deprecated in OAS schema &gt;&#x3D; 3.1.</value>
-        public Triangle? Triangle { get; set; }
+        public Triangle Triangle { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Quadrilateral
+        /// </summary>
+        public Quadrilateral Quadrilateral { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -165,11 +163,11 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException();
 
-            Utf8JsonReader quadrilateralReader = reader;
-            Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, options, out Quadrilateral? quadrilateral);
-
             Utf8JsonReader triangleReader = reader;
-            Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, options, out Triangle? triangle);
+            bool triangleDeserialized = Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, options, out Triangle? triangle);
+
+            Utf8JsonReader quadrilateralReader = reader;
+            bool quadrilateralDeserialized = Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, options, out Quadrilateral? quadrilateral);
 
 
             while (reader.Read())
@@ -188,11 +186,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (quadrilateral != null)
-                return new NullableShape(quadrilateral);
-
-            if (triangle != null)
+            if (triangleDeserialized)
                 return new NullableShape(triangle);
+
+            if (quadrilateralDeserialized)
+                return new NullableShape(quadrilateral);
 
             throw new JsonException();
         }

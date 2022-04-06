@@ -186,6 +186,9 @@ class FakeApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('\OpenAPI\Client\Model\HealthCheckResult' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -200,6 +203,9 @@ class FakeApi
                 $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
             }
 
             return [
@@ -264,6 +270,9 @@ class FakeApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -342,7 +351,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -588,7 +597,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -682,6 +691,9 @@ class FakeApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('bool' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -696,6 +708,9 @@ class FakeApi
                 $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
             }
 
             return [
@@ -758,6 +773,9 @@ class FakeApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -843,7 +861,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -937,6 +955,9 @@ class FakeApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('\OpenAPI\Client\Model\OuterComposite' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -951,6 +972,9 @@ class FakeApi
                 $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
             }
 
             return [
@@ -1013,6 +1037,9 @@ class FakeApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -1098,7 +1125,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -1192,6 +1219,9 @@ class FakeApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('float' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -1206,6 +1236,9 @@ class FakeApi
                 $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
             }
 
             return [
@@ -1268,6 +1301,9 @@ class FakeApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -1353,7 +1389,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -1447,6 +1483,9 @@ class FakeApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('string' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -1461,6 +1500,9 @@ class FakeApi
                 $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
             }
 
             return [
@@ -1523,6 +1565,9 @@ class FakeApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -1608,7 +1653,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -1702,6 +1747,9 @@ class FakeApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('\OpenAPI\Client\Model\OuterObjectWithEnumProperty' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -1716,6 +1764,9 @@ class FakeApi
                 $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
             }
 
             return [
@@ -1778,6 +1829,9 @@ class FakeApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -1869,7 +1923,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -2085,7 +2139,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -2301,7 +2355,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -2536,7 +2590,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -2634,6 +2688,9 @@ class FakeApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('\OpenAPI\Client\Model\Client' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -2648,6 +2705,9 @@ class FakeApi
                 $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
             }
 
             return [
@@ -2714,6 +2774,9 @@ class FakeApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -2805,7 +2868,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -3217,7 +3280,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -3519,7 +3582,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -3832,7 +3895,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -4060,7 +4123,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -4297,7 +4360,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -4623,7 +4686,7 @@ class FakeApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($queryParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 

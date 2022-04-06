@@ -158,4 +158,23 @@ public class GoClientCodegenTest {
 
         TestUtils.assertFileContains(Paths.get(output + "/model_example.go"), "Child NullableChild");
     }
+
+    @Test
+    public void testMultipleRequiredPropertiesHasSameOneOfObject() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/petstore-multiple-required-properties-has-same-oneOf-object.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        System.out.println(files);
+        files.forEach(File::deleteOnExit);
+
+        Path docFile = Paths.get(output + "/docs/PetApi.md");
+        TestUtils.assertFileContains(docFile, "openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}, openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}, openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}");
+    }
 }

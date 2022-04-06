@@ -34,17 +34,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
-        /// <param name="childCatAllOf">childCatAllOf</param>
+        /// <param name="childCatAllOf"></param>
         /// <param name="petType">petType (required)</param>
-        public ChildCat(ChildCatAllOf? childCatAllOf, string petType) : base(petType)
+        public ChildCat(ChildCatAllOf childCatAllOf, string petType) : base(petType)
         {
             ChildCatAllOf = childCatAllOf;
         }
 
         /// <summary>
-        /// Gets or Sets ChildCat
+        /// Gets or Sets ChildCatAllOf
         /// </summary>
-        public ChildCatAllOf? ChildCatAllOf { get; set; }
+        public ChildCatAllOf ChildCatAllOf { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -122,7 +122,8 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException();
 
             Utf8JsonReader childCatAllOfReader = reader;
-            Client.ClientUtils.TryDeserialize<ChildCatAllOf>(ref childCatAllOfReader, options, out ChildCatAllOf? childCatAllOf);
+            bool childCatAllOfDeserialized = Client.ClientUtils.TryDeserialize<ChildCatAllOf>(ref childCatAllOfReader, options, out ChildCatAllOf? childCatAllOf);
+
             string? petType = default;
 
             while (reader.Read())

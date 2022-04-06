@@ -40,7 +40,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
-|useES6|use JavaScript ES6 (ECMAScript 6). Default is ES6. (This option has been deprecated and will be removed in the 5.x release as ES5 is no longer supported)| |true|
 |useInheritance|use JavaScript prototype chains &amp; delegation for inheritance| |true|
 |usePromises|use Promises as return values from the client API, instead of superagent callbacks| |false|
 

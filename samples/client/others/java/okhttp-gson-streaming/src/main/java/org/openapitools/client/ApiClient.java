@@ -993,7 +993,7 @@ public class ApiClient {
         try {
              Response response = call.execute();
              if (!response.isSuccessful()) {
-                 throw new ApiException(response.code(), response.message());
+                 throw new ApiException(response.code(), response.message(), response.headers().toMultimap(), null);
              }
              if (response.body() == null) {
                  return null;

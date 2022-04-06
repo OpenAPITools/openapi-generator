@@ -34,18 +34,25 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
-        /// <param name="catAllOf">catAllOf</param>
+        /// <param name="dictionary"></param>
+        /// <param name="catAllOf"></param>
         /// <param name="className">className (required)</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
-        public Cat(CatAllOf? catAllOf, string className, string? color = "red") : base(className, color)
+        public Cat(Dictionary<string, int> dictionary, CatAllOf catAllOf, string className, string? color = "red") : base(className, color)
         {
+            Dictionary = dictionary;
             CatAllOf = catAllOf;
         }
 
         /// <summary>
-        /// Gets or Sets Cat
+        /// Gets or Sets Dictionary
         /// </summary>
-        public CatAllOf? CatAllOf { get; set; }
+        public Dictionary<string, int> Dictionary { get; set; }
+
+        /// <summary>
+        /// Gets or Sets CatAllOf
+        /// </summary>
+        public CatAllOf CatAllOf { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -122,8 +129,12 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException();
 
+            Utf8JsonReader dictionaryReader = reader;
+            bool dictionaryDeserialized = Client.ClientUtils.TryDeserialize<Dictionary<string, int>>(ref dictionaryReader, options, out Dictionary<string, int>? dictionary);
+
             Utf8JsonReader catAllOfReader = reader;
-            Client.ClientUtils.TryDeserialize<CatAllOf>(ref catAllOfReader, options, out CatAllOf? catAllOf);
+            bool catAllOfDeserialized = Client.ClientUtils.TryDeserialize<CatAllOf>(ref catAllOfReader, options, out CatAllOf? catAllOf);
+
             string? className = default;
             string? color = default;
 
@@ -149,7 +160,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Cat(catAllOf, className, color);
+            return new Cat(dictionary, catAllOf, className, color);
         }
 
         /// <summary>
