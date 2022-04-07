@@ -882,8 +882,41 @@ public class SpringCodegen extends AbstractJavaCodegen
             codegenModel.imports.remove("ApiModelProperty");
             codegenModel.imports.remove("ApiModel");
         }
+
         return codegenModel;
     }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        objs = super.updateAllModels(objs);
+
+        for (ModelsMap modelsAttrs : objs.values()) {
+            for (ModelMap mo : modelsAttrs.getModels()) {
+                CodegenModel codegenModel = mo.getModel();
+                Map<String, CodegenProperty> propertyHash = new HashMap<>(codegenModel.vars.size());
+                for (final CodegenProperty property : codegenModel.vars) {
+                    propertyHash.put(property.name, property);
+                }
+                CodegenModel parentCodegenModel = codegenModel.parentModel;
+                while (parentCodegenModel != null) {
+                    for (final CodegenProperty property : parentCodegenModel.vars) {
+                        // helper list of parentVars simplifies templating
+                        if (!propertyHash.containsKey(property.name)) {
+                            propertyHash.put(property.name, property);
+                            final CodegenProperty parentVar = property.clone();
+                            parentVar.isInherited = true;
+                            LOGGER.info("adding parent variable {}", property.name);
+                            codegenModel.parentVars.add(parentVar);
+                        }
+                    }
+                    parentCodegenModel = parentCodegenModel.getParentModel();
+                }
+            }
+        }
+        return objs;
+    }
+
 
     /*
      * Add dynamic imports based on the parameters and vendor extensions of an operation.

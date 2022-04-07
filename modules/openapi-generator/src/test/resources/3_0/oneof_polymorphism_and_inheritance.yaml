@@ -158,6 +158,9 @@ components:
         - $ref: "#/components/schemas/BarRef"
     Pizza:
       type: object
+      properties:
+        pizzaSize:
+          type: number
       allOf:
         - $ref: '#/components/schemas/Entity'
     Pasta:
@@ -167,6 +170,13 @@ components:
           type: string
       allOf:
         - $ref: '#/components/schemas/Entity'
+    PizzaSpeziale:
+      type: object
+      properties:
+        toppings:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Pizza'
 
   requestBodies:
     Foo:

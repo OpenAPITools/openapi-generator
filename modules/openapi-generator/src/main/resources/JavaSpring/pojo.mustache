@@ -164,6 +164,29 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   }
   {{! end feature: getter and setter }}
   {{/vars}}
+  {{#parentVars}}
+
+{{! begin feature: fluent setter methods }}
+  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    super.{{setter}}({{name}});
+    return this;
+  }
+  {{#isArray}}
+
+  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    super.add{{nameInCamelCase}}Item({{name}}Item);
+    return this;
+  }
+  {{/isArray}}
+  {{#isMap}}
+
+  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    super.put{{nameInCamelCase}}Item({{name}}Item);
+    return this;
+  }
+  {{/isMap}}
+  {{! end feature: fluent setter methods }}
+{{/parentVars}}
 
   @Override
   public boolean equals(Object o) {
