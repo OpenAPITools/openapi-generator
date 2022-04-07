@@ -889,6 +889,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         return codegenModel;
     }
 
+    /**
+     * Analyse and post process all Models.
+     *  Add parentVars to every Model which has a parent. This allows to generate
+     *  fluent setter methods for inherited properties.
+     * @param objs the models map.
+     * @return the processed models map.
+     */
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
