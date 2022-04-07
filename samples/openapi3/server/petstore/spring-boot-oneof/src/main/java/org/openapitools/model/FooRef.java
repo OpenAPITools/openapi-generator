@@ -48,6 +48,41 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     this.foorefPropA = foorefPropA;
   }
 
+  public FooRef name(String name) {
+    super.setName(name);
+    return this;
+  }
+
+  public FooRef atReferredType(String atReferredType) {
+    super.setAtReferredType(atReferredType);
+    return this;
+  }
+
+  public FooRef href(String href) {
+    super.setHref(href);
+    return this;
+  }
+
+  public FooRef id(String id) {
+    super.setId(id);
+    return this;
+  }
+
+  public FooRef atSchemaLocation(String atSchemaLocation) {
+    super.setAtSchemaLocation(atSchemaLocation);
+    return this;
+  }
+
+  public FooRef atBaseType(String atBaseType) {
+    super.setAtBaseType(atBaseType);
+    return this;
+  }
+
+  public FooRef atType(String atType) {
+    super.setAtType(atType);
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

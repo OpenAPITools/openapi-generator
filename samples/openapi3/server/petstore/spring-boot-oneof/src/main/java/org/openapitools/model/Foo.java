@@ -70,6 +70,31 @@ public class Foo extends Entity implements FooRefOrValue {
     this.fooPropB = fooPropB;
   }
 
+  public Foo href(String href) {
+    super.setHref(href);
+    return this;
+  }
+
+  public Foo id(String id) {
+    super.setId(id);
+    return this;
+  }
+
+  public Foo atSchemaLocation(String atSchemaLocation) {
+    super.setAtSchemaLocation(atSchemaLocation);
+    return this;
+  }
+
+  public Foo atBaseType(String atBaseType) {
+    super.setAtBaseType(atBaseType);
+    return this;
+  }
+
+  public Foo atType(String atType) {
+    super.setAtType(atType);
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

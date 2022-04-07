@@ -214,11 +214,21 @@ components:
     Pizza:
       allOf:
       - $ref: '#/components/schemas/Entity'
+      properties:
+        pizzaSize:
+          type: number
       type: object
     Pasta:
       allOf:
       - $ref: '#/components/schemas/Entity'
       properties:
         vendor:
+          type: string
+      type: object
+    PizzaSpeziale:
+      allOf:
+      - $ref: '#/components/schemas/Pizza'
+      properties:
+        toppings:
           type: string
       type: object

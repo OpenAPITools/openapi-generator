@@ -26,6 +26,41 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class BarRef extends EntityRef implements BarRefOrValue {
 
+  public BarRef name(String name) {
+    super.setName(name);
+    return this;
+  }
+
+  public BarRef atReferredType(String atReferredType) {
+    super.setAtReferredType(atReferredType);
+    return this;
+  }
+
+  public BarRef href(String href) {
+    super.setHref(href);
+    return this;
+  }
+
+  public BarRef id(String id) {
+    super.setId(id);
+    return this;
+  }
+
+  public BarRef atSchemaLocation(String atSchemaLocation) {
+    super.setAtSchemaLocation(atSchemaLocation);
+    return this;
+  }
+
+  public BarRef atBaseType(String atBaseType) {
+    super.setAtBaseType(atBaseType);
+    return this;
+  }
+
+  public BarRef atType(String atType) {
+    super.setAtType(atType);
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
