@@ -92,7 +92,7 @@ public class OpenAPIDocumentationConfig {
                 }
                 String authority = hostURI.getAuthority();
                 if (authority != null) {
-                    // In Swagger host refers to host _and_ port, a.k.a. the URI authority
+                    // In OpenAPI `host` refers to host _and_ port, a.k.a. the URI authority
                     docket.host(authority);
                 }
                 docket.pathMapping(hostURI.getPath());
