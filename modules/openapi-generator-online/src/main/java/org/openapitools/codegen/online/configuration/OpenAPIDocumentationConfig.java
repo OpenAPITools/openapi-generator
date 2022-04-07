@@ -88,7 +88,9 @@ public class OpenAPIDocumentationConfig {
                 URI hostURI = new URI(hostString);
                 String scheme = hostURI.getScheme();
                 if (scheme != null) {
-                    docket.protocols(Set.of(new String[] { scheme }));
+                    Set<String> protocols = new HashSet<String>();
+                    protocols.add(scheme);
+                    docket.protocols(protocols);
                 }
                 String authority = hostURI.getAuthority();
                 if (authority != null) {
