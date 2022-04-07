@@ -32,9 +32,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
@@ -894,6 +897,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         for (ModelsMap modelsAttrs : objs.values()) {
             for (ModelMap mo : modelsAttrs.getModels()) {
                 CodegenModel codegenModel = mo.getModel();
+                Set<String> additionalImports = new HashSet<>();
                 Map<String, CodegenProperty> propertyHash = new HashMap<>(codegenModel.vars.size());
                 for (final CodegenProperty property : codegenModel.vars) {
                     propertyHash.put(property.name, property);
@@ -908,9 +912,26 @@ public class SpringCodegen extends AbstractJavaCodegen
                             parentVar.isInherited = true;
                             LOGGER.info("adding parent variable {}", property.name);
                             codegenModel.parentVars.add(parentVar);
+                            Set<String> imports = parentVar.getImports(true).stream().filter(Objects::nonNull).collect(Collectors.toSet());
+                            for (String imp: imports) {
+                                // Avoid dupes
+                                if (!codegenModel.getImports().contains(imp)) {
+                                    additionalImports.add(imp);
+                                    codegenModel.getImports().add(imp);
+                                }
+                            }
                         }
                     }
                     parentCodegenModel = parentCodegenModel.getParentModel();
+                }
+                // There must be a better way ...
+                for (String imp: additionalImports) {
+                    String qimp = importMapping().get(imp);
+                    if (qimp != null) {
+                        Map<String,String> toAdd = new HashMap<>();
+                        toAdd.put("import", qimp);
+                        modelsAttrs.getImports().add(toAdd);
+                    }
                 }
             }
         }
