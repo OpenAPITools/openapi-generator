@@ -904,7 +904,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         for (ModelsMap modelsAttrs : objs.values()) {
             for (ModelMap mo : modelsAttrs.getModels()) {
                 CodegenModel codegenModel = mo.getModel();
-                Set<String> additionalImports = new HashSet<>();
+                Set<String> inheritedImports = new HashSet<>();
                 Map<String, CodegenProperty> propertyHash = new HashMap<>(codegenModel.vars.size());
                 for (final CodegenProperty property : codegenModel.vars) {
                     propertyHash.put(property.name, property);
@@ -923,7 +923,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                             for (String imp: imports) {
                                 // Avoid dupes
                                 if (!codegenModel.getImports().contains(imp)) {
-                                    additionalImports.add(imp);
+                                    inheritedImports.add(imp);
                                     codegenModel.getImports().add(imp);
                                 }
                             }
@@ -932,7 +932,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     parentCodegenModel = parentCodegenModel.getParentModel();
                 }
                 // There must be a better way ...
-                for (String imp: additionalImports) {
+                for (String imp: inheritedImports) {
                     String qimp = importMapping().get(imp);
                     if (qimp != null) {
                         Map<String,String> toAdd = new HashMap<>();
