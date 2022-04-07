@@ -1353,6 +1353,13 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
         return "\"" + in + "\"";
     }
 
+    @Override
+    public String toExampleValue(Schema schema) {
+        String modelName = getModelName(schema);
+        Object objExample = getObjectExample(schema);
+        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0, new ArrayList<>());
+    }
+
     public String toExampleValue(Schema schema, Object objExample) {
         String modelName = getModelName(schema);
         return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0, new ArrayList<>());
