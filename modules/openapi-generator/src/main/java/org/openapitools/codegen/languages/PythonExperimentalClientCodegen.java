@@ -17,6 +17,8 @@
 package org.openapitools.codegen.languages;
 
 import com.github.curiousoddman.rgxgen.RgxGen;
+import com.github.curiousoddman.rgxgen.config.RgxGenOption;
+import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
@@ -1552,17 +1554,42 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
                 example = "2";
             } else if (StringUtils.isNotBlank(schema.getPattern())) {
                 String pattern = schema.getPattern();
-                RgxGen rgxGen = new RgxGen(pattern);
+                /*
+                RxGen does not support our ECMA dialect https://github.com/curious-odd-man/RgxGen/issues/56
+                So strip off the leading / and trailing / and turn on ignore case if we have it
+                 */
+                Pattern valueExtractor = Pattern.compile("^/?(.+?)/?(.?)$");
+                Matcher m = valueExtractor.matcher(pattern);
+                RgxGen rgxGen = null;
+                if (m.find()) {
+                    int groupCount = m.groupCount();
+                    if (groupCount == 1) {
+                        // only pattern found
+                        String isolatedPattern = m.group(1);
+                        rgxGen = new RgxGen(isolatedPattern);
+                    } else if (groupCount == 2) {
+                        // patterns and flag found
+                        String isolatedPattern = m.group(1);
+                        String flags = m.group(2);
+                        if (flags.contains("i")) {
+                            rgxGen = new RgxGen(isolatedPattern);
+                            RgxGenProperties properties = new RgxGenProperties();
+                            RgxGenOption.CASE_INSENSITIVE.setInProperties(properties, true);
+                            rgxGen.setProperties(properties);
+                        } else {
+                            rgxGen = new RgxGen(isolatedPattern);
+                        }
+                    }
+                } else {
+                    rgxGen = new RgxGen(pattern);
+                }
+
                 // this seed makes it so if we have [a-z] we pick a
                 Random random = new Random(18);
-                String sample = rgxGen.generate(random);
-                // omit leading / and trailing /, omit trailing /i
-                Pattern valueExtractor = Pattern.compile("^/?(.+?)/?.?$");
-                Matcher m = valueExtractor.matcher(sample);
-                if (m.find()) {
-                    example = m.group(m.groupCount());
+                if (rgxGen != null) {
+                    example = rgxGen.generate(random);
                 } else {
-                    example = "";
+                    throw new RuntimeException("rgxGen cannot be null. Please open an issue in the openapi-generator github repo.");
                 }
             } else if (schema.getMinLength() != null) {
                 example = "";
