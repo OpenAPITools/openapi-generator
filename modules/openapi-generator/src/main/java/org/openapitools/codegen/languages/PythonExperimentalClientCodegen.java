@@ -1462,7 +1462,7 @@ public class PythonExperimentalClientCodegen extends AbstractPythonCodegen {
             /*
              This schema may be a composed schema
              TODO generate examples for some of these use cases in the future like
-             only oneOf without a discriminators
+             only oneOf without a discriminator
              */
             Boolean hasProperties = (schema.getProperties() != null && !schema.getProperties().isEmpty());
             CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
