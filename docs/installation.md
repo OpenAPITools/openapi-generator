@@ -54,6 +54,29 @@ Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.github
 openapi-generator generate -i petstore.yaml -g ruby -o /tmp/test/
 ```
 
+## Scoop
+
+> **Platform(s)**: Windows
+
+**Install** via [scoop](https://scoop.sh/):
+
+```
+scoop install openapi-generator-cli
+```
+
+If you don't have java installed, you can also install it via [scoop java bucket](https://github.com/ScoopInstaller/Java/):
+
+```
+scoop bucket add java
+scoop install openjdk
+```
+
+Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml) doc:
+
+```
+openapi-generator-cli generate -i petstore.yaml -g ruby
+```
+
 ## Docker
 
 > **Platform(s)**: Linux, macOS, Windows

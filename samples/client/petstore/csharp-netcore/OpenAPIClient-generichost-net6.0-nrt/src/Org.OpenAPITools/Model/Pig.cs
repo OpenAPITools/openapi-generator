@@ -34,8 +34,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
-        /// <param name="basquePig">basquePig</param>
-        public Pig(BasquePig? basquePig)
+        /// <param name="basquePig"></param>
+        public Pig(BasquePig basquePig)
         {
             BasquePig = basquePig;
         }
@@ -43,21 +43,21 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
-        /// <param name="danishPig">danishPig</param>
-        public Pig(DanishPig? danishPig)
+        /// <param name="danishPig"></param>
+        public Pig(DanishPig danishPig)
         {
             DanishPig = danishPig;
         }
 
         /// <summary>
-        /// Gets or Sets Pig
+        /// Gets or Sets BasquePig
         /// </summary>
-        public BasquePig? BasquePig { get; set; }
+        public BasquePig BasquePig { get; set; }
 
         /// <summary>
-        /// Gets or Sets Pig
+        /// Gets or Sets DanishPig
         /// </summary>
-        public DanishPig? DanishPig { get; set; }
+        public DanishPig DanishPig { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -164,10 +164,10 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException();
 
             Utf8JsonReader basquePigReader = reader;
-            Client.ClientUtils.TryDeserialize<BasquePig>(ref basquePigReader, options, out BasquePig? basquePig);
+            bool basquePigDeserialized = Client.ClientUtils.TryDeserialize<BasquePig>(ref basquePigReader, options, out BasquePig? basquePig);
 
             Utf8JsonReader danishPigReader = reader;
-            Client.ClientUtils.TryDeserialize<DanishPig>(ref danishPigReader, options, out DanishPig? danishPig);
+            bool danishPigDeserialized = Client.ClientUtils.TryDeserialize<DanishPig>(ref danishPigReader, options, out DanishPig? danishPig);
 
 
             while (reader.Read())
@@ -186,10 +186,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (basquePig != null)
+            if (basquePigDeserialized)
                 return new Pig(basquePig);
 
-            if (danishPig != null)
+            if (danishPigDeserialized)
                 return new Pig(danishPig);
 
             throw new JsonException();

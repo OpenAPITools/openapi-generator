@@ -34,23 +34,23 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleQuadrilateral" /> class.
         /// </summary>
-        /// <param name="quadrilateralInterface">quadrilateralInterface</param>
-        /// <param name="shapeInterface">shapeInterface</param>
-        public SimpleQuadrilateral(QuadrilateralInterface? quadrilateralInterface, ShapeInterface? shapeInterface)
+        /// <param name="shapeInterface"></param>
+        /// <param name="quadrilateralInterface"></param>
+        public SimpleQuadrilateral(ShapeInterface shapeInterface, QuadrilateralInterface quadrilateralInterface)
         {
-            QuadrilateralInterface = quadrilateralInterface;
             ShapeInterface = shapeInterface;
+            QuadrilateralInterface = quadrilateralInterface;
         }
 
         /// <summary>
-        /// Gets or Sets SimpleQuadrilateral
+        /// Gets or Sets ShapeInterface
         /// </summary>
-        public QuadrilateralInterface? QuadrilateralInterface { get; set; }
+        public ShapeInterface ShapeInterface { get; set; }
 
         /// <summary>
-        /// Gets or Sets SimpleQuadrilateral
+        /// Gets or Sets QuadrilateralInterface
         /// </summary>
-        public ShapeInterface? ShapeInterface { get; set; }
+        public QuadrilateralInterface QuadrilateralInterface { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -146,10 +146,12 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException();
 
-            Utf8JsonReader quadrilateralInterfaceReader = reader;
-            Client.ClientUtils.TryDeserialize<QuadrilateralInterface>(ref quadrilateralInterfaceReader, options, out QuadrilateralInterface? quadrilateralInterface);
             Utf8JsonReader shapeInterfaceReader = reader;
-            Client.ClientUtils.TryDeserialize<ShapeInterface>(ref shapeInterfaceReader, options, out ShapeInterface? shapeInterface);
+            bool shapeInterfaceDeserialized = Client.ClientUtils.TryDeserialize<ShapeInterface>(ref shapeInterfaceReader, options, out ShapeInterface? shapeInterface);
+
+            Utf8JsonReader quadrilateralInterfaceReader = reader;
+            bool quadrilateralInterfaceDeserialized = Client.ClientUtils.TryDeserialize<QuadrilateralInterface>(ref quadrilateralInterfaceReader, options, out QuadrilateralInterface? quadrilateralInterface);
+
 
             while (reader.Read())
             {
@@ -167,7 +169,7 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new SimpleQuadrilateral(quadrilateralInterface, shapeInterface);
+            return new SimpleQuadrilateral(shapeInterface, quadrilateralInterface);
         }
 
         /// <summary>

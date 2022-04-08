@@ -13,7 +13,7 @@ Method | HTTP request | Description
 # **{{{operationId}}}**
 > {{#if returnType}}{{{returnType}}} {{/if}}{{{operationId}}}({{#each requiredParams}}{{#unless defaultValue}}{{paramName}}{{#if hasMore}}, {{/if}}{{/unless}}{{/each}})
 
-{{{summary}}}{{#if notes}}
+{{#if summary}}{{{summary}}}{{/if}}{{#if notes}}
 
 {{{notes}}}{{/if}}
 
@@ -159,9 +159,9 @@ Code | Class | Description
 n/a | api_client.ApiResponseWithoutDeserialization | When skip_deserialization is True this response is returned
 {{#each responses}}
 {{#if isDefault}}
-default | ApiResponseForDefault | {{message}} {{description}}
+default | ApiResponseForDefault | {{message}}
 {{else}}
-{{code}} | ApiResponseFor{{code}} | {{message}} {{description}}
+{{code}} | ApiResponseFor{{code}} | {{message}}
 {{/if}}
 {{/each}}
 {{#each responses}}

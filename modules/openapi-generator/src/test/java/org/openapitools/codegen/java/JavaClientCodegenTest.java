@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,9 +54,13 @@ import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -133,9 +138,12 @@ public class JavaClientCodegenTest {
         CodegenParameter pathParam2 = createPathParam("pathParam2");
 
         codegenOperation.allParams.addAll(Arrays.asList(queryParamRequired, pathParam1, pathParam2, queryParamOptional));
-        Map<String, Object> operations = ImmutableMap.of("operation", Arrays.asList(codegenOperation));
+        OperationMap operations = new OperationMap();
+        operations.setOperation(codegenOperation);
 
-        Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<Map<String, String>>());
+        OperationsMap objs = new OperationsMap();
+        objs.setOperation(operations);
+        objs.setImports(new ArrayList<>());
 
         javaClientCodegen.postProcessOperationsWithModels(objs, Collections.emptyList());
 
@@ -1408,5 +1416,37 @@ public class JavaClientCodegenTest {
 
         TestUtils.assertExtraAnnotationFiles(outputPath + "/src/main/java/org/openapitools/client/model");
 
+    }
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/11340
+     */
+    @Test
+    public void testReferencedHeader2() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+                .setAdditionalProperties(additionalProperties)
+                .setInputSpec("src/test/resources/3_0/issue-11340.yaml")
+                .setOutputDir(output.getAbsolutePath()
+                        .replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .assertMethod("operationWithHttpInfo")
+                    .hasParameter("requestBody")
+                    .assertParameterAnnotations()
+                    .containsWithName("NotNull")
+                .toParameter().toMethod()
+                    .hasParameter("xNonNullHeaderParameter")
+                    .assertParameterAnnotations()
+                    .containsWithName("NotNull");
     }
 }

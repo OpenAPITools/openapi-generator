@@ -25,6 +25,8 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -42,7 +44,6 @@ import java.util.List;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
-import static org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 
 @SuppressWarnings("Duplicates")
 public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
@@ -898,7 +899,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     }
 
     public void addGenericHostSupportingFiles(final String clientPackageDir, final String packageFolder,
-                                              final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir) {
+            final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir) {
         supportingFiles.add(new SupportingFile("TokenProvider`1.mustache", clientPackageDir, "TokenProvider`1.cs"));
         supportingFiles.add(new SupportingFile("RateLimitProvider`1.mustache", clientPackageDir, "RateLimitProvider`1.cs"));
         supportingFiles.add(new SupportingFile("TokenContainer`1.mustache", clientPackageDir, "TokenContainer`1.cs"));
@@ -918,6 +919,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateJsonConverter.cs"));
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
         supportingFiles.add(new SupportingFile("IApi.mustache", clientPackageDir, getInterfacePrefix() + "Api.cs"));
+        supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
 
         String apiTestFolder = testFolder + File.separator + testPackageName() + File.separator + apiPackage();
 
@@ -1327,16 +1329,13 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
-        List<Object> models = (List<Object>) objs.get("models");
 
         // add implements for serializable/parcelable to all models
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
 
             if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("Null")) {
                 // if oneOf contains "null" type
@@ -1348,6 +1347,14 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 // if anyOf contains "null" type
                 cm.isNullable = true;
                 cm.anyOf.remove("Null");
+            }
+
+            if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getOneOf() != null && !cm.getComposedSchemas().getOneOf().isEmpty()) {
+                cm.getComposedSchemas().getOneOf().removeIf(o -> o.dataType.equals("Null"));
+            }
+
+            if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getAnyOf() != null && !cm.getComposedSchemas().getAnyOf().isEmpty()) {
+                cm.getComposedSchemas().getAnyOf().removeIf(o -> o.dataType.equals("Null"));
             }
 
             for (CodegenProperty cp : cm.readWriteVars) {
@@ -1386,7 +1393,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     * Check modules\openapi-generator\src\test\resources\3_0\java\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
     * Without this method, property petType in GrandparentAnimal will not make it through ParentPet and into ChildCat
     */
-    private void EnsureInheritedVariablesArePresent(CodegenModel derivedModel) {
+    private void EnsureInheritedPropertiesArePresent(CodegenModel derivedModel) {
         // every c# generator should definetly want this, or we should fix the issue
         // still, lets avoid breaking changes :(
         if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))){
@@ -1406,7 +1413,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
-        EnsureInheritedVariablesArePresent(derivedModel.parentModel);
+        EnsureInheritedPropertiesArePresent(derivedModel.parentModel);
     }
 
     /**
@@ -1416,7 +1423,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
      * @return An in-place modified state of the codegen object model.
      */
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
 
         // other libraries probably want these fixes, but lets avoid breaking changes for now
@@ -1424,26 +1431,26 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             return objs;
         }
 
-        ArrayList<CodegenModel> allModels = new ArrayList<CodegenModel>();
-        for (Map.Entry<String, Object> entry : objs.entrySet()) {
-            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+        ArrayList<CodegenModel> allModels = new ArrayList<>();
+        for (String key : objs.keySet()) {
+            CodegenModel model = ModelUtils.getModelByName(key, objs);
             allModels.add(model);
         }
 
         for (CodegenModel cm : allModels) {
-            if (cm.parent != null){
-                // remove the parent CodegenProperty from the model
-                // we need it gone so we can use allOf/oneOf/anyOf in the constructor
-                cm.allOf.removeIf(item -> item.equals(cm.parent));
-                cm.oneOf.removeIf(item -> item.equals(cm.parent));
-                cm.anyOf.removeIf(item -> item.equals(cm.parent));
-            }
-
             cm.anyOf.forEach(anyOf -> removePropertiesDeclaredInComposedClass(anyOf, allModels, cm));
             cm.oneOf.forEach(oneOf -> removePropertiesDeclaredInComposedClass(oneOf, allModels, cm));
             cm.allOf.forEach(allOf -> removePropertiesDeclaredInComposedClass(allOf, allModels, cm));
 
-            EnsureInheritedVariablesArePresent(cm);
+            if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getAllOf() != null && !cm.getComposedSchemas().getAllOf().isEmpty()) {
+                cm.getComposedSchemas().getAllOf().forEach(allOf -> {
+                    if (allOf.dataType.equals(cm.parent)){
+                        allOf.isInherited = true;
+                    }
+                });
+            }
+
+            EnsureInheritedPropertiesArePresent(cm);
         }
 
         return objs;

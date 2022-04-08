@@ -5,6 +5,7 @@ export { createConfiguration } from "./configuration{{extensionForDeno}}"
 export{{#platforms}}{{#deno}} type{{/deno}}{{/platforms}} { Configuration } from "./configuration{{extensionForDeno}}"
 export * from "./apis/exception{{extensionForDeno}}";
 export * from "./servers{{extensionForDeno}}";
+export { RequiredError } from "./apis/baseapi{{extensionForDeno}}";
 
 {{#useRxJS}}
 export { Middleware } from './middleware{{extensionForDeno}}';

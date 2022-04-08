@@ -92,12 +92,7 @@ public {{#generateControllerAsAbstract}}abstract {{/generateControllerAsAbstract
     {{/consumes.0}}
     {{!security annotations}}
     {{#useAuth}}
-        {{#hasAuthMethods}}
-    @Secured(SecurityRule.IS_AUTHENTICATED)
-        {{/hasAuthMethods}}
-        {{^hasAuthMethods}}
-    @Secured(SecurityRule.IS_ANONYMOUS)
-        {{/hasAuthMethods}}
+    @Secured({{openbrace}}{{#vendorExtensions.x-roles}}{{{.}}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-roles}}{{closebrace}})
     {{/useAuth}}
     {{!the method definition}}
     public {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}{{#generateControllerAsAbstract}}Api{{/generateControllerAsAbstract}}({{#allParams}}

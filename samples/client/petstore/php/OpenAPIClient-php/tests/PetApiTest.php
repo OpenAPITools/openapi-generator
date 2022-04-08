@@ -60,13 +60,13 @@ class PetApiTest extends TestCase
         $petId = 10005;
 
         $pet = $this->api->getPetById($petId);
-        $this->assertSame($pet->getId(), $petId);
-        $this->assertSame($pet->getName(), 'PHP Unit Test');
-        $this->assertSame($pet->getPhotoUrls()[0], 'http://test_php_unit_test.com');
-        $this->assertSame($pet->getCategory()->getId(), $petId);
-        $this->assertSame($pet->getCategory()->getName(), 'test php category');
-        $this->assertSame($pet->getTags()[0]->getId(), $petId);
-        $this->assertSame($pet->getTags()[0]->getName(), 'test php tag');
+        $this->assertSame($petId, $pet->getId());
+        $this->assertSame('PHP Unit Test', $pet->getName());
+        $this->assertSame('http://test_php_unit_test.com', $pet->getPhotoUrls()[0]);
+        $this->assertSame($petId, $pet->getCategory()->getId());
+        $this->assertSame('test php category', $pet->getCategory()->getName());
+        $this->assertSame($petId, $pet->getTags()[0]->getId());
+        $this->assertSame('test php tag', $pet->getTags()[0]->getName());
     }
 
     /**
@@ -105,14 +105,14 @@ class PetApiTest extends TestCase
 
         /** @var $pet Pet */
         list($pet, $status_code, $response_headers) = $this->api->getPetByIdWithHttpInfo($petId);
-        $this->assertSame($pet->getId(), $petId);
-        $this->assertSame($pet->getName(), 'PHP Unit Test');
-        $this->assertSame($pet->getCategory()->getId(), $petId);
-        $this->assertSame($pet->getCategory()->getName(), 'test php category');
-        $this->assertSame($pet->getTags()[0]->getId(), $petId);
-        $this->assertSame($pet->getTags()[0]->getName(), 'test php tag');
-        $this->assertSame($status_code, 200);
-        $this->assertSame($response_headers['Content-Type'], ['application/json']);
+        $this->assertSame($petId, $pet->getId());
+        $this->assertSame('PHP Unit Test', $pet->getName());
+        $this->assertSame($petId, $pet->getCategory()->getId());
+        $this->assertSame('test php category', $pet->getCategory()->getName());
+        $this->assertSame($petId, $pet->getTags()[0]->getId());
+        $this->assertSame('test php tag', $pet->getTags()[0]->getName());
+        $this->assertSame(200, $status_code);
+        $this->assertSame(['application/json'], $response_headers['Content-Type']);
     }
 
     public function testFindPetByStatus()
@@ -120,9 +120,9 @@ class PetApiTest extends TestCase
         $response = $this->api->findPetsByStatus('available');
         $this->assertGreaterThan(0, count($response)); // at least one object returned
 
-        $this->assertSame(get_class($response[0]), Pet::class); // verify the object is Pet
+        $this->assertInstanceOf(Pet::class, $response[0]); // verify the object is Pet
         foreach ($response as $pet) {
-            $this->assertSame($pet->getStatus(), 'available');
+            $this->assertSame('available', $pet->getStatus());
         }
 
         $response = $this->api->findPetsByStatus('unknown_and_incorrect_status');
@@ -141,9 +141,9 @@ class PetApiTest extends TestCase
 
         // verify updated Pet
         $result = $this->api->getPetById($petId);
-        $this->assertSame($result->getId(), $petId);
-        $this->assertSame($result->getStatus(), 'pending');
-        $this->assertSame($result->getName(), 'updatePet');
+        $this->assertSame($petId, $result->getId());
+        $this->assertSame('pending', $result->getStatus());
+        $this->assertSame('updatePet', $result->getName());
     }
 
     // test updatePetWithFormWithHttpInfo and verify by the "name" of the response
@@ -158,11 +158,11 @@ class PetApiTest extends TestCase
         );
         // return nothing (void)
         $this->assertNull($update_response);
-        $this->assertSame($status_code, 200);
-        $this->assertSame($http_headers['Content-Type'], ['application/json']);
+        $this->assertSame(200, $status_code);
+        $this->assertSame(['application/json'], $http_headers['Content-Type']);
         $response = $this->api->getPetById($petId);
-        $this->assertSame($response->getId(), $petId);
-        $this->assertSame($response->getName(), 'update pet with form with http info');
+        $this->assertSame($petId, $response->getId());
+        $this->assertSame('update pet with form with http info', $response->getName());
     }
 
     // test updatePetWithForm and verify by the "name" and "status" of the response
@@ -174,9 +174,9 @@ class PetApiTest extends TestCase
         $this->assertNull($result);
 
         $response = $this->api->getPetById($pet_id);
-        $this->assertSame($response->getId(), $pet_id);
-        $this->assertSame($response->getName(), 'update pet with form');
-        $this->assertSame($response->getStatus(), 'sold');
+        $this->assertSame($pet_id, $response->getId());
+        $this->assertSame('update pet with form', $response->getName());
+        $this->assertSame('sold', $response->getStatus());
     }
 
     // test addPet and verify by the "id" and "name" of the response
@@ -194,8 +194,8 @@ class PetApiTest extends TestCase
 
         // verify added Pet
         $response = $this->api->getPetById($new_pet_id);
-        $this->assertSame($response->getId(), $new_pet_id);
-        $this->assertSame($response->getName(), 'PHP Unit Test 2');
+        $this->assertSame($new_pet_id, $response->getId());
+        $this->assertSame('PHP Unit Test 2', $response->getName());
     }
 
     /*

@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
@@ -62,7 +63,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;object?&gt;</returns>
         Task<object?> DeleteOrderOrDefaultAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// Returns pet inventories by status
         /// </summary>
         /// <remarks>
@@ -94,7 +96,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;Dictionary&lt;string, int&gt;?&gt;</returns>
         Task<Dictionary<string, int>?> GetInventoryOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// Find purchase order by ID
         /// </summary>
         /// <remarks>
@@ -129,7 +132,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse&lt;Order?&gt;</returns>
         Task<Order?> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
 
-                /// <summary>
+        
+        /// <summary>
         /// Place an order for a pet
         /// </summary>
         /// <remarks>
@@ -163,13 +167,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;Order?&gt;</returns>
         Task<Order?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
-    }
+
+            }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public partial class StoreApi : IStoreApi
     {
+        private JsonSerializerOptions _jsonSerializerOptions;
+
         /// <summary>
         /// An event to track the health of the server. 
         /// If you store these event args, be sure to purge old event args to prevent a memory leak.
@@ -215,13 +222,14 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="StoreApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public StoreApi(ILogger<StoreApi> logger, HttpClient httpClient, 
+        public StoreApi(ILogger<StoreApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
             TokenProvider<ApiKeyToken> apiKeyProvider, 
             TokenProvider<BearerToken> bearerTokenProvider, 
             TokenProvider<BasicToken> basicTokenProvider, 
             TokenProvider<HttpSignatureToken> httpSignatureTokenProvider, 
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
+            _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
             ApiKeyProvider = apiKeyProvider;
@@ -322,7 +330,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object?> apiResponse = new ApiResponse<object?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<object>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -432,7 +440,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<Dictionary<string, int>?> apiResponse = new ApiResponse<Dictionary<string, int>?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<Dictionary<string, int>>(apiResponse.RawContent, _jsonSerializerOptions);
                         else if (apiResponse.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase token in tokens)
                                 token.BeginRateLimit();
@@ -549,7 +557,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<Order?> apiResponse = new ApiResponse<Order?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<Order>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<Order>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -629,7 +637,7 @@ namespace Org.OpenAPITools.Api
 
                     request.Content = (order as object) is System.IO.Stream stream
                         ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(order, ClientUtils.JsonSerializerOptions));
+                        : request.Content = new StringContent(JsonSerializer.Serialize(order, _jsonSerializerOptions));
 
                     request.RequestUri = uriBuilder.Uri;
 
@@ -675,7 +683,7 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<Order?> apiResponse = new ApiResponse<Order?>(responseMessage, responseContent);
 
                         if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = System.Text.Json.JsonSerializer.Deserialize<Order>(apiResponse.RawContent, ClientUtils.JsonSerializerOptions);
+                            apiResponse.Content = JsonSerializer.Deserialize<Order>(apiResponse.RawContent, _jsonSerializerOptions);
 
                         return apiResponse;
                     }
@@ -686,6 +694,5 @@ namespace Org.OpenAPITools.Api
                 Logger.LogError(e, "An error occured while sending the request to the server.");
                 throw;
             }
-        }
-    }
+        }    }
 }

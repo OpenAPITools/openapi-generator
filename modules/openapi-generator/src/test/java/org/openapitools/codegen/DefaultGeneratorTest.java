@@ -13,6 +13,8 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -651,9 +653,9 @@ public class DefaultGeneratorTest {
 
         List<File> files = new ArrayList<>();
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
-        List<Object> allModels = new ArrayList<>();
+        List<ModelMap> allModels = new ArrayList<>();
         generator.generateModels(files, allModels, filteredSchemas);
-        List<Object> allOperations = new ArrayList<>();
+        List<OperationsMap> allOperations = new ArrayList<>();
         generator.generateApis(files, allOperations, allModels);
 
         Map<String, Object> bundle = generator.buildSupportFileBundle(allOperations, allModels);
@@ -677,9 +679,9 @@ public class DefaultGeneratorTest {
 
         List<File> files = new ArrayList<>();
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
-        List<Object> allModels = new ArrayList<>();
+        List<ModelMap> allModels = new ArrayList<>();
         generator.generateModels(files, allModels, filteredSchemas);
-        List<Object> allOperations = new ArrayList<>();
+        List<OperationsMap> allOperations = new ArrayList<>();
         generator.generateApis(files, allOperations, allModels);
 
         Map<String, Object> bundle = generator.buildSupportFileBundle(allOperations, allModels);
@@ -759,7 +761,7 @@ public class DefaultGeneratorTest {
 
         List<File> files = new ArrayList<>();
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
-        List<Object> allModels = new ArrayList<>();
+        List<ModelMap> allModels = new ArrayList<>();
         // The bug causes a StackOverflowError when calling generateModels
         generator.generateModels(files, allModels, filteredSchemas);
         // all fine, we have passed

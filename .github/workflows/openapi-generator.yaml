@@ -22,7 +22,7 @@ jobs:
           java-version: 8
           distribution: 'temurin'
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         env:
           cache-name: cache-maven-repository
         with:
@@ -58,7 +58,7 @@ jobs:
           java-version: 8
           distribution: 'temurin'
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         env:
           cache-name: cache-maven-repository
         with:
@@ -167,7 +167,7 @@ jobs:
           java-version: 11
           distribution: 'temurin'
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         env:
           cache-name: cache-maven-repository
         with:
@@ -200,7 +200,7 @@ jobs:
           java-version: 11
           distribution: 'temurin'
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         env:
           cache-name: cache-maven-repository
         with:
