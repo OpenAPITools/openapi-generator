@@ -1525,42 +1525,42 @@ components:
     #    - _abc
     #    - '-efg'
     #    - (xyz)
-    #Enum_Test:
-    #  type: object
-    #  required:
-    #    - enum_string_required
-    #  properties:
-    #    enum_string:
-    #      type: string
-    #      enum:
-    #        - UPPER
-    #        - lower
-    #        - ''
-    #    enum_string_required:
-    #      type: string
-    #      enum:
-    #        - UPPER
-    #        - lower
-    #        - ''
-    #    enum_integer:
-    #      type: integer
-    #      format: int32
-    #      enum:
-    #        - 1
-    #        - -1
-    #    enum_integer_only:
-    #      type: integer
-    #      enum:
-    #        - 2
-    #        - -2
-    #    enum_number:
-    #      type: number
-    #      format: double
-    #      enum:
-    #        - 1.1
-    #        - -1.2
-    #    outerEnum:
-    #      $ref: '#/components/schemas/OuterEnum'
+    Enum_Test:
+      type: object
+      required:
+        - enum_string_required
+      properties:
+        enum_string:
+          type: string
+          enum:
+            - UPPER
+            - lower
+            - ''
+        enum_string_required:
+          type: string
+          enum:
+            - UPPER
+            - lower
+            - ''
+        enum_integer:
+          type: integer
+          format: int32
+          enum:
+            - 1
+            - -1
+        enum_integer_only:
+          type: integer
+          enum:
+            - 2
+            - -2
+        enum_number:
+          type: number
+          format: double
+          enum:
+            - 1.1
+            - -1.2
+        outerEnum:
+          $ref: '#/components/schemas/OuterEnum'
     #    outerEnumInteger:
     #      $ref: '#/components/schemas/OuterEnumInteger'
     #    outerEnumDefaultValue:
@@ -1733,13 +1733,13 @@ components:
             enum:
               - fish
               - crab
-    #OuterEnum:
-    #  nullable: true
-    #  type: string
-    #  enum:
-    #    - placed
-    #    - approved
-    #    - delivered
+    OuterEnum:
+      nullable: true
+      type: string
+      enum:
+        - placed
+        - approved
+        - delivered
     #OuterEnumInteger:
     #  type: integer
     #  enum:
