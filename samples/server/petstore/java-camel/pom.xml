@@ -38,6 +38,7 @@ Do not edit the class manually.
     </developers>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.springframework.boot.version>2.6.2</org.springframework.boot.version>
         <org.apache.camel.version>3.14.0</org.apache.camel.version>
     </properties>
