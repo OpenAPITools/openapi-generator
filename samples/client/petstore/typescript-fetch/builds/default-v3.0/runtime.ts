@@ -63,16 +63,18 @@ export class BaseAPI {
         const headers = Object.assign({}, this.configuration.headers, context.headers);
         Object.keys(headers).forEach(key => headers[key] === undefined ? delete headers[key] : {});
 
-        const initBase: HTTPRequestInit = {
-            method: context.method,
-            headers: headers,
-            body: context.body,
-            credentials: this.configuration.credentials,
-        };
-
         const initOverrideFn: (init: HTTPRequestInit) => Promise<RequestInit> = typeof initOverrides === "function" ? initOverrides : async (init: HTTPRequestInit) => ({...init, ...initOverrides});
 
-        const initWithOverride = await initOverrideFn(initBase)
+        const initWithOverride = await initOverrideFn({
+            method: context.method,
+            headers,
+            body: context.body,
+            credentials: this.configuration.credentials,
+        })
+
+        const createRequestBody = (body: HTTPBody) => (isFormData(body) || isURLSearchParams(body) || isBlob(body))
+            ? body
+            : JSON.stringify(body);
 
         const init: RequestInit = {
             ...initWithOverride,
@@ -128,12 +130,6 @@ function isURLSearchParams(value: any): value is URLSearchParams {
 
 function isBlob(value: any): value is Blob {
     return typeof Blob !== 'undefined' && value instanceof Blob
-}
-
-function createRequestBody(body: HTTPBody) {
-    return (isFormData(body) || isURLSearchParams(body) || isBlob(body))
-        ? body
-        : JSON.stringify(body)
 }
 
 export class ResponseError extends Error {
