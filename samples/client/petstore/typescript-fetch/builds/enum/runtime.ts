@@ -70,16 +70,9 @@ export class BaseAPI {
             credentials: this.configuration.credentials,
         };
 
-        const initWithOverride = await ((async () => {
-            if (typeof initOverrides === "function") {
-                return await initOverrides(initBase)
-            } else {
-                return Promise.resolve({
-                    ...initBase,
-                    ...initOverrides
-                })
-            }
-        })())
+        const initOverrideFn: (init: HTTPRequestInit) => Promise<RequestInit> = typeof initOverrides === "function" ? initOverrides : async (init: HTTPRequestInit) => ({...init, ...initOverrides});
+
+        const initWithOverride = await initOverrideFn(initBase)
 
         const init: RequestInit = {
             ...initWithOverride,
