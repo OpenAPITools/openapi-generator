@@ -7,56 +7,69 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.Animal;
-import org.openapitools.model.DogAllOf;
+import org.openapitools.model.Entity;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
 import javax.annotation.Generated;
 
 /**
- * Dog
+ * Pasta
  */
 
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Dog extends Animal {
+public class Pasta extends Entity {
 
-  @JsonProperty("breed")
-  private String breed;
+  @JsonProperty("vendor")
+  private String vendor;
 
-  public Dog breed(String breed) {
-    this.breed = breed;
+  public Pasta vendor(String vendor) {
+    this.vendor = vendor;
     return this;
   }
 
   /**
-   * Get breed
-   * @return breed
+   * Get vendor
+   * @return vendor
   */
   
-  @ApiModelProperty(value = "")
-  public String getBreed() {
-    return breed;
+  @Schema(name = "vendor", required = false)
+  public String getVendor() {
+    return vendor;
   }
 
-  public void setBreed(String breed) {
-    this.breed = breed;
+  public void setVendor(String vendor) {
+    this.vendor = vendor;
   }
 
-  public Dog className(String className) {
-    super.setClassName(className);
+  public Pasta href(String href) {
+    super.setHref(href);
     return this;
   }
 
-  public Dog color(String color) {
-    super.setColor(color);
+  public Pasta id(String id) {
+    super.setId(id);
+    return this;
+  }
+
+  public Pasta atSchemaLocation(String atSchemaLocation) {
+    super.setAtSchemaLocation(atSchemaLocation);
+    return this;
+  }
+
+  public Pasta atBaseType(String atBaseType) {
+    super.setAtBaseType(atBaseType);
+    return this;
+  }
+
+  public Pasta atType(String atType) {
+    super.setAtType(atType);
     return this;
   }
 
@@ -68,22 +81,22 @@ public class Dog extends Animal {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Dog dog = (Dog) o;
-    return Objects.equals(this.breed, dog.breed) &&
+    Pasta pasta = (Pasta) o;
+    return Objects.equals(this.vendor, pasta.vendor) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(breed, super.hashCode());
+    return Objects.hash(vendor, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Dog {\n");
+    sb.append("class Pasta {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    breed: ").append(toIndentedString(breed)).append("\n");
+    sb.append("    vendor: ").append(toIndentedString(vendor)).append("\n");
     sb.append("}");
     return sb.toString();
   }
