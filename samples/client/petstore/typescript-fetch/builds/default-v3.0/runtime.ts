@@ -15,8 +15,6 @@
 
 export const BASE_PATH = "http://petstore.swagger.io:80/v2".replace(/\/+$/, "");
 
-const isBlob = (value: any) => typeof Blob !== 'undefined' && value instanceof Blob;
-
 /**
  * This is the base class for all generated API classes.
  */
@@ -44,8 +42,8 @@ export class BaseAPI {
         return this.withMiddleware<T>(...middlewares);
     }
 
-    protected async request(context: RequestOpts, initOverrides?: RequestInit): Promise<Response> {
-        const { url, init } = this.createFetchParams(context, initOverrides);
+    protected async request(context: RequestOpts, initOverrides?: RequestInit | ((init: HTTPRequestInit) => Promise<RequestInit>)): Promise<Response> {
+        const { url, init } = await this.createFetchParams(context, initOverrides);
         const response = await this.fetchApi(url, init);
         if (response.status >= 200 && response.status < 300) {
             return response;
@@ -53,7 +51,7 @@ export class BaseAPI {
         throw new ResponseError(response, 'Response returned an error code');
     }
 
-    private createFetchParams(context: RequestOpts, initOverrides?: RequestInit) {
+    private createFetchParams(context: RequestOpts, initOverrides?: RequestInit | ((init: HTTPRequestInit) => Promise<RequestInit>)) {
         let url = this.configuration.basePath + context.path;
         if (context.query !== undefined && Object.keys(context.query).length !== 0) {
             // only add the querystring to the URL if there are query parameters.
@@ -61,20 +59,33 @@ export class BaseAPI {
             // do not handle correctly sometimes.
             url += '?' + this.configuration.queryParamsStringify(context.query);
         }
-        const body = ((typeof FormData !== "undefined" && context.body instanceof FormData) || context.body instanceof URLSearchParams || isBlob(context.body))
-        ? context.body
-        : JSON.stringify(context.body);
 
         const headers = Object.assign({}, this.configuration.headers, context.headers);
         Object.keys(headers).forEach(key => headers[key] === undefined ? delete headers[key] : {});
 
-        const init = {
+        const initBase: HTTPRequestInit = {
             method: context.method,
             headers: headers,
-            body,
+            body: context.body,
             credentials: this.configuration.credentials,
-            ...initOverrides
         };
+
+        const initWithOverride = await ((async () => {
+            if (typeof initOverrides === "function") {
+                return await initOverrides(initBase)
+            } else {
+                return Promise.resolve({
+                    ...initBase,
+                    ...initOverrides
+                })
+            }
+        })())
+
+        const init: RequestInit = {
+            ...initWithOverride,
+            body: createRequestBody(initWithOverride.body)
+        }
+
         return { url, init };
     }
 
@@ -113,6 +124,24 @@ export class BaseAPI {
         return next;
     }
 };
+
+function isFormData(value: any): value is FormData {
+    return typeof FormData !== "undefined" && value instanceof FormData
+}
+
+function isURLSearchParams(value: any): value is URLSearchParams {
+    return value instanceof URLSearchParams
+}
+
+function isBlob(value: any): value is Blob {
+    return typeof Blob !== 'undefined' && value instanceof Blob
+}
+
+function createRequestBody(body: HTTPBody) {
+    return (isFormData(body) || isURLSearchParams(body) || isBlob(body))
+        ? body
+        : JSON.stringify(body)
+}
 
 export class ResponseError extends Error {
     name: "ResponseError" = "ResponseError";
@@ -207,6 +236,7 @@ export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS'
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | HTTPQuery };
 export type HTTPBody = Json | FormData | URLSearchParams;
+export type HTTPRequestInit = { headers?: HTTPHeaders; method: HTTPMethod; credentials?: RequestCredentials; body?: HTTPBody }
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
 export interface FetchParams {
