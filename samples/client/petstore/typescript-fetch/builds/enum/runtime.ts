@@ -31,7 +31,7 @@ export interface ConfigurationParameters {
 export class Configuration {
     constructor(private configuration: ConfigurationParameters = {}) {}
 
-    set defaultConfig(configuration: Configuration) {
+    set config(configuration: Configuration) {
         this.configuration = configuration;
     }
 
@@ -84,7 +84,7 @@ export class Configuration {
     }
 }
 
-export const GlobalConfig = new Configuration();
+export const DefaultConfig = new Configuration();
 
 const isBlob = (value: any) => typeof Blob !== 'undefined' && value instanceof Blob;
 
@@ -95,7 +95,7 @@ export class BaseAPI {
 
     private middleware: Middleware[];
 
-    constructor(protected configuration = GlobalConfig) {
+    constructor(protected configuration = DefaultConfig) {
         this.middleware = configuration.middleware;
     }
 
