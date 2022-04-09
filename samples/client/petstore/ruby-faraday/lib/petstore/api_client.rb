@@ -54,9 +54,10 @@ module Petstore
         :client_cert => @config.ssl_client_cert,
         :client_key => @config.ssl_client_key
       }
-
-      connection = Faraday.new(:url => config.base_url, :ssl => ssl_options) do |conn|
-        conn.proxy = config.proxy if config.proxy
+      request_options = {
+        :params_encoder => @config.params_encoder
+      }
+      connection = Faraday.new(:url => config.base_url, :ssl => ssl_options, :request => request_options) do |conn|
         conn.request(:basic_auth, config.username, config.password)
         @config.configure_middleware(conn)
         if opts[:header_params]["Content-Type"] == "multipart/form-data"
@@ -128,7 +129,7 @@ module Petstore
       request.body = req_body
 
       # Overload default options only if provided
-      request.options.params_encoding = @config.params_encoding if @config.params_encoding
+      request.options.params_encoder = @config.params_encoder if @config.params_encoder
       request.options.timeout         = @config.timeout         if @config.timeout
       request.options.verbose         = @config.debugging       if @config.debugging
 
