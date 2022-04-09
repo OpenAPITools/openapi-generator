@@ -42,7 +42,7 @@ export class BaseAPI {
         return this.withMiddleware<T>(...middlewares);
     }
 
-    protected async request(context: RequestOpts, initOverrides?: RequestInit | ((init: HTTPRequestInit) => Promise<RequestInit>)): Promise<Response> {
+    protected async request(context: RequestOpts, initOverrides?: RequestInit | ((requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit>)): Promise<Response> {
         const { url, init } = await this.createFetchParams(context, initOverrides);
         const response = await this.fetchApi(url, init);
         if (response.status >= 200 && response.status < 300) {
@@ -51,7 +51,7 @@ export class BaseAPI {
         throw new ResponseError(response, 'Response returned an error code');
     }
 
-    private createFetchParams(context: RequestOpts, initOverrides?: RequestInit | ((init: HTTPRequestInit) => Promise<RequestInit>)) {
+    private async createFetchParams(context: RequestOpts, initOverrides?: RequestInit | ((requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit>)) {
         let url = this.configuration.basePath + context.path;
         if (context.query !== undefined && Object.keys(context.query).length !== 0) {
             // only add the querystring to the URL if there are query parameters.
@@ -63,13 +63,16 @@ export class BaseAPI {
         const headers = Object.assign({}, this.configuration.headers, context.headers);
         Object.keys(headers).forEach(key => headers[key] === undefined ? delete headers[key] : {});
 
-        const initOverrideFn: (init: HTTPRequestInit) => Promise<RequestInit> = typeof initOverrides === "function" ? initOverrides : async (init: HTTPRequestInit) => ({...init, ...initOverrides});
+        const initOverrideFn: (requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit> = typeof initOverrides === "function" ? initOverrides : async (requestContext: { init: HTTPRequestInit, context: RequestOpts }) => ({...requestContext.init, ...initOverrides});
 
         const initWithOverride = await initOverrideFn({
-            method: context.method,
-            headers,
-            body: context.body,
-            credentials: this.configuration.credentials,
+            init: {
+                method: context.method,
+                headers,
+                body: context.body,
+                credentials: this.configuration.credentials,
+            },
+            context
         })
 
         const createRequestBody = (body: HTTPBody) => (isFormData(body) || isURLSearchParams(body) || isBlob(body))
