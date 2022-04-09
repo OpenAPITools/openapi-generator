@@ -11,7 +11,7 @@ class {{classname}} extends EnumClass {
       {{#description}}
   /// {{{.}}}
       {{/description}}
-  @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{^isInteger}}wireName: r{{#lambda.escapeBuiltValueEnum}}{{{value}}}{{/lambda.escapeBuiltValueEnum}}{{/isInteger}})
+  @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{^isInteger}}wireName: r{{#lambda.escapeBuiltValueEnum}}{{{value}}}{{/lambda.escapeBuiltValueEnum}}{{/isInteger}}{{#enumUnknownDefaultCase}}{{#-last}}, fallback: true{{/-last}}{{/enumUnknownDefaultCase}})
   static const {{classname}} {{name}} = _${{name}};
     {{/enumVars}}
   {{/allowableValues}}
