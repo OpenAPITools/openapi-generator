@@ -89,7 +89,7 @@ class User {
   ///
   int? userStatus;
 
-  UserType userType;
+  UserType? userType;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&
@@ -114,7 +114,7 @@ class User {
     (password == null ? 0 : password!.hashCode) +
     (phone == null ? 0 : phone!.hashCode) +
     (userStatus == null ? 0 : userStatus!.hashCode) +
-    (userType == null ? 0 : userType.hashCode);
+    (userType == null ? 0 : userType!.hashCode);
 
   @override
   String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus, userType=$userType]';

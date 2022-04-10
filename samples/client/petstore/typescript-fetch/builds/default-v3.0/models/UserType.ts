@@ -12,15 +12,17 @@
  * Do not edit the class manually.
  */
 
+
 /**
  * 
  * @export
- * @enum {string}
  */
-export enum UserType {
-    Admin = 'admin',
-    User = 'user'
-}
+export const UserType = {
+    Admin: 'admin' as 'admin',
+    User: 'user' as 'user'
+};
+export type UserType = typeof UserType[keyof typeof UserType];
+
 
 export function UserTypeFromJSON(json: any): UserType {
     return UserTypeFromJSONTyped(json, false);

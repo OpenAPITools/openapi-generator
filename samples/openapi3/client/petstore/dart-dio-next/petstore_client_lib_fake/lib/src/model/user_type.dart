@@ -14,6 +14,8 @@ class UserType extends EnumClass {
   static const UserType admin = _$admin;
   @BuiltValueEnumConst(wireName: r'user')
   static const UserType user = _$user;
+  @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
+  static const UserType unknownDefaultOpenApi = _$unknownDefaultOpenApi;
 
   static Serializer<UserType> get serializer => _$userTypeSerializer;
 
