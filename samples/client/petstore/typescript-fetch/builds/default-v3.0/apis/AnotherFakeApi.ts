@@ -33,6 +33,8 @@ export class AnotherFakeApi extends runtime.BaseAPI {
      * To test special tags and operation ID starting with number
      * To test special tags
      */
+    readonly _123testSpecialTagsPath = '/another-fake/dummy'
+
     async _123testSpecialTagsRaw(requestParameters: 123testSpecialTagsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Client>> {
         if (requestParameters.client === null || requestParameters.client === undefined) {
             throw new runtime.RequiredError('client','Required parameter requestParameters.client was null or undefined when calling _123testSpecialTags.');
@@ -45,7 +47,7 @@ export class AnotherFakeApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/another-fake/dummy`,
+            path: this._123testSpecialTagsPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,

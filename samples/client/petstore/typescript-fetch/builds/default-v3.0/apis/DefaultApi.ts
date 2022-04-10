@@ -27,13 +27,15 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
+    readonly fooGetPath = '/foo'
+
     async fooGetRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponseDefault>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/foo`,
+            path: this.fooGetPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

@@ -44,6 +44,8 @@ export class PetPartApi extends runtime.BaseAPI {
     /**
      * Returns single pet part type for the petPart id.
      */
+    readonly getFakePetPartTypePath = '/fake_petParts/{fake_petPart-id}/part-type'
+
     async getFakePetPartTypeRaw(requestParameters: GetFakePetPartTypeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<GetPetPartTypeResponse>> {
         if (requestParameters.fakePetPartId === null || requestParameters.fakePetPartId === undefined) {
             throw new runtime.RequiredError('fakePetPartId','Required parameter requestParameters.fakePetPartId was null or undefined when calling getFakePetPartType.');
@@ -54,7 +56,7 @@ export class PetPartApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/fake_petParts/{fake_petPart-id}/part-type`.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters.fakePetPartId))),
+            path: this.getFakePetPartTypePath.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters.fakePetPartId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -74,6 +76,8 @@ export class PetPartApi extends runtime.BaseAPI {
     /**
      * Get the matching parts for the given pet part.
      */
+    readonly getMatchingPartsPath = '/fake_petParts/{fake_petPart-id}/matching-parts'
+
     async getMatchingPartsRaw(requestParameters: GetMatchingPartsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<GetMatchingPartsResponse>> {
         if (requestParameters.fakePetPartId === null || requestParameters.fakePetPartId === undefined) {
             throw new runtime.RequiredError('fakePetPartId','Required parameter requestParameters.fakePetPartId was null or undefined when calling getMatchingParts.');
@@ -116,7 +120,7 @@ export class PetPartApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/fake_petParts/{fake_petPart-id}/matching-parts`.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters.fakePetPartId))),
+            path: this.getMatchingPartsPath.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters.fakePetPartId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

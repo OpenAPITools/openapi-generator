@@ -112,6 +112,8 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
      */
+    readonly deleteOrderPath = '/store/order/{orderId}'
+
     async deleteOrderRaw(requestParameters: DeleteOrderRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.orderId === null || requestParameters.orderId === undefined) {
             throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling deleteOrder.');
@@ -122,7 +124,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
+            path: this.deleteOrderPath.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -143,6 +145,8 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
+    readonly getInventoryPath = '/store/inventory'
+
     async getInventoryRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<{ [key: string]: number; }>> {
         const queryParameters: any = {};
 
@@ -153,7 +157,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
         }
 
         const response = await this.request({
-            path: `/store/inventory`,
+            path: this.getInventoryPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -175,6 +179,8 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      */
+    readonly getOrderByIdPath = '/store/order/{orderId}'
+
     async getOrderByIdRaw(requestParameters: GetOrderByIdRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Order>> {
         if (requestParameters.orderId === null || requestParameters.orderId === undefined) {
             throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling getOrderById.');
@@ -185,7 +191,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
+            path: this.getOrderByIdPath.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -206,6 +212,8 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
     /**
      * Place an order for a pet
      */
+    readonly placeOrderPath = '/store/order'
+
     async placeOrderRaw(requestParameters: PlaceOrderRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Order>> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling placeOrder.');
@@ -218,7 +226,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/store/order`,
+            path: this.placeOrderPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
