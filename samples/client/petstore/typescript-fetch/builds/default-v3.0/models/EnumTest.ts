@@ -99,38 +99,38 @@ export interface EnumTest {
  * @export
  */
 export const EnumTestEnumStringEnum = {
-    Upper: 'UPPER' as 'UPPER',
-    Lower: 'lower' as 'lower',
-    Empty: '' as ''
-};
+    Upper: 'UPPER',
+    Lower: 'lower',
+    Empty: ''
+} as const;
 export type EnumTestEnumStringEnum = typeof EnumTestEnumStringEnum[keyof typeof EnumTestEnumStringEnum];
 
 /**
  * @export
  */
 export const EnumTestEnumStringRequiredEnum = {
-    Upper: 'UPPER' as 'UPPER',
-    Lower: 'lower' as 'lower',
-    Empty: '' as ''
-};
+    Upper: 'UPPER',
+    Lower: 'lower',
+    Empty: ''
+} as const;
 export type EnumTestEnumStringRequiredEnum = typeof EnumTestEnumStringRequiredEnum[keyof typeof EnumTestEnumStringRequiredEnum];
 
 /**
  * @export
  */
 export const EnumTestEnumIntegerEnum = {
-    NUMBER_1: 1 as 1,
-    NUMBER_MINUS_1: -1 as -1
-};
+    NUMBER_1: 1,
+    NUMBER_MINUS_1: -1
+} as const;
 export type EnumTestEnumIntegerEnum = typeof EnumTestEnumIntegerEnum[keyof typeof EnumTestEnumIntegerEnum];
 
 /**
  * @export
  */
 export const EnumTestEnumNumberEnum = {
-    NUMBER_1_DOT_1: 1.1 as 1.1,
-    NUMBER_MINUS_1_DOT_2: -1.2 as -1.2
-};
+    NUMBER_1_DOT_1: 1.1,
+    NUMBER_MINUS_1_DOT_2: -1.2
+} as const;
 export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof EnumTestEnumNumberEnum];
 
 
