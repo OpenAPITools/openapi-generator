@@ -138,7 +138,6 @@ public class InlineModelResolver {
             }
         }
 
-        //LOGGER.info("!!!!! isModelNeeded skipped schema: {}", schema);
         return false;
     }
 
@@ -170,10 +169,12 @@ public class InlineModelResolver {
                 for (String propName : props.keySet()) {
                     Schema prop = props.get(propName);
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(prop, modelPrefix + StringUtils.camelize(propName));
+                    //gatherInlineModels(prop, modelPrefix + StringUtils.camelize(propName));
+                    gatherInlineModels(prop, modelPrefix + "_" + propName);
                     if (isModelNeeded(prop)) {
                         // If this schema should be split into its own model, do so
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, StringUtils.camelize(propName), prop);
+                        //Schema refSchema = this.makeSchemaResolve(modelPrefix, StringUtils.camelize(propName), prop);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_" + propName, prop);
                         props.put(propName, refSchema);
                     }
                 }
@@ -183,10 +184,10 @@ public class InlineModelResolver {
                 if (schema.getAdditionalProperties() instanceof Schema) {
                     Schema inner = (Schema) schema.getAdditionalProperties();
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "AddlProps");
+                    gatherInlineModels(inner, modelPrefix + "_addl_props");
                     if (isModelNeeded(inner)) {
                         // If this schema should be split into its own model, do so
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "AddlProps", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_addl_props", inner);
                         schema.setAdditionalProperties(refSchema);
                     }
                 }
@@ -214,12 +215,10 @@ public class InlineModelResolver {
             }
             // Recurse to create $refs for inner models
             gatherInlineModels(items, modelPrefix + "Items");
-            LOGGER.info("!!! Gathered inline schema for array item " + modelPrefix + "Items");
 
             if (isModelNeeded(items)) {
-                LOGGER.info("!!! Creating inline schema for array item " + modelPrefix + "Items");
                 // If this schema should be split into its own model, do so
-                Schema refSchema = this.makeSchemaResolve(modelPrefix, "Items", items);
+                Schema refSchema = this.makeSchemaResolve(modelPrefix, "_inner", items);
                 array.setItems(refSchema);
             }
         }
@@ -230,9 +229,9 @@ public class InlineModelResolver {
                 List<Schema> newAllOf = new ArrayList<Schema>();
                 for (Schema inner : m.getAllOf()) {
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "AllOf");
+                    gatherInlineModels(inner, modelPrefix + "_allof");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "AllOf", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_allof", inner);
                         newAllOf.add(refSchema); // replace with ref
                     } else {
                         newAllOf.add(inner);
@@ -244,9 +243,9 @@ public class InlineModelResolver {
                 List<Schema> newAnyOf = new ArrayList<Schema>();
                 for (Schema inner : m.getAnyOf()) {
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "AnyOf");
+                    gatherInlineModels(inner, modelPrefix + "_anyof");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "AnyOf", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_anyof", inner);
                         newAnyOf.add(refSchema); // replace with ref
                     } else {
                         newAnyOf.add(inner);
@@ -258,9 +257,9 @@ public class InlineModelResolver {
                 List<Schema> newOneOf = new ArrayList<Schema>();
                 for (Schema inner : m.getOneOf()) {
                     // Recurse to create $refs for inner models
-                    gatherInlineModels(inner, modelPrefix + "OneOf");
+                    gatherInlineModels(inner, modelPrefix + "_oneof");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "OneOf", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_oneof", inner);
                         newOneOf.add(refSchema); // replace with ref
                     } else {
                         newOneOf.add(inner);
@@ -273,9 +272,9 @@ public class InlineModelResolver {
         if (schema.getNot() != null) {
             Schema not = schema.getNot();
             // Recurse to create $refs for inner models
-            gatherInlineModels(not, modelPrefix + "Not");
+            gatherInlineModels(not, modelPrefix + "_not");
             if (isModelNeeded(not)) {
-                Schema refSchema = this.makeSchemaResolve(modelPrefix, "Not", not);
+                Schema refSchema = this.makeSchemaResolve(modelPrefix, "_not", not);
                 schema.setNot(refSchema);
             }
         }
