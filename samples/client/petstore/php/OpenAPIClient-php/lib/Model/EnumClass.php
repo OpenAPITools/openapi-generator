@@ -37,16 +37,28 @@ use \OpenAPI\Client\ObjectSerializer;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class EnumClass
+class EnumClass implements EnumInterface
 {
     /**
      * Possible values of this enum
      */
     const ABC = '_abc';
-
     const EFG = '-efg';
-
     const XYZ = '(xyz)';
+
+
+    /**
+     * @var mixed
+     */
+    private $value;
+
+    public function __construct($value)
+    {
+        if (!in_array($value, self::getAllowableEnumValues(), true)) {
+            throw new \LogicException(sprintf('%s is not a allowed value for enum', $value));
+        }
+        $this->value = $value;
+    }
 
     /**
      * Gets allowable values of the enum
@@ -59,6 +71,15 @@ class EnumClass
             self::EFG,
             self::XYZ
         ];
+    }
+    
+    /**
+     * @return mixed
+     */
+    #[\ReturnTypeWillChange]
+    public function getValue()
+    {
+        return $this->value;
     }
 }
 
