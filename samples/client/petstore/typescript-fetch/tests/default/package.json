@@ -18,7 +18,7 @@
     "@types/form-data": "^2.2.1",
     "@types/isomorphic-fetch": "0.0.34",
     "@types/mocha": "^2.2.41",
-    "@types/node": "^8.0.14",
+    "@types/node": "^12.0.14",
     "@types/node-fetch": "^2.1.2",
     "browserify": "^14.4.0",
     "form-data": "^2.3.2",
