@@ -15,7 +15,6 @@ open class {{classname}} {
     public var encoder: JSONEncoder = {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .formatted(OpenISO8601DateFormatter())
-        encoder.outputFormatting = .prettyPrinted
         return encoder
     }()
     public var decoder: JSONDecoder = {
@@ -42,10 +41,8 @@ open class {{classname}} {
         {{/enumVars}}
         {{/allowableValues}}
     }
-
     {{/isEnum}}
     {{/allParams}}
-
     {{#vendorExtensions.x-swift-custom-error-type}}
     public enum {{{vendorExtensions.x-swift-custom-error-type}}}: Error, CustomStringConvertible {
         {{#responses}}
@@ -93,76 +90,76 @@ open class {{classname}} {
         - returns: AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {{description}}
         */
     open func {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {
-        return Result<URLRequest, Error> {
-            guard let baseURL = transport.baseURL ?? self.baseURL else {
-                throw OpenAPITransportError.badURLError()
-            }
-            let path = "{{path}}"
-            {{#pathParams}}
-                .replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: "\({{paramName}})")
-            {{/pathParams}}
-            let url = baseURL.appendingPathComponent(path)
-            {{#hasQueryParams}}var{{/hasQueryParams}}{{^hasQueryParams}}let{{/hasQueryParams}} components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-            {{#hasQueryParams}}
-            var queryItems: [URLQueryItem] = []
-            {{#queryParams}}
-            {{#required}}queryItems.append(URLQueryItem(name: "{{baseName}}", value: {{> toString}})){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { queryItems.append(URLQueryItem(name: "{{baseName}}", value: {{> toString}})) } {{/required}}
-            {{/queryParams}}
-            components?.queryItems = queryItems
-            {{/hasQueryParams}}
-            guard let requestURL = components?.url else {
-                throw OpenAPITransportError.badURLError()
-            }
-            var request = URLRequest(url: requestURL)
-            request.httpMethod = "{{httpMethod}}"
-            {{! Begin headers }}
-            {{#headerParams}}
-            {{#-last}}
-            request.allHTTPHeaderFields = [
-            {{/-last}}
-            {{/headerParams}}
-            {{#headerParams}}
-                "{{baseName}}": {{paramName}}{{^-last}}, {{/-last}}
-            {{/headerParams}}
-            {{#headerParams}}
-            {{#-last}}
-            ].compactMapValues { $0 }
-            {{/-last}}
-            {{/headerParams}}
-            {{! Begin body }}
-            {{#hasBodyParam}}
-            {{#bodyParam}}
-            request.httpBody = try encoder.encode({{paramName}})
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            {{/bodyParam}}
-            {{/hasBodyParam}}
-            {{! Begin multipart form }}
-            {{#hasFormParams}}
-            {{#isMultipart}}
-            let multipartBoundary = String(format: "Boundary+%08X%08X", arc4random(), arc4random())
-            var multipartData = Data()
-            {{#formParams}}
-{{> toMultipartFormDataAppend}}
-            {{/formParams}}
-            multipartData.append("\r\n--\(multipartBoundary)--\r\n".data(using: .utf8) ?? Data())
-            request.httpBody = multipartData
-            request.setValue("\(multipartData.count)", forHTTPHeaderField: "Content-Length")
-            request.setValue("multipart/form-data; boundary=\(multipartBoundary)", forHTTPHeaderField: "Content-Type")
-            {{/isMultipart}}
-            {{^isMultipart}}
-            {{! Begin form urlencoded }}
-            var formEncodedItems: [String] = []
-            {{#formParams}}
-            {{#required}}formEncodedItems.append("{{baseName}}=\({{> toString}})"){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { formEncodedItems.append("{{baseName}}=\({{> toString}})") } {{/required}}
-            {{/formParams}}
-            request.httpBody = formEncodedItems.joined(separator: "&").data(using: .utf8)
-            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            {{/isMultipart}}
-            {{/hasFormParams}}
-            return request
-        }
-        .publisher
-        .flatMap { request -> AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> in 
+        Deferred {
+            Result<URLRequest, Error> {
+                guard let baseURL = self.transport.baseURL ?? self.baseURL else {
+                    throw OpenAPITransportError.badURLError()
+                }
+                {{#pathParams}}{{#-last}}var{{/-last}}{{/pathParams}}{{^pathParams}}let{{/pathParams}} path = "{{path}}"
+                {{#pathParams}}
+                {{#required}}path = path.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{> toString}}){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { path = path.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{> toString}}) } {{/required}}
+                {{/pathParams}}
+                let url = baseURL.appendingPathComponent(path)
+                {{#hasQueryParams}}var{{/hasQueryParams}}{{^hasQueryParams}}let{{/hasQueryParams}} components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                {{#hasQueryParams}}
+                var queryItems: [URLQueryItem] = []
+                {{#queryParams}}
+                {{#required}}queryItems.append(URLQueryItem(name: "{{baseName}}", value: {{> toString}})){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { queryItems.append(URLQueryItem(name: "{{baseName}}", value: {{> toString}})) } {{/required}}
+                {{/queryParams}}
+                components?.queryItems = queryItems
+                {{/hasQueryParams}}
+                guard let requestURL = components?.url else {
+                    throw OpenAPITransportError.badURLError()
+                }
+                var request = URLRequest(url: requestURL)
+                request.httpMethod = "{{httpMethod}}"
+                {{! Begin headers }}
+                {{#headerParams}}
+                {{#-last}}
+                request.allHTTPHeaderFields = [
+                {{/-last}}
+                {{/headerParams}}
+                {{#headerParams}}
+                    "{{baseName}}": {{paramName}}{{^-last}}, {{/-last}}
+                {{/headerParams}}
+                {{#headerParams}}
+                {{#-last}}
+                ].compactMapValues { $0 }
+                {{/-last}}
+                {{/headerParams}}
+                {{! Begin body }}
+                {{#hasBodyParam}}
+                {{#bodyParam}}
+                request.httpBody = try self.encoder.encode({{paramName}})
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                {{/bodyParam}}
+                {{/hasBodyParam}}
+                {{! Begin multipart form }}
+                {{#hasFormParams}}
+                {{#isMultipart}}
+                let multipartBoundary = String(format: "Boundary+%08X%08X", arc4random(), arc4random())
+                var multipartData = Data()
+                {{#formParams}}
+    {{> toMultipartFormDataAppend}}
+                {{/formParams}}
+                multipartData.append("\r\n--\(multipartBoundary)--\r\n".data(using: .utf8) ?? Data())
+                request.httpBody = multipartData
+                request.setValue("\(multipartData.count)", forHTTPHeaderField: "Content-Length")
+                request.setValue("multipart/form-data; boundary=\(multipartBoundary)", forHTTPHeaderField: "Content-Type")
+                {{/isMultipart}}
+                {{^isMultipart}}
+                {{! Begin form urlencoded }}
+                var formEncodedItems: [String] = []
+                {{#formParams}}
+                {{#required}}formEncodedItems.append("{{baseName}}=\({{> toString}})"){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { formEncodedItems.append("{{baseName}}=\({{> toString}})") } {{/required}}
+                {{/formParams}}
+                request.httpBody = formEncodedItems.joined(separator: "&").data(using: .utf8)
+                request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                {{/isMultipart}}
+                {{/hasFormParams}}
+                return request
+            }.publisher
+        }.flatMap { request -> AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> in 
             let securitySchemes: [SecurityScheme] = [{{#authMethods}}{{#isBasicBearer}}.bearer{{/isBasicBearer}}{{/authMethods}}]
             return self.transport.send(request: request, securitySchemes: securitySchemes)
             {{#vendorExtensions.x-swift-custom-error-type}}

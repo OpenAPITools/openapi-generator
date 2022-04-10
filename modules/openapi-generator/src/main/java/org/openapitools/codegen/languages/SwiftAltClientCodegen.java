@@ -776,10 +776,14 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
 
     protected void addVendorExtensions(CodegenParameter cp, CodegenOperation operation, HashMap<String, CodegenModel> modelMaps) {
         CodegenModel model = modelMaps.get(cp.dataType);
+        cp.vendorExtensions.put("x-swift-use-encoder", cp.isModel);
         if (cp.isArray && cp.items != null) {
             CodegenModel baseModel = modelMaps.get(cp.items.dataType);
             boolean isBaseTypeEnum = cp.items.isEnum || cp.isEnum || (baseModel != null && baseModel.isEnum);
             cp.vendorExtensions.put("x-swift-is-base-type-enum", isBaseTypeEnum);
+
+            boolean useEncoder = !isBaseTypeEnum && !cp.items.isString || (baseModel != null && !baseModel.isString);
+            cp.vendorExtensions.put("x-swift-use-encoder", useEncoder);
         }
         if (cp.isEnum || (model != null && model.isEnum)) {
             cp.vendorExtensions.put("x-swift-is-enum-type", true);
@@ -812,7 +816,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
         System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift alternative generator v0.12.0                                          #");
+        System.out.println("# swift alternative generator v0.13.0                                          #");
         System.out.println("################################################################################");
     }
 }
