@@ -9,9 +9,6 @@ Name | Type | Description | Notes
 **EnumIntegerOnly** | **Int32** |  | [optional] 
 **EnumNumber** | **Double** |  | [optional] 
 **OuterEnum** | [**OuterEnum**](OuterEnum.md) |  | [optional] 
-**OuterEnumInteger** | [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] 
-**OuterEnumDefaultValue** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] 
-**OuterEnumIntegerDefaultValue** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] 
 
 ## Examples
 
@@ -22,10 +19,7 @@ $EnumTest = Initialize-PSPetstoreEnumTest  -EnumString null `
  -EnumInteger null `
  -EnumIntegerOnly null `
  -EnumNumber null `
- -OuterEnum null `
- -OuterEnumInteger null `
- -OuterEnumDefaultValue null `
- -OuterEnumIntegerDefaultValue null
+ -OuterEnum null
 ```
 
 - Convert the resource to JSON

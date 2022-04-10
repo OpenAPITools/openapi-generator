@@ -26,6 +26,7 @@ docs/Dog.md
 docs/DogAllOf.md
 docs/Drawing.md
 docs/EnumArrays.md
+docs/EnumTest.md
 docs/EquilateralTriangle.md
 docs/File.md
 docs/FileSchemaTestClass.md
@@ -50,6 +51,7 @@ docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
 docs/Order.md
 docs/OuterComposite.md
+docs/OuterEnum.md
 docs/PSAnotherFakeApi.md
 docs/PSDefaultApi.md
 docs/PSFakeApi.md
@@ -109,6 +111,7 @@ src/PSPetstore/Model/Dog.ps1
 src/PSPetstore/Model/DogAllOf.ps1
 src/PSPetstore/Model/Drawing.ps1
 src/PSPetstore/Model/EnumArrays.ps1
+src/PSPetstore/Model/EnumTest.ps1
 src/PSPetstore/Model/EquilateralTriangle.ps1
 src/PSPetstore/Model/File.ps1
 src/PSPetstore/Model/FileSchemaTestClass.ps1
@@ -135,6 +138,7 @@ src/PSPetstore/Model/NumberOnly.ps1
 src/PSPetstore/Model/ObjectWithDeprecatedFields.ps1
 src/PSPetstore/Model/Order.ps1
 src/PSPetstore/Model/OuterComposite.ps1
+src/PSPetstore/Model/OuterEnum.ps1
 src/PSPetstore/Model/ParentPet.ps1
 src/PSPetstore/Model/Pet.ps1
 src/PSPetstore/Model/PetWithRequiredTags.ps1

@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **Anytype1** | [**AnyType**](.md) |  | [optional] 
 **MapWithUndeclaredPropertiesAnytype1** | [**SystemCollectionsHashtable**](.md) |  | [optional] 
 **MapWithUndeclaredPropertiesAnytype2** | [**SystemCollectionsHashtable**](.md) |  | [optional] 
-**MapWithUndeclaredPropertiesAnytype3** | [**System.Collections.Hashtable**](SystemCollectionsHashtable.md) |  | [optional] 
+**MapWithUndeclaredPropertiesAnytype3** | [**System.Collections.Hashtable**](AnyType.md) |  | [optional] 
 **EmptyMap** | [**SystemCollectionsHashtable**](.md) | an object with no declared properties and no undeclared properties, hence it&#39;s an empty map. | [optional] 
 **MapWithUndeclaredPropertiesString** | **System.Collections.Hashtable** |  | [optional] 
 

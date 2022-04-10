@@ -159,6 +159,9 @@ class OrderStatusEnum extends EnumClass {
   /// Order Status
   @BuiltValueEnumConst(wireName: r'delivered')
   static const OrderStatusEnum delivered = _$orderStatusEnum_delivered;
+  /// Order Status
+  @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
+  static const OrderStatusEnum unknownDefaultOpenApi = _$orderStatusEnum_unknownDefaultOpenApi;
 
   static Serializer<OrderStatusEnum> get serializer => _$orderStatusEnumSerializer;
 

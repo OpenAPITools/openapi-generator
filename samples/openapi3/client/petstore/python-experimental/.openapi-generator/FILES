@@ -275,5 +275,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_object_with_inline_composition_property_some_prop.py
 tox.ini
