@@ -146,13 +146,11 @@ export class BaseAPI {
             context
         })
 
-        const createRequestBody = (body: HTTPBody) => (isFormData(body) || isURLSearchParams(body) || isBlob(body))
-            ? body
-            : JSON.stringify(body);
-
         const init: RequestInit = {
             ...initWithOverride,
-            body: createRequestBody(initWithOverride.body)
+            body:  ((typeof FormData !== "undefined" && initWithOverride.body instanceof FormData) || initWithOverride.body instanceof URLSearchParams || isBlob(initWithOverride.body))
+            ? initWithOverride.body
+            : JSON.stringify(initWithOverride.body)
         }
 
         return { url, init };
@@ -193,14 +191,6 @@ export class BaseAPI {
         return next;
     }
 };
-
-function isFormData(value: any): value is FormData {
-    return typeof FormData !== "undefined" && value instanceof FormData
-}
-
-function isURLSearchParams(value: any): value is URLSearchParams {
-    return value instanceof URLSearchParams
-}
 
 function isBlob(value: any): value is Blob {
     return typeof Blob !== 'undefined' && value instanceof Blob
