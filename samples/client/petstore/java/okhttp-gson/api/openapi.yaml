@@ -2332,6 +2332,21 @@ components:
       type: object
       xml:
         name: Pet
+    ArrayOfInlineAllOf:
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          example: doggie
+          type: string
+        array_allof_dog_property:
+          items:
+            $ref: '#/components/schemas/ArrayOfInlineAllOfArrayAllofDogPropertyItems'
+          type: array
+      required:
+      - name
+      type: object
     inline_response_default:
       example:
         string:
@@ -2487,6 +2502,15 @@ components:
         declawed:
           type: boolean
       type: object
+    ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf:
+      properties:
+        color:
+          type: string
+      type: object
+    ArrayOfInlineAllOfArrayAllofDogPropertyItems:
+      allOf:
+      - $ref: '#/components/schemas/Dog_allOf'
+      - $ref: '#/components/schemas/ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf'
   securitySchemes:
     petstore_auth:
       flows:
