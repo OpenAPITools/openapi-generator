@@ -13,6 +13,19 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    InlineResponse200NullableNumberEnum,
+    InlineResponse200NullableNumberEnumFromJSON,
+    InlineResponse200NullableNumberEnumFromJSONTyped,
+    InlineResponse200NullableNumberEnumToJSON,
+} from './InlineResponse200NullableNumberEnum';
+import {
+    InlineResponse200NullableStringEnum,
+    InlineResponse200NullableStringEnumFromJSON,
+    InlineResponse200NullableStringEnumFromJSONTyped,
+    InlineResponse200NullableStringEnumToJSON,
+} from './InlineResponse200NullableStringEnum';
+
 /**
  * 
  * @export
@@ -27,10 +40,10 @@ export interface InlineResponse200 {
     stringEnum?: InlineResponse200StringEnumEnum;
     /**
      * 
-     * @type {string}
+     * @type {InlineResponse200NullableStringEnum}
      * @memberof InlineResponse200
      */
-    nullableStringEnum?: string | null;
+    nullableStringEnum?: InlineResponse200NullableStringEnum | null;
     /**
      * 
      * @type {number}
@@ -39,10 +52,10 @@ export interface InlineResponse200 {
     numberEnum?: InlineResponse200NumberEnumEnum;
     /**
      * 
-     * @type {number}
+     * @type {InlineResponse200NullableNumberEnum}
      * @memberof InlineResponse200
      */
-    nullableNumberEnum?: number | null;
+    nullableNumberEnum?: InlineResponse200NullableNumberEnum | null;
 }
 
 /**
@@ -76,9 +89,9 @@ export function InlineResponse200FromJSONTyped(json: any, ignoreDiscriminator: b
     return {
         
         'stringEnum': !exists(json, 'string-enum') ? undefined : json['string-enum'],
-        'nullableStringEnum': !exists(json, 'nullable-string-enum') ? undefined : json['nullable-string-enum'],
+        'nullableStringEnum': !exists(json, 'nullable-string-enum') ? undefined : InlineResponse200NullableStringEnumFromJSON(json['nullable-string-enum']),
         'numberEnum': !exists(json, 'number-enum') ? undefined : json['number-enum'],
-        'nullableNumberEnum': !exists(json, 'nullable-number-enum') ? undefined : json['nullable-number-enum'],
+        'nullableNumberEnum': !exists(json, 'nullable-number-enum') ? undefined : InlineResponse200NullableNumberEnumFromJSON(json['nullable-number-enum']),
     };
 }
 
@@ -92,9 +105,9 @@ export function InlineResponse200ToJSON(value?: InlineResponse200 | null): any {
     return {
         
         'string-enum': value.stringEnum,
-        'nullable-string-enum': value.nullableStringEnum,
+        'nullable-string-enum': InlineResponse200NullableStringEnumToJSON(value.nullableStringEnum),
         'number-enum': value.numberEnum,
-        'nullable-number-enum': value.nullableNumberEnum,
+        'nullable-number-enum': InlineResponse200NullableNumberEnumToJSON(value.nullableNumberEnum),
     };
 }
 

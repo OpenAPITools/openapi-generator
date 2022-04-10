@@ -7,6 +7,7 @@ import { CatAllOf } from '../models/CatAllOf';
 import { Dog } from '../models/Dog';
 import { DogAllOf } from '../models/DogAllOf';
 import { InlineObject } from '../models/InlineObject';
+import { InlineObjectFile } from '../models/InlineObjectFile';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
 

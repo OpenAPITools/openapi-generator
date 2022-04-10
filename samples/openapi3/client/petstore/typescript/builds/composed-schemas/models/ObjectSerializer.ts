@@ -3,6 +3,7 @@ export * from './CatAllOf';
 export * from './Dog';
 export * from './DogAllOf';
 export * from './InlineObject';
+export * from './InlineObjectFile';
 export * from './PetByAge';
 export * from './PetByType';
 
@@ -11,6 +12,7 @@ import { CatAllOf } from './CatAllOf';
 import { Dog , DogBreedEnum   } from './Dog';
 import { DogAllOf , DogAllOfBreedEnum   } from './DogAllOf';
 import { InlineObject } from './InlineObject';
+import { InlineObjectFile } from './InlineObjectFile';
 import { PetByAge } from './PetByAge';
 import { PetByType, PetByTypePetTypeEnum    } from './PetByType';
 
@@ -45,6 +47,7 @@ let typeMap: {[index: string]: any} = {
     "Dog": Dog,
     "DogAllOf": DogAllOf,
     "InlineObject": InlineObject,
+    "InlineObjectFile": InlineObjectFile,
     "PetByAge": PetByAge,
     "PetByType": PetByType,
 }

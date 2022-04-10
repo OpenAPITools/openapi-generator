@@ -10,24 +10,17 @@
  * Do not edit the class manually.
  */
 
-import { InlineObjectFile } from './InlineObjectFile';
 import { HttpFile } from '../http/http';
 
-export class InlineObject {
-    'file'?: InlineObjectFile;
+export class InlineObjectFile {
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
-        {
-            "name": "file",
-            "baseName": "file",
-            "type": "InlineObjectFile",
-            "format": ""
-        }    ];
+    ];
 
     static getAttributeTypeMap() {
-        return InlineObject.attributeTypeMap;
+        return InlineObjectFile.attributeTypeMap;
     }
 
     public constructor() {

@@ -2342,7 +2342,7 @@ components:
           type: string
         array_allof_dog_property:
           items:
-            $ref: '#/components/schemas/ArrayOfInlineAllOfArrayAllofDogPropertyItems'
+            $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner'
           type: array
       required:
       - name
@@ -2502,15 +2502,15 @@ components:
         declawed:
           type: boolean
       type: object
-    ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf:
+    ArrayOfInlineAllOf_array_allof_dog_propertyItems_allof:
       properties:
         color:
           type: string
       type: object
-    ArrayOfInlineAllOfArrayAllofDogPropertyItems:
+    ArrayOfInlineAllOf_array_allof_dog_property_inner:
       allOf:
       - $ref: '#/components/schemas/Dog_allOf'
-      - $ref: '#/components/schemas/ArrayOfInlineAllOfArrayAllofDogPropertyItemsAllOf'
+      - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_propertyItems_allof'
   securitySchemes:
     petstore_auth:
       flows:
