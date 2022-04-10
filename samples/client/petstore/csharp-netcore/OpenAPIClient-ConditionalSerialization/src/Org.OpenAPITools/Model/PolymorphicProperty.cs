@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class
-        /// with the <see cref="List&lt;string&gt;" /> class
+        /// with the <see cref="List{String}" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of List&lt;string&gt;.</param>
         public PolymorphicProperty(List<string> actualInstance)
